@@ -7,3 +7,4 @@ Thumbs.db
 .idea/
 node_modules/
 .vercel/
+.vercel
