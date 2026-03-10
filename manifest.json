@@ -1,0 +1,17 @@
+{
+  "name": "Pattern is Everything",
+  "short_name": "Patterns",
+  "description": "252 interactive topics across Machine Learning, Poetry & Markets",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#c84b2f",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='96' fill='%23c84b2f'/><text x='256' y='370' text-anchor='middle' font-family='Georgia,serif' font-size='320' font-weight='700' fill='white'>P</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

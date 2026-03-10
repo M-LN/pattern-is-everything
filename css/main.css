@@ -925,3 +925,31 @@ nav {
 /* ── Tag hover ── */
 .tag { transition: transform .12s var(--ease); }
 .tag:hover { transform: scale(1.06); }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT STYLES
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  * { animation: none !important; transition: none !important; }
+  body { padding: 0; background: white; color: #1a1a1a; font-size: 11pt; }
+  header, nav, .search-overlay, .theme-toggle, .search-toggle,
+  .topic-nav, .nav-progress, .nav-progress-text, .portal-header,
+  .hdr-actions, .ctrl, .back-link, .portal-stats, .portal-footer { display: none !important; }
+  .layout { display: block; }
+  main { max-width: 100%; padding: 0; }
+  .topic { display: block !important; page-break-inside: avoid; margin-bottom: 24pt; }
+  .topic-header { margin-bottom: 8pt; }
+  .topic-num { color: #666; }
+  h2 em { color: #333 !important; }
+  .home { display: none !important; }
+  .fb { border-color: #999; break-inside: avoid; }
+  .va { break-inside: avoid; }
+  .va canvas { max-width: 100%; height: auto; }
+  .code-block { border: 1px solid #ccc; break-inside: avoid; box-shadow: none; }
+  .callout { border: 1px solid #ccc; break-inside: avoid; }
+  .mt { border-collapse: collapse; }
+  .mt th, .mt td { border: 1px solid #ccc; padding: 4pt 8pt; }
+  a { color: inherit; text-decoration: none; }
+  .collection-card { border: 1px solid #ccc; break-inside: avoid; }
+  .portal-grid, .cat-grid { gap: 12pt; }
+}
