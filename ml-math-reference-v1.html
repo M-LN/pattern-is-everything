@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Math — Complete Visual Reference</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+--bg:      #faf8f4;
+--surface: #ffffff;
+--surface2:#f2ede4;
+--border:  #e2d9cc;
+--border2: #c9bead;
+--accent:  #c84b2f;
+--accent2: #2a7d5f;
+--accent3: #2955a0;
+--accent4: #8b4fa8;
+--text:    #1a1714;
+--muted:   #7a6e62;
+--hi:      rgba(200,75,47,0.06);
+--nav-w:   260px;
+--hdr-h:   64px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:'Playfair Display',Georgia,serif;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+body::after{
+content:'';
+position:fixed;inset:0;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+pointer-events:none;z-index:9999;
+}
+
+header{
+position:fixed;top:0;left:0;right:0;
+height:var(--hdr-h);
+background:var(--bg);
+border-bottom:1px solid var(--border);
+display:flex;align-items:center;
+padding:0 28px 0 20px;
+gap:16px;  
+z-index:200;
+}
+
+.logo-ring{
+width:36px;height:36px;
+border:2px solid var(--accent);
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+flex-shrink:0;
+}
+.logo-ring::after{
+content:'';
+width:10px;height:10px;
+background:var(--accent);
+border-radius:50%;
+animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+
+header h1{
+font-family:'Playfair Display',serif;
+font-size:20px;font-weight:700;
+letter-spacing:-.01em;
+color:var(--text);
+}
+header h1 em{font-style:italic;color:var(--accent)}
+
+.hdr-meta{
+margin-left:auto;
+font-family:'IBM Plex Mono',monospace;
+font-size:11px;color:var(--muted);
+text-align:right;line-height:1.6;
+}
+
+.topic-counter{
+background:var(--accent);
+color:#fff;
+font-family:'IBM Plex Mono',monospace;
+font-size:10px;font-weight:500;
+padding:3px 9px;border-radius:20px;
+letter-spacing:.05em;
+margin-left:12px;
+}
+
+.layout{
+display:grid;
+grid-template-columns:var(--nav-w) 1fr;
+margin-top:var(--hdr-h);
+min-height:calc(100vh - var(--hdr-h));
+}
+
+nav{
+border-right:1px solid var(--border);
+padding:16px 0 32px;
+position:sticky;
+top:var(--hdr-h);
+height:calc(100vh - var(--hdr-h));
+overflow-y:auto;
+background:var(--bg);
+}
+
+nav::-webkit-scrollbar{width:4px}
+nav::-webkit-scrollbar-track{background:transparent}
+nav::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+.nav-section{margin-bottom:4px}
+
+.nav-section-header{
+display:flex;align-items:center;justify-content:space-between;
+padding:10px 16px 6px;
+cursor:pointer;
+user-select:none;
+}
+
+.nav-section-title{
+font-family:'IBM Plex Mono',monospace;
+font-size:9px;letter-spacing:.18em;
+text-transform:uppercase;
+color:var(--muted);
+font-weight:500;
+}
+
+.nav-section-arrow{
+font-size:10px;color:var(--muted);
+transition:transform .2s;
+}
+.nav-section.open .nav-section-arrow{transform:rotate(180deg)}
+
+.nav-items{
+overflow:hidden;
+max-height:0;
+transition:max-height .25s ease;
+}
+.nav-section.open .nav-items{max-height:600px}
+
+.ni{
+display:flex;align-items:center;gap:9px;
+padding:7px 16px 7px 20px;
+cursor:pointer;
+transition:all .12s;
+font-size:13px;
+color:var(--muted);
+font-family:'Playfair Display',serif;
+font-weight:400;
+border-left:2px solid transparent;
+line-height:1.3;
+}
+.ni:hover{color:var(--text);background:var(--surface2)}
+.ni.active{
+color:var(--accent);
+background:var(--hi);
+border-left-color:var(--accent);
+font-weight:700;
+}
+
+.ni-num{
+font-family:'IBM Plex Mono',monospace;
+font-size:9px;color:var(--border2);
+flex-shrink:0;width:16px;
+}
+.ni.active .ni-num{color:var(--accent)}
+
+main{
+padding:40px 56px 80px;
+max-width:900px;
+}
+
+.home{display:none;}
+.home.active{display:block;animation:fi .3s ease}
+
+.home-hero{
+border-bottom:1px solid var(--border);
+padding-bottom:32px;
+margin-bottom:36px;
+}
+
+.home-hero h2{
+font-size:clamp(32px,5vw,56px);
+font-weight:400;
+line-height:1.1;
+letter-spacing:-.02em;
+margin-bottom:12px;
+}
+.home-hero h2 em{font-style:italic;color:var(--accent)}
+.home-hero p{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);max-width:520px;line-height:1.7;}
+
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:36px;}
+
+.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;cursor:pointer;transition:all .15s;}
+.cat-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(200,75,47,.1);}
+.cat-card-icon{font-size:22px;margin-bottom:10px;}
+.cat-card-name{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--text);}
+.cat-card-count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
+
+.topic{display:none}
+.topic.active{display:block;animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.topic-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.topic-meta{flex:1;}
+.topic-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:.08em;}
+
+h2{font-size:clamp(26px,3.5vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.1;}
+h2 em{font-style:italic;color:var(--accent)}
+
+.topic-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--surface2);flex-shrink:0;margin-top:4px;}
+
+.sub{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin:14px 0 22px;line-height:1.7;padding:10px 0;}
+
+.prose{font-size:16px;line-height:1.85;color:#3a342d;margin-bottom:18px;font-weight:400;}
+.prose strong{color:var(--text);font-weight:700}
+
+.fb{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:16px 20px;margin:16px 0;position:relative;overflow:hidden;}
+.fb::after{content:'FORMULA';position:absolute;top:8px;right:12px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;color:var(--accent);opacity:.35;}
+.fb.c2{border-left-color:var(--accent2)}.fb.c2::after{color:var(--accent2)}
+.fb.c3{border-left-color:var(--accent3)}.fb.c3::after{color:var(--accent3)}
+.fb.c4{border-left-color:var(--accent4)}.fb.c4::after{color:var(--accent4)}
+
+.fm{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--accent);margin-bottom:8px;letter-spacing:.02em;line-height:1.5;}
+.fb.c2 .fm{color:var(--accent2)}.fb.c3 .fm{color:var(--accent3)}.fb.c4 .fm{color:var(--accent4)}
+.fd{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.8;}
+.fd span{color:var(--text)}
+
+.va{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin:18px 0;}
+.vl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:12px;text-transform:uppercase;}
+canvas{display:block;width:100%;border-radius:4px}
+
+.ctrl{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;align-items:flex-end}
+.cg{display:flex;flex-direction:column;gap:4px}
+.cl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+
+input[type=range]{-webkit-appearance:none;width:120px;height:3px;background:var(--border);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--accent);border-radius:50%;cursor:pointer;}
+.vd{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);}
+
+.btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;padding:7px 14px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:4px;cursor:pointer;transition:all .12s;}
+.btn:hover{background:var(--accent);color:#fff}
+.btn.b2{border-color:var(--accent2);color:var(--accent2)}.btn.b2:hover{background:var(--accent2);color:#fff}
+.btn.b3{border-color:var(--accent3);color:var(--accent3)}.btn.b3:hover{background:var(--accent3);color:#fff}
+.btn.b4{border-color:var(--accent4);color:var(--accent4)}.btn.b4:hover{background:var(--accent4);color:#fff}
+
+.code-block{background:#1c1917;border-radius:8px;padding:18px 20px;margin:16px 0;overflow-x:auto;}
+.code-block pre{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.75;color:#d4c8b8;}
+.kw{color:#e0855a}.cl2{color:#70b8a8}.fn{color:#a4b8e0}.st{color:#b8d496}.cm{color:#6b6256;font-style:italic}
+
+.steps{display:grid;gap:8px;margin:16px 0}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 15px;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;}
+.step:hover{border-color:var(--accent);background:var(--hi)}
+.sn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);background:var(--hi);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid rgba(200,75,47,.2);flex-shrink:0;}
+.step h4{font-size:14px;font-weight:700;margin-bottom:2px}
+.step p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.5}
+
+.mt{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:11px;margin:16px 0}
+.mt th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--accent);color:var(--accent);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+.mt td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--muted);line-height:1.5}
+.mt td:first-child{color:var(--text)}.mt tr:hover td{background:var(--surface2)}
+
+.tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px}
+.t1{background:rgba(200,75,47,.1);color:var(--accent)}.t2{background:rgba(42,125,95,.1);color:var(--accent2)}
+.t3{background:rgba(41,85,160,.1);color:var(--accent3)}.t4{background:rgba(139,79,168,.1);color:var(--accent4)}
+
+.callout{background:rgba(42,125,95,.05);border:1px solid rgba(42,125,95,.2);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px;color:#2a5a47;line-height:1.7;font-family:'IBM Plex Mono',monospace;}
+.callout strong{color:var(--accent2)}
+.callout.warn{background:rgba(200,75,47,.05);border-color:rgba(200,75,47,.2);color:#7a3020}.callout.warn strong{color:var(--accent)}
+.callout.info{background:rgba(41,85,160,.05);border-color:rgba(41,85,160,.2);color:#1e3a6e}.callout.info strong{color:var(--accent3)}
+
+.topic-nav{display:flex;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border);}
+.tnav-btn{flex:1;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .12s;text-align:left;}
+.tnav-btn:hover{border-color:var(--accent);background:var(--hi)}
+.tnav-dir{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:4px}
+.tnav-name{font-size:14px;font-weight:700;color:var(--text)}
+.tnav-btn.next{text-align:right}
+
+@media(max-width:720px){
+:root{--nav-w:0px}
+header{padding:0 14px}
+.layout{grid-template-columns:1fr}
+nav{position:relative;height:auto;top:0;border-right:none;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:8px;gap:0;flex-wrap:nowrap}
+.nav-section{flex-shrink:0}
+.nav-section-header{padding:6px 10px}
+.nav-section-title{display:none}
+.nav-items{max-height:none!important;display:flex;flex-wrap:nowrap}
+.ni{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;padding:6px 10px}
+.ni.active{border-bottom-color:var(--accent);background:var(--hi)}
+main{padding:20px 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-ring"></div>
+  <h1>ML <em>Math</em></h1>
+  <span class="topic-counter">27 Topics</span>
+  <div class="hdr-meta">Complete Visual Reference<br>Machine Learning Mathematics</div>
+</header>
+
+<div class="layout">
+<nav id="mainNav">
+  <div class="nav-section open" id="sec-foundations">
+    <div class="nav-section-header" onclick="toggleSection('sec-foundations')">
+      <span class="nav-section-title">Foundations</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('home',this)"><span class="ni-num">◉</span>Overview</div>
+      <div class="ni" onclick="show('linear',this)"><span class="ni-num">01</span>Linear Regression</div>
+      <div class="ni" onclick="show('gradient',this)"><span class="ni-num">02</span>Gradient Descent</div>
+      <div class="ni" onclick="show('activation',this)"><span class="ni-num">03</span>Activation Functions</div>
+      <div class="ni" onclick="show('bias-variance',this)"><span class="ni-num">04</span>Bias-Variance Tradeoff</div>
+    </div>
+  </div>
+  <div class="nav-section open" id="sec-training">
+    <div class="nav-section-header" onclick="toggleSection('sec-training')">
+      <span class="nav-section-title">Training</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('loss',this)"><span class="ni-num">05</span>Loss Functions</div>
+      <div class="ni" onclick="show('backprop',this)"><span class="ni-num">06</span>Backpropagation</div>
+      <div class="ni" onclick="show('optimizers',this)"><span class="ni-num">07</span>Optimizers (Adam etc.)</div>
+      <div class="ni" onclick="show('regularization',this)"><span class="ni-num">08</span>Regularization</div>
+      <div class="ni" onclick="show('batchnorm',this)"><span class="ni-num">09</span>Batch Normalization</div>
+      <div class="ni" onclick="show('lr-schedule',this)"><span class="ni-num">10</span>LR Scheduling</div>
+    </div>
+  </div>
+  <div class="nav-section open" id="sec-core">
+    <div class="nav-section-header" onclick="toggleSection('sec-core')">
+      <span class="nav-section-title">Core Math</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('softmax',this)"><span class="ni-num">11</span>Softmax</div>
+      <div class="ni" onclick="show('mle',this)"><span class="ni-num">12</span>MLE & Gaussian</div>
+      <div class="ni" onclick="show('kl-div',this)"><span class="ni-num">13</span>KL Divergence</div>
+      <div class="ni" onclick="show('bayes',this)"><span class="ni-num">14</span>Bayes' Theorem</div>
+      <div class="ni" onclick="show('crossval',this)"><span class="ni-num">15</span>Cross-Validation</div>
+      <div class="ni" onclick="show('metrics',this)"><span class="ni-num">16</span>Eval Metrics</div>
+    </div>
+  </div>
+  <div class="nav-section open" id="sec-deep">
+    <div class="nav-section-header" onclick="toggleSection('sec-deep')">
+      <span class="nav-section-title">Deep Learning</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('cnn',this)"><span class="ni-num">17</span>CNN — Convolutions</div>
+      <div class="ni" onclick="show('embeddings',this)"><span class="ni-num">18</span>Embeddings & Word2Vec</div>
+      <div class="ni" onclick="show('attention',this)"><span class="ni-num">19</span>Attention Mechanism</div>
+      <div class="ni" onclick="show('transformer',this)"><span class="ni-num">20</span>Transformer Architecture</div>
+    </div>
+  </div>
+  <div class="nav-section open" id="sec-sequence">
+    <div class="nav-section-header" onclick="toggleSection('sec-sequence')">
+      <span class="nav-section-title">Sequence Models</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('rnn',this)"><span class="ni-num">21</span>RNN</div>
+      <div class="ni" onclick="show('lstm',this)"><span class="ni-num">22</span>LSTM</div>
+      <div class="ni" onclick="show('gru',this)"><span class="ni-num">23</span>GRU</div>
+    </div>
+  </div>
+  <div class="nav-section open" id="sec-generative">
+    <div class="nav-section-header" onclick="toggleSection('sec-generative')">
+      <span class="nav-section-title">Generative & Prob.</span>
+      <span class="nav-section-arrow">▾</span>
+    </div>
+    <div class="nav-items">
+      <div class="ni" onclick="show('pca',this)"><span class="ni-num">24</span>PCA / Eigenvectors</div>
+      <div class="ni" onclick="show('vae',this)"><span class="ni-num">25</span>VAE</div>
+      <div class="ni" onclick="show('diffusion',this)"><span class="ni-num">26</span>Diffusion Models</div>
+      <div class="ni" onclick="show('gan',this)"><span class="ni-num">27</span>GANs</div>
+    </div>
+  </div>
+</nav>
+<main id="mainContent">
+
+<!-- HOME -->
+<div class="home active" id="home">
+  <div class="home-hero">
+    <h2>The <em>Mathematics</em><br>of Machine Learning</h2>
+    <p style="margin-top:14px">A complete interactive reference covering 27 topics — from linear regression to diffusion models. Every topic has the core math, visual intuition, and PyTorch code.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="showSection('sec-foundations','linear')">
+      <div class="cat-card-icon">📐</div>
+      <div class="cat-card-name">Foundations</div>
+      <div class="cat-card-count">4 topics · Linear models, gradients, activations</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-training','loss')">
+      <div class="cat-card-icon">⚙️</div>
+      <div class="cat-card-name">Training</div>
+      <div class="cat-card-count">6 topics · Loss, optimizers, regularization</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-core','softmax')">
+      <div class="cat-card-icon">∑</div>
+      <div class="cat-card-name">Core Math</div>
+      <div class="cat-card-count">6 topics · Probability, statistics, evaluation</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-deep','cnn')">
+      <div class="cat-card-icon">🧠</div>
+      <div class="cat-card-name">Deep Learning</div>
+      <div class="cat-card-count">4 topics · CNNs, attention, transformers</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-sequence','rnn')">
+      <div class="cat-card-icon">⏱</div>
+      <div class="cat-card-name">Sequence Models</div>
+      <div class="cat-card-count">3 topics · RNN, LSTM, GRU</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-generative','pca')">
+      <div class="cat-card-icon">🎨</div>
+      <div class="cat-card-name">Generative & Prob.</div>
+      <div class="cat-card-count">4 topics · VAE, Diffusion, GANs, PCA</div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 LINEAR REGRESSION -->
+<div class="topic" id="linear">
+  <div class="topic-header">
+    <div class="topic-meta">
+      <div class="topic-num">01 — Foundations</div>
+      <h2>Linear <em>Regression</em></h2>
+    </div>
+    <span class="topic-badge">Supervised</span>
+  </div>
+  <p class="sub">// Fitting a line through data — the simplest predictive model</p>
+  <p class="prose">Linear regression finds the best-fit line through data. Given input <strong>x</strong>, we predict <strong>ŷ</strong> by learning weight <strong>w</strong> (slope) and bias <strong>b</strong> (intercept) that minimise prediction error.</p>
+  <div class="fb"><div class="fm">ŷ = w · x + b</div><div class="fd"><span>ŷ</span> = prediction &nbsp;|&nbsp; <span>w</span> = weight &nbsp;|&nbsp; <span>x</span> = input &nbsp;|&nbsp; <span>b</span> = bias</div></div>
+  <div class="fb c2"><div class="fm">MSE = (1/n) · Σ (yᵢ − ŷᵢ)²</div><div class="fd"><span>MSE</span> = Mean Squared Error loss &nbsp;|&nbsp; minimised by gradient descent</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — drag sliders to fit the line</div>
+    <canvas id="linCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Weight w</span><input type="range" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
+      <div class="cg"><span class="cl">Bias b</span><input type="range" id="linB" min="-3" max="3" step="0.05" value="0"><span class="vd" id="linBv">0.00</span></div>
+      <div class="cg"><span class="cl">MSE</span><span class="vd" id="linMSE" style="color:var(--accent)">—</span></div>
+      <button class="btn" onclick="bestFit()">BEST FIT</button>
+    </div>
+  </div>
+  <div class="callout"><strong>OLS Solution:</strong> For simple linear regression, the optimal weights have a closed-form: w = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)². Gradient descent finds the same answer iteratively.</div>
+  <div class="topic-nav" id="nav-linear"></div>
+</div>
+
+<!-- 02 GRADIENT DESCENT -->
+<div class="topic" id="gradient">
+  <div class="topic-header">
+    <div class="topic-meta">
+      <div class="topic-num">02 — Foundations</div>
+      <h2>Gradient <em>Descent</em></h2>
+    </div>
+    <span class="topic-badge">Optimization</span>
+  </div>
+  <p class="sub">// Rolling downhill on the loss landscape to find optimal weights</p>
+  <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong> — opposite the gradient — to reach minimum loss.</p>
+  <div class="fb"><div class="fm">w := w − α · ∂L/∂w</div><div class="fd"><span>α</span> = learning rate &nbsp;|&nbsp; <span>∂L/∂w</span> = gradient (slope of loss w.r.t. weight)</div></div>
+  <p class="prose">Three variants differ in <strong>how many samples</strong> are used per update:</p>
+  <table class="mt">
+    <thead><tr><th>Variant</th><th>Samples/step</th><th>Pros</th><th>Cons</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t1">Batch GD</span></td><td>All n</td><td>Stable, exact gradient</td><td>Slow per step</td></tr>
+      <tr><td><span class="tag t2">Stochastic GD</span></td><td>1</td><td>Fast, noisy escapes minima</td><td>High variance</td></tr>
+      <tr><td><span class="tag t3">Mini-batch GD</span></td><td>32–256</td><td>Best of both worlds</td><td>Batch size is a hyperparameter</td></tr>
+    </tbody>
+  </table>
+  <div class="va">
+    <div class="vl">// Animated loss landscape — adjust learning rate and run</div>
+    <canvas id="gdCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Learning Rate α</span><input type="range" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
+      <div class="cg"><span class="cl">Steps</span><span class="vd" id="gdSteps">0</span></div>
+      <button class="btn" onclick="runGD()">▶ RUN</button>
+      <button class="btn" onclick="resetGD()">↺ RESET</button>
+    </div>
+  </div>
+  <div class="callout warn"><strong>Learning rate:</strong> Too large → overshoot and diverge. Too small → extremely slow convergence. Learning rate warmup + decay schedulers (topic 10) solve this in practice.</div>
+  <div class="topic-nav" id="nav-gradient"></div>
+</div>
+
+<!-- 03 ACTIVATIONS -->
+<div class="topic" id="activation">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Activation <em>Functions</em></h2></div>
+    <span class="topic-badge">Non-linearity</span>
+  </div>
+  <p class="sub">// What makes deep networks more than stacked linear transforms</p>
+  <p class="prose">Without activations, any stack of linear layers collapses to a single linear transform. Activation functions introduce <strong>non-linearity</strong>, giving networks the power to approximate any function.</p>
+  <div class="va">
+    <div class="vl">// Select function — solid = f(x), dashed = derivative f′(x)</div>
+    <div class="ctrl" style="margin:0 0 12px">
+      <button class="btn" onclick="showAct('sigmoid')">SIGMOID</button>
+      <button class="btn b2" onclick="showAct('relu')">RELU</button>
+      <button class="btn b3" onclick="showAct('tanh')">TANH</button>
+      <button class="btn b4" onclick="showAct('gelu')">GELU</button>
+      <button class="btn" onclick="showAct('silu')">SILU</button>
+    </div>
+    <canvas id="actCanvas" height="220"></canvas>
+    <div id="actInfo" style="margin-top:12px"></div>
+  </div>
+  <table class="mt">
+    <thead><tr><th>Function</th><th>Formula</th><th>Range</th><th>Used In</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t1">Sigmoid</span></td><td>1/(1+e⁻ˣ)</td><td>(0,1)</td><td>Binary output, old nets</td></tr>
+      <tr><td><span class="tag t2">ReLU</span></td><td>max(0,x)</td><td>[0,∞)</td><td>ResNets, most CNNs</td></tr>
+      <tr><td><span class="tag t3">Tanh</span></td><td>(eˣ−e⁻ˣ)/(eˣ+e⁻ˣ)</td><td>(−1,1)</td><td>RNNs, LSTMs</td></tr>
+      <tr><td><span class="tag t4">GELU</span></td><td>x·Φ(x)</td><td>(−∞,∞)</td><td>BERT, GPT</td></tr>
+      <tr><td><span class="tag t2">SiLU/Swish</span></td><td>x·σ(x)</td><td>(−∞,∞)</td><td>EfficientNet, LLaMA</td></tr>
+    </tbody>
+  </table>
+  <div class="topic-nav" id="nav-activation"></div>
+</div>
+
+<!-- 04 BIAS-VARIANCE -->
+<div class="topic" id="bias-variance">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2>Bias-Variance <em>Tradeoff</em></h2></div>
+    <span class="topic-badge">Theory</span>
+  </div>
+  <p class="sub">// The fundamental tension between underfitting and overfitting</p>
+  <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong> — sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
+  <div class="fb"><div class="fm">E[(y−ŷ)²] = Bias² + Variance + Irreducible Noise</div><div class="fd">Total expected error decomposes into these three independent terms</div></div>
+  <div class="va">
+    <div class="vl">// Model complexity vs. error — the classic U-curve</div>
+    <canvas id="bvCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Model Complexity</span><input type="range" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
+      <div class="cg"><span class="cl">Bias²</span><span class="vd" id="bvBias" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Variance</span><span class="vd" id="bvVar" style="color:var(--accent3)">—</span></div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple — misses real patterns. Both train and test error are high.</p></div></div>
+    <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex — memorises noise. Low train error, high test error.</p></div></div>
+    <div class="step"><div class="sn">✓</div><div><h4>Sweet Spot</h4><p>Regularization, dropout, cross-validation help find the optimal complexity.</p></div></div>
+  </div>
+  <div class="topic-nav" id="nav-bias-variance"></div>
+</div>
+
+<!-- 05 LOSS FUNCTIONS -->
+<div class="topic" id="loss">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">05 — Training</div><h2>Loss <em>Functions</em></h2></div>
+    <span class="topic-badge">Optimization</span>
+  </div>
+  <p class="sub">// Measuring how wrong the model is — the objective being minimised</p>
+  <p class="prose">The loss function defines what the model is optimising. Different tasks need different loss functions. Getting this wrong is one of the most common ML mistakes.</p>
+  <div class="fb"><div class="fm">MSE = (1/n)·Σ(y−ŷ)²</div><div class="fd"><span>Regression</span> — squared penalty, sensitive to outliers</div></div>
+  <div class="fb c2"><div class="fm">MAE = (1/n)·Σ|y−ŷ|</div><div class="fd"><span>Robust regression</span> — linear penalty, outlier-resistant</div></div>
+  <div class="fb c3"><div class="fm">CE = −Σ yᵢ·log(ŷᵢ)</div><div class="fd"><span>Classification</span> — penalises confident wrong predictions exponentially</div></div>
+  <div class="fb c4"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary classification</span> — cross-entropy for single output</div></div>
+  <div class="va">
+    <div class="vl">// MSE vs MAE — drag to see how penalty scales with error</div>
+    <canvas id="lossCanvas" height="220"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Error magnitude</span><input type="range" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
+      <div class="cg"><span class="cl">MSE penalty</span><span class="vd" id="mseP">1.000</span></div>
+      <div class="cg"><span class="cl">MAE penalty</span><span class="vd" id="maeP" style="color:var(--accent2)">1.000</span></div>
+    </div>
+  </div>
+  <div class="topic-nav" id="nav-loss"></div>
+</div>
+
+<!-- 06 BACKPROP -->
+<div class="topic" id="backprop">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">06 — Training</div><h2><em>Back</em>propagation</h2></div>
+    <span class="topic-badge">Algorithm</span>
+  </div>
+  <p class="sub">// Chain rule applied through a network — how every weight gets its gradient</p>
+  <p class="prose">Backprop answers: <strong>"how much did each weight contribute to the error?"</strong> It uses the chain rule to propagate gradients backward from the loss to every parameter.</p>
+  <div class="fb"><div class="fm">∂L/∂w₁ = ∂L/∂ŷ · ∂ŷ/∂h · ∂h/∂w₁</div><div class="fd"><span>Chain Rule:</span> multiply local gradients along the path from loss back to each weight</div></div>
+  <div class="va">
+    <div class="vl">// Forward pass → loss → backward pass → weight update</div>
+    <canvas id="bpCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="animBP()">▶ ANIMATE</button>
+      <button class="btn" onclick="resetBP()">↺ RESET</button>
+      <span id="bpMsg" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-left:8px">Click Animate</span>
+    </div>
+  </div>
+  <div class="callout warn"><strong>Vanishing gradients:</strong> In deep networks, multiplying many small numbers (sigmoid derivatives ≤ 0.25) makes early-layer gradients near zero. Solutions: ReLU activations, batch norm, residual connections.</div>
+  <div class="topic-nav" id="nav-backprop"></div>
+</div>
+
+<!-- 07 OPTIMIZERS -->
+<div class="topic" id="optimizers">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">07 — Training</div><h2><em>Optimizers</em></h2></div>
+    <span class="topic-badge">Optimization</span>
+  </div>
+  <p class="sub">// Beyond vanilla SGD — momentum, adaptive learning rates, Adam</p>
+  <p class="prose">Modern optimizers improve on vanilla gradient descent by adding <strong>momentum</strong> (using past gradients) and <strong>adaptive rates</strong> (different step size per parameter).</p>
+  <div class="fb"><div class="fm">SGD+Momentum: v := βv − α·∇L &nbsp;&nbsp; w := w + v</div><div class="fd"><span>β</span> = momentum (typically 0.9) — accumulates velocity across steps</div></div>
+  <div class="fb c2"><div class="fm">RMSProp: s := ρs + (1−ρ)·(∇L)² &nbsp;&nbsp; w := w − α·∇L/√(s+ε)</div><div class="fd">Divides by RMS of recent gradients — large gradients get smaller steps</div></div>
+  <div class="fb c3"><div class="fm">Adam: m̂ = m/(1−β₁ᵗ) &nbsp;&nbsp; v̂ = v/(1−β₂ᵗ) &nbsp;&nbsp; w := w − α·m̂/√(v̂+ε)</div><div class="fd"><span>Adam</span> = momentum + RMSProp + bias correction. Default: β₁=0.9, β₂=0.999, ε=1e-8</div></div>
+  <div class="va">
+    <div class="vl">// Optimizer comparison on a saddle point surface</div>
+    <canvas id="optCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="runOptAnim('sgd')">SGD</button>
+      <button class="btn b2" onclick="runOptAnim('momentum')">MOMENTUM</button>
+      <button class="btn b3" onclick="runOptAnim('adam')">ADAM</button>
+      <button class="btn" onclick="resetOpt()">↺ RESET</button>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># PyTorch optimizers</span>
+optim = torch.optim.SGD(model.parameters(), lr=<span class="st">0.01</span>, momentum=<span class="st">0.9</span>)
+optim = torch.optim.RMSprop(model.parameters(), lr=<span class="st">1e-3</span>, alpha=<span class="st">0.99</span>)
+optim = torch.optim.Adam(model.parameters(), lr=<span class="st">1e-3</span>, betas=(<span class="st">0.9</span>, <span class="st">0.999</span>))
+optim = torch.optim.AdamW(model.parameters(), lr=<span class="st">1e-3</span>, weight_decay=<span class="st">0.01</span>)  <span class="cm"># Adam + L2</span></pre></div>
+  <div class="callout"><strong>AdamW</strong> is the default choice for most modern models. It decouples weight decay from the gradient update, fixing a subtle bug in Adam's L2 regularization.</div>
+  <div class="topic-nav" id="nav-optimizers"></div>
+</div>
+
+<!-- 08 REGULARIZATION -->
+<div class="topic" id="regularization">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">08 — Training</div><h2><em>Regularization</em></h2></div>
+    <span class="topic-badge">Generalization</span>
+  </div>
+  <p class="sub">// Preventing overfitting by constraining model complexity</p>
+  <p class="prose">Regularization adds a <strong>penalty for complexity</strong> to the loss, discouraging the model from memorising noise and improving generalisation to unseen data.</p>
+  <div class="fb"><div class="fm">L_total = L_data + λ·||w||²₂ &nbsp;&nbsp; (L2 / Ridge)</div><div class="fd"><span>λ</span> = regularization strength &nbsp;|&nbsp; drives weights toward zero but not exactly zero</div></div>
+  <div class="fb c2"><div class="fm">L_total = L_data + λ·||w||₁ &nbsp;&nbsp; (L1 / Lasso)</div><div class="fd">L1 produces <span>sparse</span> weights — many exactly zero (implicit feature selection)</div></div>
+  <div class="fb c3"><div class="fm">Dropout: h̃ = h ⊙ mask/p &nbsp;&nbsp; mask ~ Bernoulli(p)</div><div class="fd">Each neuron zeroed with prob (1−p) during training; scaled by 1/p to preserve expected value</div></div>
+  <div class="va">
+    <div class="vl">// L1 vs L2 penalty contours — see how they constrain weights differently</div>
+    <canvas id="regCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="drawReg('l2')">L2 (RIDGE)</button>
+      <button class="btn b2" onclick="drawReg('l1')">L1 (LASSO)</button>
+      <div class="cg"><span class="cl">λ strength</span><input type="range" id="regLambda" min="0.1" max="3" step="0.1" value="1" oninput="drawReg(currentReg)"><span class="vd" id="regLVal">1.0</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># L2 via weight_decay in optimizer</span>
+optim = torch.optim.AdamW(model.parameters(), weight_decay=<span class="st">1e-4</span>)
+
+<span class="cm"># Dropout layer</span>
+<span class="kw">self</span>.dropout = nn.Dropout(p=<span class="st">0.3</span>)   <span class="cm"># drop 30% of neurons</span>
+x = <span class="kw">self</span>.dropout(x)                 <span class="cm"># only active during training</span>
+
+<span class="cm"># Automatically disabled at test time:</span>
+model.eval()   <span class="cm"># disables dropout</span>
+model.train()  <span class="cm"># re-enables dropout</span></pre></div>
+  <div class="topic-nav" id="nav-regularization"></div>
+</div>
+
+<!-- 09 BATCH NORM -->
+<div class="topic" id="batchnorm">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">09 — Training</div><h2>Batch <em>Normalization</em></h2></div>
+    <span class="topic-badge">Stabilization</span>
+  </div>
+  <p class="sub">// Normalizing activations to keep training stable and fast</p>
+  <p class="prose">Batch Normalization normalises each layer's activations to have <strong>zero mean and unit variance</strong> across the mini-batch, then scales/shifts with learned parameters γ and β.</p>
+  <div class="fb"><div class="fm">μ_B = (1/m)·Σxᵢ &nbsp;&nbsp; σ²_B = (1/m)·Σ(xᵢ−μ_B)²</div><div class="fd">Compute batch mean and variance</div></div>
+  <div class="fb c2"><div class="fm">x̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)</div><div class="fd">Normalise: <span>ε</span> = small constant for numerical stability (1e-5)</div></div>
+  <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift — restores representational power</div></div>
+  <div class="va">
+    <div class="vl">// Effect of batch norm on activation distributions across layers</div>
+    <canvas id="bnCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="drawBN(false)">WITHOUT BN</button>
+      <button class="btn b2" onclick="drawBN(true)">WITH BN</button>
+    </div>
+  </div>
+  <div class="callout"><strong>Layer Norm vs Batch Norm:</strong> BatchNorm normalises over the batch dimension — problematic for small batches and transformers. LayerNorm normalises over the feature dimension and is the standard in transformers.</div>
+  <div class="code-block"><pre>self.bn = nn.BatchNorm1d(num_features=<span class="st">256</span>)  <span class="cm"># after linear</span>
+self.ln = nn.LayerNorm(normalized_shape=<span class="st">512</span>) <span class="cm"># after attention (transformers)</span></pre></div>
+  <div class="topic-nav" id="nav-batchnorm"></div>
+</div>
+
+<!-- 10 LR SCHEDULE -->
+<div class="topic" id="lr-schedule">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">10 — Training</div><h2>LR <em>Scheduling</em></h2></div>
+    <span class="topic-badge">Optimization</span>
+  </div>
+  <p class="sub">// Adjusting the learning rate over training for better convergence</p>
+  <p class="prose">A fixed learning rate is rarely optimal. Starting too high causes instability; finishing too high prevents convergence. Schedulers <strong>adjust α during training</strong> to get the best of both.</p>
+  <div class="fb"><div class="fm">Cosine Decay: αₜ = αₘᵢₙ + ½(αₘₐₓ−αₘᵢₙ)(1 + cos(πt/T))</div><div class="fd"><span>T</span> = total steps &nbsp;|&nbsp; smoothly decays from αₘₐₓ to αₘᵢₙ</div></div>
+  <div class="fb c2"><div class="fm">Warmup: α = αₘₐₓ · (t/t_warmup) &nbsp; for t &lt; t_warmup</div><div class="fd">Linear ramp-up prevents large gradient updates from poorly-initialised weights</div></div>
+  <div class="va">
+    <div class="vl">// Learning rate schedules — click to compare</div>
+    <canvas id="lrCanvas" height="230"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="drawLR('step')">STEP DECAY</button>
+      <button class="btn b2" onclick="drawLR('cosine')">COSINE</button>
+      <button class="btn b3" onclick="drawLR('warmup_cosine')">WARMUP+COSINE</button>
+      <button class="btn b4" onclick="drawLR('cyclic')">CYCLIC</button>
+    </div>
+  </div>
+  <div class="code-block"><pre>scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=<span class="st">100</span>)
+scheduler = torch.optim.lr_scheduler.OneCycleLR(optim, max_lr=<span class="st">0.01</span>, total_steps=<span class="st">1000</span>)
+scheduler = torch.optim.lr_scheduler.StepLR(optim, step_size=<span class="st">30</span>, gamma=<span class="st">0.1</span>)
+
+<span class="cm"># call after each epoch:</span>
+scheduler.step()</pre></div>
+  <div class="topic-nav" id="nav-lr-schedule"></div>
+</div>
+
+<!-- 11 SOFTMAX -->
+<div class="topic" id="softmax">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">11 — Core Math</div><h2>Softmax & <em>Probabilities</em></h2></div>
+    <span class="topic-badge">Classification</span>
+  </div>
+  <p class="sub">// Converting raw scores into a probability distribution</p>
+  <p class="prose">Softmax maps a vector of real-valued logits to probabilities that <strong>sum to 1</strong>. It amplifies the largest logit, making the winner more decisive.</p>
+  <div class="fb"><div class="fm">σ(zᵢ) = e^zᵢ / Σⱼ e^zⱼ</div><div class="fd"><span>zᵢ</span> = logit for class i &nbsp;|&nbsp; numerator = exponentiated score &nbsp;|&nbsp; denominator = normalisation</div></div>
+  <div class="va">
+    <div class="vl">// Adjust logits — watch probabilities redistribute</div>
+    <canvas id="smCanvas" height="200"></canvas>
+    <div class="ctrl" id="smCtrl"></div>
+  </div>
+  <div class="callout"><strong>Temperature scaling:</strong> σ(z/T). T&lt;1 → sharper (more confident). T&gt;1 → softer (more uniform). Used in knowledge distillation and language model sampling.</div>
+  <div class="topic-nav" id="nav-softmax"></div>
+</div>
+
+<!-- 12 MLE -->
+<div class="topic" id="mle">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">12 — Core Math</div><h2>MLE & <em>Gaussian</em> Distributions</h2></div>
+    <span class="topic-badge">Probability</span>
+  </div>
+  <p class="sub">// Maximum Likelihood Estimation — why MSE and Cross-Entropy exist</p>
+  <p class="prose">MLE asks: <strong>what parameters make the observed data most probable?</strong> Most ML training objectives are secretly MLE under a particular assumed distribution.</p>
+  <div class="fb"><div class="fm">θ* = argmax_θ Σ log p(xᵢ | θ)</div><div class="fd">Maximise log-likelihood (summing logs avoids numerical underflow with tiny probabilities)</div></div>
+  <div class="fb c2"><div class="fm">Gaussian: p(x|μ,σ) = (1/√2πσ²) · exp(−(x−μ)²/2σ²)</div><div class="fd">MLE on Gaussian noise assumption → MSE loss. MLE on Bernoulli → Cross-Entropy loss.</div></div>
+  <div class="va">
+    <div class="vl">// Gaussian distribution — adjust mean and variance</div>
+    <canvas id="gaussCanvas" height="220"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Mean μ</span><input type="range" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
+      <div class="cg"><span class="cl">Std σ</span><input type="range" id="gaussSig" min="0.2" max="2.5" step="0.1" value="1" oninput="drawGauss()"><span class="vd" id="gaussSigV">1.0</span></div>
+    </div>
+  </div>
+  <div class="callout info"><strong>Key insight:</strong> Training with MSE loss = assuming your errors are Gaussian distributed. Training with Cross-Entropy = assuming Bernoulli/Categorical outputs. The loss function encodes your distributional assumption.</div>
+  <div class="topic-nav" id="nav-mle"></div>
+</div>
+
+<!-- 13 KL DIVERGENCE -->
+<div class="topic" id="kl-div">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">13 — Core Math</div><h2>KL <em>Divergence</em></h2></div>
+    <span class="topic-badge">Information Theory</span>
+  </div>
+  <p class="sub">// Measuring how different two probability distributions are</p>
+  <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric — KL(P||Q) ≠ KL(Q||P).</p>
+  <div class="fb"><div class="fm">KL(P||Q) = Σ P(x) · log(P(x)/Q(x))</div><div class="fd">Discrete case &nbsp;|&nbsp; Always ≥ 0 &nbsp;|&nbsp; = 0 only when P = Q exactly</div></div>
+  <div class="fb c2"><div class="fm">KL(P||Q) = ∫ p(x) · log(p(x)/q(x)) dx</div><div class="fd">Continuous case &nbsp;|&nbsp; used in VAE loss, RLHF, variational inference</div></div>
+  <div class="fb c3"><div class="fm">Cross-Entropy H(P,Q) = H(P) + KL(P||Q)</div><div class="fd">CE = entropy of P + extra bits needed because we use Q. Minimising CE ≡ minimising KL.</div></div>
+  <div class="va">
+    <div class="vl">// Visualise KL divergence between two Gaussians</div>
+    <canvas id="klCanvas" height="230"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Q mean offset</span><input type="range" id="klOffset" min="0" max="4" step="0.1" value="1" oninput="drawKL()"><span class="vd" id="klOffV">1.0</span></div>
+      <div class="cg"><span class="cl">KL(P||Q)</span><span class="vd" id="klVal" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="topic-nav" id="nav-kl-div"></div>
+</div>
+
+<!-- 14 BAYES -->
+<div class="topic" id="bayes">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">14 — Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
+    <span class="topic-badge">Probability</span>
+  </div>
+  <p class="sub">// Updating beliefs with evidence — the foundation of probabilistic ML</p>
+  <p class="prose">Bayes' Theorem is the mathematical foundation of reasoning under uncertainty. It tells us how to <strong>update a prior belief</strong> when we observe new evidence.</p>
+  <div class="fb"><div class="fm">P(A|B) = P(B|A) · P(A) / P(B)</div><div class="fd"><span>P(A|B)</span> = posterior &nbsp;|&nbsp; <span>P(B|A)</span> = likelihood &nbsp;|&nbsp; <span>P(A)</span> = prior &nbsp;|&nbsp; <span>P(B)</span> = evidence</div></div>
+  <div class="va">
+    <div class="vl">// Medical test — posterior probability after positive result</div>
+    <canvas id="bayesCanvas" height="220"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
+      <div class="cg"><span class="cl">Sensitivity %</span><input type="range" id="sensS" min="50" max="99" step="1" value="95" oninput="onBayes()"><span class="vd" id="sensV">95%</span></div>
+      <div class="cg"><span class="cl">Posterior (test+)</span><span class="vd" id="postV" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="callout warn"><strong>Base rate fallacy:</strong> 1% disease prevalence + 95% accurate test = only ~16% chance you're actually sick after a positive. Low priors dominate!</div>
+  <div class="topic-nav" id="nav-bayes"></div>
+</div>
+
+<!-- 15 CROSS-VALIDATION -->
+<div class="topic" id="crossval">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">15 — Core Math</div><h2>Cross-<em>Validation</em></h2></div>
+    <span class="topic-badge">Evaluation</span>
+  </div>
+  <p class="sub">// Reliable model evaluation by rotating which data is used for testing</p>
+  <p class="prose">A single train/test split gives a noisy estimate of generalisation. <strong>k-fold cross-validation</strong> averages performance over k splits for a more reliable estimate.</p>
+  <div class="fb"><div class="fm">CV Score = (1/k) · Σᵢ score(model_i, fold_i)</div><div class="fd">Train k models, each evaluated on a different held-out fold — no data is wasted</div></div>
+  <div class="va">
+    <div class="vl">// k-fold cross-validation — click to cycle through folds</div>
+    <canvas id="cvCanvas" height="200"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">k folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
+      <button class="btn" onclick="animCV()">▶ CYCLE FOLDS</button>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div><h4>Split data into k folds</h4><p>Typically k=5 or k=10</p></div></div>
+    <div class="step"><div class="sn">2</div><div><h4>Train on k−1 folds</h4><p>One fold held out as validation set</p></div></div>
+    <div class="step"><div class="sn">3</div><div><h4>Evaluate on held-out fold</h4><p>Record metric (accuracy, F1, etc.)</p></div></div>
+    <div class="step"><div class="sn">4</div><div><h4>Repeat for all k folds</h4><p>Average the k scores → final CV estimate</p></div></div>
+  </div>
+  <div class="topic-nav" id="nav-crossval"></div>
+</div>
+
+<!-- 16 METRICS -->
+<div class="topic" id="metrics">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">16 — Core Math</div><h2>Evaluation <em>Metrics</em></h2></div>
+    <span class="topic-badge">Evaluation</span>
+  </div>
+  <p class="sub">// How to actually measure if your model is good</p>
+  <p class="prose">Accuracy alone is misleading for imbalanced classes. <strong>Precision, Recall, F1 and ROC-AUC</strong> give a complete picture of classification performance.</p>
+  <div class="fb"><div class="fm">Precision = TP/(TP+FP) &nbsp;&nbsp; Recall = TP/(TP+FN)</div><div class="fd"><span>Precision</span> = of predicted positives, how many are real? &nbsp;|&nbsp; <span>Recall</span> = of real positives, how many found?</div></div>
+  <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean — punishes models that sacrifice one for the other</div></div>
+  <div class="va">
+    <div class="vl">// Interactive confusion matrix</div>
+    <canvas id="metricsCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">True Positives</span><input type="range" id="mTP" min="1" max="100" step="1" value="80" oninput="drawMetrics()"><span class="vd" id="mTPv">80</span></div>
+      <div class="cg"><span class="cl">False Positives</span><input type="range" id="mFP" min="0" max="50" step="1" value="10" oninput="drawMetrics()"><span class="vd" id="mFPv">10</span></div>
+      <div class="cg"><span class="cl">False Negatives</span><input type="range" id="mFN" min="0" max="50" step="1" value="20" oninput="drawMetrics()"><span class="vd" id="mFNv">20</span></div>
+    </div>
+  </div>
+  <div class="topic-nav" id="nav-metrics"></div>
+</div>
+
+<!-- 17 CNN -->
+<div class="topic" id="cnn">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">17 — Deep Learning</div><h2>CNN — <em>Convolutions</em></h2></div>
+    <span class="topic-badge">Architecture</span>
+  </div>
+  <p class="sub">// Exploiting spatial structure with shared local filters</p>
+  <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input. The same filter detects the same feature regardless of where it appears — <strong>translational equivariance</strong>.</p>
+  <div class="fb"><div class="fm">(f * g)[i,j] = Σₘ Σₙ f[m,n] · g[i−m, j−n]</div><div class="fd"><span>f</span> = filter/kernel &nbsp;|&nbsp; <span>g</span> = input &nbsp;|&nbsp; slide filter over input, compute dot product at each position</div></div>
+  <div class="fb c2"><div class="fm">Output size = ⌊(W − K + 2P)/S⌋ + 1</div><div class="fd"><span>W</span> = input width &nbsp;|&nbsp; <span>K</span> = kernel size &nbsp;|&nbsp; <span>P</span> = padding &nbsp;|&nbsp; <span>S</span> = stride</div></div>
+  <div class="va">
+    <div class="vl">// Convolution operation — kernel sliding over input</div>
+    <canvas id="cnnCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
+      <div class="cg"><span class="cl">Stride</span><input type="range" id="cnnS" min="1" max="3" step="1" value="1" oninput="drawCNN()"><span class="vd" id="cnnSV">1</span></div>
+      <button class="btn" onclick="animCNN()">▶ ANIMATE</button>
+    </div>
+  </div>
+  <div class="code-block"><pre>self.conv1 = nn.Conv2d(in_channels=<span class="st">3</span>, out_channels=<span class="st">64</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)
+self.pool  = nn.MaxPool2d(kernel_size=<span class="st">2</span>, stride=<span class="st">2</span>)
+self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)</pre></div>
+  <div class="topic-nav" id="nav-cnn"></div>
+</div>
+
+<!-- 18 EMBEDDINGS -->
+<div class="topic" id="embeddings">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">18 — Deep Learning</div><h2>Embeddings & <em>Word2Vec</em></h2></div>
+    <span class="topic-badge">Representation</span>
+  </div>
+  <p class="sub">// Mapping discrete tokens to continuous vector spaces</p>
+  <p class="prose">An embedding maps each discrete token to a dense vector where <strong>semantic similarity = geometric proximity</strong>. Word2Vec learns these by predicting context words.</p>
+  <div class="fb"><div class="fm">Skip-gram: max Σ Σ log P(wₒ | wᵢ)</div><div class="fd">Predict surrounding words from centre word — forces similar words to nearby vectors</div></div>
+  <div class="fb c2"><div class="fm">king − man + woman ≈ queen</div><div class="fd">Learned embeddings encode <span>analogical relationships</span> as linear vector arithmetic</div></div>
+  <div class="va">
+    <div class="vl">// 2D embedding space — semantic clusters</div>
+    <canvas id="embCanvas" height="240"></canvas>
+  </div>
+  <div class="code-block"><pre><span class="cm"># PyTorch embedding layer</span>
+self.embed = nn.Embedding(vocab_size=<span class="st">50000</span>, embedding_dim=<span class="st">256</span>)
+x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)</span></pre></div>
+  <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the conceptual ancestor. Today BERT/GPT produce <em>contextual</em> embeddings — the same word gets different vectors depending on context.</div>
+  <div class="topic-nav" id="nav-embeddings"></div>
+</div>
+
+<!-- 19 ATTENTION -->
+<div class="topic" id="attention">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">19 — Deep Learning</div><h2>Attention <em>Mechanism</em></h2></div>
+    <span class="topic-badge">Architecture</span>
+  </div>
+  <p class="sub">// Selectively focusing on relevant parts of the input</p>
+  <p class="prose">Each token asks: <strong>"which other tokens are most relevant to me?"</strong> The answer is a weighted sum of values, with weights from dot-product similarity between queries and keys.</p>
+  <div class="fb"><div class="fm">Attention(Q,K,V) = softmax(QKᵀ / √d) · V</div><div class="fd"><span>Q</span> = Query &nbsp;|&nbsp; <span>K</span> = Key &nbsp;|&nbsp; <span>V</span> = Value &nbsp;|&nbsp; <span>√d</span> = scaling to prevent saturation</div></div>
+  <div class="va">
+    <div class="vl">// Attention heatmap — click cells to boost connections</div>
+    <canvas id="attCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="rndAtt()">↺ RANDOMIZE</button>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:8px">Click cells to strengthen</span>
+    </div>
+  </div>
+  <div class="callout info"><strong>Multi-Head Attention:</strong> Run h attention functions in parallel, each with different learned projections. Allows attending to different aspects simultaneously: syntax, semantics, coreference.</div>
+  <div class="topic-nav" id="nav-attention"></div>
+</div>
+
+<!-- 20 TRANSFORMER -->
+<div class="topic" id="transformer">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">20 — Deep Learning</div><h2>Transformer <em>Architecture</em></h2></div>
+    <span class="topic-badge">Architecture</span>
+  </div>
+  <p class="sub">// The architecture behind BERT, GPT, and all modern LLMs</p>
+  <p class="prose">The Transformer combines <strong>multi-head self-attention</strong> with position-wise feed-forward networks, residual connections, and layer normalisation. Attention replaces recurrence, enabling full parallelism.</p>
+  <div class="fb"><div class="fm">PE(pos, 2i) = sin(pos/10000^(2i/d))</div><div class="fd"><span>Positional Encoding</span> — sine/cosine waves of different frequencies encode token position</div></div>
+  <div class="fb c2"><div class="fm">FFN(x) = max(0, xW₁+b₁)W₂+b₂</div><div class="fd">Position-wise feed-forward: two linear layers with ReLU. Applied identically at each position.</div></div>
+  <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span> — applied around every sublayer. Enables training very deep networks.</div></div>
+  <div class="va">
+    <div class="vl">// Transformer block diagram</div>
+    <canvas id="transCanvas" height="280"></canvas>
+  </div>
+  <div class="code-block"><pre>encoder_layer = nn.TransformerEncoderLayer(
+    d_model=<span class="st">512</span>, nhead=<span class="st">8</span>, dim_feedforward=<span class="st">2048</span>,
+    dropout=<span class="st">0.1</span>, norm_first=<span class="st">True</span>
+)
+transformer = nn.TransformerEncoder(encoder_layer, num_layers=<span class="st">6</span>)</pre></div>
+  <div class="topic-nav" id="nav-transformer"></div>
+</div>
+
+<!-- 21 RNN -->
+<div class="topic" id="rnn">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">21 — Sequence Models</div><h2>RNN — <em>Recurrent</em> Networks</h2></div>
+    <span class="topic-badge">Sequential</span>
+  </div>
+  <p class="sub">// Processing sequences by passing hidden state through time</p>
+  <p class="prose">A Recurrent Neural Network processes sequences step-by-step, maintaining a <strong>hidden state h</strong> that carries memory of previous inputs. The same weights are reused at every timestep.</p>
+  <div class="fb"><div class="fm">hₜ = tanh(Wₕ·hₜ₋₁ + Wₓ·xₜ + b)</div><div class="fd"><span>hₜ</span> = new hidden state &nbsp;|&nbsp; <span>hₜ₋₁</span> = previous state &nbsp;|&nbsp; <span>xₜ</span> = current input</div></div>
+  <div class="va">
+    <div class="vl">// RNN unrolled through time</div>
+    <canvas id="rnnCanvas" height="250"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Seq length</span><input type="range" id="rnnLen" min="3" max="6" step="1" value="4" oninput="document.getElementById('rnnLenV').textContent=this.value;drawRNN()"><span class="vd" id="rnnLenV">4</span></div>
+      <button class="btn" onclick="animRNN()">▶ ANIMATE</button>
+      <button class="btn" onclick="resetRNN()">↺ RESET</button>
+      <span id="rnnMsg" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:8px">Click Animate</span>
+    </div>
+  </div>
+  <div class="code-block"><pre>self.rnn = nn.RNN(input_size=<span class="st">10</span>, hidden_size=<span class="st">64</span>, num_layers=<span class="st">1</span>, batch_first=<span class="st">True</span>)
+out, hn = self.rnn(x, h0)</pre></div>
+  <div class="callout warn"><strong>Vanishing gradient:</strong> Gradients shrink exponentially over many timesteps. LSTM and GRU solve this with gated memory.</div>
+  <div class="topic-nav" id="nav-rnn"></div>
+</div>
+
+<!-- 22 LSTM -->
+<div class="topic" id="lstm">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">22 — Sequence Models</div><h2>LSTM — <em>Long Short-Term</em> Memory</h2></div>
+    <span class="topic-badge">Sequential</span>
+  </div>
+  <p class="sub">// Gated memory cells that solve the vanishing gradient problem</p>
+  <p class="prose">LSTMs add a <strong>cell state c</strong> — a "memory highway" — alongside the hidden state. Three gates control what information flows through.</p>
+  <div class="fb"><div class="fm">fₜ=σ(Wf·[hₜ₋₁,xₜ]) &nbsp; iₜ=σ(Wi·[hₜ₋₁,xₜ]) &nbsp; oₜ=σ(Wo·[hₜ₋₁,xₜ])</div><div class="fd"><span>f</span> = forget &nbsp;|&nbsp; <span>i</span> = input &nbsp;|&nbsp; <span>o</span> = output gates</div></div>
+  <div class="fb c2"><div class="fm">cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ tanh(Wc·[hₜ₋₁,xₜ])</div><div class="fd">Cell state update: forget old + write new candidate</div></div>
+  <div class="fb c3"><div class="fm">hₜ = oₜ ⊙ tanh(cₜ)</div><div class="fd">Hidden state = filtered cell state</div></div>
+  <div class="va">
+    <div class="vl">// LSTM gate diagram</div>
+    <canvas id="lstmCanvas" height="280"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="highlightGate('forget')">FORGET</button>
+      <button class="btn b2" onclick="highlightGate('input')">INPUT</button>
+      <button class="btn b3" onclick="highlightGate('output')">OUTPUT</button>
+      <button class="btn b4" onclick="highlightGate('all')">ALL</button>
+    </div>
+  </div>
+  <div class="code-block"><pre>self.lstm = nn.LSTM(input_size=<span class="st">10</span>, hidden_size=<span class="st">64</span>, num_layers=<span class="st">2</span>,
+                    batch_first=<span class="st">True</span>, dropout=<span class="st">0.2</span>)
+out, (hn, cn) = self.lstm(x)</pre></div>
+  <div class="topic-nav" id="nav-lstm"></div>
+</div>
+
+<!-- 23 GRU -->
+<div class="topic" id="gru">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">23 — Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
+    <span class="topic-badge">Sequential</span>
+  </div>
+  <p class="sub">// LSTM's streamlined sibling — two gates, one state vector</p>
+  <p class="prose">The GRU simplifies LSTM by merging the cell state and hidden state and using only <strong>two gates</strong>: update and reset. Fewer parameters, comparable performance.</p>
+  <div class="fb"><div class="fm">zₜ = σ(Wz·[hₜ₋₁,xₜ]) &nbsp;&nbsp; rₜ = σ(Wr·[hₜ₋₁,xₜ])</div><div class="fd"><span>z</span> = update gate &nbsp;|&nbsp; <span>r</span> = reset gate</div></div>
+  <div class="fb c2"><div class="fm">h̃ₜ = tanh(W·[rₜ⊙hₜ₋₁, xₜ])</div><div class="fd">Candidate hidden state — gated by reset</div></div>
+  <div class="fb c3"><div class="fm">hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ</div><div class="fd">Interpolate between old and new state via update gate</div></div>
+  <div class="va">
+    <div class="vl">// RNN vs GRU vs LSTM — parameter count comparison</div>
+    <canvas id="gruCanvas" height="230"></canvas>
+  </div>
+  <div class="code-block"><pre>self.gru = nn.GRU(input_size=<span class="st">10</span>, hidden_size=<span class="st">64</span>, batch_first=<span class="st">True</span>)
+out, hn = self.gru(x)</pre></div>
+  <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline, very short sequences. <strong style="color:var(--accent2)">GRU</strong> — best default for most seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range dependencies. <strong style="color:var(--accent4)">Transformer</strong> — when you have lots of data and GPU.</div>
+  <div class="topic-nav" id="nav-gru"></div>
+</div>
+
+<!-- 24 PCA -->
+<div class="topic" id="pca">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">24 — Generative & Prob.</div><h2>PCA & <em>Eigenvectors</em></h2></div>
+    <span class="topic-badge">Dimensionality</span>
+  </div>
+  <p class="sub">// Finding the directions of maximum variance for dimensionality reduction</p>
+  <p class="prose">PCA finds the axes along which data <strong>varies the most</strong>. These are the eigenvectors of the covariance matrix. Projecting onto the top-k eigenvectors reduces dimensions while preserving most information.</p>
+  <div class="fb"><div class="fm">C = (1/n)·XᵀX &nbsp;&nbsp;&nbsp; Cv = λv</div><div class="fd"><span>C</span> = covariance matrix &nbsp;|&nbsp; <span>v</span> = eigenvector &nbsp;|&nbsp; <span>λ</span> = eigenvalue (variance explained)</div></div>
+  <div class="va">
+    <div class="vl">// 2D data with principal components — adjust correlation</div>
+    <canvas id="pcaCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Correlation</span><input type="range" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
+      <div class="cg"><span class="cl">PC1 explains</span><span class="vd" id="pc1V">—</span></div>
+      <div class="cg"><span class="cl">PC2 explains</span><span class="vd" id="pc2V" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="topic-nav" id="nav-pca"></div>
+</div>
+
+<!-- 25 VAE -->
+<div class="topic" id="vae">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">25 — Generative & Prob.</div><h2>VAE — Variational <em>Autoencoder</em></h2></div>
+    <span class="topic-badge">Generative</span>
+  </div>
+  <p class="sub">// Learning a structured latent space for generation and interpolation</p>
+  <p class="prose">A VAE encodes inputs to a <strong>distribution over latent vectors</strong> (not a single point), then decodes samples from that distribution. This forces the latent space to be smooth and continuous.</p>
+  <div class="fb"><div class="fm">ELBO = E[log p(x|z)] − KL(q(z|x) || p(z))</div><div class="fd"><span>ELBO</span> = VAE objective: reconstruction + KL regularization</div></div>
+  <div class="fb c2"><div class="fm">z = μ + σ·ε &nbsp;&nbsp; ε ~ N(0,1)</div><div class="fd"><span>Reparameterization trick:</span> makes sampling differentiable</div></div>
+  <div class="va">
+    <div class="vl">// VAE architecture — encoder → latent distribution → decoder</div>
+    <canvas id="vaeCanvas" height="240"></canvas>
+  </div>
+  <div class="code-block"><pre><span class="kw">class</span> <span class="cl2">VAE</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        mu, log_var = self.encode(x)
+        z = mu + torch.exp(<span class="st">0.5</span>*log_var) * torch.randn_like(mu)
+        return self.decode(z), mu, log_var
+
+<span class="kw">def</span> <span class="fn">vae_loss</span>(recon_x, x, mu, log_var):
+    recon = F.mse_loss(recon_x, x)
+    kl    = <span class="st">-0.5</span> * torch.mean(<span class="st">1</span> + log_var - mu**<span class="st">2</span> - log_var.exp())
+    <span class="kw">return</span> recon + kl</pre></div>
+  <div class="topic-nav" id="nav-vae"></div>
+</div>
+
+<!-- 26 DIFFUSION -->
+<div class="topic" id="diffusion">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">26 — Generative & Prob.</div><h2>Diffusion <em>Models</em></h2></div>
+    <span class="topic-badge">Generative</span>
+  </div>
+  <p class="sub">// Generating by learning to reverse a noise process (DDPM, Stable Diffusion)</p>
+  <p class="prose">Diffusion models learn to <strong>denoise data</strong>. The forward process gradually adds Gaussian noise over T steps until pure noise. A neural network learns to reverse this — generating data from noise.</p>
+  <div class="fb"><div class="fm">Forward: q(xₜ|xₜ₋₁) = N(xₜ; √(1−β)·xₜ₋₁, β·I)</div><div class="fd">Adds small amount of noise β at each step. After T steps, data ≈ pure Gaussian noise.</div></div>
+  <div class="fb c2"><div class="fm">xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε &nbsp;&nbsp; ε~N(0,I)</div><div class="fd">Closed form for any timestep t. <span>ᾱₜ</span> = product of (1−βᵢ)</div></div>
+  <div class="fb c3"><div class="fm">L = E[||ε − εθ(xₜ,t)||²]</div><div class="fd">Training: predict the noise ε that was added.</div></div>
+  <div class="va">
+    <div class="vl">// Forward diffusion — noise being added over timesteps</div>
+    <canvas id="diffCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Timestep t</span><input type="range" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
+      <button class="btn" onclick="animDiff()">▶ FORWARD PROCESS</button>
+    </div>
+  </div>
+  <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM was the original (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in a compressed latent space — enabling image generation on consumer GPUs.</div>
+  <div class="topic-nav" id="nav-diffusion"></div>
+</div>
+
+<!-- 27 GAN -->
+<div class="topic" id="gan">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">27 — Generative & Prob.</div><h2>GANs — Generative <em>Adversarial</em> Networks</h2></div>
+    <span class="topic-badge">Generative</span>
+  </div>
+  <p class="sub">// Two networks competing: generator vs discriminator</p>
+  <p class="prose">GANs pit a <strong>Generator G</strong> against a <strong>Discriminator D</strong> in a minimax game. G learns to generate realistic samples; D learns to distinguish real from fake.</p>
+  <div class="fb"><div class="fm">min_G max_D V(D,G) = E[log D(x)] + E[log(1−D(G(z)))]</div><div class="fd">Minimax objective: D maximises, G minimises. At equilibrium: D(x) = 0.5 everywhere.</div></div>
+  <div class="fb c2"><div class="fm">G: z → x̃ &nbsp;&nbsp; z ~ N(0,I) &nbsp;&nbsp; D: x → [0,1]</div><div class="fd"><span>G</span> maps noise to data space &nbsp;|&nbsp; <span>D</span> outputs probability of being real</div></div>
+  <div class="va">
+    <div class="vl">// GAN training dynamics — Generator vs Discriminator loss</div>
+    <canvas id="ganCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <button class="btn" onclick="animGAN()">▶ SIMULATE TRAINING</button>
+      <button class="btn" onclick="resetGAN()">↺ RESET</button>
+      <span id="ganMsg" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:8px"></span>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Training loop (simplified)</span>
+<span class="kw">for</span> real_x <span class="kw">in</span> dataloader:
+    D_real = discriminator(real_x)
+    fake_x = generator(torch.randn(batch, latent_dim))
+    D_fake = discriminator(fake_x.detach())
+    d_loss = -torch.mean(torch.log(D_real) + torch.log(<span class="st">1</span>-D_fake))
+    g_loss = -torch.mean(torch.log(discriminator(generator(z))))</pre></div>
+  <div class="callout warn"><strong>Mode collapse:</strong> The biggest GAN failure — G learns to generate only a few convincing samples. Wasserstein GAN (WGAN) and gradient penalty (WGAN-GP) are the standard fixes.</div>
+  <div class="topic-nav" id="nav-gan"></div>
+</div>
+
+</main>
+</div>
+
+<script>
+const TOPICS=['home','linear','gradient','activation','bias-variance','loss','backprop','optimizers','regularization','batchnorm','lr-schedule','softmax','mle','kl-div','bayes','crossval','metrics','cnn','embeddings','attention','transformer','rnn','lstm','gru','pca','vae','diffusion','gan'];
+const TOPIC_NAMES={home:'Overview',linear:'Linear Regression',gradient:'Gradient Descent',activation:'Activation Functions','bias-variance':'Bias-Variance',loss:'Loss Functions',backprop:'Backpropagation',optimizers:'Optimizers',regularization:'Regularization',batchnorm:'Batch Normalization','lr-schedule':'LR Scheduling',softmax:'Softmax',mle:'MLE & Gaussian','kl-div':'KL Divergence',bayes:"Bayes' Theorem",crossval:'Cross-Validation',metrics:'Eval Metrics',cnn:'CNN',embeddings:'Embeddings',attention:'Attention',transformer:'Transformer',rnn:'RNN',lstm:'LSTM',gru:'GRU',pca:'PCA',vae:'VAE',diffusion:'Diffusion Models',gan:'GANs'};
+
+function show(id,el){
+  document.querySelectorAll('.topic,.home').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const t=document.getElementById(id);if(t)t.classList.add('active');
+  if(el)el.classList.add('active');
+  buildNavButtons(id);
+  setTimeout(()=>{DRAWS[id]?.();},60);
+}
+
+function showSection(secId,topicId){
+  const sec=document.getElementById(secId);if(sec&&!sec.classList.contains('open'))sec.classList.add('open');
+  const ni=[...document.querySelectorAll('.ni')].find(n=>n.onclick?.toString().includes("'"+topicId+"'"));
+  show(topicId,ni);
+}
+
+function toggleSection(id){document.getElementById(id).classList.toggle('open');}
+
+function buildNavButtons(id){
+  const navEl=document.getElementById('nav-'+id);if(!navEl)return;
+  const idx=TOPICS.indexOf(id);
+  const prev=idx>1?TOPICS[idx-1]:null;
+  const next=idx>=0&&idx<TOPICS.length-1?TOPICS[idx+1]:null;
+  navEl.innerHTML='';
+  if(prev&&prev!=='home'){const b=document.createElement('div');b.className='tnav-btn';b.innerHTML=`<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;b.onclick=()=>{const ni=[...document.querySelectorAll('.ni')].find(n=>n.onclick?.toString().includes("'"+prev+"'"));show(prev,ni);};navEl.appendChild(b);}
+  else navEl.appendChild(document.createElement('div'));
+  if(next){const b=document.createElement('div');b.className='tnav-btn next';b.innerHTML=`<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;b.onclick=()=>{const ni=[...document.querySelectorAll('.ni')].find(n=>n.onclick?.toString().includes("'"+next+"'"));show(next,ni);};navEl.appendChild(b);}
+}
+
+const DPR=window.devicePixelRatio||1;
+function cv(id,H){
+  const c=document.getElementById(id);if(!c)return null;
+  const W=Math.max(200,c.parentElement.clientWidth-36);
+  c.style.width=W+'px';c.style.height=H+'px';
+  c.width=W*DPR;c.height=H*DPR;
+  const ctx=c.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.scale(DPR,DPR);
+  return{ctx,W,H};
+}
+function rgba(hex,a){const n=parseInt(hex.replace('#',''),16);return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`;}
+const K={r:'#c84b2f',g:'#2a7d5f',b:'#2955a0',v:'#8b4fa8',t:'#1a1714',m:'#7a6e62',bg:'#faf8f4',sur:'#ffffff',brd:'#e2d9cc'};
+function arrowHead(ctx,x1,y1,x2,y2,col,sz=7){const a=Math.atan2(y2-y1,x2-x1);ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-sz*Math.cos(a-.42),y2-sz*Math.sin(a-.42));ctx.lineTo(x2-sz*Math.cos(a+.42),y2-sz*Math.sin(a+.42));ctx.closePath();ctx.fill();}
+
+// LINEAR
+const LP=Array.from({length:22},()=>({x:Math.random()*8-4,y:(Math.random()*8-4)*.55+(Math.random()-.5)*1.8}));
+function drawLinear(){
+  const r=cv('linCanvas',240);if(!r)return;const{ctx,W,H}=r;
+  const w=+document.getElementById('linW').value,b=+document.getElementById('linB').value;
+  document.getElementById('linWv').textContent=w.toFixed(2);document.getElementById('linBv').textContent=b.toFixed(2);
+  const sx=x=>W/2+x*(W/10),sy=y=>H/2-y*(H/10);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  let mse=0;
+  LP.forEach(p=>{const py=w*p.x+b;mse+=(p.y-py)**2;ctx.strokeStyle=rgba(K.r,.35);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx(p.x),sy(p.y));ctx.lineTo(sx(p.x),sy(py));ctx.stroke();ctx.fillStyle=rgba(K.b,.7);ctx.beginPath();ctx.arc(sx(p.x),sy(p.y),3.5,0,Math.PI*2);ctx.fill();});
+  document.getElementById('linMSE').textContent=(mse/LP.length).toFixed(3);
+  ctx.strokeStyle=K.r;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(sx(-6),sy(w*-6+b));ctx.lineTo(sx(6),sy(w*6+b));ctx.stroke();
+}
+function bestFit(){const n=LP.length,mx=LP.reduce((s,p)=>s+p.x,0)/n,my=LP.reduce((s,p)=>s+p.y,0)/n,num=LP.reduce((s,p)=>s+(p.x-mx)*(p.y-my),0),den=LP.reduce((s,p)=>s+(p.x-mx)**2,0),bw=num/den,bb=my-bw*mx;document.getElementById('linW').value=Math.max(-3,Math.min(3,bw));document.getElementById('linB').value=Math.max(-3,Math.min(3,bb));drawLinear();}
+
+// GRADIENT DESCENT
+let gdX=-3.5,gdRun=false,gdT=null,gdN=0;
+const gdf=x=>x*x+Math.sin(x*2)*.8+.05*x,gdg=x=>2*x+Math.cos(x*2)*1.6+.05;
+function drawGD(){
+  const r=cv('gdCanvas',240);if(!r)return;const{ctx,W,H}=r;
+  const tX=v=>(v+5)/10*W,tY=v=>H-20-(Math.max(0,v)/18)*(H-40);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle=rgba(K.b,.8);ctx.lineWidth=2.5;ctx.beginPath();
+  for(let i=0;i<=W;i++){const x=-5+i/W*10;i?ctx.lineTo(tX(x),tY(gdf(x))):ctx.moveTo(tX(x),tY(gdf(x)));}ctx.stroke();
+  ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-20);ctx.lineTo(W,H-20);ctx.stroke();
+  const ly=gdf(gdX),gr=gdg(gdX);
+  ctx.fillStyle=K.r;ctx.beginPath();ctx.arc(tX(gdX),tY(ly),7,0,Math.PI*2);ctx.fill();
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';ctx.fillStyle=K.r;ctx.fillText('Loss: '+ly.toFixed(4),10,18);ctx.fillStyle=K.m;ctx.fillText('grad: '+gr.toFixed(4),10,33);
+}
+function runGD(){if(gdRun)return;gdRun=true;const lr=+document.getElementById('gdLR').value;const step=()=>{const g=gdg(gdX);gdX-=lr*g;gdX=Math.max(-5,Math.min(5,gdX));document.getElementById('gdSteps').textContent=++gdN;drawGD();if(Math.abs(g)>.004&&gdN<300)gdT=setTimeout(step,80);else gdRun=false;};step();}
+function resetGD(){clearTimeout(gdT);gdRun=false;gdX=(Math.random()-.5)*7;gdN=0;document.getElementById('gdSteps').textContent=0;drawGD();}
+
+// ACTIVATIONS
+const AF={sigmoid:{fn:x=>1/(1+Math.exp(-x)),f:'σ(x) = 1 / (1 + e⁻ˣ)',d:'Range: (0,1) · Vanishing gradient · Binary classification output',c:K.r},relu:{fn:x=>Math.max(0,x),f:'ReLU(x) = max(0, x)',d:'Range: [0,∞) · No vanishing gradient · Dead neuron problem',c:K.g},tanh:{fn:x=>Math.tanh(x),f:'tanh(x) = (eˣ−e⁻ˣ)/(eˣ+e⁻ˣ)',d:'Range: (−1,1) · Zero-centred · RNNs and LSTMs',c:K.b},gelu:{fn:x=>0.5*x*(1+Math.tanh(Math.sqrt(2/Math.PI)*(x+0.044715*x**3))),f:'GELU(x) ≈ 0.5x·(1+tanh(...))',d:'Range: (−∞,∞) · Smooth everywhere · BERT, GPT',c:K.v},silu:{fn:x=>x/(1+Math.exp(-x)),f:'SiLU(x) = x · σ(x)',d:'Range: (−∞,∞) · Smooth, unbounded · EfficientNet, LLaMA',c:K.r}};
+function showAct(name){
+  const r=cv('actCanvas',220);if(!r)return;const{ctx,W,H}=r;
+  const fn=AF[name].fn,ac=AF[name].c;const tX=x=>(x+5)/10*W,tY=y=>H/2-y*(H/5.5);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle=rgba(ac,.5);ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();
+  for(let i=1;i<W-1;i++){const x=-5+i/W*10,dx=.01,d=(fn(x+dx)-fn(x-dx))/(2*dx),sy=tY(Math.max(-3,Math.min(3,d)));i===1?ctx.moveTo(tX(x),sy):ctx.lineTo(tX(x),sy);}ctx.stroke();ctx.setLineDash([]);
+  ctx.strokeStyle=ac;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<=W;i++){const x=-5+i/W*10,sy=tY(Math.max(-3,Math.min(3,fn(x))));i?ctx.lineTo(tX(x),sy):ctx.moveTo(tX(x),sy);}ctx.stroke();
+  const a=AF[name];document.getElementById('actInfo').innerHTML=`<div class="fb" style="border-left-color:${a.c}"><div class="fm" style="color:${a.c}">${a.f}</div><div class="fd">${a.d}</div></div>`;
+}
+
+// BIAS-VARIANCE
+function drawBV(val){
+  val=parseFloat(val);document.getElementById('bvVal').textContent=val.toFixed(1);
+  const r=cv('bvCanvas',240);if(!r)return;const{ctx,W,H}=r;
+  const bias2=x=>3*Math.exp(-x*.55)+.05,vari=x=>0.02*Math.exp(x*.42),total=x=>bias2(x)+vari(x)+.1;
+  const tX=x=>x/10*W,tY=y=>H-20-(y/5.5)*(H-40);
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-20);ctx.lineTo(W,H-20);ctx.stroke();
+  [{fn:bias2,c:K.r},{fn:vari,c:K.b},{fn:total,c:K.t}].forEach(({fn,c})=>{ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<=W;i++){const x=i/W*10;i?ctx.lineTo(tX(x),tY(fn(x))):ctx.moveTo(tX(x),tY(fn(x)));}ctx.stroke();});
+  const xp=tX(val);ctx.strokeStyle=rgba(K.m,.4);ctx.lineWidth=1;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(xp,H-20);ctx.lineTo(xp,0);ctx.stroke();ctx.setLineDash([]);
+  document.getElementById('bvBias').textContent=bias2(val).toFixed(3);document.getElementById('bvVar').textContent=vari(val).toFixed(3);
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';[{c:K.r,l:'Bias²'},{c:K.b,l:'Variance'},{c:K.t,l:'Total'}].forEach(({c,l},i)=>{ctx.fillStyle=c;ctx.fillText('— '+l,10+i*100,18);});
+}
+
+// LOSS
+function onErrSlider(v){v=parseFloat(v);document.getElementById('errVal').textContent=v.toFixed(2);document.getElementById('mseP').textContent=(v*v).toFixed(3);document.getElementById('maeP').textContent=Math.abs(v).toFixed(3);drawLoss();}
+function drawLoss(){
+  const r=cv('lossCanvas',220);if(!r)return;const{ctx,W,H}=r;const ev=+document.getElementById('errSlider').value;
+  const tX=e=>W/2+e/3*W/2.4,tY=l=>H-24-(Math.min(l,9.5)/9.5)*(H-44);
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-24);ctx.lineTo(W,H-24);ctx.stroke();ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  ctx.strokeStyle=K.r;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<=W;i++){const e=-3+i/W*6;i?ctx.lineTo(tX(e),tY(e*e)):ctx.moveTo(tX(e),tY(e*e));}ctx.stroke();
+  ctx.strokeStyle=K.g;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<=W;i++){const e=-3+i/W*6;i?ctx.lineTo(tX(e),tY(Math.abs(e))):ctx.moveTo(tX(e),tY(Math.abs(e)));}ctx.stroke();
+  ctx.fillStyle=K.r;ctx.beginPath();ctx.arc(tX(ev),tY(ev*ev),5,0,Math.PI*2);ctx.fill();ctx.fillStyle=K.g;ctx.beginPath();ctx.arc(tX(ev),tY(Math.abs(ev)),5,0,Math.PI*2);ctx.fill();
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';ctx.fillStyle=K.r;ctx.fillText('— MSE',10,18);ctx.fillStyle=K.g;ctx.fillText('— MAE',10,33);
+}
+
+// BACKPROP
+let bpPh=0,bpTmr=null;
+const BPN=[[{fx:.1,fy:.5,l:'x'}],[{fx:.35,fy:.28,l:'h₁'},{fx:.35,fy:.72,l:'h₂'}],[{fx:.62,fy:.5,l:'ŷ'}],[{fx:.84,fy:.5,l:'L'}]];
+function drawBP(){
+  const r=cv('bpCanvas',260);if(!r)return;const{ctx,W,H}=r;const px=fx=>fx*W,py=fy=>fy*H;ctx.clearRect(0,0,W,H);
+  [[0,0,1,0],[0,0,1,1],[1,0,2,0],[1,1,2,0],[2,0,3,0]].forEach(([la,na,lb,nb])=>{const a=BPN[la][na],b=BPN[lb][nb];let c=bpPh>=3?rgba(K.r,.8):bpPh>=1?rgba(K.b,.6):rgba(K.brd,.8);ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px(a.fx),py(a.fy));ctx.lineTo(px(b.fx),py(b.fy));ctx.stroke();});
+  BPN.forEach((layer,li)=>{layer.forEach(n=>{const x=px(n.fx),y=py(n.fy);let fill=K.bg,stroke=rgba(K.brd,1);if(bpPh>=1&&li<=2){fill=rgba(K.b,.08);stroke=K.b;}if(bpPh>=2&&li===3){fill=rgba(K.r,.12);stroke=K.r;}if(bpPh>=3&&li>=1){fill=rgba(K.r,.08);stroke=K.r;}if(bpPh>=4){fill=rgba(K.g,.1);stroke=K.g;}ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,21,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle=K.t;ctx.font='13px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n.l,x,y);ctx.textBaseline='alphabetic';});});
+}
+function animBP(){clearTimeout(bpTmr);bpPh=0;drawBP();const seq=[1,2,3,4],msgs=['Forward pass...','Loss computed!','Backward — gradients flowing...','Weights updated!'];let i=0;const go=()=>{bpPh=seq[i];document.getElementById('bpMsg').textContent=msgs[i];drawBP();if(++i<seq.length)bpTmr=setTimeout(go,950);};bpTmr=setTimeout(go,350);}
+function resetBP(){clearTimeout(bpTmr);bpPh=0;document.getElementById('bpMsg').textContent='Click Animate';drawBP();}
+
+// OPTIMIZERS
+let optPaths={sgd:[],momentum:[],adam:[]},optTmr=null;
+function drawOpt(){
+  const r=cv('optCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const tX=x=>(x+3)/6*W,tY=y=>(y+2)/5*H;
+  for(let c=0.5;c<=4;c+=.5){ctx.strokeStyle=rgba(K.brd,.5);ctx.lineWidth=1;ctx.beginPath();let first=true;for(let a=0;a<=Math.PI*2+.1;a+=.05){const rx=c*1.6,ry=c*.7,x=rx*Math.cos(a),y=ry*Math.sin(a);if(Math.abs(x)<3&&Math.abs(y)<2){first?ctx.moveTo(tX(x),tY(y)):ctx.lineTo(tX(x),tY(y));first=false;}}ctx.stroke();}
+  ctx.fillStyle=rgba(K.g,.3);ctx.beginPath();ctx.arc(tX(0),tY(0),8,0,Math.PI*2);ctx.fill();ctx.strokeStyle=K.g;ctx.lineWidth=1.5;ctx.stroke();
+  const colors={sgd:K.r,momentum:K.b,adam:K.v};
+  Object.entries(optPaths).forEach(([name,pts])=>{if(pts.length<2)return;ctx.strokeStyle=colors[name];ctx.lineWidth=2;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(tX(p[0]),tY(p[1])):ctx.moveTo(tX(p[0]),tY(p[1])));ctx.stroke();const last=pts[pts.length-1];ctx.fillStyle=colors[name];ctx.beginPath();ctx.arc(tX(last[0]),tY(last[1]),5,0,Math.PI*2);ctx.fill();});
+  ctx.textAlign='left';ctx.font='11px IBM Plex Mono,monospace';[{c:K.r,l:'SGD'},{c:K.b,l:'Momentum'},{c:K.v,l:'Adam'}].forEach(({c,l},i)=>{ctx.fillStyle=c;ctx.fillText('— '+l,10+i*90,16);});
+}
+function runOptAnim(name){
+  clearTimeout(optTmr);let x=2.5+(Math.random()-.5)*.5,y=1.5+(Math.random()-.5)*.3;optPaths[name]=[[x,y]];let vx=0,vy=0,mx=0,my=0,vx2=0,vy2=0;let t=0;const lr=name==='sgd'?.04:name==='momentum'?.06:.08;
+  const loss_dx=x=>1.2*x+Math.sin(x*1.5)*.3,loss_dy=y=>2.8*y;
+  const step=()=>{const gx=loss_dx(x),gy=loss_dy(y);if(name==='sgd'){x-=lr*gx;y-=lr*gy;}else if(name==='momentum'){vx=.9*vx-lr*gx;vy=.9*vy-lr*gy;x+=vx;y+=vy;}else{t++;mx=.9*mx+(1-.9)*gx;my=.9*my+(1-.9)*gy;vx2=.999*vx2+(1-.999)*gx*gx;vy2=.999*vy2+(1-.999)*gy*gy;const mxh=mx/(1-.9**t),myh=my/(1-.9**t),vx2h=vx2/(1-.999**t),vy2h=vy2/(1-.999**t);x-=lr*mxh/(Math.sqrt(vx2h)+1e-8);y-=lr*myh/(Math.sqrt(vy2h)+1e-8);}optPaths[name].push([x,y]);drawOpt();if((Math.abs(x)>.01||Math.abs(y)>.01)&&optPaths[name].length<80)optTmr=setTimeout(step,60);};step();
+}
+function resetOpt(){clearTimeout(optTmr);optPaths={sgd:[],momentum:[],adam:[]};drawOpt();}
+
+// REGULARIZATION
+let currentReg='l2';
+function drawReg(type){
+  currentReg=type;const lambda=+document.getElementById('regLambda').value;document.getElementById('regLVal').textContent=lambda.toFixed(1);
+  const r=cv('regCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const cx=W/2,cy=H/2,sc=Math.min(W,H)*.3;
+  for(let l=.5;l<=3;l+=.5){ctx.strokeStyle=rgba(K.brd,.6);ctx.lineWidth=1;ctx.beginPath();for(let a=0;a<=Math.PI*2+.05;a+=.05){const x=cx+l*sc*1.4*Math.cos(a),y=cy+l*sc*.6*Math.sin(a);a<.05?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.stroke();}
+  const mx=cx+sc*.8,my=cy-sc*.3;ctx.fillStyle=rgba(K.b,.3);ctx.beginPath();ctx.arc(mx,my,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle=K.b;ctx.lineWidth=1.5;ctx.stroke();
+  const rs=sc*.9/lambda;
+  if(type==='l2'){ctx.strokeStyle=K.r;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(cx,cy,rs,0,Math.PI*2);ctx.stroke();ctx.fillStyle=rgba(K.r,.06);ctx.fill();}
+  else{ctx.strokeStyle=K.g;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy-rs);ctx.lineTo(cx+rs,cy);ctx.lineTo(cx,cy+rs);ctx.lineTo(cx-rs,cy);ctx.closePath();ctx.stroke();ctx.fillStyle=rgba(K.g,.06);ctx.fill();}
+  const ix=type==='l2'?cx+rs*.55:cx,iy=type==='l2'?cy-rs*.4:cy-rs;ctx.fillStyle=K.r;ctx.beginPath();ctx.arc(ix,iy,7,0,Math.PI*2);ctx.fill();
+  ctx.textAlign='center';ctx.font='11px IBM Plex Mono,monospace';ctx.fillStyle=type==='l2'?K.r:K.g;ctx.fillText(type==='l2'?'L2 ball: ||w||₂² ≤ c':'L1 diamond: ||w||₁ ≤ c',cx,H-8);
+}
+
+// BATCH NORM
+function drawBN(withBN){
+  const r=cv('bnCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const layers=4;const lw=(W-40)/(layers-1);
+  const drawDist=(x,mu,sigma,color)=>{const pts=[];for(let i=-30;i<=30;i++){const v=mu+i/10,p=Math.exp(-.5*((v-mu)/sigma)**2)/(sigma*Math.sqrt(2*Math.PI));pts.push([x+i*(lw*.35/30),H*.7-p*sigma*80]);}ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();ctx.fillStyle=rgba(color,.12);ctx.beginPath();ctx.moveTo(pts[0][0],H*.7);pts.forEach(p=>ctx.lineTo(p[0],p[1]));ctx.lineTo(pts[pts.length-1][0],H*.7);ctx.closePath();ctx.fill();};
+  const shifts=withBN?[0,0,0,0]:[0,.8,1.8,3.2],sigmas=withBN?[.8,.8,.8,.8]:[.8,1.1,1.6,2.4];
+  for(let i=0;i<layers;i++){const x=20+i*lw,color=i===0?K.b:i===1?K.g:i===2?K.v:K.r;drawDist(x,shifts[i],sigmas[i],color);ctx.fillStyle=K.m;ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('Layer '+(i+1),x,H-8);}
+  ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(20,H*.7);ctx.lineTo(W-20,H*.7);ctx.stroke();
+  ctx.fillStyle=K.t;ctx.font='12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(withBN?'With BatchNorm — stable distributions':'Without BatchNorm — internal covariate shift',W/2,20);
+}
+
+// LR SCHEDULING
+function drawLR(type){
+  const r=cv('lrCanvas',230);if(!r)return;const{ctx,W,H}=r;const T=200;
+  const schedules={step:t=>0.1*Math.pow(0.1,Math.floor(t/(T/3))),cosine:t=>.005+.5*.095*(1+Math.cos(Math.PI*t/T)),warmup_cosine:t=>t<20?.1*(t/20):.005+.5*.095*(1+Math.cos(Math.PI*(t-20)/(T-20))),cyclic:t=>{const p=t%50/50;return p<.5?.01+.09*p*2:.01+.09*(1-p)*2;}};
+  const colors={step:K.r,cosine:K.g,warmup_cosine:K.b,cyclic:K.v},names={step:'Step Decay',cosine:'Cosine',warmup_cosine:'Warmup+Cosine',cyclic:'Cyclic'};
+  const tX=t=>t/T*W,tY=lr=>H-20-(lr/.1)*(H-40);
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-20);ctx.lineTo(W,H-20);ctx.stroke();
+  const fn=schedules[type],c=colors[type];ctx.strokeStyle=c;ctx.lineWidth=2.5;ctx.beginPath();for(let t=0;t<=T;t++){const lr=fn(t);t?ctx.lineTo(tX(t),tY(lr)):ctx.moveTo(tX(t),tY(lr));}ctx.stroke();
+  ctx.fillStyle=K.t;ctx.font='12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(names[type]+' Schedule',W/2,16);
+}
+
+// SOFTMAX
+let smL=[2,1,.1,-.5,-1.2];const smLbls=['Cat','Dog','Bird','Fish','Snake'],smCols=[K.r,K.g,K.b,K.v,'#c07030'];
+function smFn(arr){const m=Math.max(...arr),e=arr.map(x=>Math.exp(x-m)),s=e.reduce((a,b)=>a+b,0);return e.map(x=>x/s);}
+function initSM(){const ctrl=document.getElementById('smCtrl');if(!ctrl)return;ctrl.innerHTML='';smL.forEach((v,i)=>{const g=document.createElement('div');g.className='cg';g.innerHTML=`<span class="cl" style="color:${smCols[i]}">${smLbls[i]}</span><input type="range" min="-4" max="4" step="0.1" value="${v}" oninput="smL[${i}]=parseFloat(this.value);drawSM()"><span class="vd" id="smv${i}" style="color:${smCols[i]}">${v.toFixed(1)}</span>`;ctrl.appendChild(g);});drawSM();}
+function drawSM(){
+  const probs=smFn(smL);smL.forEach((v,i)=>{const e=document.getElementById('smv'+i);if(e)e.textContent=v.toFixed(1);});
+  const r=cv('smCanvas',200);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);const bw=(W-36)/smL.length;
+  probs.forEach((p,i)=>{const bh=p*(H-46),bx=18+i*bw+bw*.08,by=H-28-bh;ctx.fillStyle=rgba(smCols[i],.15);ctx.strokeStyle=smCols[i];ctx.lineWidth=1.5;ctx.fillRect(bx,by,bw*.84,bh);ctx.strokeRect(bx,by,bw*.84,bh);ctx.fillStyle=smCols[i];ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(smLbls[i],bx+bw*.42,H-8);ctx.fillStyle=K.t;ctx.font='12px IBM Plex Mono,monospace';ctx.fillText((p*100).toFixed(1)+'%',bx+bw*.42,by-6);});
+}
+
+// GAUSSIAN
+function drawGauss(){
+  const mu=+document.getElementById('gaussMu').value,sig=+document.getElementById('gaussSig').value;
+  document.getElementById('gaussMuV').textContent=mu.toFixed(1);document.getElementById('gaussSigV').textContent=sig.toFixed(1);
+  const r=cv('gaussCanvas',220);if(!r)return;const{ctx,W,H}=r;const tX=x=>(x+5)/10*W,tY=p=>H-20-p*(H-40)*sig*2.2;const gauss=x=>Math.exp(-.5*((x-mu)/sig)**2)/(sig*Math.sqrt(2*Math.PI));
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-20);ctx.lineTo(W,H-20);ctx.stroke();
+  ctx.fillStyle=rgba(K.b,.1);ctx.beginPath();ctx.moveTo(tX(-5),H-20);for(let i=0;i<=W;i++){const x=-5+i/W*10;ctx.lineTo(tX(x),tY(gauss(x)));}ctx.lineTo(tX(5),H-20);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=K.b;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<=W;i++){const x=-5+i/W*10;i?ctx.lineTo(tX(x),tY(gauss(x))):ctx.moveTo(tX(x),tY(gauss(x)));}ctx.stroke();
+  ctx.strokeStyle=rgba(K.r,.7);ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(tX(mu),H-20);ctx.lineTo(tX(mu),0);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=K.r;ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('μ='+mu.toFixed(1),tX(mu),tY(gauss(mu))-12);
+}
+
+// KL DIVERGENCE
+function drawKL(){
+  const offset=+document.getElementById('klOffset').value;document.getElementById('klOffV').textContent=offset.toFixed(1);
+  const r=cv('klCanvas',230);if(!r)return;const{ctx,W,H}=r;const tX=x=>(x+5)/10*W,tY=p=>H-20-p*(H-40)*1.4;
+  const gaussP=x=>Math.exp(-.5*x**2)/Math.sqrt(2*Math.PI),gaussQ=x=>Math.exp(-.5*(x-offset)**2)/Math.sqrt(2*Math.PI);
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-20);ctx.lineTo(W,H-20);ctx.stroke();
+  [{fn:gaussP,c:K.b},{fn:gaussQ,c:K.r}].forEach(({fn,c})=>{ctx.strokeStyle=c;ctx.lineWidth=2.5;ctx.beginPath();for(let i=0;i<=W;i++){const x=-5+i/W*10;i?ctx.lineTo(tX(x),tY(fn(x))):ctx.moveTo(tX(x),tY(fn(x)));}ctx.stroke();});
+  let kl=0;for(let i=0;i<1000;i++){const x=-5+i/1000*10,dx=.01,p=gaussP(x),q=gaussQ(x);if(p>1e-6&&q>1e-6)kl+=p*Math.log(p/q)*dx*10;}kl=Math.max(0,kl);
+  document.getElementById('klVal').textContent=kl.toFixed(3);
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';ctx.fillStyle=K.b;ctx.fillText('— P (target)',10,18);ctx.fillStyle=K.r;ctx.fillText('— Q (approx)',10,33);
+  ctx.fillStyle=K.m;ctx.textAlign='center';ctx.fillText('KL(P||Q) = '+kl.toFixed(3),W/2,H-5);
+}
+
+// BAYES
+function onBayes(){
+  const prior=+document.getElementById('priorS').value/100,sens=+document.getElementById('sensS').value/100;
+  document.getElementById('priorV').textContent=(prior*100).toFixed(1)+'%';document.getElementById('sensV').textContent=(sens*100).toFixed(0)+'%';
+  const spec=.95,pPos=sens*prior+(1-spec)*(1-prior),post=(sens*prior)/pPos;document.getElementById('postV').textContent=(post*100).toFixed(1)+'%';
+  const r=cv('bayesCanvas',220);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const cols=20,rows=10,n=cols*rows,cw=(W-16)/cols,ch=(H-32)/rows;
+  for(let i=0;i<n;i++){const c=i%cols,row=Math.floor(i/cols),x=8+c*cw+cw/2,y=8+row*ch+ch/2,sick=i<Math.round(prior*n),tp=sick?Math.random()<sens:Math.random()<.05;ctx.fillStyle=sick?(tp?K.r:rgba(K.r,.2)):(tp?rgba(K.m,.6):rgba(K.brd,.8));ctx.beginPath();ctx.arc(x,y,Math.min(cw,ch)*.32,0,Math.PI*2);ctx.fill();}
+}
+
+// CROSS-VALIDATION
+let cvFold=0,cvTmr=null;
+function drawCV(){
+  const k=+document.getElementById('cvK').value;document.getElementById('cvKV').textContent=k;
+  const r=cv('cvCanvas',200);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const n=80,fw=n/k,sw=(W-60)/n,blockH=28;
+  for(let f=0;f<k;f++){const fy=30+f*((H-50)/k);ctx.fillStyle=K.m;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='right';ctx.fillText('Fold '+(f+1),52,fy+blockH/2+4);
+  for(let i=0;i<n;i++){const bx=60+i*sw,isVal=i>=f*fw&&i<(f+1)*fw,isActive=f===cvFold%k;ctx.fillStyle=isVal?(isActive?K.r:rgba(K.r,.25)):(isActive?rgba(K.b,.3):rgba(K.brd,.8));ctx.fillRect(bx,fy,sw-.5,blockH);}}
+}
+function animCV(){clearTimeout(cvTmr);let step=()=>{cvFold++;drawCV();cvTmr=setTimeout(step,600);};step();}
+
+// METRICS
+function drawMetrics(){
+  const TP=+document.getElementById('mTP').value,FP=+document.getElementById('mFP').value,FN=+document.getElementById('mFN').value;
+  document.getElementById('mTPv').textContent=TP;document.getElementById('mFPv').textContent=FP;document.getElementById('mFNv').textContent=FN;
+  const prec=TP/(TP+FP)||0,rec=TP/(TP+FN)||0,f1=2*prec*rec/(prec+rec)||0;
+  const r=cv('metricsCanvas',260);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const cw=W*.42,ch=(H-80)/2,sx=W*.05,sy=40,gap=6;
+  [{x:sx,y:sy,w:cw,h:ch,v:TP,c:K.g,l:'TP',sub:'True Positive'},{x:sx+cw+gap,y:sy,w:cw,h:ch,v:FP,c:K.r,l:'FP',sub:'False Positive'},{x:sx,y:sy+ch+gap,w:cw,h:ch,v:FN,c:K.r,l:'FN',sub:'False Negative'},{x:sx+cw+gap,y:sy+ch+gap,w:cw,h:ch,v:Math.max(0,200-TP-FP-FN),c:K.g,l:'TN',sub:'True Negative'}].forEach(c=>{ctx.fillStyle=rgba(c.c,.1);ctx.strokeStyle=c.c;ctx.lineWidth=1.5;ctx.fillRect(c.x,c.y,c.w,c.h);ctx.strokeRect(c.x,c.y,c.w,c.h);ctx.fillStyle=c.c;ctx.font='bold 22px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(c.v,c.x+c.w/2,c.y+c.h/2+4);ctx.fillStyle=K.m;ctx.font='10px IBM Plex Mono,monospace';ctx.fillText(c.sub,c.x+c.w/2,c.y+c.h-8);});
+  const my2=sy+ch*2+gap+16;[['Precision',prec,K.b],['Recall',rec,K.g],['F1',f1,K.r]].forEach(([n,v,c],i)=>{const bx=sx+i*(W*.3),bw=W*.25;ctx.fillStyle=K.m;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(n,bx,my2+10);ctx.fillStyle=rgba(c,.15);ctx.fillRect(bx,my2+14,bw,12);ctx.fillStyle=c;ctx.fillRect(bx,my2+14,bw*v,12);ctx.fillStyle=K.t;ctx.font='bold 11px IBM Plex Mono,monospace';ctx.fillText((v*100).toFixed(1)+'%',bx+bw*v+4,my2+24);});
+}
+
+// CNN
+let cnnAnimPos=0,cnnTmr=null;
+function drawCNN(){
+  const K_sz=+document.getElementById('cnnK').value,stride=+document.getElementById('cnnS').value;
+  document.getElementById('cnnKV').textContent=K_sz+'×'+K_sz;document.getElementById('cnnSV').textContent=stride;
+  const r=cv('cnnCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const inSz=7,cSz=28,ox=30,oy=H/2-inSz*cSz/2;
+  for(let i=0;i<inSz;i++)for(let j=0;j<inSz;j++){const val=Math.random()*.7+.15;ctx.fillStyle=`rgba(41,85,160,${val})`;ctx.fillRect(ox+j*cSz,oy+i*cSz,cSz-1,cSz-1);}
+  const kx=Math.floor(cnnAnimPos%((inSz-K_sz)/stride+1))*stride,ky=Math.floor(cnnAnimPos/((inSz-K_sz)/stride+1))*stride;
+  ctx.strokeStyle=K.r;ctx.lineWidth=2.5;ctx.strokeRect(ox+kx*cSz,oy+ky*cSz,K_sz*cSz,K_sz*cSz);
+  ctx.fillStyle=rgba(K.r,.15);ctx.fillRect(ox+kx*cSz,oy+ky*cSz,K_sz*cSz,K_sz*cSz);
+  const outSz=Math.floor((inSz-K_sz)/stride)+1,oox=ox+inSz*cSz+80,ooy=H/2-outSz*cSz/2;
+  for(let i=0;i<outSz;i++)for(let j=0;j<outSz;j++){const active=i===ky/stride&&j===kx/stride;ctx.fillStyle=active?rgba(K.r,.5):rgba(K.b,.2);ctx.strokeStyle=active?K.r:K.brd;ctx.lineWidth=active?2:1;ctx.fillRect(oox+j*cSz,ooy+i*cSz,cSz-1,cSz-1);ctx.strokeRect(oox+j*cSz,ooy+i*cSz,cSz-1,cSz-1);}
+  ctx.fillStyle=K.m;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('Input 7×7',ox+inSz*cSz/2,oy-8);ctx.fillText('Output '+outSz+'×'+outSz,oox+outSz*cSz/2,ooy-8);
+}
+function animCNN(){clearTimeout(cnnTmr);cnnAnimPos=0;const K_sz=+document.getElementById('cnnK').value,stride=+document.getElementById('cnnS').value,max=((7-K_sz)/stride+1)**2;const step=()=>{drawCNN();cnnAnimPos=(cnnAnimPos+1)%max;cnnTmr=setTimeout(step,150);};step();}
+
+// EMBEDDINGS
+function drawEmb(){
+  const r=cv('embCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const words=[{w:'king',x:.45,y:.25,g:'royalty'},{w:'queen',x:.55,y:.28,g:'royalty'},{w:'prince',x:.48,y:.38,g:'royalty'},{w:'man',x:.25,y:.45,g:'person'},{w:'woman',x:.35,y:.42,g:'person'},{w:'person',x:.3,y:.52,g:'person'},{w:'dog',x:.65,y:.65,g:'animal'},{w:'cat',x:.75,y:.6,g:'animal'},{w:'wolf',x:.72,y:.72,g:'animal'},{w:'run',x:.2,y:.75,g:'verb'},{w:'walk',x:.28,y:.7,g:'verb'},{w:'jump',x:.22,y:.82,g:'verb'}];
+  const gColors={royalty:K.r,person:K.b,animal:K.g,verb:K.v};
+  [{g:'royalty',cx:.5,cy:.3,r:.12},{g:'person',cx:.3,cy:.47,r:.1},{g:'animal',cx:.71,cy:.65,r:.1},{g:'verb',cx:.23,cy:.77,r:.1}].forEach(({g,cx,cy,r})=>{ctx.strokeStyle=rgba(gColors[g],.25);ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.ellipse(cx*W,cy*H,r*W*.9,r*H*.8,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);});
+  words.forEach(w=>{const x=w.x*W,y=w.y*H,c=gColors[w.g];ctx.fillStyle=rgba(c,.85);ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.fillStyle=c;ctx.font='12px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(w.w,x+8,y+4);});
+}
+
+// ATTENTION
+const AW=['The','cat','sat','on','mat'];let AM=[];
+function smRow(row){const m=Math.max(...row),e=row.map(x=>Math.exp(x-m)),s=e.reduce((a,b)=>a+b,0);return e.map(x=>x/s);}
+function rndAtt(){AM=Array.from({length:AW.length},()=>smRow(Array.from({length:AW.length},()=>Math.random()*3-1)));drawAtt();}
+function initAtt(){
+  rndAtt();
+  const canvas=document.getElementById('attCanvas');if(!canvas)return;
+  canvas.onclick=e=>{
+    const r=cv('attCanvas',240);if(!r)return;const{W,H}=r,n=AW.length,s=Math.min(W,H)*.65/n,ox=W/2-s*n/2,oy=44;
+    const rect=canvas.getBoundingClientRect(),mx=(e.clientX-rect.left)*(canvas.width/DPR/rect.width),my=(e.clientY-rect.top)*(canvas.height/DPR/rect.height);
+    const ci=Math.floor((mx-ox)/s),ri=Math.floor((my-oy)/s);
+    if(ci>=0&&ci<n&&ri>=0&&ri<n){const raw=AM[ri].map((v,ii)=>Math.log(Math.max(v,1e-9))+(ii===ci?1.8:0));AM[ri]=smRow(raw);drawAtt();}
+  };
+}
+function drawAtt(){
+  const r=cv('attCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const n=AW.length,s=Math.min(W,H)*.65/n,ox=W/2-s*n/2,oy=44;
+  AM.forEach((row,ri)=>{row.forEach((v,ci)=>{const rv=Math.round(200+v*55),gv=Math.round(75+v*130),bv=Math.round(47+v*160);ctx.fillStyle=`rgba(${rv},${gv},${bv},${v*.85+.1})`;ctx.fillRect(ox+ci*s,oy+ri*s,s-1,s-1);ctx.fillStyle=v>.45?'#fff':K.t;ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(v.toFixed(2),ox+ci*s+s/2,oy+ri*s+s/2+4);});});
+  AW.forEach((w,i)=>{ctx.fillStyle=K.m;ctx.font='12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(w,ox+i*s+s/2,oy-14);ctx.save();ctx.translate(ox-14,oy+i*s+s/2);ctx.rotate(-Math.PI/2);ctx.fillText(w,0,0);ctx.restore();});
+}
+
+// TRANSFORMER
+function drawTransformer(){
+  const r=cv('transCanvas',280);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const cx=W/2,bw=W*.55,bx=cx-bw/2;
+  const blocks=[{y:H*.85,h:28,c:K.b,l:'Input + Positional Encoding'},{y:H*.72,h:28,c:K.g,l:'Multi-Head Self-Attention'},{y:H*.59,h:22,c:K.m,l:'Add & Layer Norm'},{y:H*.46,h:28,c:K.v,l:'Feed-Forward Network'},{y:H*.33,h:22,c:K.m,l:'Add & Layer Norm'},{y:H*.2,h:28,c:K.r,l:'Output / Repeat × N layers'}];
+  ctx.strokeStyle=rgba(K.g,.3);ctx.lineWidth=3;ctx.setLineDash([5,3]);ctx.beginPath();ctx.moveTo(bx-20,H*.85);ctx.lineTo(bx-20,H*.2);ctx.stroke();ctx.setLineDash([]);
+  blocks.forEach(({y,h,c,l})=>{ctx.fillStyle=rgba(c,.12);ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.beginPath();ctx.rect(bx,y-h/2,bw,h);ctx.fill();ctx.stroke();ctx.fillStyle=K.t;ctx.font='12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(l,cx,y);ctx.textBaseline='alphabetic';});
+}
+
+// RNN
+let rnnStep=-1,rnnTmr=null;
+function drawRNN(){
+  const len=+document.getElementById('rnnLen').value;const r=cv('rnnCanvas',250);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const nr=22,pad=44,sp=(W-pad*2)/(len-.5),hy=H*.38,xy=H*.73,oy=H*.1;
+  for(let t=0;t<len;t++){const x=pad+22+t*sp,active=rnnStep>=t,dim=rnnStep>=0&&!active,a=dim?.15:active?1:.4;
+  ctx.fillStyle=rgba(K.b,.12*a/.4);ctx.strokeStyle=rgba(K.b,a);ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,xy,nr-5,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle=rgba(K.r,.1*a/.4);ctx.strokeStyle=rgba(K.r,a);ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,hy,nr,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle=rgba(K.g,.08*a/.4);ctx.strokeStyle=rgba(K.g,a);ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,oy,nr-7,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle=rgba(K.t,a);ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('x'+t,x,xy);ctx.fillText('h'+t,x,hy);ctx.fillText('y'+t,x,oy);ctx.textBaseline='alphabetic';
+  if(t<len-1){const nx=pad+22+(t+1)*sp,ra=active&&rnnStep>t?.9:dim?.1:.25;ctx.strokeStyle=rgba(K.r,ra);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+nr,hy);ctx.lineTo(nx-nr,hy);ctx.stroke();}
+  ctx.fillStyle=rgba(K.m,.5);ctx.font='9px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('t='+t,x,H-6);}
+}
+function animRNN(){clearTimeout(rnnTmr);rnnStep=-1;drawRNN();const len=+document.getElementById('rnnLen').value;const go=()=>{rnnStep++;document.getElementById('rnnMsg').textContent='Processing t='+rnnStep;drawRNN();if(rnnStep<len-1)rnnTmr=setTimeout(go,700);else document.getElementById('rnnMsg').textContent='Done';};rnnTmr=setTimeout(go,300);}
+function resetRNN(){clearTimeout(rnnTmr);rnnStep=-1;document.getElementById('rnnMsg').textContent='Click Animate';drawRNN();}
+
+// LSTM
+let lstmGate='all';
+function highlightGate(gate){lstmGate=gate;drawLSTM();}
+function drawLSTM(){
+  const r=cv('lstmCanvas',280);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const cx=W/2,gateY=H*.52,cellY=H*.2,gW=38,gH=26;
+  const gates=[{id:'forget',x:cx-155,y:gateY,sym:'σ',c:K.r,name:'Forget'},{id:'input',x:cx-55,y:gateY,sym:'σ',c:K.g,name:'Input'},{id:'cand',x:cx+45,y:gateY,sym:'t',c:K.b,name:'Cand.'},{id:'output',x:cx+145,y:gateY,sym:'σ',c:K.v,name:'Output'}];
+  ctx.strokeStyle=rgba(K.r,.7);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx-200,cellY);ctx.lineTo(cx+200,cellY);ctx.stroke();
+  ctx.fillStyle=rgba(K.r,.7);ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText('cell state →',cx-200,cellY-8);
+  const isA=gid=>lstmGate==='all'||lstmGate===gid;
+  gates.forEach(g=>{const active=isA(g.id==='cand'?'input':g.id),a=active?1:.15;ctx.fillStyle=rgba(g.c,active?.2:.05);ctx.strokeStyle=rgba(g.c,a);ctx.lineWidth=1.5;ctx.beginPath();ctx.rect(g.x-gW/2,g.y-gH/2,gW,gH);ctx.fill();ctx.stroke();ctx.fillStyle=rgba(g.c,a);ctx.font='bold 12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.sym,g.x,g.y);ctx.textBaseline='alphabetic';ctx.fillStyle=rgba(g.c,a);ctx.font='bold 10px IBM Plex Mono,monospace';ctx.fillText(g.name,g.x,g.y-gH/2-5);});
+}
+
+// GRU
+function drawGRU(){
+  const r=cv('gruCanvas',230);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const models=[{name:'Vanilla RNN',gates:1,params:1,mem:'Short',c:K.r,pros:'Simplest, fastest'},{name:'GRU',gates:2,params:3,mem:'Medium',c:K.g,pros:'Best default choice'},{name:'LSTM',gates:4,params:4,mem:'Long',c:K.b,pros:'Complex long-range deps'}];
+  const bH=36,gap=18,sY=30,lW=110,bMax=W-lW-80;
+  models.forEach((m,i)=>{const y=sY+i*(bH+gap),bw=m.params/4*bMax;ctx.fillStyle=m.c;ctx.font='bold 13px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(m.name,8,y+bH/2+4);ctx.fillStyle=rgba(m.c,.15);ctx.strokeStyle=m.c;ctx.lineWidth=1.5;ctx.fillRect(lW,y,bw,bH);ctx.strokeRect(lW,y,bw,bH);ctx.fillStyle=m.c;ctx.font='12px IBM Plex Mono,monospace';ctx.fillText(m.gates+(m.gates===1?' gate':' gates'),lW+8,y+bH/2+4);const mc={Short:K.r,Medium:K.g,Long:K.b}[m.mem];ctx.fillStyle=rgba(mc,.12);ctx.strokeStyle=mc;ctx.lineWidth=1.2;ctx.beginPath();ctx.rect(W-68,y+6,58,bH-12);ctx.fill();ctx.stroke();ctx.fillStyle=mc;ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(m.mem,W-39,y+bH/2);ctx.textBaseline='alphabetic';ctx.textAlign='left';});
+}
+
+// PCA
+let pcaPts=[];
+function onPCA(corr){
+  corr=parseFloat(corr);document.getElementById('pcaCorrV').textContent=corr.toFixed(2);
+  pcaPts=Array.from({length:90},()=>{const z1=(Math.random()*2-1)*2,z2=(Math.random()*2-1)*2;return[z1,corr*z1+Math.sqrt(1-corr*corr)*z2];});
+  drawPCA(corr);
+}
+function drawPCA(){
+  const r=cv('pcaCanvas',240);if(!r)return;const{ctx,W,H}=r;const cx=W/2,cy=H/2,sc=Math.min(W,H)/5.5;
+  ctx.clearRect(0,0,W,H);ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);ctx.stroke();
+  pcaPts.forEach(([x,y])=>{ctx.fillStyle=rgba(K.b,.4);ctx.beginPath();ctx.arc(cx+x*sc,cy-y*sc,3.5,0,Math.PI*2);ctx.fill();});
+  const n=pcaPts.length,cxx=pcaPts.reduce((s,[x])=>s+x*x,0)/n,cyy=pcaPts.reduce((s,[,y])=>s+y*y,0)/n,cxy=pcaPts.reduce((s,[x,y])=>s+x*y,0)/n;
+  const tr=cxx+cyy,dt=cxx*cyy-cxy*cxy,l1=tr/2+Math.sqrt(Math.max(0,(tr/2)**2-dt)),l2=tr/2-Math.sqrt(Math.max(0,(tr/2)**2-dt));
+  const vm=[cxy,l1-cxx],vl=Math.sqrt(vm[0]**2+vm[1]**2)||1,v1=[vm[0]/vl,vm[1]/vl],v2=[-v1[1],v1[0]];
+  const tot=l1+l2||1;document.getElementById('pc1V').textContent=((l1/tot)*100).toFixed(1)+'%';document.getElementById('pc2V').textContent=((l2/tot)*100).toFixed(1)+'%';
+  const dv=(vx,vy,c,len)=>{const ex=cx+vx*len*sc,ey=cy-vy*len*sc;ctx.strokeStyle=c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(ex,ey);ctx.stroke();ctx.fillStyle=c;ctx.beginPath();ctx.arc(ex,ey,5,0,Math.PI*2);ctx.fill();};
+  dv(v1[0],v1[1],K.r,Math.sqrt(l1)*2);dv(-v1[0],-v1[1],K.r,Math.sqrt(l1)*2);dv(v2[0],v2[1],K.b,Math.sqrt(l2)*2);dv(-v2[0],-v2[1],K.b,Math.sqrt(l2)*2);
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';ctx.fillStyle=K.r;ctx.fillText('— PC1',10,18);ctx.fillStyle=K.b;ctx.fillText('— PC2',10,33);
+}
+
+// VAE
+function drawVAE(){
+  const r=cv('vaeCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const blocks=[{x:.05,y:.5,w:.18,h:.6,c:K.b,l:'Encoder',sub:'x→μ,σ'},{x:.37,y:.35,w:.12,h:.3,c:K.g,l:'μ',sub:'mean'},{x:.37,y:.68,w:.12,h:.3,c:K.r,l:'σ',sub:'std'},{x:.57,y:.5,w:.12,h:.3,c:K.v,l:'z',sub:'sample'},{x:.76,y:.5,w:.18,h:.6,c:K.r,l:'Decoder',sub:'z→x̃'}];
+  blocks.forEach(({x,y,w,h,c,l,sub})=>{const bx=x*W,by=(y-.3)*H,bw=w*W,bh=h*H*.8;ctx.fillStyle=rgba(c,.1);ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.beginPath();ctx.rect(bx,by,bw,bh);ctx.fill();ctx.stroke();ctx.fillStyle=c;ctx.font='bold 12px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText(l,bx+bw/2,by+bh/2+2);ctx.fillStyle=K.m;ctx.font='10px IBM Plex Mono,monospace';ctx.fillText(sub,bx+bw/2,by+bh/2+15);});
+  ctx.fillStyle=K.v;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('z = μ + σ·ε',(.57+.06)*W,H*.7);ctx.fillStyle=K.m;ctx.fillText('ε ~ N(0,1)',(.57+.06)*W,H*.78);
+}
+
+// DIFFUSION
+let diffTmr=null;
+function drawDiffusion(t){
+  t=parseInt(t);document.getElementById('diffTV').textContent=t;
+  const r=cv('diffCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const steps=8,sw=(W-40)/steps;
+  for(let s=0;s<=steps;s++){const x=20+s*sw,y=H*.55,noise=s/steps;
+  ctx.strokeStyle=s===Math.round(t/100*steps)?K.r:rgba(K.brd,.6);ctx.lineWidth=s===Math.round(t/100*steps)?2:1;ctx.strokeRect(x,y-H*.25,sw-2,H*.5);
+  ctx.strokeStyle=rgba(K.b,1-noise*.7);ctx.lineWidth=2;ctx.beginPath();
+  for(let i=0;i<sw-2;i++){const px_n=(i/(sw-2)-.5)*Math.PI*2,signal=(1-noise)*Math.sin(px_n)*H*.15,n_val=noise*(Math.random()-.5)*H*.25;i?ctx.lineTo(x+i,y+signal+n_val):ctx.moveTo(x+i,y+signal+n_val);}ctx.stroke();
+  ctx.fillStyle=K.m;ctx.font='9px IBM Plex Mono,monospace';ctx.textAlign='center';ctx.fillText('t='+Math.round(s*100/steps),x+sw/2,y+H*.3);}
+  ctx.fillStyle=rgba(K.r,.15);ctx.fillRect(20,H*.88,t/100*(W-40),14);ctx.strokeStyle=K.r;ctx.lineWidth=1;ctx.strokeRect(20,H*.88,W-40,14);
+  ctx.fillStyle=K.t;ctx.font='11px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText('Noise: '+t+'%',20,H*.97);
+}
+function animDiff(){clearTimeout(diffTmr);let t=0;const s=document.getElementById('diffT');const go=()=>{t=Math.min(100,t+2);s.value=t;drawDiffusion(t);if(t<100)diffTmr=setTimeout(go,40);};go();}
+
+// GAN
+let ganD=[],ganG=[],ganTmr=null;
+function drawGAN(){
+  const r=cv('ganCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
+  const tX=i=>40+i*(W-60)/100,tY=v=>H-25-(v/2)*(H-50);
+  ctx.strokeStyle=K.brd;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(40,H-25);ctx.lineTo(W-20,H-25);ctx.stroke();
+  if(ganD.length>1){ctx.strokeStyle=K.b;ctx.lineWidth=2;ctx.beginPath();ganD.forEach((v,i)=>i?ctx.lineTo(tX(i),tY(v)):ctx.moveTo(tX(i),tY(v)));ctx.stroke();}
+  if(ganG.length>1){ctx.strokeStyle=K.r;ctx.lineWidth=2;ctx.beginPath();ganG.forEach((v,i)=>i?ctx.lineTo(tX(i),tY(v)):ctx.moveTo(tX(i),tY(v)));ctx.stroke();}
+  ctx.strokeStyle=rgba(K.g,.4);ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(40,tY(Math.log(2)));ctx.lineTo(W-20,tY(Math.log(2)));ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=rgba(K.g,.6);ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='right';ctx.fillText('Nash Eq',W-22,tY(Math.log(2))-4);
+  ctx.textAlign='left';ctx.font='12px IBM Plex Mono,monospace';ctx.fillStyle=K.b;ctx.fillText('— Discriminator',40,18);ctx.fillStyle=K.r;ctx.fillText('— Generator',40,33);
+}
+function animGAN(){clearTimeout(ganTmr);ganD=[];ganG=[];let i=0;const msgs=['Early: D learns fast...','Mid: G improves...','Converging...','Done!'];const go=()=>{const n=2+Math.random()*.3;ganD.push(n*(1-.007*i));ganG.push(n*.4+.6*Math.random()*.3+i*.006);document.getElementById('ganMsg').textContent=msgs[Math.min(3,Math.floor(i/25))];drawGAN();i++;if(i<=100)ganTmr=setTimeout(go,50);};go();}
+function resetGAN(){clearTimeout(ganTmr);ganD=[];ganG=[];document.getElementById('ganMsg').textContent='';drawGAN();}
+
+const DRAWS={home:()=>{},linear:drawLinear,gradient:drawGD,activation:()=>showAct('relu'),'bias-variance':()=>drawBV(document.getElementById('bvSlider').value),loss:drawLoss,backprop:drawBP,optimizers:()=>{resetOpt();},'regularization':()=>drawReg('l2'),batchnorm:()=>drawBN(false),'lr-schedule':()=>drawLR('cosine'),softmax:initSM,mle:drawGauss,'kl-div':drawKL,bayes:onBayes,crossval:drawCV,metrics:drawMetrics,cnn:drawCNN,embeddings:drawEmb,attention:initAtt,transformer:drawTransformer,rnn:drawRNN,lstm:()=>highlightGate('all'),gru:drawGRU,pca:()=>onPCA(0.7),vae:drawVAE,diffusion:()=>drawDiffusion(0),gan:()=>{resetGAN();drawGAN();}};
+
+window.addEventListener('load',()=>{
+  document.getElementById('linW').addEventListener('input',drawLinear);
+  document.getElementById('linB').addEventListener('input',drawLinear);
+  const homeNI=document.querySelector('.ni');if(homeNI)homeNI.classList.add('active');
+  drawLinear();resetGD();
+});
+</script>
+</body>
+</html>

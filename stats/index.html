@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistics & Probability — Pattern is Everything</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+<header>
+  <a class="logo-ring" href="../index.html" title="Back to Portal"></a>
+  <h1>Statistics & <em>Probability</em></h1>
+  <span class="topic-counter" id="topicCounter">34 Topics</span>
+  <div class="hdr-meta">Interactive Visual Reference<br>Statistics, Probability & Inference</div>
+  <div class="hdr-actions">
+    <a href="../ml/index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Machine Learning</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
+  <div class="search-box">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search topics, formulas, concepts…" autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="mainNav">
+  <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
+  <div class="nav-progress-text" id="progressText">0 / 34 viewed</div>
+  <!-- Nav items rendered by topics.js -->
+</nav>
+<main id="mainContent">
+  <!-- Content rendered by topics.js -->
+</main>
+</div>
+
+<script src="topics.js"></script>
+<script src="visualizations.js"></script>
+<script>
+/* ── Theme ── */
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+}
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.setAttribute('data-theme', 'dark');
+
+/* ── Search ── */
+function toggleSearch() {
+  const o = document.getElementById('searchOverlay');
+  o.classList.toggle('active');
+  if (o.classList.contains('active')) {
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchResults').innerHTML = '';
+  }
+}
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
+  if (e.key === 'Escape') {
+    const o = document.getElementById('searchOverlay');
+    if (o.classList.contains('active')) toggleSearch();
+  }
+  // Arrow key navigation
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (document.activeElement.tagName === 'INPUT') return;
+    const idx = TOPICS.indexOf(currentTopic);
+    if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
+    if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
+  }
+});
+document.getElementById('searchInput')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const res = document.getElementById('searchResults');
+  if (!q) { res.innerHTML = ''; return; }
+  const matches = TOPIC_DATA.filter(t =>
+    t.title.toLowerCase().includes(q) ||
+    t.category.toLowerCase().includes(q) ||
+    t.keywords.some(k => k.toLowerCase().includes(q)) ||
+    t.content.toLowerCase().includes(q)
+  ).slice(0, 8);
+  res.innerHTML = matches.map(t =>
+    `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
+      <div class="sr-cat">${t.num} — ${t.category}</div>
+      <div class="sr-title">${t.title}</div>
+    </div>`
+  ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
+});
+
+/* ── Navigation ── */
+let currentTopic = 'home';
+const viewed = new Set();
+
+function show(id, scrollNav) {
+  currentTopic = id;
+  document.querySelectorAll('.topic,.home').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+  if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
+  if (id !== 'home') viewed.add(id);
+  updateProgress();
+  buildNavButtons(id);
+  // Trigger visualization draw
+  setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
+  // Update URL hash
+  history.replaceState(null, '', '#' + id);
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function showSection(secId, topicId) {
+  const sec = document.getElementById(secId);
+  if (sec && !sec.classList.contains('open')) sec.classList.add('open');
+  show(topicId, true);
+}
+
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function updateProgress() {
+  const total = TOPICS.filter(t => t !== 'home').length;
+  const n = viewed.size;
+  const pct = Math.round(n / total * 100);
+  const bar = document.getElementById('progressBar');
+  const txt = document.getElementById('progressText');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${n} / ${total} viewed`;
+}
+
+function buildNavButtons(id) {
+  const navEl = document.getElementById('nav-' + id);
+  if (!navEl) return;
+  const idx = TOPICS.indexOf(id);
+  const prev = idx > 1 ? TOPICS[idx - 1] : null;
+  const next = idx >= 0 && idx < TOPICS.length - 1 ? TOPICS[idx + 1] : null;
+  navEl.innerHTML = '';
+  if (prev && prev !== 'home') {
+    const b = document.createElement('div');
+    b.className = 'tnav-btn';
+    b.innerHTML = `<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
+    b.onclick = () => show(prev, true);
+    navEl.appendChild(b);
+  } else {
+    navEl.appendChild(document.createElement('div'));
+  }
+  if (next) {
+    const b = document.createElement('div');
+    b.className = 'tnav-btn next';
+    b.innerHTML = `<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
+    b.onclick = () => show(next, true);
+    navEl.appendChild(b);
+  }
+}
+
+/* ── Init ── */
+window.addEventListener('load', () => {
+  buildNav();
+  buildContent();
+  const homeNI = document.querySelector('.ni[data-topic="home"]');
+  if (homeNI) homeNI.classList.add('active');
+  // Check hash
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    if (TOPICS.includes(id)) { show(id, true); return; }
+  }
+  show('home');
+});
+</script>
+
+</body>
+</html>

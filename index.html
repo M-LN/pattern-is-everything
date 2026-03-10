@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern is Everything</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .portal-hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 24px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .portal-hero::before {
+      content: '';
+      position: absolute;
+      top: 30px; left: 50%; transform: translateX(-50%);
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(200,75,47,.06) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    .portal-hero h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .portal-hero h2 em { font-style: italic; color: var(--accent); }
+    .portal-hero p {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .portal-hero .search-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--border2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
+      cursor: default;
+      transition: border-color .2s;
+      position: relative;
+    }
+    .portal-hero .search-cta kbd {
+      font-family: var(--mono);
+      font-size: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .portal-content { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+    .portal-section-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .portal-section-title::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .portal-footer {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--border2);
+      position: relative;
+    }
+    .portal-footer::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+    }
+    .portal-footer p { margin-top: 6px; font-size: 10px; letter-spacing: .1em; }
+    /* Simple portal header (no sidebar nav) */
+    .portal-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--hdr-h);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 28px;
+      gap: 16px;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+    }
+    body { padding-top: var(--hdr-h); }
+
+    /* Stats bar */
+    .portal-stats {
+      display: flex; gap: 48px; justify-content: center;
+      margin: 28px 0 48px;
+      flex-wrap: wrap;
+    }
+    .portal-stat {
+      text-align: center;
+      position: relative;
+    }
+    .portal-stat + .portal-stat::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 8px;
+      width: 1px; height: 36px;
+      background: var(--border);
+    }
+    .portal-stat-num {
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .portal-stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Coming-soon card extras */
+    .coming-card {
+      opacity: .35; cursor: default; border-style: dashed;
+    }
+    .coming-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
+    .coming-card::before { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="portal-header">
+  <div class="logo-ring"></div>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">
+    Pattern is <em style="font-style:italic;color:var(--accent)">Everything</em>
+  </h1>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+  </div>
+</div>
+
+<div class="portal-hero">
+  <h2>Pattern is<br><em>Everything</em></h2>
+  <p>Patterns hide in plain sight — in math, in verse, in markets. This is a growing universe of interactive, visual references that reveal the structures beneath.</p>
+</div>
+
+<div class="portal-stats">
+  <div class="portal-stat">
+    <div class="portal-stat-num" id="totalTopics">252</div>
+    <div class="portal-stat-label">Topics</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num" id="totalViz">252</div>
+    <div class="portal-stat-label">Visualizations</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num">3</div>
+    <div class="portal-stat-label">Universes</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num">9</div>
+    <div class="portal-stat-label">Collections</div>
+  </div>
+</div>
+
+<div class="portal-content">
+  <div class="portal-section-title">Universes</div>
+
+  <div class="portal-grid">
+    <a class="collection-card" href="ml/index.html">
+      <div class="cc-icon">🧠</div>
+      <div class="cc-title">Machine <em>Learning</em></div>
+      <div class="cc-desc">102 topics across three collections — ML Math, Statistics & Probability, and LLM Engineering. From linear algebra to RLHF, with interactive visualizations and code.</div>
+      <div class="cc-tags">
+        <span class="tag t1">102 Topics</span>
+        <span class="tag t2">3 Collections</span>
+        <span class="tag t3">PyTorch</span>
+      </div>
+      <div class="cc-meta" style="margin-top:14px;">ML Math · Statistics · LLM Engineering</div>
+    </a>
+
+    <a class="collection-card" href="poetry/index.html">
+      <div class="cc-icon">✦</div>
+      <div class="cc-title">Poetic <em>Patterns</em></div>
+      <div class="cc-desc">75 topics across three collections — Poetic Forms, Sound & Meter, and Rhetoric & Figures. Interactive explorations of the structures that shape verse.</div>
+      <div class="cc-tags">
+        <span class="tag t1">75 Topics</span>
+        <span class="tag t2">3 Collections</span>
+        <span class="tag t4">Interactive</span>
+      </div>
+      <div class="cc-meta" style="margin-top:14px;">Forms · Sound & Meter · Rhetoric & Figures</div>
+    </a>
+
+    <a class="collection-card" href="markets/index.html">
+      <div class="cc-icon">📈</div>
+      <div class="cc-title">Market <em>Patterns</em></div>
+      <div class="cc-desc">75 topics across three collections — Chart Patterns, Technical Indicators, and Market Psychology. Visual guides to the patterns that move markets.</div>
+      <div class="cc-tags">
+        <span class="tag t1">75 Topics</span>
+        <span class="tag t2">3 Collections</span>
+        <span class="tag t3">Charts</span>
+      </div>
+      <div class="cc-meta" style="margin-top:14px;">Chart Patterns · Indicators · Psychology</div>
+    </a>
+  </div>
+</div>
+
+<div class="portal-footer">
+  Pattern is Everything · 2026
+  <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
+</div>
+
+<script>
+function toggleTheme() {
+  const d = document.documentElement;
+  const current = d.getAttribute('data-theme');
+  d.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+}
+// Restore theme
+const saved = localStorage.getItem('theme');
+if (saved) document.documentElement.setAttribute('data-theme', saved);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.setAttribute('data-theme', 'dark');
+
+// Animated counters
+function animateCounters() {
+  document.querySelectorAll('.portal-stat-num').forEach(el => {
+    const target = parseInt(el.textContent, 10);
+    if (isNaN(target)) return;
+    let current = 0;
+    const step = Math.max(1, Math.floor(target / 30));
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current;
+    }, 25);
+  });
+}
+// Run counters when portal-stats section enters viewport
+const statsEl = document.querySelector('.portal-stats');
+if (statsEl && 'IntersectionObserver' in window) {
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
+  }, { threshold: 0.3 });
+  obs.observe(statsEl);
+} else {
+  animateCounters();
+}
+</script>
+</body>
+</html>
