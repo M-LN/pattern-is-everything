@@ -22,7 +22,7 @@ function getColor(v) {
 const DRAWS = {};
 
 /* 01 — Confirmation Bias: funnel filter diagram */
-DRAWS['confirmationBiasCanvas'] = () => {
+DRAWS['confirmation-bias'] = () => {
   const r = setupCanvas('confirmationBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -84,7 +84,7 @@ DRAWS['confirmationBiasCanvas'] = () => {
 };
 
 /* 02 — Anchoring: anchor weight pulling price */
-DRAWS['anchoringCanvas'] = () => {
+DRAWS['anchoring'] = () => {
   const r = setupCanvas('anchoringCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -146,7 +146,7 @@ DRAWS['anchoringCanvas'] = () => {
 };
 
 /* 03 — Recency Bias: timeline with magnified recent section */
-DRAWS['recencyBiasCanvas'] = () => {
+DRAWS['recency-bias'] = () => {
   const r = setupCanvas('recencyBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -202,7 +202,7 @@ DRAWS['recencyBiasCanvas'] = () => {
 };
 
 /* 04 — Availability Heuristic: vivid vs. quiet comparison */
-DRAWS['availabilityHeuristicCanvas'] = () => {
+DRAWS['availability-heuristic'] = () => {
   const r = setupCanvas('availabilityHeuristicCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -243,7 +243,7 @@ DRAWS['availabilityHeuristicCanvas'] = () => {
 };
 
 /* 05 — Hindsight Bias: timeline with "obvious" arrows */
-DRAWS['hindsightBiasCanvas'] = () => {
+DRAWS['hindsight-bias'] = () => {
   const r = setupCanvas('hindsightBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -288,7 +288,7 @@ DRAWS['hindsightBiasCanvas'] = () => {
 };
 
 /* 06 — Fear & Greed: pendulum gauge */
-DRAWS['fearAndGreedCanvas'] = () => {
+DRAWS['fear-and-greed'] = () => {
   const r = setupCanvas('fearAndGreedCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -343,7 +343,7 @@ DRAWS['fearAndGreedCanvas'] = () => {
 };
 
 /* 07 — Loss Aversion: asymmetric value function (S-curve) */
-DRAWS['lossAversionCanvas'] = () => {
+DRAWS['loss-aversion'] = () => {
   const r = setupCanvas('lossAversionCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -401,7 +401,7 @@ DRAWS['lossAversionCanvas'] = () => {
 };
 
 /* 08 — Regret Aversion: decision paralysis fork */
-DRAWS['regretAversionCanvas'] = () => {
+DRAWS['regret-aversion'] = () => {
   const r = setupCanvas('regretAversionCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -459,7 +459,7 @@ DRAWS['regretAversionCanvas'] = () => {
 };
 
 /* 09 — Overconfidence: calibration diagram */
-DRAWS['overconfidenceCanvas'] = () => {
+DRAWS['overconfidence'] = () => {
   const r = setupCanvas('overconfidenceCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -513,7 +513,7 @@ DRAWS['overconfidenceCanvas'] = () => {
 };
 
 /* 10 — Disposition Effect: sell winners / hold losers arrows */
-DRAWS['dispositionEffectCanvas'] = () => {
+DRAWS['disposition-effect'] = () => {
   const r = setupCanvas('dispositionEffectCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -579,7 +579,7 @@ DRAWS['dispositionEffectCanvas'] = () => {
 };
 
 /* 11 — Herd Behavior: crowd of arrows all pointing same direction */
-DRAWS['herdBehaviorCanvas'] = () => {
+DRAWS['herd-behavior'] = () => {
   const r = setupCanvas('herdBehaviorCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -632,7 +632,7 @@ DRAWS['herdBehaviorCanvas'] = () => {
 };
 
 /* 12 — FOMO: escalation spiral */
-DRAWS['fomoCanvas'] = () => {
+DRAWS['fomo'] = () => {
   const r = setupCanvas('fomoCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -677,7 +677,7 @@ DRAWS['fomoCanvas'] = () => {
 };
 
 /* 13 — Social Proof: network/influence diagram */
-DRAWS['socialProofCanvas'] = () => {
+DRAWS['social-proof'] = () => {
   const r = setupCanvas('socialProofCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -725,7 +725,7 @@ DRAWS['socialProofCanvas'] = () => {
 };
 
 /* 14 — Contrarian Thinking: stream vs. salmon */
-DRAWS['contrarianThinkingCanvas'] = () => {
+DRAWS['contrarian-thinking'] = () => {
   const r = setupCanvas('contrarianThinkingCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -772,7 +772,7 @@ DRAWS['contrarianThinkingCanvas'] = () => {
 };
 
 /* 15 — Information Cascades: domino chain */
-DRAWS['informationCascadesCanvas'] = () => {
+DRAWS['information-cascades'] = () => {
   const r = setupCanvas('informationCascadesCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -823,7 +823,7 @@ DRAWS['informationCascadesCanvas'] = () => {
 };
 
 /* 16 — Sunk Cost: weight pulling down */
-DRAWS['sunkCostFallacyCanvas'] = () => {
+DRAWS['sunk-cost-fallacy'] = () => {
   const r = setupCanvas('sunkCostFallacyCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -872,7 +872,7 @@ DRAWS['sunkCostFallacyCanvas'] = () => {
 };
 
 /* 17 — Gambler's Fallacy: coin flips sequence */
-DRAWS['gamblerFallacyCanvas'] = () => {
+DRAWS['gambler-fallacy'] = () => {
   const r = setupCanvas('gamblerFallacyCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -920,7 +920,7 @@ DRAWS['gamblerFallacyCanvas'] = () => {
 };
 
 /* 18 — Framing Effect: same glass, two perspectives */
-DRAWS['framingEffectCanvas'] = () => {
+DRAWS['framing-effect'] = () => {
   const r = setupCanvas('framingEffectCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -978,7 +978,7 @@ DRAWS['framingEffectCanvas'] = () => {
 };
 
 /* 19 — Mental Accounting: separate buckets */
-DRAWS['mentalAccountingCanvas'] = () => {
+DRAWS['mental-accounting'] = () => {
   const r = setupCanvas('mentalAccountingCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1033,7 +1033,7 @@ DRAWS['mentalAccountingCanvas'] = () => {
 };
 
 /* 20 — Status Quo Bias: person sitting while opportunities pass */
-DRAWS['statusQuoBiasCanvas'] = () => {
+DRAWS['status-quo-bias'] = () => {
   const r = setupCanvas('statusQuoBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1083,7 +1083,7 @@ DRAWS['statusQuoBiasCanvas'] = () => {
 };
 
 /* 21 — Sentiment Cycle: emotional wave with labeled phases */
-DRAWS['marketSentimentCycleCanvas'] = () => {
+DRAWS['market-sentiment-cycle'] = () => {
   const r = setupCanvas('marketSentimentCycleCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1145,7 +1145,7 @@ DRAWS['marketSentimentCycleCanvas'] = () => {
 };
 
 /* 22 — Accumulation & Distribution: Wyckoff 4-phase diagram */
-DRAWS['accumulationDistributionCanvas'] = () => {
+DRAWS['accumulation-distribution'] = () => {
   const r = setupCanvas('accumulationDistributionCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1198,7 +1198,7 @@ DRAWS['accumulationDistributionCanvas'] = () => {
 };
 
 /* 23 — Euphoria & Panic: VIX-style volatility spikes */
-DRAWS['euphoriaPanicCanvas'] = () => {
+DRAWS['euphoria-panic'] = () => {
   const r = setupCanvas('euphoriaPanicCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1250,7 +1250,7 @@ DRAWS['euphoriaPanicCanvas'] = () => {
 };
 
 /* 24 — Smart Money vs Dumb Money: divergence arrows */
-DRAWS['smartMoneyDumbMoneyCanvas'] = () => {
+DRAWS['smart-money-dumb-money'] = () => {
   const r = setupCanvas('smartMoneyDumbMoneyCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
@@ -1352,7 +1352,7 @@ DRAWS['smartMoneyDumbMoneyCanvas'] = () => {
 };
 
 /* 25 — Mean Reversion: rubber band stretching back to mean */
-DRAWS['meanReversionPsychologyCanvas'] = () => {
+DRAWS['mean-reversion-psychology'] = () => {
   const r = setupCanvas('meanReversionPsychologyCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');

@@ -78,50 +78,78 @@ function buildNav() {
   let html = progressHTML;
   let num = 0;
   SECTIONS.forEach(sec => {
-    html += `<button class="cat-toggle" data-section="${sec.id}">${sec.title}</button><div class="cat-links" id="${sec.id}">`;
+    html += `<div class="nav-section open" id="${sec.id}">
+      <div class="nav-section-header" onclick="toggleSection('${sec.id}')">
+        <span class="nav-section-title">${sec.title}</span>
+        <span class="nav-section-arrow">▾</span>
+      </div><div class="nav-items">`;
     sec.topics.forEach(t => {
-      if (t === 'home') return;
-      num++;
-      html += `<a href="#${t}" class="nav-link" data-topic="${t}">${num.toString().padStart(2,'0')} — ${TOPIC_NAMES[t]}</a>`;
+      if (t === 'home') {
+        html += `<div class="ni" data-topic="home" onclick="show('home')"><span class="ni-num">◉</span>Overview</div>`;
+      } else {
+        num++;
+        const n = String(num).padStart(2,'0');
+        html += `<div class="ni" data-topic="${t}" onclick="show('${t}',true)"><span class="ni-num">${n}</span>${TOPIC_NAMES[t]}</div>`;
+      }
     });
-    html += '</div>';
+    html += '</div></div>';
   });
   nav.innerHTML = html;
 }
 
 function buildContent() {
-  const main = document.getElementById('topicContent');
+  const main = document.getElementById('mainContent');
   if (!main) return;
-  let html = '';
+  let html = buildHome();
   TOPIC_DATA.forEach(t => {
-    html += `<section class="topic" id="topic-${t.id}" style="display:none">`;
-    html += `<span class="topic-num">${t.num}</span>`;
-    html += `<h2>${t.title}</h2>`;
-    html += `<p class="topic-cat">${t.category}</p>`;
+    html += `<div class="topic" id="${t.id}">`;
+    html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div></div>`;
     html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
-    html += '</section>';
+    html += `<div class="topic-nav" id="nav-${t.id}"></div>`;
+    html += '</div>';
   });
   main.innerHTML = html;
 }
 
 function buildHome() {
-  const main = document.getElementById('topicContent');
-  if (!main) return;
-  let html = '<section class="topic home" id="topic-home">';
-  html += '<h2>Technical Indicators</h2>';
-  html += '<p>25 indicators across moving averages, oscillators, trend/momentum, volatility, and volume — the quantitative toolkit for reading price action.</p>';
-  html += '<div class="cat-grid">';
-  let num = 0;
-  SECTIONS.forEach(sec => {
-    sec.topics.forEach(t => {
-      if (t === 'home') return;
-      num++;
-      html += `<a href="#${t}" class="cat-card"><span class="cc-num">${num.toString().padStart(2,'0')}</span><span class="cc-name">${TOPIC_NAMES[t]}</span></a>`;
-    });
-  });
-  html += '</div></section>';
-  main.innerHTML += html;
+  return `<div class="home active" id="home">
+  <div class="home-hero">
+    <h2>Technical <em>Indicators</em></h2>
+    <p style="margin-top:14px">25 indicators across moving averages, oscillators, trend/momentum, volatility, and volume — the quantitative toolkit for reading price action.</p>
+    <p style="margin-top:10px;font-size:11px;color:var(--muted)">
+      <span class="kbd">←</span> <span class="kbd">→</span> navigate &nbsp;·&nbsp;
+      <span class="kbd">Ctrl+K</span> search
+    </p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="showSection('sec-moving-avg','sma')">
+      <div class="cat-card-icon">📊</div>
+      <div class="cat-card-name">Moving Averages</div>
+      <div class="cat-card-count">5 topics · SMA, EMA, WMA, DEMA, VWAP</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-oscillators','rsi')">
+      <div class="cat-card-icon">〰️</div>
+      <div class="cat-card-name">Oscillators</div>
+      <div class="cat-card-count">5 topics · RSI, Stochastic, CCI, Williams, ROC</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-trend','macd')">
+      <div class="cat-card-icon">📈</div>
+      <div class="cat-card-name">Trend & Momentum</div>
+      <div class="cat-card-count">5 topics · MACD, ADX, SAR, Ichimoku, Aroon</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-volatility','bollinger-bands')">
+      <div class="cat-card-icon">🌊</div>
+      <div class="cat-card-name">Volatility</div>
+      <div class="cat-card-count">5 topics · Bollinger, ATR, Keltner, Donchian, StdDev</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-volume','obv')">
+      <div class="cat-card-icon">🔊</div>
+      <div class="cat-card-name">Volume Indicators</div>
+      <div class="cat-card-count">5 topics · OBV, A/D, MFI, Chaikin, VWAP Bands</div>
+    </div>
+  </div>
+</div>`;
 }
 
 /* ═══════════════════════════════════════════════════════════════
