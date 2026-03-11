@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pattern-is-everything.vercel.app/sitemap.xml
+Sitemap: https://pattern-is-everything-iota.vercel.app/sitemap.xml
