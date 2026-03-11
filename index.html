@@ -177,6 +177,36 @@
     }
     .coming-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
     .coming-card::before { display: none; }
+
+    /* Mission bar */
+    .mission-bar {
+      text-align: center;
+      padding: 14px 24px;
+      margin: 0 auto 40px;
+      max-width: 480px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .mission-bar a {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      line-height: 1.5;
+    }
+    .mission-bar a:hover { color: var(--accent); }
+    .mission-bar .mission-heart {
+      color: var(--accent);
+      font-size: 13px;
+    }
+    .mission-bar .mission-arrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      margin-left: 4px;
+    }
   </style>
 </head>
 <body>
@@ -213,6 +243,13 @@
     <div class="portal-stat-num">9</div>
     <div class="portal-stat-label">Collections</div>
   </div>
+</div>
+
+<div class="mission-bar">
+  <a href="support/index.html">
+    <span class="mission-heart">♥</span> 100% of donations go to mental health
+    <span class="mission-arrow">→</span>
+  </a>
 </div>
 
 <div class="portal-content">
