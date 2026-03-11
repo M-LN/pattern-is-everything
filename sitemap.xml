@@ -52,4 +52,8 @@
     <loc>https://pattern-is-everything.vercel.app/poetry/rhetoric/index.html</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://pattern-is-everything.vercel.app/support/index.html</loc>
+    <priority>0.5</priority>
+  </url>
 </urlset>
