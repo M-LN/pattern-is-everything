@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Cards — Outreach Kit</title>
+  <style>
+    :root {
+      --bg: #0e0e10;
+      --surface: #18181b;
+      --border: #2a2a2e;
+      --text: #e8e6e3;
+      --muted: #8a8a8e;
+      --rust: #c84b2f;
+      --green: #2a7d5f;
+      --blue: #2955a0;
+      --purple: #8b4fa8;
+      --serif: 'Playfair Display', Georgia, serif;
+      --mono: 'IBM Plex Mono', 'Courier New', monospace;
+      --sans: 'Inter', system-ui, sans-serif;
+      --radius: 12px;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    body {
+      background: #1a1a1e;
+      color: var(--text);
+      font-family: var(--sans);
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .instructions {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 1200px;
+    }
+    .card-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ─── Card base (1200×630 — OG image ratio) ─── */
+    .social-card {
+      width: 1200px;
+      height: 630px;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px;
+      box-sizing: border-box;
+    }
+
+    /* ─── Main card ─── */
+    .card-main {
+      background: linear-gradient(135deg, #0e0e10 0%, #1a1a2e 100%);
+      border: 1px solid #2a2a2e;
+    }
+    .card-main::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--rust), var(--purple), var(--green), var(--blue));
+    }
+    .card-main::after {
+      content: '';
+      position: absolute;
+      top: 60px; right: 60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,75,47,.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .card-main .card-title {
+      font-family: var(--serif);
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .card-main .card-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+    .card-main .card-desc {
+      font-family: var(--sans);
+      font-size: 24px;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+    .card-stats {
+      display: flex;
+      gap: 48px;
+    }
+    .card-stat {
+      text-align: left;
+    }
+    .card-stat-num {
+      font-family: var(--serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--rust);
+      line-height: 1;
+    }
+    .card-stat-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .card-url {
+      position: absolute;
+      bottom: 40px;
+      right: 80px;
+      font-family: var(--mono);
+      font-size: 16px;
+      color: #555;
+      letter-spacing: .02em;
+    }
+    .card-badge {
+      position: absolute;
+      bottom: 40px;
+      left: 80px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--green);
+      letter-spacing: .04em;
+    }
+
+    /* ─── Universe cards ─── */
+    .card-universe {
+      border: 1px solid #2a2a2e;
+    }
+    .card-universe::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .card-ml { background: linear-gradient(135deg, #0e0e10 0%, #1e1210 100%); }
+    .card-ml::before { background: var(--rust); }
+    .card-ml .card-stat-num, .card-ml .uni-icon { color: var(--rust); }
+
+    .card-poetry { background: linear-gradient(135deg, #0e0e10 0%, #1a1020 100%); }
+    .card-poetry::before { background: var(--purple); }
+    .card-poetry .card-stat-num, .card-poetry .uni-icon { color: var(--purple); }
+
+    .card-markets { background: linear-gradient(135deg, #0e0e10 0%, #0e1a14 100%); }
+    .card-markets::before { background: var(--green); }
+    .card-markets .card-stat-num, .card-markets .uni-icon { color: var(--green); }
+
+    .uni-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .card-universe .card-title {
+      font-family: var(--serif);
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .card-universe .card-title em {
+      font-style: italic;
+    }
+    .card-universe .card-desc {
+      font-family: var(--sans);
+      font-size: 22px;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 650px;
+      margin-bottom: 36px;
+    }
+    .card-collections {
+      display: flex;
+      gap: 32px;
+    }
+    .card-collection {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 16px 24px;
+    }
+    .card-collection-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .card-collection-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ─── Impact card ─── */
+    .card-impact {
+      background: linear-gradient(135deg, #0e0e10 0%, #0e1a14 100%);
+      border: 1px solid #2a2a2e;
+    }
+    .card-impact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--rust));
+    }
+    .card-impact .card-title {
+      font-family: var(--serif);
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .card-impact .card-title em {
+      color: var(--green);
+      font-style: italic;
+    }
+    .card-impact .card-desc {
+      font-family: var(--sans);
+      font-size: 24px;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 700px;
+      margin-bottom: 36px;
+    }
+    .impact-stats {
+      display: flex;
+      gap: 48px;
+    }
+    .impact-stat-num {
+      font-family: var(--serif);
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+    }
+    .impact-stat-label {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: .06em;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Social Cards</h1>
+<p class="instructions">
+  Right-click any card → "Save image as" or use your OS screenshot tool to crop.<br>
+  Cards are 1200×630px — the standard OG image / social share ratio.<br>
+  Use these when posting on Reddit, Dev.to, Twitter/X, or LinkedIn.
+</p>
+
+<div class="cards-grid">
+
+  <!-- ═══ MAIN CARD ═══ -->
+  <div>
+    <div class="card-label">Main — use for homepage shares, HN, Dev.to</div>
+    <div class="social-card card-main">
+      <div class="card-title">Pattern is <em>Everything</em></div>
+      <div class="card-desc">252 interactive visual references across Machine Learning, Poetry & Markets. Free, open-source, zero dependencies.</div>
+      <div class="card-stats">
+        <div class="card-stat">
+          <div class="card-stat-num">252</div>
+          <div class="card-stat-label">Topics</div>
+        </div>
+        <div class="card-stat">
+          <div class="card-stat-num">3</div>
+          <div class="card-stat-label">Universes</div>
+        </div>
+        <div class="card-stat">
+          <div class="card-stat-num">9</div>
+          <div class="card-stat-label">Collections</div>
+        </div>
+        <div class="card-stat">
+          <div class="card-stat-num">0</div>
+          <div class="card-stat-label">Dependencies</div>
+        </div>
+      </div>
+      <div class="card-badge">♥ 100% of donations → mental health</div>
+      <div class="card-url">pattern-is-everything-iota.vercel.app</div>
+    </div>
+  </div>
+
+  <!-- ═══ ML CARD ═══ -->
+  <div>
+    <div class="card-label">Machine Learning — use for r/learnmachinelearning, r/datascience</div>
+    <div class="social-card card-universe card-ml">
+      <div class="uni-icon">🧠</div>
+      <div class="card-title">Machine Learning <em>Patterns</em></div>
+      <div class="card-desc">102 interactive visual references — from gradient descent to transformers. Every concept visualized on canvas.</div>
+      <div class="card-collections">
+        <div class="card-collection">
+          <div class="card-collection-name">ML Math</div>
+          <div class="card-collection-count">34 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Statistics</div>
+          <div class="card-collection-count">34 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">LLM Architecture</div>
+          <div class="card-collection-count">34 topics</div>
+        </div>
+      </div>
+      <div class="card-badge">♥ 100% of donations → mental health</div>
+      <div class="card-url">pattern-is-everything-iota.vercel.app/ml/</div>
+    </div>
+  </div>
+
+  <!-- ═══ POETRY CARD ═══ -->
+  <div>
+    <div class="card-label">Poetry — use for r/poetry, literary communities</div>
+    <div class="social-card card-universe card-poetry">
+      <div class="uni-icon">✒️</div>
+      <div class="card-title">Poetic <em>Patterns</em></div>
+      <div class="card-desc">75 interactive visual references — forms, sound devices, and rhetorical figures. See the structure behind the verse.</div>
+      <div class="card-collections">
+        <div class="card-collection">
+          <div class="card-collection-name">Poetic Forms</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Sound Devices</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Rhetorical Figures</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+      </div>
+      <div class="card-badge">♥ 100% of donations → mental health</div>
+      <div class="card-url">pattern-is-everything-iota.vercel.app/poetry/</div>
+    </div>
+  </div>
+
+  <!-- ═══ MARKETS CARD ═══ -->
+  <div>
+    <div class="card-label">Markets — use for r/algotrading, r/technicalanalysis</div>
+    <div class="social-card card-universe card-markets">
+      <div class="uni-icon">📈</div>
+      <div class="card-title">Market <em>Patterns</em></div>
+      <div class="card-desc">75 interactive visual references — chart patterns, technical indicators, and market psychology. Visual guides to what moves markets.</div>
+      <div class="card-collections">
+        <div class="card-collection">
+          <div class="card-collection-name">Chart Patterns</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Indicators</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Market Psychology</div>
+          <div class="card-collection-count">25 topics</div>
+        </div>
+      </div>
+      <div class="card-badge">♥ 100% of donations → mental health</div>
+      <div class="card-url">pattern-is-everything-iota.vercel.app/markets/</div>
+    </div>
+  </div>
+
+  <!-- ═══ IMPACT/MISSION CARD ═══ -->
+  <div>
+    <div class="card-label">Impact / Mission — use when sharing the giving story</div>
+    <div class="social-card card-impact">
+      <div class="card-title">Patterns for <em>Good</em></div>
+      <div class="card-desc">A free educational platform where 100% of donations go to mental health organizations. Full transparency. Nothing hidden.</div>
+      <div class="impact-stats">
+        <div class="card-stat">
+          <div class="impact-stat-num">100%</div>
+          <div class="impact-stat-label">To mental health</div>
+        </div>
+        <div class="card-stat">
+          <div class="impact-stat-num">$0</div>
+          <div class="impact-stat-label">Kept by us</div>
+        </div>
+        <div class="card-stat">
+          <div class="impact-stat-num">252</div>
+          <div class="impact-stat-label">Free topics</div>
+        </div>
+      </div>
+      <div class="card-badge">Designated recipient: To Write Love on Her Arms</div>
+      <div class="card-url">pattern-is-everything-iota.vercel.app/support/</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
