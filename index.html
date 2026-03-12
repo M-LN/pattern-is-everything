@@ -239,6 +239,172 @@
       text-align: center;
       margin-top: 10px;
     }
+
+    /* ── Live Preview Canvas ── */
+    .live-preview {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .live-preview-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .live-preview-label::before,
+    .live-preview-label::after {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--border);
+    }
+    .live-preview-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .live-preview-wrap::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    }
+    .live-preview canvas {
+      width: 100%;
+      height: 220px;
+      display: block;
+      border-radius: 6px;
+    }
+    .live-preview-caption {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+    .live-preview-caption a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .live-preview-caption a:hover { text-decoration: underline; }
+
+    /* ── Start Exploring Section ── */
+    .start-exploring {
+      max-width: 860px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .start-section-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .start-section-title::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--accent2);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .start-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .start-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: inherit;
+      transition: all .2s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .start-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .start-card-icon {
+      font-size: 20px;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--hi);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .start-card-text { min-width: 0; }
+    .start-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .start-card-universe {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .06em;
+      margin-top: 2px;
+    }
+    .start-card .start-badge {
+      position: absolute;
+      top: 8px; right: 10px;
+      font-family: var(--mono);
+      font-size: 8px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      background: rgba(42,125,95,.08);
+      border: 1px solid rgba(42,125,95,.15);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+
+    /* ── Inside Preview Strip ── */
+    .inside-preview {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .inside-strip {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .inside-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+    }
+    .inside-chip span { font-size: 14px; }
   </style>
 </head>
 <body>
@@ -284,11 +450,82 @@
   </div>
 </div>
 
+<div class="live-preview">
+  <div class="live-preview-label">Live Interactive Preview</div>
+  <div class="live-preview-wrap">
+    <canvas id="heroCanvas"></canvas>
+    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
+  </div>
+</div>
+
+<div class="inside-preview">
+  <div class="inside-strip">
+    <div class="inside-chip"><span>📐</span> Interactive canvas diagrams</div>
+    <div class="inside-chip"><span>📝</span> Core formulas explained</div>
+    <div class="inside-chip"><span>🐍</span> Python & NumPy code</div>
+    <div class="inside-chip"><span>🎛️</span> Draggable parameters</div>
+    <div class="inside-chip"><span>🌙</span> Dark mode</div>
+    <div class="inside-chip"><span>⚡</span> Zero dependencies</div>
+  </div>
+</div>
+
 <div class="mission-bar">
   <a href="support/index.html">
     <span class="mission-heart">♥</span> 100% of donations go to mental health
     <span class="mission-arrow">→</span>
   </a>
+</div>
+
+<div class="start-exploring">
+  <div class="start-section-title">Start Exploring — Handpicked Topics</div>
+  <div class="start-grid">
+    <a class="start-card" href="stats/index.html#normal">
+      <div class="start-card-icon">📈</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Normal Distribution</div>
+        <div class="start-card-universe">Machine Learning → Statistics</div>
+      </div>
+      <span class="start-badge">Start here</span>
+    </a>
+    <a class="start-card" href="ml-math/index.html#gradient">
+      <div class="start-card-icon">🧮</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Gradient Descent</div>
+        <div class="start-card-universe">Machine Learning → ML Math</div>
+      </div>
+      <span class="start-badge">Popular</span>
+    </a>
+    <a class="start-card" href="poetry/forms/index.html#shakespearean-sonnet">
+      <div class="start-card-icon">✦</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Shakespearean Sonnet</div>
+        <div class="start-card-universe">Poetry → Poetic Forms</div>
+      </div>
+      <span class="start-badge">Start here</span>
+    </a>
+    <a class="start-card" href="markets/charts/index.html#head-and-shoulders">
+      <div class="start-card-icon">📊</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Head & Shoulders</div>
+        <div class="start-card-universe">Markets → Chart Patterns</div>
+      </div>
+      <span class="start-badge">Popular</span>
+    </a>
+    <a class="start-card" href="llm/index.html#tokenization">
+      <div class="start-card-icon">🤖</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Tokenization</div>
+        <div class="start-card-universe">Machine Learning → LLM Engineering</div>
+      </div>
+    </a>
+    <a class="start-card" href="poetry/rhetoric/index.html#metaphor">
+      <div class="start-card-icon">🎭</div>
+      <div class="start-card-text">
+        <div class="start-card-name">Metaphor</div>
+        <div class="start-card-universe">Poetry → Rhetoric & Figures</div>
+      </div>
+    </a>
+  </div>
 </div>
 
 <div class="portal-content">
@@ -381,6 +618,144 @@ if (statsEl && 'IntersectionObserver' in window) {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');
 }
+
+/* ── Hero Canvas: Animated normal distribution ── */
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+  const DPR = window.devicePixelRatio || 1;
+  let raf;
+
+  function getCSS(v) {
+    return getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  }
+
+  function normPDF(x, mu, sig) {
+    const z = (x - mu) / sig;
+    return Math.exp(-0.5 * z * z) / (sig * Math.sqrt(2 * Math.PI));
+  }
+
+  function draw() {
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    canvas.width = w * DPR;
+    canvas.height = h * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+
+    const bg = getCSS('--surface') || '#fff';
+    const accent = getCSS('--accent') || '#c84b2f';
+    const accent2 = getCSS('--accent2') || '#2a7d5f';
+    const accent3 = getCSS('--accent3') || '#2955a0';
+    const muted = getCSS('--muted') || '#7a6e62';
+    const borderC = getCSS('--border') || '#e2d9cc';
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Animate: breathe the sigma
+    const t = Date.now() / 3000;
+    const mu = 0;
+    const sig1 = 0.8 + 0.2 * Math.sin(t);
+    const sig2 = 1.4 + 0.3 * Math.sin(t + 1.5);
+    const sig3 = 2.2 + 0.2 * Math.sin(t + 3);
+
+    const padX = 40, padY = 30;
+    const plotW = w - padX * 2;
+    const plotH = h - padY * 2;
+    const xMin = -5, xMax = 5;
+
+    // Grid lines
+    ctx.strokeStyle = borderC;
+    ctx.lineWidth = 0.5;
+    for (let gx = -4; gx <= 4; gx += 2) {
+      const px = padX + ((gx - xMin) / (xMax - xMin)) * plotW;
+      ctx.beginPath();
+      ctx.moveTo(px, padY);
+      ctx.lineTo(px, h - padY);
+      ctx.stroke();
+    }
+
+    // Axis
+    ctx.strokeStyle = muted;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padX, h - padY);
+    ctx.lineTo(w - padX, h - padY);
+    ctx.stroke();
+
+    // X labels
+    ctx.fillStyle = muted;
+    ctx.font = `10px ${getCSS('--mono') || 'monospace'}`;
+    ctx.textAlign = 'center';
+    for (let gx = -4; gx <= 4; gx += 2) {
+      const px = padX + ((gx - xMin) / (xMax - xMin)) * plotW;
+      ctx.fillText(gx + 'σ', px, h - padY + 16);
+    }
+
+    // Draw distributions
+    const maxY = 0.55;
+    const curves = [
+      { sig: sig3, color: accent3, alpha: 0.08, label: 'σ = ' + sig3.toFixed(1) },
+      { sig: sig2, color: accent2, alpha: 0.10, label: 'σ = ' + sig2.toFixed(1) },
+      { sig: sig1, color: accent,  alpha: 0.12, label: 'σ = ' + sig1.toFixed(1) },
+    ];
+
+    curves.forEach(function(curve) {
+      const steps = 200;
+      ctx.beginPath();
+      ctx.moveTo(padX, h - padY);
+      for (let i = 0; i <= steps; i++) {
+        const x = xMin + (xMax - xMin) * (i / steps);
+        const y = normPDF(x, mu, curve.sig);
+        const px = padX + (i / steps) * plotW;
+        const py = (h - padY) - (y / maxY) * plotH;
+        if (i === 0) ctx.lineTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.lineTo(w - padX, h - padY);
+      ctx.closePath();
+
+      ctx.fillStyle = curve.color + '18';
+      ctx.fill();
+
+      ctx.strokeStyle = curve.color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const x = xMin + (xMax - xMin) * (i / steps);
+        const y = normPDF(x, mu, curve.sig);
+        const px = padX + (i / steps) * plotW;
+        const py = (h - padY) - (y / maxY) * plotH;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    });
+
+    // Labels
+    ctx.font = `bold 11px ${getCSS('--mono') || 'monospace'}`;
+    curves.forEach(function(curve, i) {
+      const peakY = normPDF(0, mu, curve.sig);
+      const labelY = (h - padY) - (peakY / maxY) * plotH - 8;
+      ctx.fillStyle = curve.color;
+      ctx.textAlign = i === 0 ? 'right' : (i === 2 ? 'left' : 'center');
+      const labelX = i === 0 ? w - padX - 8 : (i === 2 ? padX + plotW * 0.5 + 30 : w / 2);
+      ctx.fillText(curve.label, labelX, Math.max(padY + 12, labelY));
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  // Only animate when visible
+  const obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      draw();
+    } else {
+      cancelAnimationFrame(raf);
+    }
+  }, { threshold: 0.1 });
+  obs.observe(canvas);
+})();
 </script>
 </body>
 </html>
