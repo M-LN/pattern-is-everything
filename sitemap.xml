@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pattern-is-everything.vercel.app/index.html</loc>
+    <loc>https://patterniseverything.com/index.html</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/ml/index.html</loc>
+    <loc>https://patterniseverything.com/ml/index.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/poetry/index.html</loc>
+    <loc>https://patterniseverything.com/poetry/index.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/markets/index.html</loc>
+    <loc>https://patterniseverything.com/markets/index.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/ml-math/index.html</loc>
+    <loc>https://patterniseverything.com/ml-math/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/stats/index.html</loc>
+    <loc>https://patterniseverything.com/stats/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/llm/index.html</loc>
+    <loc>https://patterniseverything.com/llm/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/markets/charts/index.html</loc>
+    <loc>https://patterniseverything.com/markets/charts/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/markets/indicators/index.html</loc>
+    <loc>https://patterniseverything.com/markets/indicators/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/markets/psychology/index.html</loc>
+    <loc>https://patterniseverything.com/markets/psychology/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/poetry/forms/index.html</loc>
+    <loc>https://patterniseverything.com/poetry/forms/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/poetry/sound/index.html</loc>
+    <loc>https://patterniseverything.com/poetry/sound/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/poetry/rhetoric/index.html</loc>
+    <loc>https://patterniseverything.com/poetry/rhetoric/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/support/index.html</loc>
+    <loc>https://patterniseverything.com/support/index.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pattern-is-everything.vercel.app/impact/index.html</loc>
+    <loc>https://patterniseverything.com/impact/index.html</loc>
     <priority>0.5</priority>
   </url>
 </urlset>

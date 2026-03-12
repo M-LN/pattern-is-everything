@@ -4,7 +4,7 @@
 
 252 topics across 3 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
 
-🔗 **Live:** [pattern-is-everything.vercel.app](https://pattern-is-everything.vercel.app)
+🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
 
 ---
 

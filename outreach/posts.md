@@ -26,7 +26,7 @@ The whole thing runs client-side — no accounts, no tracking cookies, no paywal
 
 100% of any donations go to mental health organizations (not to running the site — it costs nothing to host).
 
-**Link:** https://pattern-is-everything.vercel.app/
+**Link:** https://patterniseverything.com/
 
 **GitHub:** https://github.com/M-LN/pattern-is-everything
 
@@ -49,7 +49,7 @@ The stats and ML math sections might be most relevant here:
 
 Everything is vanilla JS, runs in the browser, no sign-up. Open source.
 
-https://pattern-is-everything.vercel.app/
+https://patterniseverything.com/
 
 Happy to hear what you'd want added — this is a one-person project and I'm building what's actually useful.
 
@@ -73,7 +73,7 @@ Each one has an interactive visualization showing the structure or pattern, plus
 
 It's free, no ads, no tracking, open source. Built because I wanted to see these patterns, not just read definitions.
 
-https://pattern-is-everything.vercel.app/poetry/
+https://patterniseverything.com/poetry/
 
 Would love to know if this is useful for anyone studying or teaching poetry. What forms or devices are missing?
 
@@ -95,7 +95,7 @@ Each topic has an interactive canvas diagram showing the actual pattern shape, k
 
 Free, no sign-up, open source, runs in the browser.
 
-https://pattern-is-everything.vercel.app/markets/
+https://patterniseverything.com/markets/
 
 Curious if anyone finds this useful as a quick reference. Feedback welcome.
 
@@ -144,13 +144,13 @@ Chart Patterns, Technical Indicators, Market Psychology — from head & shoulder
 
 ## The Giving Part
 
-100% of any donations go to mental health organizations. The site costs nothing to run — it's static files on a free tier. There's a full [transparency page](https://pattern-is-everything.vercel.app/impact/) tracking every dollar.
+100% of any donations go to mental health organizations. The site costs nothing to run — it's static files on a free tier. There's a full [transparency page](https://patterniseverything.com/impact/) tracking every dollar.
 
 ## Links
 
-- **Site:** https://pattern-is-everything.vercel.app/
+- **Site:** https://patterniseverything.com/
 - **GitHub:** https://github.com/M-LN/pattern-is-everything
-- **Support:** https://pattern-is-everything.vercel.app/support/
+- **Support:** https://patterniseverything.com/support/
 
 If you're building educational tools or thinking about going dependency-free, happy to talk about the approach. And if you find a bug in any of the 252 visualizations — please open an issue.
 ```
@@ -161,7 +161,7 @@ If you're building educational tools or thinking about going dependency-free, ha
 
 **Title:** Show HN: 252 interactive visual references for ML, Poetry, and Markets – zero dependencies
 
-**URL:** https://pattern-is-everything.vercel.app/
+**URL:** https://patterniseverything.com/
 
 **Comment (post immediately after submitting):**
 
@@ -171,7 +171,7 @@ I built a free reference site with 252 interactive topics across three domains: 
 
 The entire stack is vanilla HTML/CSS/JS — no frameworks, no build step, no external dependencies. It's static files on Vercel's free tier.
 
-100% of donations go to mental health organizations. There's a transparency page tracking everything: https://pattern-is-everything.vercel.app/impact/
+100% of donations go to mental health organizations. There's a transparency page tracking everything: https://patterniseverything.com/impact/
 
 GitHub: https://github.com/M-LN/pattern-is-everything
 
