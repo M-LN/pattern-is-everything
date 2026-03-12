@@ -81,5 +81,6 @@ function updateProgress(){const total=TOPICS.filter(t=>t!=='home').length;const 
 function buildNavButtons(id){const navEl=document.getElementById('nav-'+id);if(!navEl)return;const idx=TOPICS.indexOf(id);const prev=idx>1?TOPICS[idx-1]:null;const next=idx>=0&&idx<TOPICS.length-1?TOPICS[idx+1]:null;navEl.innerHTML='';if(prev&&prev!=='home'){const b=document.createElement('div');b.className='tnav-btn';b.innerHTML=`<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;b.onclick=()=>show(prev,true);navEl.appendChild(b);}else{navEl.appendChild(document.createElement('div'));}if(next){const b=document.createElement('div');b.className='tnav-btn next';b.innerHTML=`<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;b.onclick=()=>show(next,true);navEl.appendChild(b);}}
 window.addEventListener('load',()=>{buildNav();buildContent();const homeNI=document.querySelector('.ni[data-topic="home"]');if(homeNI)homeNI.classList.add('active');if(location.hash){const id=location.hash.slice(1);if(TOPICS.includes(id)){show(id,true);return;}}show('home');});
 </script>
+<script src="../../js/pattern-thread.js"></script>
 </body>
 </html>

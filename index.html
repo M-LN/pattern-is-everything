@@ -405,6 +405,34 @@
       background: var(--surface);
     }
     .inside-chip span { font-size: 14px; }
+
+    /* ── Pattern Thread Banner ── */
+    .pattern-thread-home {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      border-left: 3px solid;
+      border-image: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3)) 1;
+      background: linear-gradient(90deg, rgba(200,75,47,.04), rgba(42,125,95,.02), transparent);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+    .pattern-thread-home .pt-label {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .pattern-thread-home .pt-text {
+      color: var(--muted);
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -526,6 +554,11 @@
       </div>
     </a>
   </div>
+</div>
+
+<div class="pattern-thread-home">
+  <span class="pt-label">◆ The Pattern</span>
+  <span class="pt-text">A bell curve in statistics, a volta in a sonnet, a head-and-shoulders on a chart — the same structural principle, different languages. Every topic here makes that connection visible.</span>
 </div>
 
 <div class="portal-content">
