@@ -10,12 +10,17 @@ function lerp(a,b,t){ return a+(b-a)*t; }
 function setupCanvas(id){
   const c = document.getElementById(id);
   if(!c) return null;
-  const r = c.getBoundingClientRect();
-  c.width = r.width * DPR;
-  c.height = r.height * DPR;
+  if(!c.dataset.origH) c.dataset.origH = c.getAttribute('height') || '240';
+  const rect = c.parentElement.getBoundingClientRect();
+  const w = rect.width - 2;
+  const h = parseInt(c.dataset.origH);
+  c.style.width = w + 'px';
+  c.style.height = h + 'px';
+  c.width = w * DPR;
+  c.height = h * DPR;
   const ctx = c.getContext('2d');
   ctx.scale(DPR, DPR);
-  return { c, ctx, w: r.width, h: r.height };
+  return { c, ctx, w, h };
 }
 
 /* ── Seeded PRNG for reproducible demos ── */
@@ -64,7 +69,7 @@ const DRAWS = {
   const median = sorted.length%2 ? sorted[mid] : (sorted[mid-1]+sorted[mid])/2;
   document.getElementById('meanV').textContent = mean.toFixed(2);
   document.getElementById('medianV').textContent = median.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad = 40, plotW = w-2*pad, plotH = h-80;
@@ -108,7 +113,7 @@ const DRAWS = {
   const std = Math.sqrt(variance);
   document.getElementById('varValV').textContent = variance.toFixed(3);
   document.getElementById('stdValV').textContent = std.toFixed(3);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40, minX=0, maxX=10;
@@ -151,7 +156,7 @@ const DRAWS = {
   const q1 = data[Math.floor(n*0.25)], med = data[Math.floor(n*0.5)], q3 = data[Math.floor(n*0.75)];
   const iqr = q3 - q1;
   const lo = q1 - 1.5*iqr, hi = q3 + 1.5*iqr;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, minV=Math.min(...data)-1, maxV=Math.max(...data)+1;
@@ -207,7 +212,7 @@ const DRAWS = {
   for(let i=0;i<n;i++){ sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2; syy+=(ys[i]-my)**2; }
   const actualR = sxy/Math.sqrt(sxx*syy);
   document.getElementById('corrActV').textContent = actualR.toFixed(3);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted'), accent = getCSS('--accent');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted'), accent = getCSS('--accent');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40, pW=w-2*pad, pH=h-2*pad;
   const xMin=-3.5, xMax=3.5, yMin=-3.5, yMax=3.5;
@@ -245,7 +250,7 @@ const DRAWS = {
     const y = r*x + Math.sqrt(Math.max(0.01,1-r*r))*noise;
     xs.push(x); ys.push(y);
   }
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted'), accent = getCSS('--accent');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted'), accent = getCSS('--accent');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40,pW=w-2*pad,pH=h-2*pad;
   const toSX = v => pad + (v+4)/8*pW;
@@ -274,7 +279,7 @@ const DRAWS = {
   document.getElementById('pAV').textContent = pA.toFixed(2);
   document.getElementById('pBV').textContent = pB.toFixed(2);
   document.getElementById('pABV').textContent = pAB.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const cx = w/2, cy = h/2 + 10, rA = 70, rB = 65;
@@ -311,7 +316,7 @@ const DRAWS = {
   document.getElementById('condPBV').textContent = pB.toFixed(2);
   document.getElementById('condPABV').textContent = pAgivenB.toFixed(2);
   document.getElementById('condJoint').textContent = joint.toFixed(3);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // tree diagram
@@ -358,7 +363,7 @@ const DRAWS = {
   const isIndep = Math.abs(pAB - product) < 0.015;
   document.getElementById('indStatus').textContent = isIndep ? '✓ Independent' : '✗ Dependent';
   document.getElementById('indStatus').style.color = isIndep ? getCSS('--accent2') : getCSS('--accent');
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // bar comparison
@@ -393,7 +398,7 @@ const DRAWS = {
   const combs = factorial(nVal)/(factorial(kVal)*factorial(nVal-kVal));
   document.getElementById('combPerms').textContent = perms > 1e9 ? perms.toExponential(2) : perms.toLocaleString();
   document.getElementById('combCombs').textContent = combs > 1e9 ? combs.toExponential(2) : combs.toLocaleString();
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // draw Pascal's triangle rows up to min(nVal, 10)
@@ -419,7 +424,7 @@ const DRAWS = {
   const s = setupCanvas('llnCanvas'); if(!s) return;
   const {ctx,w,h} = s;
   ctx.fillStyle = getCSS('--bg'); ctx.fillRect(0,0,w,h);
-  const muted = getCSS('--muted'), accent = getCSS('--accent'), accent2 = getCSS('--accent2'), fg = getCSS('--fg');
+  const muted = getCSS('--muted'), accent = getCSS('--accent'), accent2 = getCSS('--accent2'), fg = getCSS('--text');
   // true mean for a die = 3.5
   ctx.strokeStyle = accent2; ctx.lineWidth = 1; ctx.setLineDash([5,3]);
   const pad=40, plotH=h-60;
@@ -445,13 +450,14 @@ const DRAWS = {
   const sig = parseFloat(document.getElementById('normSig')?.value||1);
   document.getElementById('normMuV').textContent = mu.toFixed(1);
   document.getElementById('normSigV').textContent = sig.toFixed(1);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-60;
-  const xMin=mu-4*sig, xMax=mu+4*sig;
+  // Fixed axis so the curve visibly moves and reshapes
+  const xMin=-10, xMax=10;
   const toX = v => pad + (v-xMin)/(xMax-xMin)*pW;
-  const maxPDF = normPDF(mu,mu,sig);
+  const maxPDF = 1/(0.3*Math.sqrt(2*Math.PI)); // max possible PDF (at sig=0.3)
   const toY = v => h-30 - (v/maxPDF)*pH;
   // fill 1σ, 2σ, 3σ regions
   const regions = [
@@ -460,31 +466,55 @@ const DRAWS = {
     { lo:mu-sig, hi:mu+sig, color:accent3+'33' },
   ];
   regions.forEach(r => {
+    const lo = Math.max(r.lo, xMin), hi = Math.min(r.hi, xMax);
+    if(lo >= hi) return;
     ctx.fillStyle = r.color;
-    ctx.beginPath(); ctx.moveTo(toX(r.lo), h-30);
-    for(let x=r.lo;x<=r.hi;x+=(xMax-xMin)/200){ ctx.lineTo(toX(x), toY(normPDF(x,mu,sig))); }
-    ctx.lineTo(toX(r.hi), h-30); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(toX(lo), h-30);
+    for(let x=lo;x<=hi;x+=(xMax-xMin)/300){ ctx.lineTo(toX(x), toY(normPDF(x,mu,sig))); }
+    ctx.lineTo(toX(hi), h-30); ctx.closePath(); ctx.fill();
   });
   // curve
   ctx.strokeStyle = accent; ctx.lineWidth = 2;
   ctx.beginPath();
-  for(let x=xMin;x<=xMax;x+=(xMax-xMin)/200){
+  let first = true;
+  for(let x=xMin;x<=xMax;x+=(xMax-xMin)/300){
     const sx=toX(x), sy=toY(normPDF(x,mu,sig));
-    x===xMin ? ctx.moveTo(sx,sy) : ctx.lineTo(sx,sy);
+    first ? ctx.moveTo(sx,sy) : ctx.lineTo(sx,sy);
+    first = false;
   }
   ctx.stroke();
   // axis
   ctx.strokeStyle = muted; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(pad,h-30); ctx.lineTo(w-pad,h-30); ctx.stroke();
-  // labels
+  // tick marks
   ctx.fillStyle = muted; ctx.font = '10px Inter'; ctx.textAlign = 'center';
-  [-3,-2,-1,0,1,2,3].forEach(z => {
+  for(let t=Math.ceil(xMin);t<=Math.floor(xMax);t+=1){
+    if(t%2!==0 && xMax-xMin>10) continue;
+    const tx = toX(t);
+    ctx.beginPath(); ctx.moveTo(tx,h-30); ctx.lineTo(tx,h-26); ctx.stroke();
+    ctx.fillText(t, tx, h-16);
+  }
+  // σ markers
+  ctx.setLineDash([4,3]);
+  [-1,1].forEach(z => {
     const v = mu + z*sig;
-    ctx.fillText((z>=0?'+':'')+z+'σ', toX(v), h-16);
+    if(v>=xMin && v<=xMax){
+      ctx.strokeStyle = accent2+'88'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(toX(v),h-30); ctx.lineTo(toX(v),toY(normPDF(v,mu,sig))); ctx.stroke();
+    }
   });
-  ctx.fillStyle = fg; ctx.font='10px Inter'; ctx.textAlign='right';
-  ctx.fillText('68%', toX(mu)+30, toY(normPDF(mu,mu,sig)*0.6));
-  ctx.fillText('95%', toX(mu)+45, toY(normPDF(mu,mu,sig)*0.3));
+  ctx.setLineDash([]);
+  // labels
+  ctx.fillStyle = fg; ctx.font='10px Inter'; ctx.textAlign='left';
+  const peakY = toY(normPDF(mu,mu,sig));
+  if(mu>=xMin && mu<=xMax){
+    ctx.fillText('μ='+mu.toFixed(1)+', σ='+sig.toFixed(1), toX(mu)+6, Math.max(peakY-4, 14));
+  }
+  ctx.fillStyle = accent2; ctx.font='9px Inter';
+  const s1x = toX(Math.min(mu+sig, xMax));
+  if(mu+sig<=xMax && mu-sig>=xMin){
+    ctx.fillText('68%', toX(mu)+2, toY(normPDF(mu,mu,sig)*0.55));
+  }
 },
 
 /* ── 12 Binomial Distribution ── */
@@ -495,7 +525,7 @@ const DRAWS = {
   const p = parseFloat(document.getElementById('binomP')?.value||0.5);
   document.getElementById('binomNV').textContent = n;
   document.getElementById('binomPV').textContent = p.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted'), accent = getCSS('--accent');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted'), accent = getCSS('--accent');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40, pW=w-2*pad, pH=h-50;
   const barW = Math.min(20, pW/(n+2));
@@ -529,7 +559,7 @@ const DRAWS = {
   const {ctx,w,h} = s;
   const lam = parseFloat(document.getElementById('poisLambda')?.value||4);
   document.getElementById('poisLambdaV').textContent = lam.toFixed(1);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted'), accent = getCSS('--accent');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted'), accent = getCSS('--accent');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const maxK = Math.max(15, Math.ceil(lam+4*Math.sqrt(lam)));
   const pad=40, pW=w-2*pad, pH=h-50;
@@ -588,7 +618,7 @@ const DRAWS = {
   const b = parseFloat(document.getElementById('uniB')?.value||4);
   document.getElementById('uniAV').textContent = a.toFixed(1);
   document.getElementById('uniBV').textContent = b.toFixed(1);
-  const bg = getCSS('--bg'), muted = getCSS('--muted'), accent = getCSS('--accent'), fg = getCSS('--fg');
+  const bg = getCSS('--bg'), muted = getCSS('--muted'), accent = getCSS('--accent'), fg = getCSS('--text');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40, pW=w-2*pad, pH=h-50;
   const xMin=a-2, xMax=b+2;
@@ -674,7 +704,7 @@ const DRAWS = {
   ctx.stroke();
   ctx.strokeStyle = muted; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(pad,h-30); ctx.lineTo(w-pad,h-30); ctx.stroke();
-  ctx.fillStyle = getCSS('--fg'); ctx.font='11px Inter'; ctx.textAlign='right';
+  ctx.fillStyle = getCSS('--text'); ctx.font='11px Inter'; ctx.textAlign='right';
   ctx.fillText('df = '+df, w-pad-4, 20);
 },
 
@@ -693,7 +723,7 @@ const DRAWS = {
   const {ctx,w,h} = s;
   const n = parseInt(document.getElementById('ciN')?.value||30);
   document.getElementById('ciNV').textContent = n;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const trueMu = 0, trueSig = 1;
@@ -731,7 +761,7 @@ const DRAWS = {
   const alpha = parseFloat(document.getElementById('htAlpha')?.value||0.05);
   document.getElementById('htEffectV').textContent = effect.toFixed(1);
   document.getElementById('htAlphaV').textContent = alpha.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-60;
@@ -775,7 +805,7 @@ const DRAWS = {
   document.getElementById('pvalZV').textContent = z.toFixed(2);
   const pval = 2*(1 - normCDF(z));
   document.getElementById('pvalP').textContent = pval < 0.001 ? pval.toExponential(2) : pval.toFixed(4);
-  const bg = getCSS('--bg'), muted = getCSS('--muted'), accent = getCSS('--accent'), fg = getCSS('--fg');
+  const bg = getCSS('--bg'), muted = getCSS('--muted'), accent = getCSS('--accent'), fg = getCSS('--text');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-50;
   const xMin=-4, xMax=4;
@@ -815,7 +845,7 @@ const DRAWS = {
   const {ctx,w,h} = s;
   const df = parseInt(document.getElementById('ttDF')?.value||5);
   document.getElementById('ttDFV').textContent = df;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-50;
@@ -863,7 +893,7 @@ const DRAWS = {
   });
   const F = (ssB/2)/(ssW/(3*n-3));
   document.getElementById('anovaFV').textContent = F.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=40, pW=w-2*pad;
   const allVals = groups.flat();
@@ -900,7 +930,7 @@ const DRAWS = {
   const k = Math.round(obs*rate); // successes
   const priorA=1, priorB=1; // uniform prior
   const postA = priorA+k, postB = priorB+(obs-k);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-60;
@@ -950,7 +980,7 @@ const DRAWS = {
   document.getElementById('conjKV').textContent = k;
   document.getElementById('conjNV').textContent = n;
   const postA = a+k, postB = b+(n-k);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-50;
@@ -1026,7 +1056,7 @@ const DRAWS = {
     const shrink = (0.8**2/nPerGroup) / (0.8**2/nPerGroup + tau**2);
     return m * (1-shrink) + allMean * shrink;
   });
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50;
@@ -1068,7 +1098,7 @@ const DRAWS = {
   window._bayRegData = window._bayRegData || [];
   const data = window._bayRegData;
   document.getElementById('bayRegN').textContent = data.length;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   const pad=40, pW=w-2*pad, pH=h-2*pad;
   // axes
@@ -1130,7 +1160,7 @@ const DRAWS = {
   let ctrlSuccess=0, treatSuccess=0;
   for(let i=0;i<n;i++){ if(rand()<baseRate) ctrlSuccess++; if(rand()<treatRate) treatSuccess++; }
   const pC = ctrlSuccess/n, pT = treatSuccess/n;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // bars
@@ -1175,7 +1205,7 @@ const DRAWS = {
   means.sort((a,b)=>a-b);
   const ci025 = means[Math.floor(B*0.025)], ci975 = means[Math.floor(B*0.975)];
   document.getElementById('bootCI').textContent = '['+ci025.toFixed(2)+', '+ci975.toFixed(2)+']';
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted'), accent = getCSS('--accent');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted'), accent = getCSS('--accent');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // histogram of bootstrap means
   const pad=40, pW=w-2*pad, pH=h-50;
@@ -1209,7 +1239,7 @@ const DRAWS = {
   const zAlpha = 1.96;
   const power = 1 - normCDF(zAlpha - d/se);
   document.getElementById('powVal').textContent = (power*100).toFixed(1)+'%';
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // power curve: power vs n for current d
@@ -1255,7 +1285,7 @@ const DRAWS = {
   const data = []; for(let i=0;i<25;i++) data.push(trueMu + randN());
   const ll = data.reduce((s,x) => s - 0.5*(x-estMu)**2, 0);
   document.getElementById('mleLL').textContent = ll.toFixed(2);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=w-2*pad, pH=h-50;
@@ -1303,7 +1333,7 @@ const DRAWS = {
   for(let i=0;i<n;i++){ sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2; syy+=(ys[i]-my)**2; }
   const r = sxy/Math.sqrt(sxx*syy);
   document.getElementById('causalR').textContent = r.toFixed(3);
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   const pad=50, pW=(w-pad*2), pH=h-2*pad;
@@ -1393,7 +1423,7 @@ window.runCLT = function(dist){
   const {ctx,w,h} = s;
   const n = parseInt(document.getElementById('cltN')?.value||30);
   document.getElementById('cltNV').textContent = n;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // generate sample means
@@ -1447,7 +1477,7 @@ window.animLLN = function(){
   if(llnAnim) return;
   const s = setupCanvas('llnCanvas'); if(!s) return;
   const {ctx,w,h} = s;
-  const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), muted = getCSS('--muted'), bg = getCSS('--bg'), fg = getCSS('--fg');
+  const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), muted = getCSS('--muted'), bg = getCSS('--bg'), fg = getCSS('--text');
   const pad = 40, plotW = w-2*pad, plotH = h-60;
   let rolls = [], runSum = 0, frame = 0;
   const maxRolls = 500;
@@ -1499,7 +1529,7 @@ window.animMCMC = function(){
   if(mcmcAnim) return;
   const s = setupCanvas('mcmcCanvas'); if(!s) return;
   const {ctx,w,h} = s;
-  const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), muted = getCSS('--muted'), bg = getCSS('--bg'), fg = getCSS('--fg');
+  const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), muted = getCSS('--muted'), bg = getCSS('--bg'), fg = getCSS('--text');
   const target = (x,y) => Math.exp(-0.5*(x*x + y*y*2)); // 2D Gaussian
   let cx = randN()*2, cy = randN();
   let frame = 0;
@@ -1568,7 +1598,7 @@ function drawSimpsonViz(view, s){
   if(!s) s = setupCanvas('simpsonCanvas');
   if(!s) return;
   const {ctx,w,h} = s;
-  const bg = getCSS('--bg'), fg = getCSS('--fg'), muted = getCSS('--muted');
+  const bg = getCSS('--bg'), fg = getCSS('--text'), muted = getCSS('--muted');
   const accent = getCSS('--accent'), accent2 = getCSS('--accent2'), accent3 = getCSS('--accent3');
   ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
   // Data: Treatment A vs B across 2 departments
