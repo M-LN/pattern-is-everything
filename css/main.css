@@ -744,6 +744,19 @@ input[type=range]:focus-visible {
 }
 .callout.info strong { color: var(--accent3); }
 .callout.info::before { content: 'ℹ️'; }
+.callout.bridge {
+  background: linear-gradient(135deg, rgba(200,75,47,.04), rgba(41,85,160,.04));
+  border-color: rgba(200,75,47,.18);
+  border-left: 3px solid var(--accent);
+  color: var(--text);
+}
+.callout.bridge strong { color: var(--accent); }
+.callout.bridge::before { content: '↔'; font-weight: 700; }
+.callout.bridge a { color: var(--accent3); text-decoration: underline; text-decoration-color: rgba(41,85,160,.3); text-underline-offset: 2px; }
+.callout.bridge a:hover { text-decoration-color: var(--accent3); }
+@media (prefers-color-scheme: dark) { .callout.bridge a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); } .callout.bridge a:hover { text-decoration-color: #6fa8ff; } }
+[data-theme="dark"] .callout.bridge a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); }
+[data-theme="dark"] .callout.bridge a:hover { text-decoration-color: #6fa8ff; }
 
 /* ── Pattern Thread ── */
 .pattern-thread {

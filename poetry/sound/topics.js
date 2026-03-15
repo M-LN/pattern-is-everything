@@ -164,6 +164,7 @@ function buildIambicPentameter() {
     <div class="ctrl"><div class="cg"><span class="cl">Variation</span><input type="range" id="iambVar" min="0" max="3" value="0"><span class="vd" id="iambVarV">Regular</span></div></div>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Pure iambic pentameter is rare — poets constantly substitute feet (trochee in position 1, spondee for emphasis) to keep it alive.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> da-DUM × 5 per line is a regular sampling rate — like <a href="../../stats/#sampling-distributions" target="_blank" rel="noopener">fixed-interval sampling</a> in statistics. In ML, <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">cyclic learning rates</a> pulse at regular intervals the same way.</div>
   <div class="topic-nav" id="nav-iambic-pentameter"></div>
 </div>`;
 }
@@ -176,6 +177,7 @@ function buildTrochaicMeter() {
   <div class="fb"><div class="fm">/ ◡ / ◡ / ◡ / ◡</div><div class="fd"><span>Falling rhythm:</span> each foot starts strong and falls. Common in chants, spells, and children's verse.</div></div>
   <div class="va"><div class="vl">// Trochaic pattern — stressed-unstressed visualization</div><canvas id="trochaicCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Trochaic meter often feels more forceful and urgent than iambic — that's why it's the meter of incantation and command.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> DUM-da inverts the iamb — the same reversal as a <a href="../../markets/charts/#inverse-head-and-shoulders" target="_blank" rel="noopener">pattern inversion</a> in charts. In ML, <a href="../../ml-math/#activation" target="_blank" rel="noopener">negative slopes in Leaky ReLU</a> process below-zero inputs where ReLU ignores them.</div>
   <div class="topic-nav" id="nav-trochaic-meter"></div>
 </div>`;
 }
@@ -188,6 +190,7 @@ function buildAnapesticMeter() {
   <div class="fb"><div class="fm">◡ ◡ / ◡ ◡ / ◡ ◡ / ◡ ◡ /</div><div class="fd"><span>"'Twas the NIGHT before CHRIST-mas"</span> — anapestic tetrameter in action.</div></div>
   <div class="va"><div class="vl">// Anapestic rhythm — galloping triple pattern</div><canvas id="anapesticCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The extra unstressed syllable gives anapestic meter a sense of acceleration — each foot builds speed toward the stress.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> da-da-DUM gallops forward with two unstressed syllables building to stress — the rhythmic version of <a href="../../markets/psychology/#fomo" target="_blank" rel="noopener">FOMO momentum</a> accelerating into a peak. In ML, <a href="../../ml-math/#optimizers" target="_blank" rel="noopener">accumulated momentum</a> builds before each weight update.</div>
   <div class="topic-nav" id="nav-anapestic-meter"></div>
 </div>`;
 }
@@ -200,6 +203,7 @@ function buildDactylicMeter() {
   <div class="fb"><div class="fm">/ ◡ ◡ / ◡ ◡ / ◡ ◡ / ◡ ◡</div><div class="fd"><span>"THIS is the FOR-est pri-ME-val"</span> — dactylic hexameter echoes classical epic.</div></div>
   <div class="va"><div class="vl">// Dactylic rhythm — rolling triple pattern</div><canvas id="dactylicCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Dactylic meter is rare in English because English naturally tends toward iambic patterns — but when used, it creates a grand, sweeping effect.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> DUM-da-da — stress then release, like a <a href="../../markets/charts/#head-and-shoulders" target="_blank" rel="noopener">head and shoulders</a> peak followed by falling. In statistics, a <a href="../../stats/#skewness" target="_blank" rel="noopener">right-skewed distribution</a> shows the same shape: sharp rise, long tail.</div>
   <div class="topic-nav" id="nav-dactylic-meter"></div>
 </div>`;
 }
@@ -212,6 +216,7 @@ function buildSpondeePyrrhic() {
   <div class="fb"><div class="fm">SPONDEE: / / (HEART-BREAK) · PYRRHIC: ◡ ◡ (of the)</div><div class="fd"><span>Contrast:</span> spondee = maximum weight. Pyrrhic = maximum lightness.</div></div>
   <div class="va"><div class="vl">// Spondee vs. Pyrrhic — weight comparison</div><canvas id="spondeePyrrhicCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Great metrical poetry uses spondees and pyrrhics strategically — a spondee slows the line for emphasis, a pyrrhic speeds it up for lightness.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two stressed or two unstressed syllables — the extremes of metrical weight. Like <a href="../../stats/#variance-std" target="_blank" rel="noopener">zero variance</a>: all same, no variation. In markets, a <a href="../../markets/charts/#doji" target="_blank" rel="noopener">doji</a> is the spondee of price — equal force in both directions.</div>
   <div class="topic-nav" id="nav-spondee-pyrrhic"></div>
 </div>`;
 }
@@ -224,6 +229,7 @@ function buildPerfectRhyme() {
   <div class="fb"><div class="fm">Same: stressed vowel + everything after · Different: onset consonant</div><div class="fd"><span>cat/hat ✓</span> (different onset, same -at). <span>cat/cat ✗</span> (identity, not rhyme).</div></div>
   <div class="va"><div class="vl">// Perfect rhyme — matching sound segments</div><canvas id="perfectRhymeCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Perfect rhyme creates a strong sense of closure and satisfaction — that's why it dominates formal verse. But too much can feel sing-song.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Identical final sounds — a <a href="../../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity</a> of 1.0. In statistics, <a href="../../stats/#correlation" target="_blank" rel="noopener">perfect correlation</a> (r=1) means two variables move in lockstep, the mathematical rhyme.</div>
   <div class="topic-nav" id="nav-perfect-rhyme"></div>
 </div>`;
 }
@@ -236,6 +242,7 @@ function buildSlantRhyme() {
   <div class="fb"><div class="fm">Shared consonants OR shared vowels — but not both perfectly</div><div class="fd"><span>moon/bone:</span> shared -n ending, different vowels. <span>time/team:</span> shared t-m frame, different vowels.</div></div>
   <div class="va"><div class="vl">// Slant rhyme — partial sound overlap</div><canvas id="slantRhymeCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Slant rhyme creates a subtle dissonance — the ear expects a match that doesn't quite arrive. That gap is where meaning lives.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Almost-matching sounds — <a href="../../ml-math/#cosine-sim" target="_blank" rel="noopener">high cosine similarity</a> but not exact. In statistics, <a href="../../stats/#correlation" target="_blank" rel="noopener">correlation</a> of 0.8 captures the same "close but not identical" relationship.</div>
   <div class="topic-nav" id="nav-slant-rhyme"></div>
 </div>`;
 }
@@ -248,6 +255,7 @@ function buildEyeRhyme() {
   <div class="fb"><div class="fm">Same spelling pattern ≠ Same sound</div><div class="fd"><span>love/move, cough/through, wind/find</span> — English spelling at its most treacherous.</div></div>
   <div class="va"><div class="vl">// Eye rhyme — visual match vs. sound mismatch</div><canvas id="eyeRhymeCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Eye rhyme reminds us that written poetry and spoken poetry are different experiences — the page and the ear don't always agree.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Looks like it should rhyme but doesn’t sound right — surface <a href="../../stats/#correlation" target="_blank" rel="noopener">spurious correlation</a>. In ML, <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">overfitting</a> finds patterns that look convincing but don’t generalize.</div>
   <div class="topic-nav" id="nav-eye-rhyme"></div>
 </div>`;
 }
@@ -260,6 +268,7 @@ function buildInternalRhyme() {
   <div class="fb"><div class="fm">Rhyme at mid-line ↔ end-line, or mid-line ↔ mid-line</div><div class="fd"><span>Types:</span> leonine (mid + end), cross-rhyme (mid of one line + end of next).</div></div>
   <div class="va"><div class="vl">// Internal rhyme — sounds echoing within lines</div><canvas id="internalRhymeCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Internal rhyme makes poetry more musical without the predictability of end rhyme — the echoes surprise the ear.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rhyme inside the line, not just at the end. Like <a href="../../stats/#correlation" target="_blank" rel="noopener">cross-correlation at lag 0</a> instead of just comparing endpoints. In ML, <a href="../../ml-math/#attention" target="_blank" rel="noopener">self-attention</a> finds internal relationships within a sequence.</div>
   <div class="topic-nav" id="nav-internal-rhyme"></div>
 </div>`;
 }
@@ -272,6 +281,7 @@ function buildFeminineMasculine() {
   <div class="fb"><div class="fm">Masculine: STRESS (cat/hat) · Feminine: STRESS-unstress (ending/bending)</div><div class="fd"><span>Effect:</span> masculine = closure. Feminine = lighter, sometimes comic.</div></div>
   <div class="va"><div class="vl">// Masculine vs. feminine rhyme comparison</div><canvas id="femMascCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Feminine rhyme often sounds comic in English (which is why Byron uses it in <em>Don Juan</em>) — the extra unstressed syllable deflates the line's weight.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Single-syllable (masculine) vs. multi-syllable (feminine) endings mirror <a href="../../markets/charts/#hammer" target="_blank" rel="noopener">short vs. long candle tails</a> — the weight of the ending changes the signal. In statistics, <a href="../../stats/#skewness" target="_blank" rel="noopener">tail heaviness</a> defines the distribution shape.</div>
   <div class="topic-nav" id="nav-feminine-masculine"></div>
 </div>`;
 }
@@ -284,6 +294,7 @@ function buildAlliteration() {
   <div class="fb"><div class="fm">Same initial consonant sound in stressed syllables</div><div class="fd"><span>"Peter Piper picked a peck"</span> — the P sound links every key word.</div></div>
   <div class="va"><div class="vl">// Alliteration — initial sounds highlighted</div><canvas id="alliterationCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Alliteration works on <em>sound</em>, not spelling. "City" and "science" alliterate; "city" and "cat" alliterate. It's the ear, not the eye.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Repeated initial consonants are a sound-level <a href="../../ml-math/#cnn" target="_blank" rel="noopener">feature detector</a> — the ear picks up the pattern like a convolutional filter. In markets, <a href="../../markets/charts/#double-top" target="_blank" rel="noopener">double tops</a> repeat the same high — alliteration in price.</div>
   <div class="topic-nav" id="nav-alliteration"></div>
 </div>`;
 }
@@ -296,6 +307,7 @@ function buildAssonance() {
   <div class="fb"><div class="fm">Same vowel sound in nearby words (consonants differ)</div><div class="fd"><span>"Hear the mellow wedding bells"</span> (Poe) — the short e creates a warm resonance.</div></div>
   <div class="va"><div class="vl">// Assonance — vowel sound patterns</div><canvas id="assonanceCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> High vowels (ee, ay) tend to feel bright and sharp; low vowels (oo, aw) feel dark and heavy. Assonance creates mood through vowel selection.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Repeated vowel sounds create tonal unity without full rhyme. Like <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">word embeddings</a> sharing a dimension — partial similarity creating cohesion. In statistics, <a href="../../stats/#covariance" target="_blank" rel="noopener">covariance</a> captures shared movement without requiring identity.</div>
   <div class="topic-nav" id="nav-assonance"></div>
 </div>`;
 }
@@ -308,6 +320,7 @@ function buildConsonance() {
   <div class="fb"><div class="fm">Same consonant sounds in nearby words (position varies)</div><div class="fd"><span>"stroke of luck"</span> — the k sound at the end of stroke and luck.</div></div>
   <div class="va"><div class="vl">// Consonance — consonant sound patterns</div><canvas id="consonanceCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Consonance is the most subtle of the sound-repetition devices — it works below conscious hearing, creating a feeling of cohesion without being obvious.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Repeated consonant sounds (anywhere in words) create texture. Like <a href="../../stats/#correlation" target="_blank" rel="noopener">autocorrelation</a> at different lags — the same signal recurring at varied positions. In ML, <a href="../../ml-math/#regularization" target="_blank" rel="noopener">weight sharing</a> in CNNs reuses the same parameter across positions.</div>
   <div class="topic-nav" id="nav-consonance"></div>
 </div>`;
 }
@@ -320,6 +333,7 @@ function buildOnomatopoeia() {
   <div class="fb"><div class="fm">Sound → Word → Meaning (direct imitation)</div><div class="fd"><span>buzz, hiss, crack, splash, whisper, boom, rustle, sizzle</span></div></div>
   <div class="va"><div class="vl">// Onomatopoeia — sound-sense mapping</div><canvas id="onomatopoeiaCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Onomatopoeia varies by language — a dog says "woof" in English, "wan-wan" in Japanese, "guau" in Spanish. Even sound imitation is culturally shaped.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Sound imitates meaning — the signifier encodes the signified. Like <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">embeddings</a> where the vector encodes semantics, or <a href="../../markets/charts/#gaps" target="_blank" rel="noopener">gaps in price</a> that visually sound like the shock they represent.</div>
   <div class="topic-nav" id="nav-onomatopoeia"></div>
 </div>`;
 }
@@ -332,6 +346,7 @@ function buildEuphonyCacophony() {
   <div class="fb"><div class="fm">Euphony: l, m, n, r + open vowels · Cacophony: k, t, p, g + clusters</div><div class="fd"><span>"Season of mists and mellow fruitfulness"</span> (euphony) vs. <span>"black crack of blood"</span> (cacophony).</div></div>
   <div class="va"><div class="vl">// Euphony vs. cacophony — smooth vs. harsh sounds</div><canvas id="euphCacCanvas" height="240"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Euphony and cacophony are relative — a cacophonous passage gains power by following euphony, and vice versa. Contrast is the key.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Smooth vs. harsh sound mirrors <a href="../../stats/#variance-std" target="_blank" rel="noopener">low vs. high variance</a> — calm data vs. noisy data. In markets, <a href="../../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">euphoria is euphony, panic is cacophony</a> — the emotional texture of volatility.</div>
   <div class="topic-nav" id="nav-euphony-cacophony"></div>
 </div>`;
 }
@@ -344,6 +359,7 @@ function buildCaesura() {
   <div class="fb"><div class="fm">Line… ‖ …continues (medial caesura)</div><div class="fd"><span>"To be, or not to be: ‖ that is the question"</span> — the colon creates a dramatic pause.</div></div>
   <div class="va"><div class="vl">// Caesura positions — initial, medial, terminal</div><canvas id="caesuraCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The caesura is silence as rhythm — the pause carries as much weight as the words. It's where the reader breathes and the line pivots.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A pause inside the line that divides flow. Like <a href="../../ml-math/#activation" target="_blank" rel="noopener">ReLU’s hard zero</a> that splits the activation space, or <a href="../../markets/charts/#support-resistance" target="_blank" rel="noopener">a support/resistance level</a> that price pauses at before continuing.</div>
   <div class="topic-nav" id="nav-caesura"></div>
 </div>`;
 }
@@ -356,6 +372,7 @@ function buildEnjambment() {
   <div class="fb"><div class="fm">End of line ≠ end of thought → momentum carries forward</div><div class="fd"><span>"I am not yet born; // O hear me."</span> — the sentence pulls across the break.</div></div>
   <div class="va"><div class="vl">// Enjambment vs. end-stopped — flow comparison</div><canvas id="enjambmentCanvas" height="240"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Enjambment creates a double reading — the line ending pauses the eye while the syntax pulls it forward. The tension between these two forces is the device's power.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Meaning carried past the line break without pause. Like <a href="../../ml-math/#rnn" target="_blank" rel="noopener">RNN hidden states</a> carrying across time steps, or <a href="../../markets/charts/#gaps" target="_blank" rel="noopener">a gap</a> where price leaps to the next session without closing at a boundary.</div>
   <div class="topic-nav" id="nav-enjambment"></div>
 </div>`;
 }
@@ -368,6 +385,7 @@ function buildEndStopped() {
   <div class="fb"><div class="fm">Line break = natural pause · Thought completes at line end</div><div class="fd"><span>"True wit is nature to advantage dressed, / What oft was thought, but ne'er so well expressed."</span></div></div>
   <div class="va"><div class="vl">// End-stopped lines — pause at each break</div><canvas id="endStoppedCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> End-stopped lines feel measured and controlled — each line is a closed unit. Too many feel monotonous; the best poets vary end-stopping with enjambment.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Meaning stops at the line break — a clean boundary. Like <a href="../../ml-math/#grad-clip" target="_blank" rel="noopener">gradient clipping</a> that enforces a hard stop, or <a href="../../markets/charts/#support-resistance" target="_blank" rel="noopener">support</a> where price hits a floor and doesn’t pass.</div>
   <div class="topic-nav" id="nav-end-stopped"></div>
 </div>`;
 }
@@ -380,6 +398,7 @@ function buildSyncopation() {
   <div class="fb"><div class="fm">Expected: ◡ / ◡ / ◡ / · Syncopated: ◡ / / ◡ ◡ /</div><div class="fd"><span>The disruption creates tension</span> between what the ear expects and what it hears.</div></div>
   <div class="va"><div class="vl">// Regular vs. syncopated rhythm</div><canvas id="syncopationCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Syncopation only works when there's a regular pattern to play against — the surprise depends on the expectation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Stress where you don’t expect it — the rhythmic equivalent of an <a href="../../stats/#outliers" target="_blank" rel="noopener">outlier</a>. In markets, <a href="../../markets/charts/#gaps" target="_blank" rel="noopener">price gaps</a> syncopate the expected rhythm of continuous trading.</div>
   <div class="topic-nav" id="nav-syncopation"></div>
 </div>`;
 }
@@ -392,6 +411,7 @@ function buildSprungRhythm() {
   <div class="fb"><div class="fm">Fixed number of stresses per line · Variable unstressed syllables</div><div class="fd"><span>"The WORLD is CHARGED with the GRAN-deur of GOD"</span> — 4 stresses, variable unstressed.</div></div>
   <div class="va"><div class="vl">// Sprung rhythm — stresses as anchor points</div><canvas id="sprungCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Hopkins called sprung rhythm "the rhythm of natural speech" — and indeed, when we speak, we time our stresses roughly evenly regardless of how many unstressed syllables fall between.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Variable unstressed syllables between beats — rhythm resisting regularity. Like <a href="../../stats/#poisson" target="_blank" rel="noopener">Poisson-distributed events</a> where intervals vary but the rate is steady. In ML, <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">stochastic learning rates</a> introduce controlled irregularity.</div>
   <div class="topic-nav" id="nav-sprung-rhythm"></div>
 </div>`;
 }
@@ -404,6 +424,7 @@ function buildRefrain() {
   <div class="fb"><div class="fm">Stanza 1 → refrain → Stanza 2 → refrain → … (meaning shifts)</div><div class="fd"><span>Villanelle, ballad, rondeau</span> — all built on the refrain's power.</div></div>
   <div class="va"><div class="vl">// Refrain pattern — recurring line through stanzas</div><canvas id="refrainCanvas" height="240"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The best refrains are emotionally ambiguous — words that can mean different things depending on what came before. "Do not go gentle" changes from advice to plea to prayer.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A repeated line that anchors the poem. The same role as <a href="../../ml-math/#transformer" target="_blank" rel="noopener">residual connections</a> in a transformer — the original signal returning after transformation. In markets, <a href="../../markets/psychology/#anchoring" target="_blank" rel="noopener">anchor prices</a> are the market’s refrain.</div>
   <div class="topic-nav" id="nav-refrain"></div>
 </div>`;
 }
@@ -416,6 +437,7 @@ function buildAnaphora() {
   <div class="fb"><div class="fm">Line 1: "I saw…" · Line 2: "I saw…" · Line 3: "I saw…" (same beginning)</div><div class="fd"><span>Each repetition adds weight</span> — the pattern becomes an incantation.</div></div>
   <div class="va"><div class="vl">// Anaphora — beginning repetition pattern</div><canvas id="anaphoraCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Anaphora democratizes what follows — by giving every line the same launch pad, it says each experience/image is equally important.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Same opening repeated across lines builds cumulative force — like <a href="../../ml-math/#optimizers" target="_blank" rel="noopener">gradient momentum</a> accumulating in the same direction. In markets, <a href="../../markets/psychology/#information-cascades" target="_blank" rel="noopener">information cascades</a> repeat the same signal until it overwhelms dissent.</div>
   <div class="topic-nav" id="nav-anaphora"></div>
 </div>`;
 }
@@ -428,6 +450,7 @@ function buildEpistrophe() {
   <div class="fb"><div class="fm">Line 1: "…the people" · Line 2: "…the people" · Line 3: "…the people"</div><div class="fd"><span>Each line arrives at the same word</span> — the ending reinforced by repetition.</div></div>
   <div class="va"><div class="vl">// Epistrophe — ending repetition pattern</div><canvas id="epistropheCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Epistrophe places emphasis on the repeated word because it lands in the position of maximum stress — the end of the line. It's anaphora's more forceful sibling.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Same ending repeated across lines. In statistics, consistent <a href="../../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval endpoints</a> across experiments confirm the same conclusion. In markets, <a href="../../markets/charts/#double-bottom" target="_blank" rel="noopener">double bottoms</a> end at the same price.</div>
   <div class="topic-nav" id="nav-epistrophe"></div>
 </div>`;
 }
@@ -440,6 +463,7 @@ function buildParallelism() {
   <div class="fb"><div class="fm">Same grammatical pattern → different content</div><div class="fd"><span>"To err is human; to forgive, divine"</span> — parallel infinitive phrases.</div></div>
   <div class="va"><div class="vl">// Parallelism — matching syntactic structures</div><canvas id="parallelismCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Parallelism is the basis of Whitman's free verse and the Psalms — without meter or rhyme, the repeated grammatical structure becomes the primary source of rhythm.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Matching structure across clauses mirrors <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">batch processing</a> in ML — running the same operation on each input in parallel. In markets, <a href="../../markets/charts/#channels" target="_blank" rel="noopener">parallel channel lines</a> enforce the same structure on highs and lows.</div>
   <div class="topic-nav" id="nav-parallelism"></div>
 </div>`;
 }
@@ -452,6 +476,7 @@ function buildCadence() {
   <div class="fb"><div class="fm">Rising cadence → climax / Falling cadence → rest</div><div class="fd"><span>Not meter:</span> no fixed pattern. <span>Not random:</span> shaped by breath and syntax.</div></div>
   <div class="va"><div class="vl">// Cadence — natural speech rhythm waves</div><canvas id="cadenceCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Cadence is what separates free verse from prose — the poet shapes the natural speech rhythm into patterns that carry emotional meaning, even without meter.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The natural fall of the voice at a phrase’s end. Like <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">learning rate decay</a> at the end of training, or a <a href="../../markets/psychology/#mean-reversion-psychology" target="_blank" rel="noopener">mean-reverting</a> price returning to its base. Every process has a cadence.</div>
   <div class="topic-nav" id="nav-cadence"></div>
 </div>`;
 }

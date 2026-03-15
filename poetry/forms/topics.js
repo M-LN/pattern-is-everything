@@ -180,6 +180,7 @@ Thou art more lovely and more temperate:     <span class="cm"># B</span>
 Rough winds do shake the darling buds of May, <span class="cm"># A</span>
 And summer's lease hath all too short a date.  <span class="cm"># B</span></pre></div>
   <div class="callout info"><strong>Key insight:</strong> The Shakespearean sonnet's power is in the <em>couplet</em>. After 12 lines of development, two lines must deliver the punch. The best couplets reframe everything that came before.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Three quatrains + couplet is a structured argument — like <a href="../../ml-math/#backprop" target="_blank" rel="noopener">a computational graph</a> with layers feeding forward to a final output. The volta mirrors the <a href="../../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">sentiment turning point</a> in markets.</div>
   <div class="topic-nav" id="nav-shakespearean-sonnet"></div>
 </div>`;
 }
@@ -207,6 +208,7 @@ function buildPetrarchanSonnet() {
     </tbody>
   </table>
   <div class="callout info"><strong>Key insight:</strong> The Petrarchan sonnet's strength is the <em>volta</em>. The hard break between octave and sestet creates a dramatic structural tension that the English sonnet's gradual quatrains lack.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Octave poses, sestet answers — the oldest call-and-response in Western poetry. Same architecture as <a href="../../ml-math/#vae" target="_blank" rel="noopener">encoder-decoder</a> models: compress, then expand into meaning. The volta is a <a href="../../stats/#hypothesis-testing" target="_blank" rel="noopener">hypothesis test</a> — evidence, then verdict.</div>
   <div class="topic-nav" id="nav-petrarchan-sonnet"></div>
 </div>`;
 }
@@ -225,6 +227,7 @@ function buildSpenserianSonnet() {
     <canvas id="spenSonnetCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The interlocking rhymes make the Spenserian sonnet harder to write than either Shakespearean or Petrarchan — you need more rhyming words. But the payoff is a sense of inevitable, linked progression.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Interlocking rhyme (ABAB BCBC CDCD EE) chains stanzas like <a href="../../ml-math/#rnn" target="_blank" rel="noopener">RNN hidden states</a> carrying context forward. In markets, <a href="../../markets/indicators/#ema" target="_blank" rel="noopener">exponential moving averages</a> interlock past and present the same way.</div>
   <div class="topic-nav" id="nav-spenserian-sonnet"></div>
 </div>`;
 }
@@ -243,6 +246,7 @@ function buildModernSonnet() {
     <canvas id="modernSonnetCanvas" height="280"></canvas>
   </div>
   <div class="callout info"><strong>Key figures:</strong> Terrance Hayes (Golden Shovel sonnets), Wanda Coleman ("American Sonnets"), Claudia Rankine, and others have reinvented the sonnet for contemporary voices.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Bending the rules while keeping the frame is <a href="../../ml-math/#lora" target="_blank" rel="noopener">LoRA</a> — low-rank adaptation of a frozen tradition. In statistics, <a href="../../stats/#robust-statistics" target="_blank" rel="noopener">robust methods</a> modify standard formulas to handle real-world messiness.</div>
   <div class="topic-nav" id="nav-modern-sonnet"></div>
 </div>`;
 }
@@ -261,6 +265,7 @@ function buildCrownOfSonnets() {
     <canvas id="crownCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The crown is a test of thematic coherence — each linking line must work as both a conclusion and a beginning, forcing the poet to find lines that resonate in two contexts.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Seven sonnets linked end-to-start, the last line becoming the first — the same <a href="../../ml-math/#transformer" target="_blank" rel="noopener">residual connections</a> that make transformers deep. In markets, <a href="../../markets/charts/#channels" target="_blank" rel="noopener">price channels</a> carry the same thread forward across time.</div>
   <div class="topic-nav" id="nav-crown-of-sonnets"></div>
 </div>`;
 }
@@ -283,6 +288,7 @@ Do not go gentle into that good night,    <span class="cm"># A¹ (refrain 1)</sp
 Old age should burn and rave at close of day; <span class="cm"># b</span>
 Rage, rage against the dying of the light.  <span class="cm"># A² (refrain 2)</span></pre></div>
   <div class="callout info"><strong>Key insight:</strong> The villanelle works best when the refrains gain new meaning with each repetition. Thomas's "Do not go gentle" grows from advice to plea to prayer.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two refrains rotating through five tercets is a constraint that forces variation within repetition. Like <a href="../../ml-math/#regularization" target="_blank" rel="noopener">regularization</a> in ML: the restriction is the feature. In markets, <a href="../../markets/psychology/#mean-reversion-psychology" target="_blank" rel="noopener">mean reversion</a> is the price always returning to its refrain.</div>
   <div class="topic-nav" id="nav-villanelle"></div>
 </div>`;
 }
@@ -301,6 +307,7 @@ function buildSestina() {
     <canvas id="sestinaCanvas" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The sestina is essentially a mathematical object — the permutation (6,1,5,2,4,3) generates the entire structure. Elizabeth Bishop's "Sestina" is the modern masterpiece of the form.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Six end-words rotating through six stanzas in a fixed permutation — a <a href="../../ml-math/#lstm" target="_blank" rel="noopener">gated memory</a> that persists and recombines across stanzas. In statistics, <a href="../../stats/#permutation-test" target="_blank" rel="noopener">permutation tests</a> shuffle the same elements to test significance.</div>
   <div class="topic-nav" id="nav-sestina"></div>
 </div>`;
 }
@@ -319,6 +326,7 @@ function buildPantoum() {
     <canvas id="pantoumCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The pantoum's repetition creates a dreamlike, obsessive quality — perfect for themes of memory, grief, or time. Each repeated line gains new meaning in its new context.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Lines 2 and 4 become lines 1 and 3 of the next stanza — a sliding window like a <a href="../../ml-math/#cnn" target="_blank" rel="noopener">convolutional kernel</a> moving across data. In markets, <a href="../../markets/indicators/#sma" target="_blank" rel="noopener">rolling averages</a> carry overlapping windows forward.</div>
   <div class="topic-nav" id="nav-pantoum"></div>
 </div>`;
 }
@@ -337,6 +345,7 @@ function buildGhazal() {
     <canvas id="ghazalCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Each couplet must be a self-contained poem — a complete thought. Agha Shahid Ali championed the ghazal in English, insisting on strict formal adherence. The form's beauty is in the tension between autonomy and connection.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Independent couplets unified by a radif (refrain) and rhyme. Each couplet is a standalone observation — like <a href="../../stats/#correlation" target="_blank" rel="noopener">correlated but independent data points</a>. In ML, <a href="../../ml-math/#vae" target="_blank" rel="noopener">VAE latent dimensions</a> are independent but reconstruct a unified output.</div>
   <div class="topic-nav" id="nav-ghazal"></div>
 </div>`;
 }
@@ -355,6 +364,7 @@ function buildRondeau() {
     <canvas id="rondeauCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The rentrement's power comes from brevity — it's just the first few words of line 1. By the time it returns, those words carry the full emotional weight of the poem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The rentrement (opening phrase returning as refrain) is a <a href="../../ml-math/#transformer" target="_blank" rel="noopener">residual skip connection</a> — the original input reappearing deeper in the network. In markets, <a href="../../markets/charts/#support-resistance" target="_blank" rel="noopener">support levels</a> are price’s rondeau — returning to the same phrase.</div>
   <div class="topic-nav" id="nav-rondeau"></div>
 </div>`;
 }
@@ -382,6 +392,7 @@ An old silent pond        <span class="cm"># 5 syllables — the scene</span>
 A frog jumps into the pond <span class="cm"># 7 syllables — the action</span>
 Splash! Silence again      <span class="cm"># 5 syllables — the resonance</span></pre></div>
   <div class="callout info"><strong>Key insight:</strong> A great haiku is not description — it's a collision of two images that sparks meaning in the gap. The kireji (cutting word) creates that gap.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Maximum compression: 17 syllables, one image, one turn. Like a <a href="../../ml-math/#gru" target="_blank" rel="noopener">GRU</a> over an LSTM: fewer parameters, same expressive power. In statistics, <a href="../../stats/#mean-median" target="_blank" rel="noopener">the median</a> is a haiku-like summary — one number, the whole center.</div>
   <div class="topic-nav" id="nav-haiku"></div>
 </div>`;
 }
@@ -400,6 +411,7 @@ function buildTanka() {
     <canvas id="tankaCanvas" height="260"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Where haiku aims for objectivity and the present moment, tanka embraces subjectivity and emotional response. The two extra lines allow the poet to react, reflect, and feel.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Haiku + two extra lines that add reflection. The same extension that takes a <a href="../../ml-math/#linear" target="_blank" rel="noopener">linear model</a> and adds non-linearity. In markets, <a href="../../markets/indicators/#macd" target="_blank" rel="noopener">MACD adds a signal line</a> to accompany the raw measure.</div>
   <div class="topic-nav" id="nav-tanka"></div>
 </div>`;
 }
@@ -418,6 +430,7 @@ function buildLimerick() {
     <canvas id="limerickCanvas" height="240"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The limerick's comedy lives in the mismatch between the short middle lines and the return to the long line — the rhythm creates expectation, and the punchline breaks it.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> AABBA rhyme with a built-in punchline — a closed system that sets up and resolves. Like a <a href="../../stats/#hypothesis-testing" target="_blank" rel="noopener">hypothesis test</a>: premise, evidence, conclusion. In ML, a <a href="../../ml-math/#loss" target="_blank" rel="noopener">loss function</a> evaluates and delivers a verdict.</div>
   <div class="topic-nav" id="nav-limerick"></div>
 </div>`;
 }
@@ -436,6 +449,7 @@ function buildEpigram() {
     <canvas id="epigramCanvas" height="200"></canvas>
   </div>
   <div class="callout info"><strong>Wilde:</strong> "I can resist everything except temptation." The epigram's power is the gap between expectation and delivery — maximum surprise in minimum space.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A witty compression of truth into two lines. In ML, <a href="../../ml-math/#svd" target="_blank" rel="noopener">SVD</a> compresses a matrix to its essential rank. In statistics, <a href="../../stats/#percentiles" target="_blank" rel="noopener">a single percentile</a> can summarize position in one number.</div>
   <div class="topic-nav" id="nav-epigram"></div>
 </div>`;
 }
@@ -454,6 +468,7 @@ function buildCouplet() {
     <canvas id="coupletCanvas" height="220"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Pope's heroic couplets are like epigrammatic bullets — each pair is a polished, self-contained unit. Open couplets (Keats, Browning) trade that punch for narrative flow.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two paired lines — the simplest relationship in poetry. Like <a href="../../stats/#correlation" target="_blank" rel="noopener">correlation between two variables</a> or a <a href="../../ml-math/#linear" target="_blank" rel="noopener">linear regression</a> with one predictor: the irreducible unit of pattern.</div>
   <div class="topic-nav" id="nav-couplet"></div>
 </div>`;
 }
@@ -472,6 +487,7 @@ function buildBallad() {
     <canvas id="balladCanvas" height="280"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The ballad's quatrain is the same as hymn meter (common meter) — Emily Dickinson used it for almost every poem. You can sing any Dickinson poem to the tune of "Amazing Grace."</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Narrative verse with alternating rhythm carries a story forward like a <a href="../../ml-math/#rnn" target="_blank" rel="noopener">recurrent neural network</a> — each stanza receives state from the last. In markets, <a href="../../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">the sentiment cycle</a> is a ballad — the same story told over and over.</div>
   <div class="topic-nav" id="nav-ballad"></div>
 </div>`;
 }
@@ -490,6 +506,7 @@ function buildOde() {
     <canvas id="odeCanvas" height="280"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Keats's irregular odes ("Ode to a Nightingale," "Ode on a Grecian Urn") transcend the categories — they combine Pindaric elevation with Horatian intimacy in a form unique to each poem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A poem of sustained praise following strophe-antistrophe-epode — thesis, antithesis, synthesis. The same dialectic drives <a href="../../ml-math/#gan" target="_blank" rel="noopener">GAN training</a>: generator proposes, discriminator opposes, equilibrium emerges.</div>
   <div class="topic-nav" id="nav-ode"></div>
 </div>`;
 }
@@ -508,6 +525,7 @@ function buildElegy() {
     <canvas id="elegyCanvas" height="240"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The elegy's real subject is often the living speaker, not the dead — how grief transforms the mourner, how language both fails and consoles.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> From grief through lament to acceptance — the emotional arc mirrors the <a href="../../markets/psychology/#euphoria-panic" target="_blank" rel="noopener">euphoria-to-capitulation</a> cycle in markets. In statistics, <a href="../../stats/#skewness" target="_blank" rel="noopener">negative skew</a> captures the heavy tail of loss.</div>
   <div class="topic-nav" id="nav-elegy"></div>
 </div>`;
 }
@@ -526,6 +544,7 @@ function buildEpic() {
     <canvas id="epicCanvas" height="280"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Milton's <em>Paradise Lost</em> (blank verse epic) and Walcott's <em>Omeros</em> (Caribbean epic in terza rima-influenced stanzas) show how the epic adapts to new cultures and languages while keeping its conventions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Long-form narrative with invocation, catalogs, and resolution. An epic is the <a href="../../ml-math/#transformer" target="_blank" rel="noopener">transformer</a> of poetry: massive context window, parallel structure, and self-referential attention across thousands of lines.</div>
   <div class="topic-nav" id="nav-epic"></div>
 </div>`;
 }
@@ -544,6 +563,7 @@ function buildDramaticMonologue() {
     <canvas id="dramaticCanvas" height="260"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The dramatic monologue is a precursor to the unreliable narrator in fiction. What makes it poetic rather than dramatic is the compression — a whole character revealed in a single speech act.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A single speaker revealing character through speech — like a <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">learned embedding</a> that encodes an entire persona in one vector. In markets, <a href="../../markets/psychology/#framing-effect" target="_blank" rel="noopener">the framing effect</a> shows how a single perspective shapes interpretation.</div>
   <div class="topic-nav" id="nav-dramatic-monologue"></div>
 </div>`;
 }
@@ -562,6 +582,7 @@ function buildFreeVerse() {
     <canvas id="freeVerseCanvas" height="280"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> "Writing free verse is like playing tennis with the net down" (Frost). The counterargument: free verse replaces external constraints with internal ones — every line break is a decision about rhythm, meaning, and breath.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> No fixed form, maximum entropy. Like <a href="../../ml-math/#softmax" target="_blank" rel="noopener">high-temperature softmax</a> — a uniform distribution of possibilities. In statistics, <a href="../../stats/#uniform" target="_blank" rel="noopener">the uniform distribution</a> is the baseline: maximum uncertainty.</div>
   <div class="topic-nav" id="nav-free-verse"></div>
 </div>`;
 }
@@ -580,6 +601,7 @@ function buildBlankVerse() {
     <canvas id="blankVerseCanvas" height="240"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Blank verse is the closest English meter to natural speech — that's why Shakespeare and Milton chose it. The regularity is there, but it's flexible enough to sound like a person thinking aloud.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Unrhymed iambic pentameter — constraint without closure. Like <a href="../../ml-math/#regularization" target="_blank" rel="noopener">L2 regularization</a> without L1: it constrains magnitude but doesn’t force sparsity. In markets, <a href="../../markets/charts/#trendlines" target="_blank" rel="noopener">trendlines</a> provide structure without defining the ending.</div>
   <div class="topic-nav" id="nav-blank-verse"></div>
 </div>`;
 }
@@ -598,6 +620,7 @@ function buildProsePoetry() {
     <canvas id="prosePoetryCanvas" height="240"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Prose poetry is the form that asks "what is poetry?" most directly. If you remove the line break — the poet's most visible tool — what remains?</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Poetry without line breaks — the boundary dissolved. Like <a href="../../ml-math/#diffusion" target="_blank" rel="noopener">diffusion models</a> that blur structure into noise and back. In statistics, the line between <a href="../../stats/#discrete-vs-continuous" target="_blank" rel="noopener">discrete and continuous</a> distributions blurs the same way.</div>
   <div class="topic-nav" id="nav-prose-poetry"></div>
 </div>`;
 }
@@ -616,6 +639,7 @@ function buildConcretePoetry() {
     <canvas id="concreteCanvas" height="300"></canvas>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Concrete poetry collapses the distinction between reading and seeing. The meaning is inseparable from the shape — you can't "read it aloud" without losing something essential.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shape is meaning — the visual layout carries semantic weight. Like <a href="../../ml-math/#cnn" target="_blank" rel="noopener">CNNs</a> that extract meaning from spatial arrangement. In markets, <a href="../../markets/charts/#cup-and-handle" target="_blank" rel="noopener">chart patterns</a> are concrete poetry of price — shape is signal.</div>
   <div class="topic-nav" id="nav-concrete-poetry"></div>
 </div>`;
 }
@@ -637,6 +661,7 @@ function buildAcrostic() {
     </div>
   </div>
   <div class="callout info"><strong>Key insight:</strong> The acrostic is a constraint that feels like a game — but it can produce real art. The discipline of starting each line with a given letter forces unexpected word choices and images.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hidden message encoded as initial letters — a <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">latent encoding</a> visible only if you know where to look. In statistics, <a href="../../stats/#correlation" target="_blank" rel="noopener">hidden correlations</a> emerge only when you project data onto the right axis.</div>
   <div class="topic-nav" id="nav-acrostic"></div>
 </div>`;
 }

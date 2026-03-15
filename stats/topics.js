@@ -216,6 +216,7 @@ np.median(data)       <span class="cm"># 3.5 — robust</span>
 <span class="kw">from</span> scipy <span class="kw">import</span> stats
 stats.mode(data)      <span class="cm"># 3 — most frequent</span></pre></div>
   <div class="callout info"><strong>When to use which:</strong> Mean for symmetric data. Median for skewed data or when outliers exist. Mode for categorical data.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The same tug between average and midpoint shows up everywhere — <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving averages</a> smooth market noise, while median household income resists the pull of billionaire outliers. In ML, <a href="../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> centers activations around their mean to keep training stable.</div>
   <div class="topic-nav" id="nav-mean-median"></div>
 </div>`;
 }
@@ -242,6 +243,7 @@ function buildVarianceStd() {
     </div>
   </div>
   <div class="callout"><strong>Why n−1?</strong> The sample mean x̄ is already estimated from the data, "using up" one degree of freedom. Dividing by n−1 corrects for this and gives an unbiased estimator of σ².</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation IS <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> — when σ expands, the bands widen and volatility spikes. In ML, <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> (Xavier, He) scales initial weights by √(1/n) to keep variance stable across layers. Same math, different stage.</div>
   <div class="topic-nav" id="nav-variance-std"></div>
 </div>`;
 }
@@ -268,6 +270,7 @@ function buildPercentiles() {
   <div class="code-block"><pre>np.percentile(data, [<span class="st">25</span>, <span class="st">50</span>, <span class="st">75</span>])   <span class="cm"># Q1, Q2 (median), Q3</span>
 np.quantile(data, <span class="st">0.95</span>)               <span class="cm"># 95th percentile</span>
 iqr = np.percentile(data, <span class="st">75</span>) - np.percentile(data, <span class="st">25</span>)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Markets live on percentiles — the 52-week high is just the 100th percentile of closing prices. In ML, quantile regression predicts ranges instead of points. Even a box plot is a five-number summary of a stock’s recent range.</div>
   <div class="topic-nav" id="nav-percentiles"></div>
 </div>`;
 }
@@ -291,6 +294,7 @@ function buildCorrelation() {
     </div>
   </div>
   <div class="callout warn"><strong>Critical warning:</strong> r measures only <em>linear</em> relationships. A perfect parabola has r=0. Always plot your data — Anscombe's quartet proves numbers lie without visuals.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">Cosine similarity</a> in ML is correlation’s cousin — both measure how two things move together. <a href="../llm/#self-attention" target="_blank" rel="noopener">Attention weights</a> capture which tokens are most “correlated” with each other. Markets watch sector correlations to diversify risk.</div>
   <div class="topic-nav" id="nav-correlation"></div>
 </div>`;
 }
@@ -314,6 +318,7 @@ function buildCovariance() {
     </div>
   </div>
   <div class="callout info"><strong>Covariance matrix:</strong> For d variables, the d×d covariance matrix Σ has variances on the diagonal and covariances off-diagonal. It's the foundation of PCA, Gaussian distributions, and portfolio theory.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Covariance is the engine behind <a href="../ml-math/#pca" target="_blank" rel="noopener">PCA</a> — finding directions of maximum spread. In markets, portfolio theory uses the same covariance matrix to balance risk across assets. Same matrix, different stakes.</div>
   <div class="topic-nav" id="nav-covariance"></div>
 </div>`;
 }
@@ -338,6 +343,7 @@ function buildProbBasics() {
       <div class="cg"><span class="cl">P(A∩B)</span><input type="range" id="pAB" min="0" max="0.3" step="0.01" value="0.1" oninput="drawProbBasics()"><span class="vd" id="pABV">0.10</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../poetry/forms/#sestina" target="_blank" rel="noopener">sestina</a> rotates six end-words through stanzas in a fixed permutation pattern — pure probability structure disguised as verse. Options pricing (<a href="../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">Black-Scholes</a>) is probability with dollar signs.</div>
   <div class="topic-nav" id="nav-prob-basics"></div>
 </div>`;
 }
@@ -362,6 +368,7 @@ function buildConditional() {
       <div class="cg"><span class="cl">P(A∩B)</span><span class="vd" id="condJoint" style="color:var(--accent)">—</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayes’ theorem</a> is conditional probability made recursive — behind spam filters, medical diagnosis, AND Bayesian ML. In markets, “given that volume spiked, what’s the probability of a breakout?” is conditional thinking in action.</div>
   <div class="topic-nav" id="nav-conditional"></div>
 </div>`;
 }
@@ -387,6 +394,7 @@ function buildIndependence() {
     </div>
   </div>
   <div class="callout warn"><strong>Common trap:</strong> Independence ≠ mutually exclusive. Mutually exclusive events are maximally <em>dependent</em> — if A happens, B definitely didn't!</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/psychology/#gambler-fallacy" target="_blank" rel="noopener">Gambler’s Fallacy</a> assumes dependence where there is none — “it fell five days, it’s due for a bounce.” <a href="../llm/#self-attention" target="_blank" rel="noopener">Attention mechanisms</a> in LLMs exist precisely to model the dependencies that independence ignores.</div>
   <div class="topic-nav" id="nav-independence"></div>
 </div>`;
 }
@@ -416,6 +424,7 @@ function buildCombinatorics() {
 comb(<span class="st">52</span>, <span class="st">5</span>)     <span class="cm"># 2,598,960 poker hands</span>
 perm(<span class="st">10</span>, <span class="st">3</span>)     <span class="cm"># 720 ordered selections</span>
 factorial(<span class="st">10</span>)   <span class="cm"># 3,628,800</span></pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../llm/#tokenization" target="_blank" rel="noopener">BPE tokenization</a> counts and merges the most frequent byte pairs — combinatorics in action. The <a href="../poetry/forms/#sestina" target="_blank" rel="noopener">sestina</a> rotates end-words through permutations. Combinatorics hides inside every search algorithm and every rhyme scheme.</div>
   <div class="topic-nav" id="nav-combinatorics"></div>
 </div>`;
 }
@@ -440,6 +449,7 @@ function buildLLN() {
     </div>
   </div>
   <div class="callout"><strong>Gambler's fallacy:</strong> LLN does NOT mean "the universe remembers." After 10 heads in a row, the next flip is still 50/50. LLN works via dilution, not correction.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Why casinos win, why <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ensemble models</a> outperform, and why “time in the market beats timing the market.” Averaging over many trials converges to truth. ML calls it bagging.</div>
   <div class="topic-nav" id="nav-law-large-numbers"></div>
 </div>`;
 }
@@ -468,6 +478,7 @@ norm.pdf(<span class="st">0</span>, loc=<span class="st">0</span>, scale=<span c
 norm.cdf(<span class="st">1.96</span>)                       <span class="cm"># P(Z ≤ 1.96) = 0.975</span>
 norm.ppf(<span class="st">0.975</span>)                      <span class="cm"># z-value for 97.5th %ile = 1.96</span>
 samples = norm.rvs(size=<span class="st">1000</span>)        <span class="cm"># random samples</span></pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The bell curve appears in <a href="../markets/psychology/#mean-reversion-psychology" target="_blank" rel="noopener">market returns</a> (most days are small moves), in <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> (Gaussian init), and even in the distribution of syllable stress across English verse. CLT guarantees it keeps showing up.</div>
   <div class="topic-nav" id="nav-normal"></div>
 </div>`;
 }
@@ -492,6 +503,7 @@ function buildBinomial() {
     </div>
   </div>
   <div class="callout info"><strong>Approximation:</strong> When n is large and p isn't extreme, Binomial(n,p) ≈ Normal(np, np(1−p)). Rule of thumb: np ≥ 10 and n(1−p) ≥ 10.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> is binomial at its core — n trials, each a success or failure. Each <a href="../markets/charts/#doji" target="_blank" rel="noopener">candlestick</a> is binary (green or red). Even a <a href="../poetry/forms/#couplet" target="_blank" rel="noopener">rhyming couplet</a> is a binomial trial: does line 2 rhyme with line 1?</div>
   <div class="topic-nav" id="nav-binomial"></div>
 </div>`;
 }
@@ -515,6 +527,7 @@ function buildPoisson() {
     </div>
   </div>
   <div class="callout"><strong>Connection:</strong> Poisson is the limit of Binomial(n,p) as n→∞, p→0, with np=λ. It's also the arrival count in a Poisson process.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Counts rare events per interval — server requests per second, <a href="../markets/charts/#gaps" target="_blank" rel="noopener">market gap events</a> per month. In NLP, rare-word frequency follows near-Poisson patterns for uncommon terms.</div>
   <div class="topic-nav" id="nav-poisson"></div>
 </div>`;
 }
@@ -538,6 +551,7 @@ function buildExponential() {
     </div>
   </div>
   <div class="callout info"><strong>Memoryless property:</strong> If you've already waited 5 minutes, the expected remaining wait is the same as if you just started. No other continuous distribution has this property.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/indicators/#ema" target="_blank" rel="noopener">exponential moving average</a> uses this same memoryless decay — recent prices matter more, older ones fade exponentially. <a href="../ml-math/#lr-schedule" target="_blank" rel="noopener">Learning rate decay</a> follows the same curve. The pattern: recency dominates.</div>
   <div class="topic-nav" id="nav-exponential"></div>
 </div>`;
 }
@@ -561,6 +575,7 @@ function buildUniform() {
       <div class="cg"><span class="cl">b (max)</span><input type="range" id="uniB" min="1" max="8" step="0.5" value="4" oninput="drawUniform()"><span class="vd" id="uniBV">4.0</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Random <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> starts uniform before training sculpts it into structure. <a href="../ml-math/#regularization" target="_blank" rel="noopener">Dropout</a> randomly masks neurons with uniform probability. <a href="../poetry/forms/#free-verse" target="_blank" rel="noopener">Free verse</a> abandons meter’s fixed pattern for something closer to uniform unpredictability.</div>
   <div class="topic-nav" id="nav-uniform"></div>
 </div>`;
 }
@@ -585,6 +600,7 @@ function buildBeta() {
     </div>
   </div>
   <div class="callout"><strong>Bayesian magic:</strong> Start with Beta(α,β) prior. Observe k successes in n trials. Posterior = Beta(α+k, β+n−k). No integration needed!</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The conjugate prior for Bayesian <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> — “what’s the true conversion rate?” In markets, it models the probability that a strategy’s win rate is what you think it is. Uncertainty about uncertainty.</div>
   <div class="topic-nav" id="nav-beta"></div>
 </div>`;
 }
@@ -607,6 +623,7 @@ function buildChiSquared() {
       <div class="cg"><span class="cl">d.f. (k)</span><input type="range" id="chiDF" min="1" max="15" step="1" value="3" oninput="drawChiSquared()"><span class="vd" id="chiDFV">3</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Tests whether observed frequencies match expected — the same question markets ask about <a href="../markets/indicators/#obv" target="_blank" rel="noopener">volume distribution</a> across price levels, and NLP asks about word frequency distributions across documents.</div>
   <div class="topic-nav" id="nav-chi-squared"></div>
 </div>`;
 }
@@ -632,6 +649,7 @@ function buildCLT() {
     </div>
   </div>
   <div class="callout info"><strong>Rule of thumb:</strong> n ≥ 30 is often sufficient for CLT to kick in. But for very skewed distributions, you may need larger samples.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Why <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ensemble methods</a> work in ML (averaging weak learners), why diversified portfolios reduce risk (averaging returns). The universe averages toward the bell.</div>
   <div class="topic-nav" id="nav-clt"></div>
 </div>`;
 }
@@ -656,6 +674,7 @@ function buildConfidence() {
     </div>
   </div>
   <div class="callout warn"><strong>Common misinterpretation:</strong> "95% confident the true mean is in [2.1, 3.5]" is technically wrong. The true mean is either in the interval or not. The 95% refers to the <em>procedure</em>, not this specific interval.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> are confidence intervals for price — “95% of the time, within ±2σ.” <a href="../stats/#bayesian-regression" target="_blank" rel="noopener">Bayesian regression</a> gives confidence intervals over predictions, not just point estimates. Quantifying “how sure are you?”</div>
   <div class="topic-nav" id="nav-confidence"></div>
 </div>`;
 }
@@ -685,6 +704,7 @@ function buildHypothesis() {
       <div class="cg"><span class="cl">α level</span><input type="range" id="htAlpha" min="0.01" max="0.1" step="0.01" value="0.05" oninput="drawHypothesis()"><span class="vd" id="htAlphaV">0.05</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Every <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B test</a>, every <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">trading strategy backtest</a> asks: “is this edge real or random?” Comparing two ML models on a test set is the same framework — null hypothesis: they perform the same.</div>
   <div class="topic-nav" id="nav-hypothesis"></div>
 </div>`;
 }
@@ -708,6 +728,7 @@ function buildPValue() {
     </div>
   </div>
   <div class="callout warn"><strong>P-value ≠ P(H₀ is true).</strong> P-value ≠ probability of replication. P-value ≠ effect size. A tiny p-value with a huge sample can reflect a trivially small effect. Always report effect sizes and confidence intervals alongside p-values.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Backtest enough <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">trading strategies</a> and one looks significant by chance (data snooping). Test enough hyperparameters in <a href="../ml-math/#crossval" target="_blank" rel="noopener">cross-validation</a> and the same illusion appears. Multiple comparisons hide everywhere.</div>
   <div class="topic-nav" id="nav-p-value"></div>
 </div>`;
 }
@@ -733,6 +754,7 @@ function buildTTest() {
   <div class="code-block"><pre><span class="kw">from</span> scipy.stats <span class="kw">import</span> ttest_ind, ttest_1samp
 t_stat, p_val = ttest_ind(group_a, group_b)     <span class="cm"># two-sample</span>
 t_stat, p_val = ttest_1samp(data, popmean=<span class="st">0</span>)    <span class="cm"># one-sample</span></pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The statistical backbone of <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> and strategy evaluation — “did this change improve conversion?” or “does this strategy’s return differ from zero?” Small samples, big decisions.</div>
   <div class="topic-nav" id="nav-t-test"></div>
 </div>`;
 }
@@ -756,6 +778,7 @@ function buildAnova() {
     </div>
   </div>
   <div class="callout"><strong>Post-hoc tests:</strong> ANOVA only tells you "at least one group differs." Use Tukey HSD, Bonferroni, or pairwise t-tests to find <em>which</em> groups differ.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> “Do these groups differ?” — whether the groups are market sectors, experimental treatments, or three <a href="../ml-math/#optimizers" target="_blank" rel="noopener">model architectures</a> compared on the same task.</div>
   <div class="topic-nav" id="nav-anova"></div>
 </div>`;
 }
@@ -783,6 +806,7 @@ function buildBayesianInference() {
     <div class="step"><div class="sn">2</div><div><h4>Collect data</h4><p>Observe outcomes — the likelihood P(data|θ)</p></div></div>
     <div class="step"><div class="sn">3</div><div><h4>Compute posterior</h4><p>Posterior = Prior × Likelihood (normalized). This is your updated belief.</p></div></div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../markets/psychology/#contrarian-thinking" target="_blank" rel="noopener">Contrarian investors</a> update beliefs with evidence (“the market prices X, but new data suggests Y”). <a href="../llm/#fine-tuning" target="_blank" rel="noopener">Fine-tuning</a> an LLM is Bayesian: the pre-trained model is the prior, new data is the evidence.</div>
   <div class="topic-nav" id="nav-bayesian-inference"></div>
 </div>`;
 }
@@ -815,6 +839,7 @@ function buildConjugatePriors() {
       <div class="cg"><span class="cl">Trials n</span><input type="range" id="conjN" min="1" max="30" step="1" value="10" oninput="drawConjugate()"><span class="vd" id="conjNV">10</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Beta-Binomial for conversion rates, Normal-Normal for regression weights. The pattern: choose a prior that plays well with your data’s shape. ML uses this in <a href="../ml-math/#vae" target="_blank" rel="noopener">variational inference</a>.</div>
   <div class="topic-nav" id="nav-conjugate-priors"></div>
 </div>`;
 }
@@ -839,6 +864,7 @@ function buildMCMC() {
     </div>
   </div>
   <div class="callout"><strong>Diagnostics:</strong> Check trace plots for mixing (no stuck regions). Check R̂ ≈ 1 for convergence. Discard the burn-in period. Run multiple chains.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> MCMC explores complex probability landscapes the way <a href="../ml-math/#diffusion" target="_blank" rel="noopener">diffusion models</a> explore latent space — random walks that find high-density regions. In markets, Monte Carlo simulation prices exotic options and models portfolio risk.</div>
   <div class="topic-nav" id="nav-mcmc"></div>
 </div>`;
 }
@@ -861,6 +887,7 @@ function buildHierarchical() {
     </div>
   </div>
   <div class="callout info"><strong>Shrinkage:</strong> Groups with less data get pulled more toward the grand mean. Groups with lots of data stay near their own estimates. This is rational — less data = more uncertainty = lean on the group average.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Sharing information across groups — like <a href="../llm/#fine-tuning" target="_blank" rel="noopener">transfer learning</a> shares knowledge across tasks. In markets, multi-sector analysis where each sector borrows strength from the whole.</div>
   <div class="topic-nav" id="nav-hierarchical"></div>
 </div>`;
 }
@@ -884,6 +911,7 @@ function buildBayesianRegression() {
       <div class="cg"><span class="cl">Data points</span><span class="vd" id="bayRegN" style="color:var(--accent)">0</span></div>
     </div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Not “the price will be $50” but “$50 ± $8.” <a href="../ml-math/#regularization" target="_blank" rel="noopener">Dropout-as-approximation</a> and ensemble uncertainty in ML do the same — knowing what you don’t know.</div>
   <div class="topic-nav" id="nav-bayesian-regression"></div>
 </div>`;
 }
@@ -914,6 +942,7 @@ function buildABTesting() {
     <div class="step"><div class="sn">4</div><div><h4>Analyze</h4><p>Compute test statistic and p-value. Report effect size + CI.</p></div></div>
   </div>
   <div class="callout warn"><strong>Peeking problem:</strong> Checking results repeatedly inflates Type I error. If you check 10 times at α=0.05, your effective α ≈ 0.19. Use sequential testing or fixed-horizon designs.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The same controlled comparison runs in tech (feature launches), <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">markets</a> (strategy backtests), and <a href="../llm/#evaluation" target="_blank" rel="noopener">LLM evaluation</a> (is model A better than model B?).</div>
   <div class="topic-nav" id="nav-ab-testing"></div>
 </div>`;
 }
@@ -942,6 +971,7 @@ data = np.array([<span class="st">3.1</span>, <span class="st">4.2</span>, <span
 B = <span class="st">10000</span>
 means = [np.mean(np.random.choice(data, size=len(data), replace=<span class="st">True</span>)) <span class="kw">for</span> _ <span class="kw">in</span> range(B)]
 ci = np.percentile(means, [<span class="st">2.5</span>, <span class="st">97.5</span>])</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Resampling to approximate the sampling distribution — the same trick that powers <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">random forests</a> (bagging = Bootstrap AGGregation). Same resampling, different downstream use.</div>
   <div class="topic-nav" id="nav-bootstrap"></div>
 </div>`;
 }
@@ -966,6 +996,7 @@ function buildPowerAnalysis() {
     </div>
   </div>
   <div class="callout info"><strong>Cohen's conventions:</strong> d=0.2 (small), d=0.5 (medium), d=0.8 (large). Most published "surprising" findings have small effect sizes, requiring hundreds of samples.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> “How many samples do you need?” maps directly to <a href="../llm/#scaling-laws" target="_blank" rel="noopener">scaling laws</a> in LLMs — “how much data?” Both answer: more than you think, and the relationship follows a predictable curve.</div>
   <div class="topic-nav" id="nav-power-analysis"></div>
 </div>`;
 }
@@ -989,6 +1020,7 @@ function buildMLEStats() {
     </div>
   </div>
   <div class="callout"><strong>Properties of MLE:</strong> Consistent (converges to true θ as n→∞), asymptotically normal, asymptotically efficient (achieves Cramér-Rao lower bound). But can overfit with small samples — Bayesian methods add regularization via priors.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> MLE is why <a href="../ml-math/#loss" target="_blank" rel="noopener">cross-entropy loss</a> exists — maximizing likelihood IS minimizing cross-entropy. Markets fit GARCH models to volatility with the same optimization. The same optimization wearing different clothes.</div>
   <div class="topic-nav" id="nav-mle-stats"></div>
 </div>`;
 }
@@ -1012,6 +1044,7 @@ function buildCorrelationVsCausation() {
     </div>
   </div>
   <div class="callout warn"><strong>Remember:</strong> Randomization breaks confounders. In an A/B test, treatment assignment is independent of all confounders — that's what makes it the gold standard.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Markets are full of spurious correlations (Super Bowl indicator, hemline index). <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ML models</a> learn correlations, not causes — which is why they fail when distributions shift. In <a href="../poetry/rhetoric/#analogy" target="_blank" rel="noopener">rhetoric</a>, this is the false analogy.</div>
   <div class="topic-nav" id="nav-correlation-vs-causation"></div>
 </div>`;
 }
@@ -1035,6 +1068,7 @@ function buildSimpsonsParadox() {
     </div>
   </div>
   <div class="callout"><strong>Classic example (UC Berkeley):</strong> Overall, women had lower admission rates. But in every department, women were admitted at equal or higher rates. The paradox: women applied to more competitive departments.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A stock outperforms in each <a href="../markets/psychology/#herd-behavior" target="_blank" rel="noopener">sector</a> but underperforms overall due to sector weights. An <a href="../ml-math/#metrics" target="_blank" rel="noopener">ML model</a> that’s better on each subgroup but worse on the combined dataset. The same reversal, different tables.</div>
   <div class="topic-nav" id="nav-simpsons-paradox"></div>
 </div>`;
 }

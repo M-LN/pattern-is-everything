@@ -161,6 +161,7 @@ function buildMetaphor() {
   <div class="fb"><div class="fm">Tenor + Vehicle = Metaphor</div><div class="fd"><span>"Life is a journey"</span> — tenor: life, vehicle: journey. The mapping transfers structure from one domain to another.</div></div>
   <div class="va"><div class="vl">// Metaphor mapping — tenor → vehicle</div><canvas id="metaphorCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Metaphor doesn't just describe — it structures thought. "Argument is war" makes us see debate as combat. The vehicle shapes how we understand the tenor.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Mapping one domain onto another is exactly what <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">embeddings</a> do — projecting words into a space where "king - man + woman = queen." In markets, <a href="../../markets/charts/#head-and-shoulders" target="_blank" rel="noopener">chart patterns</a> are metaphors — calling price shapes "heads" and "shoulders."</div>
   <div class="topic-nav" id="nav-metaphor"></div>
 </div>`;
 }
@@ -173,6 +174,7 @@ function buildSimile() {
   <div class="fb"><div class="fm">A is LIKE B / A is AS [adjective] AS B</div><div class="fd"><span>"Shall I compare thee to a summer's day?"</span> — the comparison is overt and exploratory.</div></div>
   <div class="va"><div class="vl">// Simile vs. Metaphor — distance of comparison</div><canvas id="simileCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Simile is more tentative than metaphor — "like" signals that the comparison is approximate. This honesty can make it more persuasive.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Explicit comparison with "like" or "as." In ML, <a href="../../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity</a> is the mathematical simile: how alike are these two vectors? In statistics, <a href="../../stats/#correlation" target="_blank" rel="noopener">correlation</a> measures how two variables move similarly.</div>
   <div class="topic-nav" id="nav-simile"></div>
 </div>`;
 }
@@ -185,6 +187,7 @@ function buildAnalogy() {
   <div class="fb"><div class="fm">A : B :: C : D (A is to B as C is to D)</div><div class="fd"><span>Eye : Seeing :: Ear : Hearing</span> — the relationship, not the things, is what matters.</div></div>
   <div class="va"><div class="vl">// Analogy — structural mapping between domains</div><canvas id="analogyCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Good analogies illuminate; bad ones mislead. The power is in what the mapping reveals — but every analogy also hides what doesn't fit.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A is to B as C is to D — the proportional mapping that makes <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">word embedding arithmetic</a> work. Every pattern bridge on this site is an analogy: gradient descent is to loss as <a href="../../markets/indicators/#roc" target="_blank" rel="noopener">rate of change</a> is to price.</div>
   <div class="topic-nav" id="nav-analogy"></div>
 </div>`;
 }
@@ -197,6 +200,7 @@ function buildConceit() {
   <div class="fb"><div class="fm">Unlikely Tenor + Unlikely Vehicle → sustained for entire poem</div><div class="fd"><span>Donne's "A Valediction":</span> lovers = two legs of a compass. Elaborated through 9 stanzas.</div></div>
   <div class="va"><div class="vl">// Conceit — sustained unlikely comparison</div><canvas id="conceitCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The conceit's power comes from the gap between its terms — the more unlikely the comparison, the more wit and insight required to sustain it.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> An extended metaphor pushed to its limits. In ML, <a href="../../ml-math/#transformer" target="_blank" rel="noopener">the transformer architecture</a> is a conceit: the idea that attention is all you need, extended across every domain from language to protein folding.</div>
   <div class="topic-nav" id="nav-conceit"></div>
 </div>`;
 }
@@ -209,6 +213,7 @@ function buildAllegory() {
   <div class="fb"><div class="fm">Surface Story ↔ Hidden Meaning (mapped throughout)</div><div class="fd"><span>Pilgrim's Progress:</span> Christian's journey = the soul's path to salvation. Every obstacle = a spiritual challenge.</div></div>
   <div class="va"><div class="vl">// Allegory — parallel narrative layers</div><canvas id="allegoryCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Allegory risks becoming heavy-handed — the best allegories work as compelling literal stories too, so the symbolic layer enriches rather than replaces the surface.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> An entire narrative encoding a hidden meaning. In ML, <a href="../../ml-math/#vae" target="_blank" rel="noopener">VAE latent spaces</a> encode hidden structure beneath the surface. In markets, <a href="../../markets/psychology/#confirmation-bias" target="_blank" rel="noopener">confirmation bias</a> reads every chart as an allegory of one’s thesis.</div>
   <div class="topic-nav" id="nav-allegory"></div>
 </div>`;
 }
@@ -221,6 +226,7 @@ function buildMetonymy() {
   <div class="fb"><div class="fm">Associated thing → stands for the actual thing</div><div class="fd"><span>"The pen is mightier than the sword"</span> — pen = writing/ideas, sword = military force.</div></div>
   <div class="va"><div class="vl">// Metonymy — association mapping</div><canvas id="metonymyCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Metonymy reveals what we associate with things — calling government "Washington" emphasizes its location; calling it "the administration" emphasizes its function.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Using a part or attribute to stand for the whole ("the crown" for monarchy). <a href="../../ml-math/#tokenization" target="_blank" rel="noopener">BPE tokenization</a> does the same — compressing words into representative subwords. In statistics, <a href="../../stats/#sampling-distributions" target="_blank" rel="noopener">a sample</a> stands for the population.</div>
   <div class="topic-nav" id="nav-metonymy"></div>
 </div>`;
 }
@@ -233,6 +239,7 @@ function buildSynecdoche() {
   <div class="fb"><div class="fm">Part → Whole OR Whole → Part</div><div class="fd"><span>"Hired hands," "head count," "boots on the ground"</span> — body parts standing for whole people.</div></div>
   <div class="va"><div class="vl">// Synecdoche — part↔whole relationships</div><canvas id="synecdocheCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Synecdoche reveals what we consider essential — calling sailors "hands" reduces them to their labor; calling them "souls" invokes their humanity.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The part represents the whole. In statistics, <a href="../../stats/#sampling-distributions" target="_blank" rel="noopener">a sample mean</a> represents the population mean. In ML, <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">a single embedding vector</a> represents an entire word’s meaning.</div>
   <div class="topic-nav" id="nav-synecdoche"></div>
 </div>`;
 }
@@ -245,6 +252,7 @@ function buildPersonification() {
   <div class="fb"><div class="fm">Non-human thing + human action/quality = Personification</div><div class="fd"><span>"Time marches on"</span> — time given the human ability to march.</div></div>
   <div class="va"><div class="vl">// Personification — human traits mapped to non-human</div><canvas id="personificationCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Personification makes us care about abstractions — we can fear Death-the-person in a way we can't fear death-the-concept.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Giving human traits to non-human things. Markets do this constantly: "the market punishes," "the trend resists." In ML, we say a model "learns," "pays attention," "hallucinates" — <a href="../../ml-math/#attention" target="_blank" rel="noopener">attention mechanisms</a> are named by personification.</div>
   <div class="topic-nav" id="nav-personification"></div>
 </div>`;
 }
@@ -257,6 +265,7 @@ function buildApostrophe() {
   <div class="fb"><div class="fm">"O ______!" / Direct address to absent/abstract</div><div class="fd"><span>"O Death, where is thy sting?"</span> — Paul addresses Death as a defeated opponent.</div></div>
   <div class="va"><div class="vl">// Apostrophe — speaking to the absent</div><canvas id="apostropheCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Apostrophe is an act of faith — it assumes the addressed can hear. That assumption reveals the speaker's emotional state more than any description could.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Addressing an absent entity directly. In ML, <a href="../../ml-math/#loss" target="_blank" rel="noopener">the loss function</a> addresses the absent ground truth — measuring the distance to something not present in the model. In markets, traders address "the market" as if it could <a href="../../markets/psychology/#herd-behavior" target="_blank" rel="noopener">hear them</a>.</div>
   <div class="topic-nav" id="nav-apostrophe"></div>
 </div>`;
 }
@@ -269,6 +278,7 @@ function buildPeriphrasis() {
   <div class="fb"><div class="fm">Descriptive phrase → replaces proper name</div><div class="fd"><span>"He who must not be named"</span> — periphrasis driven by fear. <span>"The Iron Lady"</span> — periphrasis as characterization.</div></div>
   <div class="va"><div class="vl">// Periphrasis — the long way around</div><canvas id="periphrasislCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Every periphrasis makes a choice about what to emphasize — "the Great Emancipator" highlights Lincoln's role in abolition; "the 16th President" highlights his place in sequence.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Saying something the long way around. In ML, <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">high-dimensional embeddings</a> represent in 768 numbers what a word says in one. In statistics, <a href="../../stats/#confidence-intervals" target="_blank" rel="noopener">confidence intervals</a> are periphrasis for "about this value."</div>
   <div class="topic-nav" id="nav-periphrasis"></div>
 </div>`;
 }
@@ -281,6 +291,7 @@ function buildIrony() {
   <div class="fb"><div class="fm">Surface meaning ≠ True meaning (or Expected outcome ≠ Actual outcome)</div><div class="fd"><span>Fire station burns down</span> (situational). <span>"Nice job"</span> after dropping plates (verbal). <span>Audience watches Oedipus search for a killer who is himself</span> (dramatic).</div></div>
   <div class="va"><div class="vl">// Three types of irony</div><canvas id="ironyCanvas" height="240"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Irony creates a community of the knowing — those who get it feel complicity with the speaker, while those who don't remain outside.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Meaning the opposite of what’s said. In markets, <a href="../../markets/psychology/#contrarian-thinking" target="_blank" rel="noopener">contrarian signals</a> are ironic: extreme bullishness is a sell signal. In ML, <a href="../../ml-math/#gan" target="_blank" rel="noopener">the GAN discriminator</a> learns to see through the generator’s apparent truth.</div>
   <div class="topic-nav" id="nav-irony"></div>
 </div>`;
 }
@@ -293,6 +304,7 @@ function buildOxymoron() {
   <div class="fb"><div class="fm">Contradictory Term A + Contradictory Term B = New Meaning</div><div class="fd"><span>"Sweet sorrow"</span> — neither sweet nor sorrow alone captures the feeling of parting from a loved one.</div></div>
   <div class="va"><div class="vl">// Oxymoron — opposites colliding</div><canvas id="oxymoronCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Oxymoron works because reality is often contradictory — parting IS both sweet and sorrowful, silence CAN be deafening. The figure captures what plain speech can't.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two contradictory terms together: "deafening silence." In markets, a <a href="../../markets/charts/#doji" target="_blank" rel="noopener">doji</a> is an oxymoron in candlestick form — motion that goes nowhere. In ML, <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance tradeoff</a> holds two opposing forces in tension.</div>
   <div class="topic-nav" id="nav-oxymoron"></div>
 </div>`;
 }
@@ -305,6 +317,7 @@ function buildParadox() {
   <div class="fb"><div class="fm">Apparent contradiction → Hidden truth</div><div class="fd"><span>"The only thing I know is that I know nothing"</span> (Socrates) — acknowledging ignorance is itself a form of wisdom.</div></div>
   <div class="va"><div class="vl">// Paradox — contradiction resolving to truth</div><canvas id="paradoxCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Paradox forces the reader to think — the surface contradiction demands resolution, and the resolution is the insight the writer wanted you to reach.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A statement that contradicts itself but reveals truth. <a href="../../stats/#simpsons-paradox" target="_blank" rel="noopener">Simpson’s paradox</a> is the statistical version: a trend reverses when data is grouped. In ML, <a href="../../ml-math/#regularization" target="_blank" rel="noopener">regularization</a> improves accuracy by making the model worse at training data.</div>
   <div class="topic-nav" id="nav-paradox"></div>
 </div>`;
 }
@@ -317,6 +330,7 @@ function buildAntithesis() {
   <div class="fb"><div class="fm">[A] not [B] / [A] but [B] / [positive], [negative]</div><div class="fd"><span>"That's one small step for man, one giant leap for mankind."</span></div></div>
   <div class="va"><div class="vl">// Antithesis — balanced opposites</div><canvas id="antithesisCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Antithesis derives its power from the parallel structure — if the grammar matches, the contrast of the ideas becomes unmissable.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Contrasting ideas in parallel structure. In ML, <a href="../../ml-math/#gan" target="_blank" rel="noopener">GANs</a> are antithesis as architecture: generator vs. discriminator. In markets, <a href="../../markets/psychology/#smart-money-dumb-money" target="_blank" rel="noopener">smart money vs. dumb money</a> is the antithesis that drives price discovery.</div>
   <div class="topic-nav" id="nav-antithesis"></div>
 </div>`;
 }
@@ -329,6 +343,7 @@ function buildLitotes() {
   <div class="fb"><div class="fm">NOT + NEGATIVE = Understated positive</div><div class="fd"><span>"He's not the brightest"</span> — litotes understates to imply the person is dim, without saying so directly.</div></div>
   <div class="va"><div class="vl">// Litotes — negation of the negative</div><canvas id="litotesCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Litotes creates social distance — saying "not bad" rather than "great" keeps the speaker from committing fully, maintaining reserve and irony.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Understatement by negating the opposite: "not bad" for "good." In statistics, a <a href="../../stats/#hypothesis-testing" target="_blank" rel="noopener">failed-to-reject null</a> is litotes — we don’t say the effect exists, we say we can’t say it doesn’t. <a href="../../markets/indicators/#williams-r" target="_blank" rel="noopener">Williams %R</a> inverts the stochastic the same way.</div>
   <div class="topic-nav" id="nav-litotes"></div>
 </div>`;
 }
@@ -341,6 +356,7 @@ function buildHyperbole() {
   <div class="fb"><div class="fm">Literal meaning × Extreme multiplier = Emotional truth</div><div class="fd"><span>"I died laughing"</span> — obviously not dead, but the exaggeration conveys extreme amusement effectively.</div></div>
   <div class="va"><div class="vl">// Hyperbole — exaggeration scale</div><canvas id="hyperboleCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Hyperbole works because we process it automatically — no one takes it literally, so it communicates emotional intensity without ambiguity.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Extreme exaggeration for effect. In statistics, <a href="../../stats/#outliers" target="_blank" rel="noopener">outliers</a> are hyperbolic data points. In markets, <a href="../../markets/psychology/#fomo" target="_blank" rel="noopener">FOMO-driven rallies</a> are hyperbole in price — overshooting fair value for emphasis.</div>
   <div class="topic-nav" id="nav-hyperbole"></div>
 </div>`;
 }
@@ -353,6 +369,7 @@ function buildUnderstatement() {
   <div class="fb"><div class="fm">Literal meaning ÷ Extreme reduction = Wry emphasis</div><div class="fd"><span>"That went well"</span> (after a disaster) — understatement lets the listener fill in the gap with their own reaction.</div></div>
   <div class="va"><div class="vl">// Understatement vs. Hyperbole — opposite strategies</div><canvas id="understatementCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Understatement respects the listener's intelligence — it trusts them to see the gap between what's said and what's meant, creating complicity.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Deliberately minimizing significance. In ML, <a href="../../ml-math/#regularization" target="_blank" rel="noopener">L1 regularization</a> understates: it pushes weights toward zero, forcing sparsity. In markets, low <a href="../../markets/indicators/#atr" target="_blank" rel="noopener">ATR</a> understates the calm before a volatility breakout.</div>
   <div class="topic-nav" id="nav-understatement"></div>
 </div>`;
 }
@@ -365,6 +382,7 @@ function buildClimax() {
   <div class="fb"><div class="fm">Small → Medium → Large → PEAK</div><div class="fd"><span>"Life, liberty, and the pursuit of happiness"</span> — ascending from basic survival to the highest aspiration.</div></div>
   <div class="va"><div class="vl">// Climax — ascending intensity</div><canvas id="climaxCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Climax works because it mirrors how emotions build — each step prepares the audience for the next, so the peak hits with accumulated force.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Building intensity to a peak. In ML, <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">learning rate warmup</a> builds step size to a peak before decaying. In markets, <a href="../../markets/psychology/#euphoria-panic" target="_blank" rel="noopener">euphoria</a> is the climax of the sentiment cycle. In statistics, the mode is the <a href="../../stats/#normal" target="_blank" rel="noopener">peak of the distribution</a>.</div>
   <div class="topic-nav" id="nav-climax"></div>
 </div>`;
 }
@@ -377,6 +395,7 @@ function buildAnadiplosis() {
   <div class="fb"><div class="fm">…word A. Word A leads to B. B leads to C…</div><div class="fd"><span>"When I give, I give myself."</span> (Whitman) — the repeated "give" bridges two meanings.</div></div>
   <div class="va"><div class="vl">// Anadiplosis — chain-link repetition</div><canvas id="anadiplosisCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Anadiplosis makes causation feel inevitable — each step seems to follow naturally from the last, which is why it's powerful in both poetry and propaganda.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The end of one clause becomes the start of the next — chaining. Like <a href="../../ml-math/#backprop" target="_blank" rel="noopener">the chain rule</a> in backpropagation: each output feeds back as input. In markets, <a href="../../markets/psychology/#information-cascades" target="_blank" rel="noopener">information cascading</a> passes conclusions forward as premises.</div>
   <div class="topic-nav" id="nav-anadiplosis"></div>
 </div>`;
 }
@@ -389,6 +408,7 @@ function buildChiasmus() {
   <div class="fb"><div class="fm">A B ← → B A (mirrored structure)</div><div class="fd"><span>"Never let a fool kiss you, or a kiss fool you."</span> — the reversed structure creates wit.</div></div>
   <div class="va"><div class="vl">// Chiasmus — crossed structure (ABBA)</div><canvas id="chiasmusCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Chiasmus embeds its meaning in its form — the reversal of structure mirrors a reversal of perspective. The shape IS the argument.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A-B then B-A reversal: "ask not what your country can do for you." Like <a href="../../ml-math/#vae" target="_blank" rel="noopener">encoder → decoder</a> mirroring in autoencoders. In markets, <a href="../../markets/charts/#inverse-head-and-shoulders" target="_blank" rel="noopener">inverse chart patterns</a> are chiastic — the same shape, reversed.</div>
   <div class="topic-nav" id="nav-chiasmus"></div>
 </div>`;
 }
@@ -401,6 +421,7 @@ function buildImagery() {
   <div class="fb"><div class="fm">Abstract idea → Concrete sensory language → Vivid experience</div><div class="fd"><span>"The yellow smoke that rubs its muzzle on the window-panes"</span> (Eliot) — visual + tactile.</div></div>
   <div class="va"><div class="vl">// Five types of imagery</div><canvas id="imageryCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> "Show, don't tell" is really "use imagery" — instead of saying "she was sad," show the sensory details that let the reader feel the sadness.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Concrete sensory detail that makes abstraction vivid. In ML, <a href="../../ml-math/#cnn" target="_blank" rel="noopener">CNN feature maps</a> convert abstract patterns into visual representations. In markets, <a href="../../markets/charts/#cup-and-handle" target="_blank" rel="noopener">chart patterns</a> provide imagery for abstract price action.</div>
   <div class="topic-nav" id="nav-imagery"></div>
 </div>`;
 }
@@ -413,6 +434,7 @@ function buildSynesthesia() {
   <div class="fb"><div class="fm">Sense A described through Sense B vocabulary</div><div class="fd"><span>"Blue notes"</span> (color → sound), <span>"loud shirt"</span> (sound → sight), <span>"sweet melody"</span> (taste → sound).</div></div>
   <div class="va"><div class="vl">// Synesthesia — cross-sensory mapping</div><canvas id="synesthesiaCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Synesthesia suggests that our senses aren't really separate — music CAN feel blue, colors CAN feel warm. The figure reveals a deep truth about perception.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Mixing sensory domains: "loud colors," "sharp sounds." The cross-domain connections on this site are synesthetic — <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">embedding</a> math concepts in poetic space and vice versa. <a href="../../stats/#correlation" target="_blank" rel="noopener">Cross-correlation</a> between different signal types.</div>
   <div class="topic-nav" id="nav-synesthesia"></div>
 </div>`;
 }
@@ -425,6 +447,7 @@ function buildSymbol() {
   <div class="fb"><div class="fm">Concrete object → Abstract meaning(s)</div><div class="fd"><span>Water:</span> purity, rebirth, danger, the unconscious, time. A symbol radiates multiple meanings.</div></div>
   <div class="va"><div class="vl">// Symbol — concrete radiating meaning</div><canvas id="symbolCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The best symbols are irreducible — you can't replace them with a single abstract word without losing meaning. "The green light" in Gatsby means more than just "hope."</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> An object carrying meaning beyond itself. In ML, <a href="../../ml-math/#tokenization" target="_blank" rel="noopener">tokens</a> are symbols — integers that stand for meaning. In markets, <a href="../../markets/charts/#doji" target="_blank" rel="noopener">a doji</a> symbolizes indecision, one candle carrying broader psychological weight.</div>
   <div class="topic-nav" id="nav-symbol"></div>
 </div>`;
 }
@@ -437,6 +460,7 @@ function buildMotif() {
   <div class="fb"><div class="fm">Element₁ → Element₂ → Element₃ → … → Theme emerges</div><div class="fd"><span>Blood in Macbeth:</span> appears after each murder, spreading from hands to water to the entire world — guilt expanding.</div></div>
   <div class="va"><div class="vl">// Motif — recurrence building theme</div><canvas id="motifCanvas" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> A motif is a symbol in motion — it moves through the text, and its meaning changes with each appearance. Track the changes and you track the theme.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A recurring element that creates thematic unity. In ML, <a href="../../ml-math/#pca" target="_blank" rel="noopener">principal components</a> are the motifs of a dataset — the recurring patterns that explain the most variance. In markets, <a href="../../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">the sentiment cycle</a> is the motif of every bull and bear market.</div>
   <div class="topic-nav" id="nav-motif"></div>
 </div>`;
 }
@@ -449,6 +473,7 @@ function buildJuxtaposition() {
   <div class="fb"><div class="fm">Element A ‖ Element B → contrast illuminates both</div><div class="fd"><span>A palace beside a slum</span> — neither would strike the viewer the same way alone. Proximity creates meaning.</div></div>
   <div class="va"><div class="vl">// Juxtaposition — contrast through proximity</div><canvas id="juxtapositionCanvas" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Juxtaposition is the most fundamental literary device — all meaning comes from contrast, and juxtaposition is contrast made visible.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Placing unlike things side by side to reveal contrast. In ML, <a href="../../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity</a> measures what juxtaposition reveals — are these things surprisingly close or far? In markets, <a href="../../markets/indicators/#macd" target="_blank" rel="noopener">MACD</a> juxtaposes fast and slow signals to expose divergence.</div>
   <div class="topic-nav" id="nav-juxtaposition"></div>
 </div>`;
 }
