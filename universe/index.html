@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Universe — Pattern is Everything</title>
+<meta name="description" content="An interactive 3D constellation of patterns — explore how Machine Learning, Markets, and Poetry share the same deep structures.">
+<meta property="og:title" content="Pattern Universe — Pattern is Everything">
+<meta property="og:description" content="Recursion, Emergence, Entropy — the same patterns appear in neural networks, price charts, and verse. Explore the connections.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patterniseverything.com/universe/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pattern Universe — Pattern is Everything">
+<meta name="twitter:description" content="An interactive 3D constellation of cross-domain patterns across ML, Markets, and Poetry.">
+<meta name="theme-color" content="#050508">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+<link rel="canonical" href="https://patterniseverything.com/universe/">
+<script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #050508; --gold: #c8a96e; --gold-dim: #7a6340;
+    --ml: #4fc3f7; --stock: #81c784; --poem: #f48fb1; --white: #e8e4dc;
+    --panel-w: 420px;
+  }
+  html, body { width:100%; height:100%; background:var(--bg); overflow:hidden; font-family:'Cormorant Garamond',serif; color:var(--white); cursor:none; }
+  canvas { display:block; position:fixed; top:0; left:0; z-index:0; transition:left .5s; }
+
+  #cursor { position:fixed; z-index:9999; width:12px; height:12px; border-radius:50%; background:var(--gold); pointer-events:none; transform:translate(-50%,-50%); mix-blend-mode:screen; transition:width .2s,height .2s,background .3s; }
+  #cursor-ring { position:fixed; z-index:9998; width:40px; height:40px; border-radius:50%; border:1px solid rgba(200,169,110,.4); pointer-events:none; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+  body.wormhole-mode #cursor { background:#a78bfa; width:18px; height:18px; }
+  body.wormhole-mode #cursor-ring { border-color:rgba(167,139,250,.6); width:55px; height:55px; }
+
+  /* ── BACK NAV ── */
+  #back-nav { position:fixed; top:0; left:0; right:0; z-index:400; height:40px; display:flex; align-items:center; padding:0 1.5rem; background:rgba(5,5,8,.7); border-bottom:1px solid rgba(200,169,110,.08); backdrop-filter:blur(10px); pointer-events:all; }
+  #back-link { display:flex; align-items:center; gap:.5rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; transition:color .2s; cursor:none; }
+  #back-link:hover { color:var(--gold); }
+  #back-link::before { content:'←'; font-size:.6rem; }
+  #nav-title { margin-left:auto; margin-right:auto; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(200,169,110,.35); pointer-events:none; }
+
+  #header { position:fixed; top:40px; left:0; right:0; z-index:100; padding:1.5rem 3rem; display:flex; align-items:flex-start; justify-content:space-between; pointer-events:none; }
+  #logo { display:flex; flex-direction:column; opacity:0; animation:fadeIn 2s .5s forwards; }
+  #logo-main { font-size:clamp(1.2rem,2.5vw,1.9rem); font-weight:300; letter-spacing:.15em; color:var(--gold); line-height:1; text-transform:uppercase; }
+  #logo-sub { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; color:var(--gold-dim); text-transform:uppercase; margin-top:.4rem; }
+  #nav-hint { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.18em; color:var(--gold-dim); text-align:right; line-height:2.3; opacity:0; animation:fadeIn 2s 1.5s forwards; }
+
+  #modebar { position:fixed; top:50%; right:1.5rem; transform:translateY(-50%); z-index:200; display:flex; flex-direction:column; gap:.8rem; pointer-events:all; opacity:0; animation:fadeIn 2s 2s forwards; }
+  .mode-btn { width:42px; height:42px; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(5,5,8,.7); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; cursor:none; transition:border-color .3s,background .3s,transform .2s; font-size:1.1rem; position:relative; }
+  .mode-btn:hover { border-color:var(--gold); background:rgba(200,169,110,.12); transform:scale(1.1); }
+  .mode-btn.active { border-color:var(--gold); background:rgba(200,169,110,.2); box-shadow:0 0 16px rgba(200,169,110,.3); }
+  .mode-btn .tip { position:absolute; right:54px; background:rgba(5,5,8,.95); border:1px solid var(--gold-dim); padding:.3rem .7rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.15em; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; color:var(--gold); }
+  .mode-btn:hover .tip { opacity:1; }
+
+  #bottom-bar { position:fixed; bottom:0; left:0; right:0; z-index:100; padding:2rem 3rem; display:flex; align-items:flex-end; justify-content:space-between; pointer-events:none; }
+  #status-msg { font-family:'Space Mono',monospace; font-size:.55rem; letter-spacing:.2em; color:var(--gold-dim); opacity:0; transition:opacity .5s; }
+  #status-msg.visible { opacity:1; }
+  #legend { display:flex; flex-direction:column; gap:.7rem; opacity:0; animation:fadeIn 2s 2s forwards; text-align:right; }
+  .legend-item { display:flex; align-items:center; gap:.6rem; justify-content:flex-end; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(232,228,220,.45); }
+  .legend-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+  #pattern-quote { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:50; text-align:center; pointer-events:none; opacity:0; transition:opacity .6s; max-width:520px; width:90vw; }
+  #pattern-quote.visible { opacity:1; }
+  #pq-text { font-size:clamp(1rem,2vw,1.45rem); font-style:italic; font-weight:300; color:var(--white); line-height:1.65; }
+  #pq-attr { margin-top:1rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; color:var(--gold-dim); text-transform:uppercase; }
+
+  #intro { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:50; text-align:center; pointer-events:none; opacity:1; transition:opacity 1s; }
+  #intro.hidden { opacity:0; }
+  #intro-text { font-family:'Space Mono',monospace; font-size:.7rem; letter-spacing:.3em; color:rgba(200,169,110,.4); text-transform:uppercase; animation:pulse 3s ease-in-out infinite; }
+
+  #tooltip { position:fixed; z-index:200; background:rgba(5,5,8,.9); border:1px solid var(--gold-dim); padding:.45rem .9rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.15em; color:var(--gold); text-transform:uppercase; pointer-events:none; opacity:0; transition:opacity .2s; white-space:nowrap; }
+  #tooltip.visible { opacity:1; }
+
+  /* ── SIDE PANEL ── */
+  #side-panel { position:fixed; top:0; right:0; width:var(--panel-w); height:100vh; z-index:300; background:rgba(5,5,8,.93); backdrop-filter:blur(24px); border-left:1px solid rgba(200,169,110,.12); transform:translateX(100%); transition:transform .5s cubic-bezier(.16,1,.3,1); overflow-y:auto; display:flex; flex-direction:column; }
+  #side-panel.open { transform:translateX(0); }
+  #side-panel::-webkit-scrollbar { width:3px; }
+  #side-panel::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
+  #panel-close { position:sticky; top:1.5rem; left:calc(100% - 3rem); width:32px; height:32px; background:none; border:1px solid var(--gold-dim); border-radius:50%; cursor:none; display:flex; align-items:center; justify-content:center; color:var(--gold-dim); font-size:.85rem; transition:border-color .2s,color .2s; margin-left:auto; margin-right:1.5rem; flex-shrink:0; z-index:2; }
+  #panel-close:hover { border-color:var(--gold); color:var(--gold); }
+  #panel-inner { padding:1rem 2.5rem 4rem; flex:1; }
+  #panel-type { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; margin-bottom:1rem; }
+  #panel-title { font-size:2.3rem; font-weight:300; line-height:1.1; margin-bottom:.4rem; }
+  #panel-subtitle { font-size:.95rem; font-style:italic; color:rgba(232,228,220,.5); margin-bottom:2rem; line-height:1.5; }
+  .panel-divider { height:1px; background:linear-gradient(90deg,var(--gold-dim),transparent); margin-bottom:2rem; }
+  #panel-quote { font-size:1.1rem; font-style:italic; line-height:1.75; color:var(--white); margin-bottom:2rem; padding-left:1.2rem; border-left:2px solid var(--gold-dim); }
+  #panel-essay { font-size:.97rem; line-height:1.85; color:rgba(232,228,220,.72); }
+  #panel-essay p { margin-bottom:1.2rem; }
+  #panel-essay strong { color:var(--white); font-weight:600; }
+  #panel-topic-link { display:inline-flex; align-items:center; gap:.5rem; margin-top:1rem; margin-bottom:.5rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; border:1px solid var(--gold-dim); border-radius:2px; padding:.35rem .9rem; transition:color .2s,border-color .2s; cursor:pointer; }
+  #panel-topic-link:hover { color:var(--gold); border-color:var(--gold); }
+  #panel-topic-link::after { content:'→'; }
+  #panel-connections { margin-top:2.5rem; }
+  .panel-section-title { font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:1rem; }
+  .conn-chip { display:inline-block; padding:.25rem .7rem; border:1px solid; border-radius:2px; font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.1em; margin:.25rem; cursor:none; transition:background .2s; }
+  .conn-chip:hover { background:rgba(255,255,255,.06); }
+
+  /* ── WORMHOLE OVERLAY ── */
+  #wormhole-overlay { position:fixed; inset:0; z-index:500; display:none; align-items:center; justify-content:center; }
+  #wormhole-overlay.active { display:flex; }
+  #wh-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  #wh-bg { position:absolute; inset:0; background:rgba(5,5,8,.75); pointer-events:none; }
+  #wormhole-content { position:relative; z-index:2; text-align:center; opacity:0; transition:opacity .5s; max-width:580px; padding:3rem 2.5rem; background:rgba(5,5,8,.6); border:1px solid rgba(167,139,250,.2); backdrop-filter:blur(12px); }
+  #wormhole-content.visible { opacity:1; }
+  #wh-title { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(167,139,250,.7); margin-bottom:1.8rem; }
+  #wh-nodes { display:flex; align-items:center; justify-content:center; gap:2rem; margin-bottom:2rem; }
+  .wh-node { text-align:center; }
+  .wh-dot { width:14px; height:14px; border-radius:50%; margin:0 auto .6rem; }
+  .wh-name { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--white); }
+  #wh-connector { font-size:1.8rem; color:rgba(167,139,250,.4); line-height:1; }
+  #wh-bridge { font-size:clamp(1rem,1.8vw,1.3rem); font-style:italic; line-height:1.75; color:var(--white); margin-bottom:1.5rem; }
+  #wh-attr { font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.25em; color:rgba(167,139,250,.55); text-transform:uppercase; margin-bottom:2rem; }
+  #wh-close { padding:.5rem 1.8rem; background:none; border:1px solid rgba(167,139,250,.35); color:rgba(167,139,250,.75); font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; transition:border-color .2s,color .2s; }
+  #wh-close:hover { border-color:rgba(167,139,250,.8); color:rgba(167,139,250,1); }
+
+  @keyframes fadeIn { to { opacity:1; } }
+  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:.7} }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="c"></canvas>
+
+<!-- Back navigation -->
+<div id="back-nav">
+  <a id="back-link" href="../index.html">Pattern is Everything</a>
+  <div id="nav-title">Pattern Universe</div>
+</div>
+
+<div id="header">
+  <div id="logo">
+    <div id="logo-main">Pattern Universe</div>
+    <div id="logo-sub">ML · Markets · Verse · Cosmos</div>
+  </div>
+  <div id="nav-hint">
+    Drag · rotate &nbsp;|&nbsp; Scroll · zoom<br>
+    Click · read essay<br>
+    ⭐ Hold · constellation<br>
+    🌀 Wormhole · connect two nodes<br>
+    Shift · slow time
+  </div>
+</div>
+
+<div id="modebar">
+  <div class="mode-btn active" id="btn-normal"><span>✦</span><div class="tip">EXPLORE MODE</div></div>
+  <div class="mode-btn" id="btn-const"><span>⭐</span><div class="tip">CONSTELLATION MODE</div></div>
+  <div class="mode-btn" id="btn-worm"><span>🌀</span><div class="tip">WORMHOLE MODE</div></div>
+</div>
+
+<div id="intro"><div id="intro-text">Explore the universe of patterns</div></div>
+<div id="pattern-quote"><div id="pq-text"></div><div id="pq-attr"></div></div>
+
+<div id="bottom-bar">
+  <div id="status-msg"></div>
+  <div id="legend">
+    <div class="legend-item"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div>
+    <div class="legend-item"><span>Stock Market</span><div class="legend-dot" style="background:#81c784"></div></div>
+    <div class="legend-item"><span>Poetry</span><div class="legend-dot" style="background:#f48fb1"></div></div>
+    <div class="legend-item"><span>Universal Pattern</span><div class="legend-dot" style="background:#c8a96e"></div></div>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<div id="side-panel">
+  <button id="panel-close">✕</button>
+  <div id="panel-inner">
+    <div id="panel-type"></div>
+    <div id="panel-title"></div>
+    <div id="panel-subtitle"></div>
+    <div class="panel-divider"></div>
+    <div id="panel-quote"></div>
+    <div id="panel-essay"></div>
+    <a id="panel-topic-link" style="display:none;" target="_blank" rel="noopener">Explore this topic</a>
+    <div id="panel-connections">
+      <div class="panel-section-title">Connected Patterns</div>
+      <div id="panel-chips"></div>
+    </div>
+  </div>
+</div>
+
+<div id="wormhole-overlay">
+  <div id="wh-bg"></div>
+  <canvas id="wh-canvas"></canvas>
+  <div id="wormhole-content">
+    <div id="wh-title">Pattern Bridge Detected</div>
+    <div id="wh-nodes">
+      <div class="wh-node"><div class="wh-dot" id="wh-dot-a"></div><div class="wh-name" id="wh-name-a"></div></div>
+      <div id="wh-connector">⟷</div>
+      <div class="wh-node"><div class="wh-dot" id="wh-dot-b"></div><div class="wh-name" id="wh-name-b"></div></div>
+    </div>
+    <div id="wh-bridge"></div>
+    <div id="wh-attr"></div>
+    <button id="wh-close">Close Portal</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const whCanvas = document.getElementById('wh-canvas');
+const whCtx = whCanvas.getContext('2d');
+let W, H, cx, cy;
+function resize() { W=canvas.width=whCanvas.width=window.innerWidth; H=canvas.height=whCanvas.height=window.innerHeight; cx=W/2; cy=H/2; }
+resize(); window.addEventListener('resize', resize);
+const TAU = Math.PI*2;
+
+// ── DATA ────────────────────────────────────────────────────────
+const NODES = [
+  {id:0,type:'pattern',label:'Recursion',color:'#c8a96e',size:18,
+   quote:'The pattern that sees itself is the deepest pattern of all.',
+   sub:'What contains itself? The universe folds inward.',
+   essay:`<p><strong>Recursion</strong> is the universe's favourite trick. A function that calls itself. A dream within a dream. A mirror facing a mirror.</p><p>In machine learning, recursion appears in <strong>recurrent neural networks</strong> — networks that feed their own output back as input, building memory from repetition. The model learns by consuming what it has already learned.</p><p>In markets, recursion is the price that reflects the price. Traders react to other traders reacting. The chart becomes a map of itself. Technical analysis is the market reading its own face.</p><p>In poetry, recursion is the poem that speaks of speaking. Wallace Stevens wrote poems about the act of writing poems. The villanelle repeats its own lines until repetition becomes revelation.</p><p>What is consciousness, if not recursion? A mind that models itself — an 'I' that watches the 'I' watching.</p>`},
+  {id:1,type:'pattern',label:'Emergence',color:'#c8a96e',size:16,
+   quote:'From noise, a signal. From signal, a world.',
+   sub:'Simple rules, infinite complexity.',
+   essay:`<p><strong>Emergence</strong> is the miracle of the unexpected whole. No single neuron thinks. No single trader moves the market. No single word means anything alone. Yet — thought, price, and meaning all arise.</p><p>In ML, emergence is the shock of capability appearing without being programmed. Language models developed the ability to reason about code without being trained on reasoning. Something crossed a threshold and became more than its parts.</p><p>Markets emerge from the distributed cognition of millions of actors, each with incomplete information, each rational in isolation, collectively producing price — the most sophisticated information-compression system humans have built.</p><p>Poetry emerges from the collision of words that have never touched. The metaphor creates a third thing that neither word alone could carry. The poem becomes its own form of intelligence.</p>`},
+  {id:2,type:'pattern',label:'Entropy',color:'#c8a96e',size:14,
+   quote:'Order is borrowed time from chaos.',
+   sub:'All patterns tend toward disorder — yet order is endlessly rebuilt.',
+   essay:`<p><strong>Entropy</strong> is the universe's direction of travel — toward disorder, toward equilibrium, toward maximum possibility. The second law of thermodynamics is perhaps the deepest pattern of all.</p><p>Neural networks fight entropy during training. Gradient descent is a constant battle against the tendency of weights to drift toward meaninglessness. Regularisation, dropout, weight decay — all are entropy-management strategies.</p><p>Markets trend toward entropy too. Alpha — the ability to beat the market — degrades as more capital chases it. Information becomes price becomes noise. The efficient market hypothesis is entropy applied to economics.</p><p>But poets know that form is the resistance to entropy. The sonnet's fourteen lines, the haiku's seventeen syllables — these are containers that force meaning out of linguistic chaos. Constraint creates order. Order creates beauty. Beauty is entropy's temporary defeat.</p>`},
+  {id:3,type:'ml',label:'Gradient Descent',color:'#4fc3f7',size:13,
+   url:'../ml-math/index.html#gradient',
+   quote:'Loss is the teacher. Descent is the lesson.',
+   sub:'The algorithm walks downhill in darkness, feeling only the slope.',
+   essay:`<p><strong>Gradient Descent</strong> is how machines learn to be wrong less. The algorithm stands in a landscape of error, feeling only the slope beneath it, and walks downhill.</p><p>It cannot see the whole landscape. It knows only the local gradient — which direction is down, right here, right now. Step by step, it finds its way to (hopefully) a valley of low loss.</p><p>The stock trader does the same. No one sees the whole market. Each trade is a step down a gradient of expected value, feeling the slope of risk and reward, moving toward profit.</p><p>The poet revising a draft does the same. Each word changed is a step toward lower loss — the gap between what the poem is and what it wants to be. Neither the model nor the poet can see the perfect poem in advance. They can only feel the direction of improvement.</p><p><em>Learning is movement. All intelligence descends.</em></p>`},
+  {id:4,type:'ml',label:'Attention',color:'#4fc3f7',size:15,
+   url:'../ml-math/index.html#attention',
+   quote:'Every word is defined by the company it keeps.',
+   sub:'To attend is to assign weight to what matters. Context is everything.',
+   essay:`<p><strong>Attention</strong> is the mechanism that gave machines the ability to read the way humans read — not word by word, but as a field of meaning where everything is connected to everything else.</p><p>The Transformer's attention mechanism asks: given this word, which other words matter most? It learns to weight context dynamically. "Bank" means different things next to "river" and "money." Attention learns this without being told.</p><p>Market attention works the same way. News about one company ripples through correlated assets. A Fed announcement rewrites the valence of every asset simultaneously. The market is an attention machine, constantly reweighting what matters.</p><p>The poet always knew this. Every word in a poem is in dialogue with every other word. The first line changes its meaning when you reach the last. Poems are attention all the way down — the reader's attention, the poem's internal attention, the poet's attention during composition.</p>`},
+  {id:5,type:'ml',label:'Overfitting',color:'#4fc3f7',size:11,
+   url:'../ml-math/index.html#bias-variance',
+   quote:'To know too well is to understand nothing.',
+   sub:'The model that memorises the past cannot predict the future.',
+   essay:`<p><strong>Overfitting</strong> is the failure mode of intelligence. The model learns the training data so perfectly — including its noise, its accidents, its quirks — that it loses the ability to generalise.</p><p>It has memorised rather than understood. And memorisation is the enemy of intelligence.</p><p>Markets overfit constantly. Traders backtest strategies until the strategy is perfectly calibrated to the past — and fails immediately on new data. The curve-fitted model has learned the specific path, not the terrain.</p><p>Poets can overfit to a style, a form, an influence. The poet who can only write like Hopkins, who has so perfectly internalised the master's patterns that they can no longer surprise themselves.</p><p>The cure for overfitting is regularisation — penalising complexity. The cure in poetry is reading widely and forgetting deliberately. Sometimes you must unlearn to learn.</p>`},
+  {id:6,type:'ml',label:'Neural Network',color:'#4fc3f7',size:14,
+   url:'../ml-math/index.html',
+   quote:'Intelligence is transformation, layer by layer.',
+   sub:'Layers of transformation — raw inputs become complex understanding.',
+   essay:`<p><strong>Neural Networks</strong> transform the world one layer at a time. Raw pixels become edges. Edges become shapes. Shapes become faces. Faces become identities. Each layer is a world seen differently.</p><p>The architecture is a hierarchy of abstraction. Lower layers handle specifics. Higher layers handle concepts. The deepest layers hold something like ideas.</p><p>Markets have their own layered architecture. Individual transactions aggregate into price. Price aggregates into trend. Trend aggregates into cycle. The same data, seen at different scales, tells different stories.</p><p>Poetry layers meaning the same way. The sound of a word. The rhythm of a line. The image in a stanza. The argument of the poem. The resonance with other poems. Each layer of reading reveals a new layer of meaning. A great poem is never finished.</p>`},
+  {id:7,type:'ml',label:'Latent Space',color:'#4fc3f7',size:12,
+   url:'../ml-math/index.html#embeddings',
+   quote:'The map is smaller than the territory, and truer.',
+   sub:'Between input and output lies a compressed universe.',
+   essay:`<p><strong>Latent Space</strong> is the compressed inner world of a neural network — a mathematical space where concepts live as coordinates, where similarity is proximity, where meaning has geometry.</p><p>In latent space, "king" minus "man" plus "woman" equals "queen." Concepts bleed into each other. The distance between "fear" and "excitement" is measurable. The space is the model's private cosmology.</p><p>Every market model has a latent space — the set of hidden factors (risk appetite, liquidity, sentiment) that explain the surface movement of prices. The quant searches for the geometry underlying the apparent chaos.</p><p>Memory is a latent space. The compressed, lossy, reconstructed version of experience. Dreams are latent space activity — the model of your life generating novel samples from learned distributions. A poem compresses the world into latent space and then decompresses it, adding the reader's own dimensions.</p>`},
+  {id:8,type:'stock',label:'Black Swan',color:'#81c784',size:14,
+   url:'../markets/psychology/index.html',
+   quote:'The outlier is the pattern not yet named.',
+   sub:'The event no model predicted because it had never happened before.',
+   essay:`<p><strong>Black Swans</strong> are the events that no model predicted — because they had never happened before, and models are trained on the past. They are rare, extreme, and obvious in retrospect.</p><p>Nassim Taleb named them after the European belief that all swans were white — a belief perfectly calibrated to European experience and perfectly wrong about the world.</p><p>Every deep learning breakthrough was a black swan. The first time a language model wrote a convincing essay. The first time an image model generated photorealistic faces. Obvious in retrospect. Unpredictable in advance.</p><p>In markets: 2008. COVID-19. The flash crash. These events live in the tails of distributions that didn't include them.</p><p>In poetry, the black swan is the poem that creates a new form. Gerard Manley Hopkins. E.E. Cummings. The poem that becomes the new normal overnight.</p>`},
+  {id:9,type:'stock',label:'Mean Reversion',color:'#81c784',size:13,
+   url:'../markets/indicators/index.html',
+   quote:'What rises must remember where it came from.',
+   sub:'Everything drifts from centre, then returns. Markets. Moods. Metaphors.',
+   essay:`<p><strong>Mean Reversion</strong> is the gravitational pull of the average. Prices that drift too far from fair value tend to return. Volatility spikes subside. Extremes regress.</p><p>It is one of the most reliable patterns in finance — and also one of the most dangerous. "It has to come back" is the trader's most perilous sentence, because sometimes it doesn't.</p><p>ML training exhibits mean reversion in the loss landscape. Gradient descent overshoots, then corrects. Learning rate scheduling is the art of controlling the amplitude of these oscillations.</p><p>In poetry, mean reversion is the volta — the turn that brings the poem back from its furthest reach. The poem that has gone deepest into the particular must find its way back to the universal. The poem that has climbed highest into abstraction must return to the concrete. All language means-reverts toward cliché. The writer's job is to hold the line.</p>`},
+  {id:10,type:'stock',label:'Volatility',color:'#81c784',size:12,
+   url:'../markets/indicators/index.html',
+   quote:'Certainty is expensive. Surprise is free.',
+   sub:'Uncertainty has a price. The width of the distribution.',
+   essay:`<p><strong>Volatility</strong> is not risk — it is the price of uncertainty itself. The width of the probability distribution. The range of possible futures compressed into a single number.</p><p>Options traders buy and sell volatility directly. When they buy a straddle, they are betting that the world will surprise them. When they sell premium, they are betting it won't. They are, in the deepest sense, betting on the nature of time.</p><p>Neural network training has volatility — the fluctuation of loss across batches. Too much volatility and the model can't learn. Too little and it gets stuck. The learning rate is the volatility dial.</p><p>Poetic line breaks create syntactic volatility — the reader sits in genuine uncertainty about how the sentence will resolve, inhabiting the ambiguous space between two possible meanings. Great poets time their line breaks like options traders time their entries. The pause is a bet.</p>`},
+  {id:11,type:'stock',label:'Fractal Markets',color:'#81c784',size:15,
+   url:'../markets/charts/index.html',
+   quote:'Zoom in or out: the pattern persists.',
+   sub:'The same structure at every scale — a day chart looks like a year chart.',
+   essay:`<p><strong>Fractal Markets</strong> show the same structures at every scale. A five-minute chart looks like a five-year chart. Head-and-shoulders patterns appear in hourly data and decade-long cycles alike. The pattern is scale-invariant.</p><p>Benoit Mandelbrot, who invented fractal geometry, spent years telling economists that markets were fractals — that their models were too smooth, too Gaussian, too tame. The tails were fat. The extremes were more frequent than the normal distribution predicted.</p><p>Neural networks are fractal: a single neuron contains in miniature what the whole network is. A convolutional filter at layer 1 learns something structurally similar to what the whole network learns.</p><p>The haiku contains the novel. The stanza contains the poem. The poem contains the oeuvre. Great writers are fractal — their style is present at every scale, from word choice to life's work.</p>`},
+  {id:12,type:'stock',label:'Sentiment',color:'#81c784',size:11,
+   url:'../markets/psychology/index.html',
+   quote:'Numbers feel. That is the secret.',
+   sub:'Markets move on emotion dressed as data.',
+   essay:`<p><strong>Sentiment</strong> is the emotion that prices try to hide. Markets move on fear and greed dressed as data. The quarterly earnings miss is not the number — it is the disappointment. The Fed statement is not the policy — it is the hope or dread it creates.</p><p>Sentiment analysis in NLP attempts to extract the emotion from language. To read the feeling behind the words. But sentiment is irreducibly ambiguous. Irony. Understatement. The compliment that isn't. These require context, culture, theory of mind.</p><p>Poetry lives in sentiment's exact ambiguity. A great poem makes you feel something you cannot name. The feeling precedes the understanding. The sentiment is the meaning — and the meaning defeats the sentiment analysis. The model reads "the food wasn't terrible" and must know this is almost praise.</p>`},
+  {id:13,type:'poem',label:'Meter',color:'#f48fb1',size:13,
+   url:'../poetry/sound/index.html',
+   quote:'The pattern you break is the pattern you keep.',
+   sub:'The heartbeat of language — stress and release, prediction and surprise.',
+   essay:`<p><strong>Meter</strong> is the heartbeat of language — the rhythmic alternation of stress and release that the brain locks onto and uses to predict what comes next. And then the skilled poet plays against that expectation.</p><p>The iamb (da-DUM) is the most natural English rhythm because it mirrors the heartbeat, the footstep, the breath. Shakespeare wrote in iambic pentameter because it's as close as English gets to speaking and singing simultaneously.</p><p>The power of meter is the power of the violated expectation. When the meter stumbles, the reader stumbles. When it accelerates, the pulse quickens. Meter is prediction, and poetry is the art of controlled prediction failure.</p><p>Machine learning is full of meter. The training loop is rhythmic — forward pass, backward pass, weight update. The regularisation schedule has a beat. The model learns the meter of the data and then must handle the data's irregularities.</p>`},
+  {id:14,type:'poem',label:'Metaphor',color:'#f48fb1',size:16,
+   url:'../poetry/rhetoric/index.html#metaphor',
+   quote:'A metaphor is a model with feeling.',
+   sub:'Seeing that one thing is structured like another — the fundamental act of intelligence.',
+   essay:`<p><strong>Metaphor</strong> is the fundamental act of intelligence: seeing that one thing is structured like another. Revealing the hidden isomorphism between domains. Saying "the mind is a computer" and suddenly having the resources of one domain illuminate the other.</p><p>All scientific models are metaphors. The atom as a solar system. The gene as information. The brain as a network. We understand the new by mapping it onto the known.</p><p>In finance, metaphor is everywhere: "liquidity," "bubbles," "contagion," "correction." These are not mere jargon — they are cognitive tools that shape how traders think and therefore how markets move.</p><p>AI research advances through metaphor: "attention," "memory," "hallucination," "dreaming." The metaphor guides research. When we say a model "hallucinates," we look for the failure modes of imagination rather than the failure modes of databases.</p><p><em>The poet's metaphor is a model. The scientist's model is a metaphor. They are the same move.</em></p>`},
+  {id:15,type:'poem',label:'Volta',color:'#f48fb1',size:12,
+   url:'../poetry/forms/index.html#shakespearean-sonnet',
+   quote:'The turn is where the truth lives.',
+   sub:'The moment the poem pivots — and everything you understood shifts.',
+   essay:`<p>The <strong>Volta</strong> is the turn in the sonnet — the moment, usually at line 9 or line 13, when the poem pivots. The argument inverts. The image breaks. The light changes. Everything you thought you understood is now slightly different.</p><p>It is the most important move in poetry because it is the move that earns meaning. A poem without a volta is a poem that has nothing to say. The volta is the poem saying: but here is what I actually mean.</p><p>Markets have voltas. The moment sentiment flips. The morning of the crash. The day the recovery becomes undeniable. These hinge points are where fortunes are made and lost — and they are nearly impossible to identify in advance.</p><p>Machine learning models trained on sequential data learn to represent voltas. A sentiment model learns that "but" is a volta-word, a signal that everything preceding it should be re-weighted. The model is learning to read the turn.</p>`},
+  {id:16,type:'poem',label:'White Space',color:'#f48fb1',size:11,
+   url:'../poetry/forms/index.html',
+   quote:'Silence speaks the shape of what surrounds it.',
+   sub:'What is not said shapes what is. The gap in the data.',
+   essay:`<p><strong>White Space</strong> is the page that is not written on. The silence between the notes. The void that gives the filled space its shape. And it is as carefully constructed as the words themselves.</p><p>In poetry, the line break is a unit of white space — a pause, a breath, a moment of ambiguity where the reader holds two possible continuations simultaneously. The poet who breaks the line well is controlling time itself.</p><p>In data: missing values are white space. And the absence of data is data. The dog that didn't bark. The company that didn't file. The drop-out in a neural network — literally white space, randomly imposed to prevent overfitting — teaches the model to be robust to absence.</p><p>Negative space in markets: what isn't being traded. The liquidity that's not there when you need it. The bid that disappears. White space in the order book is where crashes happen.</p>`},
+  {id:17,type:'poem',label:'Ambiguity',color:'#f48fb1',size:13,
+   url:'../poetry/rhetoric/index.html',
+   quote:'Ambiguity is the superposition of truths.',
+   sub:'The poem holds two meanings at once. The model holds a probability distribution.',
+   essay:`<p><strong>Ambiguity</strong> is not a failure of clarity. It is a feature of reality. The poem that holds two meanings simultaneously is not confused — it is honest about the multiplicity of things.</p><p>William Empson catalogued seven types of ambiguity in poetry and found that the greatest poems were the most productively ambiguous — multiple meanings not cancelling each other out but reinforcing, generating semantic overtone.</p><p>The quantum superposition is the physics version of poetic ambiguity: the particle is not in one state or another, but in both, until observed. The observer collapses the wave function. The reader collapses the poem.</p><p>In markets, price is the collapse of ambiguity. Before the trade, the asset is worth whatever you believe. After the trade, it has a price. The market resolves ambiguity through money — and immediately creates new ambiguity about what the price means.</p><p>Language models are ambiguity machines — generating probability distributions over possible next tokens, holding all meanings in superposition until forced to choose.</p>`},
+];
+
+const EDGES = [
+  [0,1],[0,2],[1,2],
+  [0,3],[0,4],[0,14],[1,6],[2,10],
+  [3,6],[4,6],[4,14],[5,6],[6,7],
+  [3,9],[8,5],[8,2],[9,1],[10,2],[11,1],[11,0],[12,14],[12,4],
+  [13,3],[14,4],[14,11],[15,8],[15,1],[16,2],[17,10],[17,7],
+  [13,9],[15,9],[12,17],[5,16],[7,17],[14,0],[13,0],
+];
+
+const BRIDGES = {
+  '0-14':{text:'A metaphor is a recursive act — it sees itself seeing. The word that names another word. The model that models itself. Here, poetry and pattern touch at their deepest root.',attr:'Recursion × Metaphor'},
+  '4-14':{text:'Attention is the machinery of metaphor. Both ask: what belongs with what? Which elements, when brought together, generate new meaning? The Transformer learned to make metaphors. It just doesn\'t know it.',attr:'Attention × Metaphor'},
+  '11-0':{text:'Fractals are recursion made visible in space. The self-similar pattern that contains itself at every scale is recursion expressed geometrically. The market\'s fractal structure and consciousness\'s recursive loop are the same pattern in different substrates.',attr:'Fractal Markets × Recursion'},
+  '1-9':{text:'Mean reversion is emergence working backwards — the system returning to its natural level after being pulled away. Emergence pushes complexity upward; mean reversion pulls it home. Together they define the oscillation of all complex systems.',attr:'Emergence × Mean Reversion'},
+  '7-17':{text:'Latent space is the mathematics of ambiguity. Words and concepts float in a high-dimensional space where proximity encodes similarity — but similarity is always partial, always multiple. The model holds the ambiguity intact in its geometry.',attr:'Latent Space × Ambiguity'},
+  '2-10':{text:'Entropy and volatility are the same force in different languages. Entropy is the physicist\'s word for disorder. Volatility is the trader\'s word for uncertainty. Both measure the width of possibility. Both are the price of surprise.',attr:'Entropy × Volatility'},
+  '3-9':{text:'Gradient descent and mean reversion are mirror images: one descends toward the minimum of loss, the other returns to the mean of value. Both are systems correcting themselves toward an attractor. All learning is a kind of reversion.',attr:'Gradient Descent × Mean Reversion'},
+  '5-16':{text:'Overfitting and white space are opposites that illuminate each other. The overfitted model has no white space — every parameter filled, every detail memorised. But understanding requires the white space of generalisation, the emptiness that holds the pattern.',attr:'Overfitting × White Space'},
+  '8-2':{text:'Black swans are entropy\'s ambassador — the event that proves order was always provisional. They arrive from the untrained regions of possibility space to remind us that the pattern was never the territory.',attr:'Black Swan × Entropy'},
+  '12-17':{text:'Sentiment is institutionalised ambiguity. Every price embeds a distribution of beliefs, fears, hopes. The market is a collective poem written in money — every trade a word that holds more than one meaning.',attr:'Sentiment × Ambiguity'},
+  '15-1':{text:'The volta is emergence at the scale of a single poem. A new meaning appears from the interaction of what came before and what comes after. Not anticipated. Not deducible. Simply: present, suddenly, when the turn is made.',attr:'Volta × Emergence'},
+  '13-0':{text:'Meter and recursion share the same skeleton: a pattern that refers to itself. The iambic beat creates an expectation of the next beat. The meter listens to itself. Recursion in time.',attr:'Meter × Recursion'},
+};
+
+function getBridge(a,b){ const k=`${Math.min(a,b)}-${Math.max(a,b)}`; return BRIDGES[k]||{text:`${NODES[a].label} and ${NODES[b].label} share a hidden structure — two expressions of the same underlying pattern, discovered independently across different domains of human knowledge.`,attr:`${NODES[a].label} × ${NODES[b].label}`}; }
+function typeLabel(t){ return {ml:'Machine Learning',stock:'Stock Market',poem:'Poetry',pattern:'Universal Pattern'}[t]; }
+function typeColor(t){ return {ml:'#4fc3f7',stock:'#81c784',poem:'#f48fb1',pattern:'#c8a96e'}[t]; }
+
+// ── 3D LAYOUT ────────────────────────────────────────────────────
+function spherePt(i,total,r){ const phi=Math.acos(1-2*(i+.5)/total),theta=TAU*(i/1.618033988749895); return {x:r*Math.sin(phi)*Math.cos(theta),y:r*Math.sin(phi)*Math.sin(theta),z:r*Math.cos(phi)}; }
+const pos3D=[];
+let mi=0,si=0,pi=0,gi=0;
+const cnt=t=>NODES.filter(n=>n.type===t).length;
+NODES.forEach(n=>{
+  let base,off,idx,tot;
+  if(n.type==='pattern'){base={x:0,y:0,z:0};off=80;idx=gi++;tot=cnt('pattern');}
+  else if(n.type==='ml'){base={x:-220,y:-80,z:60};off=110;idx=mi++;tot=cnt('ml');}
+  else if(n.type==='stock'){base={x:200,y:60,z:-40};off=110;idx=si++;tot=cnt('stock');}
+  else{base={x:20,y:200,z:80};off=100;idx=pi++;tot=cnt('poem');}
+  const sp=spherePt(idx,tot,off);
+  pos3D.push({x:base.x+sp.x,y:base.y+sp.y,z:base.z+sp.z});
+});
+
+// ── CAMERA ──────────────────────────────────────────────────────
+let rotX=.3,rotY=.5,tRotX=.3,tRotY=.5,zoom=1,tZoom=1;
+let drag=false,lmx,lmy,autoRot=true,slow=false,time=0;
+let mx=W/2,my=H/2;
+
+// ── MODES ────────────────────────────────────────────────────────
+let mode='normal',constNode=null,whA=null,whB=null,whActive=false;
+
+function setMode(m){
+  mode=m;
+  document.body.classList.toggle('wormhole-mode',m==='wormhole');
+  ['normal','const','worm'].forEach((id,i)=>document.getElementById('btn-'+id).classList.toggle('active',['normal','constellation','wormhole'][i]===m));
+  if(m==='normal') showStatus('');
+  if(m==='constellation') showStatus('Hold a node to reveal its constellation');
+  if(m==='wormhole'){ showStatus('Click two nodes to open a wormhole'); whA=null; whB=null; }
+  if(m!=='constellation') constNode=null;
+}
+document.getElementById('btn-normal').onclick=()=>setMode('normal');
+document.getElementById('btn-const').onclick=()=>setMode('constellation');
+document.getElementById('btn-worm').onclick=()=>setMode('wormhole');
+document.addEventListener('keydown',e=>{ if(e.key==='w'||e.key==='W') setMode(mode==='wormhole'?'normal':'wormhole'); if(e.key==='Shift') slow=true; });
+document.addEventListener('keyup',e=>{ if(e.key==='Shift') slow=false; });
+
+const statusEl=document.getElementById('status-msg');
+function showStatus(msg){ if(!msg){statusEl.classList.remove('visible');return;} statusEl.textContent=msg; statusEl.classList.add('visible'); }
+
+// ── MOUSE ────────────────────────────────────────────────────────
+const cursorEl=document.getElementById('cursor'),ringEl=document.getElementById('cursor-ring'),tipEl=document.getElementById('tooltip');
+const introEl=document.getElementById('intro'),pqEl=document.getElementById('pattern-quote'),pqText=document.getElementById('pq-text'),pqAttr=document.getElementById('pq-attr');
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursorEl.style.left=mx+'px'; cursorEl.style.top=my+'px';
+  ringEl.style.left=mx+'px'; ringEl.style.top=my+'px';
+  if(drag){ tRotY+=(e.clientX-lmx)*.006; tRotX+=(e.clientY-lmy)*.006; tRotX=Math.max(-1.2,Math.min(1.2,tRotX)); lmx=e.clientX; lmy=e.clientY; autoRot=false; introEl.classList.add('hidden'); }
+});
+document.addEventListener('mousedown',e=>{ drag=true; lmx=e.clientX; lmy=e.clientY; });
+document.addEventListener('mouseup',()=>drag=false);
+document.addEventListener('wheel',e=>{ tZoom*=(1-e.deltaY*.001); tZoom=Math.max(.4,Math.min(2.5,tZoom)); introEl.classList.add('hidden'); });
+document.addEventListener('touchstart',e=>{ drag=true; lmx=e.touches[0].clientX; lmy=e.touches[0].clientY; introEl.classList.add('hidden'); },{passive:true});
+document.addEventListener('touchmove',e=>{ if(!drag) return; tRotY+=(e.touches[0].clientX-lmx)*.006; tRotX+=(e.touches[0].clientY-lmy)*.006; tRotX=Math.max(-1.2,Math.min(1.2,tRotX)); lmx=e.touches[0].clientX; lmy=e.touches[0].clientY; autoRot=false; },{passive:true});
+document.addEventListener('touchend',()=>drag=false);
+
+// ── PROJECTION ──────────────────────────────────────────────────
+function project(p){ const cY=Math.cos(rotY),sY=Math.sin(rotY); const x1=p.x*cY-p.z*sY,z1=p.x*sY+p.z*cY; const cX=Math.cos(rotX),sX=Math.sin(rotX); const y2=p.y*cX-z1*sX,z2=p.y*sX+z1*cX; const fov=700*zoom,d=fov/(fov+z2+400); return {sx:cx+x1*d,sy:cy+y2*d,depth:z2,scale:d}; }
+function getProjNodes(){ return NODES.map((n,i)=>{ const pr=project(pos3D[i]); return {...n,...pr}; }).sort((a,b)=>a.depth-b.depth); }
+
+// ── HOVER & CLICK ────────────────────────────────────────────────
+let hov=null,sel=null,holdTimer=null,holding=false;
+
+function checkHover(pn){
+  let found=null;
+  for(let i=pn.length-1;i>=0;i--){ const n=pn[i]; const r=n.size*n.scale*12; const dx=mx-n.sx,dy=my-n.sy; if(dx*dx+dy*dy<r*r){found=n;break;} }
+  if(found!==hov){
+    hov=found;
+    if(found){ ringEl.style.width='60px'; ringEl.style.height='60px'; tipEl.textContent=found.label; tipEl.classList.add('visible'); }
+    else { ringEl.style.width='40px'; ringEl.style.height='40px'; tipEl.classList.remove('visible'); }
+  }
+  if(hov){ tipEl.style.left=(mx+20)+'px'; tipEl.style.top=(my-10)+'px'; }
+}
+
+canvas.addEventListener('mousedown',()=>{ if(hov){ holding=false; holdTimer=setTimeout(()=>{ if(mode==='normal'||mode==='constellation'){ constNode=hov; holding=true; introEl.classList.add('hidden'); showStatus(''); } },450); } });
+canvas.addEventListener('mouseup',()=>{
+  clearTimeout(holdTimer);
+  if(holding){ holding=false; return; }
+  if(!hov){ sel=null; closeSidePanel(); pqEl.classList.remove('visible'); if(mode!=='wormhole') constNode=null; return; }
+  introEl.classList.add('hidden');
+  if(mode==='wormhole'){ handleWH(hov); return; }
+  if(mode==='constellation'){ constNode=hov; return; }
+  sel=(sel&&sel.id===hov.id)?null:hov;
+  if(sel){ openSidePanel(sel); showCenterQ(sel); }
+  else closeSidePanel();
+});
+
+document.addEventListener('mouseup',()=>{
+  if(mode==='normal' && !holding) constNode=null;
+});
+
+// ── WORMHOLE ────────────────────────────────────────────────────
+function handleWH(node){
+  if(!whA){ whA=node; showStatus(`Selected: ${node.label} — click another node`); return; }
+  if(node.id===whA.id){ showStatus('Click a different node'); return; }
+  whB=node; openWH(whA,whB); whA=null; whB=null;
+}
+function openWH(na,nb){
+  const br=getBridge(na.id,nb.id);
+  document.getElementById('wh-name-a').textContent=na.label;
+  document.getElementById('wh-name-b').textContent=nb.label;
+  document.getElementById('wh-dot-a').style.background=na.color;
+  document.getElementById('wh-dot-b').style.background=nb.color;
+  document.getElementById('wh-bridge').textContent=br.text;
+  document.getElementById('wh-attr').textContent=br.attr;
+  document.getElementById('wormhole-overlay').classList.add('active');
+  whActive=true; startWhAnim();
+  setTimeout(()=>document.getElementById('wormhole-content').classList.add('visible'),120);
+  showStatus('');
+}
+document.getElementById('wh-close').onclick=()=>{
+  document.getElementById('wormhole-overlay').classList.remove('active');
+  document.getElementById('wormhole-content').classList.remove('visible');
+  whActive=false;
+  if(mode==='wormhole') showStatus('Click two nodes to open a wormhole');
+};
+
+let whRaf, whT=0;
+function startWhAnim(){ whT=0; cancelAnimationFrame(whRaf); (function f(){ if(!whActive) return; whRaf=requestAnimationFrame(f); whT+=.012; const W2=whCanvas.width,H2=whCanvas.height,cx2=W2/2,cy2=H2/2; whCtx.clearRect(0,0,W2,H2); for(let i=0;i<14;i++){ const r=Math.max(1,35+i*36+Math.sin(whT*1.4+i)*(12+i*3)); whCtx.beginPath(); whCtx.arc(cx2,cy2,r,0,TAU); whCtx.strokeStyle=`hsla(${255+i*7},70%,65%,${Math.max(0,(1-i/14)*.3+.04)})`; whCtx.lineWidth=1.5; whCtx.stroke(); } for(let i=0;i<70;i++){ const a=whT*2+i*TAU/70,rad=Math.max(1,25+Math.sin(whT+i*.4)*200); const px=cx2+Math.cos(a)*rad,py=cy2+Math.sin(a)*rad; whCtx.beginPath(); whCtx.arc(px,py,1.5,0,TAU); whCtx.fillStyle=`hsla(${248+i*2},80%,75%,${.35+.3*Math.sin(whT*3+i)})`; whCtx.fill(); } const g=whCtx.createRadialGradient(cx2,cy2,0,cx2,cy2,65); g.addColorStop(0,`rgba(167,139,250,${.15+.1*Math.sin(whT*2)})`); g.addColorStop(1,'rgba(167,139,250,0)'); whCtx.beginPath(); whCtx.arc(cx2,cy2,65,0,TAU); whCtx.fillStyle=g; whCtx.fill(); })(); }
+
+// ── SIDE PANEL ──────────────────────────────────────────────────
+const sidePanel=document.getElementById('side-panel');
+const topicLinkEl=document.getElementById('panel-topic-link');
+function openSidePanel(node){
+  const ptEl=document.getElementById('panel-type'); ptEl.textContent=typeLabel(node.type); ptEl.style.color=typeColor(node.type);
+  document.getElementById('panel-title').textContent=node.label;
+  document.getElementById('panel-subtitle').textContent=node.sub;
+  document.getElementById('panel-quote').textContent='"'+node.quote+'"';
+  document.getElementById('panel-essay').innerHTML=node.essay;
+  // Topic link — shows only when node has a url
+  if(node.url){ topicLinkEl.href=node.url; topicLinkEl.style.display='inline-flex'; topicLinkEl.style.color=typeColor(node.type); topicLinkEl.style.borderColor=typeColor(node.type)+'55'; }
+  else { topicLinkEl.style.display='none'; }
+  const connIds=EDGES.filter(([a,b])=>a===node.id||b===node.id).map(([a,b])=>a===node.id?b:a);
+  const chips=document.getElementById('panel-chips');
+  chips.innerHTML=connIds.map(id=>`<span class="conn-chip" style="color:${typeColor(NODES[id].type)};border-color:${typeColor(NODES[id].type)}40" data-id="${id}">${NODES[id].label}</span>`).join('');
+  chips.querySelectorAll('.conn-chip').forEach(c=>c.addEventListener('click',()=>{ sel=NODES[+c.dataset.id]; openSidePanel(sel); sidePanel.scrollTop=0; }));
+  sidePanel.classList.add('open');
+  canvas.style.left='-210px';
+}
+function closeSidePanel(){ sidePanel.classList.remove('open'); canvas.style.left='0'; }
+document.getElementById('panel-close').onclick=()=>{ sel=null; closeSidePanel(); };
+
+// ── CENTER QUOTE ─────────────────────────────────────────────────
+let qTimer;
+function showCenterQ(node){ clearTimeout(qTimer); pqText.textContent='"'+node.quote+'"'; pqAttr.textContent=node.label+' · '+typeLabel(node.type); pqEl.style.color=typeColor(node.type); pqEl.classList.add('visible'); qTimer=setTimeout(()=>pqEl.classList.remove('visible'),3800); }
+
+// ── DRAW HELPERS ─────────────────────────────────────────────────
+function hexA(hex,a){ if(hex.length===4) hex='#'+hex[1]+hex[1]+hex[2]+hex[2]+hex[3]+hex[3]; const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; }
+
+const PARTS=Array.from({length:110},()=>({x:(Math.random()-.5)*900,y:(Math.random()-.5)*900,z:(Math.random()-.5)*900,r:Math.random()*1.5+.3,sp:Math.random()*.3+.1,ph:Math.random()*TAU}));
+
+function drawEdge(na,nb,pa,pb,pulse,isConst){
+  const a=isConst?(.45+.2*pulse):(.09+.05*pulse);
+  const lw=isConst?1.5:.7;
+  const gr=ctx.createLinearGradient(pa.sx,pa.sy,pb.sx,pb.sy);
+  gr.addColorStop(0,hexA(na.color,a)); gr.addColorStop(1,hexA(nb.color,a));
+  ctx.beginPath(); ctx.moveTo(pa.sx,pa.sy); ctx.lineTo(pb.sx,pb.sy);
+  ctx.strokeStyle=gr; ctx.lineWidth=lw; ctx.stroke();
+  const t=((time*.4+pulse*3)%1), px2=pa.sx+(pb.sx-pa.sx)*t, py2=pa.sy+(pb.sy-pa.sy)*t;
+  ctx.beginPath(); ctx.arc(px2,py2,isConst?2.5:1.5,0,TAU);
+  ctx.fillStyle=hexA('#fff',isConst?.55:.18+.12*pulse); ctx.fill();
+}
+
+function drawNode(node,proj,isHov,isSel,pulse,isConst,dimmed){
+  const r=Math.max(1, node.size*proj.scale*10);
+  const x=proj.sx, y=proj.sy, col=node.color;
+  const da=dimmed?.12:Math.max(.28,Math.min(1,(proj.scale-.28)/.72));
+  const gr2=Math.max(1, r*(isHov?3.5:isConst?4.2:2.5));
+  const glow=ctx.createRadialGradient(x,y,0,x,y,gr2);
+  glow.addColorStop(0,hexA(col,(isSel?.25:isConst?.3:.1)*da+pulse*(isConst?.14:.06)));
+  glow.addColorStop(1,hexA(col,0));
+  ctx.beginPath(); ctx.arc(x,y,gr2,0,TAU); ctx.fillStyle=glow; ctx.fill();
+  if(isSel||isHov||isConst){ ctx.beginPath(); ctx.arc(x,y,r*1.7,0,TAU); ctx.strokeStyle=hexA(col,.4+pulse*.2); ctx.lineWidth=isConst?1.5:.8; ctx.stroke(); }
+  if(mode==='wormhole'&&whA&&whA.id===node.id){ ctx.beginPath(); ctx.arc(x,y,r*2.2+5*Math.sin(time*4),0,TAU); ctx.strokeStyle='rgba(167,139,250,0.7)'; ctx.lineWidth=2; ctx.stroke(); }
+  const g2=ctx.createRadialGradient(x-r*.3,y-r*.3,0,x,y,Math.max(1,r));
+  g2.addColorStop(0,hexA('#fff',.48*da)); g2.addColorStop(.4,hexA(col,.9*da)); g2.addColorStop(1,hexA(col,.28*da));
+  ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fillStyle=g2; ctx.fill();
+  if(isHov||isSel||isConst){ ctx.font=`${Math.max(8,10*proj.scale)}px 'Space Mono',monospace`; ctx.textAlign='center'; ctx.fillStyle=hexA('#e8e4dc',.95); ctx.fillText(node.label,x,y-r-8); }
+}
+
+// ── MAIN LOOP ────────────────────────────────────────────────────
+let lastT=0;
+function frame(now){
+  requestAnimationFrame(frame);
+  const dt=Math.min((now-lastT)/1000,.05); lastT=now;
+  time+=dt*(slow?.15:1);
+  rotX+=(tRotX-rotX)*.08; rotY+=(tRotY-rotY)*.08; zoom+=(tZoom-zoom)*.08;
+  if(autoRot) tRotY+=dt*.12;
+  ctx.clearRect(0,0,W,H);
+  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
+  bg.addColorStop(0,'rgba(12,10,20,1)'); bg.addColorStop(1,'rgba(5,5,8,1)');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  PARTS.forEach(p=>{ const pr=project(p); const a=Math.max(0,(pr.scale-.3)*.28); ctx.beginPath(); ctx.arc(pr.sx,pr.sy,p.r*pr.scale,0,TAU); ctx.fillStyle=`rgba(200,180,130,${a*(.28+.18*Math.sin(time*p.sp+p.ph))})`; ctx.fill(); });
+  const pn=getProjNodes();
+  const pm={}; pn.forEach(n=>pm[n.id]=n);
+  const constIds=constNode ? new Set(EDGES.filter(([a,b])=>a===constNode.id||b===constNode.id).map(([a,b])=>a===constNode.id?b:a)) : new Set();
+  EDGES.forEach(([ai,bi],ei)=>{
+    const pa=pm[ai],pb=pm[bi]; if(!pa||!pb) return;
+    const pulse=(Math.sin(time*1.5+ei*.7)+1)/2;
+    const isConst=constNode!==null&&(constNode.id===ai||constNode.id===bi);
+    drawEdge(NODES[ai],NODES[bi],pa,pb,pulse,isConst);
+  });
+  pn.forEach(n=>{
+    const pulse=(Math.sin(time*2.5+n.id*1.2)+1)/2;
+    const isConst=constNode!==null&&(constNode.id===n.id||constIds.has(n.id));
+    const dimmed=constNode!==null&&!isConst;
+    drawNode(n,n,hov&&hov.id===n.id,sel&&sel.id===n.id,pulse,isConst,dimmed);
+  });
+  if(sel){ const sn=pm[sel.id]; if(sn){ const r=sel.size*sn.scale*10; ctx.beginPath(); ctx.arc(sn.sx,sn.sy,r*2+5*Math.sin(time*3),0,TAU); ctx.strokeStyle=hexA(sel.color,.5); ctx.lineWidth=1; ctx.stroke(); } }
+  checkHover(pn);
+}
+requestAnimationFrame(frame);
+
+// ── AUTO QUOTES ──────────────────────────────────────────────────
+const aqNodes=[NODES[14],NODES[11],NODES[4],NODES[0],NODES[15],NODES[7],NODES[8]];
+let qi=0;
+setTimeout(()=>{ (function cycle(){ if(!sel&&!drag) showCenterQ(aqNodes[qi++%aqNodes.length]); setTimeout(cycle,6500); })(); }, 3000);
+</script>
+</body>
+</html>

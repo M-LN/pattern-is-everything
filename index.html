@@ -561,6 +561,78 @@
   <span class="pt-text">A bell curve in statistics, a volta in a sonnet, a head-and-shoulders on a chart — the same structural principle, different languages. Every topic here makes that connection visible.</span>
 </div>
 
+<!-- Pattern Universe Feature -->
+<div style="max-width:860px;margin:0 auto 48px;padding:0 24px;">
+  <a href="universe/index.html" style="display:block;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:40px 48px;color:inherit;transition:border-color .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#c8a96e44';this.style.boxShadow='0 8px 32px rgba(200,169,110,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+    <!-- Starfield decoration -->
+    <canvas id="universePreviewCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6;" aria-hidden="true"></canvas>
+    <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;margin-bottom:12px;">◆ Interactive Experience</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,4vw,34px);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:#c8a96e;margin-bottom:12px;">Pattern <em style="font-style:italic;">Universe</em></div>
+        <div style="font-family:var(--mono);font-size:12px;color:#9a8e80;line-height:1.7;max-width:480px;">An immersive 3D constellation of ideas — drag to rotate, click to read, and discover the hidden bridges connecting Gradient Descent to the Volta, Entropy to the Sonnet, Fractals to Recursion.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4fc3f7;border:1px solid #4fc3f744;border-radius:3px;padding:3px 10px;">Machine Learning</span>
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#81c784;border:1px solid #81c78444;border-radius:3px;padding:3px 10px;">Markets</span>
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#f48fb1;border:1px solid #f48fb144;border-radius:3px;padding:3px 10px;">Poetry</span>
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#c8a96e;border:1px solid #c8a96e44;border-radius:3px;padding:3px 10px;">Universal Patterns</span>
+        </div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:#7a6340;white-space:nowrap;border:1px solid #7a634044;border-radius:3px;padding:8px 18px;flex-shrink:0;">Enter Universe →</div>
+    </div>
+  </a>
+</div>
+
+<script>
+(function(){
+  const c = document.getElementById('universePreviewCanvas');
+  if(!c) return;
+  const TAU = Math.PI*2;
+  let req, t=0;
+  const pts = Array.from({length:55},()=>({
+    x:Math.random(), y:Math.random(),
+    r:Math.random()*.9+.2, sp:Math.random()*.4+.1, ph:Math.random()*TAU
+  }));
+  const nodes = [
+    {x:.22,y:.38,col:'#4fc3f7',r:3.5},{x:.15,y:.62,col:'#4fc3f7',r:2.8},
+    {x:.38,y:.25,col:'#4fc3f7',r:2.2},{x:.28,y:.72,col:'#4fc3f7',r:2},
+    {x:.72,y:.35,col:'#81c784',r:3.2},{x:.82,y:.58,col:'#81c784',r:2.6},
+    {x:.65,y:.68,col:'#81c784',r:2.1},{x:.78,y:.22,col:'#81c784',r:1.8},
+    {x:.48,y:.78,col:'#f48fb1',r:3},{x:.36,y:.88,col:'#f48fb1',r:2.3},
+    {x:.58,y:.88,col:'#f48fb1',r:1.9},
+    {x:.5,y:.42,col:'#c8a96e',r:4.5},{x:.42,y:.55,col:'#c8a96e',r:3},
+    {x:.58,y:.52,col:'#c8a96e',r:2.5}
+  ];
+  const edges=[[11,12],[11,13],[12,13],[11,0],[11,4],[11,8],[12,1],[13,5],[0,1],[4,5],[8,9],[0,2],[4,6],[8,10]];
+  function hexA(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `rgba(${r},${g},${b},${a})`;}
+  function draw(){
+    const rect=c.getBoundingClientRect(); if(!rect.width) return;
+    const dpr=window.devicePixelRatio||1;
+    c.width=rect.width*dpr; c.height=rect.height*dpr;
+    const ctx=c.getContext('2d'); ctx.scale(dpr,dpr);
+    const W=rect.width,H=rect.height;
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{ const bri=.12+.08*Math.sin(t*p.sp+p.ph); ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.r,0,TAU); ctx.fillStyle=`rgba(200,180,130,${bri})`; ctx.fill(); });
+    const nx=nodes.map(n=>({...n,sx:n.x*W,sy:n.y*H}));
+    edges.forEach(([a,b])=>{
+      const na=nx[a],nb=nx[b];
+      const pulse=(Math.sin(t*1.2+a*.7)+1)/2;
+      const gr=ctx.createLinearGradient(na.sx,na.sy,nb.sx,nb.sy);
+      gr.addColorStop(0,hexA(na.col,.08+.05*pulse)); gr.addColorStop(1,hexA(nb.col,.08+.05*pulse));
+      ctx.beginPath(); ctx.moveTo(na.sx,na.sy); ctx.lineTo(nb.sx,nb.sy); ctx.strokeStyle=gr; ctx.lineWidth=.8; ctx.stroke();
+      const ft=((t*.35+pulse*2.5)%1), px=na.sx+(nb.sx-na.sx)*ft, py=na.sy+(nb.sy-na.sy)*ft;
+      ctx.beginPath(); ctx.arc(px,py,1.2,0,TAU); ctx.fillStyle=`rgba(255,255,255,${.12+.1*pulse})`; ctx.fill();
+    });
+    nx.forEach(n=>{ const pulse=(Math.sin(t*2+n.sx)*.5+.5); const glow=ctx.createRadialGradient(n.sx,n.sy,0,n.sx,n.sy,n.r*3.5); glow.addColorStop(0,hexA(n.col,.18+.08*pulse)); glow.addColorStop(1,hexA(n.col,0)); ctx.beginPath(); ctx.arc(n.sx,n.sy,n.r*3.5,0,TAU); ctx.fillStyle=glow; ctx.fill(); ctx.beginPath(); ctx.arc(n.sx,n.sy,n.r,0,TAU); ctx.fillStyle=hexA(n.col,.7+.2*pulse); ctx.fill(); });
+  }
+  function loop(){ req=requestAnimationFrame(loop); t+=.008; draw(); }
+  if('IntersectionObserver' in window){
+    const obs=new IntersectionObserver(entries=>{ if(entries[0].isIntersecting){loop();} else{cancelAnimationFrame(req);} },{threshold:0.1});
+    obs.observe(c);
+  } else { loop(); }
+})();
+</script>
+
 <div class="portal-content">
   <div class="portal-section-title">Universes</div>
 
