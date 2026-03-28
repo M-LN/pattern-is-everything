@@ -3,7 +3,6 @@ const SHELL = [
   '/index.html',
   '/css/main.css',
   '/ml/index.html',
-  '/poetry/index.html',
   '/markets/index.html',
 ];
 

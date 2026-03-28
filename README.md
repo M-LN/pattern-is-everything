@@ -1,8 +1,8 @@
 # Pattern is Everything
 
-**An interactive visual encyclopedia of patterns — in math, verse, and markets.**
+**An interactive visual encyclopedia of patterns — in math and markets.**
 
-252 topics across 3 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
+174 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
 
 🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
 
@@ -10,19 +10,12 @@
 
 ## Universes
 
-### 🧠 Machine Learning — 102 topics
+### 🧠 Machine Learning — 99 topics
 | Collection | Topics | Covers |
 |---|---|---|
 | **ML Math** | 38 | Linear algebra, gradient descent, backprop, attention, transformers, diffusion, LoRA, RLHF |
-| **Statistics & Probability** | 34 | Distributions, hypothesis testing, Bayesian methods, A/B testing, bootstrap |
+| **The Toolkit** | 31 | Model evaluation, feature importance, data analysis, backtesting, decision-making, Python tools |
 | **LLM Engineering** | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
-
-### ✒️ Poetry — 75 topics
-| Collection | Topics | Covers |
-|---|---|---|
-| **Poetic Forms** | 25 | Sonnet, villanelle, ghazal, haiku, free verse, prose poetry |
-| **Sound & Meter** | 25 | Iambic pentameter, caesura, alliteration, assonance, rhyme schemes |
-| **Rhetoric & Figures** | 25 | Metaphor, anaphora, chiasmus, synecdoche, paradox |
 
 ### 📈 Markets — 75 topics
 | Collection | Topics | Covers |
@@ -60,16 +53,12 @@ HTML + CSS + JavaScript
 
 ```
 Pattern Portal/
-├── index.html                  ← Homepage (3 universe cards)
+├── index.html                  ← Homepage (2 universe cards)
 ├── css/main.css                ← Global design system
 ├── ml/index.html               ← ML hub
 │   ├── ml-math/                ← 38 topics
-│   ├── stats/                  ← 34 topics
+│   ├── stats/                  ← 31 topics
 │   └── llm/                    ← 30 topics
-├── poetry/index.html           ← Poetry hub
-│   ├── forms/                  ← 25 topics
-│   ├── sound/                  ← 25 topics
-│   └── rhetoric/               ← 25 topics
 ├── markets/index.html          ← Markets hub
 │   ├── charts/                 ← 25 topics
 │   ├── indicators/             ← 25 topics

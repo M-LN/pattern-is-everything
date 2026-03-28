@@ -1,93 +1,87 @@
 /* ═══════════════════════════════════════════════════════════════
-   Statistics & Probability — Topics Data & Content Builder
-   30 topics organized into 6 sections
+   The Toolkit — Topics Data & Content Builder
+   31 practical topics for ML evaluation & market analysis
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-descriptive', title:'Descriptive Stats', topics:['home','mean-median','variance-std','percentiles','correlation','covariance'] },
-  { id:'sec-probability', title:'Probability', topics:['prob-basics','conditional','independence','combinatorics','law-large-numbers'] },
-  { id:'sec-distributions', title:'Distributions', topics:['normal','binomial','poisson','exponential','uniform','beta','chi-squared'] },
-  { id:'sec-inference', title:'Inference', topics:['clt','confidence','hypothesis','p-value','t-test','anova'] },
-  { id:'sec-bayesian', title:'Bayesian Methods', topics:['bayesian-inference','conjugate-priors','mcmc','hierarchical','bayesian-regression'] },
-  { id:'sec-applied', title:'Applied', topics:['ab-testing','bootstrap','power-analysis','mle-stats','correlation-vs-causation','simpsons-paradox'] },
+  { id:'sec-evaluate',    title:'Evaluate Your Model',       topics:['home','confusion-matrix','roc-auc','regression-metrics','cross-validation','comparing-runs','learning-curves'] },
+  { id:'sec-features',    title:'Understand Your Features',  topics:['shap-values','permutation-importance','pdp-ice','feature-correlation','information-gain'] },
+  { id:'sec-data',        title:'Analyze Your Data',         topics:['distribution-shape','outlier-detection','missing-data','data-drift','class-imbalance'] },
+  { id:'sec-backtest',    title:'Backtest & Validate',       topics:['sharpe-ratio','max-drawdown','walk-forward','monte-carlo','survivorship-bias'] },
+  { id:'sec-decisions',   title:'Make Decisions',            topics:['confidence-intervals','bootstrap-methods','bayesian-ab','effect-size','power-analysis'] },
+  { id:'sec-python',      title:'Python Power Tools',        topics:['sklearn-eval','shap-library','optuna','pandas-ta','scipy-statsmodels'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
 
 const TOPIC_NAMES = {
   home:'Overview',
-  'mean-median':'Mean, Median & Mode',
-  'variance-std':'Variance & Std Dev',
-  percentiles:'Percentiles & Quartiles',
-  correlation:'Correlation',
-  covariance:'Covariance',
-  'prob-basics':'Probability Basics',
-  conditional:'Conditional Probability',
-  independence:'Independence',
-  combinatorics:'Combinatorics',
-  'law-large-numbers':'Law of Large Numbers',
-  normal:'Normal Distribution',
-  binomial:'Binomial Distribution',
-  poisson:'Poisson Distribution',
-  exponential:'Exponential Distribution',
-  uniform:'Uniform Distribution',
-  beta:'Beta Distribution',
-  'chi-squared':'Chi-Squared Distribution',
-  clt:'Central Limit Theorem',
-  confidence:'Confidence Intervals',
-  hypothesis:'Hypothesis Testing',
-  'p-value':'P-Values',
-  't-test':'T-Test',
-  anova:'ANOVA',
-  'bayesian-inference':'Bayesian Inference',
-  'conjugate-priors':'Conjugate Priors',
-  mcmc:'MCMC',
-  hierarchical:'Hierarchical Models',
-  'bayesian-regression':'Bayesian Regression',
-  'ab-testing':'A/B Testing',
-  bootstrap:'Bootstrap',
+  'confusion-matrix':'Confusion Matrix & Classification Metrics',
+  'roc-auc':'ROC & AUC Curves',
+  'regression-metrics':'Regression Metrics',
+  'cross-validation':'Cross-Validation Done Right',
+  'comparing-runs':'Comparing Model Runs',
+  'learning-curves':'Learning Curves & Overfitting',
+  'shap-values':'SHAP Values',
+  'permutation-importance':'Permutation Importance',
+  'pdp-ice':'Partial Dependence & ICE',
+  'feature-correlation':'Feature Correlation & Multicollinearity',
+  'information-gain':'Information Gain & Mutual Information',
+  'distribution-shape':'Distribution Shape',
+  'outlier-detection':'Outlier Detection',
+  'missing-data':'Missing Data Strategies',
+  'data-drift':'Data Drift & Distribution Shift',
+  'class-imbalance':'Sampling & Class Imbalance',
+  'sharpe-ratio':'Sharpe Ratio & Risk-Adjusted Returns',
+  'max-drawdown':'Maximum Drawdown & Recovery',
+  'walk-forward':'Walk-Forward Validation',
+  'monte-carlo':'Monte Carlo Simulation',
+  'survivorship-bias':'Survivorship & Look-Ahead Bias',
+  'confidence-intervals':'Confidence Intervals',
+  'bootstrap-methods':'Bootstrap Methods',
+  'bayesian-ab':'Bayesian A/B Testing',
+  'effect-size':'Effect Size & Practical Significance',
   'power-analysis':'Power Analysis',
-  'mle-stats':'MLE (Statistics)',
-  'correlation-vs-causation':'Correlation vs Causation',
-  'simpsons-paradox':"Simpson's Paradox",
+  'sklearn-eval':'scikit-learn Evaluation Suite',
+  'shap-library':'SHAP Library',
+  'optuna':'Optuna',
+  'pandas-ta':'pandas-ta & yfinance',
+  'scipy-statsmodels':'scipy.stats & statsmodels',
 };
 
 /* ── Full topic data for search ── */
 const TOPIC_DATA = [
-  { id:'mean-median', num:'01', title:'Mean, Median & Mode', category:'Descriptive Stats', keywords:['average','central tendency','median','mode','mean','arithmetic','geometric','trimmed'], content:'The three measures of central tendency — when to use each and how they differ.' },
-  { id:'variance-std', num:'02', title:'Variance & Std Dev', category:'Descriptive Stats', keywords:['spread','dispersion','standard deviation','variance','range','IQR'], content:'Measuring how spread out data is — variance, standard deviation, and their properties.' },
-  { id:'percentiles', num:'03', title:'Percentiles & Quartiles', category:'Descriptive Stats', keywords:['quartile','percentile','IQR','box plot','five number summary','outlier'], content:'Dividing data into equal parts — quartiles, percentiles, and the five-number summary.' },
-  { id:'correlation', num:'04', title:'Correlation', category:'Descriptive Stats', keywords:['pearson','spearman','r-value','linear relationship','scatter plot'], content:'Measuring the strength and direction of linear relationships between variables.' },
-  { id:'covariance', num:'05', title:'Covariance', category:'Descriptive Stats', keywords:['joint variability','covariance matrix','positive','negative','zero'], content:'How two variables move together — the building block of correlation and PCA.' },
-  { id:'prob-basics', num:'06', title:'Probability Basics', category:'Probability', keywords:['event','sample space','union','intersection','complement','axioms','kolmogorov'], content:'The axioms and rules of probability — events, sample spaces, and fundamental operations.' },
-  { id:'conditional', num:'07', title:'Conditional Probability', category:'Probability', keywords:['given','bayes','posterior','likelihood','prior','conditional'], content:'Probability of an event given that another has occurred — the gateway to Bayesian thinking.' },
-  { id:'independence', num:'08', title:'Independence', category:'Probability', keywords:['independent events','dependent','joint probability','marginal','multiplication rule'], content:'When knowing one event tells you nothing about another — independence and dependence.' },
-  { id:'combinatorics', num:'09', title:'Combinatorics', category:'Probability', keywords:['permutation','combination','factorial','counting','choose','binomial coefficient','multinomial'], content:'Counting outcomes — permutations, combinations, and the mathematics of choice.' },
-  { id:'law-large-numbers', num:'10', title:'Law of Large Numbers', category:'Probability', keywords:['convergence','sample mean','expected value','weak law','strong law','iid'], content:'Why casino always wins — sample averages converge to the expected value.' },
-  { id:'normal', num:'11', title:'Normal Distribution', category:'Distributions', keywords:['gaussian','bell curve','z-score','standard normal','68-95-99.7','CLT'], content:'The bell curve — the most important distribution in statistics, arising everywhere via CLT.' },
-  { id:'binomial', num:'12', title:'Binomial Distribution', category:'Distributions', keywords:['bernoulli','trials','success','failure','n choose k','binary outcome'], content:'Counting successes in n independent trials — the foundation of binary experiments.' },
-  { id:'poisson', num:'13', title:'Poisson Distribution', category:'Distributions', keywords:['rare events','rate','lambda','count data','arrivals','queuing'], content:'Counting rare events in fixed intervals — arrivals, defects, and natural phenomena.' },
-  { id:'exponential', num:'14', title:'Exponential Distribution', category:'Distributions', keywords:['waiting time','memoryless','decay','half-life','rate parameter','survival'], content:'Time between events — the memoryless distribution for waiting and survival analysis.' },
-  { id:'uniform', num:'15', title:'Uniform Distribution', category:'Distributions', keywords:['equal probability','flat','rectangular','continuous','discrete','random number'], content:'Every outcome equally likely — the simplest distribution, foundation of random sampling.' },
-  { id:'beta', num:'16', title:'Beta Distribution', category:'Distributions', keywords:['prior','proportion','bayesian','alpha','beta parameters','conjugate'], content:'The distribution of probabilities — flexible shape for modeling proportions and priors.' },
-  { id:'chi-squared', num:'17', title:'Chi-Squared Distribution', category:'Distributions', keywords:['goodness of fit','degrees of freedom','test statistic','categorical','contingency table'], content:'Sum of squared standard normals — used in goodness-of-fit and independence tests.' },
-  { id:'clt', num:'18', title:'Central Limit Theorem', category:'Inference', keywords:['sample mean','normal approximation','n>30','sampling distribution','standard error'], content:'The most important theorem in statistics — sample means become normal regardless of the population.' },
-  { id:'confidence', num:'19', title:'Confidence Intervals', category:'Inference', keywords:['margin of error','95%','interval estimate','z-interval','t-interval','coverage'], content:'Quantifying uncertainty in estimates — what a 95% confidence interval really means.' },
-  { id:'hypothesis', num:'20', title:'Hypothesis Testing', category:'Inference', keywords:['null hypothesis','alternative','type I error','type II error','significance','alpha','reject'], content:'Making decisions from data — the framework of null vs alternative hypotheses.' },
-  { id:'p-value', num:'21', title:'P-Values', category:'Inference', keywords:['significance','alpha','reject','fail to reject','probability','test statistic','misinterpretation'], content:'The most misunderstood concept in statistics — what p-values actually mean.' },
-  { id:'t-test', num:'22', title:'T-Test', category:'Inference', keywords:['student t','two sample','paired','one sample','degrees of freedom','small sample'], content:'Comparing means when sample sizes are small — the workhorse of A/B testing.' },
-  { id:'anova', num:'23', title:'ANOVA', category:'Inference', keywords:['analysis of variance','F-test','between groups','within groups','one-way','two-way','factor'], content:'Comparing means across three or more groups simultaneously.' },
-  { id:'bayesian-inference', num:'24', title:'Bayesian Inference', category:'Bayesian Methods', keywords:['posterior','prior','likelihood','update','credible interval','subjective'], content:'Updating beliefs with data — the Bayesian framework for learning from evidence.' },
-  { id:'conjugate-priors', num:'25', title:'Conjugate Priors', category:'Bayesian Methods', keywords:['beta-binomial','normal-normal','gamma-poisson','closed form','posterior update'], content:'Prior-likelihood pairs that yield closed-form posteriors — the efficient path to Bayesian updating.' },
-  { id:'mcmc', num:'26', title:'MCMC', category:'Bayesian Methods', keywords:['markov chain','monte carlo','metropolis','gibbs','sampling','posterior sampling','trace plot'], content:'Sampling from complex posteriors — Metropolis-Hastings and Gibbs sampling algorithms.' },
-  { id:'hierarchical', num:'27', title:'Hierarchical Models', category:'Bayesian Methods', keywords:['multilevel','random effects','partial pooling','hyperparameters','nested'], content:'Models with structure — sharing information across groups via partial pooling.' },
-  { id:'bayesian-regression', num:'28', title:'Bayesian Regression', category:'Bayesian Methods', keywords:['posterior distribution','credible interval','predictive','uncertainty','weight distribution'], content:'Linear regression with full uncertainty quantification — distributions over weights, not points.' },
-  { id:'ab-testing', num:'29', title:'A/B Testing', category:'Applied', keywords:['experiment','control','treatment','conversion','sample size','significance','uplift','MDE'], content:'Running controlled experiments — design, analysis, and common pitfalls of A/B tests.' },
-  { id:'bootstrap', num:'30', title:'Bootstrap', category:'Applied', keywords:['resampling','confidence interval','nonparametric','empirical distribution','percentile method'], content:'Estimating distributions by resampling — no assumptions about the population needed.' },
-  { id:'power-analysis', num:'31', title:'Power Analysis', category:'Applied', keywords:['sample size','effect size','beta','type II error','statistical power','MDE'], content:'How many samples do you need? — planning experiments with sufficient statistical power.' },
-  { id:'mle-stats', num:'32', title:'MLE (Statistics)', category:'Applied', keywords:['maximum likelihood','likelihood function','log-likelihood','fisher information','asymptotic'], content:'Finding parameters that make data most probable — the frequentist workhorse.' },
-  { id:'correlation-vs-causation', num:'33', title:'Correlation vs Causation', category:'Applied', keywords:['confounding','spurious','causal inference','randomization','DAG','intervention'], content:'Why ice cream sales don\'t cause drowning — the critical distinction in data analysis.' },
-  { id:'simpsons-paradox', num:'34', title:"Simpson's Paradox", category:'Applied', keywords:['aggregation','subgroup','reversal','confounding','lurking variable','marginal'], content:'When trends reverse upon aggregation — a paradox that catches even experts off guard.' },
+  { id:'confusion-matrix', num:'01', title:'Confusion Matrix & Classification Metrics', category:'Evaluate Your Model', keywords:['precision','recall','f1','accuracy','true positive','false positive','false negative','true negative','classification report','threshold'], content:'The foundation of classification evaluation — TP, FP, TN, FN and the metrics built on them.' },
+  { id:'roc-auc', num:'02', title:'ROC & AUC Curves', category:'Evaluate Your Model', keywords:['receiver operating characteristic','area under curve','threshold','TPR','FPR','multi-class','comparison','sensitivity','specificity'], content:'Visualizing model performance across all thresholds — the ROC curve and the AUC score.' },
+  { id:'regression-metrics', num:'03', title:'Regression Metrics', category:'Evaluate Your Model', keywords:['MAE','RMSE','R-squared','adjusted R²','mean absolute error','root mean square','residuals','explained variance'], content:'MAE, RMSE, R² — which metric for which regression problem and what the numbers actually mean.' },
+  { id:'cross-validation', num:'04', title:'Cross-Validation Done Right', category:'Evaluate Your Model', keywords:['k-fold','stratified','time series split','data leakage','train test split','validation','holdout','nested'], content:'Splitting your data honestly — k-fold, stratified, time-series split, and the leakage traps.' },
+  { id:'comparing-runs', num:'05', title:'Comparing Model Runs', category:'Evaluate Your Model', keywords:['paired t-test','McNemar','Wilcoxon','statistical significance','model comparison','ablation','improvement','p-value'], content:'Is this improvement real? Statistical tests for comparing model performance across runs.' },
+  { id:'learning-curves', num:'06', title:'Learning Curves & Overfitting', category:'Evaluate Your Model', keywords:['training curve','validation curve','overfitting','underfitting','early stopping','bias variance','generalization','gap'], content:'Training vs validation curves — reading the gap to diagnose overfitting, underfitting, and when to stop.' },
+  { id:'shap-values', num:'07', title:'SHAP Values', category:'Understand Your Features', keywords:['shapley','feature importance','explainability','force plot','summary plot','dependence plot','TreeExplainer','KernelExplainer','waterfall'], content:'Game-theoretic feature attribution — understand exactly why your model made each prediction.' },
+  { id:'permutation-importance', num:'08', title:'Permutation Importance', category:'Understand Your Features', keywords:['feature importance','shuffle','model-agnostic','correlated features','baseline','drop column','sklearn'], content:'Shuffle a feature, measure the damage — a model-agnostic way to rank feature importance.' },
+  { id:'pdp-ice', num:'09', title:'Partial Dependence & ICE', category:'Understand Your Features', keywords:['partial dependence plot','individual conditional expectation','marginal effect','interaction','feature effect','PDP'], content:'How does changing one feature affect predictions? PD shows the average, ICE shows every instance.' },
+  { id:'feature-correlation', num:'10', title:'Feature Correlation & Multicollinearity', category:'Understand Your Features', keywords:['heatmap','VIF','variance inflation factor','collinearity','correlation matrix','redundant features','drop'], content:'Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop.' },
+  { id:'information-gain', num:'11', title:'Information Gain & Mutual Information', category:'Understand Your Features', keywords:['entropy','mutual information','feature selection','nonlinear','KL divergence','information theory','bits'], content:'Beyond linear correlation — information-theoretic measures that capture any kind of dependency.' },
+  { id:'distribution-shape', num:'12', title:'Distribution Shape', category:'Analyze Your Data', keywords:['skewness','kurtosis','QQ plot','normal','histogram','density','heavy tails','symmetric','log transform'], content:'Skewness, kurtosis, QQ plots — is your data normal, and does it matter?' },
+  { id:'outlier-detection', num:'13', title:'Outlier Detection', category:'Analyze Your Data', keywords:['IQR','z-score','isolation forest','DBSCAN','anomaly','robust','winsorize','extreme values'], content:'IQR, Z-score, Isolation Forest — finding extreme values and knowing when they are the signal.' },
+  { id:'missing-data', num:'14', title:'Missing Data Strategies', category:'Analyze Your Data', keywords:['imputation','MICE','KNN impute','MCAR','MAR','MNAR','missingness','dropna','fillna'], content:'Imputation, MICE, missingness patterns — handling gaps without corrupting your analysis.' },
+  { id:'data-drift', num:'15', title:'Data Drift & Distribution Shift', category:'Analyze Your Data', keywords:['PSI','population stability index','KS test','Kolmogorov-Smirnov','concept drift','covariate shift','monitoring','model decay'], content:'Is your model still valid? PSI, KS test, and detecting when the world has changed under your model.' },
+  { id:'class-imbalance', num:'16', title:'Sampling & Class Imbalance', category:'Analyze Your Data', keywords:['SMOTE','undersampling','oversampling','stratification','class weights','imbalanced-learn','rare events','fraud'], content:'SMOTE, undersampling, class weights — strategies when your classes are nowhere near 50/50.' },
+  { id:'sharpe-ratio', num:'17', title:'Sharpe Ratio & Risk-Adjusted Returns', category:'Backtest & Validate', keywords:['Sharpe','Sortino','Calmar','risk-adjusted','volatility','excess return','risk free rate','annualized'], content:'Interpreting Sharpe, Sortino, Calmar — the standard ways to measure return per unit of risk.' },
+  { id:'max-drawdown', num:'18', title:'Maximum Drawdown & Recovery', category:'Backtest & Validate', keywords:['drawdown','peak to trough','recovery time','worst case','underwater','risk tolerance','equity curve'], content:'Measuring worst-case loss from peak — drawdown depth, duration, and recovery time.' },
+  { id:'walk-forward', num:'19', title:'Walk-Forward Validation', category:'Backtest & Validate', keywords:['rolling window','anchored','expanding window','time series','look-ahead bias','out of sample','backtest'], content:'Rolling window backtesting — the right way to validate strategies on time-ordered data.' },
+  { id:'monte-carlo', num:'20', title:'Monte Carlo Simulation', category:'Backtest & Validate', keywords:['simulation','random paths','confidence','bootstrapped returns','path dependence','percentile','fan chart'], content:'Simulating thousands of equity paths — confidence bands on strategy performance.' },
+  { id:'survivorship-bias', num:'21', title:'Survivorship & Look-Ahead Bias', category:'Backtest & Validate', keywords:['survivorship','look-ahead','selection bias','delisted','backtest traps','data snooping','forward looking'], content:'The silent traps that make your backtest a fantasy — and how to avoid them.' },
+  { id:'confidence-intervals', num:'22', title:'Confidence Intervals', category:'Make Decisions', keywords:['confidence level','margin of error','bootstrap CI','parametric','width','95%','interval estimate','uncertainty'], content:'How sure are you? — bootstrap and parametric confidence intervals, and interpreting their width.' },
+  { id:'bootstrap-methods', num:'23', title:'Bootstrap Methods', category:'Make Decisions', keywords:['resampling','nonparametric','percentile method','BCa','empirical distribution','bootstrap distribution','estimate'], content:'Estimate anything with resampling — the nonparametric Swiss army knife for uncertainty.' },
+  { id:'bayesian-ab', num:'24', title:'Bayesian A/B Testing', category:'Make Decisions', keywords:['credible interval','posterior','prior','probability of improvement','early stopping','conversion rate','Beta-Binomial'], content:'Is version B actually better? Bayesian credible intervals and probability of improvement.' },
+  { id:'effect-size', num:'25', title:'Effect Size & Practical Significance', category:'Make Decisions', keywords:["Cohen's d",'practical significance','meaningful difference','small medium large','overlap','statistical vs practical'], content:"Statistically significant \u2260 meaningful \u2014 Cohen's d and the difference between p-values and impact." },
+  { id:'power-analysis', num:'26', title:'Power Analysis', category:'Make Decisions', keywords:['sample size','MDE','minimum detectable effect','type II error','statistical power','beta','experiment planning'], content:'How much data do you need? Sample size planning for experiments that can actually detect effects.' },
+  { id:'sklearn-eval', num:'27', title:'scikit-learn Evaluation Suite', category:'Python Power Tools', keywords:['classification_report','cross_val_score','learning_curve','confusion_matrix','GridSearchCV','sklearn metrics','pipeline'], content:'The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module.' },
+  { id:'shap-library', num:'28', title:'SHAP Library', category:'Python Power Tools', keywords:['shap','TreeExplainer','force_plot','summary_plot','waterfall','dependence_plot','KernelExplainer','DeepExplainer'], content:'TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP visualization toolkit.' },
+  { id:'optuna', num:'29', title:'Optuna', category:'Python Power Tools', keywords:['hyperparameter','optimization','pruning','study','TPE','random search','Bayesian optimization','trial','objective'], content:'Smart hyperparameter tuning — TPE, pruning, study visualization, and integration with any framework.' },
+  { id:'pandas-ta', num:'30', title:'pandas-ta & yfinance', category:'Python Power Tools', keywords:['technical indicators','yfinance','market data','SMA','RSI','MACD','Bollinger','candlestick','OHLCV','download'], content:'Technical indicators + market data in one-liners — pandas-ta for TA, yfinance for data.' },
+  { id:'scipy-statsmodels', num:'31', title:'scipy.stats & statsmodels', category:'Python Power Tools', keywords:['scipy','statsmodels','statistical tests','ttest_ind','OLS','regression diagnostics','time series','ARIMA','ADF'], content:'Statistical tests, regression diagnostics, time series — the Python stats foundation.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -103,11 +97,11 @@ function buildNav() {
     html += `<div class="nav-section open" id="${sec.id}">
       <div class="nav-section-header" onclick="toggleSection('${sec.id}')">
         <span class="nav-section-title">${sec.title}</span>
-        <span class="nav-section-arrow">▾</span>
+        <span class="nav-section-arrow">\u25be</span>
       </div><div class="nav-items">`;
     sec.topics.forEach(tid => {
       if (tid === 'home') {
-        html += `<div class="ni" data-topic="home" onclick="show('home')"><span class="ni-num">◉</span>Overview</div>`;
+        html += `<div class="ni" data-topic="home" onclick="show('home')"><span class="ni-num">\u25c9</span>Overview</div>`;
       } else {
         num++;
         const n = String(num).padStart(2,'0');
@@ -120,19 +114,24 @@ function buildNav() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CONTENT BUILDER — generates all topic HTML
+   CONTENT BUILDER
    ═══════════════════════════════════════════════════════════════ */
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
-  main.innerHTML = buildHome() + buildMeanMedian() + buildVarianceStd() + buildPercentiles()
-    + buildCorrelation() + buildCovariance() + buildProbBasics() + buildConditional()
-    + buildIndependence() + buildCombinatorics() + buildLLN() + buildNormal() + buildBinomial()
-    + buildPoisson() + buildExponential() + buildUniform() + buildBeta() + buildChiSquared()
-    + buildCLT() + buildConfidence() + buildHypothesis() + buildPValue() + buildTTest()
-    + buildAnova() + buildBayesianInference() + buildConjugatePriors() + buildMCMC()
-    + buildHierarchical() + buildBayesianRegression() + buildABTesting() + buildBootstrap()
-    + buildPowerAnalysis() + buildMLEStats() + buildCorrelationVsCausation() + buildSimpsonsParadox();
+  main.innerHTML = buildHome()
+    + buildConfusionMatrix() + buildROCAUC() + buildRegressionMetrics()
+    + buildCrossValidation() + buildComparingRuns() + buildLearningCurves()
+    + buildSHAPValues() + buildPermutationImportance() + buildPDPICE()
+    + buildFeatureCorrelation() + buildInformationGain()
+    + buildDistributionShape() + buildOutlierDetection() + buildMissingData()
+    + buildDataDrift() + buildClassImbalance()
+    + buildSharpeRatio() + buildMaxDrawdown() + buildWalkForward()
+    + buildMonteCarlo() + buildSurvivorshipBias()
+    + buildConfidenceIntervals() + buildBootstrapMethods() + buildBayesianAB()
+    + buildEffectSize() + buildPowerAnalysis()
+    + buildSklearnEval() + buildSHAPLibrary() + buildOptuna()
+    + buildPandasTA() + buildScipyStatsmodels();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -141,44 +140,44 @@ function buildContent() {
 function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
-    <h2><em>Statistics</em> &<br>Probability</h2>
-    <p style="margin-top:14px">An interactive reference covering 34 topics — from descriptive
-    statistics to Bayesian methods. Every topic has the core formulas, visual intuition, and Python/NumPy code.</p>
+    <h2>The <em>Toolkit</em></h2>
+    <p style="margin-top:14px">A practical reference covering 31 topics &mdash; from model evaluation
+    and feature explainability to backtesting and decision-making. Every topic has interactive visuals, real formulas, and Python code you can use today.</p>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
-      <span class="kbd">←</span> <span class="kbd">→</span> arrow keys to navigate &nbsp;·&nbsp;
+      <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
     </p>
   </div>
   <div class="cat-grid">
-    <div class="cat-card" onclick="showSection('sec-descriptive','mean-median')">
-      <div class="cat-card-icon">📊</div>
-      <div class="cat-card-name">Descriptive Stats</div>
-      <div class="cat-card-count">5 topics · Mean, variance, percentiles, correlation</div>
+    <div class="cat-card" onclick="showSection('sec-evaluate','confusion-matrix')">
+      <div class="cat-card-icon">&#127919;</div>
+      <div class="cat-card-name">Evaluate Your Model</div>
+      <div class="cat-card-count">6 topics &middot; Confusion matrix, ROC, regression metrics, CV</div>
     </div>
-    <div class="cat-card" onclick="showSection('sec-probability','prob-basics')">
-      <div class="cat-card-icon">🎲</div>
-      <div class="cat-card-name">Probability</div>
-      <div class="cat-card-count">5 topics · Axioms, conditional, independence, counting</div>
+    <div class="cat-card" onclick="showSection('sec-features','shap-values')">
+      <div class="cat-card-icon">&#128269;</div>
+      <div class="cat-card-name">Understand Your Features</div>
+      <div class="cat-card-count">5 topics &middot; SHAP, permutation importance, PDP, correlation</div>
     </div>
-    <div class="cat-card" onclick="showSection('sec-distributions','normal')">
-      <div class="cat-card-icon">📈</div>
-      <div class="cat-card-name">Distributions</div>
-      <div class="cat-card-count">7 topics · Normal, binomial, Poisson, beta, and more</div>
+    <div class="cat-card" onclick="showSection('sec-data','distribution-shape')">
+      <div class="cat-card-icon">&#128202;</div>
+      <div class="cat-card-name">Analyze Your Data</div>
+      <div class="cat-card-count">5 topics &middot; Distributions, outliers, drift, imbalance</div>
     </div>
-    <div class="cat-card" onclick="showSection('sec-inference','clt')">
-      <div class="cat-card-icon">🔬</div>
-      <div class="cat-card-name">Inference</div>
-      <div class="cat-card-count">6 topics · CLT, confidence intervals, hypothesis testing</div>
+    <div class="cat-card" onclick="showSection('sec-backtest','sharpe-ratio')">
+      <div class="cat-card-icon">&#128200;</div>
+      <div class="cat-card-name">Backtest &amp; Validate</div>
+      <div class="cat-card-count">5 topics &middot; Sharpe, drawdown, walk-forward, Monte Carlo</div>
     </div>
-    <div class="cat-card" onclick="showSection('sec-bayesian','bayesian-inference')">
-      <div class="cat-card-icon">🧮</div>
-      <div class="cat-card-name">Bayesian Methods</div>
-      <div class="cat-card-count">5 topics · Bayesian inference, MCMC, priors</div>
+    <div class="cat-card" onclick="showSection('sec-decisions','confidence-intervals')">
+      <div class="cat-card-icon">&#9878;&#65039;</div>
+      <div class="cat-card-name">Make Decisions</div>
+      <div class="cat-card-count">5 topics &middot; CI, bootstrap, Bayesian A/B, power analysis</div>
     </div>
-    <div class="cat-card" onclick="showSection('sec-applied','ab-testing')">
-      <div class="cat-card-icon">🧪</div>
-      <div class="cat-card-name">Applied</div>
-      <div class="cat-card-count">6 topics · A/B testing, bootstrap, power analysis</div>
+    <div class="cat-card" onclick="showSection('sec-python','sklearn-eval')">
+      <div class="cat-card-icon">&#128013;</div>
+      <div class="cat-card-name">Python Power Tools</div>
+      <div class="cat-card-count">5 topics &middot; scikit-learn, SHAP, Optuna, pandas-ta, scipy</div>
     </div>
   </div>
 </div>`;
@@ -188,887 +187,1226 @@ function buildHome() {
    TOPIC BUILDERS — one function per topic
    ═══════════════════════════════════════════════════════════════ */
 
-/* 01 — Mean, Median & Mode */
-function buildMeanMedian() {
-  return `<div class="topic" id="mean-median">
+/* 01 — Confusion Matrix & Classification Metrics */
+function buildConfusionMatrix() {
+  return `<div class="topic" id="confusion-matrix">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">01 — Descriptive Stats</div><h2>Mean, Median & <em>Mode</em></h2></div>
-    <span class="topic-badge">Central Tendency</span>
+    <div class="topic-meta"><div class="topic-num">01 — Evaluate Your Model</div><h2>Confusion Matrix &amp; <em>Classification Metrics</em></h2></div>
+    <span class="topic-badge">Classification</span>
   </div>
-  <p class="sub">// Three ways to answer "what's typical?" — each with different strengths</p>
-  <p class="prose">The <strong>mean</strong> is the arithmetic average — sensitive to outliers. The <strong>median</strong> is the middle value — robust to outliers. The <strong>mode</strong> is the most frequent value — works for categorical data too.</p>
-  <div class="fb"><div class="fm">Mean: x̄ = (1/n) · Σxᵢ</div><div class="fd">Sum all values, divide by count. Pulled by extreme values.</div></div>
-  <div class="fb c2"><div class="fm">Median: middle value when sorted</div><div class="fd">50th percentile. Robust — unaffected by outliers.</div></div>
+  <p class="sub">// The foundation of classification evaluation — TP, FP, TN, FN and the metrics built on them</p>
+  <p class="prose">Every classifier's performance starts here. The <strong>confusion matrix</strong> gives you four counts: true positives (TP), false positives (FP), true negatives (TN), and false negatives (FN). Every classification metric is built from these four numbers.</p>
+  <div class="fb"><div class="fm">Precision = TP / (TP + FP)</div><div class="fd"><span>Precision</span> = of all predicted positives, how many were correct? High when you can't afford false alarms.</div></div>
+  <div class="fb c2"><div class="fm">Recall = TP / (TP + FN)</div><div class="fd"><span>Recall</span> = of all actual positives, how many did we catch? High when you can't afford to miss cases.</div></div>
+  <div class="fb c3"><div class="fm">F1 = 2 &middot; (P &middot; R) / (P + R)</div><div class="fd"><span>F1</span> = harmonic mean of precision and recall. Balanced score when both matter equally.</div></div>
   <div class="va">
-    <div class="vl">// Drag the outlier — watch mean vs median diverge</div>
-    <canvas id="meanCanvas" height="220"></canvas>
+    <div class="vl">// Interactive — adjust threshold, see all metrics update</div>
+    <canvas id="cmCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Outlier position</span><input type="range" id="outlierPos" min="5" max="50" step="0.5" value="8" oninput="drawMeanMedian()"><span class="vd" id="outlierPosV">8</span></div>
-      <div class="cg"><span class="cl">Mean</span><span class="vd" id="meanV" style="color:var(--accent)">—</span></div>
-      <div class="cg"><span class="cl">Median</span><span class="vd" id="medianV" style="color:var(--accent2)">—</span></div>
+      <div class="cg"><span class="cl">Threshold</span><input type="range" id="cmThresh" min="0" max="100" step="1" value="50"><span class="vd" id="cmThreshV">0.50</span></div>
+      <div class="cg"><span class="cl">Precision</span><span class="vd" id="cmPrec" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Recall</span><span class="vd" id="cmRec" style="color:#4fc3f7">—</span></div>
+      <div class="cg"><span class="cl">F1</span><span class="vd" id="cmF1" style="color:#81c784">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># NumPy</span>
-<span class="kw">import</span> numpy <span class="kw">as</span> np
-data = [<span class="st">2</span>, <span class="st">3</span>, <span class="st">3</span>, <span class="st">4</span>, <span class="st">5</span>, <span class="st">100</span>]
-np.mean(data)         <span class="cm"># 19.5 — pulled by outlier</span>
-np.median(data)       <span class="cm"># 3.5 — robust</span>
-<span class="kw">from</span> scipy <span class="kw">import</span> stats
-stats.mode(data)      <span class="cm"># 3 — most frequent</span></pre></div>
-  <div class="callout info"><strong>When to use which:</strong> Mean for symmetric data. Median for skewed data or when outliers exist. Mode for categorical data.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The same tug between average and midpoint shows up everywhere — <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving averages</a> smooth market noise, while median household income resists the pull of billionaire outliers. In ML, <a href="../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> centers activations around their mean to keep training stable.</div>
-  <div class="topic-nav" id="nav-mean-median"></div>
-</div>`;
-}
-
-/* 02 — Variance & Standard Deviation */
-function buildVarianceStd() {
-  return `<div class="topic" id="variance-std">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">02 — Descriptive Stats</div><h2>Variance & <em>Standard Deviation</em></h2></div>
-    <span class="topic-badge">Spread</span>
-  </div>
-  <p class="sub">// How spread out is your data? The most fundamental measure of dispersion</p>
-  <p class="prose"><strong>Variance</strong> measures the average squared deviation from the mean. <strong>Standard deviation</strong> is its square root — same units as data. Bessel's correction (n−1) gives an unbiased estimate.</p>
-  <div class="fb"><div class="fm">σ² = (1/n) · Σ(xᵢ − x̄)²</div><div class="fd">Population variance — use when you have the full population</div></div>
-  <div class="fb c2"><div class="fm">s² = (1/(n−1)) · Σ(xᵢ − x̄)²</div><div class="fd">Sample variance — Bessel's correction (n−1) makes it unbiased</div></div>
-  <div class="fb c3"><div class="fm">σ = √σ² &nbsp;&nbsp; s = √s²</div><div class="fd">Standard deviation — back in original units. ~68% of data within ±1σ of the mean (if normal).</div></div>
-  <div class="va">
-    <div class="vl">// Adjust spread — see how variance and std change</div>
-    <canvas id="varCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Spread</span><input type="range" id="varSpread" min="0.2" max="4" step="0.1" value="1" oninput="drawVariance()"><span class="vd" id="varSpreadV">1.0</span></div>
-      <div class="cg"><span class="cl">Variance</span><span class="vd" id="varValV" style="color:var(--accent)">—</span></div>
-      <div class="cg"><span class="cl">Std Dev</span><span class="vd" id="stdValV" style="color:var(--accent3)">—</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Why n−1?</strong> The sample mean x̄ is already estimated from the data, "using up" one degree of freedom. Dividing by n−1 corrects for this and gives an unbiased estimator of σ².</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation IS <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> — when σ expands, the bands widen and volatility spikes. In ML, <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> (Xavier, He) scales initial weights by √(1/n) to keep variance stable across layers. Same math, different stage.</div>
-  <div class="topic-nav" id="nav-variance-std"></div>
-</div>`;
-}
-
-/* 03 — Percentiles & Quartiles */
-function buildPercentiles() {
-  return `<div class="topic" id="percentiles">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">03 — Descriptive Stats</div><h2>Percentiles & <em>Quartiles</em></h2></div>
-    <span class="topic-badge">Distribution</span>
-  </div>
-  <p class="sub">// Dividing data into equal chunks — the backbone of box plots and outlier detection</p>
-  <p class="prose">The <strong>p-th percentile</strong> is the value below which p% of data falls. <strong>Quartiles</strong> divide data into 4 equal parts. The <strong>IQR</strong> (Q3−Q1) measures spread robustly.</p>
-  <div class="fb"><div class="fm">Q1 = 25th %ile &nbsp; Q2 = Median &nbsp; Q3 = 75th %ile</div><div class="fd">Quartiles split data into four equal-sized groups</div></div>
-  <div class="fb c2"><div class="fm">IQR = Q3 − Q1</div><div class="fd">Interquartile range — the middle 50% of data. Outliers: < Q1 − 1.5·IQR or > Q3 + 1.5·IQR</div></div>
-  <div class="va">
-    <div class="vl">// Interactive box plot — drag sample size to see quartile stability</div>
-    <canvas id="percCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Sample size</span><input type="range" id="percN" min="10" max="200" step="5" value="50" oninput="drawPercentiles()"><span class="vd" id="percNV">50</span></div>
-      <button class="btn" onclick="drawPercentiles()">↺ RESAMPLE</button>
-    </div>
-  </div>
-  <div class="code-block"><pre>np.percentile(data, [<span class="st">25</span>, <span class="st">50</span>, <span class="st">75</span>])   <span class="cm"># Q1, Q2 (median), Q3</span>
-np.quantile(data, <span class="st">0.95</span>)               <span class="cm"># 95th percentile</span>
-iqr = np.percentile(data, <span class="st">75</span>) - np.percentile(data, <span class="st">25</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Markets live on percentiles — the 52-week high is just the 100th percentile of closing prices. In ML, quantile regression predicts ranges instead of points. Even a box plot is a five-number summary of a stock’s recent range.</div>
-  <div class="topic-nav" id="nav-percentiles"></div>
-</div>`;
-}
-
-/* 04 — Correlation */
-function buildCorrelation() {
-  return `<div class="topic" id="correlation">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">04 — Descriptive Stats</div><h2><em>Correlation</em></h2></div>
-    <span class="topic-badge">Relationship</span>
-  </div>
-  <p class="sub">// Measuring linear association between two variables — normalized to [−1, +1]</p>
-  <p class="prose"><strong>Pearson's r</strong> measures linear correlation. +1 = perfect positive, −1 = perfect negative, 0 = no linear relationship. It's just <strong>normalized covariance</strong>.</p>
-  <div class="fb"><div class="fm">r = Cov(X,Y) / (σₓ · σᵧ) = Σ(xᵢ−x̄)(yᵢ−ȳ) / √(Σ(xᵢ−x̄)² · Σ(yᵢ−ȳ)²)</div><div class="fd">Range [−1,1]. Dimensionless — unaffected by scaling.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust correlation — watch the scatter plot reshape</div>
-    <canvas id="corrCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Target r</span><input type="range" id="corrR" min="-1" max="1" step="0.05" value="0.7" oninput="drawCorrelation()"><span class="vd" id="corrRV">0.70</span></div>
-      <div class="cg"><span class="cl">Actual r</span><span class="vd" id="corrActV" style="color:var(--accent)">—</span></div>
-    </div>
-  </div>
-  <div class="callout warn"><strong>Critical warning:</strong> r measures only <em>linear</em> relationships. A perfect parabola has r=0. Always plot your data — Anscombe's quartet proves numbers lie without visuals.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">Cosine similarity</a> in ML is correlation’s cousin — both measure how two things move together. <a href="../llm/#self-attention" target="_blank" rel="noopener">Attention weights</a> capture which tokens are most “correlated” with each other. Markets watch sector correlations to diversify risk.</div>
-  <div class="topic-nav" id="nav-correlation"></div>
-</div>`;
-}
-
-/* 05 — Covariance */
-function buildCovariance() {
-  return `<div class="topic" id="covariance">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">05 — Descriptive Stats</div><h2><em>Covariance</em></h2></div>
-    <span class="topic-badge">Joint Variability</span>
-  </div>
-  <p class="sub">// How two variables move together — the unnormalized version of correlation</p>
-  <p class="prose">Covariance measures whether two variables tend to increase together (positive), decrease together (negative), or are unrelated (zero). Unlike correlation, it's <strong>not bounded</strong> and depends on scale.</p>
-  <div class="fb"><div class="fm">Cov(X,Y) = (1/n) · Σ(xᵢ − x̄)(yᵢ − ȳ)</div><div class="fd">Positive → both rise together. Negative → one rises while other falls.</div></div>
-  <div class="fb c2"><div class="fm">Cov(X,Y) = E[XY] − E[X]·E[Y]</div><div class="fd">Shortcut formula. If independent, Cov = 0. (But Cov = 0 ≠ independent!)</div></div>
-  <div class="va">
-    <div class="vl">// Covariance matrix visualization — adjust joint movement</div>
-    <canvas id="covCanvas" height="230"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Cov(X,Y)</span><input type="range" id="covVal" min="-3" max="3" step="0.1" value="1.5" oninput="drawCovariance()"><span class="vd" id="covValV">1.5</span></div>
-    </div>
-  </div>
-  <div class="callout info"><strong>Covariance matrix:</strong> For d variables, the d×d covariance matrix Σ has variances on the diagonal and covariances off-diagonal. It's the foundation of PCA, Gaussian distributions, and portfolio theory.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Covariance is the engine behind <a href="../ml-math/#pca" target="_blank" rel="noopener">PCA</a> — finding directions of maximum spread. In markets, portfolio theory uses the same covariance matrix to balance risk across assets. Same matrix, different stakes.</div>
-  <div class="topic-nav" id="nav-covariance"></div>
-</div>`;
-}
-
-/* 06 — Probability Basics */
-function buildProbBasics() {
-  return `<div class="topic" id="prob-basics">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">06 — Probability</div><h2>Probability <em>Basics</em></h2></div>
-    <span class="topic-badge">Foundations</span>
-  </div>
-  <p class="sub">// Events, sample spaces, and the three axioms everything is built on</p>
-  <p class="prose">Probability assigns a number between 0 and 1 to events. All of probability theory follows from <strong>Kolmogorov's three axioms</strong>: non-negativity, normalization, and additivity.</p>
-  <div class="fb"><div class="fm">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</div><div class="fd">Addition rule. For mutually exclusive events: P(A ∪ B) = P(A) + P(B)</div></div>
-  <div class="fb c2"><div class="fm">P(A') = 1 − P(A)</div><div class="fd">Complement rule. Often easier to compute "not A" than "A" directly.</div></div>
-  <div class="va">
-    <div class="vl">// Venn diagram — adjust overlap to see union and intersection</div>
-    <canvas id="probCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">P(A)</span><input type="range" id="pA" min="0.05" max="0.8" step="0.05" value="0.4" oninput="drawProbBasics()"><span class="vd" id="pAV">0.40</span></div>
-      <div class="cg"><span class="cl">P(B)</span><input type="range" id="pB" min="0.05" max="0.8" step="0.05" value="0.3" oninput="drawProbBasics()"><span class="vd" id="pBV">0.30</span></div>
-      <div class="cg"><span class="cl">P(A∩B)</span><input type="range" id="pAB" min="0" max="0.3" step="0.01" value="0.1" oninput="drawProbBasics()"><span class="vd" id="pABV">0.10</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../poetry/forms/#sestina" target="_blank" rel="noopener">sestina</a> rotates six end-words through stanzas in a fixed permutation pattern — pure probability structure disguised as verse. Options pricing (<a href="../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">Black-Scholes</a>) is probability with dollar signs.</div>
-  <div class="topic-nav" id="nav-prob-basics"></div>
-</div>`;
-}
-
-/* 07 — Conditional Probability */
-function buildConditional() {
-  return `<div class="topic" id="conditional">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">07 — Probability</div><h2>Conditional <em>Probability</em></h2></div>
-    <span class="topic-badge">Dependence</span>
-  </div>
-  <p class="sub">// "Given that B happened, what's the probability of A?"</p>
-  <p class="prose">Conditional probability restricts the sample space. <strong>P(A|B)</strong> asks: among outcomes where B occurred, how many also have A?</p>
-  <div class="fb"><div class="fm">P(A|B) = P(A ∩ B) / P(B)</div><div class="fd">Probability of A given B. Requires P(B) > 0.</div></div>
-  <div class="fb c2"><div class="fm">P(A ∩ B) = P(A|B) · P(B) = P(B|A) · P(A)</div><div class="fd">Multiplication rule — the chain rule of probability.</div></div>
-  <div class="va">
-    <div class="vl">// Tree diagram — adjust probabilities to explore conditional paths</div>
-    <canvas id="condCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">P(B)</span><input type="range" id="condPB" min="0.1" max="0.9" step="0.05" value="0.5" oninput="drawConditional()"><span class="vd" id="condPBV">0.50</span></div>
-      <div class="cg"><span class="cl">P(A|B)</span><input type="range" id="condPAB" min="0.05" max="0.95" step="0.05" value="0.7" oninput="drawConditional()"><span class="vd" id="condPABV">0.70</span></div>
-      <div class="cg"><span class="cl">P(A∩B)</span><span class="vd" id="condJoint" style="color:var(--accent)">—</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayes’ theorem</a> is conditional probability made recursive — behind spam filters, medical diagnosis, AND Bayesian ML. In markets, “given that volume spiked, what’s the probability of a breakout?” is conditional thinking in action.</div>
-  <div class="topic-nav" id="nav-conditional"></div>
-</div>`;
-}
-
-/* 08 — Independence */
-function buildIndependence() {
-  return `<div class="topic" id="independence">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">08 — Probability</div><h2><em>Independence</em></h2></div>
-    <span class="topic-badge">Relationship</span>
-  </div>
-  <p class="sub">// When knowing one event tells you nothing about another</p>
-  <p class="prose">Two events are <strong>independent</strong> if the occurrence of one doesn't change the probability of the other. Formally: P(A|B) = P(A). Equivalent: P(A∩B) = P(A)·P(B).</p>
-  <div class="fb"><div class="fm">Independent: P(A ∩ B) = P(A) · P(B)</div><div class="fd">Joint probability factors into the product of marginals.</div></div>
-  <div class="va">
-    <div class="vl">// Compare actual joint probability to P(A)·P(B)</div>
-    <canvas id="indepCanvas" height="200"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">P(A)</span><input type="range" id="indA" min="0.1" max="0.9" step="0.05" value="0.5" oninput="drawIndependence()"><span class="vd" id="indAV">0.50</span></div>
-      <div class="cg"><span class="cl">P(B)</span><input type="range" id="indB" min="0.1" max="0.9" step="0.05" value="0.4" oninput="drawIndependence()"><span class="vd" id="indBV">0.40</span></div>
-      <div class="cg"><span class="cl">P(A∩B)</span><input type="range" id="indAB" min="0" max="0.5" step="0.01" value="0.2" oninput="drawIndependence()"><span class="vd" id="indABV">0.20</span></div>
-      <div class="cg"><span class="cl">Status</span><span class="vd" id="indStatus" style="color:var(--accent2)">—</span></div>
-    </div>
-  </div>
-  <div class="callout warn"><strong>Common trap:</strong> Independence ≠ mutually exclusive. Mutually exclusive events are maximally <em>dependent</em> — if A happens, B definitely didn't!</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/psychology/#gambler-fallacy" target="_blank" rel="noopener">Gambler’s Fallacy</a> assumes dependence where there is none — “it fell five days, it’s due for a bounce.” <a href="../llm/#self-attention" target="_blank" rel="noopener">Attention mechanisms</a> in LLMs exist precisely to model the dependencies that independence ignores.</div>
-  <div class="topic-nav" id="nav-independence"></div>
-</div>`;
-}
-
-/* 09 — Combinatorics */
-function buildCombinatorics() {
-  return `<div class="topic" id="combinatorics">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">09 — Probability</div><h2><em>Combinatorics</em></h2></div>
-    <span class="topic-badge">Counting</span>
-  </div>
-  <p class="sub">// Counting outcomes — how many possible arrangements, selections, and orderings exist</p>
-  <p class="prose"><strong>Permutations</strong> count ordered arrangements. <strong>Combinations</strong> count unordered selections. The difference: does the order of selection matter?</p>
-  <div class="fb"><div class="fm">Permutations: P(n,k) = n! / (n−k)!</div><div class="fd">Ordered selections of k items from n. Order matters.</div></div>
-  <div class="fb c2"><div class="fm">Combinations: C(n,k) = n! / (k!(n−k)!)</div><div class="fd">"n choose k" — unordered selections. C(n,k) = P(n,k) / k!</div></div>
-  <div class="va">
-    <div class="vl">// Permutations vs combinations — adjust n and k</div>
-    <canvas id="combCanvas" height="200"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">n (total)</span><input type="range" id="combN" min="2" max="20" step="1" value="10" oninput="drawCombinatorics()"><span class="vd" id="combNV">10</span></div>
-      <div class="cg"><span class="cl">k (choose)</span><input type="range" id="combK" min="1" max="10" step="1" value="3" oninput="drawCombinatorics()"><span class="vd" id="combKV">3</span></div>
-      <div class="cg"><span class="cl">P(n,k)</span><span class="vd" id="combPerms" style="color:var(--accent)">—</span></div>
-      <div class="cg"><span class="cl">C(n,k)</span><span class="vd" id="combCombs" style="color:var(--accent3)">—</span></div>
-    </div>
-  </div>
-  <div class="code-block"><pre><span class="kw">from</span> math <span class="kw">import</span> comb, perm, factorial
-comb(<span class="st">52</span>, <span class="st">5</span>)     <span class="cm"># 2,598,960 poker hands</span>
-perm(<span class="st">10</span>, <span class="st">3</span>)     <span class="cm"># 720 ordered selections</span>
-factorial(<span class="st">10</span>)   <span class="cm"># 3,628,800</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../llm/#tokenization" target="_blank" rel="noopener">BPE tokenization</a> counts and merges the most frequent byte pairs — combinatorics in action. The <a href="../poetry/forms/#sestina" target="_blank" rel="noopener">sestina</a> rotates end-words through permutations. Combinatorics hides inside every search algorithm and every rhyme scheme.</div>
-  <div class="topic-nav" id="nav-combinatorics"></div>
-</div>`;
-}
-
-/* 10 — Law of Large Numbers */
-function buildLLN() {
-  return `<div class="topic" id="law-large-numbers">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">10 — Probability</div><h2>Law of <em>Large Numbers</em></h2></div>
-    <span class="topic-badge">Convergence</span>
-  </div>
-  <p class="sub">// Why casinos always win — sample averages converge to the expected value</p>
-  <p class="prose">As sample size n → ∞, the sample mean <strong>converges to the true expected value</strong>. This is why insurance, casinos, and machine learning all work — large samples wash out randomness.</p>
-  <div class="fb"><div class="fm">x̄ₙ → μ as n → ∞</div><div class="fd">Weak LLN: convergence in probability. Strong LLN: almost sure convergence.</div></div>
-  <div class="va">
-    <div class="vl">// Watch the running average converge to the true mean</div>
-    <canvas id="llnCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <button class="btn" onclick="animLLN()">▶ SIMULATE</button>
-      <button class="btn" onclick="resetLLN()">↺ RESET</button>
-      <div class="cg"><span class="cl">True μ = 3.5</span><span class="vd" id="llnCurrent" style="color:var(--accent)">—</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Gambler's fallacy:</strong> LLN does NOT mean "the universe remembers." After 10 heads in a row, the next flip is still 50/50. LLN works via dilution, not correction.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Why casinos win, why <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ensemble models</a> outperform, and why “time in the market beats timing the market.” Averaging over many trials converges to truth. ML calls it bagging.</div>
-  <div class="topic-nav" id="nav-law-large-numbers"></div>
-</div>`;
-}
-
-/* 11 — Normal Distribution */
-function buildNormal() {
-  return `<div class="topic" id="normal">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">11 — Distributions</div><h2>Normal <em>Distribution</em></h2></div>
-    <span class="topic-badge">Continuous</span>
-  </div>
-  <p class="sub">// The bell curve — arises everywhere via the Central Limit Theorem</p>
-  <p class="prose">The normal (Gaussian) distribution is fully described by <strong>mean μ</strong> and <strong>variance σ²</strong>. The 68-95-99.7 rule: ~68% within ±1σ, ~95% within ±2σ, ~99.7% within ±3σ.</p>
-  <div class="fb"><div class="fm">f(x) = (1/√(2πσ²)) · exp(−(x−μ)²/(2σ²))</div><div class="fd">The probability density function. Bell-shaped, symmetric around μ.</div></div>
-  <div class="fb c2"><div class="fm">Z = (X − μ) / σ</div><div class="fd">Z-score: how many standard deviations from the mean. Z ~ N(0,1).</div></div>
-  <div class="va">
-    <div class="vl">// Adjust μ and σ — see the 68-95-99.7 rule in action</div>
-    <canvas id="normCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Mean μ</span><input type="range" id="normMu" min="-3" max="3" step="0.1" value="0" oninput="drawNormal()"><span class="vd" id="normMuV">0.0</span></div>
-      <div class="cg"><span class="cl">Std σ</span><input type="range" id="normSig" min="0.3" max="3" step="0.1" value="1" oninput="drawNormal()"><span class="vd" id="normSigV">1.0</span></div>
-    </div>
-  </div>
-  <div class="code-block"><pre><span class="kw">from</span> scipy.stats <span class="kw">import</span> norm
-norm.pdf(<span class="st">0</span>, loc=<span class="st">0</span>, scale=<span class="st">1</span>)       <span class="cm"># density at x=0</span>
-norm.cdf(<span class="st">1.96</span>)                       <span class="cm"># P(Z ≤ 1.96) = 0.975</span>
-norm.ppf(<span class="st">0.975</span>)                      <span class="cm"># z-value for 97.5th %ile = 1.96</span>
-samples = norm.rvs(size=<span class="st">1000</span>)        <span class="cm"># random samples</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The bell curve appears in <a href="../markets/psychology/#mean-reversion-psychology" target="_blank" rel="noopener">market returns</a> (most days are small moves), in <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> (Gaussian init), and even in the distribution of syllable stress across English verse. CLT guarantees it keeps showing up.</div>
-  <div class="topic-nav" id="nav-normal"></div>
-</div>`;
-}
-
-/* 12 — Binomial Distribution */
-function buildBinomial() {
-  return `<div class="topic" id="binomial">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">12 — Distributions</div><h2>Binomial <em>Distribution</em></h2></div>
-    <span class="topic-badge">Discrete</span>
-  </div>
-  <p class="sub">// Counting successes in n independent yes/no trials</p>
-  <p class="prose">The binomial distribution models the <strong>number of successes in n Bernoulli trials</strong>, each with probability p. It's the foundation of A/B testing and binary experiments.</p>
-  <div class="fb"><div class="fm">P(X=k) = C(n,k) · pᵏ · (1−p)ⁿ⁻ᵏ</div><div class="fd"><span>n</span> = trials, <span>k</span> = successes, <span>p</span> = success probability per trial</div></div>
-  <div class="fb c2"><div class="fm">E[X] = np &nbsp;&nbsp; Var(X) = np(1−p)</div><div class="fd">Mean and variance have simple closed forms.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust n and p — see the PMF reshape</div>
-    <canvas id="binomCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">n trials</span><input type="range" id="binomN" min="1" max="50" step="1" value="20" oninput="drawBinomial()"><span class="vd" id="binomNV">20</span></div>
-      <div class="cg"><span class="cl">p (success)</span><input type="range" id="binomP" min="0.01" max="0.99" step="0.01" value="0.5" oninput="drawBinomial()"><span class="vd" id="binomPV">0.50</span></div>
-    </div>
-  </div>
-  <div class="callout info"><strong>Approximation:</strong> When n is large and p isn't extreme, Binomial(n,p) ≈ Normal(np, np(1−p)). Rule of thumb: np ≥ 10 and n(1−p) ≥ 10.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> is binomial at its core — n trials, each a success or failure. Each <a href="../markets/charts/#doji" target="_blank" rel="noopener">candlestick</a> is binary (green or red). Even a <a href="../poetry/forms/#couplet" target="_blank" rel="noopener">rhyming couplet</a> is a binomial trial: does line 2 rhyme with line 1?</div>
-  <div class="topic-nav" id="nav-binomial"></div>
-</div>`;
-}
-
-/* 13 — Poisson Distribution */
-function buildPoisson() {
-  return `<div class="topic" id="poisson">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">13 — Distributions</div><h2>Poisson <em>Distribution</em></h2></div>
-    <span class="topic-badge">Discrete</span>
-  </div>
-  <p class="sub">// Counting rare events — arrivals, defects, and natural phenomena</p>
-  <p class="prose">The Poisson distribution models <strong>count of events in a fixed interval</strong> when events occur independently at a constant rate λ. Perfect for rare events.</p>
-  <div class="fb"><div class="fm">P(X=k) = e⁻λ · λᵏ / k!</div><div class="fd"><span>λ</span> = expected rate (mean = variance). k = number of events.</div></div>
-  <div class="fb c2"><div class="fm">E[X] = Var(X) = λ</div><div class="fd">Unique property: the mean <em>equals</em> the variance. If not, it's probably not Poisson.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust rate λ — watch the PMF shift and spread</div>
-    <canvas id="poissonCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Rate λ</span><input type="range" id="poisLambda" min="0.5" max="15" step="0.5" value="4" oninput="drawPoisson()"><span class="vd" id="poisLambdaV">4.0</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Connection:</strong> Poisson is the limit of Binomial(n,p) as n→∞, p→0, with np=λ. It's also the arrival count in a Poisson process.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Counts rare events per interval — server requests per second, <a href="../markets/charts/#gaps" target="_blank" rel="noopener">market gap events</a> per month. In NLP, rare-word frequency follows near-Poisson patterns for uncommon terms.</div>
-  <div class="topic-nav" id="nav-poisson"></div>
-</div>`;
-}
-
-/* 14 — Exponential Distribution */
-function buildExponential() {
-  return `<div class="topic" id="exponential">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">14 — Distributions</div><h2>Exponential <em>Distribution</em></h2></div>
-    <span class="topic-badge">Continuous</span>
-  </div>
-  <p class="sub">// Time between events — the memoryless waiting-time distribution</p>
-  <p class="prose">If events arrive as a Poisson process at rate λ, the <strong>time between events</strong> follows an exponential distribution. It's <strong>memoryless</strong>: P(X > s+t | X > s) = P(X > t).</p>
-  <div class="fb"><div class="fm">f(x) = λ · e⁻λˣ &nbsp;&nbsp; (x ≥ 0)</div><div class="fd"><span>λ</span> = rate parameter. Higher λ = shorter waits.</div></div>
-  <div class="fb c2"><div class="fm">E[X] = 1/λ &nbsp;&nbsp; Var(X) = 1/λ²</div><div class="fd">Mean waiting time is the reciprocal of the rate.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust rate — see how the distribution stretches</div>
-    <canvas id="expCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Rate λ</span><input type="range" id="expLambda" min="0.2" max="3" step="0.1" value="1" oninput="drawExponential()"><span class="vd" id="expLambdaV">1.0</span></div>
-    </div>
-  </div>
-  <div class="callout info"><strong>Memoryless property:</strong> If you've already waited 5 minutes, the expected remaining wait is the same as if you just started. No other continuous distribution has this property.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/indicators/#ema" target="_blank" rel="noopener">exponential moving average</a> uses this same memoryless decay — recent prices matter more, older ones fade exponentially. <a href="../ml-math/#lr-schedule" target="_blank" rel="noopener">Learning rate decay</a> follows the same curve. The pattern: recency dominates.</div>
-  <div class="topic-nav" id="nav-exponential"></div>
-</div>`;
-}
-
-/* 15 — Uniform Distribution */
-function buildUniform() {
-  return `<div class="topic" id="uniform">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">15 — Distributions</div><h2>Uniform <em>Distribution</em></h2></div>
-    <span class="topic-badge">Continuous</span>
-  </div>
-  <p class="sub">// Every outcome equally likely — flat and simple</p>
-  <p class="prose">The continuous uniform distribution assigns <strong>equal probability density</strong> everywhere on [a, b]. Used as a non-informative prior and the foundation of random number generation.</p>
-  <div class="fb"><div class="fm">f(x) = 1/(b−a) &nbsp;&nbsp; for a ≤ x ≤ b</div><div class="fd">Constant density. Flat "rectangular" shape.</div></div>
-  <div class="fb c2"><div class="fm">E[X] = (a+b)/2 &nbsp;&nbsp; Var(X) = (b−a)²/12</div><div class="fd">Mean is the midpoint. Variance depends only on range width.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust bounds — see the rectangle change</div>
-    <canvas id="uniCanvas" height="200"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">a (min)</span><input type="range" id="uniA" min="-5" max="0" step="0.5" value="-2" oninput="drawUniform()"><span class="vd" id="uniAV">-2.0</span></div>
-      <div class="cg"><span class="cl">b (max)</span><input type="range" id="uniB" min="1" max="8" step="0.5" value="4" oninput="drawUniform()"><span class="vd" id="uniBV">4.0</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Random <a href="../ml-math/#weight-init" target="_blank" rel="noopener">weight initialization</a> starts uniform before training sculpts it into structure. <a href="../ml-math/#regularization" target="_blank" rel="noopener">Dropout</a> randomly masks neurons with uniform probability. <a href="../poetry/forms/#free-verse" target="_blank" rel="noopener">Free verse</a> abandons meter’s fixed pattern for something closer to uniform unpredictability.</div>
-  <div class="topic-nav" id="nav-uniform"></div>
-</div>`;
-}
-
-/* 16 — Beta Distribution */
-function buildBeta() {
-  return `<div class="topic" id="beta">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">16 — Distributions</div><h2>Beta <em>Distribution</em></h2></div>
-    <span class="topic-badge">Continuous</span>
-  </div>
-  <p class="sub">// The distribution of probabilities — infinitely flexible on [0, 1]</p>
-  <p class="prose">The Beta distribution is defined on [0, 1] — perfect for modeling <strong>proportions, probabilities, and success rates</strong>. Parameters α and β control the shape. It's the conjugate prior for the binomial.</p>
-  <div class="fb"><div class="fm">f(x; α,β) = x^(α−1)·(1−x)^(β−1) / B(α,β)</div><div class="fd"><span>B(α,β)</span> = beta function (normalizing constant). α, β > 0.</div></div>
-  <div class="fb c2"><div class="fm">E[X] = α/(α+β) &nbsp;&nbsp; Mode = (α−1)/(α+β−2)</div><div class="fd">Mean moves toward whichever parameter is larger.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust α and β — see the infinite variety of shapes</div>
-    <canvas id="betaCanvas" height="230"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">α</span><input type="range" id="betaA" min="0.1" max="10" step="0.1" value="2" oninput="drawBeta()"><span class="vd" id="betaAV">2.0</span></div>
-      <div class="cg"><span class="cl">β</span><input type="range" id="betaB" min="0.1" max="10" step="0.1" value="5" oninput="drawBeta()"><span class="vd" id="betaBV">5.0</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Bayesian magic:</strong> Start with Beta(α,β) prior. Observe k successes in n trials. Posterior = Beta(α+k, β+n−k). No integration needed!</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The conjugate prior for Bayesian <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> — “what’s the true conversion rate?” In markets, it models the probability that a strategy’s win rate is what you think it is. Uncertainty about uncertainty.</div>
-  <div class="topic-nav" id="nav-beta"></div>
-</div>`;
-}
-
-/* 17 — Chi-Squared Distribution */
-function buildChiSquared() {
-  return `<div class="topic" id="chi-squared">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">17 — Distributions</div><h2>Chi-Squared <em>Distribution</em></h2></div>
-    <span class="topic-badge">Test Statistic</span>
-  </div>
-  <p class="sub">// Sum of squared standard normals — the distribution behind goodness-of-fit tests</p>
-  <p class="prose">If Z₁,…,Zₖ are independent standard normals, then <strong>Q = ΣZᵢ²</strong> follows a χ² distribution with k degrees of freedom. Used for goodness-of-fit and independence testing.</p>
-  <div class="fb"><div class="fm">χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ</div><div class="fd"><span>O</span> = observed count, <span>E</span> = expected count. Large χ² → data doesn't fit the model.</div></div>
-  <div class="fb c2"><div class="fm">E[χ²] = k &nbsp;&nbsp; Var(χ²) = 2k</div><div class="fd"><span>k</span> = degrees of freedom. Distribution shifts right and widens as k increases.</div></div>
-  <div class="va">
-    <div class="vl">// Adjust degrees of freedom — watch the shape evolve</div>
-    <canvas id="chiCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">d.f. (k)</span><input type="range" id="chiDF" min="1" max="15" step="1" value="3" oninput="drawChiSquared()"><span class="vd" id="chiDFV">3</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Tests whether observed frequencies match expected — the same question markets ask about <a href="../markets/indicators/#obv" target="_blank" rel="noopener">volume distribution</a> across price levels, and NLP asks about word frequency distributions across documents.</div>
-  <div class="topic-nav" id="nav-chi-squared"></div>
-</div>`;
-}
-
-/* 18 — Central Limit Theorem */
-function buildCLT() {
-  return `<div class="topic" id="clt">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">18 — Inference</div><h2>Central Limit <em>Theorem</em></h2></div>
-    <span class="topic-badge">Fundamental</span>
-  </div>
-  <p class="sub">// The most important theorem in statistics — sample means become normal</p>
-  <p class="prose">Regardless of the population distribution, the distribution of the <strong>sample mean x̄</strong> approaches a normal distribution as n increases. This is why the normal distribution appears everywhere.</p>
-  <div class="fb"><div class="fm">x̄ ~ N(μ, σ²/n) &nbsp; as n → ∞</div><div class="fd">Sample mean is approximately normal. Standard error = σ/√n.</div></div>
-  <div class="va">
-    <div class="vl">// Pick any distribution — watch sample means become normal</div>
-    <canvas id="cltCanvas" height="260"></canvas>
-    <div class="ctrl">
-      <button class="btn" onclick="runCLT('uniform')">UNIFORM</button>
-      <button class="btn b2" onclick="runCLT('exponential')">EXPONENTIAL</button>
-      <button class="btn b3" onclick="runCLT('bimodal')">BIMODAL</button>
-      <div class="cg"><span class="cl">Sample size n</span><input type="range" id="cltN" min="1" max="100" step="1" value="30" oninput="runCLT(currentCLTDist)"><span class="vd" id="cltNV">30</span></div>
-    </div>
-  </div>
-  <div class="callout info"><strong>Rule of thumb:</strong> n ≥ 30 is often sufficient for CLT to kick in. But for very skewed distributions, you may need larger samples.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Why <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ensemble methods</a> work in ML (averaging weak learners), why diversified portfolios reduce risk (averaging returns). The universe averages toward the bell.</div>
-  <div class="topic-nav" id="nav-clt"></div>
-</div>`;
-}
-
-/* 19 — Confidence Intervals */
-function buildConfidence() {
-  return `<div class="topic" id="confidence">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">19 — Inference</div><h2>Confidence <em>Intervals</em></h2></div>
-    <span class="topic-badge">Estimation</span>
-  </div>
-  <p class="sub">// Quantifying uncertainty — "the true value is probably in this range"</p>
-  <p class="prose">A <strong>95% confidence interval</strong> means: if we repeated the experiment many times, 95% of computed intervals would contain the true parameter. It does NOT mean "95% chance the parameter is in this interval."</p>
-  <div class="fb"><div class="fm">CI = x̄ ± z* · (σ/√n)</div><div class="fd">z* = 1.96 for 95%. Width shrinks with √n — quadruple n to halve the CI width.</div></div>
-  <div class="va">
-    <div class="vl">// Repeated sampling — watch how many CIs capture the true mean</div>
-    <canvas id="ciCanvas" height="250"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Sample size</span><input type="range" id="ciN" min="5" max="100" step="5" value="30" oninput="drawCI()"><span class="vd" id="ciNV">30</span></div>
-      <button class="btn" onclick="drawCI()">↺ RESAMPLE</button>
-      <div class="cg"><span class="cl">Coverage</span><span class="vd" id="ciCoverage" style="color:var(--accent2)">—</span></div>
-    </div>
-  </div>
-  <div class="callout warn"><strong>Common misinterpretation:</strong> "95% confident the true mean is in [2.1, 3.5]" is technically wrong. The true mean is either in the interval or not. The 95% refers to the <em>procedure</em>, not this specific interval.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> are confidence intervals for price — “95% of the time, within ±2σ.” <a href="../stats/#bayesian-regression" target="_blank" rel="noopener">Bayesian regression</a> gives confidence intervals over predictions, not just point estimates. Quantifying “how sure are you?”</div>
-  <div class="topic-nav" id="nav-confidence"></div>
-</div>`;
-}
-
-/* 20 — Hypothesis Testing */
-function buildHypothesis() {
-  return `<div class="topic" id="hypothesis">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">20 — Inference</div><h2>Hypothesis <em>Testing</em></h2></div>
-    <span class="topic-badge">Decision</span>
-  </div>
-  <p class="sub">// Making decisions from data — null vs alternative hypothesis</p>
-  <p class="prose">Hypothesis testing asks: is the observed effect real or just noise? We assume <strong>H₀ (null — no effect)</strong> and check if data provides enough evidence to reject it in favor of <strong>H₁ (there is an effect)</strong>.</p>
-  <div class="fb"><div class="fm">H₀: μ = μ₀ &nbsp;&nbsp; vs &nbsp;&nbsp; H₁: μ ≠ μ₀</div><div class="fd">Null = no change/no effect. Alternative = something interesting is happening.</div></div>
   <table class="mt">
-    <thead><tr><th></th><th>H₀ true</th><th>H₀ false</th></tr></thead>
+    <thead><tr><th>Metric</th><th>Formula</th><th>When to use</th></tr></thead>
     <tbody>
-      <tr><td><strong>Reject H₀</strong></td><td><span class="tag t1">Type I error (α)</span></td><td><span class="tag t2">Correct! (Power)</span></td></tr>
-      <tr><td><strong>Fail to reject</strong></td><td><span class="tag t2">Correct</span></td><td><span class="tag t1">Type II error (β)</span></td></tr>
+      <tr><td>Accuracy</td><td>(TP+TN)/(TP+TN+FP+FN)</td><td>Balanced classes only</td></tr>
+      <tr><td>Precision</td><td>TP/(TP+FP)</td><td>Cost of false positives is high (spam)</td></tr>
+      <tr><td>Recall</td><td>TP/(TP+FN)</td><td>Cost of misses is high (cancer)</td></tr>
+      <tr><td>F1</td><td>2PR/(P+R)</td><td>Balance precision &amp; recall</td></tr>
+      <tr><td>MCC</td><td>(TP&middot;TN&minus;FP&middot;FN)/&radic;(...)</td><td>Imbalanced datasets</td></tr>
     </tbody>
   </table>
-  <div class="va">
-    <div class="vl">// Two distributions — see where the decision boundary falls</div>
-    <canvas id="htCanvas" height="230"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Effect size</span><input type="range" id="htEffect" min="0" max="3" step="0.1" value="1.5" oninput="drawHypothesis()"><span class="vd" id="htEffectV">1.5</span></div>
-      <div class="cg"><span class="cl">α level</span><input type="range" id="htAlpha" min="0.01" max="0.1" step="0.01" value="0.05" oninput="drawHypothesis()"><span class="vd" id="htAlphaV">0.05</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Every <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B test</a>, every <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">trading strategy backtest</a> asks: “is this edge real or random?” Comparing two ML models on a test set is the same framework — null hypothesis: they perform the same.</div>
-  <div class="topic-nav" id="nav-hypothesis"></div>
+  <div class="code-block"><pre><span class="cm"># Python — classification metrics</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
+    confusion_matrix, classification_report,
+    precision_score, recall_score, f1_score
+)
+
+y_true = [<span class="st">1</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">1</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">0</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">0</span>]
+y_pred = [<span class="st">1</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">0</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">1</span>,<span class="st">0</span>,<span class="st">1</span>,<span class="st">0</span>]
+
+<span class="cm"># Full report</span>
+print(classification_report(y_true, y_pred))
+
+<span class="cm"># Individual metrics</span>
+p = precision_score(y_true, y_pred)
+r = recall_score(y_true, y_pred)
+f = f1_score(y_true, y_pred)</pre></div>
+  <div class="callout info"><strong>Threshold matters:</strong> Most classifiers output probabilities. Changing the threshold trades precision for recall. Don't just use 0.5 — tune it for your problem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Precision vs recall is the same trade-off you see in <a href="#roc-auc">ROC curves</a> and in <a href="../markets/psychology/#fear-greed" target="_blank" rel="noopener">market fear/greed</a> — cautious vs aggressive, and the cost of being wrong in each direction.</div>
+  <div class="topic-nav" id="nav-confusion-matrix"></div>
 </div>`;
 }
 
-/* 21 — P-Values */
-function buildPValue() {
-  return `<div class="topic" id="p-value">
+/* 02 — ROC & AUC Curves */
+function buildROCAUC() {
+  return `<div class="topic" id="roc-auc">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">21 — Inference</div><h2><em>P-Values</em></h2></div>
-    <span class="topic-badge">Significance</span>
+    <div class="topic-meta"><div class="topic-num">02 — Evaluate Your Model</div><h2>ROC &amp; <em>AUC</em> Curves</h2></div>
+    <span class="topic-badge">Classification</span>
   </div>
-  <p class="sub">// The most misunderstood concept in all of statistics</p>
-  <p class="prose">The p-value is the probability of seeing data <strong>at least as extreme as what was observed, assuming H₀ is true</strong>. A small p-value means the data would be unlikely under H₀.</p>
-  <div class="fb"><div class="fm">p = P(data at least this extreme | H₀ true)</div><div class="fd">If p < α (typically 0.05), reject H₀. The p-value is NOT the probability H₀ is true!</div></div>
+  <p class="sub">// Visualising model performance across all thresholds</p>
+  <p class="prose">The <strong>ROC curve</strong> plots True Positive Rate vs False Positive Rate at every threshold. The <strong>AUC</strong> (area under curve) collapses this into a single number: 1.0 = perfect, 0.5 = random. It's threshold-independent, making it ideal for comparing models.</p>
+  <div class="fb"><div class="fm">TPR = TP / (TP + FN) &nbsp;&nbsp; FPR = FP / (FP + TN)</div><div class="fd"><span>TPR</span> = sensitivity/recall &nbsp;|&nbsp; <span>FPR</span> = 1 &minus; specificity &nbsp;|&nbsp; plotted as (FPR, TPR)</div></div>
+  <div class="fb c2"><div class="fm">AUC = &int; TPR(FPR) dFPR &isin; [0, 1]</div><div class="fd"><span>AUC</span> = probability that the model ranks a random positive higher than a random negative</div></div>
   <div class="va">
-    <div class="vl">// Observed test statistic — see p-value as the tail area</div>
-    <canvas id="pvalCanvas" height="220"></canvas>
+    <div class="vl">// Interactive ROC — adjust model separability</div>
+    <canvas id="rocCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Test statistic z</span><input type="range" id="pvalZ" min="0" max="4" step="0.1" value="1.96" oninput="drawPValue()"><span class="vd" id="pvalZV">1.96</span></div>
-      <div class="cg"><span class="cl">p-value</span><span class="vd" id="pvalP" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Separability</span><input type="range" id="rocSep" min="0" max="100" step="1" value="65"><span class="vd" id="rocSepV">0.65</span></div>
+      <div class="cg"><span class="cl">AUC</span><span class="vd" id="rocAuc" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout warn"><strong>P-value ≠ P(H₀ is true).</strong> P-value ≠ probability of replication. P-value ≠ effect size. A tiny p-value with a huge sample can reflect a trivially small effect. Always report effect sizes and confidence intervals alongside p-values.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Backtest enough <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">trading strategies</a> and one looks significant by chance (data snooping). Test enough hyperparameters in <a href="../ml-math/#crossval" target="_blank" rel="noopener">cross-validation</a> and the same illusion appears. Multiple comparisons hide everywhere.</div>
-  <div class="topic-nav" id="nav-p-value"></div>
+  <div class="code-block"><pre><span class="cm"># Python — ROC & AUC</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_curve, roc_auc_score
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+fpr, tpr, thresholds = roc_curve(y_true, y_prob)
+auc = roc_auc_score(y_true, y_prob)
+
+plt.plot(fpr, tpr, label=<span class="st">f'AUC = {auc:.3f}'</span>)
+plt.plot([<span class="st">0</span>,<span class="st">1</span>],[<span class="st">0</span>,<span class="st">1</span>], <span class="st">'--'</span>, color=<span class="st">'gray'</span>)
+plt.xlabel(<span class="st">'FPR'</span>); plt.ylabel(<span class="st">'TPR'</span>)
+plt.legend(); plt.show()</pre></div>
+  <div class="callout info"><strong>Multi-class:</strong> Use <code>roc_auc_score(y, y_prob, multi_class='ovr')</code> with one-vs-rest for multi-class problems.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> AUC measures discrimination — can the model separate classes? In <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a>, you're doing the same thing: separating overbought from oversold regimes across different threshold levels.</div>
+  <div class="topic-nav" id="nav-roc-auc"></div>
 </div>`;
 }
 
-/* 22 — T-Test */
-function buildTTest() {
-  return `<div class="topic" id="t-test">
+/* 03 — Regression Metrics */
+function buildRegressionMetrics() {
+  return `<div class="topic" id="regression-metrics">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">22 — Inference</div><h2><em>T-Test</em></h2></div>
-    <span class="topic-badge">Comparison</span>
-  </div>
-  <p class="sub">// Comparing means with small samples — Student's t-distribution</p>
-  <p class="prose">When sample size is small and population σ is unknown, use the <strong>t-distribution</strong> instead of the normal. It has heavier tails, accounting for extra uncertainty in estimating σ.</p>
-  <div class="fb"><div class="fm">t = (x̄ − μ₀) / (s/√n)</div><div class="fd">One-sample t-test. <span>s</span> = sample std dev, <span>n−1</span> degrees of freedom.</div></div>
-  <div class="fb c2"><div class="fm">t = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)</div><div class="fd">Two-sample t-test (Welch's). Tests if two group means differ.</div></div>
-  <div class="va">
-    <div class="vl">// t-distribution vs normal — see how d.f. affects the tails</div>
-    <canvas id="ttestCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Degrees of freedom</span><input type="range" id="ttDF" min="1" max="30" step="1" value="5" oninput="drawTTest()"><span class="vd" id="ttDFV">5</span></div>
-    </div>
-  </div>
-  <div class="code-block"><pre><span class="kw">from</span> scipy.stats <span class="kw">import</span> ttest_ind, ttest_1samp
-t_stat, p_val = ttest_ind(group_a, group_b)     <span class="cm"># two-sample</span>
-t_stat, p_val = ttest_1samp(data, popmean=<span class="st">0</span>)    <span class="cm"># one-sample</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The statistical backbone of <a href="../stats/#ab-testing" target="_blank" rel="noopener">A/B testing</a> and strategy evaluation — “did this change improve conversion?” or “does this strategy’s return differ from zero?” Small samples, big decisions.</div>
-  <div class="topic-nav" id="nav-t-test"></div>
-</div>`;
-}
-
-/* 23 — ANOVA */
-function buildAnova() {
-  return `<div class="topic" id="anova">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">23 — Inference</div><h2><em>ANOVA</em></h2></div>
-    <span class="topic-badge">Comparison</span>
-  </div>
-  <p class="sub">// Comparing means across three or more groups — the F-test</p>
-  <p class="prose">ANOVA tests whether <strong>any group means differ</strong> by comparing between-group variance to within-group variance. A large F ratio → group means are likely different.</p>
-  <div class="fb"><div class="fm">F = (Between-group variance) / (Within-group variance)</div><div class="fd">F ~ F(k−1, N−k). Large F → reject H₀ that all means are equal.</div></div>
-  <div class="va">
-    <div class="vl">// Three groups — adjust separation to see F-statistic change</div>
-    <canvas id="anovaCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Group separation</span><input type="range" id="anovaSep" min="0" max="4" step="0.1" value="1.5" oninput="drawAnova()"><span class="vd" id="anovaSepV">1.5</span></div>
-      <div class="cg"><span class="cl">F-statistic</span><span class="vd" id="anovaFV" style="color:var(--accent)">—</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Post-hoc tests:</strong> ANOVA only tells you "at least one group differs." Use Tukey HSD, Bonferroni, or pairwise t-tests to find <em>which</em> groups differ.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> “Do these groups differ?” — whether the groups are market sectors, experimental treatments, or three <a href="../ml-math/#optimizers" target="_blank" rel="noopener">model architectures</a> compared on the same task.</div>
-  <div class="topic-nav" id="nav-anova"></div>
-</div>`;
-}
-
-/* 24 — Bayesian Inference */
-function buildBayesianInference() {
-  return `<div class="topic" id="bayesian-inference">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">24 — Bayesian Methods</div><h2>Bayesian <em>Inference</em></h2></div>
-    <span class="topic-badge">Framework</span>
-  </div>
-  <p class="sub">// Updating beliefs with data — the complete Bayesian workflow</p>
-  <p class="prose">Bayesian inference treats parameters as <strong>random variables with probability distributions</strong>. Start with a prior belief, observe data, and update to a posterior using Bayes' theorem.</p>
-  <div class="fb"><div class="fm">P(θ|data) = P(data|θ) · P(θ) / P(data)</div><div class="fd"><span>Posterior</span> ∝ <span>Likelihood</span> × <span>Prior</span></div></div>
-  <div class="va">
-    <div class="vl">// Watch the posterior update as data arrives</div>
-    <canvas id="bayesInfCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Observations</span><input type="range" id="biObs" min="0" max="50" step="1" value="10" oninput="drawBayesianInference()"><span class="vd" id="biObsV">10</span></div>
-      <div class="cg"><span class="cl">Success rate</span><input type="range" id="biRate" min="0.1" max="0.9" step="0.05" value="0.6" oninput="drawBayesianInference()"><span class="vd" id="biRateV">0.60</span></div>
-    </div>
-  </div>
-  <div class="steps">
-    <div class="step"><div class="sn">1</div><div><h4>Choose a prior</h4><p>Express your beliefs before seeing data (e.g., Beta(1,1) = uniform = "no idea")</p></div></div>
-    <div class="step"><div class="sn">2</div><div><h4>Collect data</h4><p>Observe outcomes — the likelihood P(data|θ)</p></div></div>
-    <div class="step"><div class="sn">3</div><div><h4>Compute posterior</h4><p>Posterior = Prior × Likelihood (normalized). This is your updated belief.</p></div></div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../markets/psychology/#contrarian-thinking" target="_blank" rel="noopener">Contrarian investors</a> update beliefs with evidence (“the market prices X, but new data suggests Y”). <a href="../llm/#fine-tuning" target="_blank" rel="noopener">Fine-tuning</a> an LLM is Bayesian: the pre-trained model is the prior, new data is the evidence.</div>
-  <div class="topic-nav" id="nav-bayesian-inference"></div>
-</div>`;
-}
-
-/* 25 — Conjugate Priors */
-function buildConjugatePriors() {
-  return `<div class="topic" id="conjugate-priors">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">25 — Bayesian Methods</div><h2>Conjugate <em>Priors</em></h2></div>
-    <span class="topic-badge">Bayesian</span>
-  </div>
-  <p class="sub">// When the posterior has the same family as the prior — closed-form Bayesian updates</p>
-  <p class="prose">A <strong>conjugate prior</strong> is one where Prior × Likelihood yields a posterior in the same distribution family. This gives <strong>instant, closed-form updates</strong> without numerical integration.</p>
-  <table class="mt">
-    <thead><tr><th>Likelihood</th><th>Conjugate Prior</th><th>Posterior</th></tr></thead>
-    <tbody>
-      <tr><td>Bernoulli/Binomial</td><td>Beta(α,β)</td><td>Beta(α+k, β+n−k)</td></tr>
-      <tr><td>Poisson</td><td>Gamma(α,β)</td><td>Gamma(α+Σx, β+n)</td></tr>
-      <tr><td>Normal (known σ)</td><td>Normal(μ₀,σ₀²)</td><td>Normal(weighted avg)</td></tr>
-      <tr><td>Exponential</td><td>Gamma(α,β)</td><td>Gamma(α+n, β+Σx)</td></tr>
-    </tbody>
-  </table>
-  <div class="va">
-    <div class="vl">// Beta-Binomial conjugate pair — prior → posterior updates</div>
-    <canvas id="conjCanvas" height="230"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Prior α</span><input type="range" id="conjA" min="0.5" max="10" step="0.5" value="1" oninput="drawConjugate()"><span class="vd" id="conjAV">1.0</span></div>
-      <div class="cg"><span class="cl">Prior β</span><input type="range" id="conjB" min="0.5" max="10" step="0.5" value="1" oninput="drawConjugate()"><span class="vd" id="conjBV">1.0</span></div>
-      <div class="cg"><span class="cl">Successes k</span><input type="range" id="conjK" min="0" max="20" step="1" value="7" oninput="drawConjugate()"><span class="vd" id="conjKV">7</span></div>
-      <div class="cg"><span class="cl">Trials n</span><input type="range" id="conjN" min="1" max="30" step="1" value="10" oninput="drawConjugate()"><span class="vd" id="conjNV">10</span></div>
-    </div>
-  </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Beta-Binomial for conversion rates, Normal-Normal for regression weights. The pattern: choose a prior that plays well with your data’s shape. ML uses this in <a href="../ml-math/#vae" target="_blank" rel="noopener">variational inference</a>.</div>
-  <div class="topic-nav" id="nav-conjugate-priors"></div>
-</div>`;
-}
-
-/* 26 — MCMC */
-function buildMCMC() {
-  return `<div class="topic" id="mcmc">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">26 — Bayesian Methods</div><h2><em>MCMC</em></h2></div>
-    <span class="topic-badge">Sampling</span>
-  </div>
-  <p class="sub">// Sampling from complex posteriors when closed forms don't exist</p>
-  <p class="prose">Markov Chain Monte Carlo generates samples from a target distribution by constructing a Markov chain whose <strong>stationary distribution is the posterior</strong>. After burn-in, samples approximate the posterior.</p>
-  <div class="fb"><div class="fm">Metropolis: accept θ' with prob min(1, P(θ')/P(θ))</div><div class="fd">Propose a new point θ'. Accept if it has higher posterior density; sometimes accept even if lower.</div></div>
-  <div class="va">
-    <div class="vl">// Metropolis-Hastings sampling — watch the chain explore</div>
-    <canvas id="mcmcCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <button class="btn" onclick="animMCMC()">▶ SAMPLE</button>
-      <button class="btn" onclick="resetMCMC()">↺ RESET</button>
-      <div class="cg"><span class="cl">Samples</span><span class="vd" id="mcmcCount" style="color:var(--accent)">0</span></div>
-    </div>
-  </div>
-  <div class="callout"><strong>Diagnostics:</strong> Check trace plots for mixing (no stuck regions). Check R̂ ≈ 1 for convergence. Discard the burn-in period. Run multiple chains.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> MCMC explores complex probability landscapes the way <a href="../ml-math/#diffusion" target="_blank" rel="noopener">diffusion models</a> explore latent space — random walks that find high-density regions. In markets, Monte Carlo simulation prices exotic options and models portfolio risk.</div>
-  <div class="topic-nav" id="nav-mcmc"></div>
-</div>`;
-}
-
-/* 27 — Hierarchical Models */
-function buildHierarchical() {
-  return `<div class="topic" id="hierarchical">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">27 — Bayesian Methods</div><h2>Hierarchical <em>Models</em></h2></div>
-    <span class="topic-badge">Multilevel</span>
-  </div>
-  <p class="sub">// Sharing information across groups via partial pooling</p>
-  <p class="prose">Hierarchical (multilevel) models have <strong>parameters that depend on hyperparameters</strong>. Groups share a common prior, enabling partial pooling — a principled middle ground between ignoring groups and treating them independently.</p>
-  <div class="fb"><div class="fm">θᵢ ~ N(μ, τ²) &nbsp;&nbsp; yᵢⱼ ~ N(θᵢ, σ²)</div><div class="fd">Group means θᵢ drawn from a shared distribution. Hyperparameters μ, τ learned from all data.</div></div>
-  <div class="va">
-    <div class="vl">// Partial pooling — estimates shrink toward the grand mean</div>
-    <canvas id="hierCanvas" height="230"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Between-group τ</span><input type="range" id="hierTau" min="0.1" max="3" step="0.1" value="1" oninput="drawHierarchical()"><span class="vd" id="hierTauV">1.0</span></div>
-    </div>
-  </div>
-  <div class="callout info"><strong>Shrinkage:</strong> Groups with less data get pulled more toward the grand mean. Groups with lots of data stay near their own estimates. This is rational — less data = more uncertainty = lean on the group average.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Sharing information across groups — like <a href="../llm/#fine-tuning" target="_blank" rel="noopener">transfer learning</a> shares knowledge across tasks. In markets, multi-sector analysis where each sector borrows strength from the whole.</div>
-  <div class="topic-nav" id="nav-hierarchical"></div>
-</div>`;
-}
-
-/* 28 — Bayesian Regression */
-function buildBayesianRegression() {
-  return `<div class="topic" id="bayesian-regression">
-  <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">28 — Bayesian Methods</div><h2>Bayesian <em>Regression</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">03 — Evaluate Your Model</div><h2>Regression <em>Metrics</em></h2></div>
     <span class="topic-badge">Regression</span>
   </div>
-  <p class="sub">// Linear regression with uncertainty quantification — distributions over weights</p>
-  <p class="prose">Instead of finding a single best-fit line, Bayesian regression gives a <strong>distribution over possible lines</strong>. More data = narrower distribution. Uncertainty is automatically quantified.</p>
-  <div class="fb"><div class="fm">P(w|data) ∝ P(data|w) · P(w)</div><div class="fd">Posterior over weights = likelihood × prior. Predictive uncertainty = integration over weights.</div></div>
+  <p class="sub">// MAE, RMSE, R² — which metric for which problem and what the numbers actually mean</p>
+  <p class="prose">Regression metrics measure how far predictions are from truth. <strong>MAE</strong> treats every error equally, <strong>RMSE</strong> penalises big errors more, and <strong>R&sup2;</strong> tells you how much variance your model explains vs a baseline mean prediction.</p>
+  <div class="fb"><div class="fm">MAE = (1/n) &middot; &Sigma; |y&#x1D62; &minus; &ycirc;&#x1D62;|</div><div class="fd"><span>MAE</span> = average absolute error. Robust to outliers, interpretable in target units.</div></div>
+  <div class="fb c2"><div class="fm">RMSE = &radic;((1/n) &middot; &Sigma; (y&#x1D62; &minus; &ycirc;&#x1D62;)&sup2;)</div><div class="fd"><span>RMSE</span> = penalises large errors disproportionately. Same units as target.</div></div>
+  <div class="fb c3"><div class="fm">R&sup2; = 1 &minus; SS<sub>res</sub> / SS<sub>tot</sub></div><div class="fd"><span>R&sup2;</span> = fraction of variance explained. 1 = perfect, 0 = no better than predicting the mean.</div></div>
   <div class="va">
-    <div class="vl">// Click to add data points — watch the posterior tighten</div>
-    <canvas id="bayRegCanvas" height="250"></canvas>
+    <div class="vl">// Interactive — drag points, see metrics update</div>
+    <canvas id="regCanvas" height="260"></canvas>
     <div class="ctrl">
-      <button class="btn" onclick="resetBayReg()">↺ RESET</button>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">Click canvas to add data</span>
-      <div class="cg"><span class="cl">Data points</span><span class="vd" id="bayRegN" style="color:var(--accent)">0</span></div>
+      <div class="cg"><span class="cl">Noise</span><input type="range" id="regNoise" min="0" max="100" step="1" value="30"><span class="vd" id="regNoiseV">0.30</span></div>
+      <div class="cg"><span class="cl">MAE</span><span class="vd" id="regMAE" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">RMSE</span><span class="vd" id="regRMSE" style="color:#4fc3f7">—</span></div>
+      <div class="cg"><span class="cl">R&sup2;</span><span class="vd" id="regR2" style="color:#81c784">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Not “the price will be $50” but “$50 ± $8.” <a href="../ml-math/#regularization" target="_blank" rel="noopener">Dropout-as-approximation</a> and ensemble uncertainty in ML do the same — knowing what you don’t know.</div>
-  <div class="topic-nav" id="nav-bayesian-regression"></div>
+  <div class="code-block"><pre><span class="cm"># Python — regression metrics</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
+    mean_absolute_error, mean_squared_error, r2_score
+)
+
+mae  = mean_absolute_error(y_true, y_pred)
+rmse = mean_squared_error(y_true, y_pred, squared=<span class="st">False</span>)
+r2   = r2_score(y_true, y_pred)
+
+print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div>
+  <div class="callout"><strong>Adjusted R&sup2;:</strong> R&sup2;<sub>adj</sub> = 1 &minus; (1&minus;R&sup2;)(n&minus;1)/(n&minus;p&minus;1). Penalises adding features. Always use adjusted R&sup2; when comparing models with different feature counts.</div>
+  <div class="topic-nav" id="nav-regression-metrics"></div>
 </div>`;
 }
 
-/* 29 — A/B Testing */
-function buildABTesting() {
-  return `<div class="topic" id="ab-testing">
+/* 04 — Cross-Validation Done Right */
+function buildCrossValidation() {
+  return `<div class="topic" id="cross-validation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">29 — Applied</div><h2>A/B <em>Testing</em></h2></div>
-    <span class="topic-badge">Experiment</span>
+    <div class="topic-meta"><div class="topic-num">04 — Evaluate Your Model</div><h2>Cross-Validation <em>Done Right</em></h2></div>
+    <span class="topic-badge">Validation</span>
   </div>
-  <p class="sub">// Running controlled experiments to measure the impact of changes</p>
-  <p class="prose">A/B testing randomly assigns users to control (A) or treatment (B) and measures whether the treatment has a <strong>statistically significant effect</strong>. The foundation of data-driven product development.</p>
-  <div class="fb"><div class="fm">n ≥ 2 · (z_α/2 + z_β)² · σ² / δ²</div><div class="fd">Minimum sample size per group. <span>δ</span> = minimum detectable effect. <span>α</span> = 0.05, <span>β</span> = 0.2 typical.</div></div>
+  <p class="sub">// Splitting your data honestly — k-fold, stratified, time-series split, and the leakage traps</p>
+  <p class="prose"><strong>Cross-validation</strong> rotates which data is used for training and testing. <strong>K-fold</strong> splits data into k parts, trains on k&minus;1, tests on the held-out fold, and repeats. The mean score across folds is a robust estimate of generalisation.</p>
+  <div class="fb"><div class="fm">CV Score = (1/k) &middot; &Sigma; Score(fold&#x1D62;)</div><div class="fd">Average <span>test score</span> across k folds. Standard deviation shows stability.</div></div>
   <div class="va">
-    <div class="vl">// Simulate an A/B test — watch results accumulate</div>
-    <canvas id="abCanvas" height="240"></canvas>
+    <div class="vl">// Interactive — k folds visualised with train/test splits</div>
+    <canvas id="cvCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">True uplift %</span><input type="range" id="abUplift" min="0" max="10" step="0.5" value="3" oninput="drawABTest()"><span class="vd" id="abUpliftV">3.0%</span></div>
-      <div class="cg"><span class="cl">Samples/group</span><input type="range" id="abN" min="50" max="2000" step="50" value="500" oninput="drawABTest()"><span class="vd" id="abNV">500</span></div>
-      <button class="btn" onclick="drawABTest()">↺ RESIMULATE</button>
+      <div class="cg"><span class="cl">K folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5"><span class="vd" id="cvKv">5</span></div>
+      <div class="cg"><span class="cl">Mode</span><button class="btn" id="cvMode" onclick="toggleCVMode()">K-Fold</button></div>
     </div>
   </div>
-  <div class="steps">
-    <div class="step"><div class="sn">1</div><div><h4>Power analysis</h4><p>Calculate required sample size before running the test</p></div></div>
-    <div class="step"><div class="sn">2</div><div><h4>Randomize</h4><p>Randomly assign users to A (control) or B (treatment)</p></div></div>
-    <div class="step"><div class="sn">3</div><div><h4>Collect data</h4><p>Run until pre-planned sample size is reached. No peeking!</p></div></div>
-    <div class="step"><div class="sn">4</div><div><h4>Analyze</h4><p>Compute test statistic and p-value. Report effect size + CI.</p></div></div>
-  </div>
-  <div class="callout warn"><strong>Peeking problem:</strong> Checking results repeatedly inflates Type I error. If you check 10 times at α=0.05, your effective α ≈ 0.19. Use sequential testing or fixed-horizon designs.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The same controlled comparison runs in tech (feature launches), <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">markets</a> (strategy backtests), and <a href="../llm/#evaluation" target="_blank" rel="noopener">LLM evaluation</a> (is model A better than model B?).</div>
-  <div class="topic-nav" id="nav-ab-testing"></div>
+  <table class="mt">
+    <thead><tr><th>Method</th><th>Use when</th><th>Watch out</th></tr></thead>
+    <tbody>
+      <tr><td>K-Fold</td><td>General purpose, enough data</td><td>Shuffling breaks time order</td></tr>
+      <tr><td>Stratified K-Fold</td><td>Imbalanced classes</td><td>Preserves class ratios per fold</td></tr>
+      <tr><td>Time Series Split</td><td>Temporal data (stocks, logs)</td><td>Train always before test</td></tr>
+      <tr><td>Leave-One-Out</td><td>Tiny datasets</td><td>Expensive, high variance</td></tr>
+      <tr><td>Nested CV</td><td>Hyperparameter tuning + eval</td><td>Inner loop tunes, outer evaluates</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — cross-validation</span>
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
+    cross_val_score, StratifiedKFold, TimeSeriesSplit
+)
+
+<span class="cm"># Standard k-fold</span>
+scores = cross_val_score(model, X, y, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
+print(<span class="st">f"F1: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
+
+<span class="cm"># Time series — never leak future data</span>
+tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
+scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
+  <div class="callout info"><strong>Data leakage trap:</strong> If you scale or impute <em>before</em> splitting, information from the test fold leaks into training. Always put preprocessing inside a <code>Pipeline</code>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Cross-validation in ML and <a href="#walk-forward">walk-forward validation</a> in backtesting are the same principle — testing on data the model has never seen. The time-series variant here connects directly to market backtesting.</div>
+  <div class="topic-nav" id="nav-cross-validation"></div>
 </div>`;
 }
 
-/* 30 — Bootstrap */
-function buildBootstrap() {
-  return `<div class="topic" id="bootstrap">
+/* 05 — Comparing Model Runs */
+function buildComparingRuns() {
+  return `<div class="topic" id="comparing-runs">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">30 — Applied</div><h2><em>Bootstrap</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">05 — Evaluate Your Model</div><h2>Comparing <em>Model Runs</em></h2></div>
+    <span class="topic-badge">Testing</span>
+  </div>
+  <p class="sub">// Is this improvement real? Statistical tests for comparing model performance across runs</p>
+  <p class="prose">Model A got 0.87 F1. Model B got 0.89. Is that difference real or just noise? You need <strong>statistical tests</strong> on paired cross-validation scores to answer confidently. Without them, you're just reading tea leaves.</p>
+  <div class="fb"><div class="fm">t = (&mu;<sub>A</sub> &minus; &mu;<sub>B</sub>) / SE(&mu;<sub>A</sub> &minus; &mu;<sub>B</sub>)</div><div class="fd"><span>Paired t-test</span> on k-fold scores — the simplest comparison. Assumes normality of differences.</div></div>
+  <div class="fb c2"><div class="fm">McNemar: &chi;&sup2; = (b &minus; c)&sup2; / (b + c)</div><div class="fd"><span>McNemar&rsquo;s test</span> &mdash; compares errors on the same test set. b,c = discordant predictions.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — two model score distributions, see p-value</div>
+    <canvas id="compCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Model A mean</span><input type="range" id="compA" min="70" max="95" step="1" value="85"><span class="vd" id="compAv">0.85</span></div>
+      <div class="cg"><span class="cl">Model B mean</span><input type="range" id="compB" min="70" max="95" step="1" value="88"><span class="vd" id="compBv">0.88</span></div>
+      <div class="cg"><span class="cl">p-value</span><span class="vd" id="compP" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — comparing two models</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> ttest_rel, wilcoxon
+
+<span class="cm"># Paired t-test on k-fold scores</span>
+scores_a = cross_val_score(model_a, X, y, cv=<span class="st">10</span>)
+scores_b = cross_val_score(model_b, X, y, cv=<span class="st">10</span>)
+t_stat, p_val = ttest_rel(scores_a, scores_b)
+
+<span class="cm"># Non-parametric alternative</span>
+w_stat, p_val = wilcoxon(scores_a, scores_b)
+print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
+  <div class="callout"><strong>Rule of thumb:</strong> If p &lt; 0.05, the difference is statistically significant — but also check <a href="#effect-size">effect size</a>. A significant p-value with tiny effect size means the improvement is real but may not matter.</div>
+  <div class="topic-nav" id="nav-comparing-runs"></div>
+</div>`;
+}
+
+/* 06 — Learning Curves & Overfitting */
+function buildLearningCurves() {
+  return `<div class="topic" id="learning-curves">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">06 — Evaluate Your Model</div><h2>Learning Curves &amp; <em>Overfitting</em></h2></div>
+    <span class="topic-badge">Diagnostics</span>
+  </div>
+  <p class="sub">// Training vs validation curves — reading the gap to diagnose models</p>
+  <p class="prose">A <strong>learning curve</strong> plots training and validation scores as data increases. The <strong>gap</strong> between them tells you everything: large gap = overfitting, both low = underfitting, converging = sweet spot. It also tells you if more data would help.</p>
+  <div class="fb"><div class="fm">Gap = Score<sub>train</sub> &minus; Score<sub>val</sub></div><div class="fd"><span>Large gap</span> = overfitting (model memorises) &nbsp;|&nbsp; <span>Both low</span> = underfitting (model too simple)</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — adjust complexity, see the gap</div>
+    <canvas id="lcCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Model complexity</span><input type="range" id="lcComp" min="1" max="100" step="1" value="50"><span class="vd" id="lcCompV">50</span></div>
+      <div class="cg"><span class="cl">Diagnosis</span><span class="vd" id="lcDiag" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — learning curves</span>
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> learning_curve
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+sizes, train_scores, val_scores = learning_curve(
+    model, X, y, cv=<span class="st">5</span>, n_jobs=-<span class="st">1</span>,
+    train_sizes=np.linspace(<span class="st">0.1</span>, <span class="st">1.0</span>, <span class="st">10</span>),
+    scoring=<span class="st">'accuracy'</span>
+)
+plt.plot(sizes, train_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Train'</span>)
+plt.plot(sizes, val_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Val'</span>)
+plt.legend(); plt.show()</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions.</div>
+  <div class="topic-nav" id="nav-learning-curves"></div>
+</div>`;
+}
+
+/* 07 — SHAP Values */
+function buildSHAPValues() {
+  return `<div class="topic" id="shap-values">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">07 — Understand Your Features</div><h2>SHAP <em>Values</em></h2></div>
+    <span class="topic-badge">Explainability</span>
+  </div>
+  <p class="sub">// Game-theoretic feature attribution — understand exactly why your model made each prediction</p>
+  <p class="prose"><strong>SHAP</strong> (SHapley Additive exPlanations) assigns each feature a contribution to each prediction. Based on Shapley values from cooperative game theory, SHAP is the only method with mathematical guarantees: consistency, local accuracy, and missingness.</p>
+  <div class="fb"><div class="fm">&phi;&#x1D62; = &Sigma;<sub>S</sub> |S|!(M&minus;|S|&minus;1)!/M! &middot; [f(S&cup;{i}) &minus; f(S)]</div><div class="fd"><span>&phi;&#x1D62;</span> = SHAP value for feature i &nbsp;|&nbsp; averaged marginal contribution across all coalitions</div></div>
+  <div class="fb c2"><div class="fm">f(x) = E[f(X)] + &Sigma; &phi;&#x1D62;</div><div class="fd">Prediction = base value + sum of all SHAP values. <span>Additive:</span> contributions always sum to prediction.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — feature contributions to a prediction</div>
+    <canvas id="shapCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Feature count</span><input type="range" id="shapN" min="3" max="10" step="1" value="6"><span class="vd" id="shapNv">6</span></div>
+      <button class="btn" onclick="reshapSHAP()">NEW SAMPLE</button>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — SHAP waterfall for a single prediction</span>
+<span class="kw">import</span> shap
+
+explainer = shap.TreeExplainer(model)
+shap_values = explainer(X_test)
+
+<span class="cm"># Waterfall for one prediction</span>
+shap.plots.waterfall(shap_values[<span class="st">0</span>])
+
+<span class="cm"># Global summary</span>
+shap.plots.beeswarm(shap_values)</pre></div>
+  <div class="callout info"><strong>Explainer choice:</strong> Use <code>TreeExplainer</code> for tree models (fast, exact). <code>KernelExplainer</code> for any model (slow, approximate). <code>DeepExplainer</code> for deep learning.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP reveals which features drive a prediction. In markets, <a href="../markets/indicators/#volume" target="_blank" rel="noopener">volume analysis</a> asks the same question — which factors are driving price? Decomposing into contributions is a universal pattern.</div>
+  <div class="topic-nav" id="nav-shap-values"></div>
+</div>`;
+}
+
+/* 08 — Permutation Importance */
+function buildPermutationImportance() {
+  return `<div class="topic" id="permutation-importance">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">08 — Understand Your Features</div><h2>Permutation <em>Importance</em></h2></div>
+    <span class="topic-badge">Features</span>
+  </div>
+  <p class="sub">// Shuffle a feature, measure the damage — a model-agnostic way to rank feature importance</p>
+  <p class="prose"><strong>Permutation importance</strong> randomly shuffles one feature at a time and measures how much the model's score drops. Big drop = important feature. It works with <em>any</em> model and requires no retraining.</p>
+  <div class="fb"><div class="fm">PI&#x1D62; = Score<sub>original</sub> &minus; Score<sub>shuffled(i)</sub></div><div class="fd"><span>PI</span> = importance of feature i. Higher = more important. Negative = feature hurts the model.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — shuffle features, see score drop</div>
+    <canvas id="piCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Features</span><input type="range" id="piN" min="3" max="8" step="1" value="5"><span class="vd" id="piNv">5</span></div>
+      <button class="btn" onclick="reshufflePerm()">SHUFFLE</button>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — permutation importance</span>
+<span class="kw">from</span> sklearn.inspection <span class="kw">import</span> permutation_importance
+
+result = permutation_importance(
+    model, X_test, y_test,
+    n_repeats=<span class="st">30</span>, random_state=<span class="st">42</span>,
+    scoring=<span class="st">'accuracy'</span>
+)
+
+<span class="cm"># Sorted importance</span>
+<span class="kw">for</span> i <span class="kw">in</span> result.importances_mean.argsort()[::-<span class="st">1</span>]:
+    print(<span class="st">f"{features[i]}: {result.importances_mean[i]:.3f}"</span>)</pre></div>
+  <div class="callout"><strong>Correlated features trap:</strong> If two features are correlated, shuffling one leaves the other intact — importance is split between them. Consider using SHAP or drop-column importance for correlated features.</div>
+  <div class="topic-nav" id="nav-permutation-importance"></div>
+</div>`;
+}
+
+/* 09 — Partial Dependence & ICE */
+function buildPDPICE() {
+  return `<div class="topic" id="pdp-ice">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">09 — Understand Your Features</div><h2>Partial Dependence &amp; <em>ICE</em></h2></div>
+    <span class="topic-badge">Explainability</span>
+  </div>
+  <p class="sub">// How does changing one feature affect predictions? PDP shows the average, ICE shows every instance</p>
+  <p class="prose"><strong>Partial Dependence Plots (PDP)</strong> show the average effect of one feature on predictions, marginalising over all other features. <strong>ICE plots</strong> show the same for each individual instance — revealing heterogeneity the average hides.</p>
+  <div class="fb"><div class="fm">PD(x<sub>s</sub>) = (1/n) &middot; &Sigma; f(x<sub>s</sub>, x<sub>c</sub><sup>(i)</sup>)</div><div class="fd"><span>PD</span> = average prediction when feature s is fixed at x<sub>s</sub>, averaging over all other features.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — PDP line with individual ICE curves</div>
+    <canvas id="pdpCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Show ICE</span><button class="btn" id="pdpIce" onclick="toggleICE()">ICE OFF</button></div>
+      <div class="cg"><span class="cl">Instances</span><input type="range" id="pdpN" min="5" max="50" step="5" value="20"><span class="vd" id="pdpNv">20</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — PDP & ICE</span>
+<span class="kw">from</span> sklearn.inspection <span class="kw">import</span> PartialDependenceDisplay
+
+<span class="cm"># PDP with ICE</span>
+PartialDependenceDisplay.from_estimator(
+    model, X_train,
+    features=[<span class="st">'age'</span>, <span class="st">'income'</span>],
+    kind=<span class="st">'both'</span>,      <span class="cm"># PDP + ICE</span>
+    ice_lines_kw={<span class="st">'alpha'</span>: <span class="st">0.1</span>}
+)</pre></div>
+  <div class="callout info"><strong>Interactions:</strong> If ICE lines cross each other, there's a feature interaction — the effect of this feature depends on other features' values. A flat PDP with scattered ICE means the average is misleading.</div>
+  <div class="topic-nav" id="nav-pdp-ice"></div>
+</div>`;
+}
+
+/* 10 — Feature Correlation & Multicollinearity */
+function buildFeatureCorrelation() {
+  return `<div class="topic" id="feature-correlation">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">10 — Understand Your Features</div><h2>Feature Correlation &amp; <em>Multicollinearity</em></h2></div>
+    <span class="topic-badge">Features</span>
+  </div>
+  <p class="sub">// Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop</p>
+  <p class="prose">Highly correlated features are redundant — they inflate coefficient variance in linear models and confuse importance measures. <strong>VIF</strong> (Variance Inflation Factor) quantifies how much each feature's coefficient variance is inflated by correlation with others.</p>
+  <div class="fb"><div class="fm">VIF&#x1D62; = 1 / (1 &minus; R&#x1D62;&sup2;)</div><div class="fd"><span>VIF</span> = 1 means no collinearity &nbsp;|&nbsp; &gt;5 is concerning &nbsp;|&nbsp; &gt;10 is severe. R&#x1D62;&sup2; from regressing feature i on all others.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive correlation heatmap</div>
+    <canvas id="corrCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Features</span><input type="range" id="corrN" min="3" max="8" step="1" value="6"><span class="vd" id="corrNv">6</span></div>
+      <button class="btn" onclick="regenCorr()">REGENERATE</button>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — correlation & VIF</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> statsmodels.stats.outliers_influence <span class="kw">import</span> variance_inflation_factor
+
+<span class="cm"># Correlation heatmap</span>
+corr = df.corr()
+sns.heatmap(corr, annot=<span class="st">True</span>, cmap=<span class="st">'RdBu_r'</span>, center=<span class="st">0</span>)
+
+<span class="cm"># VIF for each feature</span>
+vif = pd.DataFrame()
+vif[<span class="st">'Feature'</span>] = X.columns
+vif[<span class="st">'VIF'</span>] = [variance_inflation_factor(X.values, i)
+            <span class="kw">for</span> i <span class="kw">in</span> range(X.shape[<span class="st">1</span>])]</pre></div>
+  <div class="callout"><strong>Drop rule:</strong> If two features have |r| &gt; 0.9, drop the one less correlated with the target, or the one with higher VIF.</div>
+  <div class="topic-nav" id="nav-feature-correlation"></div>
+</div>`;
+}
+
+/* 11 — Information Gain & Mutual Information */
+function buildInformationGain() {
+  return `<div class="topic" id="information-gain">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">11 — Understand Your Features</div><h2>Information Gain &amp; <em>Mutual Information</em></h2></div>
+    <span class="topic-badge">Information Theory</span>
+  </div>
+  <p class="sub">// Beyond linear correlation — information-theoretic measures that capture any kind of dependency</p>
+  <p class="prose"><strong>Mutual information</strong> measures how much knowing one variable reduces uncertainty about another — capturing <em>any</em> dependency (linear, nonlinear, categorical). Unlike correlation, it detects complex relationships that Pearson's r misses entirely.</p>
+  <div class="fb"><div class="fm">I(X;Y) = &Sigma; p(x,y) &middot; log(p(x,y) / (p(x)&middot;p(y)))</div><div class="fd"><span>MI</span> = 0 means independent &nbsp;|&nbsp; Higher = more dependency. Always &ge; 0, unbounded above.</div></div>
+  <div class="fb c2"><div class="fm">IG(Y|X) = H(Y) &minus; H(Y|X)</div><div class="fd"><span>Information Gain</span> = entropy before &minus; entropy after splitting. Used in decision trees.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — see MI vs correlation for different relationships</div>
+    <canvas id="miCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Relationship</span><button class="btn" id="miType" onclick="cycleRelation()">Linear</button></div>
+      <div class="cg"><span class="cl">MI</span><span class="vd" id="miVal" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Correlation</span><span class="vd" id="miCorr" style="color:#4fc3f7">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — mutual information for feature selection</span>
+<span class="kw">from</span> sklearn.feature_selection <span class="kw">import</span> mutual_info_classif
+
+mi = mutual_info_classif(X, y, random_state=<span class="st">42</span>)
+mi_series = pd.Series(mi, index=X.columns).sort_values(ascending=<span class="st">False</span>)
+print(mi_series)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Information gain is how decision trees choose splits. <a href="../ml-math/#entropy" target="_blank" rel="noopener">Entropy</a> from the ML Math collection is the foundation. In markets, high mutual information between an indicator and future returns would mean that indicator has real predictive value.</div>
+  <div class="topic-nav" id="nav-information-gain"></div>
+</div>`;
+}
+
+/* 12 — Distribution Shape */
+function buildDistributionShape() {
+  return `<div class="topic" id="distribution-shape">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">12 — Analyze Your Data</div><h2>Distribution <em>Shape</em></h2></div>
+    <span class="topic-badge">Data Analysis</span>
+  </div>
+  <p class="sub">// Skewness, kurtosis, QQ plots — is your data normal, and does it matter?</p>
+  <p class="prose">Before modelling, know your data's shape. <strong>Skewness</strong> measures asymmetry (are the tails lopsided?), <strong>kurtosis</strong> measures tail heaviness (how many extreme values?), and <strong>QQ plots</strong> show deviations from normality at a glance.</p>
+  <div class="fb"><div class="fm">Skew = E[(X&minus;&mu;)&sup3;] / &sigma;&sup3;</div><div class="fd"><span>Skew</span> = 0 is symmetric &nbsp;|&nbsp; &gt;0 right tail &nbsp;|&nbsp; &lt;0 left tail</div></div>
+  <div class="fb c2"><div class="fm">Kurt = E[(X&minus;&mu;)&sup4;] / &sigma;&sup4; &minus; 3</div><div class="fd"><span>Excess kurtosis</span> = 0 is normal &nbsp;|&nbsp; &gt;0 heavy tails &nbsp;|&nbsp; &lt;0 light tails</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — adjust skew and kurtosis</div>
+    <canvas id="distCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Skewness</span><input type="range" id="distSkew" min="-30" max="30" step="1" value="0"><span class="vd" id="distSkewV">0.0</span></div>
+      <div class="cg"><span class="cl">Tail weight</span><input type="range" id="distKurt" min="0" max="100" step="1" value="30"><span class="vd" id="distKurtV">3.0</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — distribution diagnostics</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> skew, kurtosis, probplot
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+print(<span class="st">f"Skew: {skew(data):.3f}"</span>)
+print(<span class="st">f"Kurt: {kurtosis(data):.3f}"</span>)
+
+<span class="cm"># QQ plot — points on line = normal</span>
+fig, ax = plt.subplots()
+probplot(data, plot=ax)
+plt.show()</pre></div>
+  <div class="callout"><strong>When it matters:</strong> Linear regression assumes normal residuals. Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
+  <div class="topic-nav" id="nav-distribution-shape"></div>
+</div>`;
+}
+
+/* 13 — Outlier Detection */
+function buildOutlierDetection() {
+  return `<div class="topic" id="outlier-detection">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">13 — Analyze Your Data</div><h2>Outlier <em>Detection</em></h2></div>
+    <span class="topic-badge">Data Analysis</span>
+  </div>
+  <p class="sub">// IQR, Z-score, Isolation Forest — finding extreme values and knowing when they're the signal</p>
+  <p class="prose">Outliers can be errors to fix or signal to keep. <strong>Z-score</strong> flags points far from the mean, <strong>IQR</strong> is robust to skew, and <strong>Isolation Forest</strong> catches complex multi-dimensional outliers that univariate methods miss.</p>
+  <div class="fb"><div class="fm">IQR method: outlier if x &lt; Q1 &minus; 1.5&middot;IQR or x &gt; Q3 + 1.5&middot;IQR</div><div class="fd"><span>IQR</span> = Q3 &minus; Q1 (interquartile range). Robust to skewed distributions.</div></div>
+  <div class="fb c2"><div class="fm">Z = (x &minus; &mu;) / &sigma; &nbsp;&nbsp; outlier if |Z| &gt; 3</div><div class="fd"><span>Z-score</span> = standard deviations from mean. Assumes roughly normal data.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — scattered points with outlier detection zones</div>
+    <canvas id="outCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Method</span><button class="btn" id="outMethod" onclick="cycleOutlier()">IQR</button></div>
+      <div class="cg"><span class="cl">Outliers</span><span class="vd" id="outCount" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — outlier detection</span>
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> IsolationForest
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># IQR method</span>
+Q1, Q3 = np.percentile(data, [<span class="st">25</span>, <span class="st">75</span>])
+IQR = Q3 - Q1
+mask = (data &lt; Q1 - <span class="st">1.5</span>*IQR) | (data &gt; Q3 + <span class="st">1.5</span>*IQR)
+
+<span class="cm"># Isolation Forest — multi-dimensional</span>
+iso = IsolationForest(contamination=<span class="st">0.05</span>)
+labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../markets/psychology/#black-swan" target="_blank" rel="noopener">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
+  <div class="topic-nav" id="nav-outlier-detection"></div>
+</div>`;
+}
+
+/* 14 — Missing Data Strategies */
+function buildMissingData() {
+  return `<div class="topic" id="missing-data">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">14 — Analyze Your Data</div><h2>Missing Data <em>Strategies</em></h2></div>
+    <span class="topic-badge">Data Quality</span>
+  </div>
+  <p class="sub">// Imputation, MICE, missingness patterns — handling gaps without corrupting your analysis</p>
+  <p class="prose">Missing data isn't just annoying — <em>why</em> it's missing matters. <strong>MCAR</strong> (completely random) is safe to drop. <strong>MAR</strong> (depends on observed data) needs smart imputation. <strong>MNAR</strong> (depends on the missing value itself) is the hardest case.</p>
+  <div class="fb"><div class="fm">MCAR: P(missing) = constant</div><div class="fd">Missing <span>completely at random</span>. Dropping rows is unbiased but wasteful.</div></div>
+  <div class="fb c2"><div class="fm">MAR: P(missing | observed) &ne; P(missing)</div><div class="fd">Missing <span>at random</span> given observed data. Use MICE, KNN imputation.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — missing data patterns and imputation</div>
+    <canvas id="missCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">% Missing</span><input type="range" id="missPct" min="5" max="50" step="5" value="20"><span class="vd" id="missPctV">20%</span></div>
+      <div class="cg"><span class="cl">Strategy</span><button class="btn" id="missStrat" onclick="cycleImpute()">Mean</button></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — imputation strategies</span>
+<span class="kw">from</span> sklearn.impute <span class="kw">import</span> SimpleImputer, KNNImputer
+<span class="kw">from</span> sklearn.experimental <span class="kw">import</span> enable_iterative_imputer
+<span class="kw">from</span> sklearn.impute <span class="kw">import</span> IterativeImputer
+
+<span class="cm"># Simple: median (robust to outliers)</span>
+imp = SimpleImputer(strategy=<span class="st">'median'</span>)
+
+<span class="cm"># KNN: uses similar rows</span>
+imp = KNNImputer(n_neighbors=<span class="st">5</span>)
+
+<span class="cm"># MICE: iterative multivariate</span>
+imp = IterativeImputer(max_iter=<span class="st">10</span>)
+X_filled = imp.fit_transform(X)</pre></div>
+  <div class="callout info"><strong>Never impute the target.</strong> And always impute <em>inside</em> cross-validation folds to prevent data leakage.</div>
+  <div class="topic-nav" id="nav-missing-data"></div>
+</div>`;
+}
+
+/* 15 — Data Drift & Distribution Shift */
+function buildDataDrift() {
+  return `<div class="topic" id="data-drift">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">15 — Analyze Your Data</div><h2>Data Drift &amp; <em>Distribution Shift</em></h2></div>
+    <span class="topic-badge">Monitoring</span>
+  </div>
+  <p class="sub">// Is your model still valid? PSI, KS test, and detecting when the world has changed</p>
+  <p class="prose">Models decay when the data distribution shifts. <strong>PSI</strong> (Population Stability Index) detects changes in feature distributions. The <strong>KS test</strong> checks if two samples came from the same distribution. Monitor these to know when to retrain.</p>
+  <div class="fb"><div class="fm">PSI = &Sigma; (p&#x1D62; &minus; q&#x1D62;) &middot; ln(p&#x1D62; / q&#x1D62;)</div><div class="fd"><span>PSI</span> &lt; 0.1 = no drift &nbsp;|&nbsp; 0.1&ndash;0.25 = moderate &nbsp;|&nbsp; &gt;0.25 = significant shift</div></div>
+  <div class="fb c2"><div class="fm">KS = max|F<sub>ref</sub>(x) &minus; F<sub>new</sub>(x)|</div><div class="fd"><span>Kolmogorov-Smirnov</span> = maximum distance between two CDFs. p &lt; 0.05 → distributions differ.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — reference vs new distribution with drift</div>
+    <canvas id="driftCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Drift amount</span><input type="range" id="driftAmt" min="0" max="100" step="1" value="0"><span class="vd" id="driftAmtV">0.0</span></div>
+      <div class="cg"><span class="cl">PSI</span><span class="vd" id="driftPSI" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — PSI & KS test</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> ks_2samp
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">psi</span>(ref, new, bins=<span class="st">10</span>):
+    edges = np.histogram_bin_edges(ref, bins=bins)
+    p = np.histogram(ref, bins=edges)[<span class="st">0</span>] / len(ref) + <span class="st">1e-6</span>
+    q = np.histogram(new, bins=edges)[<span class="st">0</span>] / len(new) + <span class="st">1e-6</span>
+    <span class="kw">return</span> np.sum((p - q) * np.log(p / q))
+
+<span class="cm"># KS test</span>
+stat, p_val = ks_2samp(ref_data, new_data)
+print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Data drift in ML mirrors <a href="../markets/psychology/#regime" target="_blank" rel="noopener">regime changes</a> in markets. Both signal that the rules have changed — past patterns no longer predict the future.</div>
+  <div class="topic-nav" id="nav-data-drift"></div>
+</div>`;
+}
+
+/* 16 — Sampling & Class Imbalance */
+function buildClassImbalance() {
+  return `<div class="topic" id="class-imbalance">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">16 — Analyze Your Data</div><h2>Sampling &amp; <em>Class Imbalance</em></h2></div>
+    <span class="topic-badge">Data Prep</span>
+  </div>
+  <p class="sub">// SMOTE, undersampling, class weights — strategies when your classes are nowhere near 50/50</p>
+  <p class="prose">Fraud detection: 0.1% positive. Disease screening: 2% positive. With severe class imbalance, a model that predicts "no" always gets 99%+ accuracy while being useless. You need <strong>resampling</strong> or <strong>cost-sensitive learning</strong>.</p>
+  <div class="fb"><div class="fm">SMOTE: x<sub>new</sub> = x&#x1D62; + &lambda; &middot; (x<sub>nn</sub> &minus; x&#x1D62;)</div><div class="fd"><span>SMOTE</span> creates synthetic minority samples by interpolating between a sample and its nearest neighbour.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — class ratio and resampling effect</div>
+    <canvas id="imbCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Imbalance ratio</span><input type="range" id="imbRatio" min="1" max="50" step="1" value="10"><span class="vd" id="imbRatioV">1:10</span></div>
+      <div class="cg"><span class="cl">Strategy</span><button class="btn" id="imbStrat" onclick="cycleImbalance()">None</button></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — handling imbalance</span>
+<span class="kw">from</span> imblearn.over_sampling <span class="kw">import</span> SMOTE
+<span class="kw">from</span> imblearn.under_sampling <span class="kw">import</span> RandomUnderSampler
+<span class="kw">from</span> imblearn.pipeline <span class="kw">import</span> Pipeline
+
+<span class="cm"># SMOTE + undersampling combo</span>
+pipeline = Pipeline([
+    (<span class="st">'smote'</span>, SMOTE(sampling_strategy=<span class="st">0.5</span>)),
+    (<span class="st">'under'</span>, RandomUnderSampler(sampling_strategy=<span class="st">0.8</span>)),
+])
+X_res, y_res = pipeline.fit_resample(X_train, y_train)
+
+<span class="cm"># Or just use class weights</span>
+model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)</pre></div>
+  <div class="callout info"><strong>Never SMOTE the test set.</strong> Apply resampling only to training data, inside the CV loop.</div>
+  <div class="topic-nav" id="nav-class-imbalance"></div>
+</div>`;
+}
+
+/* 17 — Sharpe Ratio & Risk-Adjusted Returns */
+function buildSharpeRatio() {
+  return `<div class="topic" id="sharpe-ratio">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">17 — Backtest &amp; Validate</div><h2>Sharpe Ratio &amp; <em>Risk-Adjusted Returns</em></h2></div>
+    <span class="topic-badge">Performance</span>
+  </div>
+  <p class="sub">// Interpreting Sharpe, Sortino, Calmar — return per unit of risk</p>
+  <p class="prose">Raw returns are meaningless without risk context. The <strong>Sharpe ratio</strong> measures excess return per unit of <em>total</em> volatility. <strong>Sortino</strong> only penalises downside volatility. <strong>Calmar</strong> divides return by maximum drawdown — the worst-case measure.</p>
+  <div class="fb"><div class="fm">Sharpe = (R<sub>p</sub> &minus; R<sub>f</sub>) / &sigma;<sub>p</sub></div><div class="fd"><span>Sharpe</span> = annualised excess return / annualised std dev. &gt;1 is good, &gt;2 is excellent.</div></div>
+  <div class="fb c2"><div class="fm">Sortino = (R<sub>p</sub> &minus; R<sub>f</sub>) / &sigma;<sub>downside</sub></div><div class="fd"><span>Sortino</span> = only penalises negative volatility. Better for asymmetric return distributions.</div></div>
+  <div class="fb c3"><div class="fm">Calmar = R<sub>annual</sub> / |MaxDrawdown|</div><div class="fd"><span>Calmar</span> = return divided by worst-case loss. Sensitive to tail risk.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — adjust return and volatility, see ratios</div>
+    <canvas id="sharpeCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Return %</span><input type="range" id="sharpeRet" min="0" max="40" step="1" value="12"><span class="vd" id="sharpeRetV">12%</span></div>
+      <div class="cg"><span class="cl">Volatility %</span><input type="range" id="sharpeVol" min="5" max="40" step="1" value="15"><span class="vd" id="sharpeVolV">15%</span></div>
+      <div class="cg"><span class="cl">Sharpe</span><span class="vd" id="sharpeSR" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — risk-adjusted ratios</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+returns = df[<span class="st">'returns'</span>]
+rf = <span class="st">0.05</span> / <span class="st">252</span>  <span class="cm"># daily risk-free rate</span>
+
+<span class="cm"># Sharpe (annualised)</span>
+sharpe = (returns.mean() - rf) / returns.std() * np.sqrt(<span class="st">252</span>)
+
+<span class="cm"># Sortino (downside only)</span>
+down = returns[returns &lt; <span class="st">0</span>].std()
+sortino = (returns.mean() - rf) / down * np.sqrt(<span class="st">252</span>)
+
+<span class="cm"># Calmar</span>
+cum = (<span class="st">1</span> + returns).cumprod()
+dd = (cum / cum.cummax() - <span class="st">1</span>).min()
+calmar = returns.mean() * <span class="st">252</span> / abs(dd)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The Sharpe ratio is signal-to-noise for finance. In ML, the same concept appears as <a href="#comparing-runs">comparing model runs</a> — is the improvement larger than the noise? Both ask: is this real or random?</div>
+  <div class="topic-nav" id="nav-sharpe-ratio"></div>
+</div>`;
+}
+
+/* 18 — Maximum Drawdown & Recovery */
+function buildMaxDrawdown() {
+  return `<div class="topic" id="max-drawdown">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">18 — Backtest &amp; Validate</div><h2>Maximum Drawdown &amp; <em>Recovery</em></h2></div>
+    <span class="topic-badge">Risk</span>
+  </div>
+  <p class="sub">// Measuring worst-case loss from peak — depth, duration, and recovery time</p>
+  <p class="prose"><strong>Maximum drawdown</strong> is the largest peak-to-trough decline in portfolio value. It answers the question every investor asks: "How bad can it get?" <strong>Recovery time</strong> — how long to reach a new high — is equally important.</p>
+  <div class="fb"><div class="fm">DD(t) = (Peak(t) &minus; Value(t)) / Peak(t)</div><div class="fd"><span>Drawdown</span> at time t. <span>Max Drawdown</span> = max over all t. Expressed as percentage.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive equity curve with drawdown shading</div>
+    <canvas id="ddCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Volatility</span><input type="range" id="ddVol" min="5" max="50" step="1" value="20"><span class="vd" id="ddVolV">20%</span></div>
+      <div class="cg"><span class="cl">Max DD</span><span class="vd" id="ddMax" style="color:var(--accent)">—</span></div>
+      <button class="btn" onclick="regenDD()">NEW PATH</button>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — drawdown analysis</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+cum_returns = (<span class="st">1</span> + returns).cumprod()
+running_max = cum_returns.cummax()
+drawdown = (cum_returns - running_max) / running_max
+max_dd = drawdown.min()
+print(<span class="st">f"Max Drawdown: {max_dd:.1%}"</span>)
+
+<span class="cm"># Recovery time</span>
+underwater = drawdown &lt; <span class="st">0</span>
+recovery_periods = underwater.astype(int).groupby(
+    (~underwater).cumsum()
+).sum()</pre></div>
+  <div class="callout"><strong>Psychology:</strong> A 50% drawdown requires a 100% gain to recover. A 33% drawdown needs 50%. The math is against you — managing drawdown is as important as maximising return.</div>
+  <div class="topic-nav" id="nav-max-drawdown"></div>
+</div>`;
+}
+
+/* 19 — Walk-Forward Validation */
+function buildWalkForward() {
+  return `<div class="topic" id="walk-forward">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">19 — Backtest &amp; Validate</div><h2>Walk-Forward <em>Validation</em></h2></div>
+    <span class="topic-badge">Backtesting</span>
+  </div>
+  <p class="sub">// Rolling window backtesting — the right way to validate strategies on time-ordered data</p>
+  <p class="prose"><strong>Walk-forward</strong> slides a training window through time, always testing on the next unseen period. It simulates real deployment: train on the past, predict the future. <strong>Anchored</strong> mode grows the training window. <strong>Rolling</strong> keeps it fixed.</p>
+  <div class="fb"><div class="fm">Train: [t&minus;W, t] &rarr; Test: [t+1, t+S]</div><div class="fd"><span>W</span> = training window &nbsp;|&nbsp; <span>S</span> = test step &nbsp;|&nbsp; then slide forward by S and repeat.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — rolling vs anchored walk-forward</div>
+    <canvas id="wfCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Window size</span><input type="range" id="wfWin" min="3" max="15" step="1" value="8"><span class="vd" id="wfWinV">8</span></div>
+      <div class="cg"><span class="cl">Mode</span><button class="btn" id="wfMode" onclick="toggleWFMode()">Rolling</button></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — walk-forward with TimeSeriesSplit</span>
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> TimeSeriesSplit
+
+tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
+results = []
+<span class="kw">for</span> train_idx, test_idx <span class="kw">in</span> tscv.split(X):
+    X_train, X_test = X[train_idx], X[test_idx]
+    model.fit(X_train, y[train_idx])
+    score = model.score(X_test, y[test_idx])
+    results.append(score)
+
+print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trends" target="_blank" rel="noopener">market trend analysis</a>.</div>
+  <div class="topic-nav" id="nav-walk-forward"></div>
+</div>`;
+}
+
+/* 20 — Monte Carlo Simulation */
+function buildMonteCarlo() {
+  return `<div class="topic" id="monte-carlo">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">20 — Backtest &amp; Validate</div><h2>Monte Carlo <em>Simulation</em></h2></div>
+    <span class="topic-badge">Simulation</span>
+  </div>
+  <p class="sub">// Simulating thousands of paths — confidence bands on strategy performance</p>
+  <p class="prose"><strong>Monte Carlo</strong> generates thousands of possible equity paths by resampling or simulating returns. Instead of one backtest (which is one path through history), you get a <em>distribution</em> of outcomes. The 5th percentile shows your realistic worst case.</p>
+  <div class="fb"><div class="fm">Path&#x1D62;(t) = &Pi;<sub>d=1</sub><sup>t</sup> (1 + r<sub>d</sub><sup>(i)</sup>)</div><div class="fd">Each path is a product of randomly sampled daily returns. <span>N paths</span> give a fan of possible outcomes.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — simulated equity paths with confidence bands</div>
+    <canvas id="mcCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Paths</span><input type="range" id="mcPaths" min="10" max="500" step="10" value="100"><span class="vd" id="mcPathsV">100</span></div>
+      <button class="btn" onclick="regenMC()">SIMULATE</button>
+      <div class="cg"><span class="cl">5th %ile</span><span class="vd" id="mc5" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — Monte Carlo equity simulation</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+daily_returns = df[<span class="st">'returns'</span>].values
+n_sims, n_days = <span class="st">1000</span>, <span class="st">252</span>
+
+<span class="cm"># Resample with replacement</span>
+paths = np.zeros((n_sims, n_days))
+<span class="kw">for</span> i <span class="kw">in</span> range(n_sims):
+    sampled = np.random.choice(daily_returns, size=n_days)
+    paths[i] = np.cumprod(<span class="st">1</span> + sampled)
+
+<span class="cm"># Confidence bands</span>
+p5  = np.percentile(paths, <span class="st">5</span>, axis=<span class="st">0</span>)
+p95 = np.percentile(paths, <span class="st">95</span>, axis=<span class="st">0</span>)</pre></div>
+  <div class="callout"><strong>Limitation:</strong> Monte Carlo assumes returns are i.i.d. Real markets have autocorrelation, volatility clustering, and regime changes. Use block bootstrap to preserve some time structure.</div>
+  <div class="topic-nav" id="nav-monte-carlo"></div>
+</div>`;
+}
+
+/* 21 — Survivorship & Look-Ahead Bias */
+function buildSurvivorshipBias() {
+  return `<div class="topic" id="survivorship-bias">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">21 — Backtest &amp; Validate</div><h2>Survivorship &amp; <em>Look-Ahead Bias</em></h2></div>
+    <span class="topic-badge">Bias</span>
+  </div>
+  <p class="sub">// The silent traps that make your backtest a fantasy</p>
+  <p class="prose"><strong>Survivorship bias</strong>: testing only on stocks that still exist today (ignoring delisted failures). <strong>Look-ahead bias</strong>: using data that wasn't available at the time of the decision. Both make backtests look better than reality.</p>
+  <div class="fb"><div class="fm">Survivorship: Universe(t) &ne; Universe(today)</div><div class="fd">The S&amp;P 500 today excluded hundreds of failed companies that were in it in 2005.</div></div>
+  <div class="fb c2"><div class="fm">Look-ahead: f(t) must use only data from [0, t]</div><div class="fd">Earnings announced on day t+3 can't inform a decision on day t, even if your database has it.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — survivorship bias impact on backtest returns</div>
+    <canvas id="survCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Delisted %</span><input type="range" id="survDel" min="0" max="40" step="1" value="15"><span class="vd" id="survDelV">15%</span></div>
+      <div class="cg"><span class="cl">Biased return</span><span class="vd" id="survBias" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Real return</span><span class="vd" id="survReal" style="color:#81c784">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Checklist — is your backtest honest?</span>
+<span class="cm"># 1. Does your universe include delisted stocks?</span>
+<span class="cm"># 2. Are you using point-in-time data?</span>
+<span class="cm"># 3. Are fundamentals lagged by reporting delay?</span>
+<span class="cm"># 4. Is there any future information leaking?</span>
+<span class="cm"># 5. Did you optimise parameters on the test period?</span>
+<span class="cm"># 6. How many strategies did you test? (data snooping)</span>
+
+<span class="cm"># Point-in-time fundamental data</span>
+<span class="cm"># Use 'as_of' date columns, not 'period_end'</span>
+df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'trade_date'</span>]]</pre></div>
+  <div class="callout info"><strong>Data snooping:</strong> If you tested 100 strategies, 5 will look significant at p &lt; 0.05 by pure chance. Adjust for multiple comparisons (Bonferroni) or use a holdout period you never touch.</div>
+  <div class="topic-nav" id="nav-survivorship-bias"></div>
+</div>`;
+}
+
+/* 22 — Confidence Intervals */
+function buildConfidenceIntervals() {
+  return `<div class="topic" id="confidence-intervals">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">22 — Make Decisions</div><h2>Confidence <em>Intervals</em></h2></div>
+    <span class="topic-badge">Inference</span>
+  </div>
+  <p class="sub">// How sure are you? — bootstrap and parametric CIs, and interpreting their width</p>
+  <p class="prose">A <strong>confidence interval</strong> gives a range of plausible values for an unknown parameter. A 95% CI means: if we repeated this experiment many times, 95% of the intervals computed this way would contain the true value. Width = uncertainty.</p>
+  <div class="fb"><div class="fm">CI = x&#772; &plusmn; z &middot; (&sigma; / &radic;n)</div><div class="fd"><span>Parametric CI</span> for means. z = 1.96 for 95%. Width shrinks with &radic;n.</div></div>
+  <div class="fb c2"><div class="fm">Bootstrap CI: [&theta;*<sub>2.5%</sub>, &theta;*<sub>97.5%</sub>]</div><div class="fd"><span>Bootstrap CI</span> = percentiles of the resampled distribution. No normality assumption needed.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — sample size vs CI width</div>
+    <canvas id="ciCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Sample size</span><input type="range" id="ciN" min="10" max="500" step="10" value="50"><span class="vd" id="ciNv">50</span></div>
+      <div class="cg"><span class="cl">Confidence</span><input type="range" id="ciConf" min="80" max="99" step="1" value="95"><span class="vd" id="ciConfV">95%</span></div>
+      <div class="cg"><span class="cl">Width</span><span class="vd" id="ciWidth" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — confidence intervals</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> sem, t
+
+<span class="cm"># Parametric (t-distribution for small samples)</span>
+n = len(data)
+ci = t.interval(<span class="st">0.95</span>, df=n-<span class="st">1</span>, loc=np.mean(data), scale=sem(data))
+
+<span class="cm"># Bootstrap</span>
+boots = [np.mean(np.random.choice(data, size=n, replace=<span class="st">True</span>))
+         <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="st">10000</span>)]
+ci_boot = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</span>])</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> CIs quantify uncertainty. In ML, report metric &plusmn; CI from <a href="#cross-validation">cross-validation</a>. In markets, <a href="#monte-carlo">Monte Carlo</a> confidence bands are CIs for portfolio outcomes.</div>
+  <div class="topic-nav" id="nav-confidence-intervals"></div>
+</div>`;
+}
+
+/* 23 — Bootstrap Methods */
+function buildBootstrapMethods() {
+  return `<div class="topic" id="bootstrap-methods">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">23 — Make Decisions</div><h2>Bootstrap <em>Methods</em></h2></div>
     <span class="topic-badge">Resampling</span>
   </div>
-  <p class="sub">// Estimating distributions by resampling — no parametric assumptions needed</p>
-  <p class="prose">The bootstrap creates many <strong>resampled datasets</strong> (sampling with replacement from the original), computes the statistic on each, and uses the distribution of those statistics for inference.</p>
-  <div class="fb"><div class="fm">For b = 1 to B: sample n points with replacement → compute θ̂_b</div><div class="fd">The distribution of {θ̂₁, …, θ̂_B} estimates the sampling distribution of θ̂.</div></div>
+  <p class="sub">// Estimate anything with resampling — the nonparametric Swiss army knife for uncertainty</p>
+  <p class="prose"><strong>Bootstrap</strong> resamples your data with replacement thousands of times, computing your statistic each time. The distribution of bootstrap estimates approximates the sampling distribution of your statistic — giving you standard errors and CIs without formulas.</p>
+  <div class="fb"><div class="fm">&theta;* = statistic(resample(data))</div><div class="fd">Repeat B times &rarr; distribution of &theta;* &rarr; <span>SE</span> = std(&theta;*) &nbsp;|&nbsp; <span>CI</span> = percentiles</div></div>
   <div class="va">
-    <div class="vl">// Bootstrap distribution of the mean — B resamples</div>
-    <canvas id="bootCanvas" height="220"></canvas>
+    <div class="vl">// Interactive — bootstrap distribution of the mean</div>
+    <canvas id="bootCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">B resamples</span><input type="range" id="bootB" min="100" max="5000" step="100" value="1000" oninput="drawBootstrap()"><span class="vd" id="bootBV">1000</span></div>
-      <button class="btn" onclick="drawBootstrap()">↺ RESAMPLE</button>
-      <div class="cg"><span class="cl">95% CI</span><span class="vd" id="bootCI" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Resamples</span><input type="range" id="bootB" min="100" max="5000" step="100" value="1000"><span class="vd" id="bootBv">1000</span></div>
+      <button class="btn" onclick="regenBoot()">RESAMPLE</button>
+      <div class="cg"><span class="cl">SE</span><span class="vd" id="bootSE" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># NumPy bootstrap</span>
-data = np.array([<span class="st">3.1</span>, <span class="st">4.2</span>, <span class="st">2.8</span>, <span class="st">5.1</span>, <span class="st">3.9</span>, <span class="st">4.4</span>])
-B = <span class="st">10000</span>
-means = [np.mean(np.random.choice(data, size=len(data), replace=<span class="st">True</span>)) <span class="kw">for</span> _ <span class="kw">in</span> range(B)]
-ci = np.percentile(means, [<span class="st">2.5</span>, <span class="st">97.5</span>])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Resampling to approximate the sampling distribution — the same trick that powers <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">random forests</a> (bagging = Bootstrap AGGregation). Same resampling, different downstream use.</div>
-  <div class="topic-nav" id="nav-bootstrap"></div>
+  <div class="code-block"><pre><span class="cm"># Python — bootstrap for any statistic</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">bootstrap</span>(data, stat_fn, B=<span class="st">10000</span>):
+    n = len(data)
+    estimates = [stat_fn(np.random.choice(data, n, replace=<span class="st">True</span>))
+                 <span class="kw">for</span> _ <span class="kw">in</span> range(B)]
+    <span class="kw">return</span> np.array(estimates)
+
+<span class="cm"># Bootstrap the median (no formula needed!)</span>
+boots = bootstrap(data, np.median)
+ci = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</span>])
+se = boots.std()</pre></div>
+  <div class="callout"><strong>BCa (bias-corrected and accelerated):</strong> The basic percentile method works but BCa is more accurate for skewed distributions. <code>scipy.stats.bootstrap</code> offers this.</div>
+  <div class="topic-nav" id="nav-bootstrap-methods"></div>
 </div>`;
 }
 
-/* 31 — Power Analysis */
+/* 24 — Bayesian A/B Testing */
+function buildBayesianAB() {
+  return `<div class="topic" id="bayesian-ab">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">24 — Make Decisions</div><h2>Bayesian <em>A/B Testing</em></h2></div>
+    <span class="topic-badge">Experimentation</span>
+  </div>
+  <p class="sub">// Is version B actually better? Credible intervals and probability of improvement</p>
+  <p class="prose"><strong>Bayesian A/B testing</strong> gives you what you actually want: "the probability that B is better than A." Unlike frequentist tests, you can check results early, get direct probability statements, and don't need fixed sample sizes.</p>
+  <div class="fb"><div class="fm">P(B &gt; A | data) = &int; P(&theta;<sub>B</sub> &gt; &theta;<sub>A</sub>) d&theta;</div><div class="fd"><span>P(B &gt; A)</span> = direct probability of improvement. No p-values, no confusion.</div></div>
+  <div class="fb c2"><div class="fm">Beta(a + successes, b + failures)</div><div class="fd">For conversion rates, the <span>Beta-Binomial</span> model gives exact posteriors. a=b=1 is a uniform prior.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — two posteriors, see probability of B &gt; A</div>
+    <canvas id="abCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">A conversions</span><input type="range" id="abA" min="5" max="200" step="5" value="50"><span class="vd" id="abAv">50</span></div>
+      <div class="cg"><span class="cl">B conversions</span><input type="range" id="abB" min="5" max="200" step="5" value="60"><span class="vd" id="abBv">60</span></div>
+      <div class="cg"><span class="cl">P(B&gt;A)</span><span class="vd" id="abProb" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — Bayesian A/B test</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> beta
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Observed data</span>
+a_conv, a_total = <span class="st">50</span>, <span class="st">1000</span>
+b_conv, b_total = <span class="st">60</span>, <span class="st">1000</span>
+
+<span class="cm"># Posterior distributions (uniform prior)</span>
+post_a = beta(a_conv + <span class="st">1</span>, a_total - a_conv + <span class="st">1</span>)
+post_b = beta(b_conv + <span class="st">1</span>, b_total - b_conv + <span class="st">1</span>)
+
+<span class="cm"># P(B > A) via simulation</span>
+samples = <span class="st">100000</span>
+p_b_wins = (post_b.rvs(samples) &gt; post_a.rvs(samples)).mean()
+print(<span class="st">f"P(B > A) = {p_b_wins:.3f}"</span>)</pre></div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../markets/psychology/#sentiment" target="_blank" rel="noopener">market sentiment</a> — prices update beliefs with every new trade.</div>
+  <div class="topic-nav" id="nav-bayesian-ab"></div>
+</div>`;
+}
+
+/* 25 — Effect Size & Practical Significance */
+function buildEffectSize() {
+  return `<div class="topic" id="effect-size">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">25 — Make Decisions</div><h2>Effect Size &amp; <em>Practical Significance</em></h2></div>
+    <span class="topic-badge">Significance</span>
+  </div>
+  <p class="sub">// Statistically significant &ne; meaningful — Cohen's d and the difference between p-values and impact</p>
+  <p class="prose">With enough data, <em>any</em> tiny difference becomes statistically significant. <strong>Effect size</strong> measures how <em>big</em> the difference is, independent of sample size. <strong>Cohen's d</strong> expresses the difference in standard deviation units.</p>
+  <div class="fb"><div class="fm">d = (&mu;<sub>1</sub> &minus; &mu;<sub>2</sub>) / s<sub>pooled</sub></div><div class="fd"><span>Cohen's d</span>: 0.2 = small, 0.5 = medium, 0.8 = large. Tells you the <em>magnitude</em> of the effect.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — two distributions, see effect size and overlap</div>
+    <canvas id="esCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Mean difference</span><input type="range" id="esDiff" min="0" max="200" step="5" value="50"><span class="vd" id="esDiffV">0.50</span></div>
+      <div class="cg"><span class="cl">Cohen's d</span><span class="vd" id="esD" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Overlap %</span><span class="vd" id="esOverlap" style="color:#4fc3f7">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — effect size</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">def</span> <span class="fn">cohens_d</span>(group1, group2):
+    n1, n2 = len(group1), len(group2)
+    var1, var2 = group1.var(), group2.var()
+    pooled_std = np.sqrt(((n1-<span class="st">1</span>)*var1 + (n2-<span class="st">1</span>)*var2) / (n1+n2-<span class="st">2</span>))
+    <span class="kw">return</span> (group1.mean() - group2.mean()) / pooled_std
+
+d = cohens_d(model_a_scores, model_b_scores)
+print(<span class="st">f"Cohen's d = {d:.3f}"</span>)</pre></div>
+  <div class="callout info"><strong>Always report both:</strong> "The improvement was statistically significant (p = 0.02) with a medium effect size (d = 0.55)." p-value alone is meaningless.</div>
+  <div class="topic-nav" id="nav-effect-size"></div>
+</div>`;
+}
+
+/* 26 — Power Analysis */
 function buildPowerAnalysis() {
   return `<div class="topic" id="power-analysis">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">31 — Applied</div><h2>Power <em>Analysis</em></h2></div>
-    <span class="topic-badge">Design</span>
+    <div class="topic-meta"><div class="topic-num">26 — Make Decisions</div><h2>Power <em>Analysis</em></h2></div>
+    <span class="topic-badge">Planning</span>
   </div>
-  <p class="sub">// How many samples do you need to detect a real effect?</p>
-  <p class="prose"><strong>Statistical power</strong> = P(reject H₀ | H₁ is true). Typically target 80%. Power depends on effect size, sample size, significance level, and variance. Trade-offs everywhere.</p>
-  <div class="fb"><div class="fm">Power = 1 − β = P(reject H₀ | H₁ true)</div><div class="fd">β = Type II error (missing a real effect). Power = probability of catching it.</div></div>
+  <p class="sub">// How much data do you need? Sample size planning for experiments that can actually detect effects</p>
+  <p class="prose"><strong>Statistical power</strong> is the probability of detecting a real effect if one exists. Convention: aim for 80% power. <strong>Power analysis</strong> links four quantities — sample size, effect size, significance level, and power — so you can solve for any one given the other three.</p>
+  <div class="fb"><div class="fm">Power = 1 &minus; &beta; = P(reject H<sub>0</sub> | H<sub>1</sub> true)</div><div class="fd"><span>Power</span> = 0.80 means 80% chance of detecting a real effect. &beta; = Type II error rate.</div></div>
   <div class="va">
-    <div class="vl">// Power curves — how sample size affects detection ability</div>
-    <canvas id="powerCanvas" height="230"></canvas>
+    <div class="vl">// Interactive — sample size vs power curve</div>
+    <canvas id="powCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Effect size d</span><input type="range" id="powEffect" min="0.1" max="1.5" step="0.1" value="0.5" oninput="drawPower()"><span class="vd" id="powEffectV">0.50</span></div>
-      <div class="cg"><span class="cl">n per group</span><input type="range" id="powN" min="5" max="200" step="5" value="50" oninput="drawPower()"><span class="vd" id="powNV">50</span></div>
-      <div class="cg"><span class="cl">Power</span><span class="vd" id="powVal" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Effect size d</span><input type="range" id="powD" min="10" max="100" step="5" value="50"><span class="vd" id="powDv">0.50</span></div>
+      <div class="cg"><span class="cl">Alpha</span><input type="range" id="powAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="powAlphaV">0.05</span></div>
+      <div class="cg"><span class="cl">N needed</span><span class="vd" id="powN" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout info"><strong>Cohen's conventions:</strong> d=0.2 (small), d=0.5 (medium), d=0.8 (large). Most published "surprising" findings have small effect sizes, requiring hundreds of samples.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> “How many samples do you need?” maps directly to <a href="../llm/#scaling-laws" target="_blank" rel="noopener">scaling laws</a> in LLMs — “how much data?” Both answer: more than you think, and the relationship follows a predictable curve.</div>
+  <div class="code-block"><pre><span class="cm"># Python — power analysis</span>
+<span class="kw">from</span> statsmodels.stats.power <span class="kw">import</span> TTestIndPower
+
+analysis = TTestIndPower()
+
+<span class="cm"># How many samples for d=0.5, power=0.8?</span>
+n = analysis.solve_power(
+    effect_size=<span class="st">0.5</span>, power=<span class="st">0.8</span>, alpha=<span class="st">0.05</span>
+)
+print(<span class="st">f"Need {n:.0f} per group"</span>)
+
+<span class="cm"># Power curve</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+ns = range(<span class="st">10</span>, <span class="st">200</span>)
+powers = [analysis.power(effect_size=<span class="st">0.5</span>, nobs1=n, alpha=<span class="st">0.05</span>) <span class="kw">for</span> n <span class="kw">in</span> ns]
+plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="st">'--'</span>); plt.show()</pre></div>
+  <div class="callout"><strong>Before you experiment:</strong> Do the power analysis first. If you need 500 samples per group and can only get 50, the experiment is doomed before it starts.</div>
   <div class="topic-nav" id="nav-power-analysis"></div>
 </div>`;
 }
 
-/* 32 — MLE (Statistics) */
-function buildMLEStats() {
-  return `<div class="topic" id="mle-stats">
+/* 27 — scikit-learn Evaluation Suite */
+function buildSklearnEval() {
+  return `<div class="topic" id="sklearn-eval">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">32 — Applied</div><h2>MLE <em>(Statistics)</em></h2></div>
-    <span class="topic-badge">Estimation</span>
+    <div class="topic-meta"><div class="topic-num">27 — Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
+    <span class="topic-badge">Python</span>
   </div>
-  <p class="sub">// Finding the parameters that make observed data most probable</p>
-  <p class="prose">Maximum Likelihood Estimation finds <strong>parameter values θ that maximise the likelihood function</strong> — the probability of the observed data given the parameters.</p>
-  <div class="fb"><div class="fm">θ̂_MLE = argmax_θ L(θ) = argmax_θ Π P(xᵢ | θ)</div><div class="fd">In practice: argmax log L(θ) = argmax Σ log P(xᵢ | θ).</div></div>
+  <p class="sub">// The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module</p>
+  <p class="prose"><strong>scikit-learn</strong> includes everything covered in this toolkit under one roof. The <code>metrics</code> module has every scorer, <code>model_selection</code> has every CV strategy, and <code>inspection</code> has permutation importance and partial dependence.</p>
   <div class="va">
-    <div class="vl">// MLE for normal distribution — find the best-fit μ and σ</div>
-    <canvas id="mleCanvas" height="220"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Estimated μ</span><input type="range" id="mleMu" min="-3" max="3" step="0.1" value="0" oninput="drawMLEStats()"><span class="vd" id="mleMuV">0.0</span></div>
-      <div class="cg"><span class="cl">Log-likelihood</span><span class="vd" id="mleLL" style="color:var(--accent)">—</span></div>
-    </div>
+    <div class="vl">// The scikit-learn evaluation workflow</div>
+    <canvas id="skCanvas" height="220"></canvas>
   </div>
-  <div class="callout"><strong>Properties of MLE:</strong> Consistent (converges to true θ as n→∞), asymptotically normal, asymptotically efficient (achieves Cramér-Rao lower bound). But can overfit with small samples — Bayesian methods add regularization via priors.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> MLE is why <a href="../ml-math/#loss" target="_blank" rel="noopener">cross-entropy loss</a> exists — maximizing likelihood IS minimizing cross-entropy. Markets fit GARCH models to volatility with the same optimization. The same optimization wearing different clothes.</div>
-  <div class="topic-nav" id="nav-mle-stats"></div>
+  <div class="code-block"><pre><span class="cm"># Complete sklearn evaluation workflow</span>
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
+    cross_val_score, learning_curve, GridSearchCV
+)
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
+    classification_report, confusion_matrix,
+    roc_auc_score, mean_squared_error
+)
+<span class="kw">from</span> sklearn.inspection <span class="kw">import</span> permutation_importance
+
+<span class="cm"># 1. Cross-validated scores</span>
+scores = cross_val_score(model, X, y, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
+
+<span class="cm"># 2. Full classification report</span>
+model.fit(X_train, y_train)
+print(classification_report(y_test, model.predict(X_test)))
+
+<span class="cm"># 3. Learning curves</span>
+sizes, train_s, val_s = learning_curve(model, X, y, cv=<span class="st">5</span>)
+
+<span class="cm"># 4. Feature importance</span>
+pi = permutation_importance(model, X_test, y_test, n_repeats=<span class="st">30</span>)
+
+<span class="cm"># 5. Hyperparameter tuning</span>
+grid = GridSearchCV(model, param_grid, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
+grid.fit(X_train, y_train)</pre></div>
+  <table class="mt">
+    <thead><tr><th>Module</th><th>Key functions</th><th>This toolkit topic</th></tr></thead>
+    <tbody>
+      <tr><td>sklearn.metrics</td><td>classification_report, roc_auc_score, r2_score</td><td><a href="#confusion-matrix">Confusion Matrix</a>, <a href="#regression-metrics">Regression</a></td></tr>
+      <tr><td>sklearn.model_selection</td><td>cross_val_score, TimeSeriesSplit, learning_curve</td><td><a href="#cross-validation">CV</a>, <a href="#learning-curves">Learning Curves</a></td></tr>
+      <tr><td>sklearn.inspection</td><td>permutation_importance, PartialDependenceDisplay</td><td><a href="#permutation-importance">Permutation</a>, <a href="#pdp-ice">PDP/ICE</a></td></tr>
+      <tr><td>sklearn.feature_selection</td><td>mutual_info_classif, SelectKBest</td><td><a href="#information-gain">Information Gain</a></td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Tip:</strong> Always use <code>Pipeline</code> to chain preprocessing + model. This prevents data leakage in CV and makes deployment trivial.</div>
+  <div class="topic-nav" id="nav-sklearn-eval"></div>
 </div>`;
 }
 
-/* 33 — Correlation vs Causation */
-function buildCorrelationVsCausation() {
-  return `<div class="topic" id="correlation-vs-causation">
+/* 28 — SHAP Library */
+function buildSHAPLibrary() {
+  return `<div class="topic" id="shap-library">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">33 — Applied</div><h2>Correlation vs <em>Causation</em></h2></div>
-    <span class="topic-badge">Causal Inference</span>
+    <div class="topic-meta"><div class="topic-num">28 — Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
+    <span class="topic-badge">Python</span>
   </div>
-  <p class="sub">// Why ice cream sales don't cause drowning — the most important lesson in data science</p>
-  <p class="prose">Correlation measures association. Causation requires <strong>intervention changes the outcome</strong>. Confounders create spurious correlations. Randomized experiments (A/B tests) establish causation; observational data almost never can.</p>
-  <div class="fb"><div class="fm">X → Y (causal) &nbsp;&nbsp; vs &nbsp;&nbsp; X ← Z → Y (confounded)</div><div class="fd">Confounders create correlation without causation. Control for Z to reveal the true relationship.</div></div>
+  <p class="sub">// TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP toolkit</p>
+  <p class="prose">The <code>shap</code> library implements everything from <a href="#shap-values">SHAP Values</a> in production-ready code. <strong>TreeExplainer</strong> is exact and fast for tree models. The visualisations — waterfall, beeswarm, dependence — are publication-ready out of the box.</p>
   <div class="va">
-    <div class="vl">// Spurious correlation — a confounding variable creates artificial association</div>
-    <canvas id="causalCanvas" height="240"></canvas>
-    <div class="ctrl">
-      <div class="cg"><span class="cl">Confounder strength</span><input type="range" id="causalStr" min="0" max="1" step="0.05" value="0.8" oninput="drawCausal()"><span class="vd" id="causalStrV">0.80</span></div>
-      <div class="cg"><span class="cl">Obs. r(X,Y)</span><span class="vd" id="causalR" style="color:var(--accent)">—</span></div>
-    </div>
+    <div class="vl">// SHAP plot types overview</div>
+    <canvas id="shapLibCanvas" height="220"></canvas>
   </div>
-  <div class="callout warn"><strong>Remember:</strong> Randomization breaks confounders. In an A/B test, treatment assignment is independent of all confounders — that's what makes it the gold standard.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Markets are full of spurious correlations (Super Bowl indicator, hemline index). <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">ML models</a> learn correlations, not causes — which is why they fail when distributions shift. In <a href="../poetry/rhetoric/#analogy" target="_blank" rel="noopener">rhetoric</a>, this is the false analogy.</div>
-  <div class="topic-nav" id="nav-correlation-vs-causation"></div>
+  <div class="code-block"><pre><span class="cm"># SHAP — complete reference</span>
+<span class="kw">import</span> shap
+
+<span class="cm"># 1. Choose the right explainer</span>
+explainer = shap.TreeExplainer(model)     <span class="cm"># XGBoost, LightGBM, RF</span>
+<span class="cm"># explainer = shap.KernelExplainer(model.predict, X_bg)</span>
+<span class="cm"># explainer = shap.DeepExplainer(model, X_bg)</span>
+
+<span class="cm"># 2. Compute SHAP values</span>
+shap_values = explainer(X_test)
+
+<span class="cm"># 3. Visualisations</span>
+shap.plots.waterfall(shap_values[<span class="st">0</span>])       <span class="cm"># single prediction</span>
+shap.plots.beeswarm(shap_values)            <span class="cm"># global summary</span>
+shap.plots.bar(shap_values)                 <span class="cm"># mean |SHAP|</span>
+shap.plots.scatter(shap_values[:,<span class="st">"age"</span>])   <span class="cm"># dependence</span>
+
+<span class="cm"># 4. Interaction values (slow but powerful)</span>
+inter = explainer.shap_interaction_values(X_test)</pre></div>
+  <table class="mt">
+    <thead><tr><th>Explainer</th><th>Models</th><th>Speed</th></tr></thead>
+    <tbody>
+      <tr><td>TreeExplainer</td><td>XGBoost, LightGBM, CatBoost, RF</td><td>Fast, exact</td></tr>
+      <tr><td>KernelExplainer</td><td>Any model (black-box)</td><td>Slow, approximate</td></tr>
+      <tr><td>DeepExplainer</td><td>TensorFlow, PyTorch</td><td>Medium, approximate</td></tr>
+      <tr><td>LinearExplainer</td><td>Linear/logistic regression</td><td>Instant, exact</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Performance tip:</strong> For KernelExplainer, use a small background dataset (e.g., <code>shap.kmeans(X_train, 50)</code>) to speed things up dramatically.</div>
+  <div class="topic-nav" id="nav-shap-library"></div>
 </div>`;
 }
 
-/* 34 — Simpson's Paradox */
-function buildSimpsonsParadox() {
-  return `<div class="topic" id="simpsons-paradox">
+/* 29 — Optuna */
+function buildOptuna() {
+  return `<div class="topic" id="optuna">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">34 — Applied</div><h2>Simpson's <em>Paradox</em></h2></div>
-    <span class="topic-badge">Paradox</span>
+    <div class="topic-meta"><div class="topic-num">29 — Python Power Tools</div><h2><em>Optuna</em></h2></div>
+    <span class="topic-badge">Python</span>
   </div>
-  <p class="sub">// When trends reverse upon aggregation — a paradox that catches everyone</p>
-  <p class="prose">Simpson's paradox occurs when a trend that appears in several subgroups <strong>reverses when the groups are combined</strong>. It's caused by a lurking variable that creates unequal group sizes and confounds the relationship.</p>
+  <p class="sub">// Smart hyperparameter tuning — TPE, pruning, study visualisation, any framework</p>
+  <p class="prose"><strong>Optuna</strong> is a hyperparameter optimisation framework that uses <strong>TPE</strong> (Tree-structured Parzen Estimator) to intelligently search the parameter space. It supports <strong>pruning</strong> (killing bad trials early) and integrates with scikit-learn, XGBoost, PyTorch, and more.</p>
   <div class="va">
-    <div class="vl">// Treatment success rates — overall vs by subgroup</div>
-    <canvas id="simpsonCanvas" height="260"></canvas>
-    <div class="ctrl">
-      <button class="btn" onclick="drawSimpson('combined')">COMBINED</button>
-      <button class="btn b2" onclick="drawSimpson('subgroups')">BY SUBGROUP</button>
-      <span id="simpsonMsg" style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px"></span>
-    </div>
+    <div class="vl">// Optuna search space exploration</div>
+    <canvas id="optunaCanvas" height="220"></canvas>
   </div>
-  <div class="callout"><strong>Classic example (UC Berkeley):</strong> Overall, women had lower admission rates. But in every department, women were admitted at equal or higher rates. The paradox: women applied to more competitive departments.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A stock outperforms in each <a href="../markets/psychology/#herd-behavior" target="_blank" rel="noopener">sector</a> but underperforms overall due to sector weights. An <a href="../ml-math/#metrics" target="_blank" rel="noopener">ML model</a> that’s better on each subgroup but worse on the combined dataset. The same reversal, different tables.</div>
-  <div class="topic-nav" id="nav-simpsons-paradox"></div>
+  <div class="code-block"><pre><span class="cm"># Optuna — hyperparameter optimisation</span>
+<span class="kw">import</span> optuna
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> cross_val_score
+
+<span class="kw">def</span> <span class="fn">objective</span>(trial):
+    params = {
+        <span class="st">'n_estimators'</span>: trial.suggest_int(<span class="st">'n_estimators'</span>, <span class="st">50</span>, <span class="st">500</span>),
+        <span class="st">'max_depth'</span>: trial.suggest_int(<span class="st">'max_depth'</span>, <span class="st">3</span>, <span class="st">20</span>),
+        <span class="st">'min_samples_split'</span>: trial.suggest_int(<span class="st">'min_samples_split'</span>, <span class="st">2</span>, <span class="st">20</span>),
+        <span class="st">'max_features'</span>: trial.suggest_categorical(
+            <span class="st">'max_features'</span>, [<span class="st">'sqrt'</span>, <span class="st">'log2'</span>, <span class="st">None</span>]
+        ),
+    }
+    model = RandomForestClassifier(**params)
+    <span class="kw">return</span> cross_val_score(model, X, y, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>).mean()
+
+study = optuna.create_study(direction=<span class="st">'maximize'</span>)
+study.optimize(objective, n_trials=<span class="st">100</span>)
+
+print(study.best_params)
+optuna.visualization.plot_optimization_history(study)</pre></div>
+  <table class="mt">
+    <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>TPE sampler</td><td>Bayesian sampling — learns from previous trials</td></tr>
+      <tr><td>Pruning</td><td>Early stopping for bad trials (MedianPruner)</td></tr>
+      <tr><td>Study dashboard</td><td>optuna-dashboard for real-time monitoring</td></tr>
+      <tr><td>Multi-objective</td><td>Optimise accuracy AND speed simultaneously</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>vs GridSearch:</strong> GridSearch tests every combination (exponential). Optuna uses Bayesian optimization — it learns which regions are promising and explores them more.</div>
+  <div class="topic-nav" id="nav-optuna"></div>
+</div>`;
+}
+
+/* 30 — pandas-ta & yfinance */
+function buildPandasTA() {
+  return `<div class="topic" id="pandas-ta">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">30 — Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
+    <span class="topic-badge">Python</span>
+  </div>
+  <p class="sub">// Technical indicators + market data in one-liners</p>
+  <p class="prose"><strong>yfinance</strong> downloads free historical market data from Yahoo Finance. <strong>pandas-ta</strong> computes 130+ technical indicators as DataFrame operations. Together, they're the fastest way to go from idea to analysis for any market strategy.</p>
+  <div class="va">
+    <div class="vl">// Price data with technical indicators</div>
+    <canvas id="ptaCanvas" height="220"></canvas>
+  </div>
+  <div class="code-block"><pre><span class="cm"># pandas-ta + yfinance — quick market analysis</span>
+<span class="kw">import</span> yfinance <span class="kw">as</span> yf
+<span class="kw">import</span> pandas_ta <span class="kw">as</span> ta
+
+<span class="cm"># Download data</span>
+df = yf.download(<span class="st">'AAPL'</span>, start=<span class="st">'2023-01-01'</span>)
+
+<span class="cm"># Add indicators as columns</span>
+df.ta.sma(length=<span class="st">20</span>, append=<span class="st">True</span>)
+df.ta.rsi(length=<span class="st">14</span>, append=<span class="st">True</span>)
+df.ta.macd(append=<span class="st">True</span>)
+df.ta.bbands(length=<span class="st">20</span>, append=<span class="st">True</span>)
+
+<span class="cm"># Or run a full strategy</span>
+df.ta.strategy(<span class="st">'all'</span>)  <span class="cm"># adds 130+ indicators</span>
+
+<span class="cm"># Quick signal</span>
+df[<span class="st">'signal'</span>] = (df[<span class="st">'RSI_14'</span>] &lt; <span class="st">30</span>).astype(int)
+print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <span class="st">'RSI_14'</span>]].tail())</pre></div>
+  <table class="mt">
+    <thead><tr><th>Category</th><th>Indicators</th><th>pandas-ta function</th></tr></thead>
+    <tbody>
+      <tr><td>Trend</td><td>SMA, EMA, MACD</td><td>ta.sma(), ta.ema(), ta.macd()</td></tr>
+      <tr><td>Momentum</td><td>RSI, Stochastic, CCI</td><td>ta.rsi(), ta.stoch(), ta.cci()</td></tr>
+      <tr><td>Volatility</td><td>Bollinger, ATR, Keltner</td><td>ta.bbands(), ta.atr()</td></tr>
+      <tr><td>Volume</td><td>OBV, VWAP, MFI</td><td>ta.obv(), ta.vwap(), ta.mfi()</td></tr>
+    </tbody>
+  </table>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/" target="_blank" rel="noopener">Markets &rarr; Indicators</a> collection — but here you can compute them yourself in Python and feed them into ML models as features.</div>
+  <div class="topic-nav" id="nav-pandas-ta"></div>
+</div>`;
+}
+
+/* 31 — scipy.stats & statsmodels */
+function buildScipyStatsmodels() {
+  return `<div class="topic" id="scipy-statsmodels">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">31 — Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
+    <span class="topic-badge">Python</span>
+  </div>
+  <p class="sub">// Statistical tests, regression diagnostics, time series — the Python stats foundation</p>
+  <p class="prose"><strong>scipy.stats</strong> has every distribution and statistical test. <strong>statsmodels</strong> adds regression diagnostics, time series models (ARIMA, ADF), and proper statistical inference with confidence intervals — what sklearn deliberately leaves out.</p>
+  <div class="va">
+    <div class="vl">// scipy.stats + statsmodels workflow</div>
+    <canvas id="ssCanvas" height="220"></canvas>
+  </div>
+  <div class="code-block"><pre><span class="cm"># scipy.stats — statistical tests</span>
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> (
+    ttest_ind, ttest_rel, mannwhitneyu,
+    ks_2samp, shapiro, spearmanr
+)
+
+<span class="cm"># Two-sample t-test</span>
+t_stat, p_val = ttest_ind(group_a, group_b)
+
+<span class="cm"># Normality check</span>
+stat, p = shapiro(data)
+
+<span class="cm"># statsmodels — regression with full diagnostics</span>
+<span class="kw">import</span> statsmodels.api <span class="kw">as</span> sm
+
+X_sm = sm.add_constant(X)
+model = sm.OLS(y, X_sm).fit()
+print(model.summary())  <span class="cm"># R², coefficients, p-values, CI</span>
+
+<span class="cm"># Time series — ADF stationarity test</span>
+<span class="kw">from</span> statsmodels.tsa.stattools <span class="kw">import</span> adfuller
+result = adfuller(series)
+print(<span class="st">f"ADF Stat: {result[0]:.3f}, p: {result[1]:.4f}"</span>)</pre></div>
+  <table class="mt">
+    <thead><tr><th>Task</th><th>scipy.stats</th><th>statsmodels</th></tr></thead>
+    <tbody>
+      <tr><td>Compare two groups</td><td>ttest_ind, mannwhitneyu</td><td>—</td></tr>
+      <tr><td>Normality</td><td>shapiro, normaltest</td><td>—</td></tr>
+      <tr><td>Regression</td><td>—</td><td>OLS with summary()</td></tr>
+      <tr><td>Time series</td><td>—</td><td>ARIMA, adfuller, acf</td></tr>
+      <tr><td>Distributions</td><td>norm, beta, gamma, etc.</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>sklearn vs statsmodels:</strong> sklearn is for prediction (fit/predict). statsmodels is for inference (coefficients, p-values, diagnostics). Use both — they complement each other.</div>
+  <div class="topic-nav" id="nav-scipy-statsmodels"></div>
 </div>`;
 }

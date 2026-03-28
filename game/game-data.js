@@ -1,12 +1,11 @@
 /* ───────────────────────────────────────────────────
    Pattern Drift — Game Data
-   All 252 topics from 9 collections, 3 domains
+   All 174 topics from 6 collections, 2 domains
    ─────────────────────────────────────────────────── */
 
 const DOMAINS = {
   ml:      { label: 'Machine Learning', color: '#4fc3f7', glow: 'rgba(79,195,247,' },
-  markets: { label: 'Markets',          color: '#81c784', glow: 'rgba(129,199,132,' },
-  poetry:  { label: 'Poetry',           color: '#f48fb1', glow: 'rgba(244,143,177,' }
+  markets: { label: 'Markets',          color: '#81c784', glow: 'rgba(129,199,132,' }
 };
 
 const COLLECTIONS = {
@@ -15,10 +14,7 @@ const COLLECTIONS = {
   'llm':          { domain: 'ml',      label: 'LLM' },
   'charts':       { domain: 'markets', label: 'Chart Patterns' },
   'indicators':   { domain: 'markets', label: 'Indicators' },
-  'psychology':   { domain: 'markets', label: 'Psychology' },
-  'forms':        { domain: 'poetry',  label: 'Poetic Forms' },
-  'sound':        { domain: 'poetry',  label: 'Sound & Meter' },
-  'rhetoric':     { domain: 'poetry',  label: 'Rhetoric' }
+  'psychology':   { domain: 'markets', label: 'Psychology' }
 };
 
 const GAME_TOPICS = [
@@ -211,87 +207,6 @@ const GAME_TOPICS = [
   { id:'euphoria-panic', title:'Euphoria & Panic', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['mania','bubble','crash','capitulation','extreme emotion','irrational'] },
   { id:'smart-money-dumb-money', title:'Smart Money vs. Dumb Money', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['institutional','retail','COT report','insider buying','late buyers'] },
   { id:'mean-reversion-psychology', title:'Mean Reversion Psychology', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['regression to mean','overshoot','undershoot','extremes revert','patience'] },
-
-  // ── Poetry / Forms (25) ─────────────────────────
-  { id:'shakespearean-sonnet', title:'Shakespearean Sonnet', domain:'poetry', col:'forms', cat:'Sonnets', kw:['english sonnet','14 lines','iambic pentameter','ABAB CDCD EFEF GG','couplet'] },
-  { id:'petrarchan-sonnet', title:'Petrarchan Sonnet', domain:'poetry', col:'forms', cat:'Sonnets', kw:['italian sonnet','octave','sestet','ABBAABBA','volta','turn'] },
-  { id:'spenserian-sonnet', title:'Spenserian Sonnet', domain:'poetry', col:'forms', cat:'Sonnets', kw:['interlocking rhyme','ABAB BCBC CDCD EE','Edmund Spenser'] },
-  { id:'modern-sonnet', title:'Modern Sonnet', domain:'poetry', col:'forms', cat:'Sonnets', kw:['contemporary','slant rhyme','free sonnet','14 lines','loose form'] },
-  { id:'crown-of-sonnets', title:'Crown of Sonnets', domain:'poetry', col:'forms', cat:'Sonnets', kw:['corona','seven sonnets','linked','last line first line','heroic crown'] },
-  { id:'villanelle', title:'Villanelle', domain:'poetry', col:'forms', cat:'Fixed Forms', kw:['19 lines','5 tercets','quatrain','refrain','ABA','Dylan Thomas','repetition'] },
-  { id:'sestina', title:'Sestina', domain:'poetry', col:'forms', cat:'Fixed Forms', kw:['39 lines','6 stanzas','end words','rotation','envoi','spiral'] },
-  { id:'pantoum', title:'Pantoum', domain:'poetry', col:'forms', cat:'Fixed Forms', kw:['malay','interlocking quatrains','repeated lines','circular','hypnotic'] },
-  { id:'ghazal', title:'Ghazal', domain:'poetry', col:'forms', cat:'Fixed Forms', kw:['arabic','persian','urdu','couplets','radif','qafia','longing'] },
-  { id:'rondeau', title:'Rondeau', domain:'poetry', col:'forms', cat:'Fixed Forms', kw:['french','15 lines','rentrement','refrain','AABBA','In Flanders Fields'] },
-  { id:'haiku', title:'Haiku', domain:'poetry', col:'forms', cat:'Short Forms', kw:['japanese','5-7-5','syllable','kireji','kigo','season','nature','juxtaposition'] },
-  { id:'tanka', title:'Tanka', domain:'poetry', col:'forms', cat:'Short Forms', kw:['japanese','5-7-5-7-7','31 syllables','waka','upper phrase','pivot'] },
-  { id:'limerick', title:'Limerick', domain:'poetry', col:'forms', cat:'Short Forms', kw:['AABBA','5 lines','humor','anapestic','Edward Lear','comic'] },
-  { id:'epigram', title:'Epigram', domain:'poetry', col:'forms', cat:'Short Forms', kw:['wit','brevity','paradox','satirical','Oscar Wilde','aphorism'] },
-  { id:'couplet', title:'Couplet', domain:'poetry', col:'forms', cat:'Short Forms', kw:['two lines','rhyme','heroic couplet','iambic pentameter','Pope'] },
-  { id:'ballad', title:'Ballad', domain:'poetry', col:'forms', cat:'Narrative & Long Forms', kw:['story','ABCB','quatrain','folk','narrative','refrain','oral tradition'] },
-  { id:'ode', title:'Ode', domain:'poetry', col:'forms', cat:'Narrative & Long Forms', kw:['praise','Pindaric','Horatian','irregular','strophe','Keats'] },
-  { id:'elegy', title:'Elegy', domain:'poetry', col:'forms', cat:'Narrative & Long Forms', kw:['mourning','grief','loss','lament','consolation','pastoral elegy'] },
-  { id:'epic', title:'Epic', domain:'poetry', col:'forms', cat:'Narrative & Long Forms', kw:['long narrative','hero','invocation','in medias res','Homer','Milton'] },
-  { id:'dramatic-monologue', title:'Dramatic Monologue', domain:'poetry', col:'forms', cat:'Narrative & Long Forms', kw:['speaker','persona','audience','Browning','revelation','mask'] },
-  { id:'free-verse', title:'Free Verse', domain:'poetry', col:'forms', cat:'Free & Experimental', kw:['no fixed meter','no rhyme scheme','Whitman','vers libre','breath','organic'] },
-  { id:'blank-verse', title:'Blank Verse', domain:'poetry', col:'forms', cat:'Free & Experimental', kw:['unrhymed iambic pentameter','Shakespeare','Milton','Paradise Lost','dramatic'] },
-  { id:'prose-poetry', title:'Prose Poetry', domain:'poetry', col:'forms', cat:'Free & Experimental', kw:['no line breaks','paragraph','Baudelaire','hybrid','compression'] },
-  { id:'concrete-poetry', title:'Concrete Poetry', domain:'poetry', col:'forms', cat:'Free & Experimental', kw:['visual','shape','typography','space','pattern','calligram'] },
-  { id:'acrostic', title:'Acrostic', domain:'poetry', col:'forms', cat:'Free & Experimental', kw:['hidden message','first letters','names','dedication','puzzle','wordplay'] },
-
-  // ── Poetry / Sound (25) ─────────────────────────
-  { id:'iambic-pentameter', title:'Iambic Pentameter', domain:'poetry', col:'sound', cat:'Meter & Rhythm', kw:['iamb','da-DUM','5 feet','10 syllables','unstressed stressed','Shakespeare'] },
-  { id:'trochaic-meter', title:'Trochaic Meter', domain:'poetry', col:'sound', cat:'Meter & Rhythm', kw:['trochee','DUM-da','stressed-unstressed','falling rhythm','Longfellow'] },
-  { id:'anapestic-meter', title:'Anapestic Meter', domain:'poetry', col:'sound', cat:'Meter & Rhythm', kw:['anapest','da-da-DUM','galloping','comic','limerick','triple meter'] },
-  { id:'dactylic-meter', title:'Dactylic Meter', domain:'poetry', col:'sound', cat:'Meter & Rhythm', kw:['dactyl','DUM-da-da','falling triple','hexameter','Homer','classical'] },
-  { id:'spondee-pyrrhic', title:'Spondee & Pyrrhic', domain:'poetry', col:'sound', cat:'Meter & Rhythm', kw:['spondee','pyrrhic','two stressed','two unstressed','substitution'] },
-  { id:'perfect-rhyme', title:'Perfect Rhyme', domain:'poetry', col:'sound', cat:'Rhyme', kw:['exact rhyme','full rhyme','true rhyme','cat/hat','masculine'] },
-  { id:'slant-rhyme', title:'Slant Rhyme', domain:'poetry', col:'sound', cat:'Rhyme', kw:['near rhyme','half rhyme','off rhyme','imperfect','Dickinson'] },
-  { id:'eye-rhyme', title:'Eye Rhyme', domain:'poetry', col:'sound', cat:'Rhyme', kw:['visual rhyme','spelling','love/move','cough/through','sight rhyme'] },
-  { id:'internal-rhyme', title:'Internal Rhyme', domain:'poetry', col:'sound', cat:'Rhyme', kw:['mid-line','within line','Poe','dreary/weary','leonine rhyme'] },
-  { id:'feminine-masculine', title:'Feminine & Masculine Rhyme', domain:'poetry', col:'sound', cat:'Rhyme', kw:['single rhyme','double rhyme','stressed','unstressed','falling'] },
-  { id:'alliteration', title:'Alliteration', domain:'poetry', col:'sound', cat:'Sound Repetition', kw:['initial consonant','beginning sounds','Peter Piper','Anglo-Saxon','emphasis'] },
-  { id:'assonance', title:'Assonance', domain:'poetry', col:'sound', cat:'Sound Repetition', kw:['vowel repetition','internal vowels','fleet feet','mood','musicality'] },
-  { id:'consonance', title:'Consonance', domain:'poetry', col:'sound', cat:'Sound Repetition', kw:['consonant repetition','internal consonants','pitter patter','texture'] },
-  { id:'onomatopoeia', title:'Onomatopoeia', domain:'poetry', col:'sound', cat:'Sound Repetition', kw:['sound words','buzz','hiss','crash','imitation','sensory'] },
-  { id:'euphony-cacophony', title:'Euphony & Cacophony', domain:'poetry', col:'sound', cat:'Sound Repetition', kw:['pleasant sound','harsh sound','smooth','rough','liquid consonants'] },
-  { id:'caesura', title:'Caesura', domain:'poetry', col:'sound', cat:'Rhythmic Devices', kw:['pause','mid-line break','punctuation','breathing','dramatic pause'] },
-  { id:'enjambment', title:'Enjambment', domain:'poetry', col:'sound', cat:'Rhythmic Devices', kw:['run-on line','continuation','overflow','line break','momentum','tension'] },
-  { id:'end-stopped', title:'End-Stopped Lines', domain:'poetry', col:'sound', cat:'Rhythmic Devices', kw:['pause at end','period','comma','complete thought','closure'] },
-  { id:'syncopation', title:'Syncopation', domain:'poetry', col:'sound', cat:'Rhythmic Devices', kw:['off-beat','unexpected stress','jazz','disruption','counterpoint'] },
-  { id:'sprung-rhythm', title:'Sprung Rhythm', domain:'poetry', col:'sound', cat:'Rhythmic Devices', kw:['Hopkins','stressed syllables','variable unstressed','natural speech'] },
-  { id:'refrain', title:'Refrain', domain:'poetry', col:'sound', cat:'Musical Structures', kw:['repeated line','chorus','recurring','villanelle','ballad','accumulation'] },
-  { id:'anaphora-sound', title:'Anaphora', domain:'poetry', col:'sound', cat:'Musical Structures', kw:['beginning repetition','I have a dream','Whitman','insistence','parallel beginning'] },
-  { id:'epistrophe', title:'Epistrophe', domain:'poetry', col:'sound', cat:'Musical Structures', kw:['ending repetition','end of line','of the people','closure','echo'] },
-  { id:'parallelism', title:'Parallelism', domain:'poetry', col:'sound', cat:'Musical Structures', kw:['parallel structure','balanced','syntax','Whitman','Psalms','catalogue'] },
-  { id:'cadence', title:'Cadence', domain:'poetry', col:'sound', cat:'Musical Structures', kw:['rhythm of prose','natural rhythm','falling','rising','speech rhythm'] },
-
-  // ── Poetry / Rhetoric (25) ─────────────────────
-  { id:'metaphor', title:'Metaphor', domain:'poetry', col:'rhetoric', cat:'Comparison & Analogy', kw:['comparison','identity','tenor','vehicle','implied','direct'] },
-  { id:'simile', title:'Simile', domain:'poetry', col:'rhetoric', cat:'Comparison & Analogy', kw:['like','as','comparison','explicit','Homer','epic simile'] },
-  { id:'analogy', title:'Analogy', domain:'poetry', col:'rhetoric', cat:'Comparison & Analogy', kw:['extended comparison','proportion','A is to B','reasoning','explanation'] },
-  { id:'conceit', title:'Conceit', domain:'poetry', col:'rhetoric', cat:'Comparison & Analogy', kw:['extended metaphor','Donne','Petrarchan','elaborated','compass','unlikely'] },
-  { id:'allegory', title:'Allegory', domain:'poetry', col:'rhetoric', cat:'Comparison & Analogy', kw:['sustained metaphor','Animal Farm','moral','hidden meaning','narrative'] },
-  { id:'metonymy', title:'Metonymy', domain:'poetry', col:'rhetoric', cat:'Substitution & Renaming', kw:['associated name','the Crown','the pen','substitution','adjacency'] },
-  { id:'synecdoche', title:'Synecdoche', domain:'poetry', col:'rhetoric', cat:'Substitution & Renaming', kw:['part for whole','whole for part','hands','all hands','sails'] },
-  { id:'personification', title:'Personification', domain:'poetry', col:'rhetoric', cat:'Substitution & Renaming', kw:['human qualities','animate','Death','Time','nature speaks'] },
-  { id:'apostrophe-rhet', title:'Apostrophe', domain:'poetry', col:'rhetoric', cat:'Substitution & Renaming', kw:['direct address','O Death','absent person','abstract','invocation'] },
-  { id:'periphrasis', title:'Periphrasis', domain:'poetry', col:'rhetoric', cat:'Substitution & Renaming', kw:['roundabout','circumlocution','kenning','whale-road','ring-giver'] },
-  { id:'irony', title:'Irony', domain:'poetry', col:'rhetoric', cat:'Contrast & Contradiction', kw:['opposite meaning','verbal','dramatic','situational','sarcasm','Socratic'] },
-  { id:'oxymoron', title:'Oxymoron', domain:'poetry', col:'rhetoric', cat:'Contrast & Contradiction', kw:['contradictory terms','bitter sweet','living dead','deafening silence'] },
-  { id:'paradox', title:'Paradox', domain:'poetry', col:'rhetoric', cat:'Contrast & Contradiction', kw:['self-contradiction','truth','impossible','Donne','war is peace'] },
-  { id:'antithesis', title:'Antithesis', domain:'poetry', col:'rhetoric', cat:'Contrast & Contradiction', kw:['balanced opposites','parallel','contrast','Dickens','best of times'] },
-  { id:'litotes', title:'Litotes', domain:'poetry', col:'rhetoric', cat:'Contrast & Contradiction', kw:['double negative','not bad','not unlike','understatement','affirmation'] },
-  { id:'hyperbole', title:'Hyperbole', domain:'poetry', col:'rhetoric', cat:'Amplification & Emphasis', kw:['exaggeration','overstatement','million times','died laughing','emphasis'] },
-  { id:'understatement', title:'Understatement', domain:'poetry', col:'rhetoric', cat:'Amplification & Emphasis', kw:['meiosis','less than expected','deliberate minimize','Titanic'] },
-  { id:'climax-rhet', title:'Climax (Gradatio)', domain:'poetry', col:'rhetoric', cat:'Amplification & Emphasis', kw:['ascending order','building','crescendo','least to greatest','escalation'] },
-  { id:'anadiplosis', title:'Anadiplosis', domain:'poetry', col:'rhetoric', cat:'Amplification & Emphasis', kw:['end-beginning','linking','chain','last word becomes first','Yoda'] },
-  { id:'chiasmus', title:'Chiasmus', domain:'poetry', col:'rhetoric', cat:'Amplification & Emphasis', kw:['ABBA','reversed parallel','crossing','Kennedy','mirror'] },
-  { id:'imagery', title:'Imagery', domain:'poetry', col:'rhetoric', cat:'Imagery & Sensory', kw:['sensory detail','visual','auditory','tactile','gustatory','olfactory'] },
-  { id:'synesthesia', title:'Synesthesia', domain:'poetry', col:'rhetoric', cat:'Imagery & Sensory', kw:['mixed senses','loud color','sweet sound','blue note','cross-sensory'] },
-  { id:'symbol', title:'Symbol', domain:'poetry', col:'rhetoric', cat:'Imagery & Sensory', kw:['concrete for abstract','rose','dove','skull','flag','recurring'] },
-  { id:'motif', title:'Motif', domain:'poetry', col:'rhetoric', cat:'Imagery & Sensory', kw:['recurring element','pattern','theme','blood in Macbeth','water'] },
-  { id:'juxtaposition', title:'Juxtaposition', domain:'poetry', col:'rhetoric', cat:'Imagery & Sensory', kw:['side by side','contrast','comparison','placing together','beauty and ugliness'] }
 ];
 
 // Unique categories per domain for wave challenges

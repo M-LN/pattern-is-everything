@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Pattern Drift — Pattern is Everything</title>
-<meta name="description" content="An endless runner through the universe of patterns. Collect concepts from Machine Learning, Markets & Poetry as they drift through space.">
+<meta name="description" content="An endless runner through the universe of patterns. Collect concepts from Machine Learning & Markets as they drift through space.">
 <meta property="og:title" content="Pattern Drift — Pattern is Everything">
-<meta property="og:description" content="An endless runner through the universe of patterns. Collect concepts across Machine Learning, Markets & Poetry.">
+<meta property="og:description" content="An endless runner through the universe of patterns. Collect concepts across Machine Learning & Markets.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patterniseverything.com/game/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pattern Drift — Pattern is Everything">
-<meta name="twitter:description" content="Drift through the universe of patterns — collect 252 concepts across ML, Markets & Poetry.">
+<meta name="twitter:description" content="Drift through the universe of patterns — collect 174 concepts across ML & Markets.">
 <meta name="theme-color" content="#050508">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
 <link rel="canonical" href="https://patterniseverything.com/game/">
@@ -125,7 +125,6 @@ function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 const DC = {
   ml: '#4fc3f7',
   markets: '#81c784',
-  poetry: '#f48fb1',
   gold: '#c8a96e',
   bg: '#050508',
   bgLight: '#0c0a14'
@@ -533,14 +532,14 @@ function generateChallenge() {
   
   if (w <= 2) {
     // Easy: match domain
-    const domains = ['ml', 'markets', 'poetry'];
-    const d = domains[Math.floor(rand(0, 3))];
+    const domains = ['ml', 'markets'];
+    const d = domains[Math.floor(rand(0, 2))];
     const label = DOMAINS[d].label;
     text = `Collect any ${label} topic`;
     matchFn = topic => topic.domain === d;
   } else if (w <= 4) {
     // Medium: match category
-    const d = ['ml', 'markets', 'poetry'][Math.floor(rand(0, 3))];
+    const d = ['ml', 'markets'][Math.floor(rand(0, 2))];
     const cats = CATEGORIES[d];
     const cat = cats[Math.floor(rand(0, cats.length))];
     text = `Collect: ${cat}`;
@@ -552,7 +551,7 @@ function generateChallenge() {
       text = `Topics about "${ck.kw}"`;
       matchFn = topic => topic.kw.some(k => k.toLowerCase().includes(ck.kw));
     } else {
-      const d = ['ml', 'markets', 'poetry'][Math.floor(rand(0, 3))];
+      const d = ['ml', 'markets'][Math.floor(rand(0, 2))];
       const cats = CATEGORIES[d];
       const cat = cats[Math.floor(rand(0, cats.length))];
       text = `Collect: ${cat}`;
@@ -565,7 +564,7 @@ function generateChallenge() {
       text = `Topics about "${ck.kw}"`;
       matchFn = topic => topic.kw.some(k => k.toLowerCase().includes(ck.kw));
     } else {
-      const d = ['ml', 'markets', 'poetry'][Math.floor(rand(0, 3))];
+      const d = ['ml', 'markets'][Math.floor(rand(0, 2))];
       const cats = CATEGORIES[d];
       const cat = cats[Math.floor(rand(0, cats.length))];
       text = `Collect: ${cat}`;
@@ -989,11 +988,10 @@ function drawTitleScreen(t) {
   const legendY = H * 0.36 + 72;
   const labels = [
     { text: 'Machine Learning', color: DC.ml },
-    { text: 'Markets', color: DC.markets },
-    { text: 'Poetry', color: DC.poetry }
+    { text: 'Markets', color: DC.markets }
   ];
-  const spacing = 140;
-  const startX = W / 2 - spacing;
+  const spacing = 160;
+  const startX = W / 2 - spacing / 2;
   labels.forEach((l, i) => {
     const lx = startX + i * spacing;
     ctx.beginPath();

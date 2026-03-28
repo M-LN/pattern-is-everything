@@ -7,19 +7,19 @@ Ready-to-copy posts for each platform. Personalize a line or two, then post manu
 
 ## 1. Reddit — r/learnmachinelearning
 
-**Title:** I built 252 interactive visual references for ML, Poetry & Markets — free, open-source, zero dependencies
+**Title:** I built 174 interactive visual references for ML & Markets — free, open-source, zero dependencies
 
 **Body:**
 
 Hey everyone,
 
-I've been working on a side project called **Pattern is Everything** — a free, open-source reference site with 252 interactive topics across Machine Learning, Poetry, and Markets.
+I've been working on a side project called **Pattern is Everything** — a free, open-source reference site with 174 interactive topics across Machine Learning and Markets.
 
 Every topic has a canvas visualization, key formulas, and code snippets. No frameworks, no dependencies — just vanilla HTML, CSS, and JavaScript.
 
-**The ML section covers 102 topics across three collections:**
+**The ML section covers 99 topics across three collections:**
 - **ML Math** — Gradient Descent, Backpropagation, SVD, Eigenvalues, Loss Functions, and more
-- **Statistics** — Bayes' Theorem, Distributions, Hypothesis Testing, Regression, and more
+- **The Toolkit** — SHAP Values, Cross-Validation, ROC Curves, Sharpe Ratio, Bootstrap, and more
 - **LLMs** — Attention Mechanisms, Transformers, Tokenization, Embeddings, and more
 
 The whole thing runs client-side — no accounts, no tracking cookies, no paywalls.
@@ -36,11 +36,11 @@ Would love feedback from this community. What's useful? What's missing? What wou
 
 ## 2. Reddit — r/datascience
 
-**Title:** Free visual reference: 252 interactive topics covering ML math, statistics, and more
+**Title:** Free visual reference: 174 interactive topics covering ML math, statistics, and more
 
 **Body:**
 
-Built a free reference tool that visualizes concepts I kept having to look up. 252 topics total, all with interactive canvas diagrams.
+Built a free reference tool that visualizes concepts I kept having to look up. 174 topics total, all with interactive canvas diagrams.
 
 The stats and ML math sections might be most relevant here:
 - Bayesian inference, distributions, hypothesis testing, regression
@@ -55,31 +55,7 @@ Happy to hear what you'd want added — this is a one-person project and I'm bui
 
 ---
 
-## 3. Reddit — r/poetry
-
-**Title:** I built 75 interactive visual references for poetic forms, sound devices, and rhetorical figures
-
-**Body:**
-
-Hey r/poetry,
-
-I've been building a free visual reference site, and one of the three sections is entirely about poetry. 75 topics across:
-
-- **Poetic Forms** — Sonnet, Villanelle, Haiku, Ghazal, Pantoum, and 20 more
-- **Sound Devices** — Alliteration, Assonance, Consonance, Meter, Rhyme Schemes, and more
-- **Rhetorical Figures** — Metaphor, Synecdoche, Anaphora, Chiasmus, Litotes, and more
-
-Each one has an interactive visualization showing the structure or pattern, plus examples and key characteristics.
-
-It's free, no ads, no tracking, open source. Built because I wanted to see these patterns, not just read definitions.
-
-https://patterniseverything.com/poetry/
-
-Would love to know if this is useful for anyone studying or teaching poetry. What forms or devices are missing?
-
----
-
-## 4. Reddit — r/algotrading or r/technicalanalysis
+## 3. Reddit — r/algotrading or r/technicalanalysis
 
 **Title:** Free interactive reference: 75 visual topics on chart patterns, indicators, and market psychology
 
@@ -101,28 +77,28 @@ Curious if anyone finds this useful as a quick reference. Feedback welcome.
 
 ---
 
-## 5. Dev.to Article
+## 4. Dev.to Article
 
-**Title:** How I Built 252 Interactive Visual References with Zero Dependencies
+**Title:** How I Built 174 Interactive Visual References with Zero Dependencies
 
 **Tags:** `javascript`, `webdev`, `opensource`, `beginners`
 
 **Body:**
 
 ```
-I built **Pattern is Everything** — a free, open-source educational site with 252 interactive topics across Machine Learning, Poetry, and Markets. Every topic has a real-time canvas visualization.
+I built **Pattern is Everything** — a free, open-source educational site with 174 interactive topics across Machine Learning and Markets. Every topic has a real-time canvas visualization.
 
 The entire thing is vanilla HTML, CSS, and JavaScript. No React. No build step. No node_modules. Just files.
 
 ## Why?
 
-I kept looking up the same concepts — gradient descent, poetic meter, candlestick patterns — and every resource was either too academic or behind a paywall. I wanted something visual, fast, and free.
+I kept looking up the same concepts — gradient descent, candlestick patterns, SHAP values — and every resource was either too academic or behind a paywall. I wanted something visual, fast, and free.
 
 ## The Stack
 
-- **HTML** — 16 pages total (1 homepage, 3 universe hubs, 9 collection pages, support, impact, verification)
+- **HTML** — 13 pages total (homepage, universe hubs, collection pages, support, impact)
 - **CSS** — One shared stylesheet with custom properties, dark/light mode
-- **JavaScript** — Canvas API for all 252 visualizations, zero external libraries
+- **JavaScript** — Canvas API for all 174 visualizations, zero external libraries
 - **Hosting** — Vercel (free tier, static files)
 - **Analytics** — GoatCounter (free, no cookies)
 - **Fonts** — Playfair Display, IBM Plex Mono, Inter (Google Fonts)
@@ -133,11 +109,8 @@ Monthly hosting cost: **$0**
 
 ## What's Inside
 
-**Machine Learning (102 topics)**
-ML Math, Statistics, LLM Architecture — from eigenvalues to attention mechanisms.
-
-**Poetry (75 topics)**
-Poetic Forms, Sound Devices, Rhetorical Figures — from sonnets to synecdoche.
+**Machine Learning (99 topics)**
+ML Math, The Toolkit, LLM Architecture — from eigenvalues to attention mechanisms, plus practical tools like SHAP values and cross-validation.
 
 **Markets (75 topics)**
 Chart Patterns, Technical Indicators, Market Psychology — from head & shoulders to herd behavior.
@@ -152,14 +125,14 @@ Chart Patterns, Technical Indicators, Market Psychology — from head & shoulder
 - **GitHub:** https://github.com/M-LN/pattern-is-everything
 - **Support:** https://patterniseverything.com/support/
 
-If you're building educational tools or thinking about going dependency-free, happy to talk about the approach. And if you find a bug in any of the 252 visualizations — please open an issue.
+If you're building educational tools or thinking about going dependency-free, happy to talk about the approach. And if you find a bug in any of the 174 visualizations — please open an issue.
 ```
 
 ---
 
-## 6. Hacker News — Show HN
+## 5. Hacker News — Show HN
 
-**Title:** Show HN: 252 interactive visual references for ML, Poetry, and Markets – zero dependencies
+**Title:** Show HN: 174 interactive visual references for ML and Markets – zero dependencies
 
 **URL:** https://patterniseverything.com/
 
@@ -167,7 +140,7 @@ If you're building educational tools or thinking about going dependency-free, ha
 
 Hi HN,
 
-I built a free reference site with 252 interactive topics across three domains: Machine Learning (102), Poetry (75), and Markets (75). Every topic has a canvas-rendered visualization.
+I built a free reference site with 174 interactive topics across two domains: Machine Learning (99) and Markets (75). Every topic has a canvas-rendered visualization.
 
 The entire stack is vanilla HTML/CSS/JS — no frameworks, no build step, no external dependencies. It's static files on Vercel's free tier.
 
@@ -184,11 +157,10 @@ Would love feedback on both the content and the approach. What's missing? What's
 | Week | Platform | Post |
 |------|----------|------|
 | 1 | r/learnmachinelearning | ML-focused post (#1) |
-| 2 | r/poetry | Poetry-focused post (#3) |
-| 2 | r/datascience | Stats/ML post (#2) |
-| 3 | Show HN | Full launch (#6) |
-| 3 | Dev.to | Technical article (#5) |
-| 4 | r/algotrading | Markets post (#4) |
+| 1 | r/datascience | Stats/ML post (#2) |
+| 2 | Show HN | Full launch (#5) |
+| 2 | Dev.to | Technical article (#4) |
+| 3 | r/algotrading | Markets post (#3) |
 
 **Tips:**
 - Post on **Tuesday-Thursday** for best engagement

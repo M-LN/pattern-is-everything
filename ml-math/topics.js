@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════
    ML Math — Topics Data & Content Builder
    38 topics organized into 7 sections
    ═══════════════════════════════════════════════════════════════ */
@@ -268,7 +268,7 @@ function buildLinear() {
     </div>
   </div>
   <div class="callout"><strong>OLS Solution:</strong> For simple linear regression, the optimal weights have a closed-form: w = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)². Gradient descent finds the same answer iteratively.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression" target="_blank" rel="noopener">linear regression</a> in statistics, <a href="../markets/indicators/#sma" target="_blank" rel="noopener">simple moving averages</a> in markets. Even <a href="../poetry/forms/#couplet" target="_blank" rel="noopener">couplets</a> pair two lines with a clear relationship, the simplest "fit" in verse.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression" target="_blank" rel="noopener">linear regression</a> in statistics, <a href="../markets/indicators/#sma" target="_blank" rel="noopener">simple moving averages</a> in markets.</div>
   <div class="topic-nav" id="nav-linear"></div>
 </div>`;
 }
@@ -334,7 +334,7 @@ function buildGradient() {
     </div>
   </div>
   <div class="callout warn"><strong>Learning rate:</strong> Too large → overshoot and diverge. Too small → extremely slow convergence. Learning rate warmup + decay schedulers (topic 12) solve this in practice.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc" target="_blank" rel="noopener">Rate of Change</a> in markets — both measure slope to decide direction. The <a href="../poetry/sound/#cadence" target="_blank" rel="noopener">cadence</a> of a poem also descends and rises by gradients of stress.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc" target="_blank" rel="noopener">Rate of Change</a> in markets — both measure slope to decide direction.</div>
   <div class="topic-nav" id="nav-gradient"></div>
 </div>`;
 }
@@ -370,7 +370,7 @@ function buildActivation() {
       <tr><td><span class="tag t2">SiLU</span></td><td>x·σ(x)</td><td>(−∞,∞)</td><td>σ(x)(1+x(1−σ(x)))</td><td>EfficientNet, LLaMA</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ReLU clips everything below zero — a threshold, like <a href="../markets/charts/#support-resistance" target="_blank" rel="noopener">support and resistance</a> levels that prices bounce off. In poetry, <a href="../poetry/sound/#caesura" target="_blank" rel="noopener">caesura</a> creates a hard break that divides flow, a rhythmic activation gate.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ReLU clips everything below zero — a threshold, like <a href="../markets/charts/#support-resistance" target="_blank" rel="noopener">support and resistance</a> levels that prices bounce off.</div>
   <div class="topic-nav" id="nav-activation"></div>
 </div>`;
 }
@@ -426,7 +426,7 @@ function buildLoss() {
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="maeP" style="color:var(--accent2)">1.000</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth — like <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> measures distance from the mean. In poetry, the constraint of a <a href="../poetry/forms/#villanelle" target="_blank" rel="noopener">villanelle</a> is itself a loss function: deviate from the form, and the poem breaks.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth — like <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> measures distance from the mean.</div>
   <div class="topic-nav" id="nav-loss"></div>
 </div>`;
 }
@@ -451,7 +451,7 @@ function buildBackprop() {
     </div>
   </div>
   <div class="callout warn"><strong>Vanishing gradients:</strong> In deep networks, multiplying many small numbers (sigmoid derivatives ≤ 0.25) makes early-layer gradients near zero. Solutions: ReLU activations, batch norm, residual connections, gradient clipping (topic 14).</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The chain rule propagates credit backward through layers — the same logic as <a href="../markets/psychology/#information-cascades" target="_blank" rel="noopener">information cascades</a> in markets where effects ripple back. In poetry, <a href="../poetry/rhetoric/#anadiplosis" target="_blank" rel="noopener">anadiplosis</a> chains the end of one line to the start of the next.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The chain rule propagates credit backward through layers — the same logic as <a href="../markets/psychology/#information-cascades" target="_blank" rel="noopener">information cascades</a> in markets where effects ripple back.</div>
   <div class="topic-nav" id="nav-backprop"></div>
 </div>`;
 }
@@ -517,7 +517,7 @@ optim = torch.optim.AdamW(model.parameters(), weight_decay=<span class="st">1e-4
 
 model.eval()   <span class="cm"># disables dropout at test time</span>
 model.train()  <span class="cm"># re-enables dropout</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> L1/L2 penalties constrain complexity, just as <a href="../poetry/forms/#shakespearean-sonnet" target="_blank" rel="noopener">sonnet form</a> constrains a poet — the restriction forces elegance. In markets, <a href="../markets/psychology/#loss-aversion" target="_blank" rel="noopener">loss aversion</a> acts as a natural regularizer, penalizing risky bets.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> L1/L2 penalties constrain complexity. In markets, <a href="../markets/psychology/#loss-aversion" target="_blank" rel="noopener">loss aversion</a> acts as a natural regularizer, penalizing risky bets.</div>
   <div class="topic-nav" id="nav-regularization"></div>
 </div>`;
 }
@@ -574,7 +574,7 @@ scheduler = torch.optim.lr_scheduler.OneCycleLR(optim, max_lr=<span class="st">0
 
 <span class="cm"># call after each epoch/step:</span>
 scheduler.step()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Cosine decay mimics natural cooling — fast changes early, fine adjustments later. The same arc appears in <a href="../poetry/rhetoric/#climax" target="_blank" rel="noopener">climax (gradatio)</a>: build intensity, then resolve. Markets show it in <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">sentiment cycles</a> that heat up and cool down.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Cosine decay mimics natural cooling — fast changes early, fine adjustments later. Markets show it in <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">sentiment cycles</a> that heat up and cool down.</div>
   <div class="topic-nav" id="nav-lr-schedule"></div>
 </div>`;
 }
@@ -604,7 +604,7 @@ nn.init.xavier_uniform_(layer.weight)     <span class="cm"># for tanh/sigmoid</s
 nn.init.kaiming_normal_(layer.weight)     <span class="cm"># for ReLU (default)</span>
 nn.init.zeros_(layer.bias)                <span class="cm"># biases → 0</span></pre></div>
   <div class="callout info"><strong>Modern practice:</strong> PyTorch's nn.Linear uses Kaiming uniform by default. Transformers typically use small normal init (std ≈ 0.02) + special scaling for residual paths.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../stats/#variance-std" target="_blank" rel="noopener">variance scaling</a>. Starting conditions matter everywhere: the <a href="../poetry/forms/#shakespearean-sonnet" target="_blank" rel="noopener">opening quatrain</a> of a sonnet sets the trajectory for the whole poem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../stats/#variance-std" target="_blank" rel="noopener">variance scaling</a>.</div>
   <div class="topic-nav" id="nav-weight-init"></div>
 </div>`;
 }
@@ -633,7 +633,7 @@ loss.backward()
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="st">1.0</span>)  <span class="cm"># clip by norm</span>
 optimizer.step()</pre></div>
   <div class="callout"><strong>When to use:</strong> Almost always for RNNs/LSTMs. Common in transformer training too (GPT uses max_norm=1.0). The max_norm value of 1.0 is a good default.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../markets/indicators/#atr" target="_blank" rel="noopener">ATR-based stops</a> that cap how much a position can move against you. In poetry, <a href="../poetry/sound/#end-stopped" target="_blank" rel="noopener">end-stopped lines</a> clip the flow before it runs away.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../markets/indicators/#atr" target="_blank" rel="noopener">ATR-based stops</a> that cap how much a position can move against you.</div>
   <div class="topic-nav" id="nav-grad-clip"></div>
 </div>`;
 }
@@ -705,7 +705,7 @@ function buildEntropy() {
     </div>
   </div>
   <div class="callout"><strong>Why CE loss works:</strong> When labels are one-hot, cross-entropy reduces to −log(ŷ_correct). The model only needs to maximise the probability of the correct class.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Shannon entropy measures uncertainty — identical to the <a href="../stats/#probability-distributions" target="_blank" rel="noopener">spread of a distribution</a>. High entropy in <a href="../llm/#sampling" target="_blank" rel="noopener">LLM sampling</a> means many plausible next tokens. In poetry, <a href="../poetry/forms/#free-verse" target="_blank" rel="noopener">free verse</a> is high-entropy form — maximal freedom.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shannon entropy measures uncertainty — identical to the <a href="../stats/#probability-distributions" target="_blank" rel="noopener">spread of a distribution</a>. High entropy in <a href="../llm/#sampling" target="_blank" rel="noopener">LLM sampling</a> means many plausible next tokens.</div>
   <div class="topic-nav" id="nav-entropy"></div>
 </div>`;
 }
@@ -840,7 +840,7 @@ sim = torch.dot(a, b) / (a.norm() * b.norm())    <span class="cm"># single pair<
 sims = query @ embeddings.T                       <span class="cm"># all similarities at once</span>
 top_k = sims.topk(<span class="st">10</span>)                             <span class="cm"># top-10 most similar</span></pre></div>
   <div class="callout info"><strong>In practice:</strong> Embeddings are often L2-normalized, making cosine similarity equivalent to a simple dot product. This is why dot-product search (FAISS, HNSW) is so fast.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this. In poetry, <a href="../poetry/sound/#slant-rhyme" target="_blank" rel="noopener">slant rhyme</a> is imperfect similarity — cosine < 1 but close.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this.</div>
   <div class="topic-nav" id="nav-cosine-sim"></div>
 </div>`;
 }
@@ -868,7 +868,7 @@ function buildCNN() {
   <div class="code-block"><pre>self.conv1 = nn.Conv2d(in_channels=<span class="st">3</span>, out_channels=<span class="st">64</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)
 self.pool  = nn.MaxPool2d(kernel_size=<span class="st">2</span>, stride=<span class="st">2</span>)
 self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Sliding a kernel across an image is the same operation as a <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving average</a> sliding across a price series. Both detect local patterns through shared weights. In poetry, <a href="../poetry/forms/#pantoum" target="_blank" rel="noopener">pantoum</a> form slides repeated lines through new contexts.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Sliding a kernel across an image is the same operation as a <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving average</a> sliding across a price series. Both detect local patterns through shared weights.</div>
   <div class="topic-nav" id="nav-cnn"></div>
 </div>`;
 }
@@ -891,7 +891,7 @@ function buildEmbeddings() {
   <div class="code-block"><pre>self.embed = nn.Embedding(vocab_size=<span class="st">50000</span>, embedding_dim=<span class="st">256</span>)
 x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)</span></pre></div>
   <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the ancestor. Today BERT/GPT produce <em>contextual</em> embeddings — the same word gets different vectors depending on context.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Mapping tokens to vectors where distance = meaning is the same idea behind <a href="../llm/#embeddings" target="_blank" rel="noopener">LLM token embeddings</a>. In poetry, <a href="../poetry/rhetoric/#metaphor" target="_blank" rel="noopener">metaphor</a> is a human embedding — projecting one concept into the space of another.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Mapping tokens to vectors where distance = meaning is the same idea behind <a href="../llm/#embeddings" target="_blank" rel="noopener">LLM token embeddings</a>.</div>
   <div class="topic-nav" id="nav-embeddings"></div>
 </div>`;
 }
@@ -915,7 +915,7 @@ function buildAttention() {
     </div>
   </div>
   <div class="callout info"><strong>Multi-Head Attention:</strong> Run h attention functions in parallel, each with different learned projections. Allows attending to syntax, semantics, and coreference simultaneously.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Selectively weighting inputs by relevance appears in <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> (volume-weighted attention to price) and <a href="../llm/#self-attention" target="_blank" rel="noopener">transformer self-attention</a>. In poetry, <a href="../poetry/sound/#refrain" target="_blank" rel="noopener">refrain</a> forces attention back to repeated lines.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Selectively weighting inputs by relevance appears in <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> (volume-weighted attention to price) and <a href="../llm/#self-attention" target="_blank" rel="noopener">transformer self-attention</a>.</div>
   <div class="topic-nav" id="nav-attention"></div>
 </div>`;
 }
@@ -941,7 +941,7 @@ function buildTransformer() {
     dropout=<span class="st">0.1</span>, norm_first=<span class="st">True</span>  <span class="cm"># Pre-LN (modern default)</span>
 )
 transformer = nn.TransformerEncoder(encoder_layer, num_layers=<span class="st">6</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block — attention + feed-forward + residual — is now the backbone of <a href="../llm/#transformer-block" target="_blank" rel="noopener">every modern LLM</a>. Its residual connections mirror how a <a href="../poetry/forms/#crown-of-sonnets" target="_blank" rel="noopener">crown of sonnets</a> carries forward lines from one poem to the next.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block — attention + feed-forward + residual — is now the backbone of <a href="../llm/#transformer-block" target="_blank" rel="noopener">every modern LLM</a>.</div>
   <div class="topic-nav" id="nav-transformer"></div>
 </div>`;
 }
@@ -1004,7 +1004,7 @@ function buildRNN() {
     </div>
   </div>
   <div class="callout warn"><strong>Vanishing gradient:</strong> Gradients shrink exponentially over many timesteps. LSTM and GRU solve this with gated memory.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Hidden state flowing through time steps is sequential memory — like <a href="../markets/indicators/#ema" target="_blank" rel="noopener">exponential moving averages</a> where each value inherits from the past. In poetry, <a href="../poetry/sound/#enjambment" target="_blank" rel="noopener">enjambment</a> carries meaning across line breaks, one step to the next.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hidden state flowing through time steps is sequential memory — like <a href="../markets/indicators/#ema" target="_blank" rel="noopener">exponential moving averages</a> where each value inherits from the past.</div>
   <div class="topic-nav" id="nav-rnn"></div>
 </div>`;
 }
@@ -1034,7 +1034,7 @@ function buildLSTM() {
   <div class="code-block"><pre>self.lstm = nn.LSTM(input_size=<span class="st">10</span>, hidden_size=<span class="st">64</span>, num_layers=<span class="st">2</span>,
                     batch_first=<span class="st">True</span>, dropout=<span class="st">0.2</span>)
 out, (hn, cn) = self.lstm(x)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The forget gate decides what to keep and what to discard — the same selective memory behind <a href="../markets/psychology/#recency-bias" target="_blank" rel="noopener">recency bias</a>. In poetry, a <a href="../poetry/forms/#sestina" target="_blank" rel="noopener">sestina</a> has its own gating mechanism: rotating end-words that persist and recombine across stanzas.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The forget gate decides what to keep and what to discard — the same selective memory behind <a href="../markets/psychology/#recency-bias" target="_blank" rel="noopener">recency bias</a>.</div>
   <div class="topic-nav" id="nav-lstm"></div>
 </div>`;
 }
@@ -1056,7 +1056,7 @@ function buildGRU() {
     <canvas id="gruCanvas" height="230"></canvas>
   </div>
   <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline. <strong style="color:var(--accent2)">GRU</strong> — best default for seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range deps. <strong style="color:var(--accent4)">Transformer</strong> — lots of data + GPU.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> GRU merges forget and input into a single update gate — elegant reduction. The same economy appears in a <a href="../poetry/forms/#haiku" target="_blank" rel="noopener">haiku</a>: maximum meaning, minimal structure. In markets, <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a> compresses momentum into one number.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> GRU merges forget and input into a single update gate — elegant reduction. In markets, <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a> compresses momentum into one number.</div>
   <div class="topic-nav" id="nav-gru"></div>
 </div>`;
 }
@@ -1080,7 +1080,7 @@ function buildPCA() {
       <div class="cg"><span class="cl">PC2 explains</span><span class="vd" id="pc2V" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding the axis of maximum variance is the geometric core of <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> itself. In markets, <a href="../markets/indicators/#adx" target="_blank" rel="noopener">ADX</a> extracts the principal direction of trend from noisy price data. In poetry, a <a href="../poetry/rhetoric/#motif" target="_blank" rel="noopener">motif</a> is the principal component of a poem — the recurring theme that explains the most.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding the axis of maximum variance is the geometric core of <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> itself. In markets, <a href="../markets/indicators/#adx" target="_blank" rel="noopener">ADX</a> extracts the principal direction of trend from noisy price data.</div>
   <div class="topic-nav" id="nav-pca"></div>
 </div>`;
 }
@@ -1110,7 +1110,7 @@ A_approx = U[:, :r] @ torch.diag(S[:r]) @ Vt[:r, :]  <span class="cm"># rank-r</
 <span class="cm"># NumPy equivalent</span>
 U, s, Vt = np.linalg.svd(A, full_matrices=<span class="st">False</span>)</pre></div>
   <div class="callout info"><strong>SVD → LoRA:</strong> LoRA exploits the fact that weight updates during fine-tuning are often low-rank. Instead of updating a full (d×d) matrix, it learns two small matrices (d×r) and (r×d) where r ≪ d. This is fundamentally SVD thinking.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing a matrix into rank-1 layers is the math behind <a href="../stats/#correlation" target="_blank" rel="noopener">factor analysis</a> in statistics and <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA’s low-rank updates</a>. Any signal can be decomposed into layers of importance — like peeling back the <a href="../poetry/rhetoric/#allegory" target="_blank" rel="noopener">allegorical layers</a> of a poem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing a matrix into rank-1 layers is the math behind <a href="../stats/#correlation" target="_blank" rel="noopener">factor analysis</a> in statistics and <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA’s low-rank updates</a>.</div>
   <div class="topic-nav" id="nav-svd"></div>
 </div>`;
 }
@@ -1140,7 +1140,7 @@ function buildVAE() {
     recon = F.mse_loss(recon_x, x)
     kl    = <span class="st">-0.5</span> * torch.mean(<span class="st">1</span> + log_var - mu**<span class="st">2</span> - log_var.exp())
     <span class="kw">return</span> recon + kl</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it, mirrors how a <a href="../poetry/forms/#ghazal" target="_blank" rel="noopener">ghazal</a> compresses longing into couplets that radiate meaning when unpacked. The KL term is a <a href="../stats/#normal" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../stats/#normal" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
   <div class="topic-nav" id="nav-vae"></div>
 </div>`;
 }
@@ -1191,7 +1191,7 @@ function buildGAN() {
     </div>
   </div>
   <div class="callout warn"><strong>Mode collapse:</strong> The biggest GAN failure — G learns only a few convincing samples. WGAN and gradient penalty (WGAN-GP) are the standard fixes.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The generator-discriminator game is <a href="../poetry/rhetoric/#antithesis" target="_blank" rel="noopener">antithesis</a> as architecture: two opposing forces that produce something neither could alone. In markets, <a href="../markets/psychology/#contrarian-thinking" target="_blank" rel="noopener">contrarian vs. herd</a> is the same adversarial dynamic.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The generator-discriminator game is two opposing forces that produce something neither could alone. In markets, <a href="../markets/psychology/#contrarian-thinking" target="_blank" rel="noopener">contrarian vs. herd</a> is the same adversarial dynamic.</div>
   <div class="topic-nav" id="nav-gan"></div>
 </div>`;
 }
@@ -1232,7 +1232,7 @@ text = enc.decode(tokens)                       <span class="cm"># "Hello, world
 <span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer
 tok = AutoTokenizer.from_pretrained(<span class="st">"meta-llama/Llama-2-7b"</span>)</pre></div>
   <div class="callout"><strong>Why it matters:</strong> Tokenization determines the model's "eyesight". Poor tokenization (e.g., splitting numbers digit-by-digit) directly hurts performance. Modern models train their own tokenizer on their specific data.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Byte Pair Encoding merges frequent pairs into tokens — the same compression principle behind <a href="../llm/#tokenization" target="_blank" rel="noopener">LLM vocabularies</a>. In poetry, <a href="../poetry/rhetoric/#metonymy" target="_blank" rel="noopener">metonymy</a> compresses a whole concept into a single word. In statistics, <a href="../stats/#percentiles" target="_blank" rel="noopener">binning into percentiles</a> is discretization of continuous data.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Byte Pair Encoding merges frequent pairs into tokens — the same compression principle behind <a href="../llm/#tokenization" target="_blank" rel="noopener">LLM vocabularies</a>. In statistics, <a href="../stats/#percentiles" target="_blank" rel="noopener">binning into percentiles</a> is discretization of continuous data.</div>
   <div class="topic-nav" id="nav-tokenization"></div>
 </div>`;
 }
@@ -1269,7 +1269,7 @@ config = LoraConfig(
 model = get_peft_model(base_model, config)
 model.print_trainable_parameters()  <span class="cm"># "trainable: 0.1% of total"</span></pre></div>
   <div class="callout"><strong>QLoRA</strong> takes this further: quantise the frozen weights to 4-bit, then apply LoRA. This enables fine-tuning a 65B model on a single 48GB GPU.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank adaptation fine-tunes with tiny matrices — the same rank reduction as <a href="../stats/#correlation" target="_blank" rel="noopener">principal components</a>. <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA in LLM engineering</a> is the applied version. In poetry, a <a href="../poetry/forms/#modern-sonnet" target="_blank" rel="noopener">modern sonnet</a> adapts the old form with minimal changes — low-rank modification of tradition.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank adaptation fine-tunes with tiny matrices — the same rank reduction as <a href="../stats/#correlation" target="_blank" rel="noopener">principal components</a>. <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA in LLM engineering</a> is the applied version.</div>
   <div class="topic-nav" id="nav-lora"></div>
 </div>`;
 }

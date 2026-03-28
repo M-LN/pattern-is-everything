@@ -9,10 +9,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://patterniseverything.com/poetry/index.html</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://patterniseverything.com/markets/index.html</loc>
     <priority>0.8</priority>
   </url>
@@ -38,18 +34,6 @@
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/index.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://patterniseverything.com/poetry/forms/index.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://patterniseverything.com/poetry/sound/index.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://patterniseverything.com/poetry/rhetoric/index.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
