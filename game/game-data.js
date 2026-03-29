@@ -1,6 +1,6 @@
 /* ───────────────────────────────────────────────────
    Pattern Drift — Game Data
-   All 224 topics from 8 collections, 2 domains
+   All 249 topics from 9 collections, 2 domains
    ─────────────────────────────────────────────────── */
 
 const DOMAINS = {
@@ -16,6 +16,7 @@ const COLLECTIONS = {
   'indicators':   { domain: 'markets', label: 'Indicators' },
   'psychology':   { domain: 'markets', label: 'Psychology' },
   'mlops':        { domain: 'ml',      label: 'MLOps' },
+  'timeseries':   { domain: 'ml',      label: 'Timeseries' },
   'risk':         { domain: 'markets', label: 'Risk & Portfolio' }
 };
 
@@ -236,6 +237,33 @@ const GAME_TOPICS = [
   { id:'fairness-audits', title:'Fairness Audits', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['bias detection','demographic parity','equal opportunity','fairlearn'] },
   { id:'reproducibility', title:'Reproducibility', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['seed','deterministic','environment','pinning','hash','Docker'] },
   { id:'incident-response', title:'Incident Response', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['rollback','postmortem','runbook','fallback','circuit breaker'] },
+
+  // ── ML / Timeseries (25) ────────────────────────
+  { id:'stationarity', title:'Stationarity', domain:'ml', col:'timeseries', cat:'Foundations', kw:['stationary','mean','variance','ADF test','unit root','trend'] },
+  { id:'autocorrelation', title:'Autocorrelation', domain:'ml', col:'timeseries', cat:'Foundations', kw:['ACF','PACF','lag','serial correlation','correlogram'] },
+  { id:'decomposition', title:'Decomposition', domain:'ml', col:'timeseries', cat:'Foundations', kw:['trend','seasonal','residual','additive','multiplicative','STL'] },
+  { id:'differencing', title:'Differencing', domain:'ml', col:'timeseries', cat:'Foundations', kw:['first difference','second difference','lag operator','stationary transform'] },
+  { id:'resampling', title:'Resampling', domain:'ml', col:'timeseries', cat:'Foundations', kw:['downsample','upsample','frequency','OHLC','aggregation'] },
+  { id:'ar-models', title:'AR Models', domain:'ml', col:'timeseries', cat:'Classical Models', kw:['autoregressive','phi','lag','order','Yule-Walker'] },
+  { id:'ma-models', title:'MA Models', domain:'ml', col:'timeseries', cat:'Classical Models', kw:['moving average','theta','innovation','white noise','invertibility'] },
+  { id:'arima', title:'ARIMA', domain:'ml', col:'timeseries', cat:'Classical Models', kw:['autoregressive','integrated','moving average','Box-Jenkins','pdq'] },
+  { id:'sarima', title:'SARIMA', domain:'ml', col:'timeseries', cat:'Classical Models', kw:['seasonal ARIMA','periodicity','seasonal order','PDQ','Fourier'] },
+  { id:'exponential-smoothing', title:'Exponential Smoothing', domain:'ml', col:'timeseries', cat:'Classical Models', kw:['ETS','Holt-Winters','alpha','beta','gamma','level'] },
+  { id:'prophet', title:'Prophet', domain:'ml', col:'timeseries', cat:'Advanced Models', kw:['Facebook','additive model','changepoint','holiday','trend','seasonality'] },
+  { id:'state-space', title:'State-Space Models', domain:'ml', col:'timeseries', cat:'Advanced Models', kw:['Kalman filter','hidden state','observation','transition','innovation'] },
+  { id:'garch', title:'GARCH', domain:'ml', col:'timeseries', cat:'Advanced Models', kw:['volatility clustering','conditional variance','alpha','beta','heteroscedasticity'] },
+  { id:'var-models', title:'VAR Models', domain:'ml', col:'timeseries', cat:'Advanced Models', kw:['vector autoregression','multivariate','Granger causality','impulse response'] },
+  { id:'changepoint-detection', title:'Changepoint Detection', domain:'ml', col:'timeseries', cat:'Advanced Models', kw:['regime shift','structural break','CUSUM','PELT','Bayesian'] },
+  { id:'rnn-for-ts', title:'RNN for Time Series', domain:'ml', col:'timeseries', cat:'Deep Learning', kw:['recurrent','hidden state','sequence','vanishing gradient','Elman'] },
+  { id:'lstm-for-ts', title:'LSTM for Time Series', domain:'ml', col:'timeseries', cat:'Deep Learning', kw:['long short-term memory','gates','cell state','forget gate','sequence'] },
+  { id:'temporal-cnn', title:'Temporal CNN', domain:'ml', col:'timeseries', cat:'Deep Learning', kw:['TCN','causal convolution','dilated','WaveNet','residual'] },
+  { id:'transformers-for-ts', title:'Transformers for TS', domain:'ml', col:'timeseries', cat:'Deep Learning', kw:['attention','patch','positional encoding','PatchTST','Informer'] },
+  { id:'nbeats', title:'N-BEATS', domain:'ml', col:'timeseries', cat:'Deep Learning', kw:['neural basis expansion','stack','block','backcast','forecast','residual'] },
+  { id:'feature-engineering', title:'Feature Engineering', domain:'ml', col:'timeseries', cat:'Practice & Tooling', kw:['lag features','rolling window','calendar','Fourier','tsfresh'] },
+  { id:'cross-validation-ts', title:'Cross-Validation TS', domain:'ml', col:'timeseries', cat:'Practice & Tooling', kw:['time series split','expanding window','sliding window','walk-forward'] },
+  { id:'backtesting-forecasts', title:'Backtesting Forecasts', domain:'ml', col:'timeseries', cat:'Practice & Tooling', kw:['hindcast','out-of-sample','MAE','RMSE','MAPE','forecast accuracy'] },
+  { id:'anomaly-detection', title:'Anomaly Detection', domain:'ml', col:'timeseries', cat:'Practice & Tooling', kw:['outlier','spike','level shift','isolation forest','z-score'] },
+  { id:'forecast-ensembles', title:'Forecast Ensembles', domain:'ml', col:'timeseries', cat:'Practice & Tooling', kw:['model averaging','stacking','blending','combination','diversity'] },
 
   // ── Markets / Risk & Portfolio (25) ─────────────
   { id:'value-at-risk', title:'Value at Risk', domain:'markets', col:'risk', cat:'Risk Measures', kw:['VaR','confidence level','loss','quantile','tail','parametric'] },

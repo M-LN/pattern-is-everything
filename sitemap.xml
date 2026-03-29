@@ -41,6 +41,10 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://patterniseverything.com/timeseries/index.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://patterniseverything.com/markets/risk/index.html</loc>
     <priority>0.7</priority>
   </url>

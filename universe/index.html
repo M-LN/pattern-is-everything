@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pattern Cosmos — Pattern is Everything</title>
-<meta name="description" content="A galaxy of 224 patterns across Machine Learning and Markets — explore the cosmos of connections.">
+<meta name="description" content="A galaxy of 249 patterns across Machine Learning and Markets — explore the cosmos of connections.">
 <meta property="og:title" content="Pattern Cosmos — Pattern is Everything">
-<meta property="og:description" content="224 interactive topics mapped as a galaxy. Zoom, explore, and discover the hidden bridges between ML and Markets.">
+<meta property="og:description" content="249 interactive topics mapped as a galaxy. Zoom, explore, and discover the hidden bridges between ML and Markets.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patterniseverything.com/universe/">
 <meta name="twitter:card" content="summary">
@@ -89,12 +89,12 @@ canvas.dragging{cursor:grabbing;}
 <body>
 <nav id="nav"><a href="../index.html">&larr; Pattern is Everything</a><div id="nav-title">Pattern Cosmos</div></nav>
 <canvas id="c"></canvas>
-<div id="intro"><div id="intro-title">Pattern Cosmos</div><div id="intro-sub">224 patterns &middot; 8 collections &middot; scroll to explore</div></div>
-<div id="stats-badge">224 TOPICS &middot; 8 COLLECTIONS &middot; 2 DOMAINS</div>
+<div id="intro"><div id="intro-title">Pattern Cosmos</div><div id="intro-sub">249 patterns &middot; 9 collections &middot; scroll to explore</div></div>
+<div id="stats-badge">249 TOPICS &middot; 9 COLLECTIONS &middot; 2 DOMAINS</div>
 <div id="tip"></div>
 <div id="controls">Drag &middot; pan<br>Scroll &middot; zoom<br>Click &middot; explore<br>Ctrl+K &middot; search</div>
 <div id="legend"><div class="legend-row"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div><div class="legend-row"><span>Markets</span><div class="legend-dot" style="background:#81c784"></div></div></div>
-<div id="search-overlay"><div id="search-box"><input id="search-input" type="text" placeholder="Search 224 topics..." autocomplete="off"><div id="search-results"></div></div></div>
+<div id="search-overlay"><div id="search-box"><input id="search-input" type="text" placeholder="Search 249 topics..." autocomplete="off"><div id="search-results"></div></div></div>
 <div id="panel"><button id="panel-close">&times;</button><div id="panel-inner"><div id="panel-col"></div><div id="panel-title"></div><div id="panel-cat"></div><div class="panel-divider"></div><div id="panel-keywords"></div><div id="panel-connections"><div class="panel-section-title">Connected Patterns</div><div id="panel-conn-list"></div></div><a id="panel-link" href="#" target="_blank" rel="noopener">Explore topic</a></div></div>
 
 <script>
@@ -114,6 +114,7 @@ const COL_META={
   'ml-math':{name:'ML Math',color:'#5bc8f7',path:'../ml-math/index.html'},
   'llm':{name:'LLM Engineering',color:'#68d0f7',path:'../llm/index.html'},
   'mlops':{name:'MLOps & Production',color:'#3fb8e8',path:'../mlops/index.html'},
+  'timeseries':{name:'Timeseries Engineering',color:'#29b6f6',path:'../timeseries/index.html'},
   'charts':{name:'Chart Patterns',color:'#81c784',path:'../markets/charts/index.html'},
   'indicators':{name:'Technical Indicators',color:'#6db870',path:'../markets/indicators/index.html'},
   'psychology':{name:'Market Psychology',color:'#95d48a',path:'../markets/psychology/index.html'},
@@ -122,7 +123,7 @@ const COL_META={
 
 /* ── Galaxy layout ── */
 const CLUSTER={};
-const ML_COLS=['stats','ml-math','llm','mlops'];
+const ML_COLS=['stats','ml-math','llm','mlops','timeseries'];
 const MKT_COLS=['charts','indicators','psychology','risk'];
 ML_COLS.forEach((col,i)=>{
   const angle=Math.PI+0.55-i*0.42;

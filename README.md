@@ -2,7 +2,7 @@
 
 **An interactive visual encyclopedia of patterns — in math and markets.**
 
-224 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
+249 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
 
 🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
 
@@ -10,13 +10,14 @@
 
 ## Universes
 
-### 🧠 Machine Learning — 124 topics
+### 🧠 Machine Learning — 149 topics
 | Collection | Topics | Covers |
 |---|---|---|
 | **ML Math** | 38 | Linear algebra, gradient descent, backprop, attention, transformers, diffusion, LoRA, RLHF |
 | **The Toolkit** | 31 | Model evaluation, feature importance, data analysis, backtesting, decision-making, Python tools |
 | **LLM Engineering** | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
 | **MLOps & Production ML** | 25 | Model serving, drift detection, ML pipelines, feature stores, governance |
+| **Timeseries Engineering** | 25 | Stationarity, ARIMA, SARIMA, Prophet, LSTM, Transformers, anomaly detection, backtesting |
 
 ### 📈 Markets — 100 topics
 | Collection | Topics | Covers |
@@ -61,7 +62,8 @@ Pattern Portal/
 │   ├── ml-math/                ← 38 topics
 │   ├── stats/                  ← 31 topics
 │   ├── llm/                    ← 30 topics
-│   └── mlops/                  ← 25 topics
+│   ├── mlops/                  ← 25 topics
+│   └── timeseries/             ← 25 topics
 ├── markets/index.html          ← Markets hub
 │   ├── charts/                 ← 25 topics
 │   ├── indicators/             ← 25 topics

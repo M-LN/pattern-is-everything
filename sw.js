@@ -1,10 +1,11 @@
-const CACHE_NAME = 'pattern-v5';
+const CACHE_NAME = 'pattern-v6';
 const SHELL = [
   '/index.html',
   '/css/main.css',
   '/ml/index.html',
   '/markets/index.html',
   '/mlops/index.html',
+  '/timeseries/index.html',
   '/markets/risk/index.html',
 ];
 
