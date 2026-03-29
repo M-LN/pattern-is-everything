@@ -7,20 +7,21 @@ Ready-to-copy posts for each platform. Personalize a line or two, then post manu
 
 ## 1. Reddit — r/learnmachinelearning
 
-**Title:** I built 174 interactive visual references for ML & Markets — free, open-source, zero dependencies
+**Title:** I built 224 interactive visual references for ML & Markets — free, open-source, zero dependencies
 
 **Body:**
 
 Hey everyone,
 
-I've been working on a side project called **Pattern is Everything** — a free, open-source reference site with 174 interactive topics across Machine Learning and Markets.
+I've been working on a side project called **Pattern is Everything** — a free, open-source reference site with 224 interactive topics across Machine Learning and Markets.
 
 Every topic has a canvas visualization, key formulas, and code snippets. No frameworks, no dependencies — just vanilla HTML, CSS, and JavaScript.
 
-**The ML section covers 99 topics across three collections:**
+**The ML section covers 124 topics across four collections:**
 - **ML Math** — Gradient Descent, Backpropagation, SVD, Eigenvalues, Loss Functions, and more
 - **The Toolkit** — SHAP Values, Cross-Validation, ROC Curves, Sharpe Ratio, Bootstrap, and more
 - **LLMs** — Attention Mechanisms, Transformers, Tokenization, Embeddings, and more
+- **MLOps** — Model Serving, Drift Detection, ML Pipelines, Feature Stores, Governance, and more
 
 The whole thing runs client-side — no accounts, no tracking cookies, no paywalls.
 
@@ -36,11 +37,11 @@ Would love feedback from this community. What's useful? What's missing? What wou
 
 ## 2. Reddit — r/datascience
 
-**Title:** Free visual reference: 174 interactive topics covering ML math, statistics, and more
+**Title:** Free visual reference: 224 interactive topics covering ML math, statistics, and more
 
 **Body:**
 
-Built a free reference tool that visualizes concepts I kept having to look up. 174 topics total, all with interactive canvas diagrams.
+Built a free reference tool that visualizes concepts I kept having to look up. 224 topics total, all with interactive canvas diagrams.
 
 The stats and ML math sections might be most relevant here:
 - Bayesian inference, distributions, hypothesis testing, regression
@@ -57,15 +58,16 @@ Happy to hear what you'd want added — this is a one-person project and I'm bui
 
 ## 3. Reddit — r/algotrading or r/technicalanalysis
 
-**Title:** Free interactive reference: 75 visual topics on chart patterns, indicators, and market psychology
+**Title:** Free interactive reference: 100 visual topics on chart patterns, indicators, market psychology, and risk
 
 **Body:**
 
-Built a visual reference covering 75 market-related topics:
+Built a visual reference covering 100 market-related topics:
 
 - **Chart Patterns** — Head & Shoulders, Double Tops, Wedges, Flags, Gaps, and more
 - **Technical Indicators** — RSI, MACD, Bollinger Bands, OBV, Ichimoku, and more
 - **Market Psychology** — Fear/Greed cycles, Anchoring Bias, Herd Behavior, and more
+- **Risk & Portfolio** — VaR, Position Sizing, Factor Models, Hedging, Performance Attribution, and more
 
 Each topic has an interactive canvas diagram showing the actual pattern shape, key levels, and how to read it.
 
@@ -79,14 +81,14 @@ Curious if anyone finds this useful as a quick reference. Feedback welcome.
 
 ## 4. Dev.to Article
 
-**Title:** How I Built 174 Interactive Visual References with Zero Dependencies
+**Title:** How I Built 224 Interactive Visual References with Zero Dependencies
 
 **Tags:** `javascript`, `webdev`, `opensource`, `beginners`
 
 **Body:**
 
 ```
-I built **Pattern is Everything** — a free, open-source educational site with 174 interactive topics across Machine Learning and Markets. Every topic has a real-time canvas visualization.
+I built **Pattern is Everything** — a free, open-source educational site with 224 interactive topics across Machine Learning and Markets. Every topic has a real-time canvas visualization.
 
 The entire thing is vanilla HTML, CSS, and JavaScript. No React. No build step. No node_modules. Just files.
 
@@ -98,7 +100,7 @@ I kept looking up the same concepts — gradient descent, candlestick patterns, 
 
 - **HTML** — 13 pages total (homepage, universe hubs, collection pages, support, impact)
 - **CSS** — One shared stylesheet with custom properties, dark/light mode
-- **JavaScript** — Canvas API for all 174 visualizations, zero external libraries
+- **JavaScript** — Canvas API for all 224 visualizations, zero external libraries
 - **Hosting** — Vercel (free tier, static files)
 - **Analytics** — GoatCounter (free, no cookies)
 - **Fonts** — Playfair Display, IBM Plex Mono, Inter (Google Fonts)
@@ -109,11 +111,11 @@ Monthly hosting cost: **$0**
 
 ## What's Inside
 
-**Machine Learning (99 topics)**
-ML Math, The Toolkit, LLM Architecture — from eigenvalues to attention mechanisms, plus practical tools like SHAP values and cross-validation.
+**Machine Learning (124 topics)**
+ML Math, The Toolkit, LLM Architecture, MLOps — from eigenvalues to production deployment, plus practical tools like SHAP values and cross-validation.
 
-**Markets (75 topics)**
-Chart Patterns, Technical Indicators, Market Psychology — from head & shoulders to herd behavior.
+**Markets (100 topics)**
+Chart Patterns, Technical Indicators, Market Psychology, Risk & Portfolio — from head & shoulders to drawdown analysis.
 
 ## The Giving Part
 
@@ -125,14 +127,14 @@ Chart Patterns, Technical Indicators, Market Psychology — from head & shoulder
 - **GitHub:** https://github.com/M-LN/pattern-is-everything
 - **Support:** https://patterniseverything.com/support/
 
-If you're building educational tools or thinking about going dependency-free, happy to talk about the approach. And if you find a bug in any of the 174 visualizations — please open an issue.
+If you're building educational tools or thinking about going dependency-free, happy to talk about the approach. And if you find a bug in any of the 224 visualizations — please open an issue.
 ```
 
 ---
 
 ## 5. Hacker News — Show HN
 
-**Title:** Show HN: 174 interactive visual references for ML and Markets – zero dependencies
+**Title:** Show HN: 224 interactive visual references for ML and Markets – zero dependencies
 
 **URL:** https://patterniseverything.com/
 
@@ -140,7 +142,7 @@ If you're building educational tools or thinking about going dependency-free, ha
 
 Hi HN,
 
-I built a free reference site with 174 interactive topics across two domains: Machine Learning (99) and Markets (75). Every topic has a canvas-rendered visualization.
+I built a free reference site with 224 interactive topics across two domains: Machine Learning (124) and Markets (100). Every topic has a canvas-rendered visualization.
 
 The entire stack is vanilla HTML/CSS/JS — no frameworks, no build step, no external dependencies. It's static files on Vercel's free tier.
 

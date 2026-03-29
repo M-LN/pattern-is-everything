@@ -1,6 +1,6 @@
 /* ───────────────────────────────────────────────────
    Pattern Drift — Game Data
-   All 174 topics from 6 collections, 2 domains
+   All 224 topics from 8 collections, 2 domains
    ─────────────────────────────────────────────────── */
 
 const DOMAINS = {
@@ -14,7 +14,9 @@ const COLLECTIONS = {
   'llm':          { domain: 'ml',      label: 'LLM' },
   'charts':       { domain: 'markets', label: 'Chart Patterns' },
   'indicators':   { domain: 'markets', label: 'Indicators' },
-  'psychology':   { domain: 'markets', label: 'Psychology' }
+  'psychology':   { domain: 'markets', label: 'Psychology' },
+  'mlops':        { domain: 'ml',      label: 'MLOps' },
+  'risk':         { domain: 'markets', label: 'Risk & Portfolio' }
 };
 
 const GAME_TOPICS = [
@@ -207,6 +209,60 @@ const GAME_TOPICS = [
   { id:'euphoria-panic', title:'Euphoria & Panic', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['mania','bubble','crash','capitulation','extreme emotion','irrational'] },
   { id:'smart-money-dumb-money', title:'Smart Money vs. Dumb Money', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['institutional','retail','COT report','insider buying','late buyers'] },
   { id:'mean-reversion-psychology', title:'Mean Reversion Psychology', domain:'markets', col:'psychology', cat:'Market Cycles', kw:['regression to mean','overshoot','undershoot','extremes revert','patience'] },
+
+  // ── ML / MLOps (25) ────────────────────────────
+  { id:'model-packaging', title:'Model Packaging', domain:'ml', col:'mlops', cat:'Deploy & Serve', kw:['docker','container','ONNX','serialization','artifact','bundle'] },
+  { id:'serving-patterns', title:'Serving Patterns', domain:'ml', col:'mlops', cat:'Deploy & Serve', kw:['REST','gRPC','batch','streaming','microservice','endpoint'] },
+  { id:'ab-rollout', title:'A/B Rollout', domain:'ml', col:'mlops', cat:'Deploy & Serve', kw:['canary','blue-green','traffic split','progressive','rollback'] },
+  { id:'latency-throughput', title:'Latency vs Throughput', domain:'ml', col:'mlops', cat:'Deploy & Serve', kw:['p50','p99','requests per second','SLA','batching','queue'] },
+  { id:'gpu-inference', title:'GPU Inference', domain:'ml', col:'mlops', cat:'Deploy & Serve', kw:['CUDA','TensorRT','triton','batching','memory','utilization'] },
+  { id:'drift-detection', title:'Drift Detection', domain:'ml', col:'mlops', cat:'Monitor & Observe', kw:['concept drift','data drift','covariate shift','distribution','PSI','KS test'] },
+  { id:'model-monitoring', title:'Model Monitoring', domain:'ml', col:'mlops', cat:'Monitor & Observe', kw:['accuracy decay','metrics','dashboard','alerting','performance tracking'] },
+  { id:'alerting-slos', title:'Alerting & SLOs', domain:'ml', col:'mlops', cat:'Monitor & Observe', kw:['SLI','SLO','SLA','threshold','pager','error budget'] },
+  { id:'shadow-scoring', title:'Shadow Scoring', domain:'ml', col:'mlops', cat:'Monitor & Observe', kw:['dark launch','mirror traffic','offline evaluation','comparison','champion-challenger'] },
+  { id:'data-quality', title:'Data Quality', domain:'ml', col:'mlops', cat:'Monitor & Observe', kw:['validation','schema','missing values','outlier','great expectations'] },
+  { id:'ml-pipelines', title:'ML Pipelines', domain:'ml', col:'mlops', cat:'Pipeline & Automation', kw:['DAG','Airflow','Kubeflow','step','orchestration','workflow'] },
+  { id:'feature-stores', title:'Feature Stores', domain:'ml', col:'mlops', cat:'Pipeline & Automation', kw:['online','offline','Feast','feature engineering','serving','reuse'] },
+  { id:'experiment-tracking', title:'Experiment Tracking', domain:'ml', col:'mlops', cat:'Pipeline & Automation', kw:['MLflow','W&B','run','metric','hyperparameter','logging'] },
+  { id:'ci-cd-ml', title:'CI/CD for ML', domain:'ml', col:'mlops', cat:'Pipeline & Automation', kw:['continuous integration','testing','deployment','automation','Github Actions'] },
+  { id:'orchestration', title:'Orchestration', domain:'ml', col:'mlops', cat:'Pipeline & Automation', kw:['Airflow','Prefect','scheduler','dependency','retry','task graph'] },
+  { id:'model-compression', title:'Model Compression', domain:'ml', col:'mlops', cat:'Scale & Optimize', kw:['pruning','distillation','sparsity','smaller model','efficiency'] },
+  { id:'quantization', title:'Quantization', domain:'ml', col:'mlops', cat:'Scale & Optimize', kw:['INT8','FP16','mixed precision','calibration','speed','size reduction'] },
+  { id:'caching-layers', title:'Caching Layers', domain:'ml', col:'mlops', cat:'Scale & Optimize', kw:['Redis','embedding cache','LRU','feature cache','hit rate'] },
+  { id:'auto-scaling', title:'Auto-Scaling', domain:'ml', col:'mlops', cat:'Scale & Optimize', kw:['horizontal','vertical','Kubernetes HPA','queue depth','burst'] },
+  { id:'cost-governance', title:'Cost Governance', domain:'ml', col:'mlops', cat:'Scale & Optimize', kw:['GPU cost','spot instances','budget','resource allocation','FinOps'] },
+  { id:'model-registry', title:'Model Registry', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['versioning','staging','production','approval','catalog'] },
+  { id:'lineage-tracking', title:'Lineage Tracking', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['provenance','data lineage','model lineage','DAG','audit trail'] },
+  { id:'fairness-audits', title:'Fairness Audits', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['bias detection','demographic parity','equal opportunity','fairlearn'] },
+  { id:'reproducibility', title:'Reproducibility', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['seed','deterministic','environment','pinning','hash','Docker'] },
+  { id:'incident-response', title:'Incident Response', domain:'ml', col:'mlops', cat:'Governance & Trust', kw:['rollback','postmortem','runbook','fallback','circuit breaker'] },
+
+  // ── Markets / Risk & Portfolio (25) ─────────────
+  { id:'value-at-risk', title:'Value at Risk', domain:'markets', col:'risk', cat:'Risk Measures', kw:['VaR','confidence level','loss','quantile','tail','parametric'] },
+  { id:'expected-shortfall', title:'Expected Shortfall', domain:'markets', col:'risk', cat:'Risk Measures', kw:['CVaR','conditional VaR','tail average','ES','coherent risk'] },
+  { id:'volatility-modeling', title:'Volatility Modeling', domain:'markets', col:'risk', cat:'Risk Measures', kw:['GARCH','EWMA','historical vol','implied vol','stochastic'] },
+  { id:'correlation-risk', title:'Correlation Risk', domain:'markets', col:'risk', cat:'Risk Measures', kw:['correlation breakdown','contagion','stress','regime change','copula'] },
+  { id:'tail-risk', title:'Tail Risk', domain:'markets', col:'risk', cat:'Risk Measures', kw:['fat tails','kurtosis','black swan','extreme event','heavy-tailed'] },
+  { id:'mean-variance', title:'Mean-Variance', domain:'markets', col:'risk', cat:'Portfolio Construction', kw:['Markowitz','efficient frontier','optimization','return vs risk','CML'] },
+  { id:'risk-parity', title:'Risk Parity', domain:'markets', col:'risk', cat:'Portfolio Construction', kw:['equal risk','all-weather','Bridgewater','inverse volatility','balance'] },
+  { id:'factor-models', title:'Factor Models', domain:'markets', col:'risk', cat:'Portfolio Construction', kw:['Fama-French','momentum','value','size','quality','factor loading'] },
+  { id:'rebalancing', title:'Rebalancing', domain:'markets', col:'risk', cat:'Portfolio Construction', kw:['drift','threshold','calendar','transaction cost','target weight'] },
+  { id:'diversification', title:'Diversification', domain:'markets', col:'risk', cat:'Portfolio Construction', kw:['correlation','asset classes','free lunch','concentration','spread'] },
+  { id:'kelly-criterion', title:'Kelly Criterion', domain:'markets', col:'risk', cat:'Position Sizing', kw:['optimal fraction','geometric growth','edge','bankroll','Kelly formula'] },
+  { id:'fixed-fractional', title:'Fixed Fractional', domain:'markets', col:'risk', cat:'Position Sizing', kw:['percent risk','fixed percentage','money management','drawdown control'] },
+  { id:'volatility-sizing', title:'Volatility Sizing', domain:'markets', col:'risk', cat:'Position Sizing', kw:['ATR sizing','vol-adjusted','normalize risk','position size','adaptive'] },
+  { id:'pyramiding', title:'Pyramiding', domain:'markets', col:'risk', cat:'Position Sizing', kw:['adding to winners','scaling in','tiers','profit pyramid','trend following'] },
+  { id:'max-position', title:'Max Position', domain:'markets', col:'risk', cat:'Position Sizing', kw:['concentration limit','portfolio weight','risk budget','exposure cap'] },
+  { id:'options-hedging', title:'Options Hedging', domain:'markets', col:'risk', cat:'Hedging & Protection', kw:['put','protective put','collar','delta hedge','insurance'] },
+  { id:'stop-losses', title:'Stop Losses', domain:'markets', col:'risk', cat:'Hedging & Protection', kw:['trailing stop','ATR stop','time stop','hard stop','max loss'] },
+  { id:'pairs-trading', title:'Pairs Trading', domain:'markets', col:'risk', cat:'Hedging & Protection', kw:['stat arb','cointegration','spread','z-score','mean reversion'] },
+  { id:'portfolio-insurance', title:'Portfolio Insurance', domain:'markets', col:'risk', cat:'Hedging & Protection', kw:['CPPI','constant proportion','floor','cushion','dynamic hedge'] },
+  { id:'currency-hedging', title:'Currency Hedging', domain:'markets', col:'risk', cat:'Hedging & Protection', kw:['FX risk','forward contract','natural hedge','cross-currency'] },
+  { id:'return-attribution', title:'Return Attribution', domain:'markets', col:'risk', cat:'Performance & Attribution', kw:['Brinson','allocation effect','selection effect','interaction','decompose'] },
+  { id:'benchmark-tracking', title:'Benchmark Tracking', domain:'markets', col:'risk', cat:'Performance & Attribution', kw:['tracking error','index fund','active share','replication'] },
+  { id:'alpha-generation', title:'Alpha Generation', domain:'markets', col:'risk', cat:'Performance & Attribution', kw:['excess return','skill','alpha decay','signal','information ratio'] },
+  { id:'risk-adjusted-perf', title:'Risk-Adjusted Perf', domain:'markets', col:'risk', cat:'Performance & Attribution', kw:['Sharpe','Sortino','Calmar','Treynor','information ratio'] },
+  { id:'drawdown-analysis', title:'Drawdown Analysis', domain:'markets', col:'risk', cat:'Performance & Attribution', kw:['max drawdown','recovery time','underwater','peak to trough','worst case'] },
 ];
 
 // Unique categories per domain for wave challenges

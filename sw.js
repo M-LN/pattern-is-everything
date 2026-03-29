@@ -1,9 +1,11 @@
-const CACHE_NAME = 'pattern-v4';
+const CACHE_NAME = 'pattern-v5';
 const SHELL = [
   '/index.html',
   '/css/main.css',
   '/ml/index.html',
   '/markets/index.html',
+  '/mlops/index.html',
+  '/markets/risk/index.html',
 ];
 
 self.addEventListener('install', e => {

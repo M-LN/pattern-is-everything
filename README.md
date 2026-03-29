@@ -2,7 +2,7 @@
 
 **An interactive visual encyclopedia of patterns — in math and markets.**
 
-174 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
+224 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
 
 🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
 
@@ -10,19 +10,21 @@
 
 ## Universes
 
-### 🧠 Machine Learning — 99 topics
+### 🧠 Machine Learning — 124 topics
 | Collection | Topics | Covers |
 |---|---|---|
 | **ML Math** | 38 | Linear algebra, gradient descent, backprop, attention, transformers, diffusion, LoRA, RLHF |
 | **The Toolkit** | 31 | Model evaluation, feature importance, data analysis, backtesting, decision-making, Python tools |
 | **LLM Engineering** | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
+| **MLOps & Production ML** | 25 | Model serving, drift detection, ML pipelines, feature stores, governance |
 
-### 📈 Markets — 75 topics
+### 📈 Markets — 100 topics
 | Collection | Topics | Covers |
 |---|---|---|
 | **Chart Patterns** | 25 | Head & shoulders, double tops, flags, wedges, cup & handle |
 | **Technical Indicators** | 25 | Moving averages, RSI, MACD, Bollinger Bands, Fibonacci |
 | **Market Psychology** | 25 | Cognitive biases, fear & greed, herd behavior, sentiment cycles |
+| **Risk & Portfolio** | 25 | VaR, expected shortfall, position sizing, hedging, performance attribution |
 
 ---
 
@@ -58,11 +60,13 @@ Pattern Portal/
 ├── ml/index.html               ← ML hub
 │   ├── ml-math/                ← 38 topics
 │   ├── stats/                  ← 31 topics
-│   └── llm/                    ← 30 topics
+│   ├── llm/                    ← 30 topics
+│   └── mlops/                  ← 25 topics
 ├── markets/index.html          ← Markets hub
 │   ├── charts/                 ← 25 topics
 │   ├── indicators/             ← 25 topics
-│   └── psychology/             ← 25 topics
+│   ├── psychology/             ← 25 topics
+│   └── risk/                   ← 25 topics
 └── vercel.json                 ← Deployment config
 ```
 
