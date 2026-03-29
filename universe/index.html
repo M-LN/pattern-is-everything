@@ -3,545 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pattern Universe — Pattern is Everything</title>
-<meta name="description" content="An interactive 3D constellation of patterns — explore how Machine Learning and Markets share the same deep structures.">
-<meta property="og:title" content="Pattern Universe — Pattern is Everything">
-<meta property="og:description" content="Recursion, Emergence, Entropy — the same patterns appear in neural networks and price charts. Explore the connections.">
+<title>Pattern Cosmos — Pattern is Everything</title>
+<meta name="description" content="A galaxy of 224 patterns across Machine Learning and Markets — explore the cosmos of connections.">
+<meta property="og:title" content="Pattern Cosmos — Pattern is Everything">
+<meta property="og:description" content="224 interactive topics mapped as a galaxy. Zoom, explore, and discover the hidden bridges between ML and Markets.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patterniseverything.com/universe/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pattern Universe — Pattern is Everything">
-<meta name="twitter:description" content="An interactive 3D constellation of cross-domain patterns across ML and Markets.">
 <meta name="theme-color" content="#050508">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
 <link rel="canonical" href="https://patterniseverything.com/universe/">
 <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="../game/game-data.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #050508; --gold: #c8a96e; --gold-dim: #7a6340;
-    --ml: #4fc3f7; --stock: #81c784; --white: #e8e4dc;
-    --panel-w: 420px;
-  }
-  html, body { width:100%; height:100%; background:var(--bg); overflow:hidden; font-family:'Cormorant Garamond',serif; color:var(--white); cursor:none; }
-  canvas { display:block; position:fixed; top:0; left:0; z-index:0; transition:left .5s; }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Space+Mono:wght@400;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#050508;--gold:#c8a96e;--gold-dim:#7a6340;--ml:#4fc3f7;--mkt:#81c784;--text:#e8e4dc;}
+html,body{width:100%;height:100%;background:var(--bg);overflow:hidden;font-family:'Cormorant Garamond',serif;color:var(--text);}
+canvas{display:block;position:fixed;inset:0;z-index:0;cursor:grab;}
+canvas.dragging{cursor:grabbing;}
 
-  #cursor { position:fixed; z-index:9999; width:12px; height:12px; border-radius:50%; background:var(--gold); pointer-events:none; transform:translate(-50%,-50%); mix-blend-mode:screen; transition:width .2s,height .2s,background .3s; }
-  #cursor-ring { position:fixed; z-index:9998; width:40px; height:40px; border-radius:50%; border:1px solid rgba(200,169,110,.4); pointer-events:none; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
-  body.wormhole-mode #cursor { background:#a78bfa; width:18px; height:18px; }
-  body.wormhole-mode #cursor-ring { border-color:rgba(167,139,250,.6); width:55px; height:55px; }
+#nav{position:fixed;top:0;left:0;right:0;z-index:400;height:40px;display:flex;align-items:center;padding:0 1.5rem;background:rgba(5,5,8,.7);border-bottom:1px solid rgba(200,169,110,.08);backdrop-filter:blur(10px);}
+#nav a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color .2s;}
+#nav a:hover{color:var(--gold);}
+#nav-title{margin-left:auto;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(200,169,110,.35);}
 
-  /* ── BACK NAV ── */
-  #back-nav { position:fixed; top:0; left:0; right:0; z-index:400; height:40px; display:flex; align-items:center; padding:0 1.5rem; background:rgba(5,5,8,.7); border-bottom:1px solid rgba(200,169,110,.08); backdrop-filter:blur(10px); pointer-events:all; }
-  #back-link { display:flex; align-items:center; gap:.5rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; transition:color .2s; cursor:none; }
-  #back-link:hover { color:var(--gold); }
-  #back-link::before { content:'←'; font-size:.6rem; }
-  #nav-title { margin-left:auto; margin-right:auto; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(200,169,110,.35); pointer-events:none; }
+#legend{position:fixed;bottom:1.5rem;right:1.5rem;z-index:100;display:flex;flex-direction:column;gap:.5rem;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:rgba(232,228,220,.4);text-align:right;}
+.legend-row{display:flex;align-items:center;gap:.5rem;justify-content:flex-end;}
+.legend-dot{width:6px;height:6px;border-radius:50%;}
 
-  #header { position:fixed; top:40px; left:0; right:0; z-index:100; padding:1.5rem 3rem; display:flex; align-items:flex-start; justify-content:space-between; pointer-events:none; }
-  #logo { display:flex; flex-direction:column; opacity:0; animation:fadeIn 2s .5s forwards; }
-  #logo-main { font-size:clamp(1.2rem,2.5vw,1.9rem); font-weight:300; letter-spacing:.15em; color:var(--gold); line-height:1; text-transform:uppercase; }
-  #logo-sub { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; color:var(--gold-dim); text-transform:uppercase; margin-top:.4rem; }
-  #nav-hint { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.18em; color:var(--gold-dim); text-align:right; line-height:2.3; opacity:0; animation:fadeIn 2s 1.5s forwards; }
+#controls{position:fixed;bottom:1.5rem;left:1.5rem;z-index:100;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:rgba(200,169,110,.25);line-height:2.2;opacity:1;transition:opacity 2s;}
+#controls.hidden{opacity:0;}
 
-  #modebar { position:fixed; top:50%; right:1.5rem; transform:translateY(-50%); z-index:200; display:flex; flex-direction:column; gap:.8rem; pointer-events:all; opacity:0; animation:fadeIn 2s 2s forwards; }
-  .mode-btn { width:42px; height:42px; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(5,5,8,.7); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; cursor:none; transition:border-color .3s,background .3s,transform .2s; font-size:1.1rem; position:relative; }
-  .mode-btn:hover { border-color:var(--gold); background:rgba(200,169,110,.12); transform:scale(1.1); }
-  .mode-btn.active { border-color:var(--gold); background:rgba(200,169,110,.2); box-shadow:0 0 16px rgba(200,169,110,.3); }
-  .mode-btn .tip { position:absolute; right:54px; background:rgba(5,5,8,.95); border:1px solid var(--gold-dim); padding:.3rem .7rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.15em; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; color:var(--gold); }
-  .mode-btn:hover .tip { opacity:1; }
+#tip{position:fixed;z-index:200;background:rgba(5,5,8,.92);border:1px solid var(--gold-dim);padding:.3rem .8rem;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--gold);pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;}
+#tip.show{opacity:1;}
 
-  #bottom-bar { position:fixed; bottom:0; left:0; right:0; z-index:100; padding:2rem 3rem; display:flex; align-items:flex-end; justify-content:space-between; pointer-events:none; }
-  #status-msg { font-family:'Space Mono',monospace; font-size:.55rem; letter-spacing:.2em; color:var(--gold-dim); opacity:0; transition:opacity .5s; }
-  #status-msg.visible { opacity:1; }
-  #legend { display:flex; flex-direction:column; gap:.7rem; opacity:0; animation:fadeIn 2s 2s forwards; text-align:right; }
-  .legend-item { display:flex; align-items:center; gap:.6rem; justify-content:flex-end; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(232,228,220,.45); }
-  .legend-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+#search-overlay{position:fixed;inset:0;z-index:600;background:rgba(5,5,8,.85);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding-top:15vh;}
+#search-overlay.active{display:flex;}
+#search-box{width:480px;max-width:90vw;background:rgba(12,10,18,.95);border:1px solid var(--gold-dim);border-radius:4px;overflow:hidden;}
+#search-input{width:100%;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.15);padding:14px 20px;font-family:'Space Mono',monospace;font-size:14px;color:var(--text);letter-spacing:.04em;outline:none;}
+#search-input::placeholder{color:rgba(200,169,110,.3);}
+#search-results{max-height:40vh;overflow-y:auto;}
+.search-item{padding:10px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s;}
+.search-item:hover{background:rgba(200,169,110,.08);}
+.search-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.search-title{font-size:14px;color:var(--text);}
+.search-col{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;color:rgba(200,169,110,.4);margin-left:auto;}
 
-  #pattern-quote { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:50; text-align:center; pointer-events:none; opacity:0; transition:opacity .6s; max-width:520px; width:90vw; }
-  #pattern-quote.visible { opacity:1; }
-  #pq-text { font-size:clamp(1rem,2vw,1.45rem); font-style:italic; font-weight:300; color:var(--white); line-height:1.65; }
-  #pq-attr { margin-top:1rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; color:var(--gold-dim); text-transform:uppercase; }
+#panel{position:fixed;top:0;right:0;width:380px;max-width:90vw;height:100vh;z-index:500;background:rgba(5,5,8,.93);backdrop-filter:blur(24px);border-left:1px solid rgba(200,169,110,.12);transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);overflow-y:auto;}
+#panel.open{transform:translateX(0);}
+#panel::-webkit-scrollbar{width:3px;}
+#panel::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+#panel-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;background:none;border:1px solid var(--gold-dim);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gold-dim);font-size:14px;transition:all .2s;z-index:2;}
+#panel-close:hover{border-color:var(--gold);color:var(--gold);}
+#panel-inner{padding:2.5rem 2rem 3rem;}
+#panel-col{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.8rem;}
+#panel-title{font-size:2rem;font-weight:300;line-height:1.15;margin-bottom:.3rem;}
+#panel-cat{font-size:.9rem;font-style:italic;color:rgba(232,228,220,.45);margin-bottom:1.8rem;}
+.panel-divider{height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent);margin-bottom:1.5rem;}
+#panel-keywords{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:2rem;}
+.kw-chip{padding:3px 10px;border:1px solid rgba(200,169,110,.2);border-radius:2px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.06em;color:rgba(232,228,220,.6);}
+.cross-kw{border-color:rgba(200,169,110,.5);color:var(--gold);}
+#panel-connections{margin-bottom:2rem;}
+.panel-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.8rem;}
+.conn-item{padding:6px 0;cursor:pointer;display:flex;align-items:center;gap:8px;transition:color .15s;}
+.conn-item:hover{color:var(--gold);}
+.conn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.conn-name{font-size:13px;}
+.conn-kw{font-family:'Space Mono',monospace;font-size:9px;color:rgba(200,169,110,.4);margin-left:auto;}
+#panel-link{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;border:1px solid var(--gold-dim);border-radius:2px;padding:6px 14px;transition:all .2s;}
+#panel-link:hover{color:var(--gold);border-color:var(--gold);}
+#panel-link::after{content:' \2192';}
 
-  #intro { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:50; text-align:center; pointer-events:none; opacity:1; transition:opacity 1s; }
-  #intro.hidden { opacity:0; }
-  #intro-text { font-family:'Space Mono',monospace; font-size:.7rem; letter-spacing:.3em; color:rgba(200,169,110,.4); text-transform:uppercase; animation:pulse 3s ease-in-out infinite; }
+#intro{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none;opacity:1;transition:opacity 1.5s;}
+#intro.hidden{opacity:0;}
+#intro-title{font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:300;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;}
+#intro-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gold-dim);animation:pulse 3s ease-in-out infinite;}
 
-  #tooltip { position:fixed; z-index:200; background:rgba(5,5,8,.9); border:1px solid var(--gold-dim); padding:.45rem .9rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.15em; color:var(--gold); text-transform:uppercase; pointer-events:none; opacity:0; transition:opacity .2s; white-space:nowrap; }
-  #tooltip.visible { opacity:1; }
+#stats-badge{position:fixed;top:48px;left:50%;transform:translateX(-50%);z-index:100;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(200,169,110,.25);white-space:nowrap;}
 
-  /* ── SIDE PANEL ── */
-  #side-panel { position:fixed; top:0; right:0; width:var(--panel-w); height:100vh; z-index:300; background:rgba(5,5,8,.93); backdrop-filter:blur(24px); border-left:1px solid rgba(200,169,110,.12); transform:translateX(100%); transition:transform .5s cubic-bezier(.16,1,.3,1); overflow-y:auto; display:flex; flex-direction:column; }
-  #side-panel.open { transform:translateX(0); }
-  #side-panel::-webkit-scrollbar { width:3px; }
-  #side-panel::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
-  #panel-close { position:sticky; top:1.5rem; left:calc(100% - 3rem); width:32px; height:32px; background:none; border:1px solid var(--gold-dim); border-radius:50%; cursor:none; display:flex; align-items:center; justify-content:center; color:var(--gold-dim); font-size:.85rem; transition:border-color .2s,color .2s; margin-left:auto; margin-right:1.5rem; flex-shrink:0; z-index:2; }
-  #panel-close:hover { border-color:var(--gold); color:var(--gold); }
-  #panel-inner { padding:1rem 2.5rem 4rem; flex:1; }
-  #panel-type { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; margin-bottom:1rem; }
-  #panel-title { font-size:2.3rem; font-weight:300; line-height:1.1; margin-bottom:.4rem; }
-  #panel-subtitle { font-size:.95rem; font-style:italic; color:rgba(232,228,220,.5); margin-bottom:2rem; line-height:1.5; }
-  .panel-divider { height:1px; background:linear-gradient(90deg,var(--gold-dim),transparent); margin-bottom:2rem; }
-  #panel-quote { font-size:1.1rem; font-style:italic; line-height:1.75; color:var(--white); margin-bottom:2rem; padding-left:1.2rem; border-left:2px solid var(--gold-dim); }
-  #panel-essay { font-size:.97rem; line-height:1.85; color:rgba(232,228,220,.72); }
-  #panel-essay p { margin-bottom:1.2rem; }
-  #panel-essay strong { color:var(--white); font-weight:600; }
-  #panel-topic-link { display:inline-flex; align-items:center; gap:.5rem; margin-top:1rem; margin-bottom:.5rem; font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; border:1px solid var(--gold-dim); border-radius:2px; padding:.35rem .9rem; transition:color .2s,border-color .2s; cursor:pointer; }
-  #panel-topic-link:hover { color:var(--gold); border-color:var(--gold); }
-  #panel-topic-link::after { content:'→'; }
-  #panel-connections { margin-top:2.5rem; }
-  .panel-section-title { font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:1rem; }
-  .conn-chip { display:inline-block; padding:.25rem .7rem; border:1px solid; border-radius:2px; font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.1em; margin:.25rem; cursor:none; transition:background .2s; }
-  .conn-chip:hover { background:rgba(255,255,255,.06); }
-
-  /* ── WORMHOLE OVERLAY ── */
-  #wormhole-overlay { position:fixed; inset:0; z-index:500; display:none; align-items:center; justify-content:center; }
-  #wormhole-overlay.active { display:flex; }
-  #wh-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
-  #wh-bg { position:absolute; inset:0; background:rgba(5,5,8,.75); pointer-events:none; }
-  #wormhole-content { position:relative; z-index:2; text-align:center; opacity:0; transition:opacity .5s; max-width:580px; padding:3rem 2.5rem; background:rgba(5,5,8,.6); border:1px solid rgba(167,139,250,.2); backdrop-filter:blur(12px); }
-  #wormhole-content.visible { opacity:1; }
-  #wh-title { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(167,139,250,.7); margin-bottom:1.8rem; }
-  #wh-nodes { display:flex; align-items:center; justify-content:center; gap:2rem; margin-bottom:2rem; }
-  .wh-node { text-align:center; }
-  .wh-dot { width:14px; height:14px; border-radius:50%; margin:0 auto .6rem; }
-  .wh-name { font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--white); }
-  #wh-connector { font-size:1.8rem; color:rgba(167,139,250,.4); line-height:1; }
-  #wh-bridge { font-size:clamp(1rem,1.8vw,1.3rem); font-style:italic; line-height:1.75; color:var(--white); margin-bottom:1.5rem; }
-  #wh-attr { font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.25em; color:rgba(167,139,250,.55); text-transform:uppercase; margin-bottom:2rem; }
-  #wh-close { padding:.5rem 1.8rem; background:none; border:1px solid rgba(167,139,250,.35); color:rgba(167,139,250,.75); font-family:'Space Mono',monospace; font-size:.48rem; letter-spacing:.2em; text-transform:uppercase; cursor:none; transition:border-color .2s,color .2s; }
-  #wh-close:hover { border-color:rgba(167,139,250,.8); color:rgba(167,139,250,1); }
-
-  @keyframes fadeIn { to { opacity:1; } }
-  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:.7} }
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.7}}
+@media(max-width:600px){#panel{width:100vw;}#controls{display:none;}#legend{font-size:9px;bottom:1rem;right:1rem;}}
 </style>
 </head>
 <body>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<nav id="nav"><a href="../index.html">&larr; Pattern is Everything</a><div id="nav-title">Pattern Cosmos</div></nav>
 <canvas id="c"></canvas>
-
-<!-- Back navigation -->
-<div id="back-nav">
-  <a id="back-link" href="../index.html">Pattern is Everything</a>
-  <div id="nav-title">Pattern Universe</div>
-</div>
-
-<div id="header">
-  <div id="logo">
-    <div id="logo-main">Pattern Universe</div>
-    <div id="logo-sub">ML · Markets · Cosmos</div>
-  </div>
-  <div id="nav-hint">
-    Drag · rotate &nbsp;|&nbsp; Scroll · zoom<br>
-    Click · read essay<br>
-    ⭐ Hold · constellation<br>
-    🌀 Wormhole · connect two nodes<br>
-    Shift · slow time
-  </div>
-</div>
-
-<div id="modebar">
-  <div class="mode-btn active" id="btn-normal"><span>✦</span><div class="tip">EXPLORE MODE</div></div>
-  <div class="mode-btn" id="btn-const"><span>⭐</span><div class="tip">CONSTELLATION MODE</div></div>
-  <div class="mode-btn" id="btn-worm"><span>🌀</span><div class="tip">WORMHOLE MODE</div></div>
-</div>
-
-<div id="intro"><div id="intro-text">Explore the universe of patterns</div></div>
-<div id="pattern-quote"><div id="pq-text"></div><div id="pq-attr"></div></div>
-
-<div id="bottom-bar">
-  <div id="status-msg"></div>
-  <div id="legend">
-    <div class="legend-item"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div>
-    <div class="legend-item"><span>Stock Market</span><div class="legend-dot" style="background:#81c784"></div></div>
-    <div class="legend-item"><span>Universal Pattern</span><div class="legend-dot" style="background:#c8a96e"></div></div>
-  </div>
-</div>
-
-<div id="tooltip"></div>
-
-<div id="side-panel">
-  <button id="panel-close">✕</button>
-  <div id="panel-inner">
-    <div id="panel-type"></div>
-    <div id="panel-title"></div>
-    <div id="panel-subtitle"></div>
-    <div class="panel-divider"></div>
-    <div id="panel-quote"></div>
-    <div id="panel-essay"></div>
-    <a id="panel-topic-link" style="display:none;" target="_blank" rel="noopener">Explore this topic</a>
-    <div id="panel-connections">
-      <div class="panel-section-title">Connected Patterns</div>
-      <div id="panel-chips"></div>
-    </div>
-  </div>
-</div>
-
-<div id="wormhole-overlay">
-  <div id="wh-bg"></div>
-  <canvas id="wh-canvas"></canvas>
-  <div id="wormhole-content">
-    <div id="wh-title">Pattern Bridge Detected</div>
-    <div id="wh-nodes">
-      <div class="wh-node"><div class="wh-dot" id="wh-dot-a"></div><div class="wh-name" id="wh-name-a"></div></div>
-      <div id="wh-connector">⟷</div>
-      <div class="wh-node"><div class="wh-dot" id="wh-dot-b"></div><div class="wh-name" id="wh-name-b"></div></div>
-    </div>
-    <div id="wh-bridge"></div>
-    <div id="wh-attr"></div>
-    <button id="wh-close">Close Portal</button>
-  </div>
-</div>
+<div id="intro"><div id="intro-title">Pattern Cosmos</div><div id="intro-sub">224 patterns &middot; 8 collections &middot; scroll to explore</div></div>
+<div id="stats-badge">224 TOPICS &middot; 8 COLLECTIONS &middot; 2 DOMAINS</div>
+<div id="tip"></div>
+<div id="controls">Drag &middot; pan<br>Scroll &middot; zoom<br>Click &middot; explore<br>Ctrl+K &middot; search</div>
+<div id="legend"><div class="legend-row"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div><div class="legend-row"><span>Markets</span><div class="legend-dot" style="background:#81c784"></div></div></div>
+<div id="search-overlay"><div id="search-box"><input id="search-input" type="text" placeholder="Search 224 topics..." autocomplete="off"><div id="search-results"></div></div></div>
+<div id="panel"><button id="panel-close">&times;</button><div id="panel-inner"><div id="panel-col"></div><div id="panel-title"></div><div id="panel-cat"></div><div class="panel-divider"></div><div id="panel-keywords"></div><div id="panel-connections"><div class="panel-section-title">Connected Patterns</div><div id="panel-conn-list"></div></div><a id="panel-link" href="#" target="_blank" rel="noopener">Explore topic</a></div></div>
 
 <script>
-const canvas = document.getElementById('c');
-const ctx = canvas.getContext('2d');
-const whCanvas = document.getElementById('wh-canvas');
-const whCtx = whCanvas.getContext('2d');
-let W, H, cx, cy;
-function resize() { W=canvas.width=whCanvas.width=window.innerWidth; H=canvas.height=whCanvas.height=window.innerHeight; cx=W/2; cy=H/2; }
-resize(); window.addEventListener('resize', resize);
-const TAU = Math.PI*2;
+(function(){
+'use strict';
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
 
-// ── DATA ────────────────────────────────────────────────────────
-const NODES = [
-  {id:0,type:'pattern',label:'Recursion',color:'#c8a96e',size:18,
-   quote:'The pattern that sees itself is the deepest pattern of all.',
-   sub:'What contains itself? The universe folds inward.',
-   essay:`<p><strong>Recursion</strong> is the universe's favourite trick. A function that calls itself. A dream within a dream. A mirror facing a mirror.</p><p>In machine learning, recursion appears in <strong>recurrent neural networks</strong> — networks that feed their own output back as input, building memory from repetition. The model learns by consuming what it has already learned.</p><p>In markets, recursion is the price that reflects the price. Traders react to other traders reacting. The chart becomes a map of itself. Technical analysis is the market reading its own face.</p><p>What is consciousness, if not recursion? A mind that models itself — an 'I' that watches the 'I' watching.</p>`},
-  {id:1,type:'pattern',label:'Emergence',color:'#c8a96e',size:16,
-   quote:'From noise, a signal. From signal, a world.',
-   sub:'Simple rules, infinite complexity.',
-   essay:`<p><strong>Emergence</strong> is the miracle of the unexpected whole. No single neuron thinks. No single trader moves the market. No single word means anything alone. Yet — thought, price, and meaning all arise.</p><p>In ML, emergence is the shock of capability appearing without being programmed. Language models developed the ability to reason about code without being trained on reasoning. Something crossed a threshold and became more than its parts.</p><p>Markets emerge from the distributed cognition of millions of actors, each with incomplete information, each rational in isolation, collectively producing price — the most sophisticated information-compression system humans have built.</p>`},
-  {id:2,type:'pattern',label:'Entropy',color:'#c8a96e',size:14,
-   quote:'Order is borrowed time from chaos.',
-   sub:'All patterns tend toward disorder — yet order is endlessly rebuilt.',
-   essay:`<p><strong>Entropy</strong> is the universe's direction of travel — toward disorder, toward equilibrium, toward maximum possibility. The second law of thermodynamics is perhaps the deepest pattern of all.</p><p>Neural networks fight entropy during training. Gradient descent is a constant battle against the tendency of weights to drift toward meaninglessness. Regularisation, dropout, weight decay — all are entropy-management strategies.</p><p>Markets trend toward entropy too. Alpha — the ability to beat the market — degrades as more capital chases it. Information becomes price becomes noise. The efficient market hypothesis is entropy applied to economics.</p>`},
-  {id:3,type:'ml',label:'Gradient Descent',color:'#4fc3f7',size:13,
-   url:'../ml-math/index.html#gradient',
-   quote:'Loss is the teacher. Descent is the lesson.',
-   sub:'The algorithm walks downhill in darkness, feeling only the slope.',
-   essay:`<p><strong>Gradient Descent</strong> is how machines learn to be wrong less. The algorithm stands in a landscape of error, feeling only the slope beneath it, and walks downhill.</p><p>It cannot see the whole landscape. It knows only the local gradient — which direction is down, right here, right now. Step by step, it finds its way to (hopefully) a valley of low loss.</p><p>The stock trader does the same. No one sees the whole market. Each trade is a step down a gradient of expected value, feeling the slope of risk and reward, moving toward profit.</p><p><em>Learning is movement. All intelligence descends.</em></p>`},
-  {id:4,type:'ml',label:'Attention',color:'#4fc3f7',size:15,
-   url:'../ml-math/index.html#attention',
-   quote:'Every word is defined by the company it keeps.',
-   sub:'To attend is to assign weight to what matters. Context is everything.',
-   essay:`<p><strong>Attention</strong> is the mechanism that gave machines the ability to read the way humans read — not word by word, but as a field of meaning where everything is connected to everything else.</p><p>The Transformer's attention mechanism asks: given this word, which other words matter most? It learns to weight context dynamically. "Bank" means different things next to "river" and "money." Attention learns this without being told.</p><p>Market attention works the same way. News about one company ripples through correlated assets. A Fed announcement rewrites the valence of every asset simultaneously. The market is an attention machine, constantly reweighting what matters.</p>`},
-  {id:5,type:'ml',label:'Overfitting',color:'#4fc3f7',size:11,
-   url:'../ml-math/index.html#bias-variance',
-   quote:'To know too well is to understand nothing.',
-   sub:'The model that memorises the past cannot predict the future.',
-   essay:`<p><strong>Overfitting</strong> is the failure mode of intelligence. The model learns the training data so perfectly — including its noise, its accidents, its quirks — that it loses the ability to generalise.</p><p>It has memorised rather than understood. And memorisation is the enemy of intelligence.</p><p>Markets overfit constantly. Traders backtest strategies until the strategy is perfectly calibrated to the past — and fails immediately on new data. The curve-fitted model has learned the specific path, not the terrain.</p><p>The cure for overfitting is regularisation — penalising complexity, forcing the model to find simpler explanations. Dropout, weight decay, early stopping — all are constraints that prevent memorisation. Sometimes you must unlearn to learn.</p>`},
-  {id:6,type:'ml',label:'Neural Network',color:'#4fc3f7',size:14,
-   url:'../ml-math/index.html',
-   quote:'Intelligence is transformation, layer by layer.',
-   sub:'Layers of transformation — raw inputs become complex understanding.',
-   essay:`<p><strong>Neural Networks</strong> transform the world one layer at a time. Raw pixels become edges. Edges become shapes. Shapes become faces. Faces become identities. Each layer is a world seen differently.</p><p>The architecture is a hierarchy of abstraction. Lower layers handle specifics. Higher layers handle concepts. The deepest layers hold something like ideas.</p><p>Markets have their own layered architecture. Individual transactions aggregate into price. Price aggregates into trend. Trend aggregates into cycle. The same data, seen at different scales, tells different stories.</p>`},
-  {id:7,type:'ml',label:'Latent Space',color:'#4fc3f7',size:12,
-   url:'../ml-math/index.html#embeddings',
-   quote:'The map is smaller than the territory, and truer.',
-   sub:'Between input and output lies a compressed universe.',
-   essay:`<p><strong>Latent Space</strong> is the compressed inner world of a neural network — a mathematical space where concepts live as coordinates, where similarity is proximity, where meaning has geometry.</p><p>In latent space, "king" minus "man" plus "woman" equals "queen." Concepts bleed into each other. The distance between "fear" and "excitement" is measurable. The space is the model's private cosmology.</p><p>Every market model has a latent space — the set of hidden factors (risk appetite, liquidity, sentiment) that explain the surface movement of prices. The quant searches for the geometry underlying the apparent chaos.</p>`},
-  {id:8,type:'stock',label:'Black Swan',color:'#81c784',size:14,
-   url:'../markets/psychology/index.html',
-   quote:'The outlier is the pattern not yet named.',
-   sub:'The event no model predicted because it had never happened before.',
-   essay:`<p><strong>Black Swans</strong> are the events that no model predicted — because they had never happened before, and models are trained on the past. They are rare, extreme, and obvious in retrospect.</p><p>Nassim Taleb named them after the European belief that all swans were white — a belief perfectly calibrated to European experience and perfectly wrong about the world.</p><p>Every deep learning breakthrough was a black swan. The first time a language model wrote a convincing essay. The first time an image model generated photorealistic faces. Obvious in retrospect. Unpredictable in advance.</p><p>In markets: 2008. COVID-19. The flash crash. These events live in the tails of distributions that didn't include them.</p>`},
-  {id:9,type:'stock',label:'Mean Reversion',color:'#81c784',size:13,
-   url:'../markets/indicators/index.html',
-   quote:'What rises must remember where it came from.',
-   sub:'Everything drifts from centre, then returns. Markets. Moods. Models.',
-   essay:`<p><strong>Mean Reversion</strong> is the gravitational pull of the average. Prices that drift too far from fair value tend to return. Volatility spikes subside. Extremes regress.</p><p>It is one of the most reliable patterns in finance — and also one of the most dangerous. "It has to come back" is the trader's most perilous sentence, because sometimes it doesn't.</p><p>ML training exhibits mean reversion in the loss landscape. Gradient descent overshoots, then corrects. Learning rate scheduling is the art of controlling the amplitude of these oscillations.</p>`},
-  {id:10,type:'stock',label:'Volatility',color:'#81c784',size:12,
-   url:'../markets/indicators/index.html',
-   quote:'Certainty is expensive. Surprise is free.',
-   sub:'Uncertainty has a price. The width of the distribution.',
-   essay:`<p><strong>Volatility</strong> is not risk — it is the price of uncertainty itself. The width of the probability distribution. The range of possible futures compressed into a single number.</p><p>Options traders buy and sell volatility directly. When they buy a straddle, they are betting that the world will surprise them. When they sell premium, they are betting it won't. They are, in the deepest sense, betting on the nature of time.</p><p>Neural network training has volatility — the fluctuation of loss across batches. Too much volatility and the model can't learn. Too little and it gets stuck. The learning rate is the volatility dial.</p>`},
-  {id:11,type:'stock',label:'Fractal Markets',color:'#81c784',size:15,
-   url:'../markets/charts/index.html',
-   quote:'Zoom in or out: the pattern persists.',
-   sub:'The same structure at every scale — a day chart looks like a year chart.',
-   essay:`<p><strong>Fractal Markets</strong> show the same structures at every scale. A five-minute chart looks like a five-year chart. Head-and-shoulders patterns appear in hourly data and decade-long cycles alike. The pattern is scale-invariant.</p><p>Benoit Mandelbrot, who invented fractal geometry, spent years telling economists that markets were fractals — that their models were too smooth, too Gaussian, too tame. The tails were fat. The extremes were more frequent than the normal distribution predicted.</p><p>Neural networks are fractal: a single neuron contains in miniature what the whole network is. A convolutional filter at layer 1 learns something structurally similar to what the whole network learns.</p>`},
-  {id:12,type:'stock',label:'Sentiment',color:'#81c784',size:11,
-   url:'../markets/psychology/index.html',
-   quote:'Numbers feel. That is the secret.',
-   sub:'Markets move on emotion dressed as data.',
-   essay:`<p><strong>Sentiment</strong> is the emotion that prices try to hide. Markets move on fear and greed dressed as data. The quarterly earnings miss is not the number — it is the disappointment. The Fed statement is not the policy — it is the hope or dread it creates.</p><p>Sentiment analysis in NLP attempts to extract the emotion from language. To read the feeling behind the words. But sentiment is irreducibly ambiguous. Irony. Understatement. The compliment that isn't. These require context, culture, theory of mind. The model reads "the food wasn't terrible" and must know this is almost praise.</p>`},
-  {id:13,type:'ml',label:'Backpropagation',color:'#4fc3f7',size:13,
-   url:'../ml-math/index.html#backprop',
-   quote:'The error flows backward so the learning flows forward.',
-   sub:'The chain rule, applied recursively — blame assigned layer by layer.',
-   essay:`<p><strong>Backpropagation</strong> is how neural networks learn from their mistakes. The error at the output flows backward through the network, layer by layer, assigning blame to each weight in proportion to its contribution to the failure.</p><p>The mathematics is the chain rule of calculus — the derivative of a composition of functions, decomposed into a product of local derivatives. Each layer multiplies its local gradient by the gradient flowing from above. The result is a map of responsibility: which weights caused the error, and how much.</p><p>Markets propagate information in the same direction — backward from outcome to cause. A quarterly miss ripples backward through the supply chain. The crash propagates backward through correlated positions. Every stop-loss triggered is information flowing in reverse.</p><p>Backprop is the universe's accounting system. Every effect is traceable to a cause. Every loss is attributable. The algorithm simply formalises what physics already knew: consequences propagate.</p>`},
-  {id:14,type:'ml',label:'Explainability',color:'#4fc3f7',size:16,
-   url:'../stats/index.html#shap-values',
-   quote:'To understand the answer, trace it back to the question.',
-   sub:'Shapley values decompose prediction into contribution — every feature gets its due.',
-   essay:`<p><strong>Explainability</strong> asks the question that black-box models cannot answer on their own: why? SHAP values — rooted in cooperative game theory — decompose a prediction into the contribution of each feature, assigning credit fairly across all possible coalitions.</p><p>The mathematics descends from Lloyd Shapley's 1953 theorem: the only fair way to distribute a payoff among players is to average each player's marginal contribution across every possible ordering. Applied to ML, the "players" are features and the "payoff" is the prediction.</p><p>Portfolio attribution performs the same decomposition. Which sector drove returns? Which position caused the drawdown? The Brinson model is the market's SHAP — decomposing total performance into allocation, selection, and interaction effects.</p><p>Explainability is the bridge between prediction and trust. A model that cannot explain itself is a model that cannot be audited, challenged, or improved. The right to explanation is not a luxury — it is the foundation of responsible intelligence.</p>`},
-  {id:15,type:'stock',label:'Regime Change',color:'#81c784',size:12,
-   url:'../markets/psychology/index.html',
-   quote:'The rules changed. No one sent a memo.',
-   sub:'The moment the market shifts from one statistical regime to another.',
-   essay:`<p><strong>Regime Change</strong> is the market's phase transition — the moment when the statistical properties of price themselves change. Volatility doubles. Correlations invert. The model trained on last year's data becomes useless overnight, because the data-generating process itself has shifted.</p><p>Bull to bear. Low-vol to high-vol. Risk-on to risk-off. These are not gradual transitions but discontinuous jumps — the financial equivalent of water becoming ice. The same molecules, entirely different behaviour.</p><p>In machine learning, the equivalent is concept drift — the moment when the relationship between features and target changes. The model's accuracy degrades not because it forgot, but because the world moved. Detecting regime change is detecting the moment your assumptions expire.</p><p>Hidden Markov Models attempt to formalise this: the market is always in one of several unobservable states, each with its own probability distribution. The trader sees only the emissions — prices, volumes, spreads — and must infer which regime is active. The map changes while you are reading it.</p>`},
-  {id:16,type:'stock',label:'Drawdown',color:'#81c784',size:11,
-   url:'../stats/index.html#max-drawdown',
-   quote:'The distance between peak and trough measures everything you could have lost.',
-   sub:'Peak-to-trough decline — the scar tissue of every portfolio.',
-   essay:`<p><strong>Drawdown</strong> measures the decline from a peak to the subsequent trough — the maximum pain a portfolio has inflicted on its holder. It is the most psychologically real risk metric because it measures what you actually experienced, not what a distribution predicted.</p><p>Maximum drawdown is the deepest valley. The number every allocator asks about first, because it answers the question no Sharpe ratio can: how bad did it get? A strategy with beautiful returns and a 60% drawdown is a strategy that lost most of its investors before it recovered.</p><p>Neural network training has drawdowns too. The loss spikes. The validation accuracy craters after a learning rate change. The model appears to unlearn before it relearns. Patience through the drawdown — in training and in markets — separates the disciplined from the abandoned.</p><p>Drawdown is entropy made personal. The gap between where you were and where you are. Recovery requires not just returning to the previous level but rebuilding the confidence that was lost in the descent.</p>`},
-  {id:17,type:'ml',label:'Uncertainty',color:'#4fc3f7',size:13,
-   url:'../stats/index.html#confidence-intervals',
-   quote:'Certainty is a special case of uncertainty — the case that never arrives.',
-   sub:'The model that knows what it doesn\'t know is the model that can be trusted.',
-   essay:`<p><strong>Uncertainty</strong> is not the enemy of knowledge — it is the shape of honest knowledge. A prediction without a confidence interval is not a prediction but a guess. The width of the interval is the width of your ignorance, and acknowledging it is the first act of intelligence.</p><p>Epistemic uncertainty (what the model doesn't know) and aleatoric uncertainty (what the data can't tell) are fundamentally different. The first shrinks with more data. The second doesn't. Knowing which you face determines whether collecting more data will help or whether you must accept irreducible noise.</p><p>Options pricing is uncertainty made tradeable. The Black-Scholes model converts uncertainty into a number — implied volatility — and the market buys and sells it like any other commodity. The VIX is Wall Street's uncertainty index, fear quantified and quoted to two decimal places.</p><p>Bayesian neural networks carry their uncertainty forward through every layer, producing not a single prediction but a distribution of predictions. The model that says "I think the answer is 7, but I could be wrong" is more useful than the model that says "7" with false confidence.</p>`},
-];
+const TAU=Math.PI*2,rand=(a,b)=>Math.random()*(b-a)+a,lerp=(a,b,t)=>a+(b-a)*t;
+function hexA(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
 
-const EDGES = [
-  [0,1],[0,2],[1,2],
-  [0,3],[0,4],[0,14],[1,6],[2,10],
-  [3,6],[4,6],[4,14],[5,6],[6,7],
-  [3,9],[8,5],[8,2],[9,1],[10,2],[11,1],[11,0],[12,14],[12,4],
-  [13,3],[13,6],[14,6],[15,8],[15,1],[15,10],[16,2],[16,8],[17,10],[17,7],
-  [13,9],[15,9],[12,17],[5,16],[13,0],
-];
-
-const BRIDGES = {
-  '0-13':{text:'Backpropagation is recursion applied to learning. The chain rule decomposes a composite function by recursively computing derivatives through each layer — the gradient at layer n depends on the gradient at layer n+1, which depends on n+2, all the way to the output. The algorithm is recursion in its purest mathematical form.',attr:'Recursion × Backpropagation'},
-  '0-14':{text:'SHAP values are recursion applied to explanation. To compute a feature\'s contribution, you must consider every possible subset of features — a combinatorial recursion through the power set of inputs. The explanation of a prediction is itself a recursive decomposition of the prediction.',attr:'Recursion × Explainability'},
-  '4-14':{text:'Attention weights and SHAP values answer the same question from different angles: what matters most? Attention learns importance dynamically during inference. SHAP computes importance rigorously after the fact. One is the model\'s intuition. The other is the auditor\'s proof.',attr:'Attention × Explainability'},
-  '0-11':{text:'Fractals are recursion made visible in space. The self-similar pattern that contains itself at every scale is recursion expressed geometrically. The market\'s fractal structure and consciousness\'s recursive loop are the same pattern in different substrates.',attr:'Fractal Markets × Recursion'},
-  '1-9':{text:'Mean reversion is emergence working backwards — the system returning to its natural level after being pulled away. Emergence pushes complexity upward; mean reversion pulls it home. Together they define the oscillation of all complex systems.',attr:'Emergence × Mean Reversion'},
-  '1-15':{text:'A regime change is emergence at the macro scale — the moment enough individual actors shift their behaviour that the system\'s aggregate properties transform. Bull becomes bear not through decree but through the emergent consensus of millions of revised expectations.',attr:'Emergence × Regime Change'},
-  '7-17':{text:'Latent space is where uncertainty lives geometrically. Points near the boundary of clusters carry high uncertainty — the model is unsure which class they belong to. The distance from the centroid is a proxy for confidence. Uncertainty has a shape, and that shape lives in latent space.',attr:'Latent Space × Uncertainty'},
-  '2-10':{text:'Entropy and volatility are the same force in different languages. Entropy is the physicist\'s word for disorder. Volatility is the trader\'s word for uncertainty. Both measure the width of possibility. Both are the price of surprise.',attr:'Entropy × Volatility'},
-  '3-9':{text:'Gradient descent and mean reversion are mirror images: one descends toward the minimum of loss, the other returns to the mean of value. Both are systems correcting themselves toward an attractor. All learning is a kind of reversion.',attr:'Gradient Descent × Mean Reversion'},
-  '5-16':{text:'Overfitting and drawdown are both the price of excessive confidence. The overfitted model believed too strongly in its training data. The trader who ignored drawdown risk believed too strongly in his backtest. Both are punished by reality\'s refusal to repeat the past exactly.',attr:'Overfitting × Drawdown'},
-  '2-8':{text:'Black swans are entropy\'s ambassador — the event that proves order was always provisional. They arrive from the untrained regions of possibility space to remind us that the pattern was never the territory.',attr:'Black Swan × Entropy'},
-  '12-17':{text:'Sentiment is collective uncertainty given a name. When the market is uncertain, sentiment fills the void — fear and greed are the emotions that uncertainty wears. The VIX rises not because the market knows something bad will happen, but because it doesn\'t know what will happen.',attr:'Sentiment × Uncertainty'},
+/* ── Collection metadata ── */
+const COL_META={
+  'stats':{name:'The Toolkit',color:'#4fc3f7',path:'../stats/index.html'},
+  'ml-math':{name:'ML Math',color:'#5bc8f7',path:'../ml-math/index.html'},
+  'llm':{name:'LLM Engineering',color:'#68d0f7',path:'../llm/index.html'},
+  'mlops':{name:'MLOps & Production',color:'#3fb8e8',path:'../mlops/index.html'},
+  'charts':{name:'Chart Patterns',color:'#81c784',path:'../markets/charts/index.html'},
+  'indicators':{name:'Technical Indicators',color:'#6db870',path:'../markets/indicators/index.html'},
+  'psychology':{name:'Market Psychology',color:'#95d48a',path:'../markets/psychology/index.html'},
+  'risk':{name:'Risk & Portfolio',color:'#5cc4a0',path:'../markets/risk/index.html'}
 };
 
-function getBridge(a,b){ const k=`${Math.min(a,b)}-${Math.max(a,b)}`; return BRIDGES[k]||{text:`${NODES[a].label} and ${NODES[b].label} share a hidden structure — two expressions of the same underlying pattern, discovered independently across different domains of human knowledge.`,attr:`${NODES[a].label} × ${NODES[b].label}`}; }
-function typeLabel(t){ return {ml:'Machine Learning',stock:'Stock Market',pattern:'Universal Pattern'}[t]; }
-function typeColor(t){ return {ml:'#4fc3f7',stock:'#81c784',pattern:'#c8a96e'}[t]; }
-
-// ── 3D LAYOUT ────────────────────────────────────────────────────
-function spherePt(i,total,r){ const phi=Math.acos(1-2*(i+.5)/total),theta=TAU*(i/1.618033988749895); return {x:r*Math.sin(phi)*Math.cos(theta),y:r*Math.sin(phi)*Math.sin(theta),z:r*Math.cos(phi)}; }
-const pos3D=[];
-let mi=0,si=0,gi=0;
-const cnt=t=>NODES.filter(n=>n.type===t).length;
-NODES.forEach(n=>{
-  let base,off,idx,tot;
-  if(n.type==='pattern'){base={x:0,y:0,z:0};off=80;idx=gi++;tot=cnt('pattern');}
-  else if(n.type==='ml'){base={x:-220,y:-80,z:60};off=110;idx=mi++;tot=cnt('ml');}
-  else{base={x:200,y:60,z:-40};off=110;idx=si++;tot=cnt('stock');}
-  const sp=spherePt(idx,tot,off);
-  pos3D.push({x:base.x+sp.x,y:base.y+sp.y,z:base.z+sp.z});
+/* ── Galaxy layout ── */
+const CLUSTER={};
+const ML_COLS=['stats','ml-math','llm','mlops'];
+const MKT_COLS=['charts','indicators','psychology','risk'];
+ML_COLS.forEach((col,i)=>{
+  const angle=Math.PI+0.55-i*0.42;
+  const dist=300+i*130;
+  CLUSTER[col]={x:Math.cos(angle)*dist,y:Math.sin(angle)*dist*0.68};
+});
+MKT_COLS.forEach((col,i)=>{
+  const angle=0.55-i*0.42;
+  const dist=300+i*130;
+  CLUSTER[col]={x:Math.cos(angle)*dist,y:Math.sin(angle)*dist*0.68};
 });
 
-// ── CAMERA ──────────────────────────────────────────────────────
-let rotX=.3,rotY=.5,tRotX=.3,tRotY=.5,zoom=1,tZoom=1;
-let drag=false,lmx,lmy,autoRot=true,slow=false,time=0;
-let mx=W/2,my=H/2;
-
-// ── MODES ────────────────────────────────────────────────────────
-let mode='normal',constNode=null,whA=null,whB=null,whActive=false;
-
-function setMode(m){
-  mode=m;
-  document.body.classList.toggle('wormhole-mode',m==='wormhole');
-  ['normal','const','worm'].forEach((id,i)=>document.getElementById('btn-'+id).classList.toggle('active',['normal','constellation','wormhole'][i]===m));
-  if(m==='normal') showStatus('');
-  if(m==='constellation') showStatus('Hold a node to reveal its constellation');
-  if(m==='wormhole'){ showStatus('Click two nodes to open a wormhole'); whA=null; whB=null; }
-  if(m!=='constellation') constNode=null;
-}
-document.getElementById('btn-normal').onclick=()=>setMode('normal');
-document.getElementById('btn-const').onclick=()=>setMode('constellation');
-document.getElementById('btn-worm').onclick=()=>setMode('wormhole');
-document.addEventListener('keydown',e=>{ if(e.key==='w'||e.key==='W') setMode(mode==='wormhole'?'normal':'wormhole'); if(e.key==='Shift') slow=true; });
-document.addEventListener('keyup',e=>{ if(e.key==='Shift') slow=false; });
-
-const statusEl=document.getElementById('status-msg');
-function showStatus(msg){ if(!msg){statusEl.classList.remove('visible');return;} statusEl.textContent=msg; statusEl.classList.add('visible'); }
-
-// ── MOUSE ────────────────────────────────────────────────────────
-const cursorEl=document.getElementById('cursor'),ringEl=document.getElementById('cursor-ring'),tipEl=document.getElementById('tooltip');
-const introEl=document.getElementById('intro'),pqEl=document.getElementById('pattern-quote'),pqText=document.getElementById('pq-text'),pqAttr=document.getElementById('pq-attr');
-
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  cursorEl.style.left=mx+'px'; cursorEl.style.top=my+'px';
-  ringEl.style.left=mx+'px'; ringEl.style.top=my+'px';
-  if(drag){ tRotY+=(e.clientX-lmx)*.006; tRotX+=(e.clientY-lmy)*.006; tRotX=Math.max(-1.2,Math.min(1.2,tRotX)); lmx=e.clientX; lmy=e.clientY; autoRot=false; introEl.classList.add('hidden'); }
+/* ── Place topics ── */
+const nodes=[];
+const colGroups={};
+GAME_TOPICS.forEach(t=>{if(!colGroups[t.col])colGroups[t.col]=[];colGroups[t.col].push(t);});
+const GA=Math.PI*(3-Math.sqrt(5));
+Object.keys(colGroups).forEach(col=>{
+  const c=CLUSTER[col],topics=colGroups[col],meta=COL_META[col];
+  topics.forEach((t,i)=>{
+    const r=16+7.5*Math.sqrt(i),theta=i*GA;
+    nodes.push({...t,idx:nodes.length,wx:c.x+Math.cos(theta)*r,wy:c.y+Math.sin(theta)*r,
+      color:meta.color,size:1.8+Math.random()*1.4,phase:rand(0,TAU),twSpeed:0.4+rand(0,2)});
+  });
 });
-document.addEventListener('mousedown',e=>{ drag=true; lmx=e.clientX; lmy=e.clientY; });
-document.addEventListener('mouseup',()=>drag=false);
-document.addEventListener('wheel',e=>{ tZoom*=(1-e.deltaY*.001); tZoom=Math.max(.4,Math.min(2.5,tZoom)); introEl.classList.add('hidden'); });
-document.addEventListener('touchstart',e=>{ drag=true; lmx=e.touches[0].clientX; lmy=e.touches[0].clientY; introEl.classList.add('hidden'); },{passive:true});
-document.addEventListener('touchmove',e=>{ if(!drag) return; tRotY+=(e.touches[0].clientX-lmx)*.006; tRotX+=(e.touches[0].clientY-lmy)*.006; tRotX=Math.max(-1.2,Math.min(1.2,tRotX)); lmx=e.touches[0].clientX; lmy=e.touches[0].clientY; autoRot=false; },{passive:true});
-document.addEventListener('touchend',()=>drag=false);
 
-// ── PROJECTION ──────────────────────────────────────────────────
-function project(p){ const cY=Math.cos(rotY),sY=Math.sin(rotY); const x1=p.x*cY-p.z*sY,z1=p.x*sY+p.z*cY; const cX=Math.cos(rotX),sX=Math.sin(rotX); const y2=p.y*cX-z1*sX,z2=p.y*sX+z1*cX; const fov=700*zoom,d=fov/(fov+z2+400); return {sx:cx+x1*d,sy:cy+y2*d,depth:z2,scale:d}; }
-function getProjNodes(){ return NODES.map((n,i)=>{ const pr=project(pos3D[i]); return {...n,...pr}; }).sort((a,b)=>a.depth-b.depth); }
-
-// ── HOVER & CLICK ────────────────────────────────────────────────
-let hov=null,sel=null,holdTimer=null,holding=false;
-
-function checkHover(pn){
-  let found=null;
-  for(let i=pn.length-1;i>=0;i--){ const n=pn[i]; const r=n.size*n.scale*12; const dx=mx-n.sx,dy=my-n.sy; if(dx*dx+dy*dy<r*r){found=n;break;} }
-  if(found!==hov){
-    hov=found;
-    if(found){ ringEl.style.width='60px'; ringEl.style.height='60px'; tipEl.textContent=found.label; tipEl.classList.add('visible'); }
-    else { ringEl.style.width='40px'; ringEl.style.height='40px'; tipEl.classList.remove('visible'); }
+/* ── Cross-domain edges ── */
+const crossEdges=[];
+const kwIndex={};
+nodes.forEach((n,i)=>n.kw.forEach(k=>{const kl=k.toLowerCase();if(!kwIndex[kl])kwIndex[kl]=[];kwIndex[kl].push(i);}));
+Object.values(kwIndex).forEach(ids=>{
+  for(let a=0;a<ids.length;a++)for(let b=a+1;b<ids.length;b++){
+    if(nodes[ids[a]].domain!==nodes[ids[b]].domain){
+      crossEdges.push({a:ids[a],b:ids[b],kw:nodes[ids[a]].kw.filter(k=>nodes[ids[b]].kw.some(k2=>k2.toLowerCase()===k.toLowerCase()))});
+    }
   }
-  if(hov){ tipEl.style.left=(mx+20)+'px'; tipEl.style.top=(my-10)+'px'; }
+});
+/* Deduplicate and rank */
+const edgeMap={};
+crossEdges.forEach(e=>{const key=Math.min(e.a,e.b)+'-'+Math.max(e.a,e.b);if(!edgeMap[key])edgeMap[key]=e;else edgeMap[key].kw=[...new Set([...edgeMap[key].kw,...e.kw])];});
+const edges=Object.values(edgeMap).sort((a,b)=>b.kw.length-a.kw.length).slice(0,250);
+const edgeLookup={};
+edges.forEach(e=>{if(!edgeLookup[e.a])edgeLookup[e.a]=[];edgeLookup[e.a].push(e);if(!edgeLookup[e.b])edgeLookup[e.b]=[];edgeLookup[e.b].push(e);});
+
+/* Cross-keyword set for panel highlighting */
+const crossKwSet=new Set();
+if(typeof CROSS_KEYWORDS!=='undefined')CROSS_KEYWORDS.forEach(ck=>crossKwSet.add(ck.kw));
+
+/* ── Background particles ── */
+const dust=Array.from({length:350},()=>({x:rand(-900,900),y:rand(-700,700),r:rand(.2,1.1),phase:rand(0,TAU),sp:rand(.3,1.8)}));
+
+/* ── Camera ── */
+let cam={x:0,y:0,z:0.42},tgt={x:0,y:0,z:0.42};
+let dragging=false,dragS={x:0,y:0},camS={x:0,y:0};
+let mx=0,my=0,hovNode=null,selNode=null,introVis=true,time=0;
+
+function w2s(wx,wy){return{sx:(wx-cam.x)*cam.z+W/2,sy:(wy-cam.y)*cam.z+H/2};}
+function s2w(sx,sy){return{wx:(sx-W/2)/cam.z+cam.x,wy:(sy-H/2)/cam.z+cam.y};}
+function onScreen(sx,sy,pad){return sx>-pad&&sx<W+pad&&sy>-pad&&sy<H+pad;}
+
+/* ── Drawing ── */
+function drawBg(){
+  const g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.7);
+  g.addColorStop(0,'#0c0a14');g.addColorStop(1,'#050508');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+function drawCore(){
+  const c=w2s(0,0),r=220*cam.z;
+  const g=ctx.createRadialGradient(c.sx,c.sy,0,c.sx,c.sy,r);
+  g.addColorStop(0,'rgba(200,169,110,0.07)');g.addColorStop(.4,'rgba(200,169,110,0.025)');g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(c.sx,c.sy,r,0,TAU);ctx.fill();
+  /* tiny bright center */
+  const g2=ctx.createRadialGradient(c.sx,c.sy,0,c.sx,c.sy,8*cam.z);
+  g2.addColorStop(0,'rgba(255,240,200,0.3)');g2.addColorStop(1,'transparent');
+  ctx.fillStyle=g2;ctx.beginPath();ctx.arc(c.sx,c.sy,8*cam.z,0,TAU);ctx.fill();
+}
+function drawNebulae(){
+  Object.keys(CLUSTER).forEach(col=>{
+    const cc=CLUSTER[col],meta=COL_META[col],topics=colGroups[col]||[];
+    const s=w2s(cc.x,cc.y),r=(55+topics.length*2.8)*cam.z;
+    if(!onScreen(s.sx,s.sy,r+50))return;
+    const pulse=.5+.15*Math.sin(time*.4+cc.x*.008);
+    const g=ctx.createRadialGradient(s.sx,s.sy,0,s.sx,s.sy,r);
+    g.addColorStop(0,hexA(meta.color,.045*pulse));g.addColorStop(.6,hexA(meta.color,.015*pulse));g.addColorStop(1,'transparent');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(s.sx,s.sy,r,0,TAU);ctx.fill();
+  });
+}
+function drawDust(){
+  dust.forEach(d=>{
+    const s=w2s(d.x,d.y);if(!onScreen(s.sx,s.sy,5))return;
+    const tw=.3+.7*(Math.sin(time*d.sp+d.phase)*.5+.5);
+    ctx.beginPath();ctx.arc(s.sx,s.sy,Math.max(.3,d.r*cam.z),0,TAU);
+    ctx.fillStyle=`rgba(200,180,140,${.1*tw})`;ctx.fill();
+  });
+}
+function drawEdges(){
+  if(cam.z<0.25)return;
+  const baseA=Math.min(.14,.04+cam.z*.06);
+  edges.forEach(e=>{
+    const na=nodes[e.a],nb=nodes[e.b];
+    const sa=w2s(na.wx,na.wy),sb=w2s(nb.wx,nb.wy);
+    if(!onScreen(sa.sx,sa.sy,50)&&!onScreen(sb.sx,sb.sy,50))return;
+    const isSel=selNode&&(selNode.idx===e.a||selNode.idx===e.b);
+    const a=isSel?baseA*3.5:baseA*Math.min(1,e.kw.length*.5);
+    const gr=ctx.createLinearGradient(sa.sx,sa.sy,sb.sx,sb.sy);
+    gr.addColorStop(0,hexA(na.color,a));gr.addColorStop(1,hexA(nb.color,a));
+    ctx.beginPath();ctx.moveTo(sa.sx,sa.sy);ctx.lineTo(sb.sx,sb.sy);
+    ctx.strokeStyle=gr;ctx.lineWidth=isSel?1.2:.5;ctx.stroke();
+    /* Traveling light */
+    if(isSel||cam.z>.6){
+      const ft=((time*.3+e.a*.13)%1);
+      const px=sa.sx+(sb.sx-sa.sx)*ft,py=sa.sy+(sb.sy-sa.sy)*ft;
+      ctx.beginPath();ctx.arc(px,py,isSel?2:1,0,TAU);ctx.fillStyle=hexA('#fff',isSel?.4:.12);ctx.fill();
+    }
+  });
+}
+function drawNodes(){
+  nodes.forEach(n=>{
+    const s=w2s(n.wx,n.wy);if(!onScreen(s.sx,s.sy,30))return;
+    const r=Math.max(1.2,n.size*cam.z);
+    const isH=hovNode&&hovNode.idx===n.idx,isS=selNode&&selNode.idx===n.idx;
+    const tw=.5+.5*Math.sin(time*n.twSpeed+n.phase);
+    /* Glow */
+    const gr=r*(isH?5.5:isS?5:2.8);
+    const g=ctx.createRadialGradient(s.sx,s.sy,0,s.sx,s.sy,gr);
+    g.addColorStop(0,hexA(n.color,(isH?.28:isS?.22:.07)*tw));g.addColorStop(1,'transparent');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(s.sx,s.sy,gr,0,TAU);ctx.fill();
+    /* Core */
+    const cg=ctx.createRadialGradient(s.sx,s.sy,0,s.sx,s.sy,r);
+    cg.addColorStop(0,'rgba(255,255,255,.9)');cg.addColorStop(.35,n.color);cg.addColorStop(1,hexA(n.color,.2));
+    ctx.fillStyle=cg;ctx.beginPath();ctx.arc(s.sx,s.sy,r,0,TAU);ctx.fill();
+    /* Selection ring */
+    if(isH||isS){ctx.beginPath();ctx.arc(s.sx,s.sy,r*2.8+2*Math.sin(time*3),0,TAU);ctx.strokeStyle=hexA(n.color,.45);ctx.lineWidth=1;ctx.stroke();}
+    /* Label */
+    if(isH||isS||cam.z>1.3){
+      const fs=Math.max(7,Math.min(11,9*cam.z));
+      ctx.font=fs+"px 'Space Mono',monospace";ctx.textAlign='center';
+      ctx.fillStyle=hexA('#e8e4dc',isH||isS?.92:.45);
+      ctx.fillText(n.title,s.sx,s.sy-r-5);
+    }
+  });
+}
+function drawClusterLabels(){
+  if(cam.z>1.6)return;
+  const a=Math.max(0,Math.min(.38,.38-(cam.z-.7)*.5));if(a<=0)return;
+  ctx.font="bold 10px 'Space Mono',monospace";ctx.textAlign='center';
+  Object.keys(CLUSTER).forEach(col=>{
+    const cc=CLUSTER[col],meta=COL_META[col];
+    const total=colGroups[col]?colGroups[col].length:0;
+    const s=w2s(cc.x,cc.y-(30+total*1.2));
+    if(!onScreen(s.sx,s.sy,120))return;
+    ctx.fillStyle=hexA(meta.color,a);ctx.fillText(meta.name.toUpperCase(),s.sx,s.sy);
+    ctx.font="9px 'Space Mono',monospace";
+    ctx.fillStyle=hexA(meta.color,a*.5);ctx.fillText(total+' topics',s.sx,s.sy+14);
+    ctx.font="bold 10px 'Space Mono',monospace";
+  });
 }
 
-canvas.addEventListener('mousedown',()=>{ if(hov){ holding=false; holdTimer=setTimeout(()=>{ if(mode==='normal'||mode==='constellation'){ constNode=hov; holding=true; introEl.classList.add('hidden'); showStatus(''); } },450); } });
-canvas.addEventListener('mouseup',()=>{
-  clearTimeout(holdTimer);
-  if(holding){ holding=false; return; }
-  if(!hov){ sel=null; closeSidePanel(); pqEl.classList.remove('visible'); if(mode!=='wormhole') constNode=null; return; }
-  introEl.classList.add('hidden');
-  if(mode==='wormhole'){ handleWH(hov); return; }
-  if(mode==='constellation'){ constNode=hov; return; }
-  sel=(sel&&sel.id===hov.id)?null:hov;
-  if(sel){ openSidePanel(sel); showCenterQ(sel); }
-  else closeSidePanel();
+/* ── Hit detection ── */
+function findNode(sx,sy){
+  let best=null,bd=Infinity;
+  nodes.forEach(n=>{
+    const s=w2s(n.wx,n.wy);
+    const d=Math.hypot(s.sx-sx,s.sy-sy);
+    const hitR=Math.max(12,n.size*cam.z*3.5);
+    if(d<hitR&&d<bd){best=n;bd=d;}
+  });
+  return best;
+}
+
+/* ── Info panel ── */
+const panel=document.getElementById('panel');
+function openPanel(n){
+  const m=COL_META[n.col];
+  document.getElementById('panel-col').textContent=m.name;
+  document.getElementById('panel-col').style.color=m.color;
+  document.getElementById('panel-title').textContent=n.title;
+  document.getElementById('panel-cat').textContent=n.cat;
+  document.getElementById('panel-keywords').innerHTML=n.kw.map(k=>'<span class="kw-chip'+(crossKwSet.has(k.toLowerCase())?' cross-kw':'')+'">'+k+'</span>').join('');
+  const conns=(edgeLookup[n.idx]||[]).map(e=>{const oi=e.a===n.idx?e.b:e.a;return{node:nodes[oi],kw:e.kw};});
+  const cl=document.getElementById('panel-conn-list');
+  cl.innerHTML=conns.length?conns.map(c=>'<div class="conn-item" data-i="'+c.node.idx+'"><div class="conn-dot" style="background:'+c.node.color+'"></div><span class="conn-name">'+c.node.title+'</span><span class="conn-kw">'+c.kw[0]+'</span></div>').join(''):'<div style="font-size:12px;color:rgba(232,228,220,.25);font-style:italic">No cross-domain connections</div>';
+  cl.querySelectorAll('.conn-item').forEach(el=>el.addEventListener('click',()=>{
+    const nd=nodes[+el.dataset.i];selNode=nd;tgt.x=nd.wx;tgt.y=nd.wy;tgt.z=Math.max(cam.z,2.2);openPanel(nd);panel.scrollTop=0;
+  }));
+  document.getElementById('panel-link').href=m.path+'#'+n.id;
+  panel.classList.add('open');
+}
+function closePanel(){panel.classList.remove('open');}
+document.getElementById('panel-close').onclick=()=>{selNode=null;closePanel();};
+
+/* ── Search ── */
+const sOverlay=document.getElementById('search-overlay'),sInput=document.getElementById('search-input'),sResults=document.getElementById('search-results');
+function openSearch(){sOverlay.classList.add('active');sInput.value='';sInput.focus();sResults.innerHTML='';}
+function closeSearch(){sOverlay.classList.remove('active');}
+sInput.addEventListener('input',()=>{
+  const q=sInput.value.toLowerCase().trim();
+  const m=q?nodes.filter(n=>n.title.toLowerCase().includes(q)||n.cat.toLowerCase().includes(q)||n.kw.some(k=>k.toLowerCase().includes(q))).slice(0,12):[];
+  sResults.innerHTML=m.map(n=>'<div class="search-item" data-i="'+n.idx+'"><div class="search-dot" style="background:'+n.color+'"></div><span class="search-title">'+n.title+'</span><span class="search-col">'+COL_META[n.col].name+'</span></div>').join('');
+  sResults.querySelectorAll('.search-item').forEach(el=>el.addEventListener('click',()=>{
+    const nd=nodes[+el.dataset.i];selNode=nd;tgt.x=nd.wx;tgt.y=nd.wy;tgt.z=2.5;openPanel(nd);closeSearch();
+  }));
+});
+sOverlay.addEventListener('click',e=>{if(e.target===sOverlay)closeSearch();});
+sInput.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();});
+
+/* ── Events ── */
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}
+  if(e.key==='Escape'){if(sOverlay.classList.contains('active'))closeSearch();else if(selNode){selNode=null;closePanel();}}
+});
+canvas.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  if(dragging){tgt.x=camS.x-(e.clientX-dragS.x)/cam.z;tgt.y=camS.y-(e.clientY-dragS.y)/cam.z;hideIntro();}
+  hovNode=findNode(mx,my);
+  const tip=document.getElementById('tip');
+  if(hovNode){tip.textContent=hovNode.title;tip.style.left=(mx+16)+'px';tip.style.top=(my-8)+'px';tip.classList.add('show');canvas.style.cursor='pointer';}
+  else{tip.classList.remove('show');canvas.style.cursor=dragging?'grabbing':'grab';}
+});
+canvas.addEventListener('mousedown',e=>{dragging=true;dragS={x:e.clientX,y:e.clientY};camS={x:tgt.x,y:tgt.y};canvas.classList.add('dragging');});
+canvas.addEventListener('mouseup',e=>{
+  const moved=Math.hypot(e.clientX-dragS.x,e.clientY-dragS.y);
+  dragging=false;canvas.classList.remove('dragging');canvas.style.cursor=hovNode?'pointer':'grab';
+  if(moved<5){if(hovNode){selNode=hovNode;tgt.x=hovNode.wx;tgt.y=hovNode.wy;tgt.z=Math.max(cam.z,2.2);openPanel(hovNode);hideIntro();}else{selNode=null;closePanel();}}
+});
+canvas.addEventListener('wheel',e=>{e.preventDefault();tgt.z=Math.max(.12,Math.min(6,tgt.z*(1-e.deltaY*.001)));hideIntro();},{passive:false});
+
+/* Touch */
+let lastTD=0;
+canvas.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){dragging=true;dragS={x:e.touches[0].clientX,y:e.touches[0].clientY};camS={x:tgt.x,y:tgt.y};}
+  if(e.touches.length===2){lastTD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}
+  hideIntro();
+},{passive:true});
+canvas.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&dragging){tgt.x=camS.x-(e.touches[0].clientX-dragS.x)/cam.z;tgt.y=camS.y-(e.touches[0].clientY-dragS.y)/cam.z;}
+  if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(lastTD>0)tgt.z=Math.max(.12,Math.min(6,tgt.z*(d/lastTD)));lastTD=d;}
+},{passive:false});
+canvas.addEventListener('touchend',e=>{
+  if(e.touches.length===0){dragging=false;lastTD=0;
+    const ct=e.changedTouches[0];if(ct){const moved=Math.hypot(ct.clientX-dragS.x,ct.clientY-dragS.y);
+    if(moved<10){const nd=findNode(ct.clientX,ct.clientY);if(nd){selNode=nd;tgt.x=nd.wx;tgt.y=nd.wy;tgt.z=Math.max(cam.z,2.2);openPanel(nd);}else{selNode=null;closePanel();}}}
+  }
 });
 
-document.addEventListener('mouseup',()=>{
-  if(mode==='normal' && !holding) constNode=null;
-});
+function hideIntro(){if(introVis){introVis=false;document.getElementById('intro').classList.add('hidden');}}
 
-// ── WORMHOLE ────────────────────────────────────────────────────
-function handleWH(node){
-  if(!whA){ whA=node; showStatus(`Selected: ${node.label} — click another node`); return; }
-  if(node.id===whA.id){ showStatus('Click a different node'); return; }
-  whB=node; openWH(whA,whB); whA=null; whB=null;
-}
-function openWH(na,nb){
-  const br=getBridge(na.id,nb.id);
-  document.getElementById('wh-name-a').textContent=na.label;
-  document.getElementById('wh-name-b').textContent=nb.label;
-  document.getElementById('wh-dot-a').style.background=na.color;
-  document.getElementById('wh-dot-b').style.background=nb.color;
-  document.getElementById('wh-bridge').textContent=br.text;
-  document.getElementById('wh-attr').textContent=br.attr;
-  document.getElementById('wormhole-overlay').classList.add('active');
-  whActive=true; startWhAnim();
-  setTimeout(()=>document.getElementById('wormhole-content').classList.add('visible'),120);
-  showStatus('');
-}
-document.getElementById('wh-close').onclick=()=>{
-  document.getElementById('wormhole-overlay').classList.remove('active');
-  document.getElementById('wormhole-content').classList.remove('visible');
-  whActive=false;
-  if(mode==='wormhole') showStatus('Click two nodes to open a wormhole');
-};
-
-let whRaf, whT=0;
-function startWhAnim(){ whT=0; cancelAnimationFrame(whRaf); (function f(){ if(!whActive) return; whRaf=requestAnimationFrame(f); whT+=.012; const W2=whCanvas.width,H2=whCanvas.height,cx2=W2/2,cy2=H2/2; whCtx.clearRect(0,0,W2,H2); for(let i=0;i<14;i++){ const r=Math.max(1,35+i*36+Math.sin(whT*1.4+i)*(12+i*3)); whCtx.beginPath(); whCtx.arc(cx2,cy2,r,0,TAU); whCtx.strokeStyle=`hsla(${255+i*7},70%,65%,${Math.max(0,(1-i/14)*.3+.04)})`; whCtx.lineWidth=1.5; whCtx.stroke(); } for(let i=0;i<70;i++){ const a=whT*2+i*TAU/70,rad=Math.max(1,25+Math.sin(whT+i*.4)*200); const px=cx2+Math.cos(a)*rad,py=cy2+Math.sin(a)*rad; whCtx.beginPath(); whCtx.arc(px,py,1.5,0,TAU); whCtx.fillStyle=`hsla(${248+i*2},80%,75%,${.35+.3*Math.sin(whT*3+i)})`; whCtx.fill(); } const g=whCtx.createRadialGradient(cx2,cy2,0,cx2,cy2,65); g.addColorStop(0,`rgba(167,139,250,${.15+.1*Math.sin(whT*2)})`); g.addColorStop(1,'rgba(167,139,250,0)'); whCtx.beginPath(); whCtx.arc(cx2,cy2,65,0,TAU); whCtx.fillStyle=g; whCtx.fill(); })(); }
-
-// ── SIDE PANEL ──────────────────────────────────────────────────
-const sidePanel=document.getElementById('side-panel');
-const topicLinkEl=document.getElementById('panel-topic-link');
-function openSidePanel(node){
-  const ptEl=document.getElementById('panel-type'); ptEl.textContent=typeLabel(node.type); ptEl.style.color=typeColor(node.type);
-  document.getElementById('panel-title').textContent=node.label;
-  document.getElementById('panel-subtitle').textContent=node.sub;
-  document.getElementById('panel-quote').textContent='"'+node.quote+'"';
-  document.getElementById('panel-essay').innerHTML=node.essay;
-  // Topic link — shows only when node has a url
-  if(node.url){ topicLinkEl.href=node.url; topicLinkEl.style.display='inline-flex'; topicLinkEl.style.color=typeColor(node.type); topicLinkEl.style.borderColor=typeColor(node.type)+'55'; }
-  else { topicLinkEl.style.display='none'; }
-  const connIds=EDGES.filter(([a,b])=>a===node.id||b===node.id).map(([a,b])=>a===node.id?b:a);
-  const chips=document.getElementById('panel-chips');
-  chips.innerHTML=connIds.map(id=>`<span class="conn-chip" style="color:${typeColor(NODES[id].type)};border-color:${typeColor(NODES[id].type)}40" data-id="${id}">${NODES[id].label}</span>`).join('');
-  chips.querySelectorAll('.conn-chip').forEach(c=>c.addEventListener('click',()=>{ sel=NODES[+c.dataset.id]; openSidePanel(sel); sidePanel.scrollTop=0; }));
-  sidePanel.classList.add('open');
-  canvas.style.left='-210px';
-}
-function closeSidePanel(){ sidePanel.classList.remove('open'); canvas.style.left='0'; }
-document.getElementById('panel-close').onclick=()=>{ sel=null; closeSidePanel(); };
-
-// ── CENTER QUOTE ─────────────────────────────────────────────────
-let qTimer;
-function showCenterQ(node){ clearTimeout(qTimer); pqText.textContent='"'+node.quote+'"'; pqAttr.textContent=node.label+' · '+typeLabel(node.type); pqEl.style.color=typeColor(node.type); pqEl.classList.add('visible'); qTimer=setTimeout(()=>pqEl.classList.remove('visible'),3800); }
-
-// ── DRAW HELPERS ─────────────────────────────────────────────────
-function hexA(hex,a){ if(hex.length===4) hex='#'+hex[1]+hex[1]+hex[2]+hex[2]+hex[3]+hex[3]; const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; }
-
-const PARTS=Array.from({length:110},()=>({x:(Math.random()-.5)*900,y:(Math.random()-.5)*900,z:(Math.random()-.5)*900,r:Math.random()*1.5+.3,sp:Math.random()*.3+.1,ph:Math.random()*TAU}));
-
-function drawEdge(na,nb,pa,pb,pulse,isConst){
-  const a=isConst?(.45+.2*pulse):(.09+.05*pulse);
-  const lw=isConst?1.5:.7;
-  const gr=ctx.createLinearGradient(pa.sx,pa.sy,pb.sx,pb.sy);
-  gr.addColorStop(0,hexA(na.color,a)); gr.addColorStop(1,hexA(nb.color,a));
-  ctx.beginPath(); ctx.moveTo(pa.sx,pa.sy); ctx.lineTo(pb.sx,pb.sy);
-  ctx.strokeStyle=gr; ctx.lineWidth=lw; ctx.stroke();
-  const t=((time*.4+pulse*3)%1), px2=pa.sx+(pb.sx-pa.sx)*t, py2=pa.sy+(pb.sy-pa.sy)*t;
-  ctx.beginPath(); ctx.arc(px2,py2,isConst?2.5:1.5,0,TAU);
-  ctx.fillStyle=hexA('#fff',isConst?.55:.18+.12*pulse); ctx.fill();
-}
-
-function drawNode(node,proj,isHov,isSel,pulse,isConst,dimmed){
-  const r=Math.max(1, node.size*proj.scale*10);
-  const x=proj.sx, y=proj.sy, col=node.color;
-  const da=dimmed?.12:Math.max(.28,Math.min(1,(proj.scale-.28)/.72));
-  const gr2=Math.max(1, r*(isHov?3.5:isConst?4.2:2.5));
-  const glow=ctx.createRadialGradient(x,y,0,x,y,gr2);
-  glow.addColorStop(0,hexA(col,(isSel?.25:isConst?.3:.1)*da+pulse*(isConst?.14:.06)));
-  glow.addColorStop(1,hexA(col,0));
-  ctx.beginPath(); ctx.arc(x,y,gr2,0,TAU); ctx.fillStyle=glow; ctx.fill();
-  if(isSel||isHov||isConst){ ctx.beginPath(); ctx.arc(x,y,r*1.7,0,TAU); ctx.strokeStyle=hexA(col,.4+pulse*.2); ctx.lineWidth=isConst?1.5:.8; ctx.stroke(); }
-  if(mode==='wormhole'&&whA&&whA.id===node.id){ ctx.beginPath(); ctx.arc(x,y,r*2.2+5*Math.sin(time*4),0,TAU); ctx.strokeStyle='rgba(167,139,250,0.7)'; ctx.lineWidth=2; ctx.stroke(); }
-  const g2=ctx.createRadialGradient(x-r*.3,y-r*.3,0,x,y,Math.max(1,r));
-  g2.addColorStop(0,hexA('#fff',.48*da)); g2.addColorStop(.4,hexA(col,.9*da)); g2.addColorStop(1,hexA(col,.28*da));
-  ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fillStyle=g2; ctx.fill();
-  if(isHov||isSel||isConst){ ctx.font=`${Math.max(8,10*proj.scale)}px 'Space Mono',monospace`; ctx.textAlign='center'; ctx.fillStyle=hexA('#e8e4dc',.95); ctx.fillText(node.label,x,y-r-8); }
-}
-
-// ── MAIN LOOP ────────────────────────────────────────────────────
+/* ── Main loop ── */
 let lastT=0;
 function frame(now){
   requestAnimationFrame(frame);
-  const dt=Math.min((now-lastT)/1000,.05); lastT=now;
-  time+=dt*(slow?.15:1);
-  rotX+=(tRotX-rotX)*.08; rotY+=(tRotY-rotY)*.08; zoom+=(tZoom-zoom)*.08;
-  if(autoRot) tRotY+=dt*.12;
-  ctx.clearRect(0,0,W,H);
-  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
-  bg.addColorStop(0,'rgba(12,10,20,1)'); bg.addColorStop(1,'rgba(5,5,8,1)');
-  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-  PARTS.forEach(p=>{ const pr=project(p); const a=Math.max(0,(pr.scale-.3)*.28); ctx.beginPath(); ctx.arc(pr.sx,pr.sy,p.r*pr.scale,0,TAU); ctx.fillStyle=`rgba(200,180,130,${a*(.28+.18*Math.sin(time*p.sp+p.ph))})`; ctx.fill(); });
-  const pn=getProjNodes();
-  const pm={}; pn.forEach(n=>pm[n.id]=n);
-  const constIds=constNode ? new Set(EDGES.filter(([a,b])=>a===constNode.id||b===constNode.id).map(([a,b])=>a===constNode.id?b:a)) : new Set();
-  EDGES.forEach(([ai,bi],ei)=>{
-    const pa=pm[ai],pb=pm[bi]; if(!pa||!pb) return;
-    const pulse=(Math.sin(time*1.5+ei*.7)+1)/2;
-    const isConst=constNode!==null&&(constNode.id===ai||constNode.id===bi);
-    drawEdge(NODES[ai],NODES[bi],pa,pb,pulse,isConst);
-  });
-  pn.forEach(n=>{
-    const pulse=(Math.sin(time*2.5+n.id*1.2)+1)/2;
-    const isConst=constNode!==null&&(constNode.id===n.id||constIds.has(n.id));
-    const dimmed=constNode!==null&&!isConst;
-    drawNode(n,n,hov&&hov.id===n.id,sel&&sel.id===n.id,pulse,isConst,dimmed);
-  });
-  if(sel){ const sn=pm[sel.id]; if(sn){ const r=sel.size*sn.scale*10; ctx.beginPath(); ctx.arc(sn.sx,sn.sy,r*2+5*Math.sin(time*3),0,TAU); ctx.strokeStyle=hexA(sel.color,.5); ctx.lineWidth=1; ctx.stroke(); } }
-  checkHover(pn);
+  const dt=Math.min((now-lastT)/1000,.05);lastT=now;time+=dt;
+  cam.x=lerp(cam.x,tgt.x,.07);cam.y=lerp(cam.y,tgt.y,.07);cam.z=lerp(cam.z,tgt.z,.07);
+  drawBg();drawCore();drawNebulae();drawDust();drawEdges();drawNodes();drawClusterLabels();
 }
 requestAnimationFrame(frame);
-
-// ── AUTO QUOTES ──────────────────────────────────────────────────
-const aqNodes=[NODES[14],NODES[11],NODES[4],NODES[0],NODES[15],NODES[7],NODES[8]];
-let qi=0;
-setTimeout(()=>{ (function cycle(){ if(!sel&&!drag) showCenterQ(aqNodes[qi++%aqNodes.length]); setTimeout(cycle,6500); })(); }, 3000);
+setTimeout(()=>document.getElementById('controls').classList.add('hidden'),8000);
+})();
 </script>
 </body>
 </html>
