@@ -27,6 +27,8 @@ function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 function gauss() { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
 const BLUE = '#4fc3f7';
+const RED = '#e57373';
+const GREEN = '#81c784';
 const COLORS = ['#4fc3f7', '#81c784', '#e57373', '#ffb74d', '#ce93d8', '#4dd0e1'];
 const MUTED = () => css('--muted') || '#666';
 const BORDER = () => css('--border') || '#222';
