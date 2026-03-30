@@ -1,7 +1,8 @@
-const CACHE_NAME = 'pattern-v12';
+const CACHE_NAME = 'pattern-v13';
 const SHELL = [
   '/index.html',
   '/css/main.css',
+  '/css/sandbox.css',
   '/ml/index.html',
   '/markets/index.html',
   '/mlops/index.html',
