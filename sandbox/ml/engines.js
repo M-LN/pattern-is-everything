@@ -1815,7 +1815,8 @@ function tsSimpleRNN(data, lookback) {
   const H = 8;  // hidden units
   // Xavier-ish init
   const scale = 0.5;
-  const Wih = [], Whh = [], Who = [], bh = new Array(H).fill(0), bo = 0;
+  const Wih = [], Whh = [], Who = [], bh = new Array(H).fill(0);
+  let bo = 0;
   for (let h = 0; h < H; h++) {
     Wih[h] = (Math.random() - 0.5) * scale;
     Whh[h] = [];
