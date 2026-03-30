@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sandbox — Pattern is Everything</title>
+  <meta name="description" content="Interactive sandbox — hands-on experiments with ML algorithms and market analysis tools. Learn by doing.">
+  <meta property="og:title" content="Sandbox — Pattern is Everything">
+  <meta property="og:description" content="Interactive sandbox — hands-on experiments with ML algorithms and market tools.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#c84b2f">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="canonical" href="https://patterniseverything.com/sandbox/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Sandbox — Pattern is Everything",
+    "url": "https://patterniseverything.com/sandbox/",
+    "description": "Interactive sandbox — hands-on experiments with ML algorithms and market analysis tools.",
+    "isPartOf": { "@type": "WebSite", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://patterniseverything.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Sandbox" }
+      ]
+    }
+  }
+  </script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .portal-hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 24px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .portal-hero::before {
+      content: '';
+      position: absolute;
+      top: 30px; left: 50%; transform: translateX(-50%);
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(200,75,47,.06) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    .portal-hero h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .portal-hero h2 em { font-style: italic; color: var(--accent); }
+    .portal-hero p {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .portal-content { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+    .portal-section-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .portal-section-title::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .portal-footer {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--border2);
+      position: relative;
+    }
+    .portal-footer::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+    }
+    .portal-footer p { margin-top: 6px; font-size: 10px; letter-spacing: .1em; }
+    .portal-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--hdr-h);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 28px;
+      gap: 16px;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+    }
+    body { padding-top: var(--hdr-h); }
+    .back-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Domain cards ── */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .domain-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 40px 36px;
+      transition: border-color .2s, transform .2s var(--ease), box-shadow .2s var(--ease);
+    }
+    .domain-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+    .domain-card.ml-card:hover { border-color: #4fc3f744; }
+    .domain-card.mkt-card:hover { border-color: #81c78444; }
+    .domain-card.stats-card:hover { border-color: #ce93d844; }
+    .domain-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .domain-card.ml-card::before  { background: linear-gradient(90deg, #4fc3f7, #29b6f6); }
+    .domain-card.mkt-card::before { background: linear-gradient(90deg, #81c784, #66bb6a); }
+    .domain-card.stats-card::before { background: linear-gradient(90deg, #ce93d8, #ba68c8); }
+    .domain-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .domain-title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .domain-title em { font-style: italic; }
+    .ml-card .domain-title em  { color: #4fc3f7; }
+    .mkt-card .domain-title em { color: #81c784; }
+    .stats-card .domain-title em { color: #ce93d8; }
+    .domain-desc {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .domain-activities {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .domain-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .ml-card .domain-tag  { color: #4fc3f7; border-color: #4fc3f744; }
+    .mkt-card .domain-tag { color: #81c784; border-color: #81c78444; }
+    .stats-card .domain-tag { color: #ce93d8; border-color: #ce93d844; }
+    .domain-enter {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      margin-top: 24px;
+      display: inline-block;
+    }
+    .ml-card .domain-enter  { color: #4fc3f7; }
+    .mkt-card .domain-enter { color: #81c784; }
+    .stats-card .domain-enter { color: #ce93d8; }
+
+    /* ── Info banner ── */
+    .sandbox-info {
+      max-width: 540px;
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+    .sandbox-info-chips {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .info-chip {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+    }
+    .info-chip span { font-size: 14px; }
+
+    @media (max-width: 720px) {
+      .domain-grid { grid-template-columns: 1fr; }
+      .domain-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="portal-header">
+  <a class="logo-ring" href="../index.html" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">
+    The <em style="font-style:italic;color:var(--accent)">Sandbox</em>
+  </h1>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <a class="back-link" href="../index.html">← Home</a>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+  </div>
+</div>
+
+<div class="portal-hero">
+  <h2>The <em>Sandbox</em></h2>
+  <p>Stop reading, start doing. Place data points, fit models, toggle indicators, spot patterns — learn by interacting with the algorithms and charts hands-on.</p>
+</div>
+
+<div class="sandbox-info">
+  <div class="sandbox-info-chips">
+    <div class="info-chip"><span>🖱️</span> Click & drag to experiment</div>
+    <div class="info-chip"><span>💡</span> Contextual learning tips</div>
+    <div class="info-chip"><span>🎯</span> Guided challenges</div>
+    <div class="info-chip"><span>⚡</span> Zero dependencies</div>
+  </div>
+</div>
+
+<div class="portal-content">
+  <div class="portal-section-title">Choose Your Lab</div>
+
+  <div class="domain-grid">
+    <a class="domain-card ml-card" href="ml/index.html">
+      <div class="domain-icon">🧠</div>
+      <div class="domain-title">ML <em>Lab</em></div>
+      <div class="domain-desc">Train models, cluster data, and watch algorithms learn — step through gradient descent, watch K-Means converge, and see how parameters change everything.</div>
+      <div class="domain-activities">
+        <span class="domain-tag">Linear Regression</span>
+        <span class="domain-tag">K-Means Clustering</span>
+      </div>
+      <div class="domain-enter">Enter ML Lab →</div>
+    </a>
+
+    <a class="domain-card mkt-card" href="markets/index.html">
+      <div class="domain-icon">📈</div>
+      <div class="domain-title">Markets <em>Lab</em></div>
+      <div class="domain-desc">Apply technical indicators to charts, adjust parameters in real-time, and test your pattern recognition — spot hammers, engulfing candles, and more.</div>
+      <div class="domain-activities">
+        <span class="domain-tag">Indicator Playground</span>
+        <span class="domain-tag">Pattern Spotter</span>
+      </div>
+      <div class="domain-enter">Enter Markets Lab →</div>
+    </a>
+
+    <a class="domain-card stats-card" href="stats/index.html">
+      <div class="domain-icon">📊</div>
+      <div class="domain-title">Stats <em>Lab</em></div>
+      <div class="domain-desc">Explore probability distributions, run hypothesis tests, discover correlation, and watch the Central Limit Theorem come alive.</div>
+      <div class="domain-activities">
+        <span class="domain-tag">Distribution Explorer</span>
+        <span class="domain-tag">Hypothesis Testing</span>
+        <span class="domain-tag">Correlation</span>
+        <span class="domain-tag">CLT</span>
+      </div>
+      <div class="domain-enter">Enter Stats Lab →</div>
+    </a>
+  </div>
+</div>
+
+<div class="portal-footer">
+  Pattern is Everything · 2026
+  <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
+</div>
+
+<script>
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+}
+const saved = localStorage.getItem('theme');
+if (saved) document.documentElement.setAttribute('data-theme', saved);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markets Lab — Pattern is Everything</title>
+  <meta name="description" content="Interactive markets sandbox — overlay technical indicators, spot candlestick patterns, and test your analysis skills.">
+  <meta property="og:title" content="Markets Lab — Pattern is Everything">
+  <meta property="og:description" content="Interactive markets sandbox — overlay technical indicators, spot candlestick patterns, and test your analysis skills.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#81c784">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2381c784'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="canonical" href="https://patterniseverything.com/sandbox/markets/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markets Lab",
+    "url": "https://patterniseverything.com/sandbox/markets/",
+    "description": "Interactive markets sandbox — overlay technical indicators, spot candlestick patterns, and test your analysis skills.",
+    "provider": { "@type": "Organization", "name": "Pattern is Everything" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://patterniseverything.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Sandbox", "item": "https://patterniseverything.com/sandbox/" },
+        { "@type": "ListItem", "position": 3, "name": "Markets Lab" }
+      ]
+    }
+  }
+  </script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="stylesheet" href="../../css/main.css">
+  <style>
+    /* ── Sandbox-specific styles ── */
+    header { border-bottom-color: #81c784; }
+    header em { color: #81c784; }
+
+    .sandbox-canvas-wrap {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: var(--surface);
+    }
+    .sandbox-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+    }
+
+    .sandbox-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .ctrl-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .ctrl-label {
+      min-width: 100px;
+      color: var(--muted);
+    }
+    .ctrl-row input[type="range"] {
+      flex: 1;
+      accent-color: #81c784;
+    }
+    .ctrl-val {
+      min-width: 48px;
+      text-align: right;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .ctrl-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sb-btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .sb-btn:hover { border-color: #81c784; background: rgba(129,199,132,0.08); }
+    .sb-btn.primary { background: #81c784; color: #000; border-color: #81c784; font-weight: 600; }
+    .sb-btn.primary:hover { background: #66bb6a; }
+    .sb-btn:disabled { opacity: 0.5; cursor: default; }
+    .challenge-btn { border-color: #ffb74d; }
+    .challenge-btn:hover { background: rgba(255,183,77,0.1); }
+    .choice-btn { min-width: 140px; text-align: center; }
+
+    .sb-select, .sb-input {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .sb-select:focus, .sb-input:focus { outline: none; border-color: #81c784; }
+    .sb-input { width: 80px; cursor: text; }
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .ctrl-group .ctrl-label {
+      min-width: auto;
+      white-space: nowrap;
+    }
+
+    .sandbox-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .metric-val {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Hints */
+    .hint-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 340px;
+    }
+    .hint-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1.5px solid #81c784;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: all .4s ease;
+    }
+    .hint-enter { opacity: 0; transform: translateX(40px); }
+    .hint-visible { opacity: 1; transform: translateX(0); }
+    .hint-exit { opacity: 0; transform: translateY(20px); }
+    .hint-icon { font-size: 18px; flex-shrink: 0; }
+    .hint-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Challenges panel */
+    .challenge-panel {
+      border: 1.5px solid #ffb74d;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+      background: rgba(255,183,77,0.04);
+    }
+    .challenge-header {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .challenge-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .challenge-item:last-child { border-bottom: none; }
+    .challenge-status {
+      width: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .challenge-item.done .challenge-status { color: #81c784; }
+    .challenge-item.active .challenge-status { color: #4fc3f7; }
+    .challenge-info { flex: 1; }
+    .challenge-title {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .challenge-obj {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .challenge-start {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      border: 1px solid #ffb74d;
+      border-radius: 4px;
+      background: transparent;
+      color: #ffb74d;
+      cursor: pointer;
+    }
+    .challenge-start:hover { background: rgba(255,183,77,0.1); }
+    .challenge-item.done .challenge-title { text-decoration: line-through; color: var(--muted); }
+
+    /* Switch button */
+    .lab-switch {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #4fc3f7;
+      text-decoration: none;
+      margin-right: 8px;
+      padding: 4px 10px;
+      border: 1px solid #4fc3f7;
+      border-radius: 4px;
+      transition: all .15s;
+    }
+    .lab-switch:hover { background: rgba(79,195,247,0.1); }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo-ring" href="../../index.html" title="Back to Portal"></a>
+  <h1>Markets <em>Lab</em></h1>
+  <span class="topic-counter" id="topicCounter">4 Activities</span>
+  <div class="hdr-meta">Interactive Sandbox<br>Hands-on Technical Analysis</div>
+  <div class="hdr-actions">
+    <a href="../ml/index.html" class="lab-switch">→ ML Lab</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
+  <div class="search-box">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search activities…" autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="mainNav">
+  <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
+  <div class="nav-progress-text" id="progressText">0 / 4 viewed</div>
+</nav>
+<main id="mainContent">
+</main>
+</div>
+
+<script src="activities.js?v=1"></script>
+<script src="engines.js?v=1"></script>
+<script>
+/* ── Theme ── */
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+}
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.setAttribute('data-theme', 'dark');
+
+/* ── Search ── */
+function toggleSearch() {
+  const o = document.getElementById('searchOverlay');
+  o.classList.toggle('active');
+  if (o.classList.contains('active')) {
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchResults').innerHTML = '';
+  }
+}
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
+  if (e.key === 'Escape') {
+    const o = document.getElementById('searchOverlay');
+    if (o.classList.contains('active')) toggleSearch();
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (document.activeElement.tagName === 'INPUT') return;
+    const idx = TOPICS.indexOf(currentTopic);
+    if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
+    if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
+  }
+});
+document.getElementById('searchInput')?.addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const res = document.getElementById('searchResults');
+  if (!q) { res.innerHTML = ''; return; }
+  const matches = TOPIC_DATA.filter(t =>
+    t.title.toLowerCase().includes(q) ||
+    t.category.toLowerCase().includes(q) ||
+    t.keywords.some(k => k.toLowerCase().includes(q)) ||
+    t.content.toLowerCase().includes(q)
+  ).slice(0, 8);
+  res.innerHTML = matches.map(t =>
+    `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
+      <div class="sr-cat">${t.num} — ${t.category}</div>
+      <div class="sr-title">${t.title}</div>
+    </div>`
+  ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
+});
+
+/* ── Navigation ── */
+let currentTopic = null;
+const viewed = new Set();
+
+function show(id, scrollNav) {
+  currentTopic = id;
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+  if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
+  viewed.add(id);
+  updateProgress();
+  setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
+  history.replaceState(null, '', '#' + id);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function updateProgress() {
+  const total = TOPICS.length;
+  const n = viewed.size;
+  const pct = Math.round(n / total * 100);
+  const bar = document.getElementById('progressBar');
+  const txt = document.getElementById('progressText');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${n} / ${total} viewed`;
+}
+
+/* ── Init ── */
+window.addEventListener('load', () => {
+  buildContent();
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    if (TOPICS.includes(id)) { show(id, true); return; }
+  }
+  if (TOPICS.length > 0) show(TOPICS[0], true);
+});
+</script>
+<script src="../../js/pattern-thread.js"></script>
+</body>
+</html>

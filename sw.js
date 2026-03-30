@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v6';
+const CACHE_NAME = 'pattern-v9';
 const SHELL = [
   '/index.html',
   '/css/main.css',
@@ -7,6 +7,16 @@ const SHELL = [
   '/mlops/index.html',
   '/timeseries/index.html',
   '/markets/risk/index.html',
+  '/sandbox/index.html',
+  '/sandbox/ml/index.html',
+  '/sandbox/ml/activities.js',
+  '/sandbox/ml/engines.js',
+  '/sandbox/markets/index.html',
+  '/sandbox/markets/activities.js',
+  '/sandbox/markets/engines.js',
+  '/sandbox/stats/index.html',
+  '/sandbox/stats/activities.js',
+  '/sandbox/stats/engines.js',
 ];
 
 self.addEventListener('install', e => {

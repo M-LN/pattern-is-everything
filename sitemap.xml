@@ -60,4 +60,20 @@
     <loc>https://patterniseverything.com/impact/index.html</loc>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://patterniseverything.com/sandbox/index.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/sandbox/ml/index.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/sandbox/markets/index.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/sandbox/stats/index.html</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>
