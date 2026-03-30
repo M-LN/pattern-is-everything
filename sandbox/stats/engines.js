@@ -1724,6 +1724,667 @@ ENGINE.resetPC = function() {
 
 
 /* ═══════════════════════════════════════════════════════════════
+   8. ANOVA VISUALIZER
+   ═══════════════════════════════════════════════════════════════ */
+
+let anovaState = { nGroups:3, nPer:20, spread:1, effectSize:1.5, data:[], groupMeans:[], grandMean:0, F:0, p:1, ssb:0, ssw:0 };
+
+function anovaGenerate() {
+  const s = anovaState;
+  s.data = [];
+  s.groupMeans = [];
+  const offsets = [];
+  for (let g = 0; g < s.nGroups; g++) offsets.push((g - (s.nGroups - 1) / 2) * s.effectSize);
+  let all = [];
+  for (let g = 0; g < s.nGroups; g++) {
+    const pts = [];
+    for (let i = 0; i < s.nPer; i++) { const v = offsets[g] + gauss() * s.spread; pts.push(v); all.push(v); }
+    s.data.push(pts);
+    s.groupMeans.push(pts.reduce((a,b) => a+b, 0) / pts.length);
+  }
+  s.grandMean = all.reduce((a,b) => a+b, 0) / all.length;
+  s.ssb = 0; s.ssw = 0;
+  for (let g = 0; g < s.nGroups; g++) {
+    s.ssb += s.nPer * Math.pow(s.groupMeans[g] - s.grandMean, 2);
+    s.data[g].forEach(v => { s.ssw += Math.pow(v - s.groupMeans[g], 2); });
+  }
+  const dfb = s.nGroups - 1;
+  const dfw = s.nGroups * s.nPer - s.nGroups;
+  const msb = s.ssb / dfb;
+  const msw = s.ssw / dfw;
+  s.F = msw > 0 ? msb / msw : 0;
+  s.p = approxFP(s.F, dfb, dfw);
+}
+
+function approxFP(F, d1, d2) {
+  if (F <= 0) return 1;
+  const x = d2 / (d2 + d1 * F);
+  const a = d2 / 2, b = d1 / 2;
+  if (x >= 1) return 1;
+  if (x <= 0) return 0;
+  const N = 200;
+  const logBeta = lnGamma(a) + lnGamma(b) - lnGamma(a + b);
+  let sum = 0;
+  const dt = x / N;
+  for (let i = 0; i <= N; i++) {
+    const t = i * dt;
+    if (t <= 0 || t >= 1) continue;
+    const v = Math.exp((a - 1) * Math.log(t) + (b - 1) * Math.log(1 - t) - logBeta);
+    sum += v * (i === 0 || i === N ? 0.5 : 1);
+  }
+  return clamp(sum * dt, 0, 1);
+}
+
+function lnGamma(z) {
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lnGamma(1 - z);
+  z -= 1;
+  const c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
+  let x = 1.000000000190015;
+  for (let i = 0; i < 6; i++) x += c[i] / (z + 1 + i);
+  const t = z + 5.5;
+  return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+}
+
+function drawAnova() {
+  const r = setupCanvas('anovaCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = anovaState;
+  ctx.fillStyle = BG(); ctx.fillRect(0, 0, w, h);
+  const pad = { top: 40, right: 30, bottom: 60, left: 60 };
+  const pw = w - pad.left - pad.right;
+  const ph = h - pad.top - pad.bottom;
+
+  let yMin = Infinity, yMax = -Infinity;
+  s.data.forEach(g => g.forEach(v => { if (v < yMin) yMin = v; if (v > yMax) yMax = v; }));
+  const yPad = (yMax - yMin) * 0.15 || 1;
+  yMin -= yPad; yMax += yPad;
+  const yScale = v => pad.top + (1 - (v - yMin) / (yMax - yMin)) * ph;
+
+  // Grid
+  ctx.strokeStyle = BORDER() + '22'; ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 6; i++) {
+    const y = pad.top + (i / 6) * ph;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + pw, y); ctx.stroke();
+    ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO(); ctx.textAlign = 'right';
+    ctx.fillText((yMax - (i / 6) * (yMax - yMin)).toFixed(1), pad.left - 8, y + 4);
+  }
+
+  // Grand mean line
+  const gmy = yScale(s.grandMean);
+  ctx.strokeStyle = RED + '66'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(pad.left, gmy); ctx.lineTo(pad.left + pw, gmy); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = RED; ctx.font = '10px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('Grand Mean ' + s.grandMean.toFixed(2), pad.left + 4, gmy - 6);
+
+  // Groups
+  const gw = pw / s.nGroups;
+  const names = ['A','B','C','D','E'];
+  for (let g = 0; g < s.nGroups; g++) {
+    const cx = pad.left + gw * g + gw / 2;
+    const col = COLORS[g % COLORS.length];
+    s.data[g].forEach(v => {
+      const jx = cx + (Math.random() - 0.5) * gw * 0.5;
+      ctx.fillStyle = col + '88';
+      ctx.beginPath(); ctx.arc(jx, yScale(v), 3, 0, Math.PI * 2); ctx.fill();
+    });
+    const my = yScale(s.groupMeans[g]);
+    ctx.strokeStyle = col; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx - gw * 0.25, my); ctx.lineTo(cx + gw * 0.25, my); ctx.stroke();
+    ctx.fillStyle = TEXT(); ctx.font = 'bold 12px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText('Group ' + names[g], cx, pad.top + ph + 20);
+    ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO();
+    ctx.fillText('\u03BC=' + s.groupMeans[g].toFixed(2), cx, pad.top + ph + 35);
+  }
+
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 13px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('One-Way ANOVA', pad.left, pad.top - 12);
+  const fCol = s.p < 0.05 ? GREEN : s.p < 0.1 ? ORANGE : RED;
+  ctx.fillStyle = fCol; ctx.font = 'bold 14px ' + MONO(); ctx.textAlign = 'right';
+  ctx.fillText('F = ' + s.F.toFixed(2) + '  p = ' + (s.p < 0.001 ? '<0.001' : s.p.toFixed(3)), pad.left + pw, pad.top - 12);
+
+  document.getElementById('anovaF').textContent = s.F.toFixed(3);
+  document.getElementById('anovaP').textContent = s.p < 0.001 ? '<0.001' : s.p.toFixed(4);
+  document.getElementById('anovaSSB').textContent = s.ssb.toFixed(2);
+  document.getElementById('anovaSSW').textContent = s.ssw.toFixed(2);
+  const dec = document.getElementById('anovaDecision');
+  dec.textContent = s.p < 0.05 ? 'Reject H\u2080' : 'Fail to Reject';
+  dec.style.color = s.p < 0.05 ? GREEN : RED;
+
+  checkHints('anova-visualizer', { fHigh: s.F > 4, pLow: s.p < 0.05, manyGroups: s.nGroups >= 4, lowSpread: s.spread < 0.5, highEffect: s.effectSize > 2 });
+  checkChallenges('anova-visualizer', { rejectNull: s.p < 0.05, failReject: s.p > 0.3 && s.nGroups >= 3, fiveGroups: s.nGroups >= 5 && s.p < 0.05 });
+}
+
+ENGINE.setAnovaGroups  = function(v) { anovaState.nGroups = clamp(v, 2, 5); anovaGenerate(); drawAnova(); };
+ENGINE.setAnovaN       = function(v) { anovaState.nPer = v; anovaGenerate(); drawAnova(); };
+ENGINE.setAnovaSpread  = function(v) { anovaState.spread = v; anovaGenerate(); drawAnova(); };
+ENGINE.setAnovaEffect  = function(v) { anovaState.effectSize = v; anovaGenerate(); drawAnova(); };
+ENGINE.generateAnova   = function() { anovaGenerate(); drawAnova(); };
+ENGINE.resetAnova = function() {
+  anovaState = { nGroups:3, nPer:20, spread:1, effectSize:1.5, data:[], groupMeans:[], grandMean:0, F:0, p:1, ssb:0, ssw:0 };
+  document.getElementById('anovaGroups').value = 3;   document.getElementById('anovaGroupsV').textContent = '3';
+  document.getElementById('anovaN').value = 20;       document.getElementById('anovaNV').textContent = '20';
+  document.getElementById('anovaSpread').value = 1;   document.getElementById('anovaSpreadV').textContent = '1';
+  document.getElementById('anovaEffect').value = 1.5; document.getElementById('anovaEffectV').textContent = '1.5';
+  anovaGenerate(); drawAnova();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. CONFIDENCE INTERVAL BUILDER
+   ═══════════════════════════════════════════════════════════════ */
+
+let ciState = { trueMean:0, trueSD:2, n:25, confLevel:0.95, intervals:[], captured:0 };
+
+function ciGenerate() { ciState.intervals = []; ciState.captured = 0; }
+
+function ciDrawOne() {
+  const s = ciState;
+  const sample = [];
+  for (let i = 0; i < s.n; i++) sample.push(s.trueMean + gauss() * s.trueSD);
+  const mean = sample.reduce((a,b) => a+b, 0) / s.n;
+  const sd = Math.sqrt(sample.reduce((a,b) => a + (b - mean) ** 2, 0) / (s.n - 1));
+  const se = sd / Math.sqrt(s.n);
+  const zMap = { 0.90: 1.645, 0.95: 1.96, 0.99: 2.576 };
+  const z = zMap[s.confLevel] || 1.96;
+  const lo = mean - z * se, hi = mean + z * se;
+  const captures = s.trueMean >= lo && s.trueMean <= hi;
+  s.intervals.push({ mean, lo, hi, captures });
+  if (captures) s.captured++;
+}
+
+function drawCI() {
+  const r = setupCanvas('ciCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = ciState;
+  ctx.fillStyle = BG(); ctx.fillRect(0, 0, w, h);
+  const pad = { top: 40, right: 40, bottom: 40, left: 40 };
+  const pw = w - pad.left - pad.right;
+  const ph = h - pad.top - pad.bottom;
+
+  const total = s.intervals.length;
+  const show = Math.min(total, 50);
+  const start = total - show;
+  const display = s.intervals.slice(start);
+
+  let xMin = s.trueMean - 4 * s.trueSD / Math.sqrt(s.n);
+  let xMax = s.trueMean + 4 * s.trueSD / Math.sqrt(s.n);
+  display.forEach(ci => { if (ci.lo < xMin) xMin = ci.lo; if (ci.hi > xMax) xMax = ci.hi; });
+  const xRange = xMax - xMin || 1;
+  const xScale = v => pad.left + ((v - xMin) / xRange) * pw;
+
+  // True mean
+  const tmx = xScale(s.trueMean);
+  ctx.strokeStyle = PURPLE; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(tmx, pad.top); ctx.lineTo(tmx, pad.top + ph); ctx.stroke();
+  ctx.fillStyle = PURPLE; ctx.font = 'bold 11px ' + MONO(); ctx.textAlign = 'center';
+  ctx.fillText('\u03BC = ' + s.trueMean.toFixed(1), tmx, pad.top - 8);
+
+  if (show > 0) {
+    const rowH = Math.min(ph / show, 10);
+    display.forEach((ci, i) => {
+      const y = pad.top + i * rowH + rowH / 2;
+      const col = ci.captures ? GREEN : RED;
+      ctx.strokeStyle = col; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(xScale(ci.lo), y); ctx.lineTo(xScale(ci.hi), y); ctx.stroke();
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(xScale(ci.mean), y, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+  } else {
+    ctx.fillStyle = MUTED(); ctx.font = '13px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText('Click "Sample" to generate confidence intervals', w / 2, h / 2);
+  }
+
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 13px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText((s.confLevel * 100).toFixed(0) + '% Confidence Intervals', pad.left, pad.top - 20);
+  const covPct = total > 0 ? (s.captured / total * 100).toFixed(1) : '\u2014';
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 12px ' + MONO(); ctx.textAlign = 'right';
+  ctx.fillText('Coverage: ' + covPct + '%', pad.left + pw, pad.top - 20);
+
+  ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top + ph); ctx.lineTo(pad.left + pw, pad.top + ph); ctx.stroke();
+  ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO(); ctx.textAlign = 'center';
+  for (let i = 0; i <= 5; i++) {
+    const v = xMin + (i / 5) * xRange;
+    ctx.fillText(v.toFixed(1), xScale(v), pad.top + ph + 16);
+  }
+
+  document.getElementById('ciTotal').textContent = total;
+  document.getElementById('ciCaptured').textContent = s.captured;
+  document.getElementById('ciCoverage').textContent = total > 0 ? covPct + '%' : '\u2014';
+  document.getElementById('ciWidth').textContent = total > 0 ? (s.intervals[total - 1].hi - s.intervals[total - 1].lo).toFixed(3) : '\u2014';
+
+  checkHints('confidence-intervals', { firstSample: total >= 1, manySamples: total >= 20, highCoverage: total >= 20 && s.captured / total > s.confLevel - 0.02, missedOne: total > 0 && s.captured < total, narrowCI: total > 0 && (s.intervals[total - 1].hi - s.intervals[total - 1].lo) < 1 });
+  checkChallenges('confidence-intervals', { coverage90: total >= 50 && Math.abs(s.captured / total - s.confLevel) < 0.05, allCapture: total >= 20 && s.captured === total, narrowBand: total > 0 && (s.intervals[total - 1].hi - s.intervals[total - 1].lo) < 0.5 });
+}
+
+ENGINE.setCIMean = function(v) { ciState.trueMean = v; ciGenerate(); drawCI(); };
+ENGINE.setCISD   = function(v) { ciState.trueSD = v; ciGenerate(); drawCI(); };
+ENGINE.setCIN    = function(v) { ciState.n = v; ciGenerate(); drawCI(); };
+ENGINE.setCIConf = function(v) { ciState.confLevel = v; ciGenerate(); drawCI(); };
+ENGINE.sampleCI  = function(k) { for (let i = 0; i < k; i++) ciDrawOne(); drawCI(); };
+ENGINE.resetCI = function() {
+  ciState = { trueMean:0, trueSD:2, n:25, confLevel:0.95, intervals:[], captured:0 };
+  document.getElementById('ciMean').value = 0;     document.getElementById('ciMeanV').textContent = '0';
+  document.getElementById('ciSD').value = 2;       document.getElementById('ciSDV').textContent = '2';
+  document.getElementById('ciN').value = 25;       document.getElementById('ciNV').textContent = '25';
+  document.getElementById('ciConf').value = 0.95;  document.getElementById('ciConfV').textContent = '0.95';
+  ciGenerate(); drawCI();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   10. CHI-SQUARE TEST
+   ═══════════════════════════════════════════════════════════════ */
+
+let chiState = { categories:4, total:200, skew:0.5, observed:[], expected:[], chiSq:0, p:1, df:0 };
+
+function chiGenerate() {
+  const s = chiState;
+  s.df = s.categories - 1;
+  const expEach = s.total / s.categories;
+  s.expected = new Array(s.categories).fill(expEach);
+  s.observed = [];
+  let raw = [];
+  for (let i = 0; i < s.categories; i++) raw.push(Math.pow(i + 1, s.skew * 3) + Math.random() * 0.5);
+  const rawSum = raw.reduce((a,b) => a+b, 0);
+  let placed = 0;
+  for (let i = 0; i < s.categories; i++) {
+    const count = i < s.categories - 1 ? Math.round(raw[i] / rawSum * s.total) : s.total - placed;
+    s.observed.push(Math.max(1, count));
+    placed += s.observed[i];
+  }
+  const diff = s.total - s.observed.reduce((a,b) => a+b, 0);
+  s.observed[0] += diff;
+  s.chiSq = 0;
+  for (let i = 0; i < s.categories; i++) s.chiSq += Math.pow(s.observed[i] - s.expected[i], 2) / s.expected[i];
+  s.p = chiSquareP(s.chiSq, s.df);
+}
+
+function chiSquareP(x, k) {
+  if (x <= 0 || k <= 0) return 1;
+  const a = k / 2, z = x / 2;
+  let sum = 0, term = 1 / a;
+  sum = term;
+  for (let n = 1; n < 200; n++) { term *= z / (a + n); sum += term; if (Math.abs(term) < 1e-12) break; }
+  const pLower = Math.exp(a * Math.log(z) - z - lnGamma(a)) * sum;
+  return clamp(1 - pLower, 0, 1);
+}
+
+function drawChi() {
+  const r = setupCanvas('chiCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = chiState;
+  ctx.fillStyle = BG(); ctx.fillRect(0, 0, w, h);
+  const pad = { top: 40, right: 30, bottom: 70, left: 60 };
+  const pw = w - pad.left - pad.right;
+  const ph = h - pad.top - pad.bottom;
+  const maxVal = Math.max(...s.observed, ...s.expected) * 1.15;
+  const yScale = v => pad.top + (1 - v / maxVal) * ph;
+  const catW = pw / s.categories;
+  const barW = catW * 0.35;
+
+  // Grid
+  ctx.strokeStyle = BORDER() + '22'; ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 5; i++) {
+    const v = (i / 5) * maxVal, y = yScale(v);
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + pw, y); ctx.stroke();
+    ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO(); ctx.textAlign = 'right';
+    ctx.fillText(Math.round(v).toString(), pad.left - 8, y + 4);
+  }
+
+  const labels = [];
+  for (let i = 0; i < s.categories; i++) labels.push(String.fromCharCode(65 + i));
+  for (let i = 0; i < s.categories; i++) {
+    const cx = pad.left + catW * i + catW / 2;
+    const ey = yScale(s.expected[i]);
+    ctx.fillStyle = BLUE + '44'; ctx.strokeStyle = BLUE; ctx.lineWidth = 1.5;
+    ctx.fillRect(cx - barW - 2, ey, barW, yScale(0) - ey);
+    ctx.strokeRect(cx - barW - 2, ey, barW, yScale(0) - ey);
+    const oy = yScale(s.observed[i]);
+    ctx.fillStyle = PURPLE + '66'; ctx.strokeStyle = PURPLE;
+    ctx.fillRect(cx + 2, oy, barW, yScale(0) - oy);
+    ctx.strokeRect(cx + 2, oy, barW, yScale(0) - oy);
+    ctx.fillStyle = TEXT(); ctx.font = 'bold 12px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText(labels[i], cx, pad.top + ph + 20);
+    const residual = (s.observed[i] - s.expected[i]) / Math.sqrt(s.expected[i]);
+    ctx.fillStyle = Math.abs(residual) > 2 ? RED : Math.abs(residual) > 1 ? ORANGE : GREEN;
+    ctx.font = '10px ' + MONO();
+    ctx.fillText(residual.toFixed(1), cx, pad.top + ph + 38);
+  }
+
+  // Legend
+  ctx.font = '10px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillStyle = BLUE; ctx.fillRect(pad.left + pw - 140, pad.top + 6, 10, 10);
+  ctx.fillStyle = TEXT(); ctx.fillText('Expected', pad.left + pw - 126, pad.top + 15);
+  ctx.fillStyle = PURPLE; ctx.fillRect(pad.left + pw - 140, pad.top + 22, 10, 10);
+  ctx.fillStyle = TEXT(); ctx.fillText('Observed', pad.left + pw - 126, pad.top + 31);
+
+  ctx.fillStyle = MUTED(); ctx.font = '9px ' + MONO(); ctx.textAlign = 'center';
+  ctx.fillText('Std. Residuals', pad.left + pw / 2, pad.top + ph + 55);
+
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 13px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('Chi-Square Goodness of Fit', pad.left, pad.top - 12);
+  const col = s.p < 0.05 ? GREEN : s.p < 0.1 ? ORANGE : RED;
+  ctx.fillStyle = col; ctx.font = 'bold 14px ' + MONO(); ctx.textAlign = 'right';
+  ctx.fillText('\u03C7\u00B2 = ' + s.chiSq.toFixed(2) + '  p = ' + (s.p < 0.001 ? '<0.001' : s.p.toFixed(3)), pad.left + pw, pad.top - 12);
+
+  document.getElementById('chiSq').textContent = s.chiSq.toFixed(3);
+  document.getElementById('chiP').textContent = s.p < 0.001 ? '<0.001' : s.p.toFixed(4);
+  document.getElementById('chiDF').textContent = s.df;
+  const chiDec = document.getElementById('chiDecision');
+  chiDec.textContent = s.p < 0.05 ? 'Reject H\u2080' : 'Fail to Reject';
+  chiDec.style.color = s.p < 0.05 ? GREEN : RED;
+
+  checkHints('chi-square-test', { significant: s.p < 0.05, notSignificant: s.p > 0.3, highResidual: s.observed.some(function(o, i) { return Math.abs((o - s.expected[i]) / Math.sqrt(s.expected[i])) > 2; }), manyCategories: s.categories >= 5, lowSkew: s.skew < 0.2 });
+  checkChallenges('chi-square-test', { rejectChi: s.p < 0.05, failChi: s.p > 0.5 && s.categories >= 3, perfectFit: s.chiSq < 1 && s.categories >= 4 });
+}
+
+ENGINE.setChiCategories = function(v) { chiState.categories = clamp(v, 2, 6); chiGenerate(); drawChi(); };
+ENGINE.setChiTotal      = function(v) { chiState.total = v; chiGenerate(); drawChi(); };
+ENGINE.setChiSkew       = function(v) { chiState.skew = v; chiGenerate(); drawChi(); };
+ENGINE.generateChi      = function() { chiGenerate(); drawChi(); };
+ENGINE.resetChi = function() {
+  chiState = { categories:4, total:200, skew:0.5, observed:[], expected:[], chiSq:0, p:1, df:0 };
+  document.getElementById('chiCats').value = 4;     document.getElementById('chiCatsV').textContent = '4';
+  document.getElementById('chiTotal').value = 200;   document.getElementById('chiTotalV').textContent = '200';
+  document.getElementById('chiSkew').value = 0.5;   document.getElementById('chiSkewV').textContent = '0.5';
+  chiGenerate(); drawChi();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   11. SURVIVAL CURVES (Kaplan-Meier)
+   ═══════════════════════════════════════════════════════════════ */
+
+let survState = { nPatients:60, hazardA:0.03, hazardB:0.06, maxTime:50, groupA:[], groupB:[], kmA:[], kmB:[] };
+
+function survGenerate() {
+  const s = survState;
+  const half = Math.floor(s.nPatients / 2);
+  function makeGroup(hazard) {
+    const pts = [];
+    for (let i = 0; i < half; i++) {
+      const eventTime = -Math.log(1 - Math.random()) / hazard;
+      const censorTime = Math.random() * s.maxTime;
+      if (eventTime <= censorTime && eventTime <= s.maxTime) pts.push({ time: eventTime, event: true });
+      else pts.push({ time: Math.min(censorTime, s.maxTime), event: false });
+    }
+    pts.sort(function(a, b) { return a.time - b.time; });
+    return pts;
+  }
+  s.groupA = makeGroup(s.hazardA);
+  s.groupB = makeGroup(s.hazardB);
+  function kaplanMeier(pts) {
+    const km = [{ time: 0, survival: 1 }];
+    let atRisk = pts.length;
+    pts.forEach(function(p) {
+      if (p.event) {
+        const surv = km[km.length - 1].survival * (1 - 1 / atRisk);
+        km.push({ time: p.time, survival: surv, event: true });
+      } else {
+        km.push({ time: p.time, survival: km[km.length - 1].survival, event: false });
+      }
+      atRisk--;
+    });
+    return km;
+  }
+  s.kmA = kaplanMeier(s.groupA);
+  s.kmB = kaplanMeier(s.groupB);
+}
+
+function drawSurv() {
+  const r = setupCanvas('survCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = survState;
+  ctx.fillStyle = BG(); ctx.fillRect(0, 0, w, h);
+  const pad = { top: 40, right: 30, bottom: 50, left: 60 };
+  const pw = w - pad.left - pad.right;
+  const ph = h - pad.top - pad.bottom;
+  const xScale = function(t) { return pad.left + (t / s.maxTime) * pw; };
+  const yScale = function(v) { return pad.top + (1 - v) * ph; };
+
+  // Grid
+  ctx.strokeStyle = BORDER() + '22'; ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.top + (i / 5) * ph;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + pw, y); ctx.stroke();
+    ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO(); ctx.textAlign = 'right';
+    ctx.fillText((1 - i / 5).toFixed(1), pad.left - 8, y + 4);
+    const x = pad.left + (i / 5) * pw;
+    ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + ph); ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.fillText(Math.round(i / 5 * s.maxTime).toString(), x, pad.top + ph + 20);
+  }
+
+  // Axes
+  ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + ph); ctx.lineTo(pad.left + pw, pad.top + ph); ctx.stroke();
+
+  function drawKM(km, color) {
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let i = 0; i < km.length; i++) {
+      const x = xScale(km[i].time), y = yScale(km[i].survival);
+      if (i === 0) ctx.moveTo(x, y);
+      else { ctx.lineTo(x, yScale(km[i - 1].survival)); ctx.lineTo(x, y); }
+    }
+    const last = km[km.length - 1];
+    ctx.lineTo(xScale(s.maxTime), yScale(last.survival));
+    ctx.stroke();
+    km.forEach(function(p) {
+      if (!p.event && p.time > 0) {
+        const x = xScale(p.time), y = yScale(p.survival);
+        ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x, y - 4); ctx.lineTo(x, y + 4); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x - 4, y); ctx.lineTo(x + 4, y); ctx.stroke();
+      }
+    });
+  }
+  drawKM(s.kmA, BLUE);
+  drawKM(s.kmB, RED);
+
+  // Legend
+  const ly = pad.top + 10;
+  ctx.font = '11px ' + MONO();
+  ctx.strokeStyle = BLUE; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(pad.left + 10, ly); ctx.lineTo(pad.left + 30, ly); ctx.stroke();
+  ctx.fillStyle = TEXT(); ctx.textAlign = 'left';
+  ctx.fillText('Group A (\u03BB=' + s.hazardA.toFixed(2) + ')', pad.left + 35, ly + 4);
+  ctx.strokeStyle = RED;
+  ctx.beginPath(); ctx.moveTo(pad.left + 10, ly + 18); ctx.lineTo(pad.left + 30, ly + 18); ctx.stroke();
+  ctx.fillStyle = TEXT();
+  ctx.fillText('Group B (\u03BB=' + s.hazardB.toFixed(2) + ')', pad.left + 35, ly + 22);
+
+  // S=0.5 line
+  ctx.strokeStyle = MUTED() + '66'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(pad.left, yScale(0.5)); ctx.lineTo(pad.left + pw, yScale(0.5)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  function median(km) { for (let i = 0; i < km.length; i++) { if (km[i].survival <= 0.5) return km[i].time; } return null; }
+  const medA = median(s.kmA), medB = median(s.kmB);
+
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 13px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('Kaplan-Meier Survival Curves', pad.left, pad.top - 12);
+  ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO(); ctx.textAlign = 'center';
+  ctx.fillText('Time', pad.left + pw / 2, pad.top + ph + 40);
+  ctx.save(); ctx.translate(14, pad.top + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Survival Probability', 0, 0); ctx.restore();
+
+  const eventsA = s.groupA.filter(function(p) { return p.event; }).length;
+  const eventsB = s.groupB.filter(function(p) { return p.event; }).length;
+  document.getElementById('survMedianA').textContent = medA !== null ? medA.toFixed(1) : '>' + s.maxTime;
+  document.getElementById('survMedianB').textContent = medB !== null ? medB.toFixed(1) : '>' + s.maxTime;
+  document.getElementById('survEventsA').textContent = eventsA + '/' + Math.floor(s.nPatients / 2);
+  document.getElementById('survEventsB').textContent = eventsB + '/' + Math.floor(s.nPatients / 2);
+
+  checkHints('survival-curves', { separation: medA !== null && medB !== null && Math.abs(medA - medB) > 5, censorHeavy: s.groupA.filter(function(p){return !p.event;}).length > s.nPatients / 4, lowHazard: s.hazardA < 0.02, highHazard: s.hazardB > 0.08, manyPatients: s.nPatients >= 80 });
+  checkChallenges('survival-curves', { doubleSurvival: medA !== null && medB !== null && medA > 2 * medB, noCrossing: true, allEvents: eventsA + eventsB > s.nPatients * 0.8 });
+}
+
+ENGINE.setSurvN       = function(v) { survState.nPatients = v; survGenerate(); drawSurv(); };
+ENGINE.setSurvHazardA = function(v) { survState.hazardA = v; survGenerate(); drawSurv(); };
+ENGINE.setSurvHazardB = function(v) { survState.hazardB = v; survGenerate(); drawSurv(); };
+ENGINE.generateSurv   = function() { survGenerate(); drawSurv(); };
+ENGINE.resetSurv = function() {
+  survState = { nPatients:60, hazardA:0.03, hazardB:0.06, maxTime:50, groupA:[], groupB:[], kmA:[], kmB:[] };
+  document.getElementById('survN').value = 60;    document.getElementById('survNV').textContent = '60';
+  document.getElementById('survHA').value = 0.03;  document.getElementById('survHAV').textContent = '0.03';
+  document.getElementById('survHB').value = 0.06;  document.getElementById('survHBV').textContent = '0.06';
+  survGenerate(); drawSurv();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   12. BOOTSTRAP RESAMPLER
+   ═══════════════════════════════════════════════════════════════ */
+
+let bootState = { population:'normal', n:30, nBoot:0, original:[], bootMeans:[], originalMean:0, ciLo:0, ciHi:0, confLevel:0.95 };
+
+function bootGenerate() {
+  const s = bootState;
+  s.original = [];
+  for (let i = 0; i < s.n; i++) {
+    switch (s.population) {
+      case 'normal':  s.original.push(gauss() * 2 + 5); break;
+      case 'skewed':  s.original.push(-Math.log(1 - Math.random()) * 3); break;
+      case 'bimodal': s.original.push(Math.random() < 0.5 ? 2 + gauss() * 0.5 : 7 + gauss() * 0.5); break;
+      case 'uniform': s.original.push(Math.random() * 10); break;
+    }
+  }
+  s.originalMean = s.original.reduce((a,b) => a+b, 0) / s.n;
+  s.bootMeans = []; s.nBoot = 0; s.ciLo = 0; s.ciHi = 0;
+}
+
+function bootResample(k) {
+  const s = bootState;
+  for (let b = 0; b < k; b++) {
+    let sum = 0;
+    for (let i = 0; i < s.n; i++) sum += s.original[Math.floor(Math.random() * s.n)];
+    s.bootMeans.push(sum / s.n);
+    s.nBoot++;
+  }
+  if (s.bootMeans.length > 1) {
+    const sorted = [...s.bootMeans].sort((a,b) => a - b);
+    const alpha = 1 - s.confLevel;
+    s.ciLo = sorted[Math.floor(alpha / 2 * sorted.length)];
+    s.ciHi = sorted[Math.floor((1 - alpha / 2) * sorted.length)];
+  }
+}
+
+function drawBoot() {
+  const r = setupCanvas('bootCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = bootState;
+  ctx.fillStyle = BG(); ctx.fillRect(0, 0, w, h);
+  const pad = { top: 40, right: 30, bottom: 50, left: 60 };
+  const pw = w - pad.left - pad.right;
+  const ph = h - pad.top - pad.bottom;
+  const topH = ph * 0.3, botH = ph * 0.6, gap = ph * 0.1;
+
+  // Original sample strip plot
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 11px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('Original Sample (n=' + s.n + ')', pad.left, pad.top - 2);
+  if (s.original.length > 0) {
+    let oMin = Math.min(...s.original), oMax = Math.max(...s.original);
+    const oPad = (oMax - oMin) * 0.1 || 1;
+    oMin -= oPad; oMax += oPad;
+    const oRange = oMax - oMin;
+    const oXScale = function(v) { return pad.left + ((v - oMin) / oRange) * pw; };
+    s.original.forEach(function(v) {
+      ctx.fillStyle = BLUE + '88';
+      ctx.beginPath(); ctx.arc(oXScale(v), pad.top + topH / 2, 4, 0, Math.PI * 2); ctx.fill();
+    });
+    const omx = oXScale(s.originalMean);
+    ctx.strokeStyle = PURPLE; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(omx, pad.top + 2); ctx.lineTo(omx, pad.top + topH - 2); ctx.stroke();
+    ctx.fillStyle = PURPLE; ctx.font = '10px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText('x\u0304=' + s.originalMean.toFixed(2), omx, pad.top + topH + 12);
+  }
+
+  // Bootstrap histogram
+  const botTop = pad.top + topH + gap;
+  ctx.fillStyle = TEXT(); ctx.font = 'bold 11px ' + MONO(); ctx.textAlign = 'left';
+  ctx.fillText('Bootstrap Distribution (' + s.nBoot + ' resamples)', pad.left, botTop - 4);
+
+  if (s.bootMeans.length > 1) {
+    const sorted = [...s.bootMeans].sort((a,b) => a - b);
+    let bMin = sorted[0], bMax = sorted[sorted.length - 1];
+    const bPad = (bMax - bMin) * 0.1 || 0.5;
+    bMin -= bPad; bMax += bPad;
+    const bRange = bMax - bMin;
+    const bXScale = function(v) { return pad.left + ((v - bMin) / bRange) * pw; };
+    const nBins = 40, binW = bRange / nBins;
+    const bins = new Array(nBins).fill(0);
+    s.bootMeans.forEach(function(v) { const bi = Math.min(Math.floor((v - bMin) / binW), nBins - 1); bins[bi]++; });
+    const maxBin = Math.max(...bins);
+    bins.forEach(function(count, i) {
+      const x = pad.left + (i / nBins) * pw, bw = pw / nBins;
+      const bh = maxBin > 0 ? (count / maxBin) * botH : 0;
+      ctx.fillStyle = PURPLE + '55'; ctx.fillRect(x, botTop + botH - bh, bw - 1, bh);
+      ctx.strokeStyle = PURPLE + '88'; ctx.lineWidth = 0.5;
+      ctx.strokeRect(x, botTop + botH - bh, bw - 1, bh);
+    });
+    // CI band
+    if (s.ciLo !== s.ciHi) {
+      const xl = bXScale(s.ciLo), xr = bXScale(s.ciHi);
+      ctx.fillStyle = GREEN + '22'; ctx.fillRect(xl, botTop, xr - xl, botH);
+      ctx.strokeStyle = GREEN; ctx.lineWidth = 2; ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(xl, botTop); ctx.lineTo(xl, botTop + botH); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(xr, botTop); ctx.lineTo(xr, botTop + botH); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = GREEN; ctx.font = '10px ' + MONO(); ctx.textAlign = 'center';
+      ctx.fillText(s.ciLo.toFixed(2), xl, botTop + botH + 16);
+      ctx.fillText(s.ciHi.toFixed(2), xr, botTop + botH + 16);
+    }
+    const bootMean = s.bootMeans.reduce((a,b) => a+b, 0) / s.bootMeans.length;
+    const bmx = bXScale(bootMean);
+    ctx.strokeStyle = ORANGE; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(bmx, botTop); ctx.lineTo(bmx, botTop + botH); ctx.stroke();
+    ctx.fillStyle = ORANGE; ctx.font = '10px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText('x\u0304*=' + bootMean.toFixed(2), bmx, botTop - 4);
+
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.left, botTop + botH); ctx.lineTo(pad.left + pw, botTop + botH); ctx.stroke();
+    ctx.fillStyle = MUTED(); ctx.font = '10px ' + MONO();
+    for (let i = 0; i <= 5; i++) {
+      const v = bMin + (i / 5) * bRange;
+      ctx.textAlign = 'center'; ctx.fillText(v.toFixed(1), bXScale(v), botTop + botH + 30);
+    }
+  } else {
+    ctx.fillStyle = MUTED(); ctx.font = '13px ' + MONO(); ctx.textAlign = 'center';
+    ctx.fillText('Click "Resample" to build the bootstrap distribution', w / 2, botTop + botH / 2);
+  }
+
+  const bootSE = s.bootMeans.length > 1 ? (function() { const m = s.bootMeans.reduce((a,b)=>a+b,0)/s.bootMeans.length; return Math.sqrt(s.bootMeans.reduce((a,b)=>a+(b-m)*(b-m),0)/(s.bootMeans.length-1)); })() : 0;
+  document.getElementById('bootCount').textContent = s.nBoot;
+  document.getElementById('bootSE').textContent = s.nBoot > 1 ? bootSE.toFixed(4) : '\u2014';
+  document.getElementById('bootCILo').textContent = s.nBoot > 1 ? s.ciLo.toFixed(3) : '\u2014';
+  document.getElementById('bootCIHi').textContent = s.nBoot > 1 ? s.ciHi.toFixed(3) : '\u2014';
+
+  checkHints('bootstrap-resampler', { firstBoot: s.nBoot >= 1, manyBoot: s.nBoot >= 500, bellShaped: s.nBoot >= 200, narrowCI: s.nBoot > 1 && (s.ciHi - s.ciLo) < 1, skewedPop: s.population === 'skewed' });
+  checkChallenges('bootstrap-resampler', { thousandBoots: s.nBoot >= 1000, tightCI: s.nBoot >= 500 && (s.ciHi - s.ciLo) < 0.5, bimodalBoot: s.population === 'bimodal' && s.nBoot >= 200 });
+}
+
+ENGINE.setBootPop  = function(v) { bootState.population = v; bootGenerate(); drawBoot(); };
+ENGINE.setBootN    = function(v) { bootState.n = v; bootGenerate(); drawBoot(); };
+ENGINE.setBootConf = function(v) { bootState.confLevel = v; if (bootState.bootMeans.length > 1) { const sorted = [...bootState.bootMeans].sort((a,b)=>a-b); const alpha = 1-v; bootState.ciLo = sorted[Math.floor(alpha/2*sorted.length)]; bootState.ciHi = sorted[Math.floor((1-alpha/2)*sorted.length)]; } drawBoot(); };
+ENGINE.resampleBoot = function(k) { bootResample(k); drawBoot(); };
+ENGINE.resetBoot = function() {
+  bootState = { population:'normal', n:30, nBoot:0, original:[], bootMeans:[], originalMean:0, ciLo:0, ciHi:0, confLevel:0.95 };
+  document.getElementById('bootPop').value = 'normal';
+  document.getElementById('bootSampleN').value = 30;  document.getElementById('bootSampleNV').textContent = '30';
+  document.getElementById('bootConf').value = 0.95;   document.getElementById('bootConfV').textContent = '0.95';
+  bootGenerate(); drawBoot();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
    DRAWS DISPATCH — maps topic ID to draw function
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1735,4 +2396,9 @@ const DRAWS = {
   'bayesian-updater':      function() { drawBayes(); },
   'regression-diagnostics':function() { rdGenerate(); drawRD(); },
   'probability-calculator':function() { drawPC(); },
+  'anova-visualizer':      function() { anovaGenerate(); drawAnova(); },
+  'confidence-intervals':  function() { ciGenerate(); drawCI(); },
+  'chi-square-test':       function() { chiGenerate(); drawChi(); },
+  'survival-curves':       function() { survGenerate(); drawSurv(); },
+  'bootstrap-resampler':   function() { bootGenerate(); drawBoot(); },
 };
