@@ -1538,6 +1538,46 @@ function tsExpSmooth(data, alpha) {
   return result;
 }
 
+function tsHoltLinear(data, alpha, beta) {
+  // Double Exponential Smoothing (Holt's method) — captures trend
+  const level = [data[0]];
+  const trend = [data[1] - data[0]];
+  const result = [data[0]];
+  for (let i = 1; i < data.length; i++) {
+    const l = alpha * data[i] + (1 - alpha) * (level[i - 1] + trend[i - 1]);
+    const t = beta * (l - level[i - 1]) + (1 - beta) * trend[i - 1];
+    level.push(l);
+    trend.push(t);
+    result.push(l + t);
+  }
+  return result;
+}
+
+function tsLinearTrend(data) {
+  // Simple linear trend line
+  const n = data.length;
+  let sx = 0, sy = 0, sxx = 0, sxy = 0;
+  data.forEach((y, x) => { sx += x; sy += y; sxx += x * x; sxy += x * y; });
+  const m = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+  const b = (sy - m * sx) / n;
+  return data.map((_, i) => m * i + b);
+}
+
+function tsWeightedMA(data, window) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < window - 1) { result.push(null); continue; }
+    let wSum = 0, wTotal = 0;
+    for (let j = 0; j < window; j++) {
+      const w = j + 1;
+      wSum += data[i - window + 1 + j] * w;
+      wTotal += w;
+    }
+    result.push(wSum / wTotal);
+  }
+  return result;
+}
+
 function drawTS() {
   const s = setupCanvas('tsCanvas');
   if (!s) return;
@@ -1627,17 +1667,27 @@ ENGINE.setTSMethod = function(v) {
   TS.method = v;
   const wRow = document.getElementById('tsWindowRow');
   const aRow = document.getElementById('tsAlphaRow');
-  if (wRow) wRow.style.display = v === 'ma' ? 'flex' : 'none';
-  if (aRow) aRow.style.display = v === 'es' ? 'flex' : 'none';
+  const bRow = document.getElementById('tsBetaRow');
+  if (wRow) wRow.style.display = (v === 'ma' || v === 'wma') ? 'flex' : 'none';
+  if (aRow) aRow.style.display = (v === 'es' || v === 'holt') ? 'flex' : 'none';
+  if (bRow) bRow.style.display = v === 'holt' ? 'flex' : 'none';
 };
 
 ENGINE.forecastTS = function() {
   if (TS.data.length === 0) TS.data = tsGenerateData();
+  const win = parseInt(document.getElementById('tsWindow')?.value || 5);
+  const alpha = parseFloat(document.getElementById('tsAlpha')?.value || 0.3);
+  const beta = parseFloat(document.getElementById('tsBeta')?.value || 0.1);
+
   if (TS.method === 'ma') {
-    const win = parseInt(document.getElementById('tsWindow')?.value || 5);
     TS.forecast = tsMovingAvg(TS.data, win);
+  } else if (TS.method === 'wma') {
+    TS.forecast = tsWeightedMA(TS.data, win);
+  } else if (TS.method === 'holt') {
+    TS.forecast = tsHoltLinear(TS.data, alpha, beta);
+  } else if (TS.method === 'linear') {
+    TS.forecast = tsLinearTrend(TS.data);
   } else {
-    const alpha = parseFloat(document.getElementById('tsAlpha')?.value || 0.3);
     TS.forecast = tsExpSmooth(TS.data, alpha);
   }
 
@@ -1688,6 +1738,886 @@ ENGINE.resetTS = function() {
   document.getElementById('tsMAE').textContent = '—';
   document.getElementById('tsRMSE').textContent = '—';
   drawTS();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PCA VISUALIZATION
+   ═══════════════════════════════════════════════════════════════ */
+
+const PCA = {
+  points: [],           // {x, y}
+  mean: null,           // {x, y}
+  eigenvalues: [],      // [λ1, λ2]
+  eigenvectors: [],     // [[v1x,v1y],[v2x,v2y]]
+  projected: [],        // {x, y} projected onto PC1
+  showProjection: false,
+  computed: false,
+};
+
+function pcaToPixel(s, dx, dy) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { px: padX + (dx / 10) * plotW, py: padY + (1 - dy / 10) * plotH };
+}
+
+function pcaFromPixel(s, px, py) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { dx: ((px - padX) / plotW) * 10, dy: (1 - (py - padY) / plotH) * 10 };
+}
+
+function drawPCA() {
+  const s = setupCanvas('pcaCanvas');
+  if (!s) return;
+  const { ctx, w, h } = s;
+  const padX = 50, padY = 40;
+  const plotW = w - padX * 2, plotH = h - padY * 2;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 10; i += 2) {
+    const p = pcaToPixel(s, i, 0);
+    ctx.beginPath(); ctx.moveTo(p.px, padY); ctx.lineTo(p.px, padY + plotH); ctx.stroke();
+    const q = pcaToPixel(s, 0, i);
+    ctx.beginPath(); ctx.moveTo(padX, q.py); ctx.lineTo(padX + plotW, q.py); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle = MUTED();
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(padX, padY);
+  ctx.lineTo(padX, padY + plotH);
+  ctx.lineTo(padX + plotW, padY + plotH);
+  ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = MUTED();
+  ctx.font = `10px ${MONO()}`;
+  ctx.textAlign = 'center';
+  for (let i = 0; i <= 10; i += 2) {
+    const p = pcaToPixel(s, i, 0);
+    ctx.fillText(i, p.px, padY + plotH + 16);
+  }
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 10; i += 2) {
+    const p = pcaToPixel(s, 0, i);
+    ctx.fillText(i, padX - 8, p.py + 4);
+  }
+
+  // Draw projected points on PC1 line (if toggled)
+  if (PCA.computed && PCA.showProjection && PCA.projected.length > 0) {
+    // Draw PC1 line across full canvas
+    const v = PCA.eigenvectors[0];
+    const mx = PCA.mean.x, my = PCA.mean.y;
+    const ext = 15;
+    const p1 = pcaToPixel(s, mx - v[0] * ext, my - v[1] * ext);
+    const p2 = pcaToPixel(s, mx + v[0] * ext, my + v[1] * ext);
+    ctx.strokeStyle = 'rgba(229,115,115,0.2)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(clamp(p1.px, padX, padX + plotW), clamp(p1.py, padY, padY + plotH));
+    ctx.lineTo(clamp(p2.px, padX, padX + plotW), clamp(p2.py, padY, padY + plotH));
+    ctx.stroke();
+
+    // Projected points
+    PCA.projected.forEach(pt => {
+      const p = pcaToPixel(s, pt.x, pt.y);
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#e57373';
+      ctx.fill();
+      ctx.strokeStyle = BG();
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+
+    // Connection lines from original to projected
+    ctx.strokeStyle = 'rgba(229,115,115,0.25)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    PCA.points.forEach((pt, i) => {
+      if (i < PCA.projected.length) {
+        const p1 = pcaToPixel(s, pt.x, pt.y);
+        const p2 = pcaToPixel(s, PCA.projected[i].x, PCA.projected[i].y);
+        ctx.beginPath();
+        ctx.moveTo(p1.px, p1.py);
+        ctx.lineTo(p2.px, p2.py);
+        ctx.stroke();
+      }
+    });
+    ctx.setLineDash([]);
+  }
+
+  // Draw eigenvectors as arrows from mean
+  if (PCA.computed && PCA.mean) {
+    const colors = [BLUE, '#81c784'];
+    const labels = ['PC1', 'PC2'];
+    PCA.eigenvectors.forEach((v, i) => {
+      const scale = Math.sqrt(PCA.eigenvalues[i]) * 2;
+      const mx = PCA.mean.x, my = PCA.mean.y;
+      const ex = mx + v[0] * scale, ey = my + v[1] * scale;
+      const pm = pcaToPixel(s, mx, my);
+      const pe = pcaToPixel(s, ex, ey);
+
+      // Arrow shaft
+      ctx.strokeStyle = colors[i];
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(pm.px, pm.py);
+      ctx.lineTo(pe.px, pe.py);
+      ctx.stroke();
+
+      // Arrowhead
+      const angle = Math.atan2(pe.py - pm.py, pe.px - pm.px);
+      const headLen = 12;
+      ctx.fillStyle = colors[i];
+      ctx.beginPath();
+      ctx.moveTo(pe.px, pe.py);
+      ctx.lineTo(pe.px - headLen * Math.cos(angle - 0.4), pe.py - headLen * Math.sin(angle - 0.4));
+      ctx.lineTo(pe.px - headLen * Math.cos(angle + 0.4), pe.py - headLen * Math.sin(angle + 0.4));
+      ctx.closePath();
+      ctx.fill();
+
+      // Label
+      ctx.fillStyle = colors[i];
+      ctx.font = `bold 11px ${MONO()}`;
+      ctx.textAlign = 'center';
+      ctx.fillText(labels[i], pe.px + 14 * Math.cos(angle), pe.py + 14 * Math.sin(angle));
+    });
+
+    // Mean marker
+    const pm = pcaToPixel(s, PCA.mean.x, PCA.mean.y);
+    ctx.beginPath();
+    ctx.arc(pm.px, pm.py, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffb74d';
+    ctx.fill();
+    ctx.strokeStyle = BG();
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Draw data points
+  PCA.points.forEach(pt => {
+    const p = pcaToPixel(s, pt.x, pt.y);
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, 5, 0, Math.PI * 2);
+    ctx.fillStyle = BLUE;
+    ctx.fill();
+    ctx.strokeStyle = BG();
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // Empty state
+  if (PCA.points.length === 0) {
+    ctx.fillStyle = MUTED();
+    ctx.font = `14px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Click anywhere to place data points', w / 2, h / 2);
+  }
+}
+
+function onPCAClick(e) {
+  const canvas = document.getElementById('pcaCanvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const px = e.clientX - rect.left, py = e.clientY - rect.top;
+  const s = { w: rect.width, h: rect.height };
+  const d = pcaFromPixel(s, px, py);
+  if (d.dx >= 0.2 && d.dx <= 9.8 && d.dy >= 0.2 && d.dy <= 9.8) {
+    PCA.points.push({ x: d.dx, y: d.dy });
+    PCA.computed = false;
+    PCA.projected = [];
+    document.getElementById('pcaCount').textContent = PCA.points.length;
+    drawPCA();
+    checkHints('pca-visualizer', { pointCount: PCA.points.length });
+  }
+}
+
+ENGINE.computePCA = function() {
+  if (PCA.points.length < 3) return;
+  const n = PCA.points.length;
+
+  // Compute mean
+  let mx = 0, my = 0;
+  PCA.points.forEach(p => { mx += p.x; my += p.y; });
+  mx /= n; my /= n;
+  PCA.mean = { x: mx, y: my };
+
+  // Compute covariance matrix
+  let cxx = 0, cxy = 0, cyy = 0;
+  PCA.points.forEach(p => {
+    const dx = p.x - mx, dy = p.y - my;
+    cxx += dx * dx;
+    cxy += dx * dy;
+    cyy += dy * dy;
+  });
+  cxx /= (n - 1); cxy /= (n - 1); cyy /= (n - 1);
+
+  // Eigendecomposition of 2x2 symmetric matrix
+  // |cxx  cxy|
+  // |cxy  cyy|
+  const trace = cxx + cyy;
+  const det = cxx * cyy - cxy * cxy;
+  const disc = Math.sqrt(Math.max(0, trace * trace / 4 - det));
+  const l1 = trace / 2 + disc;
+  const l2 = trace / 2 - disc;
+  PCA.eigenvalues = [l1, l2];
+
+  // Eigenvectors
+  if (Math.abs(cxy) > 1e-10) {
+    const v1 = [l1 - cyy, cxy];
+    const v2 = [l2 - cyy, cxy];
+    const n1 = Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]);
+    const n2 = Math.sqrt(v2[0] * v2[0] + v2[1] * v2[1]);
+    PCA.eigenvectors = [
+      [v1[0] / n1, v1[1] / n1],
+      [v2[0] / n2, v2[1] / n2],
+    ];
+  } else {
+    PCA.eigenvectors = cxx >= cyy ? [[1, 0], [0, 1]] : [[0, 1], [1, 0]];
+  }
+
+  // Project points onto PC1
+  const v = PCA.eigenvectors[0];
+  PCA.projected = PCA.points.map(p => {
+    const dx = p.x - mx, dy = p.y - my;
+    const proj = dx * v[0] + dy * v[1];
+    return { x: mx + proj * v[0], y: my + proj * v[1] };
+  });
+
+  PCA.computed = true;
+  const totalVar = l1 + l2;
+  const pc1Pct = totalVar > 0 ? Math.round((l1 / totalVar) * 100) : 0;
+  const pc2Pct = totalVar > 0 ? Math.round((l2 / totalVar) * 100) : 0;
+
+  document.getElementById('pcaPC1').textContent = pc1Pct + '%';
+  document.getElementById('pcaPC2').textContent = pc2Pct + '%';
+  document.getElementById('pcaTotalVar').textContent = totalVar.toFixed(3);
+  drawPCA();
+
+  checkHints('pca-visualizer', {
+    pointCount: PCA.points.length,
+    computed: true,
+    pc1Pct: pc1Pct,
+    showProjection: PCA.showProjection,
+  });
+  checkChallenges('pca-visualizer', {
+    computed: true,
+    pc1Pct: pc1Pct,
+  });
+};
+
+ENGINE.toggleProjection = function() {
+  if (!PCA.computed) return;
+  PCA.showProjection = !PCA.showProjection;
+  drawPCA();
+  checkHints('pca-visualizer', {
+    pointCount: PCA.points.length,
+    computed: true,
+    showProjection: PCA.showProjection,
+    pc1Pct: PCA.eigenvalues[0] / (PCA.eigenvalues[0] + PCA.eigenvalues[1]) * 100,
+  });
+};
+
+ENGINE.samplePCA = function() {
+  PCA.points = [];
+  PCA.computed = false;
+  PCA.projected = [];
+  PCA.showProjection = false;
+  // Generate an elongated cluster at an angle
+  const angle = 0.3 + Math.random() * 1.2;
+  const cx = 4 + Math.random() * 2, cy = 4 + Math.random() * 2;
+  for (let i = 0; i < 25; i++) {
+    const along = gauss() * 2;
+    const perp = gauss() * 0.4;
+    const x = cx + along * Math.cos(angle) - perp * Math.sin(angle);
+    const y = cy + along * Math.sin(angle) + perp * Math.cos(angle);
+    PCA.points.push({ x: clamp(x, 0.3, 9.7), y: clamp(y, 0.3, 9.7) });
+  }
+  document.getElementById('pcaPC1').textContent = '—';
+  document.getElementById('pcaPC2').textContent = '—';
+  document.getElementById('pcaTotalVar').textContent = '—';
+  document.getElementById('pcaCount').textContent = PCA.points.length;
+  drawPCA();
+  checkHints('pca-visualizer', { pointCount: PCA.points.length });
+};
+
+ENGINE.resetPCA = function() {
+  PCA.points = [];
+  PCA.mean = null;
+  PCA.eigenvalues = [];
+  PCA.eigenvectors = [];
+  PCA.projected = [];
+  PCA.showProjection = false;
+  PCA.computed = false;
+  document.getElementById('pcaPC1').textContent = '—';
+  document.getElementById('pcaPC2').textContent = '—';
+  document.getElementById('pcaTotalVar').textContent = '—';
+  document.getElementById('pcaCount').textContent = '0';
+  drawPCA();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DECISION TREE
+   ═══════════════════════════════════════════════════════════════ */
+
+const DT = {
+  points: [],     // {x, y, cls: 0|1}
+  tree: null,
+  maxDepth: 2,
+  trained: false,
+  accuracy: 0,
+  depth: 0,
+  leaves: 0,
+  gini: 0,
+};
+
+function dtToPixel(s, dx, dy) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { px: padX + (dx / 10) * plotW, py: padY + (1 - dy / 10) * plotH };
+}
+
+function dtFromPixel(s, px, py) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { dx: ((px - padX) / plotW) * 10, dy: (1 - (py - padY) / plotH) * 10 };
+}
+
+function dtGini(points) {
+  if (points.length === 0) return 0;
+  const c0 = points.filter(p => p.cls === 0).length / points.length;
+  const c1 = 1 - c0;
+  return 1 - c0 * c0 - c1 * c1;
+}
+
+function dtBuildTree(points, depth, maxDepth) {
+  // Leaf conditions
+  const c0 = points.filter(p => p.cls === 0).length;
+  const c1 = points.length - c0;
+  if (depth >= maxDepth || points.length < 2 || c0 === 0 || c1 === 0) {
+    return { leaf: true, label: c0 >= c1 ? 0 : 1, count: points.length, gini: dtGini(points) };
+  }
+
+  let bestGain = -1, bestAxis = 'x', bestThresh = 5;
+  const parentGini = dtGini(points);
+
+  // Try splits on x and y axes
+  ['x', 'y'].forEach(axis => {
+    const vals = points.map(p => p[axis]).sort((a, b) => a - b);
+    for (let i = 0; i < vals.length - 1; i++) {
+      const thresh = (vals[i] + vals[i + 1]) / 2;
+      const left = points.filter(p => p[axis] <= thresh);
+      const right = points.filter(p => p[axis] > thresh);
+      if (left.length === 0 || right.length === 0) continue;
+      const wGini = (left.length * dtGini(left) + right.length * dtGini(right)) / points.length;
+      const gain = parentGini - wGini;
+      if (gain > bestGain) {
+        bestGain = gain;
+        bestAxis = axis;
+        bestThresh = thresh;
+      }
+    }
+  });
+
+  if (bestGain <= 0) {
+    return { leaf: true, label: c0 >= c1 ? 0 : 1, count: points.length, gini: parentGini };
+  }
+
+  const left = points.filter(p => p[bestAxis] <= bestThresh);
+  const right = points.filter(p => p[bestAxis] > bestThresh);
+
+  return {
+    leaf: false,
+    axis: bestAxis,
+    threshold: bestThresh,
+    left: dtBuildTree(left, depth + 1, maxDepth),
+    right: dtBuildTree(right, depth + 1, maxDepth),
+  };
+}
+
+function dtPredict(tree, x, y) {
+  if (tree.leaf) return tree.label;
+  const val = tree.axis === 'x' ? x : y;
+  return val <= tree.threshold ? dtPredict(tree.left, x, y) : dtPredict(tree.right, x, y);
+}
+
+function dtCountLeaves(tree) {
+  if (tree.leaf) return 1;
+  return dtCountLeaves(tree.left) + dtCountLeaves(tree.right);
+}
+
+function dtGetDepth(tree) {
+  if (tree.leaf) return 0;
+  return 1 + Math.max(dtGetDepth(tree.left), dtGetDepth(tree.right));
+}
+
+function dtCollectSplits(tree, xMin, xMax, yMin, yMax, splits) {
+  if (tree.leaf) return;
+  splits.push({ axis: tree.axis, threshold: tree.threshold, xMin, xMax, yMin, yMax });
+  if (tree.axis === 'x') {
+    dtCollectSplits(tree.left, xMin, tree.threshold, yMin, yMax, splits);
+    dtCollectSplits(tree.right, tree.threshold, xMax, yMin, yMax, splits);
+  } else {
+    dtCollectSplits(tree.left, xMin, xMax, yMin, tree.threshold, splits);
+    dtCollectSplits(tree.right, xMin, xMax, tree.threshold, yMax, splits);
+  }
+}
+
+function drawDT() {
+  const s = setupCanvas('dtCanvas');
+  if (!s) return;
+  const { ctx, w, h } = s;
+  const padX = 50, padY = 40;
+  const plotW = w - padX * 2, plotH = h - padY * 2;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw colored regions if trained
+  if (DT.trained && DT.tree) {
+    for (let px = padX; px < padX + plotW; px += 3) {
+      for (let py = padY; py < padY + plotH; py += 3) {
+        const d = dtFromPixel(s, px, py);
+        const label = dtPredict(DT.tree, d.dx, d.dy);
+        ctx.fillStyle = label === 0 ? 'rgba(79,195,247,0.12)' : 'rgba(229,115,115,0.12)';
+        ctx.fillRect(px, py, 3, 3);
+      }
+    }
+
+    // Draw split lines as dashed
+    const splits = [];
+    dtCollectSplits(DT.tree, 0, 10, 0, 10, splits);
+    ctx.strokeStyle = MUTED();
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    splits.forEach(sp => {
+      if (sp.axis === 'x') {
+        const p1 = dtToPixel(s, sp.threshold, sp.yMin);
+        const p2 = dtToPixel(s, sp.threshold, sp.yMax);
+        ctx.beginPath();
+        ctx.moveTo(p1.px, p1.py);
+        ctx.lineTo(p2.px, p2.py);
+        ctx.stroke();
+      } else {
+        const p1 = dtToPixel(s, sp.xMin, sp.threshold);
+        const p2 = dtToPixel(s, sp.xMax, sp.threshold);
+        ctx.beginPath();
+        ctx.moveTo(p1.px, p1.py);
+        ctx.lineTo(p2.px, p2.py);
+        ctx.stroke();
+      }
+    });
+    ctx.setLineDash([]);
+  }
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 10; i += 2) {
+    const p = dtToPixel(s, i, 0);
+    ctx.beginPath(); ctx.moveTo(p.px, padY); ctx.lineTo(p.px, padY + plotH); ctx.stroke();
+    const q = dtToPixel(s, 0, i);
+    ctx.beginPath(); ctx.moveTo(padX, q.py); ctx.lineTo(padX + plotW, q.py); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle = MUTED();
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(padX, padY);
+  ctx.lineTo(padX, padY + plotH);
+  ctx.lineTo(padX + plotW, padY + plotH);
+  ctx.stroke();
+
+  // Data points
+  DT.points.forEach(pt => {
+    const p = dtToPixel(s, pt.x, pt.y);
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, 6, 0, Math.PI * 2);
+    ctx.fillStyle = pt.cls === 0 ? BLUE : '#e57373';
+    ctx.fill();
+    ctx.strokeStyle = BG();
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Empty state
+  if (DT.points.length === 0) {
+    ctx.fillStyle = MUTED();
+    ctx.font = `14px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Click = Class A (blue) | Shift+Click = Class B (red)', w / 2, h / 2);
+  }
+}
+
+function onDTClick(e) {
+  const canvas = document.getElementById('dtCanvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const px = e.clientX - rect.left, py = e.clientY - rect.top;
+  const s = { w: rect.width, h: rect.height };
+  const d = dtFromPixel(s, px, py);
+  if (d.dx >= 0.2 && d.dx <= 9.8 && d.dy >= 0.2 && d.dy <= 9.8) {
+    DT.points.push({ x: d.dx, y: d.dy, cls: e.shiftKey ? 1 : 0 });
+    DT.trained = false;
+    DT.tree = null;
+    drawDT();
+    checkHints('decision-tree', { pointCount: DT.points.length });
+  }
+}
+
+ENGINE.trainDT = function() {
+  const c0 = DT.points.filter(p => p.cls === 0).length;
+  const c1 = DT.points.length - c0;
+  if (DT.points.length < 2 || c0 === 0 || c1 === 0) return;
+
+  DT.maxDepth = parseInt(document.getElementById('dtDepth').value);
+  DT.tree = dtBuildTree(DT.points, 0, DT.maxDepth);
+  DT.trained = true;
+  DT.depth = dtGetDepth(DT.tree);
+  DT.leaves = dtCountLeaves(DT.tree);
+
+  // Compute accuracy
+  let correct = 0;
+  DT.points.forEach(pt => {
+    if (dtPredict(DT.tree, pt.x, pt.y) === pt.cls) correct++;
+  });
+  DT.accuracy = Math.round((correct / DT.points.length) * 100);
+  DT.gini = dtGini(DT.points);
+
+  document.getElementById('dtDepthM').textContent = DT.depth;
+  document.getElementById('dtLeaves').textContent = DT.leaves;
+  document.getElementById('dtAccuracy').textContent = DT.accuracy + '%';
+  document.getElementById('dtGini').textContent = DT.gini.toFixed(3);
+  drawDT();
+
+  checkHints('decision-tree', {
+    pointCount: DT.points.length,
+    trained: true,
+    depth: DT.depth,
+    accuracy: DT.accuracy,
+  });
+  checkChallenges('decision-tree', {
+    accuracy: DT.accuracy,
+    depth: DT.depth,
+  });
+};
+
+ENGINE.sampleDT = function() {
+  DT.points = [];
+  DT.trained = false;
+  DT.tree = null;
+  // Two separable clusters
+  for (let i = 0; i < 15; i++) {
+    DT.points.push({ x: clamp(2.5 + gauss() * 1, 0.3, 9.7), y: clamp(7 + gauss() * 1, 0.3, 9.7), cls: 0 });
+    DT.points.push({ x: clamp(7 + gauss() * 1, 0.3, 9.7), y: clamp(3 + gauss() * 1, 0.3, 9.7), cls: 1 });
+  }
+  document.getElementById('dtDepthM').textContent = '—';
+  document.getElementById('dtLeaves').textContent = '—';
+  document.getElementById('dtAccuracy').textContent = '—';
+  document.getElementById('dtGini').textContent = '—';
+  drawDT();
+  checkHints('decision-tree', { pointCount: DT.points.length });
+};
+
+ENGINE.resetDT = function() {
+  DT.points = [];
+  DT.tree = null;
+  DT.trained = false;
+  DT.accuracy = 0;
+  DT.depth = 0;
+  DT.leaves = 0;
+  DT.gini = 0;
+  document.getElementById('dtDepthM').textContent = '—';
+  document.getElementById('dtLeaves').textContent = '—';
+  document.getElementById('dtAccuracy').textContent = '—';
+  document.getElementById('dtGini').textContent = '—';
+  drawDT();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ANOMALY DETECTION
+   ═══════════════════════════════════════════════════════════════ */
+
+const AD = {
+  points: [],       // {x, y, outlier: bool, flagged: false}
+  mu: null,         // {x, y}
+  sigma: null,      // [[sxx,sxy],[sxy,syy]]
+  sigmaInv: null,
+  threshold: 95,
+  detected: false,
+};
+
+function adToPixel(s, dx, dy) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { px: padX + (dx / 10) * plotW, py: padY + (1 - dy / 10) * plotH };
+}
+
+function adFromPixel(s, px, py) {
+  const padX = 50, padY = 40;
+  const plotW = s.w - padX * 2, plotH = s.h - padY * 2;
+  return { dx: ((px - padX) / plotW) * 10, dy: (1 - (py - padY) / plotH) * 10 };
+}
+
+function adMahalanobis(px, py, mu, sigmaInv) {
+  const dx = px - mu.x, dy = py - mu.y;
+  return Math.sqrt(dx * (sigmaInv[0][0] * dx + sigmaInv[0][1] * dy) +
+                   dy * (sigmaInv[1][0] * dx + sigmaInv[1][1] * dy));
+}
+
+function adInvert2x2(m) {
+  const det = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+  if (Math.abs(det) < 1e-10) return [[1, 0], [0, 1]];
+  return [
+    [m[1][1] / det, -m[0][1] / det],
+    [-m[1][0] / det, m[0][0] / det],
+  ];
+}
+
+function drawAD() {
+  const s = setupCanvas('adCanvas');
+  if (!s) return;
+  const { ctx, w, h } = s;
+  const padX = 50, padY = 40;
+  const plotW = w - padX * 2, plotH = h - padY * 2;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw contour ellipses if detected
+  if (AD.detected && AD.mu && AD.sigmaInv) {
+    const levels = [1, 2, 3, 4];
+    levels.forEach(level => {
+      ctx.strokeStyle = `rgba(79,195,247,${0.35 - level * 0.07})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let a = 0; a <= Math.PI * 2 + 0.1; a += 0.05) {
+        // Ellipse from covariance: use sigma (not inverse) for contour shape
+        const sig = AD.sigma;
+        // Eigendecomposition of sigma
+        const trace = sig[0][0] + sig[1][1];
+        const det = sig[0][0] * sig[1][1] - sig[0][1] * sig[1][0];
+        const disc = Math.sqrt(Math.max(0, trace * trace / 4 - det));
+        const l1 = trace / 2 + disc;
+        const l2 = trace / 2 - disc;
+        let v1x, v1y;
+        if (Math.abs(sig[0][1]) > 1e-10) {
+          v1x = l1 - sig[1][1]; v1y = sig[0][1];
+          const n = Math.sqrt(v1x * v1x + v1y * v1y);
+          v1x /= n; v1y /= n;
+        } else {
+          v1x = 1; v1y = 0;
+        }
+        const v2x = -v1y, v2y = v1x;
+        const r1 = level * Math.sqrt(l1);
+        const r2 = level * Math.sqrt(l2);
+        const ex = AD.mu.x + r1 * Math.cos(a) * v1x + r2 * Math.sin(a) * v2x;
+        const ey = AD.mu.y + r1 * Math.cos(a) * v1y + r2 * Math.sin(a) * v2y;
+        const p = adToPixel(s, ex, ey);
+        if (a === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
+      }
+      ctx.stroke();
+    });
+  }
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 10; i += 2) {
+    const p = adToPixel(s, i, 0);
+    ctx.beginPath(); ctx.moveTo(p.px, padY); ctx.lineTo(p.px, padY + plotH); ctx.stroke();
+    const q = adToPixel(s, 0, i);
+    ctx.beginPath(); ctx.moveTo(padX, q.py); ctx.lineTo(padX + plotW, q.py); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle = MUTED();
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(padX, padY);
+  ctx.lineTo(padX, padY + plotH);
+  ctx.lineTo(padX + plotW, padY + plotH);
+  ctx.stroke();
+
+  // Data points
+  AD.points.forEach(pt => {
+    const p = adToPixel(s, pt.x, pt.y);
+    // Draw point
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, 5, 0, Math.PI * 2);
+    ctx.fillStyle = pt.outlier ? '#e57373' : BLUE;
+    ctx.fill();
+    ctx.strokeStyle = BG();
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Flagged ring
+    if (pt.flagged) {
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, 10, 0, Math.PI * 2);
+      ctx.strokeStyle = '#e57373';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  });
+
+  // Mean marker
+  if (AD.detected && AD.mu) {
+    const pm = adToPixel(s, AD.mu.x, AD.mu.y);
+    ctx.beginPath();
+    ctx.arc(pm.px, pm.py, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffb74d';
+    ctx.fill();
+    ctx.strokeStyle = BG();
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Empty state
+  if (AD.points.length === 0) {
+    ctx.fillStyle = MUTED();
+    ctx.font = `14px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Click = normal point | Shift+Click = outlier', w / 2, h / 2);
+  }
+}
+
+function onADClick(e) {
+  const canvas = document.getElementById('adCanvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const px = e.clientX - rect.left, py = e.clientY - rect.top;
+  const s = { w: rect.width, h: rect.height };
+  const d = adFromPixel(s, px, py);
+  if (d.dx >= 0.2 && d.dx <= 9.8 && d.dy >= 0.2 && d.dy <= 9.8) {
+    AD.points.push({ x: d.dx, y: d.dy, outlier: e.shiftKey, flagged: false });
+    AD.detected = false;
+    drawAD();
+    checkHints('anomaly-detection', { pointCount: AD.points.length });
+  }
+}
+
+ENGINE.detectAD = function() {
+  if (AD.points.length < 3) return;
+  const n = AD.points.length;
+  AD.threshold = parseInt(document.getElementById('adThresh').value);
+
+  // Compute mean
+  let mx = 0, my = 0;
+  AD.points.forEach(p => { mx += p.x; my += p.y; });
+  mx /= n; my /= n;
+  AD.mu = { x: mx, y: my };
+
+  // Compute covariance
+  let sxx = 0, sxy = 0, syy = 0;
+  AD.points.forEach(p => {
+    const dx = p.x - mx, dy = p.y - my;
+    sxx += dx * dx; sxy += dx * dy; syy += dy * dy;
+  });
+  sxx /= (n - 1); sxy /= (n - 1); syy /= (n - 1);
+  // Add small regularization to avoid singular matrix
+  sxx += 0.01; syy += 0.01;
+  AD.sigma = [[sxx, sxy], [sxy, syy]];
+  AD.sigmaInv = adInvert2x2(AD.sigma);
+
+  // Compute Mahalanobis distance for each point
+  const dists = AD.points.map(p => adMahalanobis(p.x, p.y, AD.mu, AD.sigmaInv));
+
+  // Chi-squared percentile for 2 dof threshold
+  // chi2_inv for 2 dof: -2 * ln(1 - p)
+  const p = AD.threshold / 100;
+  const chi2Thresh = Math.sqrt(-2 * Math.log(1 - p));
+
+  // Flag anomalies
+  let flagged = 0;
+  AD.points.forEach((pt, i) => {
+    pt.flagged = dists[i] > chi2Thresh;
+    if (pt.flagged) flagged++;
+  });
+
+  AD.detected = true;
+
+  // Metrics
+  const outlierCount = AD.points.filter(p => p.outlier).length;
+  const detectedOutliers = AD.points.filter(p => p.outlier && p.flagged).length;
+  const detPct = outlierCount > 0 ? Math.round((detectedOutliers / outlierCount) * 100) : 0;
+  const falsePos = AD.points.filter(p => !p.outlier && p.flagged).length;
+
+  document.getElementById('adFlagged').textContent = flagged;
+  document.getElementById('adThreshM').textContent = AD.threshold + '%';
+  document.getElementById('adMean').textContent = `(${mx.toFixed(1)}, ${my.toFixed(1)})`;
+  document.getElementById('adDetPct').textContent = outlierCount > 0 ? detPct + '%' : '—';
+  drawAD();
+
+  checkHints('anomaly-detection', {
+    pointCount: AD.points.length,
+    detected: true,
+    threshHigh: AD.threshold >= 97,
+    threshLow: AD.threshold <= 92,
+  });
+  checkChallenges('anomaly-detection', {
+    allOutliersFound: outlierCount > 0 && detectedOutliers === outlierCount,
+    noFalsePos: falsePos === 0,
+    detectedPct: detPct,
+    threshold: AD.threshold,
+  });
+};
+
+ENGINE.sampleAD = function() {
+  AD.points = [];
+  AD.detected = false;
+  AD.mu = null;
+  AD.sigma = null;
+  AD.sigmaInv = null;
+  // Normal cluster
+  for (let i = 0; i < 25; i++) {
+    AD.points.push({
+      x: clamp(5 + gauss() * 1.2, 0.3, 9.7),
+      y: clamp(5 + gauss() * 1.2, 0.3, 9.7),
+      outlier: false, flagged: false,
+    });
+  }
+  // Outliers
+  for (let i = 0; i < 5; i++) {
+    AD.points.push({
+      x: clamp(1 + Math.random() * 8, 0.3, 9.7),
+      y: clamp(1 + Math.random() * 8, 0.3, 9.7),
+      outlier: true, flagged: false,
+    });
+  }
+  document.getElementById('adFlagged').textContent = '—';
+  document.getElementById('adThreshM').textContent = '—';
+  document.getElementById('adMean').textContent = '—';
+  document.getElementById('adDetPct').textContent = '—';
+  drawAD();
+  checkHints('anomaly-detection', { pointCount: AD.points.length });
+};
+
+ENGINE.resetAD = function() {
+  AD.points = [];
+  AD.detected = false;
+  AD.mu = null;
+  AD.sigma = null;
+  AD.sigmaInv = null;
+  document.getElementById('adFlagged').textContent = '—';
+  document.getElementById('adThreshM').textContent = '—';
+  document.getElementById('adMean').textContent = '—';
+  document.getElementById('adDetPct').textContent = '—';
+  drawAD();
 };
 
 
@@ -1777,6 +2707,51 @@ const DRAWS = {
     if (aSlider && !aSlider._bound) {
       aSlider.addEventListener('input', () => { document.getElementById('tsAlphaV').textContent = parseFloat(aSlider.value).toFixed(2); });
       aSlider._bound = true;
+    }
+    const bSlider = document.getElementById('tsBeta');
+    if (bSlider && !bSlider._bound) {
+      bSlider.addEventListener('input', () => { document.getElementById('tsBetaV').textContent = parseFloat(bSlider.value).toFixed(2); });
+      bSlider._bound = true;
+    }
+  },
+  'pca-visualizer': function() {
+    drawPCA();
+    const c = document.getElementById('pcaCanvas');
+    if (c && !c._pcaBound) {
+      c.addEventListener('click', onPCAClick);
+      c._pcaBound = true;
+    }
+  },
+  'decision-tree': function() {
+    drawDT();
+    const c = document.getElementById('dtCanvas');
+    if (c && !c._dtBound) {
+      c.addEventListener('click', onDTClick);
+      c._dtBound = true;
+    }
+    const dSlider = document.getElementById('dtDepth');
+    if (dSlider && !dSlider._bound) {
+      dSlider.addEventListener('input', () => {
+        document.getElementById('dtDepthV').textContent = dSlider.value;
+        DT.maxDepth = parseInt(dSlider.value);
+      });
+      dSlider._bound = true;
+    }
+  },
+  'anomaly-detection': function() {
+    drawAD();
+    const c = document.getElementById('adCanvas');
+    if (c && !c._adBound) {
+      c.addEventListener('click', onADClick);
+      c._adBound = true;
+    }
+    const tSlider = document.getElementById('adThresh');
+    if (tSlider && !tSlider._bound) {
+      tSlider.addEventListener('input', () => {
+        document.getElementById('adThreshV').textContent = tSlider.value;
+        AD.threshold = parseInt(tSlider.value);
+      });
+      tSlider._bound = true;
     }
   },
 };

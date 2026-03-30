@@ -1147,6 +1147,583 @@ function drawCLT() {
 
 
 /* ═══════════════════════════════════════════════════════════════
+   5. BAYESIAN UPDATER
+   ═══════════════════════════════════════════════════════════════ */
+
+let bayState = { priorA: 1, priorB: 1, heads: 0, tails: 0, trueProb: 0.5, flips: [] };
+
+/* Log-Gamma via Lanczos approximation */
+function lnGamma(z) {
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lnGamma(1 - z);
+  z -= 1;
+  const g = 7;
+  const c = [0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
+    -176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  let x = c[0];
+  for (let i = 1; i < g + 2; i++) x += c[i] / (z + i);
+  const t = z + g + 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+}
+
+function betaPDF(x, a, b) {
+  if (x <= 0 || x >= 1) return 0;
+  const logB = lnGamma(a) + lnGamma(b) - lnGamma(a + b);
+  return Math.exp((a - 1) * Math.log(x) + (b - 1) * Math.log(1 - x) - logB);
+}
+
+function drawBayes() {
+  const r = setupCanvas('bayCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = bayState;
+  const postA = s.priorA + s.heads;
+  const postB = s.priorB + s.tails;
+  const totalFlips = s.heads + s.tails;
+  const postMean = postA / (postA + postB);
+
+  // Update metrics
+  document.getElementById('bayPriorA').textContent = s.priorA.toFixed(2);
+  document.getElementById('bayPriorB').textContent = s.priorB.toFixed(2);
+  document.getElementById('bayPostA').textContent = postA.toFixed(2);
+  document.getElementById('bayPostB').textContent = postB.toFixed(2);
+  document.getElementById('bayFlips').textContent = totalFlips;
+  document.getElementById('bayHeads').textContent = s.heads;
+  document.getElementById('bayMean').textContent = postMean.toFixed(4);
+
+  const pad = { top: 30, right: 20, bottom: 50, left: 50 };
+  const topH = h * 0.65;
+  const botTop = topH + 10;
+  const botH = h - botTop - pad.bottom;
+  const pw = w - pad.left - pad.right;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // — Top half: Beta PDF curves —
+  const steps = 200;
+  let maxY = 0;
+  const priorPts = [], postPts = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = i / steps;
+    const pv = betaPDF(x, s.priorA, s.priorB);
+    const qv = betaPDF(x, postA, postB);
+    priorPts.push({ x, y: pv });
+    postPts.push({ x, y: qv });
+    if (isFinite(pv)) maxY = Math.max(maxY, pv);
+    if (isFinite(qv)) maxY = Math.max(maxY, qv);
+  }
+  if (maxY === 0) maxY = 1;
+
+  // Axes
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, topH);
+  ctx.lineTo(pad.left + pw, topH);
+  ctx.stroke();
+
+  ctx.fillStyle = MUTED();
+  ctx.font = `11px ${MONO()}`;
+  ctx.textAlign = 'center';
+  for (let i = 0; i <= 10; i++) {
+    const xp = pad.left + (i / 10) * pw;
+    ctx.fillText((i / 10).toFixed(1), xp, topH + 14);
+  }
+  ctx.fillText('θ (probability)', pad.left + pw / 2, topH + 30);
+
+  // Prior curve (blue, dashed)
+  ctx.setLineDash([6, 4]);
+  ctx.strokeStyle = BLUE;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  priorPts.forEach((p, i) => {
+    const px = pad.left + p.x * pw;
+    const py = topH - (Math.min(p.y, maxY) / maxY) * (topH - pad.top);
+    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Posterior curve (purple, solid)
+  ctx.strokeStyle = PURPLE;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  postPts.forEach((p, i) => {
+    const px = pad.left + p.x * pw;
+    const py = topH - (Math.min(p.y, maxY) / maxY) * (topH - pad.top);
+    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+
+  // True probability line
+  ctx.strokeStyle = GREEN;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  const trueX = pad.left + s.trueProb * pw;
+  ctx.beginPath();
+  ctx.moveTo(trueX, pad.top);
+  ctx.lineTo(trueX, topH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Legend
+  ctx.font = `11px ${MONO()}`;
+  ctx.textAlign = 'left';
+  const lx = pad.left + 10;
+  ctx.fillStyle = BLUE;  ctx.fillText('— Prior (dashed)', lx, pad.top + 14);
+  ctx.fillStyle = PURPLE; ctx.fillText('— Posterior', lx, pad.top + 28);
+  ctx.fillStyle = GREEN;  ctx.fillText('— True p', lx, pad.top + 42);
+
+  // — Bottom half: coin flip dots —
+  ctx.fillStyle = MUTED();
+  ctx.font = `11px ${MONO()}`;
+  ctx.textAlign = 'left';
+  ctx.fillText('Coin flips:', pad.left, botTop + 14);
+
+  const dotR = 4;
+  const gap = 3;
+  const dotsPerRow = Math.floor(pw / (dotR * 2 + gap));
+  s.flips.forEach((f, i) => {
+    const col = i % dotsPerRow;
+    const row = Math.floor(i / dotsPerRow);
+    const cx = pad.left + col * (dotR * 2 + gap) + dotR;
+    const cy = botTop + 28 + row * (dotR * 2 + gap) + dotR;
+    if (cy + dotR > h) return;
+    ctx.beginPath();
+    ctx.arc(cx, cy, dotR, 0, Math.PI * 2);
+    ctx.fillStyle = f === 1 ? GREEN : RED;
+    ctx.fill();
+  });
+
+  // Hints
+  checkHints('bayesian-updater', {
+    flips: totalFlips,
+    flatPrior: s.priorA === 1 && s.priorB === 1,
+    strongPrior: s.priorA > 5 || s.priorB > 5,
+    converging: totalFlips >= 30 && Math.abs(postMean - s.trueProb) < 0.1,
+    meanClose: totalFlips >= 20 && Math.abs(postMean - s.trueProb) < 0.05,
+  });
+
+  // Challenges
+  checkChallenges('bayesian-updater', {
+    flatStart: s.priorA === 1 && s.priorB === 1,
+    flips: totalFlips,
+    trueBeliever: Math.abs(postMean - s.trueProb) < 0.05,
+  });
+}
+
+ENGINE.setPriorA = function(v) { bayState.priorA = v; drawBayes(); };
+ENGINE.setPriorB = function(v) { bayState.priorB = v; drawBayes(); };
+ENGINE.setTrueProb = function(v) { bayState.trueProb = v; drawBayes(); };
+
+ENGINE.flipBayes = function(n) {
+  for (let i = 0; i < n; i++) {
+    const result = Math.random() < bayState.trueProb ? 1 : 0;
+    bayState.flips.push(result);
+    if (result) bayState.heads++; else bayState.tails++;
+  }
+  drawBayes();
+};
+
+ENGINE.resetBayes = function() {
+  bayState = { priorA: 1, priorB: 1, heads: 0, tails: 0, trueProb: bayState.trueProb, flips: [] };
+  document.getElementById('bayAlpha').value = 1; document.getElementById('bayAV').textContent = '1';
+  document.getElementById('bayBeta').value = 1;  document.getElementById('bayBV').textContent = '1';
+  drawBayes();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. REGRESSION DIAGNOSTICS
+   ═══════════════════════════════════════════════════════════════ */
+
+let rdState = { points: [], n: 50, noise: 1, relationship: 'linear', fit: null };
+
+function rdGenerate() {
+  const s = rdState;
+  s.points = [];
+  for (let i = 0; i < s.n; i++) {
+    const x = (i / (s.n - 1)) * 10 - 5;
+    let yTrue;
+    switch (s.relationship) {
+      case 'linear':    yTrue = 0.8 * x + 2; break;
+      case 'quadratic': yTrue = 0.3 * x * x - 1; break;
+      case 'sine':      yTrue = 3 * Math.sin(x); break;
+      default:          yTrue = x;
+    }
+    const y = yTrue + gauss() * s.noise;
+    s.points.push({ x, y, yTrue });
+  }
+  rdFit();
+}
+
+function rdFit() {
+  const pts = rdState.points;
+  if (pts.length < 3) { rdState.fit = null; return; }
+  const n = pts.length;
+  let sx = 0, sy = 0, sxy = 0, sx2 = 0;
+  pts.forEach(p => { sx += p.x; sy += p.y; sxy += p.x * p.y; sx2 += p.x * p.x; });
+  const slope = (n * sxy - sx * sy) / (n * sx2 - sx * sx);
+  const intercept = (sy - slope * sx) / n;
+
+  const residuals = pts.map(p => p.y - (slope * p.x + intercept));
+  const fitted = pts.map(p => slope * p.x + intercept);
+  const meanY = sy / n;
+  const ssTot = pts.reduce((a, p) => a + (p.y - meanY) ** 2, 0);
+  const ssRes = residuals.reduce((a, r) => a + r * r, 0);
+  const r2 = 1 - ssRes / ssTot;
+  const adjR2 = 1 - (1 - r2) * (n - 1) / (n - 2);
+  const rmse = Math.sqrt(ssRes / n);
+
+  // Durbin-Watson approximation
+  let dwNum = 0;
+  for (let i = 1; i < residuals.length; i++) dwNum += (residuals[i] - residuals[i - 1]) ** 2;
+  const dw = dwNum / ssRes;
+
+  rdState.fit = { slope, intercept, residuals, fitted, r2, adjR2, rmse, dw };
+}
+
+function drawRD() {
+  const r = setupCanvas('rdCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = rdState;
+
+  ctx.clearRect(0, 0, w, h);
+
+  if (!s.fit || s.points.length === 0) {
+    ctx.fillStyle = MUTED();
+    ctx.font = `13px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Click "Generate" to create data and fit regression', w / 2, h / 2);
+    return;
+  }
+
+  const f = s.fit;
+  document.getElementById('rdR2').textContent = f.r2.toFixed(4);
+  document.getElementById('rdAdjR2').textContent = f.adjR2.toFixed(4);
+  document.getElementById('rdRMSE').textContent = f.rmse.toFixed(4);
+  document.getElementById('rdDW').textContent = f.dw.toFixed(4);
+
+  const halfW = w / 2;
+  const halfH = h / 2;
+  const pad = 40;
+
+  function panelBounds(col, row) {
+    return {
+      x: col * halfW + pad,
+      y: row * halfH + pad / 2,
+      w: halfW - pad * 1.5,
+      h: halfH - pad * 1.2
+    };
+  }
+
+  function drawAxes(b, xlabel, ylabel) {
+    ctx.strokeStyle = BORDER();
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);
+    ctx.lineTo(b.x, b.y + b.h);
+    ctx.lineTo(b.x + b.w, b.y + b.h);
+    ctx.stroke();
+    ctx.fillStyle = MUTED();
+    ctx.font = `9px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText(xlabel, b.x + b.w / 2, b.y + b.h + 16);
+    ctx.save();
+    ctx.translate(b.x - 14, b.y + b.h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(ylabel, 0, 0);
+    ctx.restore();
+  }
+
+  // Panel titles
+  const titles = ['Fitted vs Actual', 'Residuals vs Fitted', 'Q-Q Plot', 'Residual Histogram'];
+  titles.forEach((t, i) => {
+    const col = i % 2, row = Math.floor(i / 2);
+    ctx.fillStyle = TEXT();
+    ctx.font = `bold 11px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText(t, col * halfW + halfW / 2, row * halfH + 14);
+  });
+
+  // (1) Fitted vs Actual
+  const b1 = panelBounds(0, 0);
+  drawAxes(b1, 'Fitted', 'Actual');
+  const fMin = Math.min(...f.fitted), fMax = Math.max(...f.fitted);
+  const yArr = s.points.map(p => p.y);
+  const yMin = Math.min(...yArr), yMax = Math.max(...yArr);
+  // 45-degree line
+  ctx.strokeStyle = MUTED();
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  const lineMin = Math.min(fMin, yMin), lineMax = Math.max(fMax, yMax);
+  ctx.moveTo(b1.x + ((lineMin - fMin) / (fMax - fMin || 1)) * b1.w, b1.y + b1.h - ((lineMin - yMin) / (yMax - yMin || 1)) * b1.h);
+  ctx.lineTo(b1.x + ((lineMax - fMin) / (fMax - fMin || 1)) * b1.w, b1.y + b1.h - ((lineMax - yMin) / (yMax - yMin || 1)) * b1.h);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  s.points.forEach((p, i) => {
+    const px = b1.x + ((f.fitted[i] - fMin) / (fMax - fMin || 1)) * b1.w;
+    const py = b1.y + b1.h - ((p.y - yMin) / (yMax - yMin || 1)) * b1.h;
+    ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fillStyle = BLUE; ctx.fill();
+  });
+
+  // (2) Residuals vs Fitted
+  const b2 = panelBounds(1, 0);
+  drawAxes(b2, 'Fitted', 'Residual');
+  const rMin = Math.min(...f.residuals), rMax = Math.max(...f.residuals);
+  ctx.strokeStyle = MUTED();
+  ctx.setLineDash([4, 4]);
+  const zeroY = b2.y + b2.h - ((0 - rMin) / (rMax - rMin || 1)) * b2.h;
+  ctx.beginPath(); ctx.moveTo(b2.x, zeroY); ctx.lineTo(b2.x + b2.w, zeroY); ctx.stroke();
+  ctx.setLineDash([]);
+  s.points.forEach((p, i) => {
+    const px = b2.x + ((f.fitted[i] - fMin) / (fMax - fMin || 1)) * b2.w;
+    const py = b2.y + b2.h - ((f.residuals[i] - rMin) / (rMax - rMin || 1)) * b2.h;
+    ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fillStyle = PURPLE; ctx.fill();
+  });
+
+  // (3) Q-Q Plot
+  const b3 = panelBounds(0, 1);
+  drawAxes(b3, 'Theoretical', 'Sample');
+  const sorted = [...f.residuals].sort((a, b) => a - b);
+  const n = sorted.length;
+  const qqPts = sorted.map((v, i) => {
+    const p = (i + 0.5) / n;
+    // Approximate inverse normal (Beasley-Springer-Moro)
+    const t = p < 0.5 ? Math.sqrt(-2 * Math.log(p)) : Math.sqrt(-2 * Math.log(1 - p));
+    const theoretical = (p < 0.5 ? -1 : 1) * (t - (2.515517 + 0.802853 * t + 0.010328 * t * t) / (1 + 1.432788 * t + 0.189269 * t * t + 0.001308 * t * t * t));
+    return { t: theoretical, s: v };
+  });
+  const tMin = Math.min(...qqPts.map(p => p.t)), tMax = Math.max(...qqPts.map(p => p.t));
+  const sMin = Math.min(...qqPts.map(p => p.s)), sMax = Math.max(...qqPts.map(p => p.s));
+  // Reference line
+  ctx.strokeStyle = MUTED();
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(b3.x, b3.y + b3.h);
+  ctx.lineTo(b3.x + b3.w, b3.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  qqPts.forEach(p => {
+    const px = b3.x + ((p.t - tMin) / (tMax - tMin || 1)) * b3.w;
+    const py = b3.y + b3.h - ((p.s - sMin) / (sMax - sMin || 1)) * b3.h;
+    ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fillStyle = GREEN; ctx.fill();
+  });
+
+  // (4) Residual Histogram
+  const b4 = panelBounds(1, 1);
+  drawAxes(b4, 'Residual', 'Count');
+  const nBins = 15;
+  const binW = (rMax - rMin) / nBins || 1;
+  const bins = new Array(nBins).fill(0);
+  f.residuals.forEach(v => {
+    const bi = Math.min(Math.floor((v - rMin) / binW), nBins - 1);
+    bins[bi]++;
+  });
+  const maxBin = Math.max(...bins, 1);
+  const barW = b4.w / nBins;
+  bins.forEach((count, i) => {
+    const bh = (count / maxBin) * b4.h;
+    ctx.fillStyle = ORANGE;
+    ctx.fillRect(b4.x + i * barW + 1, b4.y + b4.h - bh, barW - 2, bh);
+  });
+
+  // Hints
+  const resStd = Math.sqrt(f.residuals.reduce((a, v) => a + v * v, 0) / n);
+  checkHints('regression-diagnostics', {
+    hasResidualPattern: s.relationship !== 'linear',
+    qqDeviation: s.relationship !== 'linear' || s.noise > 3,
+    heteroscedastic: false,
+    r2High: f.r2 > 0.9,
+    autocorrelated: f.dw < 1.2 || f.dw > 2.8,
+  });
+
+  checkChallenges('regression-diagnostics', {
+    perfectFit: f.r2 > 0.95 && s.relationship === 'linear',
+    patternHunter: s.relationship === 'quadratic',
+  });
+}
+
+ENGINE.setRDN = function(v) { rdState.n = v; };
+ENGINE.setRDNoise = function(v) { rdState.noise = v; };
+ENGINE.setRDRel = function(v) { rdState.relationship = v; };
+ENGINE.generateRD = function() { rdGenerate(); drawRD(); };
+ENGINE.resetRD = function() {
+  rdState = { points: [], n: 50, noise: 1, relationship: 'linear', fit: null };
+  document.getElementById('rdN').value = 50;     document.getElementById('rdNV').textContent = '50';
+  document.getElementById('rdNoise').value = 1;   document.getElementById('rdNoiseV').textContent = '1';
+  document.getElementById('rdRel').value = 'linear';
+  drawRD();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   7. PROBABILITY CALCULATOR
+   ═══════════════════════════════════════════════════════════════ */
+
+let pcState = { pA: 0.3, pBA: 0.8, pBNotA: 0.1, calculated: false };
+
+function pcCalc() {
+  const s = pcState;
+  const pB = s.pBA * s.pA + s.pBNotA * (1 - s.pA);
+  const pAB = (s.pBA * s.pA) / pB;
+  const pNotAB = 1 - pAB;
+  const lr = s.pBA / s.pBNotA;
+  s.calculated = true;
+  return { pB, pAB, pNotAB, lr };
+}
+
+function drawPC() {
+  const r = setupCanvas('pcCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const s = pcState;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const res = pcCalc();
+  document.getElementById('pcPB').textContent = res.pB.toFixed(4);
+  document.getElementById('pcPAB').textContent = res.pAB.toFixed(4);
+  document.getElementById('pcPNotAB').textContent = res.pNotAB.toFixed(4);
+  document.getElementById('pcLR').textContent = res.lr.toFixed(4);
+
+  const pad = { top: 30, bottom: 20, left: 40, right: 40 };
+  const treeW = w - pad.left - pad.right;
+  const treeH = h - pad.top - pad.bottom;
+
+  // Tree layout
+  const rootX = pad.left + 30;
+  const rootY = pad.top + treeH / 2;
+  const col1X = pad.left + treeW * 0.3;
+  const col2X = pad.left + treeW * 0.65;
+  const resultX = pad.left + treeW * 0.85;
+
+  const aY = pad.top + treeH * 0.25;
+  const notAY = pad.top + treeH * 0.75;
+
+  const baY = pad.top + treeH * 0.12;
+  const notBaY = pad.top + treeH * 0.38;
+  const bNotAY = pad.top + treeH * 0.62;
+  const notBNotAY = pad.top + treeH * 0.88;
+
+  function drawBranch(x1, y1, x2, y2, prob, color, thick) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = thick ? 3 : 1.5;
+    ctx.globalAlpha = thick ? 1 : 0.5;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2 - 8;
+    ctx.fillStyle = color;
+    ctx.font = `bold 11px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText(prob.toFixed(3), mx, my);
+  }
+
+  function drawNode(x, y, label, color, highlight) {
+    const r = highlight ? 18 : 14;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = highlight ? color : BG();
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = highlight ? BG() : color;
+    ctx.font = `bold 11px ${MONO()}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x, y);
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  // Highlighted path: root → A → B|A (shows P(A|B) derivation)
+  const isHighPath = res.pAB > 0.5;
+
+  // Branches: root → A, root → ¬A
+  drawBranch(rootX, rootY, col1X, aY, s.pA, BLUE, isHighPath);
+  drawBranch(rootX, rootY, col1X, notAY, 1 - s.pA, RED, !isHighPath);
+
+  // Branches: A → B|A, A → ¬B|A
+  drawBranch(col1X, aY, col2X, baY, s.pBA, GREEN, isHighPath);
+  drawBranch(col1X, aY, col2X, notBaY, 1 - s.pBA, MUTED(), false);
+
+  // Branches: ¬A → B|¬A, ¬A → ¬B|¬A
+  drawBranch(col1X, notAY, col2X, bNotAY, s.pBNotA, ORANGE, !isHighPath);
+  drawBranch(col1X, notAY, col2X, notBNotAY, 1 - s.pBNotA, MUTED(), false);
+
+  // Nodes
+  drawNode(rootX, rootY, '⊙', TEXT(), false);
+  drawNode(col1X, aY, 'A', BLUE, isHighPath);
+  drawNode(col1X, notAY, '¬A', RED, !isHighPath);
+  drawNode(col2X, baY, 'B', GREEN, isHighPath);
+  drawNode(col2X, notBaY, '¬B', MUTED(), false);
+  drawNode(col2X, bNotAY, 'B', ORANGE, !isHighPath);
+  drawNode(col2X, notBNotAY, '¬B', MUTED(), false);
+
+  // Joint probabilities at leaf level
+  ctx.font = `10px ${MONO()}`;
+  ctx.textAlign = 'left';
+  ctx.fillStyle = TEXT();
+  const jp1 = s.pA * s.pBA;
+  const jp2 = s.pA * (1 - s.pBA);
+  const jp3 = (1 - s.pA) * s.pBNotA;
+  const jp4 = (1 - s.pA) * (1 - s.pBNotA);
+  ctx.fillText(`= ${jp1.toFixed(4)}`, col2X + 24, baY + 4);
+  ctx.fillText(`= ${jp2.toFixed(4)}`, col2X + 24, notBaY + 4);
+  ctx.fillText(`= ${jp3.toFixed(4)}`, col2X + 24, bNotAY + 4);
+  ctx.fillText(`= ${jp4.toFixed(4)}`, col2X + 24, notBNotAY + 4);
+
+  // Result panel
+  ctx.fillStyle = PURPLE;
+  ctx.font = `bold 14px ${MONO()}`;
+  ctx.textAlign = 'left';
+  ctx.fillText(`P(A|B) = ${res.pAB.toFixed(4)}`, resultX, h / 2 - 20);
+  ctx.fillStyle = TEXT();
+  ctx.font = `11px ${MONO()}`;
+  ctx.fillText(`P(B) = ${res.pB.toFixed(4)}`, resultX, h / 2 + 5);
+  ctx.fillText(`LR = ${res.lr.toFixed(2)}`, resultX, h / 2 + 22);
+
+  // Title
+  ctx.fillStyle = TEXT();
+  ctx.font = `bold 13px ${MONO()}`;
+  ctx.textAlign = 'center';
+  ctx.fillText('Bayes\' Theorem Probability Tree', w / 2, 16);
+
+  // Hints
+  checkHints('probability-calculator', {
+    baseRateTrap: s.pA < 0.05 && s.pBA > 0.9 && res.pAB < 0.5,
+    highLR: res.lr > 5,
+    priorMatters: s.calculated,
+    complementShown: s.calculated,
+    rareEvent: s.pA < 0.05,
+  });
+
+  // Challenges
+  checkChallenges('probability-calculator', {
+    baseRateChallenge: s.pA <= 0.01 && s.pBA >= 0.99 && s.pBNotA >= 0.05 && res.pAB < 0.2,
+    certaintyCh: res.pAB > 0.95,
+  });
+}
+
+ENGINE.setPCA = function(v) { pcState.pA = v; drawPC(); };
+ENGINE.setPCBA = function(v) { pcState.pBA = v; drawPC(); };
+ENGINE.setPCBNotA = function(v) { pcState.pBNotA = v; drawPC(); };
+ENGINE.calcPC = function() { drawPC(); };
+ENGINE.resetPC = function() {
+  pcState = { pA: 0.3, pBA: 0.8, pBNotA: 0.1, calculated: false };
+  document.getElementById('pcPA').value = 0.3;   document.getElementById('pcPAV').textContent = '0.3';
+  document.getElementById('pcPBA').value = 0.8;   document.getElementById('pcPBAV').textContent = '0.8';
+  document.getElementById('pcPBNA').value = 0.1;  document.getElementById('pcPBNAV').textContent = '0.1';
+  drawPC();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
    DRAWS DISPATCH — maps topic ID to draw function
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1155,4 +1732,7 @@ const DRAWS = {
   'hypothesis-testing':    function() { drawHT(); },
   'correlation-playground':function() { drawCP(); },
   'central-limit-theorem': function() { cltGeneratePopulation(); drawCLT(); },
+  'bayesian-updater':      function() { drawBayes(); },
+  'regression-diagnostics':function() { rdGenerate(); drawRD(); },
+  'probability-calculator':function() { drawPC(); },
 };

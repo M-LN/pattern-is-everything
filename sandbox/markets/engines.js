@@ -1307,6 +1307,624 @@ ENGINE.calcRC = function() {
 
 
 /* ═══════════════════════════════════════════════════════════════
+   MOVING AVERAGE CROSSOVER
+   ═══════════════════════════════════════════════════════════════ */
+
+const MAC = {
+  data: [],
+  fastPeriod: 10,
+  slowPeriod: 30,
+  fastSMA: [],
+  slowSMA: [],
+  signals: [],    // { idx, type:'golden'|'death', priceAtSignal, priceAfter10 }
+};
+
+function macGenerate() {
+  MAC.data = generateOHLC(100);
+  macCalc();
+}
+
+function macCalc() {
+  MAC.fastSMA = calcSMA(MAC.data, MAC.fastPeriod);
+  MAC.slowSMA = calcSMA(MAC.data, MAC.slowPeriod);
+  MAC.signals = [];
+  for (let i = 1; i < MAC.data.length; i++) {
+    const pf = MAC.fastSMA[i - 1], ps = MAC.slowSMA[i - 1];
+    const cf = MAC.fastSMA[i], cs = MAC.slowSMA[i];
+    if (pf === null || ps === null || cf === null || cs === null) continue;
+    if (pf <= ps && cf > cs) {
+      MAC.signals.push({ idx: i, type: 'golden', priceAtSignal: MAC.data[i].c, priceAfter10: i + 10 < MAC.data.length ? MAC.data[i + 10].c : null });
+    } else if (pf >= ps && cf < cs) {
+      MAC.signals.push({ idx: i, type: 'death', priceAtSignal: MAC.data[i].c, priceAfter10: i + 10 < MAC.data.length ? MAC.data[i + 10].c : null });
+    }
+  }
+}
+
+function macUpdateMetrics() {
+  const golden = MAC.signals.filter(s => s.type === 'golden').length;
+  const death = MAC.signals.filter(s => s.type === 'death').length;
+  const total = MAC.signals.length;
+  let wins = 0, counted = 0;
+  MAC.signals.forEach(s => {
+    if (s.priceAfter10 === null) return;
+    counted++;
+    if (s.type === 'golden' && s.priceAfter10 > s.priceAtSignal) wins++;
+    else if (s.type === 'death' && s.priceAfter10 < s.priceAtSignal) wins++;
+  });
+  const wr = counted > 0 ? Math.round((wins / counted) * 100) : 0;
+
+  document.getElementById('macGolden').textContent = golden;
+  document.getElementById('macDeath').textContent = death;
+  document.getElementById('macSignals').textContent = total;
+  document.getElementById('macWinRate').textContent = counted > 0 ? wr + '%' : '—';
+
+  return { golden, death, total, winRate: wr, counted };
+}
+
+function drawMAC() {
+  const s = setupCanvas('macCanvas');
+  if (!s) return;
+  const { ctx, w, h } = s;
+  if (MAC.data.length === 0) macGenerate();
+
+  const data = MAC.data;
+  const padL = 55, padR = 15, padT = 20, padB = 30;
+  const chartW = w - padL - padR, chartH = h - padT - padB;
+
+  ctx.clearRect(0, 0, w, h);
+
+  let pMin = Infinity, pMax = -Infinity;
+  data.forEach(d => { if (d.l < pMin) pMin = d.l; if (d.h > pMax) pMax = d.h; });
+  const pPad = (pMax - pMin) * 0.08 || 1;
+  pMin -= pPad; pMax += pPad;
+
+  function priceY(p) { return padT + chartH * (1 - (p - pMin) / (pMax - pMin)); }
+  function candleX(i) { return padL + (i + 0.5) * (chartW / data.length); }
+  const cw = Math.max(2, (chartW / data.length) * 0.55);
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 5; i++) {
+    const p = pMin + (pMax - pMin) * (i / 5);
+    const y = priceY(p);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+    ctx.fillStyle = MUTED();
+    ctx.font = `10px ${MONO()}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(p.toFixed(1), padL - 6, y + 3);
+  }
+  ctx.setLineDash([]);
+
+  // Candlesticks
+  data.forEach((d, i) => {
+    const x = candleX(i);
+    const bull = d.c >= d.o;
+    ctx.strokeStyle = bull ? GREEN : RED;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, priceY(d.h)); ctx.lineTo(x, priceY(d.l)); ctx.stroke();
+    ctx.fillStyle = bull ? GREEN : RED;
+    const top = priceY(Math.max(d.o, d.c));
+    const bot = priceY(Math.min(d.o, d.c));
+    ctx.fillRect(x - cw / 2, top, cw, Math.max(1, bot - top));
+  });
+
+  // Fast SMA (blue)
+  drawLine(ctx, data, MAC.fastSMA, candleX, priceY, BLUE, 2);
+  // Slow SMA (orange)
+  drawLine(ctx, data, MAC.slowSMA, candleX, priceY, '#ffb74d', 2);
+
+  // Legend
+  ctx.font = `10px ${MONO()}`;
+  ctx.fillStyle = BLUE;
+  ctx.textAlign = 'left';
+  ctx.fillText(`Fast SMA ${MAC.fastPeriod}`, padL + 6, padT + 12);
+  ctx.fillStyle = '#ffb74d';
+  ctx.fillText(`Slow SMA ${MAC.slowPeriod}`, padL + 6, padT + 24);
+
+  // Signal markers
+  MAC.signals.forEach(sig => {
+    const x = candleX(sig.idx);
+    const isGolden = sig.type === 'golden';
+    const y = isGolden ? priceY(data[sig.idx].l) + 14 : priceY(data[sig.idx].h) - 8;
+    ctx.fillStyle = isGolden ? GREEN : RED;
+    ctx.beginPath();
+    if (isGolden) {
+      ctx.moveTo(x, y - 8); ctx.lineTo(x - 5, y); ctx.lineTo(x + 5, y);
+    } else {
+      ctx.moveTo(x, y + 8); ctx.lineTo(x - 5, y); ctx.lineTo(x + 5, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  macUpdateMetrics();
+}
+
+ENGINE.setMACFast = function(val) {
+  MAC.fastPeriod = parseInt(val);
+  document.getElementById('macFastVal').textContent = val;
+  macCalc();
+  drawMAC();
+  checkHints('ma-crossover', { generated: true, fastChanged: true });
+};
+
+ENGINE.setMACSlow = function(val) {
+  MAC.slowPeriod = parseInt(val);
+  document.getElementById('macSlowVal').textContent = val;
+  macCalc();
+  drawMAC();
+  checkHints('ma-crossover', { generated: true, slowChanged: true });
+};
+
+ENGINE.generateMAC = function() {
+  macGenerate();
+  drawMAC();
+  const m = macUpdateMetrics();
+  checkHints('ma-crossover', {
+    generated: true,
+    hasDeathCross: m.death > 0,
+    winRate: m.winRate,
+  });
+  checkChallenges('ma-crossover', {
+    goldenCrosses: m.golden,
+    winRate: m.winRate,
+  });
+};
+
+ENGINE.resetMAC = function() {
+  MAC.fastPeriod = 10;
+  MAC.slowPeriod = 30;
+  const fastEl = document.getElementById('macFast');
+  const slowEl = document.getElementById('macSlow');
+  if (fastEl) { fastEl.value = 10; }
+  if (slowEl) { slowEl.value = 30; }
+  document.getElementById('macFastVal').textContent = '10';
+  document.getElementById('macSlowVal').textContent = '30';
+  macGenerate();
+  drawMAC();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SUPPORT & RESISTANCE
+   ═══════════════════════════════════════════════════════════════ */
+
+const SR = {
+  data: [],
+  levels: [],       // { price, type:'support'|'resistance', manual:bool }
+  tolerance: 5,     // slider 1-10 maps to tolerance factor
+  bounces: 0,
+  breaks: 0,
+  manualBounces: 0,
+};
+
+function srGenerate() {
+  SR.data = generateOHLC(60);
+  SR.levels = [];
+  SR.bounces = 0;
+  SR.breaks = 0;
+  SR.manualBounces = 0;
+  srDetect();
+}
+
+function srDetect() {
+  const data = SR.data;
+  const autoLevels = [];
+  const tolFactor = SR.tolerance * 0.003;
+
+  // 5-bar pivot highs and lows
+  for (let i = 2; i < data.length - 2; i++) {
+    const isSwingHigh = data[i].h >= data[i - 1].h && data[i].h >= data[i - 2].h && data[i].h >= data[i + 1].h && data[i].h >= data[i + 2].h;
+    const isSwingLow = data[i].l <= data[i - 1].l && data[i].l <= data[i - 2].l && data[i].l <= data[i + 1].l && data[i].l <= data[i + 2].l;
+    if (isSwingHigh) autoLevels.push({ price: data[i].h, type: 'resistance' });
+    if (isSwingLow) autoLevels.push({ price: data[i].l, type: 'support' });
+  }
+
+  // Cluster nearby levels
+  autoLevels.sort((a, b) => a.price - b.price);
+  const clustered = [];
+  const avgPrice = data.reduce((s, d) => s + d.c, 0) / data.length;
+  const threshold = avgPrice * tolFactor;
+
+  for (let i = 0; i < autoLevels.length; i++) {
+    if (clustered.length === 0) { clustered.push(autoLevels[i]); continue; }
+    const last = clustered[clustered.length - 1];
+    if (Math.abs(autoLevels[i].price - last.price) < threshold) {
+      last.price = (last.price + autoLevels[i].price) / 2;
+      // If mixed pivots, keep the type closer to last close
+      if (autoLevels[i].type !== last.type) {
+        const lastClose = data[data.length - 1].c;
+        last.type = last.price > lastClose ? 'resistance' : 'support';
+      }
+    } else {
+      clustered.push(autoLevels[i]);
+    }
+  }
+
+  // Keep manual levels, replace auto
+  SR.levels = SR.levels.filter(l => l.manual).concat(clustered.map(l => ({ ...l, manual: false })));
+  srCountBouncesBreaks();
+}
+
+function srCountBouncesBreaks() {
+  const data = SR.data;
+  let bounces = 0, breaks = 0, manualBounces = 0;
+  const avgPrice = data.reduce((s, d) => s + d.c, 0) / data.length;
+  const touchDist = avgPrice * 0.008;
+
+  SR.levels.forEach(level => {
+    let levelBounces = 0;
+    for (let i = 1; i < data.length - 1; i++) {
+      const touchesHigh = Math.abs(data[i].h - level.price) < touchDist;
+      const touchesLow = Math.abs(data[i].l - level.price) < touchDist;
+      if (touchesHigh || touchesLow) {
+        // Next bar stays on same side = bounce, crosses = break
+        const nextClose = data[i + 1].c;
+        const prevClose = data[i - 1].c;
+        const sameSide = (prevClose < level.price && nextClose < level.price) || (prevClose > level.price && nextClose > level.price);
+        if (sameSide) { bounces++; levelBounces++; }
+        else breaks++;
+      }
+    }
+    if (level.manual) manualBounces += levelBounces;
+  });
+  SR.bounces = bounces;
+  SR.breaks = breaks;
+  SR.manualBounces = manualBounces;
+}
+
+function srUpdateMetrics() {
+  const supportCount = SR.levels.filter(l => l.type === 'support').length;
+  const resistCount = SR.levels.filter(l => l.type === 'resistance').length;
+  document.getElementById('srSupport').textContent = supportCount;
+  document.getElementById('srResist').textContent = resistCount;
+  document.getElementById('srBounces').textContent = SR.bounces;
+  document.getElementById('srBreaks').textContent = SR.breaks;
+  return { supportCount, resistanceCount: resistCount, bounces: SR.bounces, breaks: SR.breaks, manualBounces: SR.manualBounces };
+}
+
+function drawSR() {
+  const s = setupCanvas('srCanvas');
+  if (!s) return;
+  const { c, ctx, w, h } = s;
+  if (SR.data.length === 0) srGenerate();
+
+  const data = SR.data;
+  const padL = 55, padR = 15, padT = 20, padB = 30;
+  const chartW = w - padL - padR, chartH = h - padT - padB;
+
+  ctx.clearRect(0, 0, w, h);
+
+  let pMin = Infinity, pMax = -Infinity;
+  data.forEach(d => { if (d.l < pMin) pMin = d.l; if (d.h > pMax) pMax = d.h; });
+  SR.levels.forEach(l => { if (l.price < pMin) pMin = l.price; if (l.price > pMax) pMax = l.price; });
+  const pPad = (pMax - pMin) * 0.08 || 1;
+  pMin -= pPad; pMax += pPad;
+
+  function priceY(p) { return padT + chartH * (1 - (p - pMin) / (pMax - pMin)); }
+  function candleX(i) { return padL + (i + 0.5) * (chartW / data.length); }
+  const cw = Math.max(3, (chartW / data.length) * 0.6);
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 5; i++) {
+    const p = pMin + (pMax - pMin) * (i / 5);
+    const y = priceY(p);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+    ctx.fillStyle = MUTED();
+    ctx.font = `10px ${MONO()}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(p.toFixed(1), padL - 6, y + 3);
+  }
+  ctx.setLineDash([]);
+
+  // S/R levels as dashed horizontal lines
+  SR.levels.forEach(level => {
+    const y = priceY(level.price);
+    const isSupport = level.type === 'support';
+    ctx.strokeStyle = isSupport ? GREEN : RED;
+    ctx.lineWidth = level.manual ? 2 : 1.5;
+    ctx.setLineDash(level.manual ? [8, 4] : [6, 3]);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+    ctx.setLineDash([]);
+    // Price label on right
+    ctx.fillStyle = isSupport ? GREEN : RED;
+    ctx.font = `9px ${MONO()}`;
+    ctx.textAlign = 'left';
+    const tag = (level.manual ? 'M ' : '') + level.price.toFixed(1);
+    ctx.fillText(tag, padL + chartW + 2, y + 3);
+  });
+
+  // Candlesticks
+  data.forEach((d, i) => {
+    const x = candleX(i);
+    const bull = d.c >= d.o;
+    ctx.strokeStyle = bull ? GREEN : RED;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, priceY(d.h)); ctx.lineTo(x, priceY(d.l)); ctx.stroke();
+    ctx.fillStyle = bull ? GREEN : RED;
+    const top = priceY(Math.max(d.o, d.c));
+    const bot = priceY(Math.min(d.o, d.c));
+    ctx.fillRect(x - cw / 2, top, cw, Math.max(1, bot - top));
+  });
+
+  srUpdateMetrics();
+
+  // Store mapping for click handler
+  c._srPriceFromY = function(canvasY) {
+    const cssY = canvasY / DPR;
+    return pMin + (1 - (cssY - padT) / chartH) * (pMax - pMin);
+  };
+}
+
+ENGINE.detectSR = function() {
+  srDetect();
+  drawSR();
+  const m = srUpdateMetrics();
+  checkHints('support-resistance', {
+    levelsDetected: true,
+    bounces: m.bounces,
+    breaks: m.breaks,
+  });
+  checkChallenges('support-resistance', m);
+};
+
+ENGINE.addManualSR = function(price) {
+  const lastClose = SR.data[SR.data.length - 1].c;
+  const type = price > lastClose ? 'resistance' : 'support';
+  SR.levels.push({ price, type, manual: true });
+  srCountBouncesBreaks();
+  drawSR();
+  const m = srUpdateMetrics();
+  checkHints('support-resistance', { manualAdded: true, bounces: m.bounces, breaks: m.breaks });
+  checkChallenges('support-resistance', m);
+};
+
+ENGINE.newSRChart = function() {
+  srGenerate();
+  drawSR();
+  const m = srUpdateMetrics();
+  checkHints('support-resistance', { levelsDetected: true, bounces: m.bounces, breaks: m.breaks });
+  checkChallenges('support-resistance', m);
+};
+
+ENGINE.resetSR = function() {
+  SR.tolerance = 5;
+  const sensEl = document.getElementById('srSens');
+  if (sensEl) sensEl.value = 5;
+  document.getElementById('srSensVal').textContent = '5';
+  srGenerate();
+  drawSR();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
+   VOLUME PROFILE
+   ═══════════════════════════════════════════════════════════════ */
+
+const VP = {
+  data: [],
+  bins: [],         // { priceLow, priceHigh, volume }
+  poc: 0,           // Point of Control price
+  vah: 0,           // Value Area High
+  val: 0,           // Value Area Low
+  totalVolume: 0,
+  binCount: 30,
+};
+
+function vpGenerate() {
+  VP.data = [];
+  let price = 50 + Math.random() * 50;
+  const drift = (Math.random() - 0.5) * 0.3;
+
+  for (let i = 0; i < 80; i++) {
+    const vol = 0.5 + Math.random() * 2;
+    const open = price;
+    const close = open + gauss() * vol + drift;
+    const high = Math.max(open, close) + Math.abs(gauss() * vol * 0.5);
+    const low = Math.min(open, close) - Math.abs(gauss() * vol * 0.5);
+    const volume = Math.round(500 + Math.random() * 2000 + Math.abs(gauss()) * 1000);
+    VP.data.push({
+      o: Math.max(1, open),
+      h: Math.max(1, high),
+      l: Math.max(0.5, low),
+      c: Math.max(1, close),
+      v: volume,
+    });
+    price = close;
+  }
+  vpBuild();
+}
+
+function vpBuild() {
+  const data = VP.data;
+  if (data.length === 0) return;
+
+  let pMin = Infinity, pMax = -Infinity;
+  data.forEach(d => { if (d.l < pMin) pMin = d.l; if (d.h > pMax) pMax = d.h; });
+  const range = pMax - pMin || 1;
+  const binSize = range / VP.binCount;
+
+  VP.bins = [];
+  for (let i = 0; i < VP.binCount; i++) {
+    VP.bins.push({ priceLow: pMin + i * binSize, priceHigh: pMin + (i + 1) * binSize, volume: 0 });
+  }
+
+  // Distribute each candle's volume across bins its range spans
+  VP.totalVolume = 0;
+  data.forEach(d => {
+    VP.totalVolume += d.v;
+    const lo = Math.min(d.o, d.c, d.l);
+    const hi = Math.max(d.o, d.c, d.h);
+    const spannedBins = VP.bins.filter(b => b.priceHigh > lo && b.priceLow < hi);
+    const share = spannedBins.length > 0 ? d.v / spannedBins.length : 0;
+    spannedBins.forEach(b => b.volume += share);
+  });
+
+  // POC = bin with highest volume
+  let maxVol = 0;
+  VP.bins.forEach(b => { if (b.volume > maxVol) { maxVol = b.volume; VP.poc = (b.priceLow + b.priceHigh) / 2; } });
+
+  // Value Area: 70% of total volume around POC
+  const sorted = VP.bins.map((b, i) => ({ ...b, idx: i })).sort((a, b) => b.volume - a.volume);
+  let vaVol = 0;
+  const target = VP.totalVolume * 0.7;
+  const inVA = new Set();
+  for (let i = 0; i < sorted.length && vaVol < target; i++) {
+    inVA.add(sorted[i].idx);
+    vaVol += sorted[i].volume;
+  }
+  let vahIdx = -1, valIdx = VP.binCount;
+  inVA.forEach(idx => { if (idx > vahIdx) vahIdx = idx; if (idx < valIdx) valIdx = idx; });
+  VP.vah = VP.bins[vahIdx] ? VP.bins[vahIdx].priceHigh : pMax;
+  VP.val = VP.bins[valIdx] ? VP.bins[valIdx].priceLow : pMin;
+}
+
+function vpUpdateMetrics() {
+  document.getElementById('vpPOC').textContent = VP.poc.toFixed(2);
+  document.getElementById('vpVAH').textContent = VP.vah.toFixed(2);
+  document.getElementById('vpVAL').textContent = VP.val.toFixed(2);
+  document.getElementById('vpTotalVol').textContent = VP.totalVolume.toLocaleString();
+}
+
+function drawVP() {
+  const s = setupCanvas('vpCanvas');
+  if (!s) return;
+  const { ctx, w, h } = s;
+  if (VP.data.length === 0) vpGenerate();
+
+  const data = VP.data;
+  const padL = 55, padR = 15, padT = 20, padB = 30;
+  const profileW = w * 0.18;
+  const chartW = w - padL - padR - profileW - 10;
+  const chartH = h - padT - padB;
+
+  ctx.clearRect(0, 0, w, h);
+
+  let pMin = Infinity, pMax = -Infinity;
+  data.forEach(d => { if (d.l < pMin) pMin = d.l; if (d.h > pMax) pMax = d.h; });
+  const pPad = (pMax - pMin) * 0.08 || 1;
+  pMin -= pPad; pMax += pPad;
+
+  function priceY(p) { return padT + chartH * (1 - (p - pMin) / (pMax - pMin)); }
+  function candleX(i) { return padL + (i + 0.5) * (chartW / data.length); }
+  const cw = Math.max(2, (chartW / data.length) * 0.55);
+
+  // Grid
+  ctx.strokeStyle = BORDER();
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([4, 4]);
+  for (let i = 0; i <= 5; i++) {
+    const p = pMin + (pMax - pMin) * (i / 5);
+    const y = priceY(p);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW + profileW + 10, y); ctx.stroke();
+    ctx.fillStyle = MUTED();
+    ctx.font = `10px ${MONO()}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(p.toFixed(1), padL - 6, y + 3);
+  }
+  ctx.setLineDash([]);
+
+  // Candlesticks
+  data.forEach((d, i) => {
+    const x = candleX(i);
+    const bull = d.c >= d.o;
+    ctx.strokeStyle = bull ? GREEN : RED;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, priceY(d.h)); ctx.lineTo(x, priceY(d.l)); ctx.stroke();
+    ctx.fillStyle = bull ? GREEN : RED;
+    const top = priceY(Math.max(d.o, d.c));
+    const bot = priceY(Math.min(d.o, d.c));
+    ctx.fillRect(x - cw / 2, top, cw, Math.max(1, bot - top));
+  });
+
+  // Volume profile bars (right side)
+  const profileX = padL + chartW + 10;
+  const maxBinVol = Math.max(...VP.bins.map(b => b.volume));
+
+  VP.bins.forEach(b => {
+    const y1 = priceY(b.priceHigh);
+    const y2 = priceY(b.priceLow);
+    const barW = maxBinVol > 0 ? (b.volume / maxBinVol) * profileW : 0;
+    const mid = (b.priceLow + b.priceHigh) / 2;
+    const isPOC = Math.abs(mid - VP.poc) < (pMax - pMin) / VP.binCount;
+    const inVA = mid >= VP.val && mid <= VP.vah;
+
+    ctx.fillStyle = isPOC ? 'rgba(229,115,115,0.6)' : inVA ? 'rgba(79,195,247,0.3)' : 'rgba(150,150,150,0.2)';
+    ctx.fillRect(profileX, y1, barW, Math.max(1, y2 - y1 - 1));
+    ctx.strokeStyle = isPOC ? RED : inVA ? BLUE : BORDER();
+    ctx.lineWidth = isPOC ? 1.5 : 0.5;
+    ctx.strokeRect(profileX, y1, barW, Math.max(1, y2 - y1 - 1));
+  });
+
+  // POC line
+  ctx.strokeStyle = RED;
+  ctx.lineWidth = 2;
+  ctx.setLineDash([]);
+  const pocY = priceY(VP.poc);
+  ctx.beginPath(); ctx.moveTo(padL, pocY); ctx.lineTo(padL + chartW + profileW + 10, pocY); ctx.stroke();
+  ctx.fillStyle = RED;
+  ctx.font = `bold 9px ${MONO()}`;
+  ctx.textAlign = 'left';
+  ctx.fillText('POC', profileX + profileW + 2, pocY - 3);
+
+  // VAH / VAL dashed lines
+  ctx.strokeStyle = BLUE;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 3]);
+  const vahY = priceY(VP.vah);
+  const valY = priceY(VP.val);
+  ctx.beginPath(); ctx.moveTo(padL, vahY); ctx.lineTo(padL + chartW + profileW + 10, vahY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(padL, valY); ctx.lineTo(padL + chartW + profileW + 10, valY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = BLUE;
+  ctx.font = `9px ${MONO()}`;
+  ctx.fillText('VAH', profileX + profileW + 2, vahY - 3);
+  ctx.fillText('VAL', profileX + profileW + 2, valY - 3);
+
+  vpUpdateMetrics();
+}
+
+ENGINE.buildVP = function() {
+  vpBuild();
+  drawVP();
+  checkHints('volume-profile', { profileBuilt: true, vaShown: true, pocShown: true });
+  // Check skew
+  const topHalf = VP.bins.slice(Math.floor(VP.binCount / 2));
+  const botHalf = VP.bins.slice(0, Math.floor(VP.binCount / 2));
+  const topVol = topHalf.reduce((s, b) => s + b.volume, 0);
+  const botVol = botHalf.reduce((s, b) => s + b.volume, 0);
+  const skewed = Math.abs(topVol - botVol) / VP.totalVolume > 0.2;
+  if (skewed) checkHints('volume-profile', { skewed: true });
+};
+
+ENGINE.newVPChart = function() {
+  vpGenerate();
+  drawVP();
+  checkHints('volume-profile', { profileBuilt: true, vaShown: true, pocShown: true });
+
+  // Check challenges
+  const data = VP.data;
+  let pMin = Infinity, pMax = -Infinity;
+  data.forEach(d => { if (d.l < pMin) pMin = d.l; if (d.h > pMax) pMax = d.h; });
+  const range = pMax - pMin || 1;
+  const pocInTopThird = VP.poc > pMin + range * 0.67;
+  const vaRange = VP.vah - VP.val;
+  const vaTight = vaRange / range < 0.3;
+  checkChallenges('volume-profile', { pocInTopThird, vaTight });
+};
+
+ENGINE.resetVP = function() {
+  vpGenerate();
+  drawVP();
+};
+
+
+/* ═══════════════════════════════════════════════════════════════
    DRAW DISPATCH (compatible with show() pattern)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1331,6 +1949,53 @@ const DRAWS = {
         el._rcBound = true;
       }
     });
+  },
+  'ma-crossover': function() {
+    if (MAC.data.length === 0) macGenerate();
+    drawMAC();
+    // Bind slider listeners
+    const fastEl = document.getElementById('macFast');
+    if (fastEl && !fastEl._macBound) {
+      fastEl.addEventListener('input', () => ENGINE.setMACFast(fastEl.value));
+      fastEl._macBound = true;
+    }
+    const slowEl = document.getElementById('macSlow');
+    if (slowEl && !slowEl._macBound) {
+      slowEl.addEventListener('input', () => ENGINE.setMACSlow(slowEl.value));
+      slowEl._macBound = true;
+    }
+  },
+  'support-resistance': function() {
+    if (SR.data.length === 0) srGenerate();
+    drawSR();
+    // Bind sensitivity slider
+    const sensEl = document.getElementById('srSens');
+    if (sensEl && !sensEl._srBound) {
+      sensEl.addEventListener('input', () => {
+        SR.tolerance = parseInt(sensEl.value);
+        document.getElementById('srSensVal').textContent = sensEl.value;
+        srDetect();
+        drawSR();
+        checkHints('support-resistance', { sensChanged: true, levelsDetected: true });
+      });
+      sensEl._srBound = true;
+    }
+    // Bind click-to-add-level
+    const canvas = document.getElementById('srCanvas');
+    if (canvas && !canvas._srClickBound) {
+      canvas.addEventListener('click', function(e) {
+        if (!canvas._srPriceFromY) return;
+        const rect = canvas.getBoundingClientRect();
+        const canvasY = (e.clientY - rect.top) * DPR;
+        const price = canvas._srPriceFromY(canvasY);
+        if (price > 0) ENGINE.addManualSR(price);
+      });
+      canvas._srClickBound = true;
+    }
+  },
+  'volume-profile': function() {
+    if (VP.data.length === 0) vpGenerate();
+    drawVP();
   },
 };
 

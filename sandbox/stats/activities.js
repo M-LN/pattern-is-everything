@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-stats-lab', title:'Stats Lab', topics:['distribution-explorer','hypothesis-testing','correlation-playground','central-limit-theorem'] },
+  { id:'sec-stats-lab', title:'Stats Lab', topics:['distribution-explorer','hypothesis-testing','correlation-playground','central-limit-theorem','bayesian-updater','regression-diagnostics','probability-calculator'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -14,6 +14,9 @@ const TOPIC_NAMES = {
   'hypothesis-testing':       'Hypothesis Testing',
   'correlation-playground':   'Correlation Playground',
   'central-limit-theorem':    'Central Limit Theorem',
+  'bayesian-updater':         'Bayesian Updater',
+  'regression-diagnostics':   'Regression Diagnostics',
+  'probability-calculator':   'Probability Calculator',
 };
 
 /* ── Full activity data for search ── */
@@ -22,6 +25,9 @@ const TOPIC_DATA = [
   { id:'hypothesis-testing', num:'02', title:'Hypothesis Testing', category:'Stats Lab', keywords:['hypothesis','p-value','significance','null','alternative','type I','type II','alpha','beta','power','t-test','z-test','rejection region'], content:'Simulate hypothesis tests — see how sample size, effect size, and significance level affect p-values and error rates.' },
   { id:'correlation-playground', num:'03', title:'Correlation Playground', category:'Stats Lab', keywords:['correlation','scatter plot','r-value','Pearson','regression','linear','relationship','positive','negative','outlier'], content:'Place points on a scatter plot and watch the correlation coefficient update live. Discover how outliers and patterns affect r.' },
   { id:'central-limit-theorem', num:'04', title:'Central Limit Theorem', category:'Stats Lab', keywords:['CLT','central limit','sampling','sample mean','normal approximation','population','sample size','distribution of means'], content:'Draw samples from any population shape and watch the distribution of sample means converge to a normal distribution.' },
+  { id:'bayesian-updater', num:'05', title:'Bayesian Updater', category:'Stats Lab', keywords:['Bayes','posterior','prior','beta','binomial','coin flip','Bernoulli','updating','belief'], content:'Start with a Beta prior, flip coins, and watch the posterior distribution update in real time — see Bayesian inference in action.' },
+  { id:'regression-diagnostics', num:'06', title:'Regression Diagnostics', category:'Stats Lab', keywords:['regression','residuals','OLS','R-squared','Q-Q plot','diagnostics','heteroscedasticity','fitted','RMSE','Durbin-Watson'], content:'Generate data, fit a regression, and inspect 4-panel diagnostic plots — residuals, Q-Q, and more.' },
+  { id:'probability-calculator', num:'07', title:'Probability Calculator', category:'Stats Lab', keywords:['Bayes theorem','probability tree','conditional','prior','posterior','likelihood','base rate','P(A|B)'], content:'Visualize Bayes\' theorem with an interactive probability tree — adjust priors and likelihoods to see how evidence updates beliefs.' },
 ];
 
 /* ── Hints system ── */
@@ -54,6 +60,27 @@ const HINTS = {
     { id:'clt-converged',   trigger:'looksNormal',      message:'The sampling distribution is becoming bell-shaped — that\'s the Central Limit Theorem in action!' },
     { id:'clt-sem',         trigger:'showSEM',          message:'Standard Error = σ/√n. Larger samples → smaller standard error → tighter distribution of means.' },
   ],
+  'bayesian-updater': [
+    { id:'bay-update',      trigger:'flips>=1',         message:'Each coin flip is a new piece of evidence — the posterior moves toward the data.' },
+    { id:'bay-flat',        trigger:'flatPrior',        message:'A flat prior (α=β=1) means you start with no strong belief — the data speaks for itself.' },
+    { id:'bay-strong',      trigger:'strongPrior',      message:'A strong prior (α or β > 5) resists early data — you need more evidence to shift it.' },
+    { id:'bay-converge',    trigger:'converging',       message:'The posterior is converging — with enough data, the prior becomes irrelevant!' },
+    { id:'bay-mean',        trigger:'meanClose',        message:'The posterior mean is approaching the true coin probability — Bayes at work!' },
+  ],
+  'regression-diagnostics': [
+    { id:'rd-residual',     trigger:'hasResidualPattern', message:'A pattern in the residuals suggests the model is missing something — maybe a nonlinear term.' },
+    { id:'rd-qq',           trigger:'qqDeviation',       message:'Deviations from the Q-Q line suggest residuals aren\'t normally distributed.' },
+    { id:'rd-hetero',       trigger:'heteroscedastic',   message:'Residuals fanning out? That\'s heteroscedasticity — variance isn\'t constant across fitted values.' },
+    { id:'rd-highr2',       trigger:'r2High',            message:'High R² — the model explains most of the variance. But always check residuals too!' },
+    { id:'rd-autocorr',     trigger:'autocorrelated',    message:'Durbin-Watson far from 2 suggests autocorrelation in residuals.' },
+  ],
+  'probability-calculator': [
+    { id:'pc-baserate',     trigger:'baseRateTrap',      message:'The base rate fallacy: even with a good test, rare events keep P(A|B) low!' },
+    { id:'pc-lr',           trigger:'highLR',            message:'A high likelihood ratio means the evidence strongly favors A over ¬A.' },
+    { id:'pc-prior',        trigger:'priorMatters',      message:'The prior P(A) is crucial — it\'s your starting belief before seeing evidence.' },
+    { id:'pc-complement',   trigger:'complementShown',   message:'P(A|B) + P(¬A|B) = 1 — the evidence either supports A or ¬A, nothing else.' },
+    { id:'pc-rare',         trigger:'rareEvent',         message:'When P(A) is very small, even strong evidence may not make P(A|B) large.' },
+  ],
 };
 
 /* ── Challenges ── */
@@ -73,6 +100,18 @@ const CHALLENGES = {
   'central-limit-theorem': [
     { id:'clt-c1', title:'Bell Builder',     objective:'Make the sampling distribution look normal (50+ samples)', checkFn:'bellShaped' },
     { id:'clt-c2', title:'Precision Machine', objective:'Get standard error below 1.0 with n ≥ 30',        checkFn:'lowSE' },
+  ],
+  'bayesian-updater': [
+    { id:'bay-c1', title:'Flat Start',       objective:'Start with α=β=1 and flip 50+ coins',              checkFn:'flatStart&&flips>=50' },
+    { id:'bay-c2', title:'True Believer',    objective:'Posterior mean within 0.05 of true prob (100+ flips)', checkFn:'trueBeliever&&flips>=100' },
+  ],
+  'regression-diagnostics': [
+    { id:'rd-c1', title:'Perfect Fit',       objective:'Achieve R² > 0.95 with linear relationship',       checkFn:'perfectFit' },
+    { id:'rd-c2', title:'Pattern Hunter',    objective:'Use quadratic relationship to reveal residual pattern', checkFn:'patternHunter' },
+  ],
+  'probability-calculator': [
+    { id:'pc-c1', title:'Base Rate Trap',    objective:'Set rare P(A)=0.01, P(B|A)=0.99, P(B|¬A)=0.05 and see P(A|B) < 0.2', checkFn:'baseRateChallenge' },
+    { id:'pc-c2', title:'Certainty',         objective:'Get P(A|B) > 0.95',                               checkFn:'certaintyCh' },
   ],
 };
 
@@ -115,6 +154,9 @@ function buildContent() {
       case 'hypothesis-testing':      html += buildHypothesisTesting(); break;
       case 'correlation-playground':  html += buildCorrelationPlayground(); break;
       case 'central-limit-theorem':   html += buildCentralLimitTheorem(); break;
+      case 'bayesian-updater':        html += buildBayesianUpdater(); break;
+      case 'regression-diagnostics':  html += buildRegressionDiagnostics(); break;
+      case 'probability-calculator':  html += buildProbabilityCalculator(); break;
     }
 
     html += `<div id="hints-${id}" class="hint-panel"></div>`;
@@ -269,6 +311,119 @@ function buildCentralLimitTheorem() {
         <button class="sb-btn" onclick="ENGINE.drawMany(500)">Draw 500</button>
         <button class="sb-btn" onclick="ENGINE.resetCLT()">Reset</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('central-limit-theorem')">🎯 Challenges</button>
+      </div>
+    </div>`;
+}
+
+
+/* ── Bayesian Updater ── */
+function buildBayesianUpdater() {
+  return `
+    <div class="sandbox-canvas-wrap"><canvas id="bayCanvas" height="400"></canvas></div>
+    <div class="sandbox-metrics">
+      <div class="metric"><div class="metric-label">Prior α</div><div class="metric-val" id="bayPriorA">1.00</div></div>
+      <div class="metric"><div class="metric-label">Prior β</div><div class="metric-val" id="bayPriorB">1.00</div></div>
+      <div class="metric"><div class="metric-label">Posterior α</div><div class="metric-val" id="bayPostA">1.00</div></div>
+      <div class="metric"><div class="metric-label">Posterior β</div><div class="metric-val" id="bayPostB">1.00</div></div>
+      <div class="metric"><div class="metric-label">Flips</div><div class="metric-val" id="bayFlips">0</div></div>
+      <div class="metric"><div class="metric-label">Heads</div><div class="metric-val" id="bayHeads">0</div></div>
+      <div class="metric"><div class="metric-label">Posterior Mean</div><div class="metric-val" id="bayMean">0.50</div></div>
+    </div>
+    <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Prior α</span>
+        <input type="range" id="bayAlpha" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorA(+this.value);document.getElementById('bayAV').textContent=this.value">
+        <span class="ctrl-val" id="bayAV">1</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Prior β</span>
+        <input type="range" id="bayBeta" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorB(+this.value);document.getElementById('bayBV').textContent=this.value">
+        <span class="ctrl-val" id="bayBV">1</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">True Probability</span>
+        <input type="range" id="bayProb" min="0.1" max="0.9" step="0.05" value="0.5" oninput="ENGINE.setTrueProb(+this.value);document.getElementById('bayProbV').textContent=this.value">
+        <span class="ctrl-val" id="bayProbV">0.5</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.flipBayes(1)">Flip 1</button>
+        <button class="sb-btn" onclick="ENGINE.flipBayes(10)">Flip 10</button>
+        <button class="sb-btn" onclick="ENGINE.flipBayes(100)">Flip 100</button>
+        <button class="sb-btn" onclick="ENGINE.resetBayes()">Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenges('bayesian-updater')">🎯 Challenges</button>
+      </div>
+    </div>`;
+}
+
+
+/* ── Regression Diagnostics ── */
+function buildRegressionDiagnostics() {
+  return `
+    <div class="sandbox-canvas-wrap"><canvas id="rdCanvas" height="500"></canvas></div>
+    <div class="sandbox-metrics">
+      <div class="metric"><div class="metric-label">R²</div><div class="metric-val" id="rdR2">—</div></div>
+      <div class="metric"><div class="metric-label">Adj. R²</div><div class="metric-val" id="rdAdjR2">—</div></div>
+      <div class="metric"><div class="metric-label">RMSE</div><div class="metric-val" id="rdRMSE">—</div></div>
+      <div class="metric"><div class="metric-label">Durbin-Watson</div><div class="metric-val" id="rdDW">—</div></div>
+    </div>
+    <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Sample Size</span>
+        <input type="range" id="rdN" min="10" max="200" step="5" value="50" oninput="ENGINE.setRDN(+this.value);document.getElementById('rdNV').textContent=this.value">
+        <span class="ctrl-val" id="rdNV">50</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Noise</span>
+        <input type="range" id="rdNoise" min="0.1" max="5" step="0.1" value="1" oninput="ENGINE.setRDNoise(+this.value);document.getElementById('rdNoiseV').textContent=this.value">
+        <span class="ctrl-val" id="rdNoiseV">1</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Relationship</span>
+        <select id="rdRel" class="sb-select" onchange="ENGINE.setRDRel(this.value)">
+          <option value="linear">Linear</option>
+          <option value="quadratic">Quadratic</option>
+          <option value="sine">Sine</option>
+        </select>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.generateRD()">Generate</button>
+        <button class="sb-btn" onclick="ENGINE.resetRD()">Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenges('regression-diagnostics')">🎯 Challenges</button>
+      </div>
+    </div>`;
+}
+
+
+/* ── Probability Calculator ── */
+function buildProbabilityCalculator() {
+  return `
+    <div class="sandbox-canvas-wrap"><canvas id="pcCanvas" height="400"></canvas></div>
+    <div class="sandbox-metrics">
+      <div class="metric"><div class="metric-label">P(B)</div><div class="metric-val" id="pcPB">—</div></div>
+      <div class="metric"><div class="metric-label">P(A|B)</div><div class="metric-val" id="pcPAB">—</div></div>
+      <div class="metric"><div class="metric-label">P(¬A|B)</div><div class="metric-val" id="pcPNotAB">—</div></div>
+      <div class="metric"><div class="metric-label">Likelihood Ratio</div><div class="metric-val" id="pcLR">—</div></div>
+    </div>
+    <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">P(A)</span>
+        <input type="range" id="pcPA" min="0.01" max="0.99" step="0.01" value="0.3" oninput="ENGINE.setPCA(+this.value);document.getElementById('pcPAV').textContent=this.value">
+        <span class="ctrl-val" id="pcPAV">0.3</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">P(B|A)</span>
+        <input type="range" id="pcPBA" min="0.01" max="0.99" step="0.01" value="0.8" oninput="ENGINE.setPCBA(+this.value);document.getElementById('pcPBAV').textContent=this.value">
+        <span class="ctrl-val" id="pcPBAV">0.8</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">P(B|¬A)</span>
+        <input type="range" id="pcPBNA" min="0.01" max="0.99" step="0.01" value="0.1" oninput="ENGINE.setPCBNotA(+this.value);document.getElementById('pcPBNAV').textContent=this.value">
+        <span class="ctrl-val" id="pcPBNAV">0.1</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.calcPC()">Calculate</button>
+        <button class="sb-btn" onclick="ENGINE.resetPC()">Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenges('probability-calculator')">🎯 Challenges</button>
       </div>
     </div>`;
 }

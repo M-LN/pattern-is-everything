@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-markets-lab', title:'Markets Lab', topics:['indicator-playground','candlestick-spotter','paper-trading','risk-calculator'] },
+  { id:'sec-markets-lab', title:'Markets Lab', topics:['indicator-playground','candlestick-spotter','paper-trading','risk-calculator','ma-crossover','support-resistance','volume-profile'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -14,6 +14,9 @@ const TOPIC_NAMES = {
   'candlestick-spotter':  'Candlestick Pattern Spotter',
   'paper-trading':        'Paper Trading Sim',
   'risk-calculator':      'Risk Calculator',
+  'ma-crossover':         'Moving Average Crossover',
+  'support-resistance':   'Support & Resistance',
+  'volume-profile':       'Volume Profile',
 };
 
 /* ── Full activity data for search ── */
@@ -22,6 +25,9 @@ const TOPIC_DATA = [
   { id:'candlestick-spotter', num:'02', title:'Candlestick Pattern Spotter', category:'Markets Lab', keywords:['doji','hammer','engulfing','morning star','evening star','pattern','candle','quiz','recognition'], content:'Test your pattern-recognition skills — identify candlestick formations in randomly generated charts and build your score.' },
   { id:'paper-trading', num:'03', title:'Paper Trading Sim', category:'Markets Lab', keywords:['paper trade','buy','sell','P&L','position','portfolio','simulation','chart','trading'], content:'Step through a price chart bar-by-bar, buy and sell with virtual cash, and track your profit & loss in real time.' },
   { id:'risk-calculator', num:'04', title:'Risk Calculator', category:'Markets Lab', keywords:['position size','risk','reward','stop loss','kelly','risk management','R:R','percentage risk'], content:'Calculate optimal position sizes, stop-loss placement, and risk/reward ratios. Visualise the Kelly criterion for bankroll growth.' },
+  { id:'ma-crossover', num:'05', title:'Moving Average Crossover', category:'Markets Lab', keywords:['SMA','moving average','crossover','golden cross','death cross','signal','trend','fast','slow'], content:'Generate price charts with two SMA overlays. Spot golden and death cross signals and track their accuracy over time.' },
+  { id:'support-resistance', num:'06', title:'Support & Resistance', category:'Markets Lab', keywords:['support','resistance','level','pivot','swing high','swing low','bounce','break','S/R'], content:'Auto-detect support and resistance levels on a candlestick chart using pivot analysis. Click to add manual levels and see bounces vs breaks.' },
+  { id:'volume-profile', num:'07', title:'Volume Profile', category:'Markets Lab', keywords:['volume profile','POC','point of control','value area','VAH','VAL','market profile','histogram','volume'], content:'View a horizontal volume histogram overlaid on price action. Identify the Point of Control, Value Area High and Low for context on where the market traded most.' },
 ];
 
 /* ── Hints system ── */
@@ -51,6 +57,26 @@ const HINTS = {
     { id:'rc-kelly',      trigger:'kellyShown',      message:'Kelly sizing can be aggressive — many traders use half-Kelly for safety.' },
     { id:'rc-large-risk', trigger:'riskHigh',        message:'Risking more than 2% per trade can lead to large drawdowns.' },
   ],
+  'ma-crossover': [
+    { id:'mac-first',     trigger:'generated',       message:'A golden cross (fast crosses above slow) is historically a bullish signal.' },
+    { id:'mac-death',     trigger:'hasDeathCross',   message:'A death cross (fast crosses below slow) often precedes further downside.' },
+    { id:'mac-fast',      trigger:'fastChanged',     message:'Shorter fast periods react quicker but produce more false signals.' },
+    { id:'mac-slow',      trigger:'slowChanged',     message:'Longer slow periods filter noise but lag behind real trend changes.' },
+    { id:'mac-win',       trigger:'winRate>=60',      message:'Above 60% win rate — this parameter combo is working well on this data.' },
+  ],
+  'support-resistance': [
+    { id:'sr-detected',   trigger:'levelsDetected',  message:'Levels are auto-detected using 5-bar pivot highs and lows.' },
+    { id:'sr-manual',     trigger:'manualAdded',     message:'Manual levels let you mark zones the algorithm might miss.' },
+    { id:'sr-bounce',     trigger:'bounces>=3',      message:'Multiple bounces at the same level strengthen that support or resistance.' },
+    { id:'sr-break',      trigger:'breaks>=2',       message:'When a level breaks, old support often becomes new resistance and vice versa.' },
+    { id:'sr-sens',       trigger:'sensChanged',     message:'Higher sensitivity clusters more nearby pivots into a single level.' },
+  ],
+  'volume-profile': [
+    { id:'vp-built',      trigger:'profileBuilt',    message:'The Point of Control is the price level with the highest traded volume.' },
+    { id:'vp-va',         trigger:'vaShown',         message:'The Value Area contains ~70% of total volume — prices tend to revert here.' },
+    { id:'vp-poc',        trigger:'pocShown',        message:'Price often gravitates toward the POC — it acts as a magnet.' },
+    { id:'vp-skew',       trigger:'skewed',          message:'A skewed volume profile suggests directional conviction in the market.' },
+  ],
 };
 
 /* ── Challenges ── */
@@ -70,6 +96,18 @@ const CHALLENGES = {
   'risk-calculator': [
     { id:'rc-c1', title:'Textbook Sizing',    objective:'Calculate a position risking exactly 1% of account', checkFn:'riskPct==1' },
     { id:'rc-c2', title:'Favorable R:R',      objective:'Set up a trade with risk/reward ≥ 1:3',              checkFn:'rrRatio>=3' },
+  ],
+  'ma-crossover': [
+    { id:'mac-c1', title:'Golden Hunter',      objective:'Find a chart with at least 3 golden crosses',       checkFn:'goldenCrosses>=3' },
+    { id:'mac-c2', title:'Signal Surgeon',      objective:'Achieve a signal win rate above 60%',               checkFn:'winRate>=60' },
+  ],
+  'support-resistance': [
+    { id:'sr-c1', title:'Level Master',         objective:'Detect at least 3 support and 3 resistance levels', checkFn:'supportCount>=3&&resistanceCount>=3' },
+    { id:'sr-c2', title:'Manual Precision',     objective:'Add a manual level that gets at least 2 bounces',   checkFn:'manualBounces>=2' },
+  ],
+  'volume-profile': [
+    { id:'vp-c1', title:'POC Finder',           objective:'Generate a chart where POC is in the top third of the price range', checkFn:'pocInTopThird' },
+    { id:'vp-c2', title:'Tight Value Area',     objective:'Find a profile where Value Area spans less than 30% of range',     checkFn:'vaTight' },
   ],
 };
 
@@ -108,6 +146,12 @@ function buildContent() {
       div.innerHTML = buildPaperTrading();
     } else if (id === 'risk-calculator') {
       div.innerHTML = buildRiskCalculator();
+    } else if (id === 'ma-crossover') {
+      div.innerHTML = buildMaCrossover();
+    } else if (id === 'support-resistance') {
+      div.innerHTML = buildSupportResistance();
+    } else if (id === 'volume-profile') {
+      div.innerHTML = buildVolumeProfile();
     }
 
     main.appendChild(div);
@@ -221,6 +265,114 @@ function buildPaperTrading() {
   `;
 }
 
+function buildMaCrossover() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Moving Average <em style="font-style:italic;color:#81c784;">Crossover</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      Overlay fast & slow SMAs on generated price data. Golden crosses (fast above slow) and death crosses (fast below slow) are marked automatically — track their accuracy.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="macCanvas" height="420" style="cursor:default;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="macFast">Fast SMA</label>
+        <input id="macFast" type="range" class="sb-range" min="5" max="30" value="10">
+        <span class="range-val" id="macFastVal">10</span>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="macSlow">Slow SMA</label>
+        <input id="macSlow" type="range" class="sb-range" min="15" max="60" value="30">
+        <span class="range-val" id="macSlowVal">30</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.generateMAC()">🎲 New Chart</button>
+        <button class="sb-btn" onclick="ENGINE.resetMAC()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('ma-crossover')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">Golden ✕</span><span class="metric-val" id="macGolden">0</span></div>
+      <div class="metric"><span class="metric-label">Death ✕</span><span class="metric-val" id="macDeath">0</span></div>
+      <div class="metric"><span class="metric-label">Signals</span><span class="metric-val" id="macSignals">0</span></div>
+      <div class="metric"><span class="metric-label">Win Rate</span><span class="metric-val" id="macWinRate">—</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-ma-crossover" style="display:none;"></div>
+    <div class="hint-panel" id="hints-ma-crossover"></div>
+  `;
+}
+
+function buildSupportResistance() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Support & <em style="font-style:italic;color:#81c784;">Resistance</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      Auto-detect support and resistance levels via pivot analysis. Click the chart to add manual levels. Watch how price bounces off or breaks through each zone.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="srCanvas" height="420" style="cursor:crosshair;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="srSens">Sensitivity</label>
+        <input id="srSens" type="range" class="sb-range" min="1" max="10" value="5">
+        <span class="range-val" id="srSensVal">5</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.newSRChart()">🎲 New Chart</button>
+        <button class="sb-btn" onclick="ENGINE.resetSR()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('support-resistance')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">Support</span><span class="metric-val" id="srSupport">0</span></div>
+      <div class="metric"><span class="metric-label">Resistance</span><span class="metric-val" id="srResist">0</span></div>
+      <div class="metric"><span class="metric-label">Bounces</span><span class="metric-val" id="srBounces">0</span></div>
+      <div class="metric"><span class="metric-label">Breaks</span><span class="metric-val" id="srBreaks">0</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-support-resistance" style="display:none;"></div>
+    <div class="hint-panel" id="hints-support-resistance"></div>
+  `;
+}
+
+function buildVolumeProfile() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Volume <em style="font-style:italic;color:#81c784;">Profile</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      View a horizontal volume histogram at each price level. Identify the Point of Control (highest volume), Value Area High and Low — key zones where the market traded most.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="vpCanvas" height="420" style="cursor:default;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.newVPChart()">🎲 New Chart</button>
+        <button class="sb-btn" onclick="ENGINE.resetVP()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('volume-profile')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">POC</span><span class="metric-val" id="vpPOC">—</span></div>
+      <div class="metric"><span class="metric-label">VAH</span><span class="metric-val" id="vpVAH">—</span></div>
+      <div class="metric"><span class="metric-label">VAL</span><span class="metric-val" id="vpVAL">—</span></div>
+      <div class="metric"><span class="metric-label">Total Vol</span><span class="metric-val" id="vpTotalVol">—</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-volume-profile" style="display:none;"></div>
+    <div class="hint-panel" id="hints-volume-profile"></div>
+  `;
+}
+
 function buildRiskCalculator() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Risk <em style="font-style:italic;color:#81c784;">Calculator</em></h2>
@@ -279,5 +431,4 @@ function buildRiskCalculator() {
   `;
 }
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', buildContent);
+

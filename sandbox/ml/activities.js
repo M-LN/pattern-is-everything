@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-ml-lab', title:'ML Lab', topics:['linear-regression','k-means','classification-boundary','neural-network','feature-scaling','timeseries-forecast'] },
+  { id:'sec-ml-lab', title:'ML Lab', topics:['linear-regression','k-means','classification-boundary','neural-network','feature-scaling','timeseries-forecast','pca-visualizer','decision-tree','anomaly-detection'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -16,6 +16,9 @@ const TOPIC_NAMES = {
   'neural-network':          'Neural Network Builder',
   'feature-scaling':         'Feature Scaling Demo',
   'timeseries-forecast':     'Timeseries Forecasting',
+  'pca-visualizer':          'PCA Visualization',
+  'decision-tree':           'Decision Tree',
+  'anomaly-detection':       'Anomaly Detection',
 };
 
 /* ── Full activity data for search ── */
@@ -26,6 +29,9 @@ const TOPIC_DATA = [
   { id:'neural-network', num:'04', title:'Neural Network Builder', category:'ML Lab', keywords:['neural network','deep learning','layers','neurons','activation','sigmoid','relu','backpropagation','XOR','spiral'], content:'Build a small neural network, pick a dataset, and watch it learn a decision boundary epoch by epoch.' },
   { id:'feature-scaling', num:'05', title:'Feature Scaling Demo', category:'ML Lab', keywords:['feature scaling','normalization','standardization','min-max','z-score','gradient descent','convergence'], content:'See how feature scaling transforms data and dramatically speeds up gradient descent convergence.' },
   { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','trend','seasonality','MAE','RMSE'], content:'Generate time series with trend and seasonality, then forecast with moving averages and exponential smoothing.' },
+  { id:'pca-visualizer', num:'07', title:'PCA Visualization', category:'ML Lab', keywords:['PCA','principal component analysis','dimensionality reduction','eigenvector','eigenvalue','covariance','projection','variance'], content:'Plot 2D data, compute principal components, show eigenvectors and project data along the first principal component.' },
+  { id:'decision-tree', num:'08', title:'Decision Tree', category:'ML Lab', keywords:['decision tree','classifier','gini impurity','split','depth','leaves','axis-aligned','regions'], content:'Build a simple decision tree classifier, visualize the splits on 2D data with colored regions.' },
+  { id:'anomaly-detection', num:'09', title:'Anomaly Detection', category:'ML Lab', keywords:['anomaly','outlier','Gaussian','Mahalanobis','covariance','threshold','envelope','detection'], content:'Place normal and outlier points, fit a Gaussian envelope, see which points get flagged as anomalies.' },
 ];
 
 /* ── Hints system ── */
@@ -71,6 +77,27 @@ const HINTS = {
     { id:'ts-es-high',       trigger:'alphaHigh',        message:'High alpha tracks recent values closely but is sensitive to noise.' },
     { id:'ts-seasonal',      trigger:'hasSeason',        message:'The repeating peaks show seasonality — a pattern that repeats at fixed intervals.' },
   ],
+  'pca-visualizer': [
+    { id:'pca-first-points', trigger:'pointCount>=3',    message:'Place at least 8 points in an elongated cluster to see clear principal components.' },
+    { id:'pca-computed',     trigger:'computed',          message:'The blue arrow is PC1 (most variance). The green arrow is PC2 (remaining variance).' },
+    { id:'pca-high-var',     trigger:'pc1Pct>=80',       message:'PC1 explains most of the variance — the data has a strong dominant direction.' },
+    { id:'pca-projected',    trigger:'showProjection',   message:'Red dots show each point projected onto PC1 — dimensionality reduction in action.' },
+    { id:'pca-equal',        trigger:'pc1Pct<60',        message:'Variance is spread across both components — the data has no dominant direction.' },
+  ],
+  'decision-tree': [
+    { id:'dt-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes — click for Class A (blue), Shift+click for Class B (red).' },
+    { id:'dt-trained',       trigger:'trained',          message:'Dashed lines show axis-aligned splits. Each colored region is a leaf prediction.' },
+    { id:'dt-deep',          trigger:'depth>=3',         message:'Deeper trees fit training data well but risk overfitting — watch for tiny regions.' },
+    { id:'dt-shallow',       trigger:'depth==1',         message:'A depth-1 tree (decision stump) makes only one split — very simple but limited.' },
+    { id:'dt-perfect',       trigger:'accuracy==100',    message:'100% training accuracy — the tree memorized the data. This may not generalize well.' },
+  ],
+  'anomaly-detection': [
+    { id:'ad-first-points',  trigger:'pointCount>=5',    message:'Place normal points (click) and outliers (Shift+click) to build a test set.' },
+    { id:'ad-detected',      trigger:'detected',         message:'Red rings mark flagged anomalies. Points far from the mean in Mahalanobis distance are flagged.' },
+    { id:'ad-high-thresh',   trigger:'threshHigh',       message:'A higher threshold percentile flags fewer points — only the most extreme outliers.' },
+    { id:'ad-low-thresh',    trigger:'threshLow',        message:'A lower threshold flags more points — sensitive detection but more false positives.' },
+    { id:'ad-contours',      trigger:'detected',         message:'Elliptical contours show equal-distance regions from the Gaussian center.' },
+  ],
 };
 
 /* ── Challenges ── */
@@ -98,6 +125,18 @@ const CHALLENGES = {
   'timeseries-forecast': [
     { id:'ts-c1', title:'Tight Forecast',  objective:'Achieve MAE < 5 with exponential smoothing',            checkFn:'mae<5&&methodES' },
     { id:'ts-c2', title:'Trend Tracker',    objective:'Forecast a trending series with RMSE < 8',             checkFn:'rmse<8' },
+  ],
+  'pca-visualizer': [
+    { id:'pca-c1', title:'Dominant Direction', objective:'Create a dataset where PC1 explains > 90% of variance', checkFn:'pc1Pct>90&&computed' },
+    { id:'pca-c2', title:'Even Split',         objective:'Create a dataset where both PCs explain ~50% each',    checkFn:'pc1Pct<60&&pc1Pct>40&&computed' },
+  ],
+  'decision-tree': [
+    { id:'dt-c1', title:'Perfect Split',   objective:'Achieve 100% training accuracy with max depth 2',      checkFn:'accuracy==100&&depth<=2' },
+    { id:'dt-c2', title:'Stump Power',      objective:'Get 90%+ accuracy using only a depth-1 tree',         checkFn:'accuracy>=90&&depth==1' },
+  ],
+  'anomaly-detection': [
+    { id:'ad-c1', title:'Sharp Eye',       objective:'Flag all outliers with 0 false positives',              checkFn:'allOutliersFound&&noFalsePos' },
+    { id:'ad-c2', title:'Tight Envelope',   objective:'Detect 80%+ of outliers with threshold ≥ 95',         checkFn:'detectedPct>=80&&threshold>=95' },
   ],
 };
 
@@ -140,6 +179,12 @@ function buildContent() {
       div.innerHTML = buildFeatureScaling();
     } else if (id === 'timeseries-forecast') {
       div.innerHTML = buildTimeseriesForecast();
+    } else if (id === 'pca-visualizer') {
+      div.innerHTML = buildPcaVisualizer();
+    } else if (id === 'decision-tree') {
+      div.innerHTML = buildDecisionTree();
+    } else if (id === 'anomaly-detection') {
+      div.innerHTML = buildAnomalyDetection();
     }
 
     main.appendChild(div);
@@ -224,10 +269,6 @@ function buildKMeans() {
     <div class="hint-panel" id="hints-k-means"></div>
   `;
 }
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', buildContent);
-
 
 /* ── Build: Classification Boundary ── */
 function buildClassificationBoundary() {
@@ -391,7 +432,10 @@ function buildTimeseriesForecast() {
         <label class="ctrl-label">Method</label>
         <select id="tsMethod" class="sb-select" onchange="ENGINE.setTSMethod(this.value)">
           <option value="ma">Moving Average</option>
+          <option value="wma">Weighted Moving Average</option>
           <option value="es">Exponential Smoothing</option>
+          <option value="holt">Holt's Linear Trend</option>
+          <option value="linear">Linear Trend</option>
         </select>
       </div>
       <div class="ctrl-row" id="tsWindowRow">
@@ -403,6 +447,11 @@ function buildTimeseriesForecast() {
         <label class="ctrl-label">Alpha (α)</label>
         <input type="range" id="tsAlpha" min="0.05" max="0.95" step="0.05" value="0.3">
         <span class="ctrl-val" id="tsAlphaV">0.30</span>
+      </div>
+      <div class="ctrl-row" id="tsBetaRow" style="display:none;">
+        <label class="ctrl-label">Beta (β)</label>
+        <input type="range" id="tsBeta" min="0.01" max="0.5" step="0.01" value="0.1">
+        <span class="ctrl-val" id="tsBetaV">0.10</span>
       </div>
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.forecastTS()">▶ Forecast</button>
@@ -420,5 +469,118 @@ function buildTimeseriesForecast() {
 
     <div class="challenge-panel" id="challenge-timeseries-forecast" style="display:none;"></div>
     <div class="hint-panel" id="hints-timeseries-forecast"></div>
+  `;
+}
+
+
+/* ── Build: PCA Visualization ── */
+function buildPcaVisualizer() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">PCA <em style="font-style:italic;color:#4fc3f7;">Visualization</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      Click to place 2D data points. Hit <strong>Compute PCA</strong> to find principal components — eigenvectors show the directions of maximum variance.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="pcaCanvas" height="400" style="cursor:crosshair;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.computePCA()">▶ Compute PCA</button>
+        <button class="sb-btn" onclick="ENGINE.toggleProjection()">📐 Toggle Projection</button>
+        <button class="sb-btn" onclick="ENGINE.samplePCA()">🎲 Sample Data</button>
+        <button class="sb-btn" onclick="ENGINE.resetPCA()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('pca-visualizer')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">PC1 Var %</span><span class="metric-val" id="pcaPC1">—</span></div>
+      <div class="metric"><span class="metric-label">PC2 Var %</span><span class="metric-val" id="pcaPC2">—</span></div>
+      <div class="metric"><span class="metric-label">Total Var</span><span class="metric-val" id="pcaTotalVar">—</span></div>
+      <div class="metric"><span class="metric-label">Points</span><span class="metric-val" id="pcaCount">0</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-pca-visualizer" style="display:none;"></div>
+    <div class="hint-panel" id="hints-pca-visualizer"></div>
+  `;
+}
+
+
+/* ── Build: Decision Tree ── */
+function buildDecisionTree() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Decision <em style="font-style:italic;color:#4fc3f7;">Tree</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      Click to place <strong style="color:#4fc3f7">Class A</strong> points. <strong>Shift+Click</strong> for <strong style="color:#e57373">Class B</strong>. Train to see axis-aligned decision splits.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="dtCanvas" height="400" style="cursor:crosshair;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <label class="ctrl-label">Max Depth</label>
+        <input type="range" id="dtDepth" min="1" max="4" step="1" value="2">
+        <span class="ctrl-val" id="dtDepthV">2</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.trainDT()">▶ Train</button>
+        <button class="sb-btn" onclick="ENGINE.sampleDT()">🎲 Sample Data</button>
+        <button class="sb-btn" onclick="ENGINE.resetDT()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('decision-tree')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">Depth</span><span class="metric-val" id="dtDepthM">—</span></div>
+      <div class="metric"><span class="metric-label">Leaves</span><span class="metric-val" id="dtLeaves">—</span></div>
+      <div class="metric"><span class="metric-label">Accuracy</span><span class="metric-val" id="dtAccuracy">—</span></div>
+      <div class="metric"><span class="metric-label">Gini</span><span class="metric-val" id="dtGini">—</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-decision-tree" style="display:none;"></div>
+    <div class="hint-panel" id="hints-decision-tree"></div>
+  `;
+}
+
+
+/* ── Build: Anomaly Detection ── */
+function buildAnomalyDetection() {
+  return `
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Anomaly <em style="font-style:italic;color:#4fc3f7;">Detection</em></h2>
+    <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
+      Click to place <strong>normal</strong> points. <strong>Shift+Click</strong> for <strong style="color:#e57373">outliers</strong>. Hit Detect to fit a Gaussian envelope and flag anomalies.
+    </p>
+
+    <div class="sandbox-canvas-wrap">
+      <canvas id="adCanvas" height="400" style="cursor:crosshair;"></canvas>
+    </div>
+
+    <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <label class="ctrl-label">Threshold (percentile)</label>
+        <input type="range" id="adThresh" min="90" max="99" step="1" value="95">
+        <span class="ctrl-val" id="adThreshV">95</span>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="sb-btn primary" onclick="ENGINE.detectAD()">▶ Detect</button>
+        <button class="sb-btn" onclick="ENGINE.sampleAD()">🎲 Sample Data</button>
+        <button class="sb-btn" onclick="ENGINE.resetAD()">↺ Reset</button>
+        <button class="sb-btn challenge-btn" onclick="toggleChallenge('anomaly-detection')">🎯 Challenges</button>
+      </div>
+    </div>
+
+    <div class="sandbox-metrics">
+      <div class="metric"><span class="metric-label">Flagged</span><span class="metric-val" id="adFlagged">—</span></div>
+      <div class="metric"><span class="metric-label">Threshold</span><span class="metric-val" id="adThreshM">—</span></div>
+      <div class="metric"><span class="metric-label">Mean</span><span class="metric-val" id="adMean">—</span></div>
+      <div class="metric"><span class="metric-label">Detected %</span><span class="metric-val" id="adDetPct">—</span></div>
+    </div>
+
+    <div class="challenge-panel" id="challenge-anomaly-detection" style="display:none;"></div>
+    <div class="hint-panel" id="hints-anomaly-detection"></div>
   `;
 }
