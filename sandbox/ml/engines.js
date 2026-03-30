@@ -1698,6 +1698,310 @@ function tsSeasonalNaive(data, sLen) {
   return r;
 }
 
+/* ── Kalman Filter (local-level model) ── */
+function tsKalmanFilter(data) {
+  const n = data.length;
+  // Estimate noise variances from data
+  let diff = 0;
+  for (let i = 1; i < n; i++) diff += Math.abs(data[i] - data[i - 1]);
+  diff /= (n - 1);
+  const Q = (diff * 0.3) ** 2;  // process noise
+  const R = (diff * 0.7) ** 2;  // measurement noise
+
+  let x = data[0];       // state estimate
+  let P = R;              // error covariance
+  const fitted = [x];
+  const gains = [0];
+
+  for (let i = 1; i < n; i++) {
+    // Predict
+    const xPred = x;
+    const pPred = P + Q;
+    // Update
+    const K = pPred / (pPred + R);
+    x = xPred + K * (data[i] - xPred);
+    P = (1 - K) * pPred;
+    fitted.push(x);
+    gains.push(K);
+  }
+
+  return { fitted, lastState: x, lastP: P, Q, R };
+}
+
+/* ── Gaussian Process (RBF kernel, simplified) ── */
+function tsGaussianProcess(data) {
+  const n = data.length;
+  // Subsample for O(n^3) feasibility
+  const maxN = 60;
+  const step = n > maxN ? Math.ceil(n / maxN) : 1;
+  const idx = [], sub = [];
+  for (let i = 0; i < n; i += step) { idx.push(i); sub.push(data[i]); }
+  const m = sub.length;
+
+  // Estimate hyperparameters from data
+  let mean = 0;
+  for (let i = 0; i < m; i++) mean += sub[i];
+  mean /= m;
+  let variance = 0;
+  for (let i = 0; i < m; i++) variance += (sub[i] - mean) ** 2;
+  variance /= m;
+  const sf2 = variance;               // signal variance
+  const l = Math.max(3, m * 0.15);    // length scale
+  const sn2 = variance * 0.05;        // noise variance
+
+  // Build K + noise*I
+  const K = [];
+  for (let i = 0; i < m; i++) {
+    K[i] = [];
+    for (let j = 0; j < m; j++) {
+      const d = idx[i] - idx[j];
+      K[i][j] = sf2 * Math.exp(-0.5 * (d * d) / (l * l));
+      if (i === j) K[i][j] += sn2;
+    }
+  }
+
+  // Cholesky decomposition (K = L * L^T)
+  const L = [];
+  for (let i = 0; i < m; i++) {
+    L[i] = new Array(m).fill(0);
+    for (let j = 0; j <= i; j++) {
+      let s = K[i][j];
+      for (let k = 0; k < j; k++) s -= L[i][k] * L[j][k];
+      L[i][j] = i === j ? Math.sqrt(Math.max(s, 1e-10)) : s / L[j][j];
+    }
+  }
+
+  // Solve L * z = (sub - mean)
+  const y = sub.map(v => v - mean);
+  const z = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) {
+    let s = y[i];
+    for (let j = 0; j < i; j++) s -= L[i][j] * z[j];
+    z[i] = s / L[i][i];
+  }
+  // Solve L^T * alpha = z
+  const alpha = new Array(m).fill(0);
+  for (let i = m - 1; i >= 0; i--) {
+    let s = z[i];
+    for (let j = i + 1; j < m; j++) s -= L[j][i] * alpha[j];
+    alpha[i] = s / L[i][i];
+  }
+
+  // Predict at all data points
+  const fitted = [];
+  for (let t = 0; t < n; t++) {
+    let mu = mean;
+    for (let j = 0; j < m; j++) {
+      const d = t - idx[j];
+      const kStar = sf2 * Math.exp(-0.5 * (d * d) / (l * l));
+      mu += kStar * alpha[j];
+    }
+    fitted.push(mu);
+  }
+
+  return { fitted, alpha, idx, mean, sf2, l, sn2 };
+}
+
+/* ── Simple RNN (single hidden layer, trained via BPTT) ── */
+function tsSimpleRNN(data, lookback) {
+  lookback = lookback || 5;
+  const n = data.length;
+  // Normalize data
+  let dMin = Infinity, dMax = -Infinity;
+  for (let i = 0; i < n; i++) { if (data[i] < dMin) dMin = data[i]; if (data[i] > dMax) dMax = data[i]; }
+  const range = dMax - dMin || 1;
+  const norm = data.map(v => (v - dMin) / range);
+
+  const H = 8;  // hidden units
+  // Xavier-ish init
+  const scale = 0.5;
+  const Wih = [], Whh = [], Who = [], bh = new Array(H).fill(0), bo = 0;
+  for (let h = 0; h < H; h++) {
+    Wih[h] = (Math.random() - 0.5) * scale;
+    Whh[h] = [];
+    for (let hh = 0; hh < H; hh++) Whh[h][hh] = (Math.random() - 0.5) * scale / H;
+    Who[h] = (Math.random() - 0.5) * scale;
+  }
+
+  const lr = 0.01;
+  const epochs = 40;
+  const seqLen = Math.min(lookback, 10);
+
+  for (let ep = 0; ep < epochs; ep++) {
+    for (let start = lookback; start < n - 1; start++) {
+      // Forward pass
+      let hPrev = new Array(H).fill(0);
+      const hStates = [hPrev.slice()];
+      const inputs = [];
+      for (let t = start - seqLen; t <= start; t++) {
+        const idx = Math.max(0, t);
+        const x = norm[idx];
+        inputs.push(x);
+        const hNew = new Array(H);
+        for (let h = 0; h < H; h++) {
+          let act = Wih[h] * x + bh[h];
+          for (let hh = 0; hh < H; hh++) act += Whh[h][hh] * hPrev[hh];
+          hNew[h] = Math.tanh(act);
+        }
+        hPrev = hNew;
+        hStates.push(hNew.slice());
+      }
+      // Output
+      let yPred = bo;
+      for (let h = 0; h < H; h++) yPred += Who[h] * hPrev[h];
+      yPred = Math.max(0, Math.min(1, yPred));
+
+      const target = norm[Math.min(start + 1, n - 1)];
+      const err = yPred - target;
+
+      // Backprop through output
+      const dWho = new Array(H);
+      for (let h = 0; h < H; h++) dWho[h] = err * hPrev[h];
+      const dbo = err;
+
+      // Simplified gradient for hidden weights (only last step)
+      const dh = new Array(H);
+      for (let h = 0; h < H; h++) {
+        dh[h] = err * Who[h] * (1 - hPrev[h] * hPrev[h]);
+      }
+
+      const x = inputs[inputs.length - 1];
+      for (let h = 0; h < H; h++) {
+        Who[h] -= lr * dWho[h];
+        Wih[h] -= lr * dh[h] * x;
+        bh[h] -= lr * dh[h];
+        const hPrevState = hStates[hStates.length - 2];
+        for (let hh = 0; hh < H; hh++) Whh[h][hh] -= lr * dh[h] * hPrevState[hh];
+      }
+      bo -= lr * dbo;
+    }
+  }
+
+  // Generate fitted values
+  const fitted = new Array(lookback).fill(null);
+  let hState = new Array(H).fill(0);
+  for (let t = 0; t < n; t++) {
+    const x = norm[t];
+    const hNew = new Array(H);
+    for (let h = 0; h < H; h++) {
+      let act = Wih[h] * x + bh[h];
+      for (let hh = 0; hh < H; hh++) act += Whh[h][hh] * hState[hh];
+      hNew[h] = Math.tanh(act);
+    }
+    hState = hNew;
+    if (t >= lookback) {
+      let yp = bo;
+      for (let h = 0; h < H; h++) yp += Who[h] * hState[h];
+      fitted.push(Math.max(0, Math.min(1, yp)) * range + dMin);
+    }
+  }
+
+  return { fitted, Wih, Whh, Who, bh, bo, H, dMin, range, lastH: hState.slice(), lastNorm: norm[n - 1] };
+}
+
+/* ── LSTM (single layer, trained via simplified BPTT) ── */
+function tsLSTM(data, lookback) {
+  lookback = lookback || 5;
+  const n = data.length;
+  let dMin = Infinity, dMax = -Infinity;
+  for (let i = 0; i < n; i++) { if (data[i] < dMin) dMin = data[i]; if (data[i] > dMax) dMax = data[i]; }
+  const range = dMax - dMin || 1;
+  const norm = data.map(v => (v - dMin) / range);
+
+  const H = 6;
+  const sc = 0.3;
+  // Gates: forget, input, output, candidate (each: Wi, Wh, b)
+  const Wf_i = [], Wf_h = [], bf = [];
+  const Wi_i = [], Wi_h = [], bi = [];
+  const Wo_i = [], Wo_h = [], bbo = [];
+  const Wc_i = [], Wc_h = [], bc = [];
+  const Why = [], by = [0];
+  for (let h = 0; h < H; h++) {
+    Wf_i[h] = (Math.random() - 0.5) * sc; Wf_h[h] = []; bf[h] = 1;  // bias forget gate to 1
+    Wi_i[h] = (Math.random() - 0.5) * sc; Wi_h[h] = []; bi[h] = 0;
+    Wo_i[h] = (Math.random() - 0.5) * sc; Wo_h[h] = []; bbo[h] = 0;
+    Wc_i[h] = (Math.random() - 0.5) * sc; Wc_h[h] = []; bc[h] = 0;
+    Why[h] = (Math.random() - 0.5) * sc;
+    for (let hh = 0; hh < H; hh++) {
+      Wf_h[h][hh] = (Math.random() - 0.5) * sc / H;
+      Wi_h[h][hh] = (Math.random() - 0.5) * sc / H;
+      Wo_h[h][hh] = (Math.random() - 0.5) * sc / H;
+      Wc_h[h][hh] = (Math.random() - 0.5) * sc / H;
+    }
+  }
+
+  function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-10, Math.min(10, x)))); }
+
+  function lstmStep(x, hPrev, cPrev) {
+    const f = [], ig = [], o = [], cHat = [], cNew = [], hNew = [];
+    for (let h = 0; h < H; h++) {
+      let sf = Wf_i[h] * x + bf[h], si = Wi_i[h] * x + bi[h];
+      let so = Wo_i[h] * x + bbo[h], sc2 = Wc_i[h] * x + bc[h];
+      for (let hh = 0; hh < H; hh++) {
+        sf += Wf_h[h][hh] * hPrev[hh];
+        si += Wi_h[h][hh] * hPrev[hh];
+        so += Wo_h[h][hh] * hPrev[hh];
+        sc2 += Wc_h[h][hh] * hPrev[hh];
+      }
+      f[h] = sigmoid(sf);
+      ig[h] = sigmoid(si);
+      o[h] = sigmoid(so);
+      cHat[h] = Math.tanh(sc2);
+      cNew[h] = f[h] * cPrev[h] + ig[h] * cHat[h];
+      hNew[h] = o[h] * Math.tanh(cNew[h]);
+    }
+    return { h: hNew, c: cNew, f, ig, o, cHat };
+  }
+
+  const lr = 0.005;
+  const epochs = 30;
+
+  for (let ep = 0; ep < epochs; ep++) {
+    for (let start = lookback; start < n - 1; start++) {
+      let hPrev = new Array(H).fill(0), cPrev = new Array(H).fill(0);
+      let lastStep;
+      for (let t = Math.max(0, start - lookback); t <= start; t++) {
+        lastStep = lstmStep(norm[t], hPrev, cPrev);
+        hPrev = lastStep.h; cPrev = lastStep.c;
+      }
+      let yPred = by[0];
+      for (let h = 0; h < H; h++) yPred += Why[h] * hPrev[h];
+      yPred = Math.max(0, Math.min(1, yPred));
+
+      const target = norm[Math.min(start + 1, n - 1)];
+      const err = yPred - target;
+
+      // Simplified gradient update (output layer + last hidden step)
+      for (let h = 0; h < H; h++) {
+        const dh = err * Why[h];
+        const dTanh = 1 - hPrev[h] * hPrev[h];
+        Why[h] -= lr * err * hPrev[h];
+        const x = norm[start];
+        Wo_i[h] -= lr * dh * lastStep.o[h] * (1 - lastStep.o[h]) * Math.tanh(cPrev[h]) * x * 0.1;
+        Wi_i[h] -= lr * dh * dTanh * lastStep.ig[h] * (1 - lastStep.ig[h]) * lastStep.cHat[h] * x * 0.1;
+        Wc_i[h] -= lr * dh * dTanh * lastStep.ig[h] * (1 - lastStep.cHat[h] * lastStep.cHat[h]) * x * 0.1;
+      }
+      by[0] -= lr * err;
+    }
+  }
+
+  // Generate fitted values
+  const fitted = new Array(lookback).fill(null);
+  let hState = new Array(H).fill(0), cState = new Array(H).fill(0);
+  for (let t = 0; t < n; t++) {
+    const step = lstmStep(norm[t], hState, cState);
+    hState = step.h; cState = step.c;
+    if (t >= lookback) {
+      let yp = by[0];
+      for (let h = 0; h < H; h++) yp += Why[h] * hState[h];
+      fitted.push(Math.max(0, Math.min(1, yp)) * range + dMin);
+    }
+  }
+
+  return { fitted, lstmStep, Why, by, H, dMin, range, lastH: hState.slice(), lastC: cState.slice(), lastNorm: norm[n - 1],
+           Wf_i, Wf_h, bf, Wi_i, Wi_h, bi, Wo_i, Wo_h, bbo, Wc_i, Wc_h, bc };
+}
+
 function tsLinearTrend(data) {
   const n = data.length;
   let sx = 0, sy = 0, sxx = 0, sxy = 0;
@@ -1742,6 +2046,54 @@ function tsProject(method, data, params, horizon) {
     for (let h = 0; h < horizon; h++) proj.push(data[n - params.sLen + (h % params.sLen)]);
   } else if (method === 'linear') {
     for (let h = 1; h <= horizon; h++) proj.push(params.slope * (n - 1 + h) + params.intercept);
+  } else if (method === 'kalman') {
+    let x = params.lastState, P = params.lastP;
+    for (let h = 0; h < horizon; h++) {
+      const pPred = P + params.Q;
+      const K = pPred / (pPred + params.R);
+      proj.push(x);  // prediction before update — no new observation
+      P = (1 - K) * pPred;
+    }
+  } else if (method === 'gp') {
+    const { alpha: gpAlpha, idx, mean: gpMean, sf2: gpSf2, l: gpL } = params;
+    for (let h = 1; h <= horizon; h++) {
+      let mu = gpMean;
+      const t = n - 1 + h;
+      for (let j = 0; j < idx.length; j++) {
+        const d = t - idx[j];
+        mu += gpSf2 * Math.exp(-0.5 * (d * d) / (gpL * gpL)) * gpAlpha[j];
+      }
+      proj.push(mu);
+    }
+  } else if (method === 'rnn') {
+    const { Wih, Whh, Who, bh: bhP, bo: boP, H: rH, dMin, range } = params;
+    let hS = params.lastH.slice();
+    let xVal = params.lastNorm;
+    for (let h = 0; h < horizon; h++) {
+      const hNew = new Array(rH);
+      for (let j = 0; j < rH; j++) {
+        let act = Wih[j] * xVal + bhP[j];
+        for (let k = 0; k < rH; k++) act += Whh[j][k] * hS[k];
+        hNew[j] = Math.tanh(act);
+      }
+      hS = hNew;
+      let yp = boP;
+      for (let j = 0; j < rH; j++) yp += Who[j] * hS[j];
+      xVal = Math.max(0, Math.min(1, yp));
+      proj.push(xVal * range + dMin);
+    }
+  } else if (method === 'lstm') {
+    const p = params;
+    let hS = p.lastH.slice(), cS = p.lastC.slice();
+    let xVal = p.lastNorm;
+    for (let h = 0; h < horizon; h++) {
+      const step = p.lstmStep(xVal, hS, cS);
+      hS = step.h; cS = step.c;
+      let yp = p.by[0];
+      for (let j = 0; j < p.H; j++) yp += p.Why[j] * hS[j];
+      xVal = Math.max(0, Math.min(1, yp));
+      proj.push(xVal * p.range + p.dMin);
+    }
   }
   return proj;
 }
@@ -1809,6 +2161,30 @@ function tsRunMethod(method, data, params) {
       const lt = tsLinearTrend(data);
       fitted = lt.fitted;
       projParams = { slope: lt.slope, intercept: lt.intercept };
+      break;
+    }
+    case 'kalman': {
+      const kf = tsKalmanFilter(data);
+      fitted = kf.fitted;
+      projParams = { lastState: kf.lastState, lastP: kf.lastP, Q: kf.Q, R: kf.R };
+      break;
+    }
+    case 'gp': {
+      const gp = tsGaussianProcess(data);
+      fitted = gp.fitted;
+      projParams = { alpha: gp.alpha, idx: gp.idx, mean: gp.mean, sf2: gp.sf2, l: gp.l };
+      break;
+    }
+    case 'rnn': {
+      const rnn = tsSimpleRNN(data, win);
+      fitted = rnn.fitted;
+      projParams = { Wih: rnn.Wih, Whh: rnn.Whh, Who: rnn.Who, bh: rnn.bh, bo: rnn.bo, H: rnn.H, dMin: rnn.dMin, range: rnn.range, lastH: rnn.lastH, lastNorm: rnn.lastNorm };
+      break;
+    }
+    case 'lstm': {
+      const lstm = tsLSTM(data, win);
+      fitted = lstm.fitted;
+      projParams = { lstmStep: lstm.lstmStep, Why: lstm.Why, by: lstm.by, H: lstm.H, dMin: lstm.dMin, range: lstm.range, lastH: lstm.lastH, lastC: lstm.lastC, lastNorm: lstm.lastNorm };
       break;
     }
     default:
@@ -2009,6 +2385,10 @@ ENGINE.forecastTS = function() {
     comparedAll: TS.comparedAll,
     isStock,
     isCrash,
+    methodKalman: TS.method === 'kalman',
+    methodGP: TS.method === 'gp',
+    methodRNN: TS.method === 'rnn',
+    methodLSTM: TS.method === 'lstm',
   });
   checkChallenges('timeseries-forecast', {
     mae: TS.mae, rmse: TS.rmse, mape: TS.mape,
@@ -2034,6 +2414,10 @@ ENGINE.compareAllTS = function() {
     { id: 'ar',     name: 'AR(1)' },
     { id: 'snaive', name: 'Seasonal Naive' },
     { id: 'linear', name: 'Linear Trend' },
+    { id: 'kalman', name: 'Kalman Filter' },
+    { id: 'gp',     name: 'Gaussian Process' },
+    { id: 'rnn',    name: 'Simple RNN' },
+    { id: 'lstm',   name: 'LSTM' },
   ];
 
   const results = methods.map(m => {
@@ -2425,6 +2809,7 @@ const DT = {
   depth: 0,
   leaves: 0,
   gini: 0,
+  currentClass: 0,
 };
 
 function dtToPixel(s, dx, dy) {
@@ -2603,7 +2988,7 @@ function drawDT() {
     ctx.fillStyle = MUTED();
     ctx.font = `14px ${MONO()}`;
     ctx.textAlign = 'center';
-    ctx.fillText('Click = Class A (blue) | Shift+Click = Class B (red)', w / 2, h / 2);
+    ctx.fillText('Toggle class above, then click to place points', w / 2, h / 2);
   }
 }
 
@@ -2615,7 +3000,7 @@ function onDTClick(e) {
   const s = { w: rect.width, h: rect.height };
   const d = dtFromPixel(s, px, py);
   if (d.dx >= 0.2 && d.dx <= 9.8 && d.dy >= 0.2 && d.dy <= 9.8) {
-    DT.points.push({ x: d.dx, y: d.dy, cls: e.shiftKey ? 1 : 0 });
+    DT.points.push({ x: d.dx, y: d.dy, cls: e.shiftKey ? (1 - DT.currentClass) : DT.currentClass });
     DT.trained = false;
     DT.tree = null;
     drawDT();
@@ -2685,11 +3070,20 @@ ENGINE.resetDT = function() {
   DT.depth = 0;
   DT.leaves = 0;
   DT.gini = 0;
+  DT.currentClass = 0;
+  const btn = document.getElementById('dtClassToggle');
+  if (btn) btn.textContent = '🔵 Class A';
   document.getElementById('dtDepthM').textContent = '—';
   document.getElementById('dtLeaves').textContent = '—';
   document.getElementById('dtAccuracy').textContent = '—';
   document.getElementById('dtGini').textContent = '—';
   drawDT();
+};
+
+ENGINE.toggleDTClass = function() {
+  DT.currentClass = 1 - DT.currentClass;
+  const btn = document.getElementById('dtClassToggle');
+  if (btn) btn.textContent = DT.currentClass === 0 ? '🔵 Class A' : '🔴 Class B';
 };
 
 
@@ -2704,6 +3098,7 @@ const AD = {
   sigmaInv: null,
   threshold: 95,
   detected: false,
+  placeOutlier: false,
 };
 
 function adToPixel(s, dx, dy) {
@@ -2838,7 +3233,7 @@ function drawAD() {
     ctx.fillStyle = MUTED();
     ctx.font = `14px ${MONO()}`;
     ctx.textAlign = 'center';
-    ctx.fillText('Click = normal point | Shift+Click = outlier', w / 2, h / 2);
+    ctx.fillText('Toggle type above, then click to place points', w / 2, h / 2);
   }
 }
 
@@ -2850,7 +3245,7 @@ function onADClick(e) {
   const s = { w: rect.width, h: rect.height };
   const d = adFromPixel(s, px, py);
   if (d.dx >= 0.2 && d.dx <= 9.8 && d.dy >= 0.2 && d.dy <= 9.8) {
-    AD.points.push({ x: d.dx, y: d.dy, outlier: e.shiftKey, flagged: false });
+    AD.points.push({ x: d.dx, y: d.dy, outlier: e.shiftKey ? !AD.placeOutlier : AD.placeOutlier, flagged: false });
     AD.detected = false;
     drawAD();
     checkHints('anomaly-detection', { pointCount: AD.points.length });
@@ -2959,11 +3354,20 @@ ENGINE.resetAD = function() {
   AD.mu = null;
   AD.sigma = null;
   AD.sigmaInv = null;
+  AD.placeOutlier = false;
+  const btn = document.getElementById('adTypeToggle');
+  if (btn) btn.textContent = '🔵 Normal';
   document.getElementById('adFlagged').textContent = '—';
   document.getElementById('adThreshM').textContent = '—';
   document.getElementById('adMean').textContent = '—';
   document.getElementById('adDetPct').textContent = '—';
   drawAD();
+};
+
+ENGINE.toggleADType = function() {
+  AD.placeOutlier = !AD.placeOutlier;
+  const btn = document.getElementById('adTypeToggle');
+  if (btn) btn.textContent = AD.placeOutlier ? '🔴 Outlier' : '🔵 Normal';
 };
 
 

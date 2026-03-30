@@ -28,7 +28,7 @@ const TOPIC_DATA = [
   { id:'classification-boundary', num:'03', title:'Classification Boundary', category:'ML Lab', keywords:['classification','KNN','logistic regression','decision boundary','supervised','binary','classes'], content:'Place two classes of points and watch how KNN or Logistic Regression draws a decision boundary between them.' },
   { id:'neural-network', num:'04', title:'Neural Network Builder', category:'ML Lab', keywords:['neural network','deep learning','layers','neurons','activation','sigmoid','relu','backpropagation','XOR','spiral'], content:'Build a small neural network, pick a dataset, and watch it learn a decision boundary epoch by epoch.' },
   { id:'feature-scaling', num:'05', title:'Feature Scaling Demo', category:'ML Lab', keywords:['feature scaling','normalization','standardization','min-max','z-score','gradient descent','convergence'], content:'See how feature scaling transforms data and dramatically speeds up gradient descent convergence.' },
-  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','holt-winters','ARIMA','autoregressive','seasonal naive','trend','seasonality','MAE','RMSE','MAPE','compare','projection'], content:'Generate time series with trend, seasonality, or random walks — forecast with 8 methods from naive baselines to Holt-Winters, compare them all, and project into the future.' },
+  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','holt-winters','ARIMA','autoregressive','seasonal naive','trend','seasonality','MAE','RMSE','MAPE','compare','projection','kalman filter','gaussian process','RNN','LSTM','neural network','deep learning'], content:'Generate time series with trend, seasonality, or random walks — forecast with 12 methods from naive baselines to LSTM, compare them all, and project into the future.' },
   { id:'pca-visualizer', num:'07', title:'PCA Visualization', category:'ML Lab', keywords:['PCA','principal component analysis','dimensionality reduction','eigenvector','eigenvalue','covariance','projection','variance'], content:'Plot 2D data, compute principal components, show eigenvectors and project data along the first principal component.' },
   { id:'decision-tree', num:'08', title:'Decision Tree', category:'ML Lab', keywords:['decision tree','classifier','gini impurity','split','depth','leaves','axis-aligned','regions'], content:'Build a simple decision tree classifier, visualize the splits on 2D data with colored regions.' },
   { id:'anomaly-detection', num:'09', title:'Anomaly Detection', category:'ML Lab', keywords:['anomaly','outlier','Gaussian','Mahalanobis','covariance','threshold','envelope','detection'], content:'Place normal and outlier points, fit a Gaussian envelope, see which points get flagged as anomalies.' },
@@ -82,6 +82,10 @@ const HINTS = {
     { id:'ts-compare',       trigger:'comparedAll',      message:'The leaderboard ranks all methods — no single method wins on every data type!' },
     { id:'ts-stock',         trigger:'isStock',          message:'Stock prices follow geometric random walks — methods that assume stationarity often struggle here.' },
     { id:'ts-crash',         trigger:'isCrash',          message:'Crashes create regime changes — no smooth forecasting method can predict a sudden structural break.' },
+    { id:'ts-kalman',        trigger:'methodKalman',      message:'The Kalman Filter estimates a hidden state from noisy observations — it adapts its gain as certainty grows.' },
+    { id:'ts-gp',            trigger:'methodGP',          message:'Gaussian Process regression fits a flexible non-parametric curve — great for smooth patterns, expensive for long series.' },
+    { id:'ts-rnn',           trigger:'methodRNN',         message:'A recurrent neural network learns sequential dependencies — the hidden state carries memory of past values.' },
+    { id:'ts-lstm',          trigger:'methodLSTM',        message:'LSTM gates control what to remember and forget — designed to capture long-range dependencies that simple RNNs miss.' },
   ],
   'pca-visualizer': [
     { id:'pca-first-points', trigger:'pointCount>=3',    message:'Place at least 8 points in an elongated cluster to see clear principal components.' },
@@ -91,14 +95,14 @@ const HINTS = {
     { id:'pca-equal',        trigger:'pc1Pct<60',        message:'Variance is spread across both components — the data has no dominant direction.' },
   ],
   'decision-tree': [
-    { id:'dt-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes — click for Class A (blue), Shift+click for Class B (red).' },
+    { id:'dt-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes — toggle the class button and click on the canvas.' },
     { id:'dt-trained',       trigger:'trained',          message:'Dashed lines show axis-aligned splits. Each colored region is a leaf prediction.' },
     { id:'dt-deep',          trigger:'depth>=3',         message:'Deeper trees fit training data well but risk overfitting — watch for tiny regions.' },
     { id:'dt-shallow',       trigger:'depth==1',         message:'A depth-1 tree (decision stump) makes only one split — very simple but limited.' },
     { id:'dt-perfect',       trigger:'accuracy==100',    message:'100% training accuracy — the tree memorized the data. This may not generalize well.' },
   ],
   'anomaly-detection': [
-    { id:'ad-first-points',  trigger:'pointCount>=5',    message:'Place normal points (click) and outliers (Shift+click) to build a test set.' },
+    { id:'ad-first-points',  trigger:'pointCount>=5',    message:'Place normal points and outliers using the toggle button, then click on the canvas.' },
     { id:'ad-detected',      trigger:'detected',         message:'Red rings mark flagged anomalies. Points far from the mean in Mahalanobis distance are flagged.' },
     { id:'ad-high-thresh',   trigger:'threshHigh',       message:'A higher threshold percentile flags fewer points — only the most extreme outliers.' },
     { id:'ad-low-thresh',    trigger:'threshLow',        message:'A lower threshold flags more points — sensitive detection but more false positives.' },
@@ -461,6 +465,10 @@ function buildTimeseriesForecast() {
           <option value="ar">AR(1) Autoregressive</option>
           <option value="snaive">Seasonal Naive</option>
           <option value="linear">Linear Trend</option>
+          <option value="kalman">Kalman Filter</option>
+          <option value="gp">Gaussian Process</option>
+          <option value="rnn">Simple RNN</option>
+          <option value="lstm">LSTM</option>
         </select>
       </div>
       <div class="ctrl-row" id="tsWindowRow">
@@ -569,7 +577,7 @@ function buildDecisionTree() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Decision <em style="font-style:italic;color:#4fc3f7;">Tree</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Click to place <strong style="color:#4fc3f7">Class A</strong> points. <strong>Shift+Click</strong> for <strong style="color:#e57373">Class B</strong>. Train to see axis-aligned decision splits.
+      Toggle class below, then click to place points. Train to see axis-aligned decision splits.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -577,6 +585,10 @@ function buildDecisionTree() {
     </div>
 
     <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <label class="ctrl-label">Place as</label>
+        <button class="sb-btn" id="dtClassToggle" onclick="ENGINE.toggleDTClass()" style="min-width:120px;">🔵 Class A</button>
+      </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Max Depth</label>
         <input type="range" id="dtDepth" min="1" max="4" step="1" value="2">
@@ -608,7 +620,7 @@ function buildAnomalyDetection() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Anomaly <em style="font-style:italic;color:#4fc3f7;">Detection</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Click to place <strong>normal</strong> points. <strong>Shift+Click</strong> for <strong style="color:#e57373">outliers</strong>. Hit Detect to fit a Gaussian envelope and flag anomalies.
+      Toggle point type below, then click to place. Hit Detect to fit a Gaussian envelope and flag anomalies.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -616,6 +628,10 @@ function buildAnomalyDetection() {
     </div>
 
     <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <label class="ctrl-label">Place as</label>
+        <button class="sb-btn" id="adTypeToggle" onclick="ENGINE.toggleADType()" style="min-width:120px;">🔵 Normal</button>
+      </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Threshold (percentile)</label>
         <input type="range" id="adThresh" min="90" max="99" step="1" value="95">
