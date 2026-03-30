@@ -28,7 +28,7 @@ const TOPIC_DATA = [
   { id:'classification-boundary', num:'03', title:'Classification Boundary', category:'ML Lab', keywords:['classification','KNN','logistic regression','decision boundary','supervised','binary','classes'], content:'Place two classes of points and watch how KNN or Logistic Regression draws a decision boundary between them.' },
   { id:'neural-network', num:'04', title:'Neural Network Builder', category:'ML Lab', keywords:['neural network','deep learning','layers','neurons','activation','sigmoid','relu','backpropagation','XOR','spiral'], content:'Build a small neural network, pick a dataset, and watch it learn a decision boundary epoch by epoch.' },
   { id:'feature-scaling', num:'05', title:'Feature Scaling Demo', category:'ML Lab', keywords:['feature scaling','normalization','standardization','min-max','z-score','gradient descent','convergence'], content:'See how feature scaling transforms data and dramatically speeds up gradient descent convergence.' },
-  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','trend','seasonality','MAE','RMSE'], content:'Generate time series with trend and seasonality, then forecast with moving averages and exponential smoothing.' },
+  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','holt-winters','ARIMA','autoregressive','seasonal naive','trend','seasonality','MAE','RMSE','MAPE','compare','projection'], content:'Generate time series with trend, seasonality, or random walks — forecast with 8 methods from naive baselines to Holt-Winters, compare them all, and project into the future.' },
   { id:'pca-visualizer', num:'07', title:'PCA Visualization', category:'ML Lab', keywords:['PCA','principal component analysis','dimensionality reduction','eigenvector','eigenvalue','covariance','projection','variance'], content:'Plot 2D data, compute principal components, show eigenvectors and project data along the first principal component.' },
   { id:'decision-tree', num:'08', title:'Decision Tree', category:'ML Lab', keywords:['decision tree','classifier','gini impurity','split','depth','leaves','axis-aligned','regions'], content:'Build a simple decision tree classifier, visualize the splits on 2D data with colored regions.' },
   { id:'anomaly-detection', num:'09', title:'Anomaly Detection', category:'ML Lab', keywords:['anomaly','outlier','Gaussian','Mahalanobis','covariance','threshold','envelope','detection'], content:'Place normal and outlier points, fit a Gaussian envelope, see which points get flagged as anomalies.' },
@@ -76,6 +76,12 @@ const HINTS = {
     { id:'ts-es-low',        trigger:'alphaLow',         message:'Low alpha means heavy smoothing — the forecast reacts slowly to changes.' },
     { id:'ts-es-high',       trigger:'alphaHigh',        message:'High alpha tracks recent values closely but is sensitive to noise.' },
     { id:'ts-seasonal',      trigger:'hasSeason',        message:'The repeating peaks show seasonality — a pattern that repeats at fixed intervals.' },
+    { id:'ts-hw',            trigger:'methodHW',         message:'Holt-Winters captures both trend and seasonality — three smoothing parameters working together.' },
+    { id:'ts-ar',            trigger:'methodAR',         message:'AR(1) predicts each value from the previous one — works well for correlated series.' },
+    { id:'ts-snaive',        trigger:'methodSNaive',     message:'Seasonal Naive repeats last season\'s values — a surprisingly strong baseline.' },
+    { id:'ts-compare',       trigger:'comparedAll',      message:'The leaderboard ranks all methods — no single method wins on every data type!' },
+    { id:'ts-stock',         trigger:'isStock',          message:'Stock prices follow geometric random walks — methods that assume stationarity often struggle here.' },
+    { id:'ts-crash',         trigger:'isCrash',          message:'Crashes create regime changes — no smooth forecasting method can predict a sudden structural break.' },
   ],
   'pca-visualizer': [
     { id:'pca-first-points', trigger:'pointCount>=3',    message:'Place at least 8 points in an elongated cluster to see clear principal components.' },
@@ -125,6 +131,8 @@ const CHALLENGES = {
   'timeseries-forecast': [
     { id:'ts-c1', title:'Tight Forecast',  objective:'Achieve MAE < 5 with exponential smoothing',            checkFn:'mae<5&&methodES' },
     { id:'ts-c2', title:'Trend Tracker',    objective:'Forecast a trending series with RMSE < 8',             checkFn:'rmse<8' },
+    { id:'ts-c3', title:'Method Master',    objective:'Compare all methods on one dataset',                    checkFn:'comparedAll' },
+    { id:'ts-c4', title:'Crystal Ball',     objective:'Project 20+ steps into the future with MAPE < 15%',    checkFn:'mape<15&&horizon>=20' },
   ],
   'pca-visualizer': [
     { id:'pca-c1', title:'Dominant Direction', objective:'Create a dataset where PC1 explains > 90% of variance', checkFn:'pc1Pct>90&&computed' },
@@ -420,14 +428,28 @@ function buildTimeseriesForecast() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Timeseries <em style="font-style:italic;color:#4fc3f7;">Forecasting</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Generate a time series with trend and seasonality. Apply Moving Average or Exponential Smoothing to forecast and compare error metrics.
+      Generate different time series patterns, forecast with 8 methods, compare them all, and project into the future.
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="tsCanvas" height="380"></canvas>
+      <canvas id="tsCanvas" height="420"></canvas>
     </div>
 
     <div class="sandbox-controls">
+      <div class="ctrl-row">
+        <label class="ctrl-label">Data Type</label>
+        <select id="tsDataType" class="sb-select" onchange="ENGINE.setTSDataType(this.value)">
+          <option value="trend-season">Trend + Seasonal</option>
+          <option value="trend-only">Trend Only</option>
+          <option value="seasonal-only">Seasonal Only</option>
+          <option value="random-walk">Random Walk</option>
+          <option value="noisy-plateau">Noisy Plateau</option>
+          <option value="stock-bull">📈 Stock — Bull Run</option>
+          <option value="stock-volatile">📉 Stock — Volatile</option>
+          <option value="stock-crash">💥 Stock — Crash & Recovery</option>
+          <option value="stock-sideways">↔ Stock — Sideways Channel</option>
+        </select>
+      </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Method</label>
         <select id="tsMethod" class="sb-select" onchange="ENGINE.setTSMethod(this.value)">
@@ -435,6 +457,9 @@ function buildTimeseriesForecast() {
           <option value="wma">Weighted Moving Average</option>
           <option value="es">Exponential Smoothing</option>
           <option value="holt">Holt's Linear Trend</option>
+          <option value="hw">Holt-Winters (Seasonal)</option>
+          <option value="ar">AR(1) Autoregressive</option>
+          <option value="snaive">Seasonal Naive</option>
           <option value="linear">Linear Trend</option>
         </select>
       </div>
@@ -453,8 +478,24 @@ function buildTimeseriesForecast() {
         <input type="range" id="tsBeta" min="0.01" max="0.5" step="0.01" value="0.1">
         <span class="ctrl-val" id="tsBetaV">0.10</span>
       </div>
+      <div class="ctrl-row" id="tsGammaRow" style="display:none;">
+        <label class="ctrl-label">Gamma (γ)</label>
+        <input type="range" id="tsGamma" min="0.01" max="0.5" step="0.01" value="0.1">
+        <span class="ctrl-val" id="tsGammaV">0.10</span>
+      </div>
+      <div class="ctrl-row" id="tsSeasonRow" style="display:none;">
+        <label class="ctrl-label">Season Length</label>
+        <input type="range" id="tsSeason" min="4" max="24" step="1" value="12">
+        <span class="ctrl-val" id="tsSeasonV">12</span>
+      </div>
+      <div class="ctrl-row">
+        <label class="ctrl-label">Horizon (future)</label>
+        <input type="range" id="tsHorizon" min="0" max="30" step="1" value="0">
+        <span class="ctrl-val" id="tsHorizonV">0</span>
+      </div>
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.forecastTS()">▶ Forecast</button>
+        <button class="sb-btn" onclick="ENGINE.compareAllTS()">⚡ Compare All</button>
         <button class="sb-btn" onclick="ENGINE.newTSData()">🎲 New Series</button>
         <button class="sb-btn" onclick="ENGINE.resetTS()">↺ Reset</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('timeseries-forecast')">🎯 Challenges</button>
@@ -464,7 +505,22 @@ function buildTimeseriesForecast() {
     <div class="sandbox-metrics">
       <div class="metric"><span class="metric-label">MAE</span><span class="metric-val" id="tsMAE">—</span></div>
       <div class="metric"><span class="metric-label">RMSE</span><span class="metric-val" id="tsRMSE">—</span></div>
+      <div class="metric"><span class="metric-label">MAPE</span><span class="metric-val" id="tsMAPE">—</span></div>
       <div class="metric"><span class="metric-label">Points</span><span class="metric-val" id="tsPoints">—</span></div>
+    </div>
+
+    <div id="tsLeaderboard" style="display:none;margin-top:16px;">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">⚡ Method Comparison</div>
+      <table id="tsLeaderTable" style="width:100%;font-family:var(--mono);font-size:12px;border-collapse:collapse;">
+        <thead><tr style="color:var(--muted);border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:4px 8px;">Rank</th>
+          <th style="text-align:left;padding:4px 8px;">Method</th>
+          <th style="text-align:right;padding:4px 8px;">MAE</th>
+          <th style="text-align:right;padding:4px 8px;">RMSE</th>
+          <th style="text-align:right;padding:4px 8px;">MAPE</th>
+        </tr></thead>
+        <tbody id="tsLeaderBody"></tbody>
+      </table>
     </div>
 
     <div class="challenge-panel" id="challenge-timeseries-forecast" style="display:none;"></div>

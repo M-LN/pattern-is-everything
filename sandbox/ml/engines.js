@@ -1500,83 +1500,324 @@ ENGINE.resetFS = function() {
 const TS = {
   data: [],
   forecast: [],
+  projection: [],
   method: 'ma',
+  dataType: 'trend-season',
   mae: 0,
   rmse: 0,
+  mape: 0,
+  horizon: 0,
+  seasonLen: 12,
+  comparedAll: false,
 };
 
-function tsGenerateData() {
-  const n = 80;
-  const data = [];
-  const trend = (Math.random() - 0.3) * 0.5;
-  const seasonPeriod = 10 + Math.floor(Math.random() * 10);
-  const seasonAmp = 5 + Math.random() * 15;
-  const baseLevel = 30 + Math.random() * 40;
-  for (let i = 0; i < n; i++) {
-    const t = baseLevel + trend * i + seasonAmp * Math.sin(2 * Math.PI * i / seasonPeriod) + gauss() * 3;
-    data.push(Math.max(0, t));
-  }
-  return data;
+/* ── Data Generators ── */
+
+function tsGenTrendSeason(n) {
+  const d = [], trend = (Math.random() - 0.3) * 0.5;
+  const sp = 10 + Math.floor(Math.random() * 10);
+  const amp = 5 + Math.random() * 15, base = 30 + Math.random() * 40;
+  for (let i = 0; i < n; i++) d.push(Math.max(0, base + trend * i + amp * Math.sin(2 * Math.PI * i / sp) + gauss() * 3));
+  return d;
 }
 
-function tsMovingAvg(data, window) {
-  const result = [];
-  for (let i = 0; i < data.length; i++) {
-    if (i < window - 1) { result.push(null); continue; }
-    let sum = 0;
-    for (let j = i - window + 1; j <= i; j++) sum += data[j];
-    result.push(sum / window);
+function tsGenTrendOnly(n) {
+  const d = [], slope = (Math.random() - 0.2) * 0.8, base = 20 + Math.random() * 40;
+  for (let i = 0; i < n; i++) d.push(Math.max(0, base + slope * i + gauss() * 2));
+  return d;
+}
+
+function tsGenSeasonalOnly(n) {
+  const d = [], sp = 8 + Math.floor(Math.random() * 14);
+  const amp = 8 + Math.random() * 12, base = 40 + Math.random() * 20;
+  for (let i = 0; i < n; i++) d.push(Math.max(0, base + amp * Math.sin(2 * Math.PI * i / sp) + gauss() * 2));
+  return d;
+}
+
+function tsGenRandomWalk(n) {
+  const d = [50 + Math.random() * 20];
+  for (let i = 1; i < n; i++) d.push(Math.max(0, d[i - 1] + gauss() * 3));
+  return d;
+}
+
+function tsGenNoisyPlateau(n) {
+  const d = [], base = 40 + Math.random() * 30;
+  for (let i = 0; i < n; i++) d.push(Math.max(0, base + gauss() * 4));
+  return d;
+}
+
+/* Geometric Brownian Motion helper for stock generators */
+function gBM(n, start, drift, vol) {
+  const d = [start];
+  for (let i = 1; i < n; i++) {
+    const dt = 1 / 252;
+    const ret = (drift - 0.5 * vol * vol) * dt + vol * Math.sqrt(dt) * gauss();
+    d.push(d[i - 1] * Math.exp(ret));
   }
-  return result;
+  return d;
+}
+
+function tsGenStockBull(n) {
+  return gBM(n, 100 + Math.random() * 50, 0.15 + Math.random() * 0.2, 0.15 + Math.random() * 0.1);
+}
+
+function tsGenStockVolatile(n) {
+  const d = [100 + Math.random() * 50];
+  for (let i = 1; i < n; i++) {
+    const volCluster = 0.25 + 0.15 * Math.sin(2 * Math.PI * i / (n * 0.3));
+    const dt = 1 / 252;
+    const ret = -0.02 * dt + volCluster * Math.sqrt(dt) * gauss();
+    d.push(Math.max(1, d[i - 1] * Math.exp(ret)));
+  }
+  return d;
+}
+
+function tsGenStockCrash(n) {
+  const crashAt = Math.floor(n * (0.5 + Math.random() * 0.2));
+  const d = [100 + Math.random() * 50];
+  for (let i = 1; i < n; i++) {
+    const dt = 1 / 252;
+    if (i >= crashAt && i < crashAt + Math.floor(n * 0.08)) {
+      d.push(Math.max(1, d[i - 1] * Math.exp(-0.04 + 0.03 * gauss())));
+    } else if (i >= crashAt + Math.floor(n * 0.08)) {
+      d.push(Math.max(1, d[i - 1] * Math.exp(0.001 + 0.2 * Math.sqrt(dt) * gauss())));
+    } else {
+      d.push(Math.max(1, d[i - 1] * Math.exp(0.1 * dt + 0.15 * Math.sqrt(dt) * gauss())));
+    }
+  }
+  return d;
+}
+
+function tsGenStockSideways(n) {
+  const mid = 100 + Math.random() * 50, band = 8 + Math.random() * 12;
+  const d = [mid];
+  for (let i = 1; i < n; i++) {
+    let v = d[i - 1] + gauss() * 2;
+    if (v > mid + band) v -= Math.random() * 3;
+    if (v < mid - band) v += Math.random() * 3;
+    d.push(Math.max(1, v));
+  }
+  return d;
+}
+
+function tsGenerateData(type) {
+  const n = 80;
+  switch (type || TS.dataType) {
+    case 'trend-only':      return tsGenTrendOnly(n);
+    case 'seasonal-only':   return tsGenSeasonalOnly(n);
+    case 'random-walk':     return tsGenRandomWalk(n);
+    case 'noisy-plateau':   return tsGenNoisyPlateau(n);
+    case 'stock-bull':      return tsGenStockBull(n);
+    case 'stock-volatile':  return tsGenStockVolatile(n);
+    case 'stock-crash':     return tsGenStockCrash(n);
+    case 'stock-sideways':  return tsGenStockSideways(n);
+    default:                return tsGenTrendSeason(n);
+  }
+}
+
+/* ── Forecast Methods ── */
+
+function tsMovingAvg(data, win) {
+  const r = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < win - 1) { r.push(null); continue; }
+    let s = 0; for (let j = i - win + 1; j <= i; j++) s += data[j];
+    r.push(s / win);
+  }
+  return r;
+}
+
+function tsWeightedMA(data, win) {
+  const r = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < win - 1) { r.push(null); continue; }
+    let ws = 0, wt = 0;
+    for (let j = 0; j < win; j++) { const w = j + 1; ws += data[i - win + 1 + j] * w; wt += w; }
+    r.push(ws / wt);
+  }
+  return r;
 }
 
 function tsExpSmooth(data, alpha) {
-  const result = [data[0]];
-  for (let i = 1; i < data.length; i++) {
-    result.push(alpha * data[i] + (1 - alpha) * result[i - 1]);
-  }
-  return result;
+  const r = [data[0]];
+  for (let i = 1; i < data.length; i++) r.push(alpha * data[i] + (1 - alpha) * r[i - 1]);
+  return r;
 }
 
 function tsHoltLinear(data, alpha, beta) {
-  // Double Exponential Smoothing (Holt's method) — captures trend
-  const level = [data[0]];
-  const trend = [data[1] - data[0]];
-  const result = [data[0]];
+  const lev = [data[0]], tr = [data[1] - data[0]], r = [data[0]];
   for (let i = 1; i < data.length; i++) {
-    const l = alpha * data[i] + (1 - alpha) * (level[i - 1] + trend[i - 1]);
-    const t = beta * (l - level[i - 1]) + (1 - beta) * trend[i - 1];
-    level.push(l);
-    trend.push(t);
-    result.push(l + t);
+    const l = alpha * data[i] + (1 - alpha) * (lev[i - 1] + tr[i - 1]);
+    const t = beta * (l - lev[i - 1]) + (1 - beta) * tr[i - 1];
+    lev.push(l); tr.push(t); r.push(l + t);
   }
-  return result;
+  return { fitted: r, lastLevel: lev[lev.length - 1], lastTrend: tr[tr.length - 1] };
+}
+
+function tsHoltWinters(data, alpha, beta, gamma, sLen) {
+  if (data.length < sLen * 2) return { fitted: data.slice(), seasonal: [] };
+  const lev = [], tr = [], sea = new Array(data.length);
+  // Initialize seasonal indices from first full season
+  let initLevel = 0;
+  for (let i = 0; i < sLen; i++) initLevel += data[i];
+  initLevel /= sLen;
+  lev[0] = initLevel;
+  tr[0] = 0;
+  for (let i = 0; i < sLen; i++) sea[i] = data[i] - initLevel;
+  const r = [data[0]];
+  for (let i = 1; i < data.length; i++) {
+    const si = i >= sLen ? sea[i - sLen] : (sea[i] || 0);
+    const l = alpha * (data[i] - si) + (1 - alpha) * (lev[i - 1] + tr[i - 1]);
+    const t = beta * (l - lev[i - 1]) + (1 - beta) * tr[i - 1];
+    sea[i] = gamma * (data[i] - l) + (1 - gamma) * si;
+    lev.push(l); tr.push(t); r.push(l + t + sea[i]);
+  }
+  return { fitted: r, lev, tr, sea, sLen };
+}
+
+function tsAR1(data) {
+  // Estimate AR(1) coefficient via autocorrelation
+  const n = data.length;
+  let mean = 0; for (let i = 0; i < n; i++) mean += data[i]; mean /= n;
+  let num = 0, den = 0;
+  for (let i = 1; i < n; i++) { num += (data[i] - mean) * (data[i - 1] - mean); den += (data[i - 1] - mean) ** 2; }
+  const phi = den !== 0 ? num / den : 0;
+  const c = mean * (1 - phi);
+  const r = [data[0]];
+  for (let i = 1; i < n; i++) r.push(c + phi * data[i - 1]);
+  return { fitted: r, phi, c, mean };
+}
+
+function tsSeasonalNaive(data, sLen) {
+  const r = [];
+  for (let i = 0; i < data.length; i++) {
+    r.push(i >= sLen ? data[i - sLen] : null);
+  }
+  return r;
 }
 
 function tsLinearTrend(data) {
-  // Simple linear trend line
   const n = data.length;
   let sx = 0, sy = 0, sxx = 0, sxy = 0;
   data.forEach((y, x) => { sx += x; sy += y; sxx += x * x; sxy += x * y; });
   const m = (n * sxy - sx * sy) / (n * sxx - sx * sx);
   const b = (sy - m * sx) / n;
-  return data.map((_, i) => m * i + b);
+  return { fitted: data.map((_, i) => m * i + b), slope: m, intercept: b };
 }
 
-function tsWeightedMA(data, window) {
-  const result = [];
-  for (let i = 0; i < data.length; i++) {
-    if (i < window - 1) { result.push(null); continue; }
-    let wSum = 0, wTotal = 0;
-    for (let j = 0; j < window; j++) {
-      const w = j + 1;
-      wSum += data[i - window + 1 + j] * w;
-      wTotal += w;
+/* ── Projection helpers (extend forecast into future) ── */
+
+function tsProject(method, data, params, horizon) {
+  if (horizon <= 0) return [];
+  const n = data.length;
+  const proj = [];
+  if (method === 'ma' || method === 'wma') {
+    const last = data.slice(-params.win);
+    for (let h = 0; h < horizon; h++) {
+      let s = 0, wt = 0;
+      for (let j = 0; j < last.length; j++) {
+        const w = method === 'wma' ? j + 1 : 1;
+        s += last[j] * w; wt += w;
+      }
+      const v = s / wt; proj.push(v); last.push(v); last.shift();
     }
-    result.push(wSum / wTotal);
+  } else if (method === 'es') {
+    const last = params.lastSmoothed;
+    for (let h = 0; h < horizon; h++) proj.push(last);
+  } else if (method === 'holt') {
+    for (let h = 1; h <= horizon; h++) proj.push(params.lastLevel + h * params.lastTrend);
+  } else if (method === 'hw') {
+    const { lev, tr, sea, sLen } = params;
+    const ll = lev[lev.length - 1], lt = tr[tr.length - 1];
+    for (let h = 1; h <= horizon; h++) {
+      const si = sea[sea.length - sLen + ((h - 1) % sLen)];
+      proj.push(ll + h * lt + (si || 0));
+    }
+  } else if (method === 'ar') {
+    let prev = data[n - 1];
+    for (let h = 0; h < horizon; h++) { const v = params.c + params.phi * prev; proj.push(v); prev = v; }
+  } else if (method === 'snaive') {
+    for (let h = 0; h < horizon; h++) proj.push(data[n - params.sLen + (h % params.sLen)]);
+  } else if (method === 'linear') {
+    for (let h = 1; h <= horizon; h++) proj.push(params.slope * (n - 1 + h) + params.intercept);
   }
-  return result;
+  return proj;
 }
+
+/* ── Error Computation ── */
+
+function tsComputeErrors(actual, fitted) {
+  let sumAE = 0, sumSE = 0, sumAPE = 0, cnt = 0;
+  for (let i = 0; i < actual.length; i++) {
+    if (fitted[i] === null || fitted[i] === undefined) continue;
+    const err = actual[i] - fitted[i];
+    sumAE += Math.abs(err);
+    sumSE += err * err;
+    if (Math.abs(actual[i]) > 1e-8) sumAPE += Math.abs(err / actual[i]);
+    cnt++;
+  }
+  return {
+    mae: cnt > 0 ? sumAE / cnt : 0,
+    rmse: cnt > 0 ? Math.sqrt(sumSE / cnt) : 0,
+    mape: cnt > 0 ? (sumAPE / cnt) * 100 : 0,
+  };
+}
+
+/* ── Run a single method and return fitted + projection + params ── */
+
+function tsRunMethod(method, data, params) {
+  const { win, alpha, beta, gamma, sLen, horizon } = params;
+  let fitted, projParams;
+  switch (method) {
+    case 'ma':
+      fitted = tsMovingAvg(data, win);
+      projParams = { win };
+      break;
+    case 'wma':
+      fitted = tsWeightedMA(data, win);
+      projParams = { win };
+      break;
+    case 'es':
+      fitted = tsExpSmooth(data, alpha);
+      projParams = { lastSmoothed: fitted[fitted.length - 1] };
+      break;
+    case 'holt': {
+      const h = tsHoltLinear(data, alpha, beta);
+      fitted = h.fitted;
+      projParams = { lastLevel: h.lastLevel, lastTrend: h.lastTrend };
+      break;
+    }
+    case 'hw': {
+      const hw = tsHoltWinters(data, alpha, beta, gamma, sLen);
+      fitted = hw.fitted;
+      projParams = { lev: hw.lev || [], tr: hw.tr || [], sea: hw.sea || [], sLen };
+      break;
+    }
+    case 'ar': {
+      const ar = tsAR1(data);
+      fitted = ar.fitted;
+      projParams = { phi: ar.phi, c: ar.c };
+      break;
+    }
+    case 'snaive':
+      fitted = tsSeasonalNaive(data, sLen);
+      projParams = { sLen };
+      break;
+    case 'linear': {
+      const lt = tsLinearTrend(data);
+      fitted = lt.fitted;
+      projParams = { slope: lt.slope, intercept: lt.intercept };
+      break;
+    }
+    default:
+      fitted = tsExpSmooth(data, alpha);
+      projParams = { lastSmoothed: fitted[fitted.length - 1] };
+  }
+  const proj = tsProject(method, data, projParams, horizon);
+  return { fitted, proj };
+}
+
+/* ── Draw ── */
 
 function drawTS() {
   const s = setupCanvas('tsCanvas');
@@ -1586,16 +1827,22 @@ function drawTS() {
   if (TS.data.length === 0) TS.data = tsGenerateData();
 
   ctx.clearRect(0, 0, w, h);
-  const padL = 50, padR = 15, padT = 25, padB = 30;
+  const padL = 50, padR = 20, padT = 25, padB = 30;
+  const totalLen = TS.data.length + TS.projection.length;
   const plotW = w - padL - padR, plotH = h - padT - padB;
 
-  const allVals = [...TS.data, ...TS.forecast.filter(v => v !== null)];
+  const allVals = [
+    ...TS.data,
+    ...TS.forecast.filter(v => v !== null),
+    ...TS.projection,
+  ];
   let yMin = Math.min(...allVals), yMax = Math.max(...allVals);
   const yPad = (yMax - yMin) * 0.1 || 5;
   yMin -= yPad; yMax += yPad;
 
+  const xMax = Math.max(TS.data.length - 1, totalLen - 1);
   function valY(v) { return padT + plotH * (1 - (v - yMin) / (yMax - yMin)); }
-  function timeX(i) { return padL + (i / (TS.data.length - 1)) * plotW; }
+  function timeX(i) { return padL + (i / xMax) * plotW; }
 
   // Grid
   ctx.strokeStyle = BORDER();
@@ -1608,17 +1855,31 @@ function drawTS() {
     ctx.fillStyle = MUTED();
     ctx.font = `10px ${MONO()}`;
     ctx.textAlign = 'right';
-    ctx.fillText(v.toFixed(0), padL - 6, y + 3);
+    ctx.fillText(v.toFixed(1), padL - 6, y + 3);
   }
   ctx.setLineDash([]);
+
+  // Future projection zone (shaded)
+  if (TS.projection.length > 0) {
+    const x0 = timeX(TS.data.length - 1);
+    ctx.fillStyle = 'rgba(79,195,247,0.06)';
+    ctx.fillRect(x0, padT, padL + plotW - x0, plotH);
+    ctx.strokeStyle = 'rgba(79,195,247,0.25)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(x0, padT); ctx.lineTo(x0, padT + plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(79,195,247,0.4)';
+    ctx.font = `9px ${MONO()}`;
+    ctx.textAlign = 'left';
+    ctx.fillText('future', x0 + 4, padT + 12);
+  }
 
   // Axes
   ctx.strokeStyle = MUTED();
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(padL, padT);
-  ctx.lineTo(padL, padT + plotH);
-  ctx.lineTo(padL + plotW, padT + plotH);
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH);
   ctx.stroke();
 
   // Data line
@@ -1627,50 +1888,88 @@ function drawTS() {
   ctx.beginPath();
   TS.data.forEach((v, i) => {
     const x = timeX(i), y = valY(v);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
   ctx.stroke();
 
-  // Forecast line
+  // Forecast line (in-sample)
   if (TS.forecast.length > 0) {
-    ctx.strokeStyle = '#e57373';
+    ctx.strokeStyle = RED;
     ctx.lineWidth = 2;
     ctx.beginPath();
     let started = false;
     TS.forecast.forEach((v, i) => {
-      if (v === null) return;
+      if (v === null || v === undefined) return;
       const x = timeX(i), y = valY(v);
-      if (!started) { ctx.moveTo(x, y); started = true; }
-      else ctx.lineTo(x, y);
+      if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
     });
     ctx.stroke();
   }
 
-  // Legend
-  ctx.fillStyle = BLUE;
-  ctx.fillRect(padL + 10, padT + 5, 20, 3);
-  ctx.fillStyle = MUTED();
-  ctx.font = `10px ${MONO()}`;
-  ctx.textAlign = 'left';
-  ctx.fillText('Actual', padL + 35, padT + 10);
-  if (TS.forecast.length > 0) {
-    ctx.fillStyle = '#e57373';
-    ctx.fillRect(padL + 90, padT + 5, 20, 3);
-    ctx.fillStyle = MUTED();
-    ctx.fillText('Forecast', padL + 115, padT + 10);
+  // Projection line (out-of-sample future)
+  if (TS.projection.length > 0) {
+    ctx.strokeStyle = '#ffb74d';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    // Connect from last forecast/data point
+    const lastIdx = TS.data.length - 1;
+    const lastVal = TS.forecast.length > 0 ? TS.forecast[lastIdx] : TS.data[lastIdx];
+    if (lastVal !== null && lastVal !== undefined) ctx.moveTo(timeX(lastIdx), valY(lastVal));
+    TS.projection.forEach((v, i) => {
+      ctx.lineTo(timeX(TS.data.length + i), valY(v));
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
   }
+
+  // Legend
+  const leg = [{ col: BLUE, lbl: 'Actual' }];
+  if (TS.forecast.length > 0) leg.push({ col: RED, lbl: 'Forecast' });
+  if (TS.projection.length > 0) leg.push({ col: '#ffb74d', lbl: 'Projection' });
+  let lx = padL + 10;
+  leg.forEach(({ col, lbl }) => {
+    ctx.fillStyle = col;
+    ctx.fillRect(lx, padT + 5, 16, 3);
+    ctx.fillStyle = MUTED();
+    ctx.font = `10px ${MONO()}`;
+    ctx.textAlign = 'left';
+    ctx.fillText(lbl, lx + 20, padT + 10);
+    lx += ctx.measureText(lbl).width + 36;
+  });
 
   document.getElementById('tsPoints').textContent = TS.data.length;
 }
+
+/* ── ENGINE bindings ── */
 
 ENGINE.setTSMethod = function(v) {
   TS.method = v;
   const wRow = document.getElementById('tsWindowRow');
   const aRow = document.getElementById('tsAlphaRow');
   const bRow = document.getElementById('tsBetaRow');
+  const gRow = document.getElementById('tsGammaRow');
+  const sRow = document.getElementById('tsSeasonRow');
   if (wRow) wRow.style.display = (v === 'ma' || v === 'wma') ? 'flex' : 'none';
-  if (aRow) aRow.style.display = (v === 'es' || v === 'holt') ? 'flex' : 'none';
-  if (bRow) bRow.style.display = v === 'holt' ? 'flex' : 'none';
+  if (aRow) aRow.style.display = ['es','holt','hw'].includes(v) ? 'flex' : 'none';
+  if (bRow) bRow.style.display = (v === 'holt' || v === 'hw') ? 'flex' : 'none';
+  if (gRow) gRow.style.display = v === 'hw' ? 'flex' : 'none';
+  if (sRow) sRow.style.display = (v === 'hw' || v === 'snaive') ? 'flex' : 'none';
+};
+
+ENGINE.setTSDataType = function(v) {
+  TS.dataType = v;
+  TS.data = tsGenerateData(v);
+  TS.forecast = [];
+  TS.projection = [];
+  TS.mae = 0; TS.rmse = 0; TS.mape = 0;
+  TS.comparedAll = false;
+  const lb = document.getElementById('tsLeaderboard');
+  if (lb) lb.style.display = 'none';
+  document.getElementById('tsMAE').textContent = '—';
+  document.getElementById('tsRMSE').textContent = '—';
+  document.getElementById('tsMAPE').textContent = '—';
+  drawTS();
 };
 
 ENGINE.forecastTS = function() {
@@ -1678,64 +1977,110 @@ ENGINE.forecastTS = function() {
   const win = parseInt(document.getElementById('tsWindow')?.value || 5);
   const alpha = parseFloat(document.getElementById('tsAlpha')?.value || 0.3);
   const beta = parseFloat(document.getElementById('tsBeta')?.value || 0.1);
+  const gamma = parseFloat(document.getElementById('tsGamma')?.value || 0.1);
+  const sLen = parseInt(document.getElementById('tsSeason')?.value || 12);
+  TS.horizon = parseInt(document.getElementById('tsHorizon')?.value || 0);
+  TS.seasonLen = sLen;
 
-  if (TS.method === 'ma') {
-    TS.forecast = tsMovingAvg(TS.data, win);
-  } else if (TS.method === 'wma') {
-    TS.forecast = tsWeightedMA(TS.data, win);
-  } else if (TS.method === 'holt') {
-    TS.forecast = tsHoltLinear(TS.data, alpha, beta);
-  } else if (TS.method === 'linear') {
-    TS.forecast = tsLinearTrend(TS.data);
-  } else {
-    TS.forecast = tsExpSmooth(TS.data, alpha);
-  }
+  const result = tsRunMethod(TS.method, TS.data, { win, alpha, beta, gamma, sLen, horizon: TS.horizon });
+  TS.forecast = result.fitted;
+  TS.projection = result.proj;
 
-  // Compute errors
-  let sumAE = 0, sumSE = 0, count = 0;
-  TS.data.forEach((v, i) => {
-    if (TS.forecast[i] === null || TS.forecast[i] === undefined) return;
-    sumAE += Math.abs(v - TS.forecast[i]);
-    sumSE += (v - TS.forecast[i]) ** 2;
-    count++;
-  });
-  TS.mae = count > 0 ? sumAE / count : 0;
-  TS.rmse = count > 0 ? Math.sqrt(sumSE / count) : 0;
+  const errs = tsComputeErrors(TS.data, TS.forecast);
+  TS.mae = errs.mae; TS.rmse = errs.rmse; TS.mape = errs.mape;
 
   document.getElementById('tsMAE').textContent = TS.mae.toFixed(2);
   document.getElementById('tsRMSE').textContent = TS.rmse.toFixed(2);
+  document.getElementById('tsMAPE').textContent = TS.mape.toFixed(1) + '%';
   drawTS();
 
+  const isStock = TS.dataType.startsWith('stock-');
+  const isCrash = TS.dataType === 'stock-crash';
   checkHints('timeseries-forecast', {
     methodMA: TS.method === 'ma',
-    methodES: TS.method === 'es',
     alphaLow: alpha < 0.15,
     alphaHigh: alpha > 0.8,
-    hasSeason: true,
+    hasSeason: TS.dataType === 'trend-season' || TS.dataType === 'seasonal-only',
+    methodHW: TS.method === 'hw',
+    methodAR: TS.method === 'ar',
+    methodSNaive: TS.method === 'snaive',
+    comparedAll: TS.comparedAll,
+    isStock,
+    isCrash,
   });
   checkChallenges('timeseries-forecast', {
-    mae: TS.mae,
-    rmse: TS.rmse,
+    mae: TS.mae, rmse: TS.rmse, mape: TS.mape,
     methodES: TS.method === 'es',
+    horizon: TS.horizon,
   });
+};
+
+ENGINE.compareAllTS = function() {
+  if (TS.data.length === 0) TS.data = tsGenerateData();
+  const win = parseInt(document.getElementById('tsWindow')?.value || 5);
+  const alpha = parseFloat(document.getElementById('tsAlpha')?.value || 0.3);
+  const beta = parseFloat(document.getElementById('tsBeta')?.value || 0.1);
+  const gamma = parseFloat(document.getElementById('tsGamma')?.value || 0.1);
+  const sLen = parseInt(document.getElementById('tsSeason')?.value || 12);
+
+  const methods = [
+    { id: 'ma',     name: 'Moving Average' },
+    { id: 'wma',    name: 'Weighted MA' },
+    { id: 'es',     name: 'Exp Smoothing' },
+    { id: 'holt',   name: "Holt's Linear" },
+    { id: 'hw',     name: 'Holt-Winters' },
+    { id: 'ar',     name: 'AR(1)' },
+    { id: 'snaive', name: 'Seasonal Naive' },
+    { id: 'linear', name: 'Linear Trend' },
+  ];
+
+  const results = methods.map(m => {
+    const res = tsRunMethod(m.id, TS.data, { win, alpha, beta, gamma, sLen, horizon: 0 });
+    const errs = tsComputeErrors(TS.data, res.fitted);
+    return { ...m, ...errs };
+  }).sort((a, b) => a.mae - b.mae);
+
+  const tbody = document.getElementById('tsLeaderBody');
+  if (tbody) {
+    tbody.innerHTML = results.map((r, i) => `
+      <tr style="border-bottom:1px solid var(--border);${i === 0 ? 'color:#81c784;font-weight:600;' : 'color:var(--text);'}">
+        <td style="padding:4px 8px;">${i + 1}</td>
+        <td style="padding:4px 8px;">${r.name}</td>
+        <td style="text-align:right;padding:4px 8px;">${r.mae.toFixed(2)}</td>
+        <td style="text-align:right;padding:4px 8px;">${r.rmse.toFixed(2)}</td>
+        <td style="text-align:right;padding:4px 8px;">${r.mape.toFixed(1)}%</td>
+      </tr>
+    `).join('');
+  }
+  const lb = document.getElementById('tsLeaderboard');
+  if (lb) lb.style.display = 'block';
+
+  TS.comparedAll = true;
+  checkHints('timeseries-forecast', { comparedAll: true });
 };
 
 ENGINE.newTSData = function() {
   TS.data = tsGenerateData();
-  TS.forecast = [];
-  TS.mae = 0;
-  TS.rmse = 0;
+  TS.forecast = []; TS.projection = [];
+  TS.mae = 0; TS.rmse = 0; TS.mape = 0;
+  TS.comparedAll = false;
+  const lb = document.getElementById('tsLeaderboard');
+  if (lb) lb.style.display = 'none';
   document.getElementById('tsMAE').textContent = '—';
   document.getElementById('tsRMSE').textContent = '—';
+  document.getElementById('tsMAPE').textContent = '—';
   drawTS();
 };
 
 ENGINE.resetTS = function() {
-  TS.forecast = [];
-  TS.mae = 0;
-  TS.rmse = 0;
+  TS.forecast = []; TS.projection = [];
+  TS.mae = 0; TS.rmse = 0; TS.mape = 0;
+  TS.comparedAll = false;
+  const lb = document.getElementById('tsLeaderboard');
+  if (lb) lb.style.display = 'none';
   document.getElementById('tsMAE').textContent = '—';
   document.getElementById('tsRMSE').textContent = '—';
+  document.getElementById('tsMAPE').textContent = '—';
   drawTS();
 };
 
@@ -2711,6 +3056,21 @@ const DRAWS = {
     if (bSlider && !bSlider._bound) {
       bSlider.addEventListener('input', () => { document.getElementById('tsBetaV').textContent = parseFloat(bSlider.value).toFixed(2); });
       bSlider._bound = true;
+    }
+    const gSlider = document.getElementById('tsGamma');
+    if (gSlider && !gSlider._bound) {
+      gSlider.addEventListener('input', () => { document.getElementById('tsGammaV').textContent = parseFloat(gSlider.value).toFixed(2); });
+      gSlider._bound = true;
+    }
+    const sSlider = document.getElementById('tsSeason');
+    if (sSlider && !sSlider._bound) {
+      sSlider.addEventListener('input', () => { document.getElementById('tsSeasonV').textContent = sSlider.value; });
+      sSlider._bound = true;
+    }
+    const hSlider = document.getElementById('tsHorizon');
+    if (hSlider && !hSlider._bound) {
+      hSlider.addEventListener('input', () => { document.getElementById('tsHorizonV').textContent = hSlider.value; });
+      hSlider._bound = true;
     }
   },
   'pca-visualizer': function() {
