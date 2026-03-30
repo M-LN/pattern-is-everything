@@ -758,6 +758,14 @@ input[type=range]:focus-visible {
 [data-theme="dark"] .callout.bridge a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); }
 [data-theme="dark"] .callout.bridge a:hover { text-decoration-color: #6fa8ff; }
 
+/* ── Pattern Essays ── */
+.pattern-essay .sub { font-size: 13px; font-style: italic; color: var(--muted); letter-spacing: .02em; }
+.pattern-essay .prose { font-size: 15px; line-height: 1.9; color: var(--text); max-width: 640px; }
+.pattern-essay .prose + .prose { margin-top: 14px; }
+.pattern-essay .va { border: none; background: none; padding: 0; margin: 28px 0; }
+.pattern-essay .va canvas { border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+.pattern-essay .essay-label { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); opacity: .5; text-align: right; margin-top: 6px; }
+
 /* ── Pattern Thread ── */
 .pattern-thread {
   display: flex;
