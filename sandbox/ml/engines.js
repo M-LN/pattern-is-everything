@@ -1706,7 +1706,6 @@ ENGINE.forecastTS = function() {
   document.getElementById('tsRMSE').textContent = TS.rmse.toFixed(2);
   drawTS();
 
-  const alpha = parseFloat(document.getElementById('tsAlpha')?.value || 0.3);
   checkHints('timeseries-forecast', {
     methodMA: TS.method === 'ma',
     methodES: TS.method === 'es',
