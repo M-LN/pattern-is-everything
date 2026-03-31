@@ -242,6 +242,21 @@ function buildLinearRegression() {
 
     <div class="challenge-panel" id="challenge-linear-regression" style="display:none;"></div>
     <div class="hint-panel" id="hints-linear-regression"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Linear Regression &amp; Gradient Descent</h3>
+      <p>Linear regression fits a straight line <strong>y = mx + b</strong> through scattered data by finding the slope (m) and intercept (b) that minimise the total squared error. Gradient descent iteratively adjusts m and b in the direction that reduces error fastest — the learning rate controls step size.</p>
+      <div class="exp-formula">MSE = (1 / n) &Sigma; (y&#x1D62; &minus; &#x0177;&#x1D62;)&sup2;</div>
+      <p>When MSE stops falling, the line has converged. A low learning rate converges slowly but steadily; a high rate may overshoot and diverge.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The line rotates and shifts each iteration — watch gradient descent walk downhill on the error surface.</li>
+        <li>A high learning rate may overshoot and cause the line to jump erratically.</li>
+        <li>Adding noise increases MSE — the line compromises between all data points.</li>
+        <li>Slope captures the trend direction; intercept is where the line crosses y = 0.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -279,6 +294,21 @@ function buildKMeans() {
 
     <div class="challenge-panel" id="challenge-k-means" style="display:none;"></div>
     <div class="hint-panel" id="hints-k-means"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>K-Means Clustering</h3>
+      <p>K-Means partitions data into K groups by repeatedly (1) assigning each point to the nearest centroid and (2) moving each centroid to the mean of its assigned points. The algorithm converges when assignments stop changing.</p>
+      <div class="exp-formula">argmin &Sigma; &Sigma; ||x&#x1D62; &minus; &mu;&#x2096;||&sup2;</div>
+      <p>Choosing K is part of the art — too few clusters merge distinct groups, too many fragment natural clusters. The inertia metric drops as K increases; look for an elbow.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Centroids migrate toward cluster centres with each step — watch the Voronoi regions reshape.</li>
+        <li>Higher K values split data into finer groups — but can over-segment.</li>
+        <li>Inertia (total within-cluster distance) decreases with each iteration and with higher K.</li>
+        <li>Initial centroid placement matters — different starts can give different results.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -323,6 +353,21 @@ function buildClassificationBoundary() {
 
     <div class="challenge-panel" id="challenge-classification-boundary" style="display:none;"></div>
     <div class="hint-panel" id="hints-classification-boundary"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Classification &amp; Decision Boundaries</h3>
+      <p>A classifier learns a boundary that separates classes in feature space. <strong>KNN</strong> assigns a point to the majority class among its K nearest neighbours — producing flexible, locally-adaptive boundaries. <strong>Logistic regression</strong> fits a linear boundary using the sigmoid function.</p>
+      <div class="exp-formula">KNN: class(x) = majority vote of K nearest neighbours</div>
+      <p>K controls the smoothness of the KNN boundary — low K is sensitive to noise, high K smooths the decision region but may under-fit.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Low K (1–3) creates jagged, data-hugging boundaries; high K produces smoother regions.</li>
+        <li>Logistic regression draws a single straight line — it cannot capture nonlinear patterns.</li>
+        <li>Accuracy rises when classes are well-separated and falls when they overlap.</li>
+        <li>Adding points near the boundary zone is where most classification errors occur.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -382,6 +427,21 @@ function buildNeuralNetwork() {
 
     <div class="challenge-panel" id="challenge-neural-network" style="display:none;"></div>
     <div class="hint-panel" id="hints-neural-network"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Neural Networks &amp; Backpropagation</h3>
+      <p>A neural network chains layers of neurons, each computing <strong>z = &sigma;(Wx + b)</strong>. The activation function (&sigma;) introduces nonlinearity, letting the network learn curved decision boundaries that a single line cannot capture.</p>
+      <div class="exp-formula">Loss = &minus;(1/n) &Sigma; [ y log(&#x0177;) + (1&minus;y) log(1&minus;&#x0177;) ]</div>
+      <p>Backpropagation computes the gradient of the loss with respect to every weight, then gradient descent updates them. More hidden neurons increase capacity but risk over-fitting on small datasets.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The decision boundary starts random and progressively carves the correct regions as epochs increase.</li>
+        <li>The loss curve should drop smoothly — plateaus indicate a learning-rate or capacity issue.</li>
+        <li>ReLU learns sharp boundaries; Sigmoid and Tanh produce smoother, rounder regions.</li>
+        <li>XOR and Spiral datasets require hidden neurons — a single layer cannot solve them.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -423,6 +483,21 @@ function buildFeatureScaling() {
 
     <div class="challenge-panel" id="challenge-feature-scaling" style="display:none;"></div>
     <div class="hint-panel" id="hints-feature-scaling"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Feature Scaling &amp; Normalisation</h3>
+      <p>When features have very different ranges, gradient descent zig-zags because the loss surface is elongated. Scaling brings all features into a comparable range and rounds the contours, so the optimiser converges in far fewer steps.</p>
+      <div class="exp-formula">Min-Max: x' = (x &minus; min) / (max &minus; min) &emsp;|&emsp; Z-Score: x' = (x &minus; &mu;) / &sigma;</div>
+      <p><strong>Min-Max</strong> maps to [0, 1]. <strong>Z-Score</strong> centres on 0 with unit variance. <strong>Robust</strong> scaling uses the median and IQR, making it resistant to outliers.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The left canvas shows raw data; the right shows the same data after scaling — compare the axis ranges.</li>
+        <li>Gradient descent on scaled data converges in a fraction of the iterations.</li>
+        <li>The speedup factor shows how many times faster scaling makes optimisation.</li>
+        <li>Robust scaling holds up when extreme outliers are present in the data.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -533,6 +608,21 @@ function buildTimeseriesForecast() {
 
     <div class="challenge-panel" id="challenge-timeseries-forecast" style="display:none;"></div>
     <div class="hint-panel" id="hints-timeseries-forecast"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Time-Series Forecasting Methods</h3>
+      <p>A time series is a sequence of values ordered by time. Forecasting methods exploit patterns — <strong>trend</strong> (long-term direction), <strong>seasonality</strong> (repeating cycles), and <strong>noise</strong> (random variation) — to project future values.</p>
+      <div class="exp-formula">MAE = (1/n) &Sigma; |y&#x1D62; &minus; &#x0177;&#x1D62;| &emsp;|&emsp; RMSE = &radic;[(1/n) &Sigma; (y&#x1D62; &minus; &#x0177;&#x1D62;)&sup2;]</div>
+      <p>Simple methods (Moving Average, Exponential Smoothing) are fast and interpretable. Holt adds trend; Holt-Winters adds seasonality. Advanced methods (Kalman, GP, RNN, LSTM) model nonlinear dynamics. Compare All ranks every method on the same data.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Moving Average lags behind sudden changes — the window parameter controls how much.</li>
+        <li>Holt-Winters excels on data with both trend and seasonal components.</li>
+        <li>MAPE gives a percentage error that is easy to interpret across different data scales.</li>
+        <li>The leaderboard reveals which methods suit which data patterns — no single method wins everywhere.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -568,6 +658,21 @@ function buildPcaVisualizer() {
 
     <div class="challenge-panel" id="challenge-pca-visualizer" style="display:none;"></div>
     <div class="hint-panel" id="hints-pca-visualizer"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Principal Component Analysis</h3>
+      <p>PCA finds the directions (eigenvectors) along which your data varies the most. The first principal component captures the most variance; the second captures the most remaining variance orthogonal to the first. Projecting data onto these axes reduces dimensionality while preserving structure.</p>
+      <div class="exp-formula">Cov(X) v = &lambda; v &emsp;&mdash;&emsp; &lambda; = variance explained by eigenvector v</div>
+      <p>If PC1 captures 95% of the variance, the data is essentially one-dimensional — the other dimension is mostly noise.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The eigenvector arrows point along the directions of maximum spread in the data.</li>
+        <li>A long, narrow point cloud puts nearly all variance in PC1.</li>
+        <li>Toggling projection collapses points onto the principal axis — see how much information is kept.</li>
+        <li>Circular data splits variance equally between PC1 and PC2 — no dimension reduction is possible.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -611,6 +716,21 @@ function buildDecisionTree() {
 
     <div class="challenge-panel" id="challenge-decision-tree" style="display:none;"></div>
     <div class="hint-panel" id="hints-decision-tree"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Decision Trees &amp; Gini Impurity</h3>
+      <p>A decision tree recursively splits the feature space with axis-aligned cuts. At each node it picks the feature and threshold that best separate the classes, measured by <strong>Gini impurity</strong> — a value of 0 means a perfectly pure node.</p>
+      <div class="exp-formula">Gini = 1 &minus; &Sigma; p&#x1D62;&sup2;</div>
+      <p>Deeper trees can model complex boundaries but risk over-fitting to noise. Limiting max depth acts as regularisation — the tree generalises better on unseen data.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Each split adds a horizontal or vertical line, carving the plane into rectangles.</li>
+        <li>Depth 1 gives a single split; depth 4 can create intricate rectangular regions.</li>
+        <li>Accuracy rises with depth but may capture noise rather than the true boundary.</li>
+        <li>Gini drops toward 0 as leaves become purer — perfectly classified data has Gini = 0.</li>
+      </ul>
+    </details>
   `;
 }
 
@@ -654,5 +774,20 @@ function buildAnomalyDetection() {
 
     <div class="challenge-panel" id="challenge-anomaly-detection" style="display:none;"></div>
     <div class="hint-panel" id="hints-anomaly-detection"></div>
+
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Gaussian Anomaly Detection</h3>
+      <p>This method fits a multivariate Gaussian to the normal data, estimating the mean (&mu;) and covariance (&Sigma;). Points falling in the low-probability tail — below a chosen percentile threshold — are flagged as anomalies.</p>
+      <div class="exp-formula">p(x) = N(x | &mu;, &Sigma;) &emsp;&mdash;&emsp; flag if p(x) &lt; &epsilon;</div>
+      <p>The ellipse on the canvas visualises the probability contour at the threshold. Points outside the ellipse are considered anomalous. A higher percentile threshold makes detection stricter (fewer flags).</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The ellipse expands or contracts as you adjust the threshold percentile.</li>
+        <li>Tightly clustered normal data produces a small ellipse — outliers are easy to spot.</li>
+        <li>Spread-out normal data creates a larger envelope — anomalies must be further from the centre.</li>
+        <li>The detected-percentage metric shows what fraction of all points falls outside the threshold.</li>
+      </ul>
+    </details>
   `;
 }

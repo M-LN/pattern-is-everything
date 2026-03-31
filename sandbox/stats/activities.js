@@ -181,6 +181,202 @@ const CHALLENGES = {
 };
 
 
+/* ── How-it-Works explainer panels ── */
+const EXPLAINERS = {
+  'distribution-explorer': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Probability Distributions</h3>
+      <p>A probability distribution describes how likely each outcome is. The <strong>PDF</strong> (probability density function) shows the shape; the <strong>CDF</strong> shows the cumulative probability up to a value. Different distributions model different real-world processes.</p>
+      <div class="exp-formula">Normal PDF: f(x) = (1 / &sigma;&radic;2&pi;) e<sup>&minus;(x&minus;&mu;)&sup2; / 2&sigma;&sup2;</sup></div>
+      <p>Parameters control everything: &mu; shifts the centre, &sigma; controls the spread. Uniform gives equal probability; Exponential models wait times; Poisson counts rare events.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Increasing &sigma; flattens and widens the bell curve \u2014 more uncertainty.</li>
+        <li>The exponential distribution has a long right tail; increasing &lambda; compresses it.</li>
+        <li>Switch to CDF view \u2014 it always rises from 0 to 1, regardless of shape.</li>
+        <li>More samples make the histogram converge toward the theoretical PDF.</li>
+      </ul>
+    </details>`,
+
+  'hypothesis-testing': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Hypothesis Testing &amp; p-Values</h3>
+      <p>Hypothesis testing asks: "Is the observed effect real or just random noise?" We start with a null hypothesis H\u2080 (no effect), collect data, and compute a <strong>p-value</strong> \u2014 the probability of seeing data this extreme if H\u2080 were true.</p>
+      <div class="exp-formula">Reject H\u2080 when p-value &lt; &alpha; (typically 0.05)</div>
+      <p><strong>Type I error</strong> rejects a true H\u2080 (false positive, rate = &alpha;). <strong>Type II error</strong> fails to reject a false H\u2080 (false negative). Power = 1 &minus; &beta; is the chance of detecting a real effect.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Larger sample sizes make the test more sensitive \u2014 it can detect smaller effects.</li>
+        <li>A larger effect size makes the two distributions less overlapping.</li>
+        <li>Lowering &alpha; makes it harder to reject H\u2080 but reduces false positives.</li>
+        <li>Running 100 tests shows that ~5% falsely reject even when H\u2080 is true.</li>
+      </ul>
+    </details>`,
+
+  'correlation-playground': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Pearson Correlation</h3>
+      <p>The Pearson correlation coefficient <strong>r</strong> measures the strength and direction of the linear relationship between two variables, ranging from &minus;1 (perfect negative) through 0 (no linear relationship) to +1 (perfect positive).</p>
+      <div class="exp-formula">r = &Sigma;(x&#x1D62; &minus; x\u0304)(y&#x1D62; &minus; y\u0304) / &radic;[&Sigma;(x&#x1D62; &minus; x\u0304)&sup2; &Sigma;(y&#x1D62; &minus; y\u0304)&sup2;]</div>
+      <p>R&sup2; is the square of r \u2014 it tells you what fraction of the variance in y is explained by x. A single outlier can dramatically change r.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Points along a straight line give |r| close to 1; scattered points give r near 0.</li>
+        <li>A circle or quadratic pattern can have r &asymp; 0 despite a clear relationship.</li>
+        <li>Moving a single outlier far from the cluster can flip the sign of r.</li>
+        <li>The regression line slope is proportional to r &times; (SD_y / SD_x).</li>
+      </ul>
+    </details>`,
+
+  'central-limit-theorem': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>The Central Limit Theorem</h3>
+      <p>No matter what the population looks like \u2014 uniform, skewed, bimodal \u2014 the distribution of <strong>sample means</strong> approaches a normal distribution as the sample size n grows. This is arguably the most important result in statistics.</p>
+      <div class="exp-formula">SE = &sigma; / &radic;n &emsp;\u2014&emsp; sampling distribution &rarr; N(&mu;, SE&sup2;)</div>
+      <p>The standard error (SE) shrinks with larger n, meaning sample means cluster more tightly around the true mean. With n &ge; 30, the approximation is usually excellent.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Start with a skewed or bimodal population and watch sample means form a bell curve.</li>
+        <li>Increasing n from 1 to 30 dramatically changes the sampling distribution shape.</li>
+        <li>The SE shrinks \u2014 larger samples give more precise estimates of the true mean.</li>
+        <li>With n = 1 the sampling distribution mirrors the population; with n = 50 it is nearly Gaussian.</li>
+      </ul>
+    </details>`,
+
+  'bayesian-updater': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Bayesian Inference</h3>
+      <p>Bayesian inference updates a <strong>prior</strong> belief about a parameter (here, coin fairness) with observed data to produce a <strong>posterior</strong> belief. The Beta distribution is the conjugate prior for Bernoulli data, making updates elegant: each head adds 1 to &alpha;, each tail adds 1 to &beta;.</p>
+      <div class="exp-formula">Posterior: Beta(&alpha; + heads, &beta; + tails) &emsp;\u2014&emsp; Mean = &alpha; / (&alpha; + &beta;)</div>
+      <p>A flat prior (&alpha; = &beta; = 1) lets the data speak; a strong prior resists early observations. With enough flips, the posterior converges regardless of the prior.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The prior curve shifts and narrows with each flip \u2014 uncertainty decreases as data accumulates.</li>
+        <li>A strong prior (high &alpha; or &beta;) takes many flips to overcome.</li>
+        <li>The posterior mean converges toward the true probability as flips increase.</li>
+        <li>With 100+ flips, the prior becomes negligible \u2014 the data dominates.</li>
+      </ul>
+    </details>`,
+
+  'regression-diagnostics': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Regression Diagnostics</h3>
+      <p>Fitting a regression is only half the job \u2014 the other half is checking that the model assumptions hold. The four diagnostic plots reveal <strong>non-linearity</strong>, <strong>non-normality</strong>, <strong>heteroscedasticity</strong>, and <strong>autocorrelation</strong> in the residuals.</p>
+      <div class="exp-formula">R&sup2; = 1 &minus; SS<sub>res</sub> / SS<sub>tot</sub> &emsp;|&emsp; Durbin-Watson &asymp; 2 means no autocorrelation</div>
+      <p>High R&sup2; does not guarantee a good model \u2014 always inspect residuals. A curved pattern in the residual plot signals a missing nonlinear term.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Linear data produces randomly scattered residuals \u2014 no visible pattern.</li>
+        <li>Quadratic or sine data creates a clear U-shape or wave in the residuals.</li>
+        <li>Points deviating from the Q-Q line indicate non-normal residuals.</li>
+        <li>Durbin-Watson far from 2 signals autocorrelation \u2014 the residuals are not independent.</li>
+      </ul>
+    </details>`,
+
+  'probability-calculator': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Bayes\u2019 Theorem</h3>
+      <p>Bayes\u2019 theorem calculates the probability of an event given evidence. The classic example: even with a 99%-accurate test, a rare disease (low base rate) means most positive results are <strong>false positives</strong>.</p>
+      <div class="exp-formula">P(A|B) = P(B|A) &middot; P(A) / P(B)</div>
+      <p>The prior P(A) is your starting belief. The likelihood P(B|A) is how likely the evidence is if A is true. P(B) normalises everything. The likelihood ratio P(B|A) / P(B|&not;A) captures the diagnostic strength of the evidence.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Set a rare prior P(A) = 0.01 and watch how even strong evidence keeps P(A|B) surprisingly low.</li>
+        <li>A high likelihood ratio dramatically shifts the posterior toward A.</li>
+        <li>The tree diagram shows how the total probability P(B) splits across the A and &not;A branches.</li>
+        <li>P(A|B) + P(&not;A|B) always equals 1 \u2014 the evidence supports one or the other.</li>
+      </ul>
+    </details>`,
+
+  'anova-visualizer': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>One-Way ANOVA</h3>
+      <p>ANOVA (Analysis of Variance) tests whether the means of multiple groups are all equal. It compares the <strong>between-group variance</strong> (how much group means differ) to the <strong>within-group variance</strong> (how much points scatter within each group).</p>
+      <div class="exp-formula">F = MS<sub>between</sub> / MS<sub>within</sub> &emsp;\u2014&emsp; large F &rArr; groups likely differ</div>
+      <p>A large F-statistic means the group differences are big relative to random scatter. If p &lt; 0.05, at least one group mean is significantly different.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Increasing the effect size separates group means and drives F upward.</li>
+        <li>Higher within-group spread obscures differences \u2014 F drops.</li>
+        <li>More points per group increase statistical power and tighten error bars.</li>
+        <li>More groups increase degrees of freedom but require a larger F for significance.</li>
+      </ul>
+    </details>`,
+
+  'confidence-intervals': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Confidence Intervals</h3>
+      <p>A confidence interval gives a range of plausible values for the true population mean (&mu;). A 95% CI means that if you repeated sampling many times, about 95% of the intervals would capture the true &mu;.</p>
+      <div class="exp-formula">CI = x\u0304 &plusmn; z* &middot; (&sigma; / &radic;n)</div>
+      <p>Width depends on confidence level, sample size, and population spread. Larger n or lower confidence level produces narrower intervals. Each interval either captures &mu; or misses it \u2014 the percentage is a long-run property.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Blue intervals captured the true mean; red ones missed it.</li>
+        <li>Coverage should hover around the nominal level (e.g. 95%) as you add samples.</li>
+        <li>Increasing n makes intervals narrower \u2014 higher precision.</li>
+        <li>Switching from 95% to 99% widens every interval but reduces the miss rate.</li>
+      </ul>
+    </details>`,
+
+  'chi-square-test': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Chi-Square Goodness of Fit</h3>
+      <p>The chi-square test checks if observed frequencies differ significantly from expected frequencies. It is used for categorical data \u2014 how well do observed counts match a theoretical distribution?</p>
+      <div class="exp-formula">&chi;&sup2; = &Sigma; (O&#x1D62; &minus; E&#x1D62;)&sup2; / E&#x1D62;</div>
+      <p>Large &chi;&sup2; means a big discrepancy between observed and expected. Standardised residuals pinpoint which categories deviate most. The degrees of freedom = number of categories &minus; 1.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>High skew pushes counts away from uniform, making &chi;&sup2; large and rejection likely.</li>
+        <li>Standardised residuals above |2| flag the category driving the significance.</li>
+        <li>More categories add nuance but require more observations for reliable results.</li>
+        <li>With low skew and many observations, the test often fails to reject \u2014 counts look uniform.</li>
+      </ul>
+    </details>`,
+
+  'survival-curves': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Kaplan-Meier Survival Analysis</h3>
+      <p>Survival analysis models time-to-event data \u2014 how long until an event (death, failure, churn) occurs. The <strong>Kaplan-Meier estimator</strong> produces a step function that drops at each observed event, accounting for censored subjects (still alive at observation end).</p>
+      <div class="exp-formula">S(t) = &Pi;<sub>t&#x1D62;&le;t</sub> (1 &minus; d&#x1D62; / n&#x1D62;)</div>
+      <p>The hazard rate &lambda; controls how quickly events occur. Higher hazard means steeper decline. The median survival time is where S(t) = 0.5.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>Well-separated curves indicate meaningfully different survival between groups.</li>
+        <li>The + marks are censored subjects \u2014 they were still event-free when observation ended.</li>
+        <li>A low hazard rate produces a gentle decline; a high rate causes rapid drops.</li>
+        <li>More patients produce smoother step functions with tighter confidence.</li>
+      </ul>
+    </details>`,
+
+  'bootstrap-resampler': `
+    <details class="sandbox-explainer">
+      <summary>How it Works</summary>
+      <h3>Bootstrap Resampling</h3>
+      <p>Bootstrapping estimates the sampling distribution of a statistic (e.g. the mean) by repeatedly resampling <strong>with replacement</strong> from the observed data. Each resample has the same size as the original but different composition \u2014 some points repeat, others are omitted.</p>
+      <div class="exp-formula">95% CI = [percentile 2.5%, percentile 97.5%] of bootstrap means</div>
+      <p>The beauty of bootstrap is that it requires no distributional assumptions \u2014 it works for any statistic and any population shape. With enough resamples, the bootstrap distribution approximates the true sampling distribution.</p>
+      <h3>What to Observe</h3>
+      <ul>
+        <li>The histogram of bootstrap means converges to a bell shape \u2014 the CLT in action.</li>
+        <li>More resamples smooth the distribution and stabilise the CI bounds.</li>
+        <li>Larger sample size n produces a narrower bootstrap distribution.</li>
+        <li>Even for skewed populations, the distribution of means is nearly Gaussian with enough data.</li>
+      </ul>
+    </details>`,
+};
+
+
 /* ═══════════════════════════════════════════════════════════════
    BUILD CONTENT — generates sidebar + main HTML for all activities
    ═══════════════════════════════════════════════════════════════ */
@@ -231,6 +427,7 @@ function buildContent() {
 
     html += `<div id="hints-${id}" class="hint-panel"></div>`;
     html += `<div id="challenge-${id}" class="challenge-panel" style="display:none"></div>`;
+    html += EXPLAINERS[id] || '';
 
     div.innerHTML = html;
     main.appendChild(div);
