@@ -131,6 +131,12 @@ function buildEssayBell() {
     <canvas id="bellCanvas" height="180"></canvas>
     <div class="essay-label">A thousand small forces, one shape</div>
   </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Laplace, P.-S. (1810). M\u00e9moire sur les approximations des formules qui sont fonctions de tr\u00e8s grands nombres. <em>M\u00e9moires de l\u2019Acad\u00e9mie royale des Sciences de Paris.</em></div>
+    <div class="essay-ref">[2] Fischer, H. (2011). <em>A History of the Central Limit Theorem.</em> Springer. <a href="https://doi.org/10.1007/978-0-387-87857-7" target="_blank" rel="noopener">doi:10.1007/978-0-387-87857-7</a></div>
+    <div class="essay-ref">[3] Lyon, A. (2014). Why are Normal Distributions Normal? <em>The British Journal for the Philosophy of Science, 65</em>(3), 621\u2013649. <a href="https://doi.org/10.1093/bjps/axs046" target="_blank" rel="noopener">doi:10.1093/bjps/axs046</a></div>
+  </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The same emergence powers the <a href="../stats/index.html#distribution-shape">distribution shape</a> topic in The Toolkit, and the <a href="../stats/index.html#confidence-intervals">confidence interval</a> relies on this bell to set its width.</div>
   <div class="topic-nav" id="nav-essay-bell"></div>
 </div>`;
@@ -150,6 +156,12 @@ function buildEssayMean() {
   <div class="va">
     <canvas id="meanCanvas" height="180"></canvas>
     <div class="essay-label">First measurement vs. second \u2014 the pull toward centre</div>
+  </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Galton, F. (1886). Regression Towards Mediocrity in Hereditary Stature. <em>Journal of the Anthropological Institute, 15</em>, 246\u2013263. <a href="https://doi.org/10.2307/2841583" target="_blank" rel="noopener">doi:10.2307/2841583</a></div>
+    <div class="essay-ref">[2] Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>, Ch. 17: Regression to the Mean. Farrar, Straus and Giroux.</div>
+    <div class="essay-ref">[3] Barnett, A. G., van der Pols, J. C. &amp; Dobson, A. J. (2005). Regression to the mean: what it is and how to deal with it. <em>International Journal of Epidemiology, 34</em>(1), 215\u2013220. <a href="https://doi.org/10.1093/ije/dyh299" target="_blank" rel="noopener">doi:10.1093/ije/dyh299</a></div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#bayesian-ab">Bayesian A/B testing</a> topic wrestles with the same trap \u2014 is the improvement real, or just regression to the mean?</div>
   <div class="topic-nav" id="nav-essay-mean"></div>
@@ -171,6 +183,12 @@ function buildEssayTail() {
     <canvas id="tailCanvas" height="180"></canvas>
     <div class="essay-label">The few and the many \u2014 a power-law curve</div>
   </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Newman, M. E. J. (2005). Power laws, Pareto distributions and Zipf\u2019s law. <em>Contemporary Physics, 46</em>(5), 323\u2013351. <a href="https://doi.org/10.1080/00107510500052444" target="_blank" rel="noopener">doi:10.1080/00107510500052444</a></div>
+    <div class="essay-ref">[2] Barab\u00e1si, A.-L. &amp; Albert, R. (1999). Emergence of Scaling in Random Networks. <em>Science, 286</em>(5439), 509\u2013512. <a href="https://doi.org/10.1126/science.286.5439.509" target="_blank" rel="noopener">doi:10.1126/science.286.5439.509</a></div>
+    <div class="essay-ref">[3] Taleb, N. N. (2007). <em>The Black Swan: The Impact of the Highly Improbable.</em> Random House.</div>
+  </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic asks when the tail <em>is</em> the signal, and <a href="../stats/index.html#max-drawdown">maximum drawdown</a> lives in this tail.</div>
   <div class="topic-nav" id="nav-essay-tail"></div>
 </div>`;
@@ -191,6 +209,12 @@ function buildEssaySignal() {
     <canvas id="signalCanvas" height="180"></canvas>
     <div class="essay-label">A wave emerging from noise \u2014 or is it?</div>
   </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Silver, N. (2012). <em>The Signal and the Noise: Why So Many Predictions Fail \u2014 but Some Don\u2019t.</em> Penguin Press.</div>
+    <div class="essay-ref">[2] Foster, K. R. &amp; Kokko, H. (2009). The evolution of superstitious and superstition-like behaviour. <em>Proceedings of the Royal Society B, 276</em>(1654), 31\u201337. <a href="https://doi.org/10.1098/rspb.2008.0981" target="_blank" rel="noopener">doi:10.1098/rspb.2008.0981</a></div>
+    <div class="essay-ref">[3] Hastie, T., Tibshirani, R. &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning</em>, Ch. 7: Model Assessment and Selection. Springer. <a href="https://doi.org/10.1007/978-0-387-84858-7" target="_blank" rel="noopener">doi:10.1007/978-0-387-84858-7</a></div>
+  </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#cross-validation">Cross-validation</a> is the practical guard against this, and <a href="../stats/index.html#learning-curves">learning curves</a> let you see overfitting happen in real time.</div>
   <div class="topic-nav" id="nav-essay-signal"></div>
 </div>`;
@@ -210,6 +234,12 @@ function buildEssayMap() {
   <div class="va">
     <canvas id="mapCanvas" height="180"></canvas>
     <div class="essay-label">The line and the dots \u2014 the gap is the point</div>
+  </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Borges, J. L. (1946). On Exactitude in Science. <em>Los Anales de Buenos Aires, 1</em>(3).</div>
+    <div class="essay-ref">[2] Box, G. E. P. (1976). Science and Statistics. <em>Journal of the American Statistical Association, 71</em>(356), 791\u2013799. <a href="https://doi.org/10.1080/01621459.1976.10480949" target="_blank" rel="noopener">doi:10.1080/01621459.1976.10480949</a></div>
+    <div class="essay-ref">[3] Korzybski, A. (1933). <em>Science and Sanity: An Introduction to Non-Aristotelian Systems and General Semantics.</em> Institute of General Semantics.</div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#regression-metrics">Regression metrics</a> quantify this gap, and <a href="../stats/index.html#shap-values">SHAP values</a> show what the model chose to see.</div>
   <div class="topic-nav" id="nav-essay-map"></div>
