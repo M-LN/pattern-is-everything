@@ -209,7 +209,7 @@ DRAWS['logistic'] = function() {
 /* ═══════════════════════════════════════════════════════════════
    04 — Gradient Descent
    ═══════════════════════════════════════════════════════════════ */
-let gdAnim = null, gdX = 3.5;
+let gdAnim = null, gdX = 3.0;
 DRAWS['gradient'] = function() {
   const s = setupCanvas('gdCanvas'); if (!s) return;
   drawGDStatic(s.ctx, s.w, s.h, gdX);
@@ -219,17 +219,17 @@ function drawGDStatic(ctx, w, h, x) {
   ctx.clearRect(0, 0, w, h);
   // loss landscape: L(x) = (x-0.5)^2 + 0.3*sin(3x) + 1
   const loss = t => (t - 0.5) ** 2 + 0.3 * Math.sin(3 * t) + 1;
-  const maxL = 12;
+  const maxL = 15;
   ctx.strokeStyle = getCSS('--accent3'); ctx.lineWidth = 2;
   ctx.beginPath();
   for (let px = 0; px <= w; px++) {
-    const t = (px / w) * 7 - 1;
+    const t = (px / w) * 5 - 1;
     const py = h - (loss(t) / maxL) * h * 0.85 - h * 0.05;
     if (px === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
   }
   ctx.stroke();
   // ball
-  const bx = ((x + 1) / 7) * w;
+  const bx = ((x + 1) / 5) * w;
   const by = h - (loss(x) / maxL) * h * 0.85 - h * 0.05;
   ctx.fillStyle = getCSS('--accent');
   ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI * 2); ctx.fill();
@@ -246,7 +246,7 @@ window.runGD = function() {
   const grad = t => 2 * (t - 0.5) + 0.9 * Math.cos(3 * t);
   gdAnim = setInterval(() => {
     gdX -= lr * grad(gdX);
-    gdX = Math.max(-1, Math.min(6, gdX));
+    gdX = Math.max(-1, Math.min(4, gdX));
     steps++;
     document.getElementById('gdSteps').textContent = steps;
     drawGDStatic(s.ctx, s.w, s.h, gdX);
@@ -256,7 +256,7 @@ window.runGD = function() {
 
 window.resetGD = function() {
   if (gdAnim) { clearInterval(gdAnim); gdAnim = null; }
-  gdX = 3.5;
+  gdX = 3.0;
   document.getElementById('gdSteps').textContent = '0';
   DRAWS['gradient']();
 };
@@ -373,12 +373,13 @@ window.drawBV = function(val) {
 /* ═══════════════════════════════════════════════════════════════
    07 — Loss Functions
    ═══════════════════════════════════════════════════════════════ */
-DRAWS['loss'] = function() {
+DRAWS['loss'] = function() { drawLossCanvas(); };
+
+function drawLossCanvas(errVal) {
   const s = setupCanvas('lossCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   ctx.clearRect(0, 0, w, h);
   const pad = 30;
-  // draw curves
   const maxX = 3, maxY = 9;
   const funcs = [
     { name: 'MSE', fn: x => x * x, color: getCSS('--accent') },
@@ -395,6 +396,19 @@ DRAWS['loss'] = function() {
     }
     ctx.stroke();
   });
+  // vertical indicator at current error value
+  if (errVal !== undefined) {
+    const ex = ((errVal + maxX) / (maxX * 2)) * w;
+    ctx.strokeStyle = getCSS('--fg'); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(ex, pad); ctx.lineTo(ex, h - pad); ctx.stroke();
+    ctx.setLineDash([]);
+    // dots on each curve
+    funcs.forEach(f => {
+      const y = h - pad - (f.fn(errVal) / maxY) * (h - pad * 2);
+      ctx.fillStyle = f.color;
+      ctx.beginPath(); ctx.arc(ex, y, 5, 0, Math.PI * 2); ctx.fill();
+    });
+  }
   // legend
   ctx.font = '11px ' + getCSS('--mono');
   funcs.forEach((f, i) => {
@@ -407,8 +421,9 @@ DRAWS['loss'] = function() {
     document.getElementById('errVal').textContent = v.toFixed(2);
     document.getElementById('mseP').textContent = (v * v).toFixed(3);
     document.getElementById('maeP').textContent = v.toFixed(3);
+    drawLossCanvas(v);
   };
-};
+}
 
 /* ═══════════════════════════════════════════════════════════════
    08 — Backpropagation
