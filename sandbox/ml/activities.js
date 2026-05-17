@@ -73,15 +73,19 @@ const NARRATIONS = {
   ],
 };
 
+const _narratorStep = {};
 function showNarration(topicId, stepIdx) {
   const steps = NARRATIONS[topicId];
   if (!steps) return;
   const bar = document.getElementById('narrator-' + topicId);
   if (!bar) return;
+  _narratorStep[topicId] = stepIdx;
   bar.classList.add('active');
   bar.querySelector('.narrator-step').textContent = `Step ${stepIdx + 1} of ${steps.length}`;
   bar.querySelector('.narrator-text').textContent = steps[stepIdx] || '';
   bar.querySelectorAll('.narrator-dot').forEach((d, i) => d.classList.toggle('active', i === stepIdx));
+  const btn = bar.querySelector('.narrator-next');
+  if (btn) btn.textContent = stepIdx < steps.length - 1 ? 'Next →' : '✓ Done';
 }
 function hideNarration(topicId) {
   const bar = document.getElementById('narrator-' + topicId);
@@ -97,7 +101,10 @@ function buildNarratorBar(topicId) {
         <div class="narrator-text"></div>
         <div class="narrator-dots">${dots}</div>
       </div>
-      <button class="narrator-close" onclick="hideNarration('${topicId}')" title="Close">✕</button>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+        <button class="narrator-next" onclick="(function(){const steps=NARRATIONS['${topicId}'];const cur=_narratorStep['${topicId}']||0;if(cur<steps.length-1){showNarration('${topicId}',cur+1);}else{hideNarration('${topicId}');}})()">Next →</button>
+        <button class="narrator-close" onclick="hideNarration('${topicId}')" title="Close">✕</button>
+      </div>
     </div>`;
 }
 

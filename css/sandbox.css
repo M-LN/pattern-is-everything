@@ -373,6 +373,20 @@ header em { color: var(--lab-accent); }
   margin-top: 2px;
 }
 .narrator-close:hover { border-color: var(--lab-accent); color: var(--lab-accent); }
+.narrator-next {
+  background: var(--lab-accent);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.narrator-next:hover { opacity: .85; }
 .teach-btn { border-color: var(--lab-accent) !important; color: var(--lab-accent) !important; }
 .teach-btn:hover { background: rgba(var(--lab-accent-rgb), 0.12) !important; }
 
