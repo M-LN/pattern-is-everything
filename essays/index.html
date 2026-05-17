@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pattern Essays — Pattern is Everything</title>
-  <meta name="description" content="5 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, and models vs reality.">
+  <meta name="description" content="8 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.">
   <meta property="og:title" content="Pattern Essays — Pattern is Everything">
-  <meta property="og:description" content="5 short reflections on patterns in the world — calm, minimalist, accompanied by small visualizations.">
+  <meta property="og:description" content="8 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <meta name="theme-color" content="#8b4fa8">
@@ -18,7 +18,7 @@
     "@type": "CreativeWorkSeries",
     "name": "Pattern Essays",
     "url": "https://patterniseverything.com/essays/",
-    "description": "5 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, and models vs reality.",
+    "description": "8 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -31,13 +31,20 @@
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .viz-ctrl { display:flex; align-items:center; gap:10px; margin:8px auto 2px; max-width:440px; font-family:var(--mono); font-size:11px; color:var(--muted); }
+    .viz-ctrl input[type=range] { flex:1; accent-color:#8b4fa8; cursor:pointer; }
+    .viz-ctrl-val { min-width:28px; text-align:right; color:#8b4fa8; font-weight:600; }
+    .viz-regen { display:block; margin:6px auto 0; padding:4px 14px; font-family:var(--mono); font-size:11px; background:none; border:1px solid rgba(139,79,168,.3); border-radius:4px; color:#8b4fa8; cursor:pointer; }
+    .viz-regen:hover { background:rgba(139,79,168,.08); }
+  </style>
 </head>
 <body>
 
 <header>
   <a class="logo-ring" href="../index.html" title="Back to Portal"></a>
   <h1>Pattern <em>Essays</em></h1>
-  <span class="topic-counter" id="topicCounter">5 Essays</span>
+  <span class="topic-counter" id="topicCounter">8 Essays</span>
   <div class="hdr-meta">Short Reflections on Patterns<br>Calm, Minimalist, Visual</div>
   <div class="hdr-actions">
     <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Portal</a>
@@ -58,14 +65,14 @@
 <div class="layout">
 <nav id="mainNav">
   <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
-  <div class="nav-progress-text" id="progressText">0 / 5 viewed</div>
+  <div class="nav-progress-text" id="progressText">0 / 8 viewed</div>
 </nav>
 <main id="mainContent">
 </main>
 </div>
 
-<script src="topics.js?v=1"></script>
-<script src="visualizations.js?v=1"></script>
+<script src="topics.js?v=2"></script>
+<script src="visualizations.js?v=2"></script>
 <script>
 /* ── Theme ── */
 function toggleTheme() {

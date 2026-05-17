@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map'] },
+  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -16,6 +16,9 @@ const TOPIC_NAMES = {
   'essay-tail':'The Long Tail',
   'essay-signal':'Signal in the Noise',
   'essay-map':'The Map and the Territory',
+  'essay-feedback':'The Feedback Loop',
+  'essay-walk':'The Random Walk',
+  'essay-threshold':'The Threshold',
 };
 
 /* ── Full topic data for search ── */
@@ -25,6 +28,9 @@ const TOPIC_DATA = [
   { id:'essay-tail', num:'E3', title:'The Long Tail', category:'Pattern Essays', keywords:['power law','Pareto','Zipf','inequality','scale-free','fat tails','rare events','wealth'], content:'Most things are small. A few are enormous. The pattern repeats across domains that seem unrelated.' },
   { id:'essay-signal', num:'E4', title:'Signal in the Noise', category:'Pattern Essays', keywords:['noise','overfitting','randomness','pattern recognition','apophenia','data','uncertainty'], content:'Every dataset is a mix of pattern and randomness. The hard part is not inventing signal where there is none.' },
   { id:'essay-map', num:'E5', title:'The Map and the Territory', category:'Pattern Essays', keywords:['model','abstraction','simplification','representation','Borges','assumptions','residuals'], content:'A model is a deliberate simplification. The danger is forgetting what was left out.' },
+  { id:'essay-feedback', num:'E6', title:'The Feedback Loop', category:'Pattern Essays', keywords:['feedback','compounding','exponential','S-curve','logistic','growth','tipping point','self-reinforcing'], content:'When a system\'s output feeds back into its input, small nudges can cascade into enormous change — or freeze everything in place.' },
+  { id:'essay-walk', num:'E7', title:'The Random Walk', category:'Pattern Essays', keywords:['random walk','Brownian motion','stock prices','drift','volatility','unpredictability','efficient market','path dependence'], content:'Each step is random, yet the path that emerges is not without structure. Distance grows — just not in the direction you expect.' },
+  { id:'essay-threshold', num:'E8', title:'The Threshold', category:'Pattern Essays', keywords:['threshold','tipping point','phase transition','sigmoid','bifurcation','critical point','nonlinear','catastrophe'], content:'Many systems stay quiet for a long time, then change all at once. The threshold is the hidden line that separates gradual from sudden.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -66,7 +72,10 @@ function buildContent() {
     + buildEssayMean()
     + buildEssayTail()
     + buildEssaySignal()
-    + buildEssayMap();
+    + buildEssayMap()
+    + buildEssayFeedback()
+    + buildEssayWalk()
+    + buildEssayThreshold();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -108,6 +117,21 @@ function buildHome() {
       <div class="cat-card-name">The Map and the Territory</div>
       <div class="cat-card-count">A model is a deliberate simplification</div>
     </div>
+    <div class="cat-card" onclick="show('essay-feedback',true)">
+      <div class="cat-card-icon">\u21ba</div>
+      <div class="cat-card-name">The Feedback Loop</div>
+      <div class="cat-card-count">Small nudges cascade into enormous change</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-walk',true)">
+      <div class="cat-card-icon">\u223c</div>
+      <div class="cat-card-name">The Random Walk</div>
+      <div class="cat-card-count">Each step is random &mdash; the path is not</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-threshold',true)">
+      <div class="cat-card-icon">\u26a1</div>
+      <div class="cat-card-name">The Threshold</div>
+      <div class="cat-card-count">Quiet for a long time &mdash; then all at once</div>
+    </div>
   </div>
 </div>`;
 }
@@ -129,7 +153,12 @@ function buildEssayBell() {
   <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more \u2014 and nothing less.</p>
   <div class="va">
     <canvas id="bellCanvas" height="180"></canvas>
-    <div class="essay-label">A thousand small forces, one shape</div>
+    <div class="viz-ctrl">
+      <span>Dice rolled</span>
+      <input type="range" id="bellDiceSlider" min="1" max="12" value="1" oninput="document.getElementById('bellDiceVal').textContent=this.value;DRAWS['essay-bell']()">
+      <span class="viz-ctrl-val" id="bellDiceVal">1</span>
+    </div>
+    <div class="essay-label">Sum of <em>n</em> dice &mdash; watch the bell emerge</div>
   </div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
@@ -155,7 +184,12 @@ function buildEssayMean() {
   <p class="prose">The pattern: whenever you select on an extreme, the follow-up will be less extreme. Understanding this prevents you from inventing explanations for what is simply reversion.</p>
   <div class="va">
     <canvas id="meanCanvas" height="180"></canvas>
-    <div class="essay-label">First measurement vs. second \u2014 the pull toward centre</div>
+    <div class="viz-ctrl">
+      <span>Correlation</span>
+      <input type="range" id="meanCorrSlider" min="0" max="100" value="55" oninput="document.getElementById('meanCorrVal').textContent=Math.round(this.value)+'%';DRAWS['essay-mean']()">
+      <span class="viz-ctrl-val" id="meanCorrVal">55%</span>
+    </div>
+    <div class="essay-label">First measurement vs. second &mdash; the pull toward centre</div>
   </div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
@@ -181,7 +215,12 @@ function buildEssayTail() {
   <p class="prose">The tail matters more than it looks. In a bell curve, extremes are vanishingly rare. In a power law, the single largest event can dwarf the rest combined. This is why one earthquake, one pandemic, or one black swan trade can reshape everything.</p>
   <div class="va">
     <canvas id="tailCanvas" height="180"></canvas>
-    <div class="essay-label">The few and the many \u2014 a power-law curve</div>
+    <div class="viz-ctrl">
+      <span>Inequality</span>
+      <input type="range" id="tailAlphaSlider" min="10" max="50" value="18" oninput="document.getElementById('tailAlphaVal').textContent=(this.value/10).toFixed(1);DRAWS['essay-tail']()">
+      <span class="viz-ctrl-val" id="tailAlphaVal">1.8</span>
+    </div>
+    <div class="essay-label">The few and the many &mdash; drag to steepen the tail</div>
   </div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
@@ -207,7 +246,12 @@ function buildEssaySignal() {
   <p class="prose">The pattern here is a meta-pattern: <em>the urge to see patterns can itself be the error</em>. The discipline of statistics is, at its core, a set of tools for telling the difference.</p>
   <div class="va">
     <canvas id="signalCanvas" height="180"></canvas>
-    <div class="essay-label">A wave emerging from noise \u2014 or is it?</div>
+    <div class="viz-ctrl">
+      <span>Noise level</span>
+      <input type="range" id="signalNoiseSlider" min="0" max="100" value="50" oninput="document.getElementById('signalNoiseVal').textContent=this.value+'%';DRAWS['essay-signal']()">
+      <span class="viz-ctrl-val" id="signalNoiseVal">50%</span>
+    </div>
+    <div class="essay-label">A wave hiding in noise &mdash; drag to reveal or bury it</div>
   </div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
@@ -233,7 +277,12 @@ function buildEssayMap() {
   <p class="prose">The best practitioners hold two truths at once: the model is useful <em>and</em> the model is wrong. The gap between the line and the dots is where humility lives.</p>
   <div class="va">
     <canvas id="mapCanvas" height="180"></canvas>
-    <div class="essay-label">The line and the dots \u2014 the gap is the point</div>
+    <div class="viz-ctrl">
+      <span>Model complexity</span>
+      <input type="range" id="mapComplexSlider" min="1" max="5" value="1" oninput="document.getElementById('mapComplexVal').textContent=['Linear','Quadratic','Cubic','Degree 4','Overfit'][this.value-1];DRAWS['essay-map']()">
+      <span class="viz-ctrl-val" id="mapComplexVal">Linear</span>
+    </div>
+    <div class="essay-label">The line and the dots &mdash; watch the model overfit</div>
   </div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
@@ -243,5 +292,94 @@ function buildEssayMap() {
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#regression-metrics">Regression metrics</a> quantify this gap, and <a href="../stats/index.html#shap-values">SHAP values</a> show what the model chose to see.</div>
   <div class="topic-nav" id="nav-essay-map"></div>
+</div>`;
+}
+
+/* E6 — The Feedback Loop */
+function buildEssayFeedback() {
+  return `<div class="topic pattern-essay" id="essay-feedback">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E6 — Pattern Essays</div><h2>The Feedback <em>Loop</em></h2></div>
+    <span class="topic-badge">Essay</span>
+  </div>
+  <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
+  <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. Nothing changed in the rules — only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
+  <p class="prose">But exponential growth always meets a wall — resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption, viral spread — all follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
+  <p class="prose">Negative feedback works in reverse: the output damps the system back toward equilibrium. A thermostat. A predator-prey cycle. The price mechanism in a market. Without negative feedback, every small perturbation would spiral forever.</p>
+  <div class="va">
+    <canvas id="feedbackCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Growth rate</span>
+      <input type="range" id="feedbackRateSlider" min="102" max="140" value="120" oninput="document.getElementById('feedbackRateVal').textContent=((this.value/100-1)*100).toFixed(0)+'%/yr';DRAWS['essay-feedback']()">
+      <span class="viz-ctrl-val" id="feedbackRateVal">20%/yr</span>
+    </div>
+    <div class="essay-label">Exponential growth hitting a ceiling &mdash; the S-curve</div>
+  </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Meadows, D. H. (2008). <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing.</div>
+    <div class="essay-ref">[2] Strogatz, S. (2003). <em>Sync: How Order Emerges From Chaos in the Universe, Nature, and Daily Life.</em> Hyperion.</div>
+    <div class="essay-ref">[3] Verhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. <em>Correspondance Mathématique et Physique, 10</em>, 113–121.</div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool.</div>
+  <div class="topic-nav" id="nav-essay-feedback"></div>
+</div>`;
+}
+
+/* E7 — The Random Walk */
+function buildEssayWalk() {
+  return `<div class="topic pattern-essay" id="essay-walk">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E7 — Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
+    <span class="topic-badge">Essay</span>
+  </div>
+  <p class="sub">// Each step is random — yet the path that emerges is not without structure</p>
+  <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started — the distance from the lamp post grows, just not in a predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
+  <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the expected distance from the start is &radic;<em>n</em>, not <em>n</em>. Doubling your time quadruples your uncertainty, not doubles it. A stock forecast for one year is not twice as reliable as one for four years — it is half as reliable.</p>
+  <p class="prose">Random walks also explain why past prices carry almost no information about future prices in efficient markets. Each step erases the memory of the last. The path looks meaningful in hindsight. It was not.</p>
+  <div class="va">
+    <canvas id="walkCanvas" height="180"></canvas>
+    <button class="viz-regen" onclick="DRAWS['essay-walk']()">&#8635; New walk</button>
+    <div class="essay-label">Five simultaneous random walks &mdash; each unique, none predictable</div>
+  </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Pearson, K. (1905). The Problem of the Random Walk. <em>Nature, 72</em>(1865), 294. <a href="https://doi.org/10.1038/072294b0" target="_blank" rel="noopener">doi:10.1038/072294b0</a></div>
+    <div class="essay-ref">[2] Malkiel, B. G. (1973). <em>A Random Walk Down Wall Street.</em> W. W. Norton &amp; Company.</div>
+    <div class="essay-ref">[3] Fama, E. F. (1965). Random Walks in Stock Market Prices. <em>Financial Analysts Journal, 21</em>(5), 55–59. <a href="https://doi.org/10.2469/faj.v21.n5.55" target="_blank" rel="noopener">doi:10.2469/faj.v21.n5.55</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../stats/index.html#time-series">time-series analysis</a> is the tool for extracting the non-random component.</div>
+  <div class="topic-nav" id="nav-essay-walk"></div>
+</div>`;
+}
+
+/* E8 — The Threshold */
+function buildEssayThreshold() {
+  return `<div class="topic pattern-essay" id="essay-threshold">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E8 — Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
+    <span class="topic-badge">Essay</span>
+  </div>
+  <p class="sub">// Many systems stay quiet for a long time — then change all at once</p>
+  <p class="prose">Add grains of sand to a pile, one at a time. For a long while, nothing dramatic happens. Then, at some unpredictable moment, a single grain triggers an avalanche. The pile was always close to collapse. The last grain gets the credit it did not deserve.</p>
+  <p class="prose">This is threshold behaviour, and it appears everywhere: a rumour that suddenly goes viral, ice that holds firm and then fractures, a neuron that fires only when input crosses a minimum. In each case, input and output are not proportional. Small changes accumulate invisibly until the threshold is crossed, and then the system snaps.</p>
+  <p class="prose">The sigmoid function is the mathematician’s version: nearly flat on both sides, steep in the middle. It describes the dose-response curve of a drug, the probability of a binary outcome in logistic regression, and the activation of a neuron. The threshold is not special — it is simply the midpoint of a curve that was always going to be steep somewhere.</p>
+  <div class="va">
+    <canvas id="thresholdCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Input level</span>
+      <input type="range" id="thresholdInputSlider" min="0" max="100" value="30" oninput="document.getElementById('thresholdInputVal').textContent=this.value;DRAWS['essay-threshold']()">
+      <span class="viz-ctrl-val" id="thresholdInputVal">30</span>
+    </div>
+    <div class="essay-label">The sigmoid &mdash; drag through the threshold</div>
+  </div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Bak, P., Tang, C. &amp; Wiesenfeld, K. (1987). Self-organized criticality. <em>Physical Review Letters, 59</em>(4), 381–384. <a href="https://doi.org/10.1103/PhysRevLett.59.381" target="_blank" rel="noopener">doi:10.1103/PhysRevLett.59.381</a></div>
+    <div class="essay-ref">[2] Gladwell, M. (2000). <em>The Tipping Point: How Little Things Can Make a Big Difference.</em> Little, Brown and Company.</div>
+    <div class="essay-ref">[3] Strogatz, S. H. (1994). <em>Nonlinear Dynamics and Chaos.</em> Addison-Wesley. Ch. 3: Bifurcations.</div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../ml/index.html#logistic-regression">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief.</div>
+  <div class="topic-nav" id="nav-essay-threshold"></div>
 </div>`;
 }
