@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    Pattern Essays — Visualizations
-   Static generative canvases (render once, no interactivity)
+   Interactive generative canvases — read slider values on each draw
    ═══════════════════════════════════════════════════════════════ */
 
 const ACCENT4 = '#8b4fa8';
@@ -19,12 +19,53 @@ function setupCanvas(id) {
   return { c, ctx, w: rect.width, h: rect.height };
 }
 
-/* ── helpers ── */
 function gaussRandom(mu, sigma) {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
   while (v === 0) v = Math.random();
   return mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+/* Polynomial fit helpers for E5 */
+function polyfitLinear(pts, deg) {
+  /* Vandermonde least squares via normal equations — small deg only */
+  const n = pts.length;
+  const d = deg + 1;
+  /* build A^T A and A^T b */
+  const ATA = Array.from({length:d}, () => new Array(d).fill(0));
+  const ATb = new Array(d).fill(0);
+  for (const [x, y] of pts) {
+    const row = Array.from({length:d}, (_, k) => Math.pow(x, k));
+    for (let i = 0; i < d; i++) {
+      ATb[i] += row[i] * y;
+      for (let j = 0; j < d; j++) ATA[i][j] += row[i] * row[j];
+    }
+  }
+  /* Gaussian elimination */
+  for (let col = 0; col < d; col++) {
+    let maxRow = col;
+    for (let r = col+1; r < d; r++) if (Math.abs(ATA[r][col]) > Math.abs(ATA[maxRow][col])) maxRow = r;
+    [ATA[col], ATA[maxRow]] = [ATA[maxRow], ATA[col]];
+    [ATb[col], ATb[maxRow]] = [ATb[maxRow], ATb[col]];
+    for (let r = col+1; r < d; r++) {
+      const f = ATA[r][col] / ATA[col][col];
+      for (let c2 = col; c2 < d; c2++) ATA[r][c2] -= f * ATA[col][c2];
+      ATb[r] -= f * ATb[col];
+    }
+  }
+  const coef = new Array(d).fill(0);
+  for (let i = d-1; i >= 0; i--) {
+    coef[i] = ATb[i];
+    for (let j = i+1; j < d; j++) coef[i] -= ATA[i][j] * coef[j];
+    coef[i] /= ATA[i][i];
+  }
+  return coef;
+}
+
+function polyeval(coef, x) {
+  let v = 0;
+  for (let i = coef.length-1; i >= 0; i--) v = v * x + coef[i];
+  return v;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -33,71 +74,93 @@ function gaussRandom(mu, sigma) {
 const DRAWS = {
 
   /* E1 — The Bell in Everything
-     Gaussian dot scatter settling into bell shape */
-  'essay-bell'(el) {
+     Sum of n dice rolls — CLT in action */
+  'essay-bell'() {
     const s = setupCanvas('bellCanvas');
     if (!s) return;
     const { ctx, w, h } = s;
-    const n = 600;
-    const mu = w / 2, sigma = w / 7;
-    const bins = new Array(Math.ceil(w)).fill(0);
+    const nDice = parseInt(document.getElementById('bellDiceSlider')?.value || 1);
+    const rolls = 800;
 
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = 'rgba(139,79,168,.06)';
     ctx.fillRect(0, 0, w, h);
 
-    for (let i = 0; i < n; i++) {
-      const x = gaussRandom(mu, sigma);
-      if (x < 0 || x >= w) continue;
-      const bx = Math.floor(x);
-      bins[bx]++;
-      const noise = (Math.random() - .5) * 8;
-      const y = h - 12 - bins[bx] * 1.1 + noise;
-      ctx.beginPath();
-      ctx.arc(x, Math.max(8, y), 1.6, 0, Math.PI * 2);
-      ctx.fillStyle = ACCENT4_25;
-      ctx.fill();
+    const maxSum = nDice * 6;
+    const minSum = nDice * 1;
+    const range = maxSum - minSum;
+    const mu = (minSum + maxSum) / 2;
+    const bins = new Array(range + 1).fill(0);
+
+    const samples = [];
+    for (let i = 0; i < rolls; i++) {
+      let s2 = 0;
+      for (let d = 0; d < nDice; d++) s2 += Math.floor(Math.random() * 6) + 1;
+      bins[s2 - minSum]++;
+      samples.push(s2);
     }
 
-    /* bell outline */
+    const maxBin = Math.max(...bins);
+    const barW = (w - 40) / bins.length;
+
+    /* bars */
+    bins.forEach((cnt, i) => {
+      const bh = (cnt / maxBin) * (h - 40) * 0.85;
+      const bx = 20 + i * barW;
+      const by = h - 20 - bh;
+      ctx.fillStyle = ACCENT4_10;
+      ctx.fillRect(bx, by, barW - 1, bh);
+    });
+
+    /* bell outline overlay */
+    const sigma = Math.sqrt(nDice * 35 / 36);
     ctx.beginPath();
-    ctx.moveTo(0, h - 12);
-    for (let x = 0; x < w; x += 2) {
-      const z = (x - mu) / sigma;
-      const pdf = Math.exp(-.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
-      const y = h - 12 - pdf * n * 2.2;
-      ctx.lineTo(x, y);
+    for (let i = 0; i < bins.length; i++) {
+      const x = 20 + (i + 0.5) * barW;
+      const z = (i - (mu - minSum)) / sigma;
+      const pdf = Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+      const y = h - 20 - pdf * rolls * barW * 0.85;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.strokeStyle = ACCENT4;
-    ctx.lineWidth = 1.5;
-    ctx.globalAlpha = .5;
+    ctx.lineWidth = 1.8;
+    ctx.globalAlpha = 0.6;
     ctx.stroke();
     ctx.globalAlpha = 1;
 
     /* baseline */
     ctx.beginPath();
-    ctx.moveTo(20, h - 12);
-    ctx.lineTo(w - 20, h - 12);
+    ctx.moveTo(20, h - 20);
+    ctx.lineTo(w - 20, h - 20);
     ctx.strokeStyle = 'var(--border)';
-    ctx.lineWidth = .5;
+    ctx.lineWidth = 0.5;
     ctx.stroke();
+
+    /* label */
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = 'var(--muted)';
+    ctx.textAlign = 'center';
+    ctx.fillText(nDice === 1 ? 'flat (1 die)' : nDice >= 8 ? 'bell curve!' : 'emerging bell', w / 2, 14);
   },
 
   /* E2 — Regression to the Mean
-     First-vs-second measurement scatter toward diagonal */
-  'essay-mean'(el) {
+     Scatter with adjustable correlation slope */
+  'essay-mean'() {
     const s = setupCanvas('meanCanvas');
     if (!s) return;
     const { ctx, w, h } = s;
+    const corr = (parseInt(document.getElementById('meanCorrSlider')?.value || 55)) / 100;
     const pad = 30;
     const area = Math.min(w, h) - pad * 2;
     const n = 120;
 
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = 'rgba(139,79,168,.04)';
     ctx.fillRect(0, 0, w, h);
 
     /* axes */
     ctx.strokeStyle = 'var(--border)';
-    ctx.lineWidth = .5;
+    ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.moveTo(pad, pad); ctx.lineTo(pad, h - pad);
     ctx.lineTo(w - pad, h - pad);
@@ -113,31 +176,26 @@ const DRAWS = {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    /* regression line — slope < 1 */
-    const slope = .55;
+    /* regression line */
     ctx.beginPath();
-    ctx.moveTo(pad, h - pad - area * (1 - slope) / 2);
-    ctx.lineTo(pad + area, h - pad - area * (1 + slope) / 2);
+    ctx.moveTo(pad, h - pad - area * (1 - corr) / 2);
+    ctx.lineTo(pad + area, h - pad - area * (1 + corr) / 2);
     ctx.strokeStyle = ACCENT4;
     ctx.lineWidth = 1.5;
-    ctx.globalAlpha = .6;
+    ctx.globalAlpha = 0.6;
     ctx.stroke();
     ctx.globalAlpha = 1;
 
     /* scatter */
     for (let i = 0; i < n; i++) {
       const t = Math.random();
-      const x1 = t;
-      const x2 = slope * t + (1 - slope) * .5 + gaussRandom(0, .09);
-      const px = pad + x1 * area;
-      const py = h - pad - x2 * area;
+      const x2 = corr * t + (1 - corr) * 0.5 + gaussRandom(0, 0.09);
       ctx.beginPath();
-      ctx.arc(px, py, 2, 0, Math.PI * 2);
+      ctx.arc(pad + t * area, h - pad - Math.max(0, Math.min(1, x2)) * area, 2, 0, Math.PI * 2);
       ctx.fillStyle = ACCENT4_25;
       ctx.fill();
     }
 
-    /* labels */
     ctx.font = '9px "IBM Plex Mono", monospace';
     ctx.fillStyle = 'var(--muted)';
     ctx.textAlign = 'center';
@@ -150,24 +208,23 @@ const DRAWS = {
   },
 
   /* E3 — The Long Tail
-     Power-law curve: steep drop, long whispery tail */
-  'essay-tail'(el) {
+     Power-law curve with adjustable exponent */
+  'essay-tail'() {
     const s = setupCanvas('tailCanvas');
     if (!s) return;
     const { ctx, w, h } = s;
+    const alpha = (parseInt(document.getElementById('tailAlphaSlider')?.value || 18)) / 10;
     const pad = 30;
 
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = 'rgba(139,79,168,.04)';
     ctx.fillRect(0, 0, w, h);
 
-    /* power-law curve */
-    const alpha = 1.8;
     const steps = w - pad * 2;
     const pts = [];
     for (let i = 0; i < steps; i++) {
       const x = (i + 1) / steps;
-      const y = Math.pow(x, -1 / alpha);
-      pts.push(y);
+      pts.push(Math.pow(x, -1 / alpha));
     }
     const maxY = pts[0];
 
@@ -175,36 +232,30 @@ const DRAWS = {
     ctx.beginPath();
     ctx.moveTo(pad, h - pad);
     for (let i = 0; i < pts.length; i++) {
-      const px = pad + i;
-      const py = h - pad - (pts[i] / maxY) * (h - pad * 2) * .85;
-      ctx.lineTo(px, py);
+      ctx.lineTo(pad + i, h - pad - (pts[i] / maxY) * (h - pad * 2) * 0.85);
     }
     ctx.lineTo(w - pad, h - pad);
     ctx.closePath();
     ctx.fillStyle = ACCENT4_10;
     ctx.fill();
 
-    /* curve line */
     ctx.beginPath();
     for (let i = 0; i < pts.length; i++) {
       const px = pad + i;
-      const py = h - pad - (pts[i] / maxY) * (h - pad * 2) * .85;
-      if (i === 0) ctx.moveTo(px, py);
-      else ctx.lineTo(px, py);
+      const py = h - pad - (pts[i] / maxY) * (h - pad * 2) * 0.85;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
     }
     ctx.strokeStyle = ACCENT4;
     ctx.lineWidth = 1.8;
     ctx.stroke();
 
-    /* baseline */
     ctx.beginPath();
     ctx.moveTo(pad, h - pad);
     ctx.lineTo(w - pad, h - pad);
     ctx.strokeStyle = 'var(--border)';
-    ctx.lineWidth = .5;
+    ctx.lineWidth = 0.5;
     ctx.stroke();
 
-    /* annotation */
     ctx.font = '9px "IBM Plex Mono", monospace';
     ctx.fillStyle = 'var(--muted)';
     ctx.textAlign = 'left';
@@ -214,109 +265,335 @@ const DRAWS = {
   },
 
   /* E4 — Signal in the Noise
-     Sine wave half-buried in static, emerging left to right */
-  'essay-signal'(el) {
+     Wave buried in noise — slider controls noise level */
+  'essay-signal'() {
     const s = setupCanvas('signalCanvas');
     if (!s) return;
     const { ctx, w, h } = s;
+    const noisePct = parseInt(document.getElementById('signalNoiseSlider')?.value || 50) / 100;
     const mid = h / 2;
 
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = 'rgba(139,79,168,.04)';
     ctx.fillRect(0, 0, w, h);
 
-    /* noise floor */
-    const n = 800;
-    for (let i = 0; i < n; i++) {
+    /* noise floor — more dots = more noise */
+    const nDots = Math.round(noisePct * 1200);
+    for (let i = 0; i < nDots; i++) {
       const x = Math.random() * w;
-      const y = mid + gaussRandom(0, h * .25);
+      const y = mid + gaussRandom(0, h * 0.28);
       ctx.beginPath();
-      ctx.arc(x, y, .8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(139,79,168,.08)';
+      ctx.arc(x, y, 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(139,79,168,.09)';
       ctx.fill();
     }
 
-    /* wave emerging from noise */
+    /* wave — amplitude shrinks with noise */
+    const amp = 28 * (1 - noisePct * 0.85);
     ctx.beginPath();
     for (let x = 0; x < w; x++) {
-      const t = x / w;
-      const amp = 25 * t; /* grows left-to-right */
-      const noiseAmt = 12 * (1 - t);
-      const y = mid + Math.sin(x * .04) * amp + gaussRandom(0, noiseAmt);
-      if (x === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+      const noiseAmt = noisePct * 18;
+      const y = mid + Math.sin(x * 0.04) * amp + gaussRandom(0, noiseAmt);
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.strokeStyle = ACCENT4;
     ctx.lineWidth = 1.5;
-    ctx.globalAlpha = .7;
+    ctx.globalAlpha = Math.max(0.15, 1 - noisePct * 0.9);
     ctx.stroke();
     ctx.globalAlpha = 1;
   },
 
   /* E5 — The Map and the Territory
-     Regression line through messy scatter — gap is the point */
-  'essay-map'(el) {
+     Polynomial regression — slider controls model complexity */
+  'essay-map'() {
     const s = setupCanvas('mapCanvas');
     if (!s) return;
     const { ctx, w, h } = s;
+    const deg = parseInt(document.getElementById('mapComplexSlider')?.value || 1);
     const pad = 30;
-    const n = 80;
+    const n = 40;
 
+    ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = 'rgba(139,79,168,.04)';
     ctx.fillRect(0, 0, w, h);
 
-    /* generate data with a nonlinear true relationship */
+    /* fixed seed-like data via deterministic-ish generation */
     const pts = [];
     for (let i = 0; i < n; i++) {
-      const t = Math.random();
-      const trueY = .3 + .4 * t + .3 * Math.sin(t * Math.PI * 2);
-      const noisy = trueY + gaussRandom(0, .08);
+      const t = i / (n - 1);
+      const trueY = 0.3 + 0.4 * t + 0.3 * Math.sin(t * Math.PI * 2);
+      const noisy = Math.min(1, Math.max(0, trueY + gaussRandom(0, 0.08)));
       pts.push([t, noisy]);
     }
-
-    /* linear regression */
-    let sx = 0, sy = 0, sxx = 0, sxy = 0;
-    for (const [x, y] of pts) { sx += x; sy += y; sxx += x * x; sxy += x * y; }
-    const slope = (n * sxy - sx * sy) / (n * sxx - sx * sx);
-    const intercept = (sy - slope * sx) / n;
 
     const area_w = w - pad * 2;
     const area_h = h - pad * 2;
 
-    /* regression line */
+    /* fit polynomial */
+    const coef = polyfitLinear(pts, deg);
+
+    /* regression curve */
     ctx.beginPath();
-    ctx.moveTo(pad, h - pad - (intercept) * area_h);
-    ctx.lineTo(pad + area_w, h - pad - (intercept + slope) * area_h);
+    for (let i = 0; i <= 200; i++) {
+      const t = i / 200;
+      const yp = polyeval(coef, t);
+      const px = pad + t * area_w;
+      const py = h - pad - yp * area_h;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
     ctx.strokeStyle = ACCENT4;
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 1.8;
     ctx.stroke();
 
-    /* scatter & residual lines */
+    /* scatter & residuals */
     for (const [x, y] of pts) {
       const px = pad + x * area_w;
       const py = h - pad - y * area_h;
-      const predY = intercept + slope * x;
+      const predY = polyeval(coef, x);
       const ppy = h - pad - predY * area_h;
 
-      /* residual whisker */
       ctx.beginPath();
       ctx.moveTo(px, py);
       ctx.lineTo(px, ppy);
       ctx.strokeStyle = ACCENT4_10;
-      ctx.lineWidth = .6;
+      ctx.lineWidth = 0.6;
       ctx.stroke();
 
-      /* dot */
       ctx.beginPath();
       ctx.arc(px, py, 2, 0, Math.PI * 2);
       ctx.fillStyle = ACCENT4_25;
       ctx.fill();
     }
 
-    /* annotation */
+    /* label */
+    const labels = ['linear map', 'quadratic', 'cubic', 'degree 4', 'overfit!'];
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = deg === 5 ? ACCENT4 : 'var(--muted)';
+    ctx.textAlign = 'right';
+    ctx.fillText(labels[deg - 1], w - pad - 4, pad + 12);
+  },
+
+  /* E6 — The Feedback Loop
+     Logistic S-curve with adjustable growth rate */
+  'essay-feedback'() {
+    const s = setupCanvas('feedbackCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const rate = parseInt(document.getElementById('feedbackRateSlider')?.value || 108) / 100;
+    const pad = 30;
+    const steps = 60;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    /* generate logistic growth: N(t+1) = r·N(t)·(1 - N(t)/K) */
+    const K = 1.0;
+    let N = 0.02;
+    const series = [N];
+    for (let i = 1; i < steps; i++) {
+      N = N * rate * (1 - N / K);
+      N = Math.max(0, Math.min(K, N));
+      series.push(N);
+    }
+
+    const area_w = w - pad * 2;
+    const area_h = h - pad * 2;
+
+    /* filled area under curve */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad);
+    series.forEach((v, i) => {
+      ctx.lineTo(pad + (i / (steps - 1)) * area_w, h - pad - v * area_h * 0.9);
+    });
+    ctx.lineTo(w - pad, h - pad);
+    ctx.closePath();
+    ctx.fillStyle = ACCENT4_10;
+    ctx.fill();
+
+    /* curve */
+    ctx.beginPath();
+    series.forEach((v, i) => {
+      const px = pad + (i / (steps - 1)) * area_w;
+      const py = h - pad - v * area_h * 0.9;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    });
+    ctx.strokeStyle = ACCENT4;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* ceiling line */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad - area_h * 0.9);
+    ctx.lineTo(w - pad, h - pad - area_h * 0.9);
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = ACCENT4_25;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* axis */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad);
+    ctx.lineTo(w - pad, h - pad);
+    ctx.strokeStyle = 'var(--border)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
     ctx.font = '9px "IBM Plex Mono", monospace';
     ctx.fillStyle = 'var(--muted)';
+    ctx.textAlign = 'left';
+    ctx.fillText('carrying capacity', pad + 4, h - pad - area_h * 0.9 - 4);
+    ctx.textAlign = 'center';
+    ctx.fillText('time →', w / 2, h - 8);
+  },
+
+  /* E7 — The Random Walk
+     Multiple simultaneous paths — re-generated on each call */
+  'essay-walk'() {
+    const s = setupCanvas('walkCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const pad = 20;
+    const steps = 120;
+    const nWalks = 5;
+    const mid = h / 2;
+    const stepSize = (w - pad * 2) / steps;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    /* centre line */
+    ctx.beginPath();
+    ctx.moveTo(pad, mid);
+    ctx.lineTo(w - pad, mid);
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = 'var(--border)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const alphas = [0.8, 0.55, 0.45, 0.35, 0.25];
+    for (let wi = 0; wi < nWalks; wi++) {
+      let y = mid;
+      ctx.beginPath();
+      ctx.moveTo(pad, y);
+      for (let t = 1; t <= steps; t++) {
+        y += gaussRandom(0, 6);
+        y = Math.max(pad + 4, Math.min(h - pad - 4, y));
+        ctx.lineTo(pad + t * stepSize, y);
+      }
+      ctx.strokeStyle = ACCENT4;
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = alphas[wi];
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = 'var(--muted)';
+    ctx.textAlign = 'left';
+    ctx.fillText('start', pad + 2, mid - 6);
     ctx.textAlign = 'right';
-    ctx.fillText('the map', w - pad - 4, h - pad - (intercept + slope) * area_h - 6);
-    ctx.fillText('the territory', w - pad - 4, h - pad - (intercept + slope) * area_h + 14);
+    ctx.fillText('time →', w - pad - 2, h - 6);
+  },
+
+  /* E8 — The Threshold
+     Sigmoid curve with marker showing current input position */
+  'essay-threshold'() {
+    const s = setupCanvas('thresholdCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const inputVal = parseInt(document.getElementById('thresholdInputSlider')?.value || 30) / 100;
+    const pad = 30;
+    const area_w = w - pad * 2;
+    const area_h = h - pad * 2;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    /* sigmoid: 1 / (1 + e^(-12*(x - 0.5))) */
+    const sigmoid = x => 1 / (1 + Math.exp(-12 * (x - 0.5)));
+
+    /* filled area */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad);
+    for (let i = 0; i <= 200; i++) {
+      const t = i / 200;
+      ctx.lineTo(pad + t * area_w, h - pad - sigmoid(t) * area_h * 0.9);
+    }
+    ctx.lineTo(w - pad, h - pad);
+    ctx.closePath();
+    ctx.fillStyle = ACCENT4_10;
+    ctx.fill();
+
+    /* sigmoid curve */
+    ctx.beginPath();
+    for (let i = 0; i <= 200; i++) {
+      const t = i / 200;
+      const px = pad + t * area_w;
+      const py = h - pad - sigmoid(t) * area_h * 0.9;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = ACCENT4;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* threshold marker — vertical line at input position */
+    const markerX = pad + inputVal * area_w;
+    const markerY = h - pad - sigmoid(inputVal) * area_h * 0.9;
+
+    ctx.beginPath();
+    ctx.moveTo(markerX, h - pad);
+    ctx.lineTo(markerX, markerY);
+    ctx.strokeStyle = ACCENT4;
+    ctx.lineWidth = 1;
+    ctx.globalAlpha = 0.4;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    /* dot at current point */
+    ctx.beginPath();
+    ctx.arc(markerX, markerY, 5, 0, Math.PI * 2);
+    ctx.fillStyle = ACCENT4;
+    ctx.fill();
+
+    /* output label */
+    const outputPct = Math.round(sigmoid(inputVal) * 100);
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = ACCENT4;
+    ctx.textAlign = markerX > w / 2 ? 'right' : 'left';
+    const labelX = markerX > w / 2 ? markerX - 8 : markerX + 8;
+    ctx.fillText(`output: ${outputPct}%`, labelX, markerY - 8);
+
+    /* axes */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad);
+    ctx.lineTo(w - pad, h - pad);
+    ctx.strokeStyle = 'var(--border)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = 'var(--muted)';
+    ctx.textAlign = 'center';
+    ctx.fillText('input →', w / 2, h - 8);
+
+    /* threshold label */
+    const threshX = pad + 0.5 * area_w;
+    ctx.beginPath();
+    ctx.moveTo(threshX, pad + 4);
+    ctx.lineTo(threshX, h - pad);
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = 'var(--muted)';
+    ctx.lineWidth = 0.5;
+    ctx.globalAlpha = 0.4;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+    ctx.textAlign = 'center';
+    ctx.fillText('threshold', threshX, pad + 12);
   },
 };
