@@ -3,6 +3,116 @@
    Interactive statistics sandbox activities
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Formula Decoder helper ─────────────────────────────────── */
+function T(symbol, def) {
+  const safe = def.replace(/"/g, '&quot;');
+  return `<span class="fd-term" data-def="${safe}" data-sym="${symbol}">${symbol}</span>`;
+}
+
+/* ── Narrator ────────────────────────────────────────────────── */
+const NARRATIONS = {
+  'distribution-explorer': [
+    'A probability distribution describes all possible outcomes of a random experiment and how likely each one is.',
+    'The normal distribution is the famous bell curve. It appears everywhere in nature — heights, test scores, measurement errors. Mean (μ) sets the centre; standard deviation (σ) controls the width.',
+    'The exponential distribution models wait times: how long until the next bus, the next earthquake. Most waits are short; a few are very long.',
+    'The CDF (Cumulative Distribution Function) answers: "What is the probability of getting a value less than or equal to x?" It always starts at 0 and climbs to 1.',
+  ],
+  'hypothesis-testing': [
+    'Hypothesis testing answers the question: "Could this result just be random chance?" We start by assuming nothing is happening — the null hypothesis (H₀).',
+    'We collect data and calculate a p-value — the probability of seeing a result this extreme if H₀ were actually true. A small p-value means the data is hard to explain by chance.',
+    'If p < 0.05 (alpha), the result is "statistically significant". We reject H₀ — but significance does not mean importance.',
+    'Power is the probability of detecting a real effect when it exists. To increase power: collect more data, look for larger effects, or raise alpha.',
+  ],
+  'correlation-playground': [
+    'Correlation measures how two variables move together. Pearson r ranges from −1 (perfect opposite) through 0 (no pattern) to +1 (perfect together).',
+    'Place points in a diagonal line — r climbs toward 1. Add points going the other way — r drops. Scatter them randomly — r approaches 0.',
+    'One outlier can dramatically change r. A single extreme point can swing a 0.2 correlation to 0.7.',
+    'Important reminder: correlation does not equal causation. High r means the variables move together — not that one causes the other.',
+  ],
+  'central-limit-theorem': [
+    'The Central Limit Theorem (CLT) is one of statistics\' greatest surprises: no matter how weird your population looks, the distribution of sample means always becomes normal.',
+    'Draw samples from a skewed or uniform population. Record each sample\'s mean. After enough samples, the histogram of those means becomes a bell curve.',
+    'Larger sample sizes make the bell narrower and taller. The standard error (σ/√n) tells you how tight the bell will be.',
+    'This is why averages are so reliable in science and engineering — the CLT is working behind the scenes every time we compute a mean.',
+  ],
+  'bayesian-updater': [
+    'Bayesian reasoning starts with a belief (prior), collects evidence, and updates to a new belief (posterior). It formalises how we learn from experience.',
+    'We\'re estimating whether a coin is fair. Our starting distribution: equal belief in all fairness values from 0 to 1 — we know nothing yet.',
+    'Each coin flip is evidence. Heads nudges the distribution toward "probably heads-biased"; tails nudges it toward "probably tails-biased".',
+    'After many flips, the distribution peaks near the true probability and the uncertainty shrinks. More data = sharper, more confident beliefs.',
+  ],
+  'regression-diagnostics': [
+    'Fitting a regression line is step one. Step two — just as important — is checking whether the model\'s assumptions actually hold.',
+    'Residuals vs fitted: the gap between each prediction and the real value. Random scatter = good. A curve = the relationship is not linear.',
+    'The Q-Q plot checks if residuals are normally distributed. Points on the diagonal = good. Bends at the ends = heavy tails or skew.',
+    'R² tells you the fraction of variance explained. High R² is good — but always inspect the diagnostic plots too. A high R² can mask serious problems.',
+  ],
+  'probability-calculator': [
+    'Bayes\' Theorem calculates the probability of a cause, given observed evidence. Classic question: if a test is positive, what\'s the actual chance of having the condition?',
+    'P(A) is the prior — how common is the condition in the general population? Even a 99%-accurate test can mislead if the condition is rare.',
+    'P(B|A) is the true positive rate: how often does the test detect the condition correctly? P(B|¬A) is the false positive rate: how often does it fire when there is no condition?',
+    'The result P(A|B) is often surprising. A 1-in-1000 condition can yield only a 1-in-50 true positive rate even with a highly accurate test. This is the base rate fallacy.',
+  ],
+  'anova-visualizer': [
+    'ANOVA tests whether multiple groups have the same mean. For example: does fertiliser A, B, or C produce different crop yields?',
+    'The F-statistic compares two things: between-group variance (how much group means differ) vs within-group variance (how spread out points are inside each group).',
+    'Large F means the group differences are big relative to the noise. Small F means any observed differences could easily be random.',
+    'p < 0.05 means at least one group differs significantly from the others. But ANOVA doesn\'t tell you which group — you need follow-up tests for that.',
+  ],
+  'confidence-intervals': [
+    'A 95% confidence interval is a range calculated from sample data. If you repeated the experiment many times, 95% of these intervals would contain the true population mean.',
+    'Watch intervals appear one by one. Blue = the interval captured the true mean (μ). Red = it missed.',
+    'After many intervals, about 95% should be blue. This is the frequentist guarantee — not about one specific interval, but about the method over the long run.',
+    'Larger samples → narrower intervals. Higher confidence level (99%) → wider intervals. There is always a tradeoff between precision and certainty.',
+  ],
+  'chi-square-test': [
+    'The chi-square test asks: do the observed counts differ meaningfully from what we would expect by chance? For example: is this die fair?',
+    'Expected counts come from theory (or a null model). The χ² statistic measures total deviation: larger deviations → larger χ².',
+    'Small χ² means the data fits the expected pattern well. Large χ² means something is probably off. We compare to a critical value to decide.',
+    'Standardised residuals pinpoint which categories are most unusual. A residual beyond ±2 is the usual flag for "something odd here".',
+  ],
+  'survival-curves': [
+    'Survival analysis models "how long until an event occurs?" The event might be equipment failure, disease recovery, or customer churn.',
+    'The Kaplan-Meier curve is a staircase that drops each time an event occurs. It estimates the probability of still "surviving" beyond any given point in time.',
+    'Censored observations (+ marks) are subjects who left the study before the event — we know they survived at least this long, but not beyond.',
+    'Compare two groups: do their survival curves separate? A wide gap means meaningfully different event rates between the groups.',
+  ],
+  'bootstrap-resampler': [
+    'Bootstrap resampling answers: how reliable is our estimate? The key insight: treat your own sample as if it were the whole population.',
+    'Each bootstrap resample draws n values with replacement from your original data. Some points appear twice; some not at all.',
+    'Compute the sample mean for each resample and plot all the means. This histogram approximates the true sampling distribution — without any formulas.',
+    'The 2.5th and 97.5th percentiles of the histogram form a 95% confidence interval. It works for any statistic and any population shape.',
+  ],
+};
+
+function showNarration(topicId, stepIdx) {
+  const steps = NARRATIONS[topicId];
+  if (!steps) return;
+  const bar = document.getElementById('narrator-' + topicId);
+  if (!bar) return;
+  bar.classList.add('active');
+  bar.querySelector('.narrator-step').textContent = `Step ${stepIdx + 1} of ${steps.length}`;
+  bar.querySelector('.narrator-text').textContent = steps[stepIdx] || '';
+  bar.querySelectorAll('.narrator-dot').forEach((d, i) => d.classList.toggle('active', i === stepIdx));
+}
+function hideNarration(topicId) {
+  const bar = document.getElementById('narrator-' + topicId);
+  if (bar) bar.classList.remove('active');
+}
+function buildNarratorBar(topicId) {
+  const dots = (NARRATIONS[topicId] || []).map(() => '<div class="narrator-dot"></div>').join('');
+  return `
+    <div class="narrator-bar" id="narrator-${topicId}">
+      <div class="narrator-icon">💡</div>
+      <div class="narrator-body">
+        <div class="narrator-step"></div>
+        <div class="narrator-text"></div>
+        <div class="narrator-dots">${dots}</div>
+      </div>
+      <button class="narrator-close" onclick="hideNarration('${topicId}')" title="Close">✕</button>
+    </div>`;
+}
+
 const SECTIONS = [
   { id:'sec-stats-lab', title:'Stats Lab', topics:['distribution-explorer','hypothesis-testing','correlation-playground','central-limit-theorem','bayesian-updater','regression-diagnostics','probability-calculator','anova-visualizer','confidence-intervals','chi-square-test','survival-curves','bootstrap-resampler'] },
 ];
@@ -188,7 +298,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Probability Distributions</h3>
       <p>A probability distribution describes how likely each outcome is. The <strong>PDF</strong> (probability density function) shows the shape; the <strong>CDF</strong> shows the cumulative probability up to a value. Different distributions model different real-world processes.</p>
-      <div class="exp-formula">Normal PDF: f(x) = (1 / &sigma;&radic;2&pi;) e<sup>&minus;(x&minus;&mu;)&sup2; / 2&sigma;&sup2;</sup></div>
+      <div class="exp-formula">Normal ${T('PDF','Probability Density Function — shows the shape of the distribution. The height tells you how likely values near that point are.')}: ${T('f(x)','The density at value x — proportional to the probability of being near x.')} = (1 / ${T('σ','Sigma — the standard deviation: how spread out the distribution is.')}√2π) ${T('e','Euler\'s number (≈2.718) — the base of natural exponentials.')}^(−(${T('x','A value on the x-axis.')}−${T('μ','Mu — the mean: the centre of the bell curve.')})² / 2σ²)</div>
       <p>Parameters control everything: &mu; shifts the centre, &sigma; controls the spread. Uniform gives equal probability; Exponential models wait times; Poisson counts rare events.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -204,7 +314,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Hypothesis Testing &amp; p-Values</h3>
       <p>Hypothesis testing asks: "Is the observed effect real or just random noise?" We start with a null hypothesis H\u2080 (no effect), collect data, and compute a <strong>p-value</strong> \u2014 the probability of seeing data this extreme if H\u2080 were true.</p>
-      <div class="exp-formula">Reject H\u2080 when p-value &lt; &alpha; (typically 0.05)</div>
+      <div class="exp-formula">Reject ${T('H\u2080','Null hypothesis \u2014 the assumption that nothing is happening, no effect, no difference.')} when ${T('p-value','The probability of seeing a result this extreme if H\u2080 were actually true. Smaller = stronger evidence against H\u2080.')} &lt; ${T('\u03b1','Alpha \u2014 the significance level. Typically 0.05. If p < \u03b1, we call the result statistically significant.')} (typically 0.05)</div>
       <p><strong>Type I error</strong> rejects a true H\u2080 (false positive, rate = &alpha;). <strong>Type II error</strong> fails to reject a false H\u2080 (false negative). Power = 1 &minus; &beta; is the chance of detecting a real effect.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -236,7 +346,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>The Central Limit Theorem</h3>
       <p>No matter what the population looks like \u2014 uniform, skewed, bimodal \u2014 the distribution of <strong>sample means</strong> approaches a normal distribution as the sample size n grows. This is arguably the most important result in statistics.</p>
-      <div class="exp-formula">SE = &sigma; / &radic;n &emsp;\u2014&emsp; sampling distribution &rarr; N(&mu;, SE&sup2;)</div>
+      <div class="exp-formula">${T('SE','Standard Error \u2014 how spread out the sample means are. Smaller SE = more precise estimates.')} = ${T('\u03c3','Sigma \u2014 the population standard deviation.')} / \u221a${T('n','The sample size. Larger n gives a smaller SE \u2014 averages become more reliable.')} &emsp;\u2014&emsp; sampling distribution \u2192 ${T('N(\u03bc, SE\u00b2)','Normal distribution centred at the true mean \u03bc, with spread equal to SE.')}</div>
       <p>The standard error (SE) shrinks with larger n, meaning sample means cluster more tightly around the true mean. With n &ge; 30, the approximation is usually excellent.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -284,7 +394,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Bayes\u2019 Theorem</h3>
       <p>Bayes\u2019 theorem calculates the probability of an event given evidence. The classic example: even with a 99%-accurate test, a rare disease (low base rate) means most positive results are <strong>false positives</strong>.</p>
-      <div class="exp-formula">P(A|B) = P(B|A) &middot; P(A) / P(B)</div>
+      <div class="exp-formula">${T('P(A|B)','The probability of A given that B has occurred — this is what we want to know. Example: given a positive test, what is the chance of having the disease?')} = ${T('P(B|A)','Likelihood — how probable is the evidence B if A is true? Example: how often does the test fire when the disease is present?')} · ${T('P(A)','Prior — the base rate. How common is A in the general population before seeing any evidence?')} / ${T('P(B)','The total probability of observing B, across all possible causes.')}</div>
       <p>The prior P(A) is your starting belief. The likelihood P(B|A) is how likely the evidence is if A is true. P(B) normalises everything. The likelihood ratio P(B|A) / P(B|&not;A) captures the diagnostic strength of the evidence.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -332,7 +442,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Chi-Square Goodness of Fit</h3>
       <p>The chi-square test checks if observed frequencies differ significantly from expected frequencies. It is used for categorical data \u2014 how well do observed counts match a theoretical distribution?</p>
-      <div class="exp-formula">&chi;&sup2; = &Sigma; (O&#x1D62; &minus; E&#x1D62;)&sup2; / E&#x1D62;</div>
+      <div class="exp-formula">${T('χ²','Chi-squared — the total deviation between observed and expected counts. Larger = bigger discrepancy.')} = ${T('Σ','Sum over all categories.')} (${T('Oᵢ','Observed count for category i — what we actually measured.')} − ${T('Eᵢ','Expected count for category i — what we\'d predict under the null hypothesis.')})² / ${T('Eᵢ','Dividing by the expected count normalises the squared gap — categories with more data contribute proportionally.')}</div>
       <p>Large &chi;&sup2; means a big discrepancy between observed and expected. Standardised residuals pinpoint which categories deviate most. The degrees of freedom = number of categories &minus; 1.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -427,6 +537,7 @@ function buildContent() {
 
     html += `<div id="hints-${id}" class="hint-panel"></div>`;
     html += `<div id="challenge-${id}" class="challenge-panel" style="display:none"></div>`;
+    html += buildNarratorBar(id);
     html += EXPLAINERS[id] || '';
 
     div.innerHTML = html;
@@ -474,6 +585,7 @@ function buildDistributionExplorer() {
         <button class="sb-btn primary" onclick="ENGINE.generateDE()">Generate</button>
         <button class="sb-btn" onclick="ENGINE.toggleCDF()">Toggle CDF</button>
         <button class="sb-btn" onclick="ENGINE.resetDE()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachDistribution()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('distribution-explorer')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -510,6 +622,7 @@ function buildHypothesisTesting() {
         <button class="sb-btn primary" onclick="ENGINE.runTest()">Run Test</button>
         <button class="sb-btn" onclick="ENGINE.runMany()">Run 100 Tests</button>
         <button class="sb-btn" onclick="ENGINE.resetHT()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachHypothesis()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('hypothesis-testing')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -540,6 +653,7 @@ function buildCorrelationPlayground() {
       <div class="ctrl-buttons">
         <button class="sb-btn" onclick="ENGINE.cpToggleLine()">Toggle Regression Line</button>
         <button class="sb-btn" onclick="ENGINE.cpClear()">Clear All</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachCorrelation()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('correlation-playground')">🎯 Challenges</button>
       </div>
       <p style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px;">Click to place points · Shift+click to remove nearest point</p>
@@ -577,6 +691,7 @@ function buildCentralLimitTheorem() {
         <button class="sb-btn" onclick="ENGINE.drawMany(50)">Draw 50</button>
         <button class="sb-btn" onclick="ENGINE.drawMany(500)">Draw 500</button>
         <button class="sb-btn" onclick="ENGINE.resetCLT()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachCLT()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('central-limit-theorem')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -617,6 +732,7 @@ function buildBayesianUpdater() {
         <button class="sb-btn" onclick="ENGINE.flipBayes(10)">Flip 10</button>
         <button class="sb-btn" onclick="ENGINE.flipBayes(100)">Flip 100</button>
         <button class="sb-btn" onclick="ENGINE.resetBayes()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachBayes()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('bayesian-updater')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -655,6 +771,7 @@ function buildRegressionDiagnostics() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.generateRD()">Generate</button>
         <button class="sb-btn" onclick="ENGINE.resetRD()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachRegDiag()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('regression-diagnostics')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -690,6 +807,7 @@ function buildProbabilityCalculator() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.calcPC()">Calculate</button>
         <button class="sb-btn" onclick="ENGINE.resetPC()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachBayesTheorem()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('probability-calculator')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -731,6 +849,7 @@ function buildAnovaVisualizer() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.generateAnova()">Generate</button>
         <button class="sb-btn" onclick="ENGINE.resetAnova()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachAnova()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('anova-visualizer')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -776,6 +895,7 @@ function buildConfidenceIntervals() {
         <button class="sb-btn" onclick="ENGINE.sampleCI(10)">Sample 10</button>
         <button class="sb-btn" onclick="ENGINE.sampleCI(50)">Sample 50</button>
         <button class="sb-btn" onclick="ENGINE.resetCI()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachCI()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('confidence-intervals')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -811,6 +931,7 @@ function buildChiSquareTest() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.generateChi()">Generate</button>
         <button class="sb-btn" onclick="ENGINE.resetChi()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachChiSquare()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('chi-square-test')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -846,6 +967,7 @@ function buildSurvivalCurves() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.generateSurv()">Generate</button>
         <button class="sb-btn" onclick="ENGINE.resetSurv()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachSurvival()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('survival-curves')">🎯 Challenges</button>
       </div>
     </div>`;
@@ -890,6 +1012,7 @@ function buildBootstrapResampler() {
         <button class="sb-btn" onclick="ENGINE.resampleBoot(100)">Resample 100</button>
         <button class="sb-btn" onclick="ENGINE.resampleBoot(500)">Resample 500</button>
         <button class="sb-btn" onclick="ENGINE.resetBoot()">Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachBootstrap()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenges('bootstrap-resampler')">🎯 Challenges</button>
       </div>
     </div>`;

@@ -3,6 +3,104 @@
    Interactive ML sandbox activities
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Formula Decoder helper ─────────────────────────────────── */
+function T(symbol, def) {
+  const safe = def.replace(/"/g, '&quot;');
+  return `<span class="fd-term" data-def="${safe}" data-sym="${symbol}">${symbol}</span>`;
+}
+
+/* ── Narrator ────────────────────────────────────────────────── */
+const NARRATIONS = {
+  'linear-regression': [
+    'We start with scattered data points and no model yet. Our goal: find the straight line that fits them best.',
+    'A line is placed randomly at slope 0. It\'s a terrible fit right now — that\'s perfectly fine.',
+    'Gradient descent begins. For every data point it measures how wrong the prediction is, then nudges the slope and intercept in the direction that reduces the total error.',
+    'Watch the red dashed lines (residuals) — they show the gap between each real point and the prediction. Gradient descent is shrinking those gaps step by step.',
+    'Converged. The line now minimises the Mean Squared Error — the average of all squared gaps. This is linear regression.',
+  ],
+  'k-means': [
+    'We have a cloud of points with no labels. K-Means will discover natural groups without being told anything about them.',
+    'K random centroids (the large dots) are placed. Think of them as team captains — they don\'t know their teams yet.',
+    'Step 1 — Assign: every point joins its nearest centroid. The coloured regions show which centroid "owns" each area of the canvas.',
+    'Step 2 — Move: each centroid moves to the average position of all points in its group. Now some points may be closer to a different centroid than before.',
+    'The algorithm keeps assigning then moving. It stops when no point wants to change teams. That\'s convergence.',
+  ],
+  'classification-boundary': [
+    'Two labelled classes — blue and red. The task: teach a model where the invisible border between them lies.',
+    'KNN (K-Nearest Neighbours) answers "which class does a new point belong to?" by looking at the K closest training points and taking a majority vote.',
+    'Low K (1–3) produces a jagged boundary that hugs every training point. It memorises the data instead of learning the pattern.',
+    'Higher K (7+) smooths the boundary. It\'s less sensitive to individual outliers and usually generalises better.',
+    'The coloured background shows the model\'s prediction everywhere. The uncertain zone near the boundary is where the most errors will happen.',
+  ],
+  'neural-network': [
+    'A neural network is just a chain of simple computations. Data flows in, each layer transforms it, and a prediction comes out the other side.',
+    'We\'re training on XOR — a problem no single line can solve. The hidden layer lets the network learn a curved decision boundary.',
+    'Training starts. Each epoch: make a prediction → measure the error (loss) → update every weight slightly via backpropagation. Repeat.',
+    'Watch the decision boundary evolve from random noise to a structured shape. The loss curve below tracks how the error drops over time.',
+    'Loss below 0.05 means the network has learned the pattern. More neurons and layers can solve harder problems — but can also overfit.',
+  ],
+  'feature-scaling': [
+    'Imagine two features: one measured in millimetres (range: 0–10), one in kilometres (range: 0–10 000). Without scaling, gradient descent almost ignores the small feature.',
+    'Left side: raw, unscaled data. The loss surface is stretched into a long canyon. Gradient descent zigzags slowly along the walls.',
+    'Right side: same data after scaling. Both features are now on equal footing. The loss surface is round and smooth.',
+    'Result: the scaled version converges in a fraction of the iterations. Feature scaling is one of the easiest performance wins in machine learning.',
+  ],
+  'timeseries-forecast': [
+    'A time series is any sequence of measurements over time — stock prices, temperature, sales. Forecasting means predicting future values from past patterns.',
+    'Moving Average smooths out noise by averaging the last N values. Simple and fast — but it always lags behind sudden changes.',
+    'Exponential Smoothing weights recent values more heavily. Alpha controls how quickly it forgets the past. High alpha = reactive. Low alpha = smooth.',
+    'Holt-Winters adds both trend and seasonality on top of smoothing. It\'s like teaching the model "sales always peak in December and dip in January".',
+    'No single method wins on every dataset. Hit Compare All to see the full leaderboard — the right choice depends on what patterns your data has.',
+  ],
+  'pca-visualizer': [
+    'PCA finds the directions where your data spreads out the most. Imagine drawing an ellipse around your point cloud — PCA finds the long axis.',
+    'The blue arrow is PC1 — the direction of greatest variance. Most of the "information" in the data lives along this axis.',
+    'The green arrow is PC2 — perpendicular to PC1, capturing the remaining variance. Together they account for 100% of the spread.',
+    'Toggling the projection collapses all points onto PC1. You lose one dimension but keep most of the information. That\'s dimensionality reduction in one move.',
+  ],
+  'decision-tree': [
+    'A decision tree answers questions with yes/no splits: "Is x > 4.5?" Left branch = yes, right branch = no. It builds up a flowchart.',
+    'Each split is chosen to separate the classes as cleanly as possible — measured by Gini impurity. Gini = 0 means a perfectly pure group.',
+    'Depth 1 draws a single line. Depth 2 draws two lines. Each extra level adds splits and creates more rectangular regions.',
+    'Deeper trees fit training data perfectly — but often they\'ve memorised noise rather than learned the true pattern. That\'s overfitting.',
+    'The coloured background shows the tree\'s prediction at every pixel. Axis-aligned splits always produce these characteristic right-angle boundaries.',
+  ],
+  'anomaly-detection': [
+    'Anomaly detection finds the odd ones out. Core assumption: normal data clusters together; anomalies are lonely and far from the crowd.',
+    'We fit a Gaussian (bell curve) distribution over the normal points. It estimates the centre and spread of typical behaviour.',
+    'The elliptical contours show equal-probability regions. Mahalanobis distance measures how far a point is from the centre — accounting for the shape of the normal cluster.',
+    'Points beyond the threshold (a chosen percentile) are flagged. Raise the threshold to flag fewer — only the most extreme. Lower it to catch subtler outliers.',
+  ],
+};
+
+function showNarration(topicId, stepIdx) {
+  const steps = NARRATIONS[topicId];
+  if (!steps) return;
+  const bar = document.getElementById('narrator-' + topicId);
+  if (!bar) return;
+  bar.classList.add('active');
+  bar.querySelector('.narrator-step').textContent = `Step ${stepIdx + 1} of ${steps.length}`;
+  bar.querySelector('.narrator-text').textContent = steps[stepIdx] || '';
+  bar.querySelectorAll('.narrator-dot').forEach((d, i) => d.classList.toggle('active', i === stepIdx));
+}
+function hideNarration(topicId) {
+  const bar = document.getElementById('narrator-' + topicId);
+  if (bar) bar.classList.remove('active');
+}
+function buildNarratorBar(topicId) {
+  const dots = (NARRATIONS[topicId] || []).map(() => '<div class="narrator-dot"></div>').join('');
+  return `
+    <div class="narrator-bar" id="narrator-${topicId}">
+      <div class="narrator-icon">💡</div>
+      <div class="narrator-body">
+        <div class="narrator-step"></div>
+        <div class="narrator-text"></div>
+        <div class="narrator-dots">${dots}</div>
+      </div>
+      <button class="narrator-close" onclick="hideNarration('${topicId}')" title="Close">✕</button>
+    </div>`;
+}
+
 const SECTIONS = [
   { id:'sec-ml-lab', title:'ML Lab', topics:['linear-regression','k-means','classification-boundary','neural-network','feature-scaling','timeseries-forecast','pca-visualizer','decision-tree','anomaly-detection'] },
 ];
@@ -229,6 +327,7 @@ function buildLinearRegression() {
         <button class="sb-btn primary" onclick="ENGINE.fitLine()">▶ Fit Line</button>
         <button class="sb-btn" onclick="ENGINE.addNoise()">🎲 Add Noise</button>
         <button class="sb-btn" onclick="ENGINE.resetLR()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachLinear()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('linear-regression')">🎯 Challenges</button>
       </div>
     </div>
@@ -242,13 +341,14 @@ function buildLinearRegression() {
 
     <div class="challenge-panel" id="challenge-linear-regression" style="display:none;"></div>
     <div class="hint-panel" id="hints-linear-regression"></div>
+    ${buildNarratorBar('linear-regression')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Linear Regression &amp; Gradient Descent</h3>
       <p>Linear regression fits a straight line <strong>y = mx + b</strong> through scattered data by finding the slope (m) and intercept (b) that minimise the total squared error. Gradient descent iteratively adjusts m and b in the direction that reduces error fastest — the learning rate controls step size.</p>
-      <div class="exp-formula">MSE = (1 / n) &Sigma; (y&#x1D62; &minus; &#x0177;&#x1D62;)&sup2;</div>
-      <p>When MSE stops falling, the line has converged. A low learning rate converges slowly but steadily; a high rate may overshoot and diverge.</p>
+      <div class="exp-formula">${T('MSE','Mean Squared Error — the average of all squared prediction errors. Lower is better.')} = (${T('1/n','We divide by n to get the average, not the total.')}) ${T('Σ','Capital Sigma: add up all the values that follow.')} (${T('yᵢ','The real (actual) value for data point i.')} − ${T('ŷᵢ','y-hat: the value our line predicts for point i.')})${T('²','Squared so that negative and positive errors don\'t cancel each other out.')}</div>
+      <p>When ${T('MSE','Mean Squared Error — the average of all squared prediction errors.')} stops falling, the line has converged. A low ${T('learning rate','Controls the step size: too high and the line overshoots; too low and it crawls.')} converges slowly but steadily; a high rate may overshoot and diverge.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>The line rotates and shifts each iteration — watch gradient descent walk downhill on the error surface.</li>
@@ -282,6 +382,7 @@ function buildKMeans() {
         <button class="sb-btn primary" onclick="ENGINE.runKM()">▶ Run All</button>
         <button class="sb-btn" onclick="ENGINE.randomData()">🎲 Random Data</button>
         <button class="sb-btn" onclick="ENGINE.resetKM()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachKMeans()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('k-means')">🎯 Challenges</button>
       </div>
     </div>
@@ -294,12 +395,13 @@ function buildKMeans() {
 
     <div class="challenge-panel" id="challenge-k-means" style="display:none;"></div>
     <div class="hint-panel" id="hints-k-means"></div>
+    ${buildNarratorBar('k-means')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>K-Means Clustering</h3>
-      <p>K-Means partitions data into K groups by repeatedly (1) assigning each point to the nearest centroid and (2) moving each centroid to the mean of its assigned points. The algorithm converges when assignments stop changing.</p>
-      <div class="exp-formula">argmin &Sigma; &Sigma; ||x&#x1D62; &minus; &mu;&#x2096;||&sup2;</div>
+      <p>K-Means partitions data into ${T('K','The number of clusters — you decide this before running. More K = finer groups.')} groups by repeatedly (1) assigning each point to the nearest centroid and (2) moving each centroid to the mean of its assigned points. The algorithm converges when assignments stop changing.</p>
+      <div class="exp-formula">${T('argmin','Find the K arrangement that minimises (makes as small as possible) the value below.')} ${T('Σ','Add up over all clusters k.')} ${T('Σ','Add up over all points i in cluster k.')} ||${T('xᵢ','A data point.')} − ${T('μₖ','The centroid (mean position) of cluster k.')}||${T('²','Squared Euclidean distance — how far the point is from its centroid.')}</div>
       <p>Choosing K is part of the art — too few clusters merge distinct groups, too many fragment natural clusters. The inertia metric drops as K increases; look for an elbow.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -341,6 +443,7 @@ function buildClassificationBoundary() {
         <button class="sb-btn primary" onclick="ENGINE.trainCB()">▶ Train</button>
         <button class="sb-btn" onclick="ENGINE.sampleCB()">🎲 Sample Data</button>
         <button class="sb-btn" onclick="ENGINE.resetCB()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachClassification()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('classification-boundary')">🎯 Challenges</button>
       </div>
     </div>
@@ -353,12 +456,13 @@ function buildClassificationBoundary() {
 
     <div class="challenge-panel" id="challenge-classification-boundary" style="display:none;"></div>
     <div class="hint-panel" id="hints-classification-boundary"></div>
+    ${buildNarratorBar('classification-boundary')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Classification &amp; Decision Boundaries</h3>
-      <p>A classifier learns a boundary that separates classes in feature space. <strong>KNN</strong> assigns a point to the majority class among its K nearest neighbours — producing flexible, locally-adaptive boundaries. <strong>Logistic regression</strong> fits a linear boundary using the sigmoid function.</p>
-      <div class="exp-formula">KNN: class(x) = majority vote of K nearest neighbours</div>
+      <p>A classifier learns a boundary that separates classes in feature space. <strong>KNN</strong> assigns a point to the majority class among its ${T('K','The number of neighbours to consult. Low K = sensitive to local noise. High K = smoother boundary.')} nearest neighbours — producing flexible, locally-adaptive boundaries. <strong>Logistic regression</strong> fits a linear boundary using the sigmoid function.</p>
+      <div class="exp-formula">${T('KNN','K-Nearest Neighbours — the simplest classifier there is.')}: ${T('class(x)','The predicted class label for a new input point x.')} = ${T('majority vote','Whichever class appears most often among the K nearest training points wins.')} of ${T('K','The number of neighbours whose votes are counted.')} nearest ${T('neighbours','Training points that are closest to x in feature space.')}</div>
       <p>K controls the smoothness of the KNN boundary — low K is sensitive to noise, high K smooths the decision region but may under-fit.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -415,6 +519,7 @@ function buildNeuralNetwork() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.trainNN()">▶ Train 50 Epochs</button>
         <button class="sb-btn" onclick="ENGINE.resetNN()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachNN()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('neural-network')">🎯 Challenges</button>
       </div>
     </div>
@@ -427,12 +532,13 @@ function buildNeuralNetwork() {
 
     <div class="challenge-panel" id="challenge-neural-network" style="display:none;"></div>
     <div class="hint-panel" id="hints-neural-network"></div>
+    ${buildNarratorBar('neural-network')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Neural Networks &amp; Backpropagation</h3>
-      <p>A neural network chains layers of neurons, each computing <strong>z = &sigma;(Wx + b)</strong>. The activation function (&sigma;) introduces nonlinearity, letting the network learn curved decision boundaries that a single line cannot capture.</p>
-      <div class="exp-formula">Loss = &minus;(1/n) &Sigma; [ y log(&#x0177;) + (1&minus;y) log(1&minus;&#x0177;) ]</div>
+      <p>A neural network chains layers of neurons, each computing <strong>z = ${T('σ','Activation function — squashes any number into a useful range (e.g. 0–1 for sigmoid). Without it, stacking layers is the same as one layer.')}(${T('W','Weight matrix — the numbers the network adjusts during training. They determine how strongly each input influences each neuron.')}x + ${T('b','Bias — a constant added to every neuron. Lets the activation shift left or right.')})</strong>. The ${T('activation function','Introduces a bend or curve into the computation. Without it, no matter how many layers you stack, the output is still a straight line.')} introduces nonlinearity, letting the network learn curved decision boundaries that a single line cannot capture.</p>
+      <div class="exp-formula">${T('Loss','How wrong the network is — we want to minimise this number.')} = −(1/${T('n','Number of training examples.')}) ${T('Σ','Sum over all training examples.')} [ ${T('y','The true label (0 or 1).')} log(${T('ŷ','The network\'s predicted probability.')}) + (1−${T('y','The true label.')}) log(1−${T('ŷ','The network\'s predicted probability.')}) ]</div>
       <p>Backpropagation computes the gradient of the loss with respect to every weight, then gradient descent updates them. More hidden neurons increase capacity but risk over-fitting on small datasets.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -471,6 +577,7 @@ function buildFeatureScaling() {
         <button class="sb-btn primary" onclick="ENGINE.runFS()">▶ Run Gradient Descent</button>
         <button class="sb-btn" onclick="ENGINE.newFSData()">🎲 New Data</button>
         <button class="sb-btn" onclick="ENGINE.resetFS()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachFeatureScaling()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('feature-scaling')">🎯 Challenges</button>
       </div>
     </div>
@@ -483,12 +590,13 @@ function buildFeatureScaling() {
 
     <div class="challenge-panel" id="challenge-feature-scaling" style="display:none;"></div>
     <div class="hint-panel" id="hints-feature-scaling"></div>
+    ${buildNarratorBar('feature-scaling')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Feature Scaling &amp; Normalisation</h3>
       <p>When features have very different ranges, gradient descent zig-zags because the loss surface is elongated. Scaling brings all features into a comparable range and rounds the contours, so the optimiser converges in far fewer steps.</p>
-      <div class="exp-formula">Min-Max: x' = (x &minus; min) / (max &minus; min) &emsp;|&emsp; Z-Score: x' = (x &minus; &mu;) / &sigma;</div>
+      <div class="exp-formula">Min-Max: ${T("x'","The feature value after scaling — now in the range [0, 1].")} = (${T('x','The original feature value.')} − ${T('min','The smallest value in the training data for this feature.')}) / (${T('max','The largest value in the training data.')} − min) &emsp;|&emsp; Z-Score: ${T("x'","The feature value after scaling — now centred at 0 with standard deviation 1.")} = (x − ${T('μ','Mu — the mean (average) of all values for this feature.')}) / ${T('σ','Sigma — the standard deviation: how spread out the values are.')}</div>
       <p><strong>Min-Max</strong> maps to [0, 1]. <strong>Z-Score</strong> centres on 0 with unit variance. <strong>Robust</strong> scaling uses the median and IQR, making it resistant to outliers.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -581,6 +689,7 @@ function buildTimeseriesForecast() {
         <button class="sb-btn" onclick="ENGINE.compareAllTS()">⚡ Compare All</button>
         <button class="sb-btn" onclick="ENGINE.newTSData()">🎲 New Series</button>
         <button class="sb-btn" onclick="ENGINE.resetTS()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachTimeseries()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('timeseries-forecast')">🎯 Challenges</button>
       </div>
     </div>
@@ -608,12 +717,13 @@ function buildTimeseriesForecast() {
 
     <div class="challenge-panel" id="challenge-timeseries-forecast" style="display:none;"></div>
     <div class="hint-panel" id="hints-timeseries-forecast"></div>
+    ${buildNarratorBar('timeseries-forecast')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Time-Series Forecasting Methods</h3>
       <p>A time series is a sequence of values ordered by time. Forecasting methods exploit patterns — <strong>trend</strong> (long-term direction), <strong>seasonality</strong> (repeating cycles), and <strong>noise</strong> (random variation) — to project future values.</p>
-      <div class="exp-formula">MAE = (1/n) &Sigma; |y&#x1D62; &minus; &#x0177;&#x1D62;| &emsp;|&emsp; RMSE = &radic;[(1/n) &Sigma; (y&#x1D62; &minus; &#x0177;&#x1D62;)&sup2;]</div>
+      <div class="exp-formula">${T('MAE','Mean Absolute Error — the average gap between predicted and actual, ignoring sign. Easy to interpret: "off by X units on average".')} = (1/n) ${T('Σ','Sum over all time points.')} |${T('yᵢ','The actual value at time step i.')} − ${T('ŷᵢ','The forecast at time step i.')}| &emsp;|&emsp; ${T('RMSE','Root Mean Squared Error — penalises large errors more than MAE. A single bad forecast hurts more.')} = √[(1/n) Σ (yᵢ − ŷᵢ)²]</div>
       <p>Simple methods (Moving Average, Exponential Smoothing) are fast and interpretable. Holt adds trend; Holt-Winters adds seasonality. Advanced methods (Kalman, GP, RNN, LSTM) model nonlinear dynamics. Compare All ranks every method on the same data.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -645,6 +755,7 @@ function buildPcaVisualizer() {
         <button class="sb-btn" onclick="ENGINE.toggleProjection()">📐 Toggle Projection</button>
         <button class="sb-btn" onclick="ENGINE.samplePCA()">🎲 Sample Data</button>
         <button class="sb-btn" onclick="ENGINE.resetPCA()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachPCA()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('pca-visualizer')">🎯 Challenges</button>
       </div>
     </div>
@@ -658,12 +769,13 @@ function buildPcaVisualizer() {
 
     <div class="challenge-panel" id="challenge-pca-visualizer" style="display:none;"></div>
     <div class="hint-panel" id="hints-pca-visualizer"></div>
+    ${buildNarratorBar('pca-visualizer')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Principal Component Analysis</h3>
-      <p>PCA finds the directions (eigenvectors) along which your data varies the most. The first principal component captures the most variance; the second captures the most remaining variance orthogonal to the first. Projecting data onto these axes reduces dimensionality while preserving structure.</p>
-      <div class="exp-formula">Cov(X) v = &lambda; v &emsp;&mdash;&emsp; &lambda; = variance explained by eigenvector v</div>
+      <p>PCA finds the directions (${T('eigenvectors','A special direction in the data — when you transform the data along it, it only stretches or shrinks, not rotates.')}) along which your data varies the most. The first principal component captures the most variance; the second captures the most remaining variance orthogonal to the first. Projecting data onto these axes reduces dimensionality while preserving structure.</p>
+      <div class="exp-formula">${T('Cov(X)','Covariance matrix — describes how much all pairs of features vary together.')} ${T('v','An eigenvector — the direction of a principal component.')} = ${T('λ','Lambda — the eigenvalue. A bigger λ means this direction explains more variance.')} v &emsp;—&emsp; ${T('λ','Eigenvalue')} = variance explained by ${T('eigenvector','The principal component direction.')} v</div>
       <p>If PC1 captures 95% of the variance, the data is essentially one-dimensional — the other dimension is mostly noise.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -703,6 +815,7 @@ function buildDecisionTree() {
         <button class="sb-btn primary" onclick="ENGINE.trainDT()">▶ Train</button>
         <button class="sb-btn" onclick="ENGINE.sampleDT()">🎲 Sample Data</button>
         <button class="sb-btn" onclick="ENGINE.resetDT()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachDecisionTree()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('decision-tree')">🎯 Challenges</button>
       </div>
     </div>
@@ -716,12 +829,13 @@ function buildDecisionTree() {
 
     <div class="challenge-panel" id="challenge-decision-tree" style="display:none;"></div>
     <div class="hint-panel" id="hints-decision-tree"></div>
+    ${buildNarratorBar('decision-tree')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Decision Trees &amp; Gini Impurity</h3>
       <p>A decision tree recursively splits the feature space with axis-aligned cuts. At each node it picks the feature and threshold that best separate the classes, measured by <strong>Gini impurity</strong> — a value of 0 means a perfectly pure node.</p>
-      <div class="exp-formula">Gini = 1 &minus; &Sigma; p&#x1D62;&sup2;</div>
+      <div class="exp-formula">${T('Gini','Gini Impurity — measures how mixed the classes are in a group. 0 = perfectly pure (one class only). 0.5 = maximally mixed.')} = 1 − ${T('Σ','Sum over all classes in this node.')} ${T('pᵢ²','p is the proportion of class i in the node. Squaring it rewards dominant classes.')}</div>
       <p>Deeper trees can model complex boundaries but risk over-fitting to noise. Limiting max depth acts as regularisation — the tree generalises better on unseen data.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -761,6 +875,7 @@ function buildAnomalyDetection() {
         <button class="sb-btn primary" onclick="ENGINE.detectAD()">▶ Detect</button>
         <button class="sb-btn" onclick="ENGINE.sampleAD()">🎲 Sample Data</button>
         <button class="sb-btn" onclick="ENGINE.resetAD()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachAnomaly()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('anomaly-detection')">🎯 Challenges</button>
       </div>
     </div>
@@ -774,12 +889,13 @@ function buildAnomalyDetection() {
 
     <div class="challenge-panel" id="challenge-anomaly-detection" style="display:none;"></div>
     <div class="hint-panel" id="hints-anomaly-detection"></div>
+    ${buildNarratorBar('anomaly-detection')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Gaussian Anomaly Detection</h3>
-      <p>This method fits a multivariate Gaussian to the normal data, estimating the mean (&mu;) and covariance (&Sigma;). Points falling in the low-probability tail — below a chosen percentile threshold — are flagged as anomalies.</p>
-      <div class="exp-formula">p(x) = N(x | &mu;, &Sigma;) &emsp;&mdash;&emsp; flag if p(x) &lt; &epsilon;</div>
+      <p>This method fits a multivariate Gaussian to the normal data, estimating the mean (${T('μ','Mu — the centre of the normal cluster: the average x and y position.')}) and covariance (${T('Σ','Sigma (uppercase) — the covariance matrix: describes the shape and orientation of the cluster.')}). Points falling in the low-probability tail — below a chosen percentile threshold — are flagged as anomalies.</p>
+      <div class="exp-formula">${T('p(x)','The probability that point x belongs to the normal distribution. High = normal. Low = suspicious.')} = ${T('N(x | μ, Σ)','A Gaussian (bell-curve) distribution centred at μ with spread Σ, evaluated at point x.')} &emsp;—&emsp; flag if ${T('p(x)','Probability of x under the normal model.')} &lt; ${T('ε','Epsilon — the probability threshold. Points below this are flagged as anomalies.')}</div>
       <p>The ellipse on the canvas visualises the probability contour at the threshold. Points outside the ellipse are considered anomalous. A higher percentile threshold makes detection stricter (fewer flags).</p>
       <h3>What to Observe</h3>
       <ul>

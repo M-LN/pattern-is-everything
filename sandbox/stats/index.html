@@ -160,6 +160,57 @@ window.addEventListener('load', () => {
   }
   if (TOPICS.length > 0) show(TOPICS[0], true);
 });
+
+/* ── Formula Decoder ── */
+(function() {
+  const tooltip = document.createElement('div');
+  tooltip.id = 'fd-tooltip';
+  tooltip.className = 'fd-tooltip';
+  tooltip.innerHTML = '<div class="fd-tooltip-symbol"></div><div class="fd-tooltip-def"></div>';
+  document.body.appendChild(tooltip);
+
+  let activeEl = null;
+
+  document.addEventListener('click', function(e) {
+    const term = e.target.closest('.fd-term');
+    if (term) {
+      e.stopPropagation();
+      if (activeEl && activeEl !== term) activeEl.classList.remove('fd-active');
+      activeEl = term;
+      term.classList.toggle('fd-active');
+      if (term.classList.contains('fd-active')) {
+        tooltip.querySelector('.fd-tooltip-symbol').textContent = term.dataset.sym || term.textContent;
+        tooltip.querySelector('.fd-tooltip-def').textContent = term.dataset.def || '';
+        positionTooltip(term, tooltip);
+        tooltip.classList.add('fd-visible');
+      } else {
+        tooltip.classList.remove('fd-visible');
+        activeEl = null;
+      }
+      return;
+    }
+    if (!tooltip.contains(e.target)) {
+      tooltip.classList.remove('fd-visible');
+      if (activeEl) { activeEl.classList.remove('fd-active'); activeEl = null; }
+    }
+  });
+
+  function positionTooltip(el, tip) {
+    const r = el.getBoundingClientRect();
+    let left = r.left;
+    let top = r.bottom + 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    const tw = tip.offsetWidth || 300;
+    const th = tip.offsetHeight || 100;
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 12) left = 12;
+    if (top + th > window.innerHeight - 12) top = r.top - th - 8;
+    if (top < 12) top = 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+})();
 </script>
 <script src="../../js/pattern-thread.js"></script>
 </body>
