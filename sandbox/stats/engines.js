@@ -2402,3 +2402,167 @@ const DRAWS = {
   'survival-curves':       function() { survGenerate(); drawSurv(); },
   'bootstrap-resampler':   function() { bootGenerate(); drawBoot(); },
 };
+
+/* ═══════════════════════════════════════════════════════════════
+   TEACH MODE — Narrated walkthroughs for all 12 Stats activities
+   ═══════════════════════════════════════════════════════════════ */
+
+ENGINE.teachDistribution = function() {
+  showNarration('distribution-explorer', 0);
+  setTimeout(() => {
+    const ds = document.getElementById('deDist'); if (ds) ds.value = 'normal';
+    ENGINE.setDist('normal'); ENGINE.generateDE();
+    showNarration('distribution-explorer', 1);
+  }, 1000);
+  setTimeout(() => {
+    const ds = document.getElementById('deDist'); if (ds) ds.value = 'exponential';
+    ENGINE.setDist('exponential'); ENGINE.generateDE();
+    showNarration('distribution-explorer', 2);
+  }, 3500);
+  setTimeout(() => { ENGINE.toggleCDF(); showNarration('distribution-explorer', 3); }, 6000);
+};
+
+ENGINE.teachHypothesis = function() {
+  ENGINE.resetHT();
+  showNarration('hypothesis-testing', 0);
+  setTimeout(() => {
+    const eEl = document.getElementById('htEffect'); if (eEl) { eEl.value = 0.5; const ev = document.getElementById('htEffV'); if (ev) ev.textContent = '0.5'; }
+    const nEl = document.getElementById('htN'); if (nEl) { nEl.value = 30; const nv = document.getElementById('htNV'); if (nv) nv.textContent = '30'; }
+    ENGINE.setHTEffect(0.5); ENGINE.setHTN(30); ENGINE.runTest();
+    showNarration('hypothesis-testing', 1);
+  }, 1200);
+  setTimeout(() => { ENGINE.runTest(); showNarration('hypothesis-testing', 2); }, 3500);
+  setTimeout(() => {
+    const nEl = document.getElementById('htN'); if (nEl) { nEl.value = 100; const nv = document.getElementById('htNV'); if (nv) nv.textContent = '100'; }
+    ENGINE.setHTN(100); ENGINE.runTest();
+    showNarration('hypothesis-testing', 3);
+  }, 6000);
+};
+
+ENGINE.teachCorrelation = function() {
+  ENGINE.cpClear();
+  showNarration('correlation-playground', 0);
+  setTimeout(() => {
+    const ps = document.getElementById('cpPreset'); if (ps) ps.value = 'positive';
+    ENGINE.cpPreset('positive'); ENGINE.cpToggleLine();
+    showNarration('correlation-playground', 1);
+  }, 1200);
+  setTimeout(() => {
+    const ps = document.getElementById('cpPreset'); if (ps) ps.value = 'negative';
+    ENGINE.cpPreset('negative');
+    showNarration('correlation-playground', 2);
+  }, 3500);
+  setTimeout(() => { showNarration('correlation-playground', 3); }, 6000);
+};
+
+ENGINE.teachCLT = function() {
+  ENGINE.resetCLT();
+  showNarration('central-limit-theorem', 0);
+  setTimeout(() => {
+    const ps = document.getElementById('cltPop'); if (ps) ps.value = 'skewed';
+    const ns = document.getElementById('cltN'); if (ns) { ns.value = 5; const nv = document.getElementById('cltNV'); if (nv) nv.textContent = '5'; }
+    ENGINE.setCLTPop('skewed'); ENGINE.setCLTN(5); ENGINE.drawMany(30);
+    showNarration('central-limit-theorem', 1);
+  }, 1200);
+  setTimeout(() => { ENGINE.drawMany(200); showNarration('central-limit-theorem', 2); }, 3500);
+  setTimeout(() => {
+    const ns = document.getElementById('cltN'); if (ns) { ns.value = 30; const nv = document.getElementById('cltNV'); if (nv) nv.textContent = '30'; }
+    ENGINE.setCLTN(30); ENGINE.resetCLT(); ENGINE.drawMany(300);
+    showNarration('central-limit-theorem', 3);
+  }, 6000);
+};
+
+ENGINE.teachBayes = function() {
+  ENGINE.resetBayes();
+  showNarration('bayesian-updater', 0);
+  setTimeout(() => { ENGINE.flipBayes(1); showNarration('bayesian-updater', 1); }, 1200);
+  setTimeout(() => { ENGINE.flipBayes(9); showNarration('bayesian-updater', 2); }, 3000);
+  setTimeout(() => { ENGINE.flipBayes(40); showNarration('bayesian-updater', 3); }, 5500);
+};
+
+ENGINE.teachRegDiag = function() {
+  showNarration('regression-diagnostics', 0);
+  setTimeout(() => {
+    const rel = document.getElementById('rdRel'); if (rel) rel.value = 'linear';
+    ENGINE.setRDRel('linear'); ENGINE.generateRD();
+    showNarration('regression-diagnostics', 1);
+  }, 1200);
+  setTimeout(() => {
+    const rel = document.getElementById('rdRel'); if (rel) rel.value = 'quadratic';
+    ENGINE.setRDRel('quadratic'); ENGINE.generateRD();
+    showNarration('regression-diagnostics', 2);
+  }, 3800);
+  setTimeout(() => { showNarration('regression-diagnostics', 3); }, 6500);
+};
+
+ENGINE.teachBayesTheorem = function() {
+  ENGINE.resetPC();
+  showNarration('probability-calculator', 0);
+  setTimeout(() => {
+    const pa = document.getElementById('pcPA'); if (pa) { pa.value = 0.3; const pv = document.getElementById('pcPAV'); if (pv) pv.textContent = '0.3'; }
+    ENGINE.setPCA(0.3); ENGINE.calcPC();
+    showNarration('probability-calculator', 1);
+  }, 1200);
+  setTimeout(() => {
+    const pa = document.getElementById('pcPA'); if (pa) { pa.value = 0.01; const pv = document.getElementById('pcPAV'); if (pv) pv.textContent = '0.01'; }
+    ENGINE.setPCA(0.01); ENGINE.calcPC();
+    showNarration('probability-calculator', 2);
+  }, 3500);
+  setTimeout(() => { showNarration('probability-calculator', 3); }, 6000);
+};
+
+ENGINE.teachAnova = function() {
+  ENGINE.resetAnova();
+  showNarration('anova-visualizer', 0);
+  setTimeout(() => {
+    const eg = document.getElementById('anovaEffect'); if (eg) { eg.value = 0.5; const ev = document.getElementById('anovaEffectV'); if (ev) ev.textContent = '0.5'; }
+    ENGINE.setAnovaEffect(0.5); ENGINE.generateAnova();
+    showNarration('anova-visualizer', 1);
+  }, 1200);
+  setTimeout(() => {
+    const eg = document.getElementById('anovaEffect'); if (eg) { eg.value = 2; const ev = document.getElementById('anovaEffectV'); if (ev) ev.textContent = '2'; }
+    ENGINE.setAnovaEffect(2); ENGINE.generateAnova();
+    showNarration('anova-visualizer', 2);
+  }, 3800);
+  setTimeout(() => { showNarration('anova-visualizer', 3); }, 6200);
+};
+
+ENGINE.teachCI = function() {
+  ENGINE.resetCI();
+  showNarration('confidence-intervals', 0);
+  setTimeout(() => { ENGINE.sampleCI(1); showNarration('confidence-intervals', 1); }, 1200);
+  setTimeout(() => { ENGINE.sampleCI(19); showNarration('confidence-intervals', 2); }, 3000);
+  setTimeout(() => { ENGINE.sampleCI(30); showNarration('confidence-intervals', 3); }, 6000);
+};
+
+ENGINE.teachChiSquare = function() {
+  ENGINE.resetChi();
+  showNarration('chi-square-test', 0);
+  setTimeout(() => {
+    const sk = document.getElementById('chiSkew'); if (sk) { sk.value = 0.8; const sv = document.getElementById('chiSkewV'); if (sv) sv.textContent = '0.8'; }
+    ENGINE.setChiSkew(0.8); ENGINE.generateChi();
+    showNarration('chi-square-test', 1);
+  }, 1200);
+  setTimeout(() => { showNarration('chi-square-test', 2); }, 3500);
+  setTimeout(() => { showNarration('chi-square-test', 3); }, 5500);
+};
+
+ENGINE.teachSurvival = function() {
+  ENGINE.resetSurv();
+  showNarration('survival-curves', 0);
+  setTimeout(() => { ENGINE.generateSurv(); showNarration('survival-curves', 1); }, 1200);
+  setTimeout(() => { showNarration('survival-curves', 2); }, 3500);
+  setTimeout(() => {
+    const hb = document.getElementById('survHB'); if (hb) { hb.value = 0.1; const hv = document.getElementById('survHBV'); if (hv) hv.textContent = '0.1'; }
+    ENGINE.setSurvHazardB(0.1); ENGINE.generateSurv();
+    showNarration('survival-curves', 3);
+  }, 5800);
+};
+
+ENGINE.teachBootstrap = function() {
+  ENGINE.resetBoot();
+  showNarration('bootstrap-resampler', 0);
+  setTimeout(() => { ENGINE.resampleBoot(1); showNarration('bootstrap-resampler', 1); }, 1200);
+  setTimeout(() => { ENGINE.resampleBoot(49); showNarration('bootstrap-resampler', 2); }, 3000);
+  setTimeout(() => { ENGINE.resampleBoot(450); showNarration('bootstrap-resampler', 3); }, 5500);
+};

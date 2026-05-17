@@ -3,6 +3,86 @@
    Interactive Markets sandbox activities
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Formula Decoder helper ─────────────────────────────────── */
+function T(symbol, def) {
+  const safe = def.replace(/"/g, '&quot;');
+  return `<span class="fd-term" data-def="${safe}" data-sym="${symbol}">${symbol}</span>`;
+}
+
+/* ── Narrator ────────────────────────────────────────────────── */
+const NARRATIONS = {
+  'indicator-playground': [
+    'Technical indicators are mathematical summaries of price history. They don\'t predict the future — they describe the past in a way that can reveal momentum and extremes.',
+    'SMA (Simple Moving Average) smooths noise by averaging the last N closing prices. A rising SMA means recent prices are above historical average — a basic trend filter.',
+    'RSI (Relative Strength Index) measures how fast prices are moving. Above 70 suggests the market may be overextended (overbought); below 30 suggests it may be oversold.',
+    'Bollinger Bands draw a channel ±2 standard deviations around a moving average. Bands narrow in calm periods and widen in volatile ones — a squeeze often precedes a breakout.',
+  ],
+  'candlestick-spotter': [
+    'Every candlestick encodes four prices: Open, High, Low, Close. The body shows the open-to-close range; wicks show how far the price reached beyond that.',
+    'A Doji has nearly equal open and close — a tiny body, often with long wicks. It signals indecision. Buyers and sellers fought to a standstill.',
+    'A Hammer has a tiny body at the top and a long lower wick. Sellers drove the price down, but buyers recovered it. In a downtrend, that\'s a potential reversal signal.',
+    'An Engulfing pattern spans two candles: the second candle\'s body completely swallows the first. Bullish engulfing at a low = buyers taking control.',
+  ],
+  'paper-trading': [
+    'Paper trading means practicing with virtual money. The goal isn\'t to win every trade — it\'s to build discipline, pattern recognition, and a feel for risk.',
+    'The chart advances bar by bar. Your only information: what you\'ve already seen. Buy when you spot an opportunity; sell to close. There\'s no undo.',
+    'Notice the emotional pull to hold losing trades hoping they\'ll recover — that\'s loss aversion. And the urge to sell winners too early — that\'s fear of giving back gains.',
+    'Over many trades, your win rate and average winner vs average loser determine whether your approach has positive expectancy. Track both, not just wins.',
+  ],
+  'risk-calculator': [
+    'Risk management is about surviving losing streaks, not about picking winners. The question isn\'t "will this trade work?" — it\'s "how much can I afford to lose if it doesn\'t?"',
+    'Position sizing: risk a fixed percentage of your account per trade — typically 1–2%. This means even 10 consecutive losses only cost 10% of your account.',
+    'The Risk:Reward ratio compares your potential loss (entry to stop) against potential gain (entry to target). A 1:2 R:R means you only need to win 34% of trades to break even.',
+    'The Kelly Criterion gives the theoretically optimal bet size based on your win rate and profit/loss ratio. In practice, most traders use half-Kelly to reduce variance.',
+  ],
+  'ma-crossover': [
+    'A moving average crossover generates buy and sell signals when a fast-moving average crosses a slow one. The logic: when recent prices consistently exceed the long-term trend, momentum is up.',
+    'Golden Cross: the fast MA crosses above the slow MA — historically considered a bullish signal. Death Cross: the fast MA crosses below the slow — bearish.',
+    'The lag problem: by the time the MAs cross, much of the move may have already happened. Shorter windows react faster but generate many false signals.',
+    'Crossovers work best in trending markets and fail badly in sideways conditions — the fast and slow MAs constantly cross back and forth (whipsaw). No parameter set works everywhere.',
+  ],
+  'support-resistance': [
+    'Support and resistance are price levels where the market paused, bounced, or reversed — repeatedly. They\'re visible because many traders remember and react to the same price history.',
+    'Support is a floor: a level where buyers historically stepped in. When price falls back to support, those memories create demand again — at least for a while.',
+    'Resistance is a ceiling: a level where sellers appeared and capped advances. Once broken convincingly, old resistance often flips to become new support.',
+    'The more times a level holds without breaking, the stronger it becomes — but also the larger the move when it finally breaks, because all the stops on both sides get triggered at once.',
+  ],
+  'volume-profile': [
+    'Volume profile shows not just how prices moved, but where the most trading actually happened. It\'s a horizontal histogram of volume across price levels — a map of participation.',
+    'The Point of Control (POC) is the price level with the most traded volume. It represents where the most consensus existed — buyers and sellers agreed on value here most often.',
+    'The Value Area High and Low define the range containing ~70% of total volume. Prices outside this zone are considered "off-value" — either cheap or expensive relative to consensus.',
+    'Low-volume nodes are thin zones where little trading occurred. Price tends to move through them quickly — there\'s little resistance because few participants have positions there.',
+  ],
+};
+
+function showNarration(topicId, stepIdx) {
+  const steps = NARRATIONS[topicId];
+  if (!steps) return;
+  const bar = document.getElementById('narrator-' + topicId);
+  if (!bar) return;
+  bar.classList.add('active');
+  bar.querySelector('.narrator-step').textContent = `Step ${stepIdx + 1} of ${steps.length}`;
+  bar.querySelector('.narrator-text').textContent = steps[stepIdx] || '';
+  bar.querySelectorAll('.narrator-dot').forEach((d, i) => d.classList.toggle('active', i === stepIdx));
+}
+function hideNarration(topicId) {
+  const bar = document.getElementById('narrator-' + topicId);
+  if (bar) bar.classList.remove('active');
+}
+function buildNarratorBar(topicId) {
+  const dots = (NARRATIONS[topicId] || []).map(() => '<div class="narrator-dot"></div>').join('');
+  return `
+    <div class="narrator-bar" id="narrator-${topicId}">
+      <div class="narrator-icon">💡</div>
+      <div class="narrator-body">
+        <div class="narrator-step"></div>
+        <div class="narrator-text"></div>
+        <div class="narrator-dots">${dots}</div>
+      </div>
+      <button class="narrator-close" onclick="hideNarration('${topicId}')" title="Close">✕</button>
+    </div>`;
+}
+
 const SECTIONS = [
   { id:'sec-markets-lab', title:'Markets Lab', topics:['indicator-playground','candlestick-spotter','paper-trading','risk-calculator','ma-crossover','support-resistance','volume-profile'] },
 ];
@@ -180,6 +260,7 @@ function buildIndicatorPlayground() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.newChart()">🎲 New Chart</button>
         <button class="sb-btn" onclick="ENGINE.resetIP()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachIndicators()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('indicator-playground')">🎯 Challenges</button>
       </div>
     </div>
@@ -192,12 +273,13 @@ function buildIndicatorPlayground() {
 
     <div class="challenge-panel" id="challenge-indicator-playground" style="display:none;"></div>
     <div class="hint-panel" id="hints-indicator-playground"></div>
+    ${buildNarratorBar('indicator-playground')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Technical Indicators</h3>
       <p>Technical indicators are mathematical calculations applied to price and volume data. <strong>SMA</strong> (Simple Moving Average) smooths out noise by averaging the last N closing prices. <strong>EMA</strong> (Exponential Moving Average) gives more weight to recent prices, reacting faster to changes.</p>
-      <div class="exp-formula">SMA = (1/n) &Sigma; Close&#x1D62; &emsp;|&emsp; RSI = 100 &minus; 100/(1 + avgGain/avgLoss)</div>
+      <div class="exp-formula">${T('SMA','Simple Moving Average — the plain average of the last n closing prices. A basic trend smoother.')} = (1/${T('n','The look-back window — how many candles to average.')}) ${T('Σ','Sum all values below.')} ${T('Closeᵢ','The closing price for each of the last n candles.')} &emsp;|&emsp; ${T('RSI','Relative Strength Index — measures momentum. 0–100 scale. Above 70 = possibly overbought. Below 30 = possibly oversold.')} = 100 − 100/(1 + ${T('avgGain/avgLoss','Ratio of average up-moves to average down-moves over the last 14 periods.')})</div>
       <p><strong>RSI</strong> measures momentum on a 0–100 scale. <strong>Bollinger Bands</strong> draw &plusmn;2&sigma; around a moving average, showing volatility. <strong>MACD</strong> tracks the difference between a fast and slow EMA, with a signal line for crossover trades.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -228,6 +310,7 @@ function buildCandlestickSpotter() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.nextPattern()">→ Next Pattern</button>
         <button class="sb-btn" onclick="ENGINE.resetCS()">↺ Reset Score</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachCandlestick()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('candlestick-spotter')">🎯 Challenges</button>
       </div>
     </div>
@@ -241,12 +324,13 @@ function buildCandlestickSpotter() {
 
     <div class="challenge-panel" id="challenge-candlestick-spotter" style="display:none;"></div>
     <div class="hint-panel" id="hints-candlestick-spotter"></div>
+    ${buildNarratorBar('candlestick-spotter')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Candlestick Patterns</h3>
-      <p>Each candlestick encodes four prices: <strong>Open, High, Low, Close</strong> (OHLC). The body shows the open-to-close range; wicks show the high and low extremes. Patterns formed by one or more candles signal potential reversals or continuations.</p>
-      <div class="exp-formula">Body = |Close &minus; Open| &emsp;|&emsp; Upper Wick = High &minus; max(Open, Close)</div>
+      <p>Each candlestick encodes four prices: <strong>Open, High, Low, Close</strong> (${T('OHLC','Open-High-Low-Close — the four key prices that define a trading period. Every candle tells the story of one time period.')}). The body shows the open-to-close range; wicks show the high and low extremes. Patterns formed by one or more candles signal potential reversals or continuations.</p>
+      <div class="exp-formula">${T('Body','The filled rectangle — shows the range between open and close. A large body means decisive movement.')} = |${T('Close','The last traded price at the end of the period.')} − ${T('Open','The first traded price at the start of the period.')}| &emsp;|&emsp; ${T('Upper Wick','The thin line above the body — shows how high the price reached before sellers pushed it back down.')} = ${T('High','The highest traded price in this period.')} − max(Open, Close)</div>
       <p>A <strong>Doji</strong> has nearly equal open and close — signalling indecision. A <strong>Hammer</strong> has a long lower wick showing buyers stepped in. <strong>Engulfing</strong> patterns occur when one candle’s body completely covers the previous one.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -272,6 +356,7 @@ function buildPaperTrading() {
 
     <div class="sandbox-controls">
       <div class="ctrl-buttons">
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachPaperTrading()">🎓 Teach Me</button>
         <button class="sb-btn primary" onclick="ENGINE.ptStep()">▶ Step</button>
         <button class="sb-btn" id="ptBuyBtn" onclick="ENGINE.ptBuy()" style="background:#81c784;color:#000;">Buy</button>
         <button class="sb-btn" id="ptSellBtn" onclick="ENGINE.ptSell()" style="background:#e57373;color:#000;" disabled>Sell</button>
@@ -292,12 +377,13 @@ function buildPaperTrading() {
 
     <div class="challenge-panel" id="challenge-paper-trading" style="display:none;"></div>
     <div class="hint-panel" id="hints-paper-trading"></div>
+    ${buildNarratorBar('paper-trading')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Paper Trading &amp; Position Management</h3>
       <p>Paper trading simulates real trading with virtual money. You step through a price chart bar-by-bar, deciding when to buy and sell. The goal is to practise <strong>entries, exits, and emotional discipline</strong> without financial risk.</p>
-      <div class="exp-formula">P&amp;L = (Sell Price &minus; Buy Price) &times; Position Size</div>
+      <div class="exp-formula">${T('P&L','Profit and Loss — how much money you made or lost on a trade.')} = (${T('Sell Price','The price at which you closed the position.')} − ${T('Buy Price','The price at which you entered the position.')}) × ${T('Position Size','The number of shares or units you bought.')}</div>
       <p>Good trading is not about being right every time — it is about managing risk and letting winners run while cutting losers early. Track your win rate and average gain vs average loss.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -335,6 +421,7 @@ function buildMaCrossover() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.generateMAC()">🎲 New Chart</button>
         <button class="sb-btn" onclick="ENGINE.resetMAC()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachMaCrossover()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('ma-crossover')">🎯 Challenges</button>
       </div>
     </div>
@@ -348,12 +435,13 @@ function buildMaCrossover() {
 
     <div class="challenge-panel" id="challenge-ma-crossover" style="display:none;"></div>
     <div class="hint-panel" id="hints-ma-crossover"></div>
+    ${buildNarratorBar('ma-crossover')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Moving Average Crossover Strategy</h3>
       <p>This classic trend-following strategy uses two SMAs with different periods. A <strong>golden cross</strong> (fast SMA crosses above slow) signals a potential uptrend; a <strong>death cross</strong> (fast crosses below) signals a downtrend.</p>
-      <div class="exp-formula">Golden Cross: SMA<sub>fast</sub> crosses above SMA<sub>slow</sub> &emsp;→&emsp; Buy signal</div>
+      <div class="exp-formula">${T('Golden Cross','A bullish signal: the fast moving average rises above the slow one — recent prices are outpacing the long-term trend.')}: ${T('SMAfast','The fast moving average — averages fewer recent candles, reacts quickly to price changes.')} crosses above ${T('SMAslow','The slow moving average — averages more past candles, filters out short-term noise.')} &emsp;→&emsp; Buy signal</div>
       <p>Shorter fast periods react quickly but generate more false signals. Longer slow periods filter noise but lag behind real reversals. The win rate tracks how many signals correctly predicted the next move.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -386,6 +474,7 @@ function buildSupportResistance() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.newSRChart()">🎲 New Chart</button>
         <button class="sb-btn" onclick="ENGINE.resetSR()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachSupportResistance()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('support-resistance')">🎯 Challenges</button>
       </div>
     </div>
@@ -399,12 +488,13 @@ function buildSupportResistance() {
 
     <div class="challenge-panel" id="challenge-support-resistance" style="display:none;"></div>
     <div class="hint-panel" id="hints-support-resistance"></div>
+    ${buildNarratorBar('support-resistance')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Support &amp; Resistance Levels</h3>
       <p>Support is a price level where buying pressure tends to halt a decline; resistance is where selling pressure caps an advance. These levels form at <strong>pivot highs and lows</strong> — swing points where price reversed.</p>
-      <div class="exp-formula">Pivot High: bar whose high &gt; high of N bars on each side</div>
+      <div class="exp-formula">${T('Pivot High','A local peak — a candle whose high is higher than all its neighbours. Marks a point where sellers took control.')}: bar whose ${T('high','The highest price reached during this candle.')} &gt; high of ${T('N bars','N neighbouring candles on each side — a higher N means only more significant peaks are detected.')} on each side</div>
       <p>When price approaches a level multiple times without breaking through, that level strengthens. When it finally breaks, old support often becomes new resistance and vice versa — a concept called <strong>polarity</strong>.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -432,6 +522,7 @@ function buildVolumeProfile() {
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.newVPChart()">🎲 New Chart</button>
         <button class="sb-btn" onclick="ENGINE.resetVP()">↺ Reset</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachVolumeProfile()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('volume-profile')">🎯 Challenges</button>
       </div>
     </div>
@@ -445,12 +536,13 @@ function buildVolumeProfile() {
 
     <div class="challenge-panel" id="challenge-volume-profile" style="display:none;"></div>
     <div class="hint-panel" id="hints-volume-profile"></div>
+    ${buildNarratorBar('volume-profile')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Volume Profile &amp; Market Auction Theory</h3>
       <p>Volume profile displays a horizontal histogram showing how much volume traded at each price level. The <strong>Point of Control (POC)</strong> is the price with the highest volume — it acts as a "fair value" magnet.</p>
-      <div class="exp-formula">Value Area = price range containing ~70% of total volume</div>
+      <div class="exp-formula">${T('Value Area','The price range where approximately 70% of all trading happened — the zone of greatest agreement between buyers and sellers.')} = price range containing ~70% of ${T('total volume','The total number of shares or contracts traded across all price levels in this session.')}</div>
       <p>The <strong>Value Area High (VAH)</strong> and <strong>Value Area Low (VAL)</strong> define the zone where most trading occurred. Price tends to revert to this zone; moves outside it signal directional conviction.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -505,6 +597,7 @@ function buildRiskCalculator() {
       </div>
       <div class="ctrl-buttons">
         <button class="sb-btn primary" onclick="ENGINE.calcRC()">Calculate</button>
+        <button class="sb-btn teach-btn" onclick="ENGINE.teachRiskCalculator()">🎓 Teach Me</button>
         <button class="sb-btn challenge-btn" onclick="toggleChallenge('risk-calculator')">🎯 Challenges</button>
       </div>
     </div>
@@ -518,12 +611,13 @@ function buildRiskCalculator() {
 
     <div class="challenge-panel" id="challenge-risk-calculator" style="display:none;"></div>
     <div class="hint-panel" id="hints-risk-calculator"></div>
+    ${buildNarratorBar('risk-calculator')}
 
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Position Sizing &amp; Risk Management</h3>
       <p>Proper position sizing is the cornerstone of risk management. You decide the maximum dollar amount to risk per trade (typically 1–2% of your account), then calculate how many shares or units to buy based on the distance to your stop-loss.</p>
-      <div class="exp-formula">Position Size = (Account &times; Risk%) / |Entry &minus; Stop|</div>
+      <div class="exp-formula">${T('Position Size','The number of shares or units to buy — calculated so a loss never exceeds your risk budget.')} = (${T('Account','Your total trading balance — the pool of money you\'re working with.')} &times; ${T('Risk%','The percentage of your account you\'re willing to lose on this trade. Typically 1–2%.')}) / |${T('Entry','The price where you plan to open the trade.')} &minus; ${T('Stop','The price where you\'ll exit if wrong — your worst-case exit.')}|</div>
       <p>The <strong>Risk/Reward ratio</strong> (R:R) compares potential loss to potential gain. The <strong>Kelly Criterion</strong> determines optimal bet sizing based on win rate and payoff ratio — but many traders use half-Kelly for safety.</p>
       <h3>What to Observe</h3>
       <ul>

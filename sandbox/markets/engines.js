@@ -2005,3 +2005,175 @@ window.addEventListener('resize', () => {
     DRAWS[currentTopic]();
   }
 });
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TEACH MODE ENGINES
+   ═══════════════════════════════════════════════════════════════ */
+
+ENGINE.teachIndicators = function() {
+  hideNarration('indicator-playground');
+  ENGINE.resetIP();
+  showNarration('indicator-playground', 0);
+
+  setTimeout(() => {
+    ENGINE.toggleInd('sma');
+    drawIP();
+    showNarration('indicator-playground', 1);
+  }, 2000);
+
+  setTimeout(() => {
+    ENGINE.toggleInd('rsi');
+    drawIP();
+    showNarration('indicator-playground', 2);
+  }, 5000);
+
+  setTimeout(() => {
+    ENGINE.toggleInd('bollinger');
+    drawIP();
+    showNarration('indicator-playground', 3);
+  }, 8500);
+};
+
+ENGINE.teachCandlestick = function() {
+  hideNarration('candlestick-spotter');
+  ENGINE.resetCS();
+  showNarration('candlestick-spotter', 0);
+
+  setTimeout(() => {
+    showNarration('candlestick-spotter', 1);
+  }, 3000);
+
+  setTimeout(() => {
+    ENGINE.nextPattern();
+    showNarration('candlestick-spotter', 2);
+  }, 6000);
+
+  setTimeout(() => {
+    ENGINE.nextPattern();
+    showNarration('candlestick-spotter', 3);
+  }, 10000);
+};
+
+ENGINE.teachPaperTrading = function() {
+  hideNarration('paper-trading');
+  ENGINE.resetPT();
+  showNarration('paper-trading', 0);
+
+  setTimeout(() => {
+    for (let i = 0; i < 8; i++) ENGINE.ptStep();
+    showNarration('paper-trading', 1);
+  }, 2500);
+
+  setTimeout(() => {
+    ENGINE.ptBuy();
+    drawPT();
+    showNarration('paper-trading', 2);
+  }, 5500);
+
+  setTimeout(() => {
+    for (let i = 0; i < 6; i++) ENGINE.ptStep();
+    ENGINE.ptSell();
+    showNarration('paper-trading', 3);
+  }, 9000);
+};
+
+ENGINE.teachRiskCalculator = function() {
+  hideNarration('risk-calculator');
+  showNarration('risk-calculator', 0);
+
+  setTimeout(() => {
+    const acct = document.getElementById('rcAccount');
+    const risk = document.getElementById('rcRiskPct');
+    const entry = document.getElementById('rcEntry');
+    const stop = document.getElementById('rcStop');
+    const target = document.getElementById('rcTarget');
+    const winRate = document.getElementById('rcWinRate');
+    if (acct) acct.value = 10000;
+    if (risk) risk.value = 2;
+    if (entry) entry.value = 100;
+    if (stop) stop.value = 95;
+    if (target) target.value = 115;
+    if (winRate) winRate.value = 55;
+    ENGINE.calcRC();
+    showNarration('risk-calculator', 1);
+  }, 2500);
+
+  setTimeout(() => {
+    showNarration('risk-calculator', 2);
+  }, 6000);
+
+  setTimeout(() => {
+    showNarration('risk-calculator', 3);
+  }, 10000);
+};
+
+ENGINE.teachMaCrossover = function() {
+  hideNarration('ma-crossover');
+  MAC.fastPeriod = 10;
+  MAC.slowPeriod = 30;
+  const fastEl = document.getElementById('macFast');
+  const slowEl = document.getElementById('macSlow');
+  if (fastEl) { fastEl.value = 10; document.getElementById('macFastVal').textContent = '10'; }
+  if (slowEl) { slowEl.value = 30; document.getElementById('macSlowVal').textContent = '30'; }
+  macGenerate();
+  drawMAC();
+  showNarration('ma-crossover', 0);
+
+  setTimeout(() => {
+    showNarration('ma-crossover', 1);
+  }, 3000);
+
+  setTimeout(() => {
+    MAC.fastPeriod = 5;
+    if (fastEl) { fastEl.value = 5; document.getElementById('macFastVal').textContent = '5'; }
+    macCalc();
+    drawMAC();
+    showNarration('ma-crossover', 2);
+  }, 7000);
+
+  setTimeout(() => {
+    showNarration('ma-crossover', 3);
+  }, 11000);
+};
+
+ENGINE.teachSupportResistance = function() {
+  hideNarration('support-resistance');
+  SR.tolerance = 5;
+  const sensEl = document.getElementById('srSens');
+  if (sensEl) { sensEl.value = 5; document.getElementById('srSensVal').textContent = '5'; }
+  srGenerate();
+  drawSR();
+  showNarration('support-resistance', 0);
+
+  setTimeout(() => {
+    showNarration('support-resistance', 1);
+  }, 3000);
+
+  setTimeout(() => {
+    showNarration('support-resistance', 2);
+  }, 6500);
+
+  setTimeout(() => {
+    showNarration('support-resistance', 3);
+  }, 10500);
+};
+
+ENGINE.teachVolumeProfile = function() {
+  hideNarration('volume-profile');
+  vpGenerate();
+  drawVP();
+  showNarration('volume-profile', 0);
+
+  setTimeout(() => {
+    showNarration('volume-profile', 1);
+  }, 3000);
+
+  setTimeout(() => {
+    showNarration('volume-profile', 2);
+  }, 6500);
+
+  setTimeout(() => {
+    showNarration('volume-profile', 3);
+  }, 10500);
+};

@@ -3528,3 +3528,254 @@ window.addEventListener('resize', () => {
     DRAWS[currentTopic]();
   }
 });
+
+/* ═══════════════════════════════════════════════════════════════
+   TEACH MODE — Narrated walkthroughs for all 9 ML activities
+   Each function: resets → seeds demo data → runs algorithm
+   slowly → calls showNarration() at key milestones.
+   ═══════════════════════════════════════════════════════════════ */
+
+ENGINE.teachLinear = function() {
+  ENGINE.resetLR();
+  showNarration('linear-regression', 0);
+
+  setTimeout(() => {
+    const pts = [{x:0.8,y:1.9},{x:1.7,y:2.8},{x:2.5,y:3.6},{x:3.4,y:4.7},
+                 {x:4.2,y:5.3},{x:5.1,y:6.2},{x:6.0,y:7.0},{x:6.9,y:8.1},
+                 {x:7.8,y:8.7},{x:8.7,y:9.4}];
+    pts.forEach(p => LR.points.push({ x: p.x, y: p.y }));
+    drawLR();
+    showNarration('linear-regression', 1);
+  }, 1200);
+
+  setTimeout(() => {
+    showNarration('linear-regression', 2);
+    LR.m = 0; LR.b = 0; LR.iteration = 0; LR.animating = true; LR.fitted = false;
+    const lr = 0.04, maxIter = 100, n = LR.points.length;
+
+    function step() {
+      let dm = 0, db = 0;
+      LR.points.forEach(pt => {
+        const err = (LR.m * pt.x + LR.b) - pt.y;
+        dm += (2 / n) * err * pt.x;
+        db += (2 / n) * err;
+      });
+      LR.m -= lr * dm; LR.b -= lr * db; LR.iteration++;
+      let tot = 0;
+      LR.points.forEach(pt => { tot += (pt.y - (LR.m * pt.x + LR.b)) ** 2; });
+      LR.mse = tot / n;
+      const mseEl = document.getElementById('lrMSE');
+      const slopeEl = document.getElementById('lrSlope');
+      const intEl = document.getElementById('lrIntercept');
+      const iterEl = document.getElementById('lrIterC');
+      if (mseEl) mseEl.textContent = LR.mse.toFixed(4);
+      if (slopeEl) slopeEl.textContent = LR.m.toFixed(4);
+      if (intEl) intEl.textContent = LR.b.toFixed(4);
+      if (iterEl) iterEl.textContent = LR.iteration;
+      drawLR();
+      if (LR.iteration === 20) showNarration('linear-regression', 3);
+      if (LR.iteration < maxIter) {
+        setTimeout(step, 40);
+      } else {
+        LR.animating = false; LR.fitted = true;
+        showNarration('linear-regression', 4);
+      }
+    }
+    step();
+  }, 3000);
+};
+
+ENGINE.teachKMeans = function() {
+  ENGINE.resetKM();
+  showNarration('k-means', 0);
+
+  setTimeout(() => {
+    // Seed 3 natural clusters
+    const clusters = [
+      {cx:2.5,cy:7.5},{cx:5,cy:2.5},{cx:7.5,cy:7.5}
+    ];
+    clusters.forEach(c => {
+      for (let i = 0; i < 12; i++) {
+        KM.points.push({ x: Math.max(0.3, Math.min(9.7, c.cx + (Math.random()-0.5)*3)),
+                         y: Math.max(0.3, Math.min(9.7, c.cy + (Math.random()-0.5)*3)),
+                         cluster: -1 });
+      }
+    });
+    const kEl = document.getElementById('kmK');
+    if (kEl) { kEl.value = 3; const kv = document.getElementById('kmKV'); if (kv) kv.textContent = '3'; }
+    KM.k = 3;
+    ENGINE.initCentroids();
+    drawKM();
+    showNarration('k-means', 1);
+  }, 1200);
+
+  let step = 0;
+  const msgs = [2, 3, 3, 4];
+  function doStep() {
+    if (KM.converged) { showNarration('k-means', 4); return; }
+    showNarration('k-means', msgs[Math.min(step, msgs.length - 1)]);
+    ENGINE.stepKM();
+    step++;
+    if (!KM.converged && step < 12) setTimeout(doStep, 1400);
+    else showNarration('k-means', 4);
+  }
+  setTimeout(doStep, 3200);
+};
+
+ENGINE.teachClassification = function() {
+  ENGINE.resetCB();
+  showNarration('classification-boundary', 0);
+
+  setTimeout(() => {
+    ENGINE.sampleCB();
+    showNarration('classification-boundary', 1);
+  }, 1000);
+
+  setTimeout(() => {
+    const kEl = document.getElementById('cbK');
+    if (kEl) { kEl.value = 1; const kv = document.getElementById('cbKV'); if (kv) kv.textContent = '1'; }
+    ENGINE.trainCB();
+    showNarration('classification-boundary', 2);
+  }, 2800);
+
+  setTimeout(() => {
+    const kEl = document.getElementById('cbK');
+    if (kEl) { kEl.value = 9; const kv = document.getElementById('cbKV'); if (kv) kv.textContent = '9'; }
+    ENGINE.trainCB();
+    showNarration('classification-boundary', 3);
+  }, 5200);
+
+  setTimeout(() => { showNarration('classification-boundary', 4); }, 7000);
+};
+
+ENGINE.teachNN = function() {
+  ENGINE.resetNN();
+  showNarration('neural-network', 0);
+
+  setTimeout(() => {
+    const ds = document.getElementById('nnDataset');
+    if (ds) ds.value = 'xor';
+    const nr = document.getElementById('nnNeurons');
+    if (nr) { nr.value = 4; const nv = document.getElementById('nnNeuronsV'); if (nv) nv.textContent = '4'; }
+    ENGINE.resetNN();
+    showNarration('neural-network', 1);
+  }, 1200);
+
+  setTimeout(() => { showNarration('neural-network', 2); ENGINE.trainNN(); }, 2800);
+  setTimeout(() => { showNarration('neural-network', 3); ENGINE.trainNN(); }, 5500);
+  setTimeout(() => { showNarration('neural-network', 4); }, 8500);
+};
+
+ENGINE.teachFeatureScaling = function() {
+  ENGINE.resetFS();
+  showNarration('feature-scaling', 0);
+  setTimeout(() => {
+    ENGINE.newFSData();
+    showNarration('feature-scaling', 1);
+  }, 1200);
+  setTimeout(() => {
+    showNarration('feature-scaling', 2);
+  }, 3000);
+  setTimeout(() => {
+    ENGINE.runFS();
+    showNarration('feature-scaling', 3);
+  }, 4500);
+};
+
+ENGINE.teachTimeseries = function() {
+  ENGINE.resetTS();
+  showNarration('timeseries-forecast', 0);
+
+  setTimeout(() => {
+    const dt = document.getElementById('tsDataType');
+    if (dt) { dt.value = 'trend-season'; ENGINE.setTSDataType('trend-season'); }
+    const mt = document.getElementById('tsMethod');
+    if (mt) { mt.value = 'ma'; ENGINE.setTSMethod('ma'); }
+    ENGINE.forecastTS();
+    showNarration('timeseries-forecast', 1);
+  }, 1200);
+
+  setTimeout(() => {
+    const mt = document.getElementById('tsMethod');
+    if (mt) { mt.value = 'es'; ENGINE.setTSMethod('es'); }
+    ENGINE.forecastTS();
+    showNarration('timeseries-forecast', 2);
+  }, 3500);
+
+  setTimeout(() => {
+    const mt = document.getElementById('tsMethod');
+    if (mt) { mt.value = 'hw'; ENGINE.setTSMethod('hw'); }
+    ENGINE.forecastTS();
+    showNarration('timeseries-forecast', 3);
+  }, 5800);
+
+  setTimeout(() => {
+    ENGINE.compareAllTS();
+    showNarration('timeseries-forecast', 4);
+  }, 8000);
+};
+
+ENGINE.teachPCA = function() {
+  ENGINE.resetPCA();
+  showNarration('pca-visualizer', 0);
+
+  setTimeout(() => {
+    ENGINE.samplePCA();
+    showNarration('pca-visualizer', 1);
+  }, 1200);
+
+  setTimeout(() => {
+    ENGINE.computePCA();
+    showNarration('pca-visualizer', 2);
+  }, 2800);
+
+  setTimeout(() => { showNarration('pca-visualizer', 3); }, 4500);
+
+  setTimeout(() => {
+    ENGINE.toggleProjection();
+    // step 3 already shown above
+  }, 5800);
+};
+
+ENGINE.teachDecisionTree = function() {
+  ENGINE.resetDT();
+  showNarration('decision-tree', 0);
+
+  setTimeout(() => {
+    ENGINE.sampleDT();
+    showNarration('decision-tree', 1);
+  }, 1200);
+
+  setTimeout(() => {
+    const dep = document.getElementById('dtDepth');
+    if (dep) { dep.value = 1; const dv = document.getElementById('dtDepthV'); if (dv) dv.textContent = '1'; }
+    ENGINE.trainDT();
+    showNarration('decision-tree', 2);
+  }, 2800);
+
+  setTimeout(() => {
+    const dep = document.getElementById('dtDepth');
+    if (dep) { dep.value = 3; const dv = document.getElementById('dtDepthV'); if (dv) dv.textContent = '3'; }
+    ENGINE.trainDT();
+    showNarration('decision-tree', 3);
+  }, 5000);
+
+  setTimeout(() => { showNarration('decision-tree', 4); }, 7000);
+};
+
+ENGINE.teachAnomaly = function() {
+  ENGINE.resetAD();
+  showNarration('anomaly-detection', 0);
+
+  setTimeout(() => {
+    ENGINE.sampleAD();
+    showNarration('anomaly-detection', 1);
+  }, 1200);
+
+  setTimeout(() => {
+    ENGINE.detectAD();
+    showNarration('anomaly-detection', 2);
+  }, 2800);
+
+  setTimeout(() => { showNarration('anomaly-detection', 3); }, 4500);
+};
