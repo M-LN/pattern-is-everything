@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" data-lab="ml">
+<html lang="en" data-lab="dl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML Lab — Pattern is Everything</title>
-  <meta name="description" content="Interactive ML sandbox — play with linear regression, K-Means clustering, and more hands-on activities.">
-  <meta property="og:title" content="ML Lab — Pattern is Everything">
-  <meta property="og:description" content="Interactive ML sandbox — play with linear regression, K-Means clustering, and more hands-on activities.">
+  <title>Deep Learning Lab — Pattern is Everything</title>
+  <meta name="description" content="Interactive deep learning sandbox — explore CNNs, transformers, autoencoders, VAEs, U-Net, Seq2Seq, GANs, diffusion, residual networks, and embeddings.">
+  <meta property="og:title" content="Deep Learning Lab — Pattern is Everything">
+  <meta property="og:description" content="Interactive sandbox for every major deep learning architecture family — visual, hands-on, zero dependencies.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#4fc3f7">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234fc3f7'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
-  <link rel="canonical" href="https://patterniseverything.com/sandbox/ml/">
+  <meta name="theme-color" content="#4dd0e1">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234dd0e1'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="canonical" href="https://patterniseverything.com/sandbox/dl/">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "ML Lab",
-    "url": "https://patterniseverything.com/sandbox/ml/",
-    "description": "Interactive ML sandbox — hands-on activities for linear regression, K-Means clustering, and more.",
+    "name": "Deep Learning Lab",
+    "url": "https://patterniseverything.com/sandbox/dl/",
+    "description": "Interactive deep learning sandbox — CNNs, transformers, autoencoders, VAEs, U-Net, Seq2Seq, GANs, diffusion models, residual networks, and embeddings.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://patterniseverything.com/" },
         { "@type": "ListItem", "position": 2, "name": "Sandbox", "item": "https://patterniseverything.com/sandbox/" },
-        { "@type": "ListItem", "position": 3, "name": "ML Lab" }
+        { "@type": "ListItem", "position": 3, "name": "Deep Learning Lab" }
       ]
     }
   }
@@ -33,23 +33,28 @@
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/main.css?v=2">
   <link rel="stylesheet" href="../../css/sandbox.css?v=1">
+  <style>
+    [data-lab="dl"] { --lab-accent: #4dd0e1; }
+    .dl-grid { display:grid; gap:4px; }
+    .dl-grid-cell { border-radius:2px; cursor:crosshair; }
+    .exp-formula { font-family:var(--mono); font-size:12px; background:var(--surface); border-left:3px solid #4dd0e1; padding:8px 12px; margin:10px 0; border-radius:0 4px 4px 0; color:var(--text); line-height:1.7; }
+  </style>
 </head>
 <body>
 
 <header>
   <a class="logo-ring" href="../../index.html" title="Back to Portal"></a>
-  <h1>ML <em>Lab</em></h1>
-  <span class="topic-counter" id="topicCounter">9 Activities</span>
-  <div class="hdr-meta">Interactive Sandbox<br>Hands-on Machine Learning</div>
+  <h1>Deep Learning <em>Lab</em></h1>
+  <span class="topic-counter" id="topicCounter">10 Activities</span>
+  <div class="hdr-meta">Interactive Sandbox<br>Neural Architecture Families</div>
   <div class="hdr-actions">
-    <a href="../dl/index.html" class="lab-switch">→ DL Lab</a>
+    <a href="../markets/index.html" class="lab-switch">→ Markets Lab</a>
     <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
     <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
   </div>
 </header>
 
-<!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
     <input class="search-input" id="searchInput" type="text" placeholder="Search activities…" autocomplete="off">
@@ -60,16 +65,14 @@
 <div class="layout">
 <nav id="mainNav">
   <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
-  <div class="nav-progress-text" id="progressText">0 / 6 viewed</div>
+  <div class="nav-progress-text" id="progressText">0 / 10 viewed</div>
 </nav>
-<main id="mainContent">
-</main>
+<main id="mainContent"></main>
 </div>
 
-<script src="activities.js?v=4"></script>
-<script src="engines.js?v=4"></script>
+<script src="activities.js?v=1"></script>
+<script src="engines.js?v=1"></script>
 <script>
-/* ── Theme ── */
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
@@ -80,7 +83,6 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* ── Search ── */
 function toggleSearch() {
   const o = document.getElementById('searchOverlay');
   o.classList.toggle('active');
@@ -92,10 +94,7 @@ function toggleSearch() {
 }
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
-  if (e.key === 'Escape') {
-    const o = document.getElementById('searchOverlay');
-    if (o.classList.contains('active')) toggleSearch();
-  }
+  if (e.key === 'Escape') { const o = document.getElementById('searchOverlay'); if (o.classList.contains('active')) toggleSearch(); }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     if (document.activeElement.tagName === 'INPUT') return;
     const idx = TOPICS.indexOf(currentTopic);
@@ -108,10 +107,8 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   const res = document.getElementById('searchResults');
   if (!q) { res.innerHTML = ''; return; }
   const matches = TOPIC_DATA.filter(t =>
-    t.title.toLowerCase().includes(q) ||
-    t.category.toLowerCase().includes(q) ||
-    t.keywords.some(k => k.toLowerCase().includes(q)) ||
-    t.content.toLowerCase().includes(q)
+    t.title.toLowerCase().includes(q) || t.category.toLowerCase().includes(q) ||
+    t.keywords.some(k => k.toLowerCase().includes(q)) || t.content.toLowerCase().includes(q)
   ).slice(0, 8);
   res.innerHTML = matches.map(t =>
     `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
@@ -121,7 +118,6 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
-/* ── Navigation ── */
 let currentTopic = null;
 const viewed = new Set();
 
@@ -135,42 +131,30 @@ function show(id, scrollNav) {
   if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
   viewed.add(id);
   updateProgress();
-  // Trigger engine draw
   setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
   history.replaceState(null, '', '#' + id);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function updateProgress() {
-  const total = TOPICS.length;
-  const n = viewed.size;
-  const pct = Math.round(n / total * 100);
-  const bar = document.getElementById('progressBar');
-  const txt = document.getElementById('progressText');
+  const total = TOPICS.length, n = viewed.size, pct = Math.round(n / total * 100);
+  const bar = document.getElementById('progressBar'), txt = document.getElementById('progressText');
   if (bar) bar.style.width = pct + '%';
   if (txt) txt.textContent = `${n} / ${total} viewed`;
 }
 
-/* ── Init ── */
 window.addEventListener('load', () => {
   buildContent();
-  if (location.hash) {
-    const id = location.hash.slice(1);
-    if (TOPICS.includes(id)) { show(id, true); return; }
-  }
+  if (location.hash) { const id = location.hash.slice(1); if (TOPICS.includes(id)) { show(id, true); return; } }
   if (TOPICS.length > 0) show(TOPICS[0], true);
 });
 
-/* ── Formula Decoder ── */
 (function() {
   const tooltip = document.createElement('div');
-  tooltip.id = 'fd-tooltip';
-  tooltip.className = 'fd-tooltip';
+  tooltip.id = 'fd-tooltip'; tooltip.className = 'fd-tooltip';
   tooltip.innerHTML = '<div class="fd-tooltip-symbol"></div><div class="fd-tooltip-def"></div>';
   document.body.appendChild(tooltip);
-
   let activeEl = null;
-
   document.addEventListener('click', function(e) {
     const term = e.target.closest('.fd-term');
     if (term) {
@@ -183,32 +167,21 @@ window.addEventListener('load', () => {
         tooltip.querySelector('.fd-tooltip-def').textContent = term.dataset.def || '';
         positionTooltip(term, tooltip);
         tooltip.classList.add('fd-visible');
-      } else {
-        tooltip.classList.remove('fd-visible');
-        activeEl = null;
-      }
+      } else { tooltip.classList.remove('fd-visible'); activeEl = null; }
       return;
     }
-    if (!tooltip.contains(e.target)) {
-      tooltip.classList.remove('fd-visible');
-      if (activeEl) { activeEl.classList.remove('fd-active'); activeEl = null; }
-    }
+    if (!tooltip.contains(e.target)) { tooltip.classList.remove('fd-visible'); if (activeEl) { activeEl.classList.remove('fd-active'); activeEl = null; } }
   });
-
   function positionTooltip(el, tip) {
     const r = el.getBoundingClientRect();
-    let left = r.left;
-    let top = r.bottom + 8;
-    tip.style.left = left + 'px';
-    tip.style.top = top + 'px';
-    const tw = tip.offsetWidth || 300;
-    const th = tip.offsetHeight || 100;
+    let left = r.left, top = r.bottom + 8;
+    tip.style.left = left + 'px'; tip.style.top = top + 'px';
+    const tw = tip.offsetWidth || 300, th = tip.offsetHeight || 100;
     if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
     if (left < 12) left = 12;
     if (top + th > window.innerHeight - 12) top = r.top - th - 8;
     if (top < 12) top = 12;
-    tip.style.left = left + 'px';
-    tip.style.top = top + 'px';
+    tip.style.left = left + 'px'; tip.style.top = top + 'px';
   }
 })();
 </script>
