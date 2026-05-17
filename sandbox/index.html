@@ -151,18 +151,22 @@
       transform: translateY(-3px);
       box-shadow: var(--shadow-sm);
     }
-    .domain-card.ml-card:hover { border-color: #4fc3f744; }
-    .domain-card.mkt-card:hover { border-color: #81c78444; }
+    .domain-card.ml-card:hover    { border-color: #4fc3f744; }
+    .domain-card.mkt-card:hover   { border-color: #81c78444; }
     .domain-card.stats-card:hover { border-color: #ce93d844; }
+    .domain-card.chaos-card:hover { border-color: #ff8a6544; }
+    .domain-card.dl-card:hover    { border-color: #4dd0e144; }
     .domain-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
     }
-    .domain-card.ml-card::before  { background: linear-gradient(90deg, #4fc3f7, #29b6f6); }
-    .domain-card.mkt-card::before { background: linear-gradient(90deg, #81c784, #66bb6a); }
+    .domain-card.ml-card::before    { background: linear-gradient(90deg, #4fc3f7, #29b6f6); }
+    .domain-card.mkt-card::before   { background: linear-gradient(90deg, #81c784, #66bb6a); }
     .domain-card.stats-card::before { background: linear-gradient(90deg, #ce93d8, #ba68c8); }
+    .domain-card.chaos-card::before { background: linear-gradient(90deg, #ff8a65, #ff7043); }
+    .domain-card.dl-card::before    { background: linear-gradient(90deg, #4dd0e1, #26c6da); }
     .domain-icon {
       font-size: 32px;
       margin-bottom: 16px;
@@ -175,9 +179,11 @@
       margin-bottom: 12px;
     }
     .domain-title em { font-style: italic; }
-    .ml-card .domain-title em  { color: #4fc3f7; }
-    .mkt-card .domain-title em { color: #81c784; }
+    .ml-card .domain-title em    { color: #4fc3f7; }
+    .mkt-card .domain-title em   { color: #81c784; }
     .stats-card .domain-title em { color: #ce93d8; }
+    .chaos-card .domain-title em { color: #ff8a65; }
+    .dl-card .domain-title em    { color: #4dd0e1; }
     .domain-desc {
       font-family: var(--mono);
       font-size: 12px;
@@ -198,9 +204,11 @@
       border-radius: 4px;
       border: 1px solid;
     }
-    .ml-card .domain-tag  { color: #4fc3f7; border-color: #4fc3f744; }
-    .mkt-card .domain-tag { color: #81c784; border-color: #81c78444; }
+    .ml-card .domain-tag    { color: #4fc3f7; border-color: #4fc3f744; }
+    .mkt-card .domain-tag   { color: #81c784; border-color: #81c78444; }
     .stats-card .domain-tag { color: #ce93d8; border-color: #ce93d844; }
+    .chaos-card .domain-tag { color: #ff8a65; border-color: #ff8a6544; }
+    .dl-card .domain-tag    { color: #4dd0e1; border-color: #4dd0e144; }
     .domain-enter {
       font-family: var(--mono);
       font-size: 11px;
@@ -208,9 +216,11 @@
       margin-top: 24px;
       display: inline-block;
     }
-    .ml-card .domain-enter  { color: #4fc3f7; }
-    .mkt-card .domain-enter { color: #81c784; }
+    .ml-card .domain-enter    { color: #4fc3f7; }
+    .mkt-card .domain-enter   { color: #81c784; }
     .stats-card .domain-enter { color: #ce93d8; }
+    .chaos-card .domain-enter { color: #ff8a65; }
+    .dl-card .domain-enter    { color: #4dd0e1; }
 
     /* ── Info banner ── */
     .sandbox-info {
@@ -308,10 +318,38 @@
         <span class="domain-tag">Distributions</span>
         <span class="domain-tag">Hypothesis Testing</span>
         <span class="domain-tag">Bayesian</span>
-        <span class="domain-tag">Regression</span>
-        <span class="domain-tag">+3 more</span>
+        <span class="domain-tag">Bootstrap</span>
+        <span class="domain-tag">+8 more</span>
       </div>
-      <div class="domain-enter">Enter Stats Lab — 7 Activities →</div>
+      <div class="domain-enter">Enter Stats Lab — 12 Activities →</div>
+    </a>
+
+    <a class="domain-card chaos-card" href="chaos/index.html">
+      <div class="domain-icon">🌀</div>
+      <div class="domain-title">Chaos <em>Lab</em></div>
+      <div class="domain-desc">Watch order tip into chaos. Drag the logistic map past r=3.57, trace butterfly-effect divergence, and grow Conway's Game of Life from a single glider.</div>
+      <div class="domain-activities">
+        <span class="domain-tag">Logistic Map</span>
+        <span class="domain-tag">Butterfly Effect</span>
+        <span class="domain-tag">Lorenz Attractor</span>
+        <span class="domain-tag">Game of Life</span>
+        <span class="domain-tag">+2 more</span>
+      </div>
+      <div class="domain-enter">Enter Chaos Lab — 6 Activities →</div>
+    </a>
+
+    <a class="domain-card dl-card" href="dl/index.html">
+      <div class="domain-icon">🤖</div>
+      <div class="domain-title">Deep Learning <em>Lab</em></div>
+      <div class="domain-desc">Paint on CNN grids, click through transformer attention, walk a VAE latent space, watch a GAN match distributions, and diffuse structure into noise — every major DL architecture family.</div>
+      <div class="domain-activities">
+        <span class="domain-tag">CNN</span>
+        <span class="domain-tag">Transformer</span>
+        <span class="domain-tag">VAE</span>
+        <span class="domain-tag">Diffusion</span>
+        <span class="domain-tag">+6 more</span>
+      </div>
+      <div class="domain-enter">Enter DL Lab — 10 Activities →</div>
     </a>
   </div>
 </div>
