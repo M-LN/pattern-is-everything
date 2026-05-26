@@ -1,3 +1,5 @@
+const JUPYTER_LITE_NOTEBOOK = '../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb';
+
 const CASES = [
   {
     id: 'credit-fraud',
@@ -263,7 +265,10 @@ function renderCase(caseData) {
 
       <div class="why-matters">
         <div class="why-matters-title">Connect the pattern</div>
-        <div class="case-links">${topicLinks}<a href="${caseData.lab[1]}">${escapeHTML(caseData.lab[0])}</a></div>
+        <div class="case-links">
+          <a href="${JUPYTER_LITE_NOTEBOOK}" target="_blank" rel="noopener">Run this case in JupyterLite</a>
+          ${topicLinks}<a href="${caseData.lab[1]}">${escapeHTML(caseData.lab[0])}</a>
+        </div>
       </div>
 
       <div class="dev-export">

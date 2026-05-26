@@ -83,6 +83,8 @@
   }
 
   function buildTemplate(id, config) {
+    const href = relativeHref(config.build[1]);
+    const opensNotebook = href.includes('/lite/lab/') || href.includes('../lite/lab/');
     return `
       <section class="practical-template" data-practical-template="${escapeHTML(id)}">
         <div class="practical-template-head">
@@ -96,7 +98,7 @@
           <div><div class="practical-label">Pipeline</div><ol>${config.pipeline.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ol></div>
           <div><div class="practical-label">Failure mode</div><p>${escapeHTML(config.pitfall)}</p><div class="practical-label">Metrics</div><ul>${config.metrics.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul></div>
         </div>
-        <a class="practical-build" href="${relativeHref(config.build[1])}">${escapeHTML(config.build[0])}</a>
+        <a class="practical-build" href="${href}"${opensNotebook ? ' target="_blank" rel="noopener"' : ''}>${escapeHTML(config.build[0])}</a>
       </section>`;
   }
 

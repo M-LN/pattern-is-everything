@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v28';
+const CACHE_NAME = 'pattern-v29';
 const SHELL = [
   '/index.html',
   '/css/main.css',
@@ -20,8 +20,6 @@ const SHELL = [
   '/cases/datasets/energy_demand_sample.csv',
   '/cases/datasets/market_ohlcv_sample.csv',
   '/notebooks/README.md',
-  '/notebooks/lab.html',
-  '/notebooks/lab.js',
   '/notebooks/pattern-portal-real-data-lab-browser.ipynb',
   '/notebooks/pattern-portal-real-data-lab.ipynb',
   '/mlops/index.html',
