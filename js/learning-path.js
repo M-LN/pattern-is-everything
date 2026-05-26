@@ -146,6 +146,79 @@
     }).join('');
   }
 
+  function progressCount(path, progress) {
+    return path.steps.filter((_, stepIndex) => progress.has(stepIndex + 1)).length;
+  }
+
+  function progressFromUrl(href) {
+    try {
+      const url = new URL(href, window.location.href);
+      const pathId = url.searchParams.get('lp');
+      const stepNumber = Number(url.searchParams.get('lstep'));
+      if (!pathId || !PATHS[pathId] || !stepNumber) return null;
+      return { pathId, stepNumber };
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function markLiteStepOnClick(event) {
+    const link = event.target.closest('a[href]');
+    if (!link || !link.href.includes('/lite/')) return;
+    const progress = progressFromUrl(link.href);
+    if (progress) markStep(progress.pathId, progress.stepNumber);
+  }
+
+  function decorateOverviewLinks(container, pathId, progress) {
+    container.querySelectorAll('a[href]').forEach(link => {
+      const linkProgress = progressFromUrl(link.href);
+      if (!linkProgress || linkProgress.pathId !== pathId) return;
+
+      link.classList.add('learning-path-step-link');
+      if (!progress.has(linkProgress.stepNumber)) return;
+
+      link.classList.add('is-complete');
+      if (link.classList.contains('step-card')) {
+        if (!link.querySelector('.learning-path-card-check')) {
+          link.insertAdjacentHTML('beforeend', '<div class="learning-path-card-check">&#10003; Completed</div>');
+        }
+        return;
+      }
+
+      const next = link.nextElementSibling;
+      if (!next || !next.classList.contains('learning-path-inline-check')) {
+        link.insertAdjacentHTML('afterend', ' <span class="learning-path-inline-check">&#10003; Done</span>');
+      }
+    });
+  }
+
+  function renderOverviewProgress() {
+    let rendered = false;
+    Object.entries(PATHS).forEach(([pathId, path]) => {
+      const container = document.getElementById(pathId);
+      if (!container) return;
+
+      rendered = true;
+      const progress = readProgress(pathId);
+      const completedCount = progressCount(path, progress);
+      const target = container.querySelector('.path-head') || container.querySelector('.lp-desc') || container;
+      const status = container.querySelector('.learning-path-overview-status') || document.createElement('div');
+
+      container.classList.add('learning-path-overview');
+      container.classList.toggle('is-complete', completedCount === path.steps.length && path.steps.length > 0);
+      status.className = 'learning-path-overview-status';
+      status.innerHTML = `
+        <div class="learning-path-overview-count">${completedCount} / ${path.steps.length} done</div>
+        <div class="learning-path-overview-steps">${renderStepPills(pathId, path, null, progress)}</div>
+      `;
+
+      if (!status.parentElement) target.insertAdjacentElement('afterend', status);
+      decorateOverviewLinks(container, pathId, progress);
+    });
+
+    if (rendered) injectStyles();
+  }
+
   function injectStyles() {
     if (document.getElementById('learning-path-style')) return;
     const style = document.createElement('style');
@@ -218,6 +291,60 @@
         border-color: var(--accent3);
         box-shadow: 0 0 0 3px rgba(41,85,160,.12);
       }
+      .learning-path-overview-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 14px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      .lp-card .learning-path-overview-status {
+        margin: 14px 0 0;
+        padding: 9px 0 0;
+        border-width: 1px 0 0;
+        border-radius: 0;
+        background: transparent;
+      }
+      .learning-path-overview-count {
+        color: var(--accent2);
+        font: 700 10px var(--mono);
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .learning-path-overview-steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 5px;
+      }
+      .learning-path-step-link.is-complete.step-card {
+        border-color: rgba(42,125,95,.36);
+        background: linear-gradient(180deg, rgba(42,125,95,.09), transparent 58%), var(--surface);
+      }
+      .learning-path-card-check {
+        display: inline-flex;
+        margin-top: 14px;
+        color: var(--accent2);
+        font: 700 10px var(--mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+      .learning-path-inline-check {
+        color: var(--accent2);
+        font: 700 10px var(--mono);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .learning-path-overview.is-complete .learning-path-overview-status {
+        border-color: rgba(42,125,95,.36);
+        background: rgba(42,125,95,.06);
+      }
       .learning-path-actions {
         display: flex;
         gap: 8px;
@@ -250,6 +377,8 @@
         .learning-path-bar { grid-template-columns: 1fr; bottom: 10px; }
         .learning-path-actions { justify-content: flex-start; }
         .learning-path-actions a { flex: 1 1 auto; text-align: center; }
+        .learning-path-overview-status { align-items: flex-start; flex-direction: column; }
+        .learning-path-overview-steps { justify-content: flex-start; }
       }
     `;
     document.head.appendChild(style);
@@ -267,7 +396,7 @@
     const previous = path.steps[index - 1];
     const next = path.steps[index + 1];
     const progress = markStep(pathId, stepNumber);
-    const completedCount = path.steps.filter((_, stepIndex) => progress.has(stepIndex + 1)).length;
+    const completedCount = progressCount(path, progress);
 
     injectStyles();
     const bar = document.createElement('aside');
@@ -287,14 +416,6 @@
         <a class="learning-path-next ${next ? '' : 'is-disabled'}" href="${next ? toUrl(next[1]) : '#'}">${next ? `Next: ${html(next[0])}` : 'Path Complete'}</a>
       </div>
     `;
-    bar.addEventListener('click', event => {
-      const link = event.target.closest('a[href]');
-      if (!link || !link.href.includes('/lite/')) return;
-      const url = new URL(link.href);
-      const nextPathId = url.searchParams.get('lp');
-      const nextStep = Number(url.searchParams.get('lstep'));
-      if (nextPathId && PATHS[nextPathId] && nextStep) markStep(nextPathId, nextStep);
-    });
     document.body.appendChild(bar);
   }
 
@@ -308,9 +429,16 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { renderBar(); scrollToHashAfterRender(); });
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBar();
+      renderOverviewProgress();
+      document.addEventListener('click', markLiteStepOnClick);
+      scrollToHashAfterRender();
+    });
   } else {
     renderBar();
+    renderOverviewProgress();
+    document.addEventListener('click', markLiteStepOnClick);
     scrollToHashAfterRender();
   }
 })();
