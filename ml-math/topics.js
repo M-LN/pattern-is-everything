@@ -206,7 +206,7 @@ function buildVectors() {
   return `<div class="topic" id="vectors">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2>Vectors & <em>Matrices</em></h2></div>
-    <span class="topic-badge">Linear Algebra</span>
+    <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The language of ML — every model is matrix multiplication under the hood</p>
   <p class="prose">Machine learning is built on <strong>linear algebra</strong>. Inputs are vectors, weights are matrices, and the forward pass is matrix multiplication. Understanding dot products, shapes, and transposes is non-negotiable.</p>
@@ -251,7 +251,7 @@ function buildLinear() {
   return `<div class="topic" id="linear">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Linear <em>Regression</em></h2></div>
-    <span class="topic-badge">Supervised</span>
+    <span class="topic-badge">Supervised</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Fitting a line through data — the simplest predictive model</p>
   <p class="prose">Linear regression finds the best-fit line through data. Given input <strong>x</strong>, we predict <strong>ŷ</strong> by learning weight <strong>w</strong> (slope) and bias <strong>b</strong> (intercept) that minimise prediction error.</p>
@@ -278,7 +278,7 @@ function buildLogistic() {
   return `<div class="topic" id="logistic">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Logistic <em>Regression</em></h2></div>
-    <span class="topic-badge">Classification</span>
+    <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The bridge from regression to classification — sigmoid turns scores into probabilities</p>
   <p class="prose">Logistic regression wraps a linear model in a <strong>sigmoid function</strong>, producing a probability between 0 and 1. Despite the name, it's a <strong>classifier</strong>, not a regressor. It's the simplest neural network — a single neuron.</p>
@@ -310,7 +310,7 @@ function buildGradient() {
   return `<div class="topic" id="gradient">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2>Gradient <em>Descent</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Rolling downhill on the loss landscape to find optimal weights</p>
   <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong> — opposite the gradient — to reach minimum loss.</p>
@@ -335,6 +335,17 @@ function buildGradient() {
   </div>
   <div class="callout warn"><strong>Learning rate:</strong> Too large → overshoot and diverge. Too small → extremely slow convergence. Learning rate warmup + decay schedulers (topic 12) solve this in practice.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc" target="_blank" rel="noopener">Rate of Change</a> in markets — both measure slope to decide direction.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Start with <strong>Adam</strong> optimizer (lr=1e-3) — it handles most cases well out of the box</li>
+      <li>If training loss plateaus, try <strong>reducing lr by 10x</strong> or use a cosine annealing schedule</li>
+      <li>If training loss oscillates wildly → lr is too high — halve it until stable</li>
+      <li>Use <strong>gradient clipping</strong> (<code>max_norm=1.0</code>) for RNNs and transformers to prevent exploding gradients</li>
+      <li>Monitor both <strong>train loss</strong> and <strong>val loss</strong> — divergence means you're overfitting (see <a href="../stats/#learning-curves">Learning Curves</a>)</li>
+    </ol>
+    <div class="howto-pitfall"><strong>When gradient descent fails:</strong> Non-convex loss landscapes have local minima and saddle points. SGD with momentum helps escape saddle points; Adam helps with sparse gradients. For very deep networks, poor initialization can cause vanishing gradients — use He or Xavier init.</div>
+  </div>
   <div class="topic-nav" id="nav-gradient"></div>
 </div>`;
 }
@@ -344,7 +355,7 @@ function buildActivation() {
   return `<div class="topic" id="activation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">05 — Foundations</div><h2>Activation <em>Functions</em></h2></div>
-    <span class="topic-badge">Non-linearity</span>
+    <span class="topic-badge">Non-linearity</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// What makes deep networks more than stacked linear transforms</p>
   <p class="prose">Without activations, any stack of linear layers collapses to a single linear transform. Activation functions introduce <strong>non-linearity</strong>, giving networks the power to approximate any function.</p>
@@ -380,7 +391,7 @@ function buildBiasVariance() {
   return `<div class="topic" id="bias-variance">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">06 — Foundations</div><h2>Bias-Variance <em>Tradeoff</em></h2></div>
-    <span class="topic-badge">Theory</span>
+    <span class="topic-badge">Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The fundamental tension between underfitting and overfitting</p>
   <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong> — sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
@@ -409,7 +420,7 @@ function buildLoss() {
   return `<div class="topic" id="loss">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Training</div><h2>Loss <em>Functions</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how wrong the model is — the objective being minimised</p>
   <p class="prose">The loss function defines what the model is optimising. Different tasks need different loss functions. Getting this wrong is one of the most common ML mistakes.</p>
@@ -436,7 +447,7 @@ function buildBackprop() {
   return `<div class="topic" id="backprop">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">08 — Training</div><h2><em>Back</em>propagation</h2></div>
-    <span class="topic-badge">Algorithm</span>
+    <span class="topic-badge">Algorithm</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Chain rule applied through a network — how every weight gets its gradient</p>
   <p class="prose">Backprop answers: <strong>"how much did each weight contribute to the error?"</strong> It uses the chain rule to propagate gradients backward from the loss to every parameter.</p>
@@ -461,7 +472,7 @@ function buildOptimizers() {
   return `<div class="topic" id="optimizers">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">09 — Training</div><h2><em>Optimizers</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Beyond vanilla SGD — momentum, adaptive learning rates, Adam</p>
   <p class="prose">Modern optimizers improve on vanilla gradient descent by adding <strong>momentum</strong> (using past gradients) and <strong>adaptive rates</strong> (different step size per parameter).</p>
@@ -493,7 +504,7 @@ function buildRegularization() {
   return `<div class="topic" id="regularization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">10 — Training</div><h2><em>Regularization</em></h2></div>
-    <span class="topic-badge">Generalization</span>
+    <span class="topic-badge">Generalization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Preventing overfitting by constraining model complexity</p>
   <p class="prose">Regularization adds a <strong>penalty for complexity</strong> to the loss, discouraging the model from memorising noise and improving generalisation to unseen data.</p>
@@ -527,7 +538,7 @@ function buildBatchnorm() {
   return `<div class="topic" id="batchnorm">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">11 — Training</div><h2>Batch <em>Normalization</em></h2></div>
-    <span class="topic-badge">Stabilization</span>
+    <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Normalizing activations to keep training stable and fast</p>
   <p class="prose">Batch Normalization normalises each layer's activations to have <strong>zero mean and unit variance</strong> across the mini-batch, then scales/shifts with learned parameters γ and β.</p>
@@ -553,7 +564,7 @@ function buildLRSchedule() {
   return `<div class="topic" id="lr-schedule">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">12 — Training</div><h2>LR <em>Scheduling</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Adjusting the learning rate over training for better convergence</p>
   <p class="prose">A fixed learning rate is rarely optimal. Starting too high causes instability; finishing too high prevents convergence. Schedulers <strong>adjust α during training</strong>.</p>
@@ -584,7 +595,7 @@ function buildWeightInit() {
   return `<div class="topic" id="weight-init">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">13 — Training</div><h2>Weight <em>Initialization</em></h2></div>
-    <span class="topic-badge">Stabilization</span>
+    <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How you start determines if you converge — Xavier, He, and why they matter</p>
   <p class="prose">Bad initialization → activations explode or vanish → gradients die → training fails. The goal: keep <strong>variance of activations stable</strong> across layers.</p>
@@ -614,7 +625,7 @@ function buildGradClip() {
   return `<div class="topic" id="grad-clip">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">14 — Training</div><h2>Gradient <em>Clipping</em></h2></div>
-    <span class="topic-badge">Stabilization</span>
+    <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Preventing exploding gradients by capping their magnitude</p>
   <p class="prose">In RNNs and deep networks, gradients can <strong>explode exponentially</strong> during backprop. Gradient clipping caps the gradient norm before the optimizer step, keeping training stable.</p>
@@ -643,7 +654,7 @@ function buildSoftmax() {
   return `<div class="topic" id="softmax">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">15 — Core Math</div><h2>Softmax & <em>Probabilities</em></h2></div>
-    <span class="topic-badge">Classification</span>
+    <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Converting raw scores into a probability distribution</p>
   <p class="prose">Softmax maps a vector of real-valued logits to probabilities that <strong>sum to 1</strong>. It amplifies the largest logit, making the winner more decisive.</p>
@@ -664,7 +675,7 @@ function buildMLE() {
   return `<div class="topic" id="mle">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">16 — Core Math</div><h2>MLE & <em>Gaussian</em></h2></div>
-    <span class="topic-badge">Probability</span>
+    <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Maximum Likelihood Estimation — why MSE and Cross-Entropy exist</p>
   <p class="prose">MLE asks: <strong>what parameters make the observed data most probable?</strong> Most ML training objectives are secretly MLE under a particular assumed distribution.</p>
@@ -689,7 +700,7 @@ function buildEntropy() {
   return `<div class="topic" id="entropy">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">17 — Core Math</div><h2><em>Entropy</em></h2></div>
-    <span class="topic-badge">Information Theory</span>
+    <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring uncertainty — how much "surprise" is in a distribution</p>
   <p class="prose"><strong>Entropy</strong> measures the average amount of information (surprise) in a distribution. A fair coin has maximum entropy (1 bit). A loaded coin has lower entropy. Cross-entropy extends this to compare two distributions.</p>
@@ -715,7 +726,7 @@ function buildKLDiv() {
   return `<div class="topic" id="kl-div">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">18 — Core Math</div><h2>KL <em>Divergence</em></h2></div>
-    <span class="topic-badge">Information Theory</span>
+    <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how different two probability distributions are</p>
   <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric — KL(P||Q) ≠ KL(Q||P).</p>
@@ -739,7 +750,7 @@ function buildBayes() {
   return `<div class="topic" id="bayes">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">19 — Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
-    <span class="topic-badge">Probability</span>
+    <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Updating beliefs with evidence — the foundation of probabilistic ML</p>
   <p class="prose">Bayes' Theorem tells us how to <strong>update a prior belief</strong> when we observe new evidence.</p>
@@ -764,7 +775,7 @@ function buildCrossval() {
   return `<div class="topic" id="crossval">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">20 — Core Math</div><h2>Cross-<em>Validation</em></h2></div>
-    <span class="topic-badge">Evaluation</span>
+    <span class="topic-badge">Evaluation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Reliable model evaluation by rotating which data is used for testing</p>
   <p class="prose"><strong>k-fold cross-validation</strong> averages performance over k splits for a more reliable estimate than a single train/test split.</p>
@@ -793,7 +804,7 @@ function buildMetrics() {
   return `<div class="topic" id="metrics">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">21 — Core Math</div><h2>Evaluation <em>Metrics</em></h2></div>
-    <span class="topic-badge">Evaluation</span>
+    <span class="topic-badge">Evaluation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How to actually measure if your model is good</p>
   <p class="prose">Accuracy alone is misleading for imbalanced classes. <strong>Precision, Recall, F1 and ROC-AUC</strong> give a complete picture.</p>
@@ -818,7 +829,7 @@ function buildCosineSim() {
   return `<div class="topic" id="cosine-sim">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">22 — Core Math</div><h2>Cosine <em>Similarity</em></h2></div>
-    <span class="topic-badge">Distance</span>
+    <span class="topic-badge">Distance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring angular similarity between vectors — the backbone of retrieval</p>
   <p class="prose">Cosine similarity measures the <strong>angle between two vectors</strong>, ignoring magnitude. Two vectors pointing the same direction have similarity 1, opposite = −1, perpendicular = 0. It's the standard metric for embeddings and RAG retrieval.</p>
@@ -850,7 +861,7 @@ function buildCNN() {
   return `<div class="topic" id="cnn">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">23 — Deep Learning</div><h2>CNN — <em>Convolutions</em></h2></div>
-    <span class="topic-badge">Architecture</span>
+    <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exploiting spatial structure with shared local filters</p>
   <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input — translational equivariance.</p>
@@ -878,7 +889,7 @@ function buildEmbeddings() {
   return `<div class="topic" id="embeddings">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">24 — Deep Learning</div><h2>Embeddings & <em>Word2Vec</em></h2></div>
-    <span class="topic-badge">Representation</span>
+    <span class="topic-badge">Representation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Mapping discrete tokens to continuous vector spaces</p>
   <p class="prose">An embedding maps each discrete token to a dense vector where <strong>semantic similarity = geometric proximity</strong>.</p>
@@ -901,7 +912,7 @@ function buildAttention() {
   return `<div class="topic" id="attention">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">25 — Deep Learning</div><h2>Attention <em>Mechanism</em></h2></div>
-    <span class="topic-badge">Architecture</span>
+    <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Selectively focusing on relevant parts of the input</p>
   <p class="prose">Each token asks: <strong>"which other tokens are most relevant to me?"</strong> via dot-product similarity between queries and keys.</p>
@@ -925,7 +936,7 @@ function buildTransformer() {
   return `<div class="topic" id="transformer">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">26 — Deep Learning</div><h2>Transformer <em>Architecture</em></h2></div>
-    <span class="topic-badge">Architecture</span>
+    <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The architecture behind BERT, GPT, and all modern LLMs</p>
   <p class="prose">The Transformer combines <strong>multi-head self-attention</strong> with position-wise feed-forward networks, residual connections, and layer normalisation.</p>
@@ -951,7 +962,7 @@ function buildNormalization() {
   return `<div class="topic" id="normalization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">27 — Deep Learning</div><h2>Normalization <em>Variants</em></h2></div>
-    <span class="topic-badge">Architecture</span>
+    <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// LayerNorm, RMSNorm, GroupNorm — which normalisation for which architecture</p>
   <p class="prose">Different architectures need different normalisation. <strong>BatchNorm</strong> works for CNNs, <strong>LayerNorm</strong> for transformers, <strong>RMSNorm</strong> for modern LLMs (faster, no mean subtraction).</p>
@@ -988,7 +999,7 @@ function buildRNN() {
   return `<div class="topic" id="rnn">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">28 — Sequence Models</div><h2>RNN — <em>Recurrent</em> Networks</h2></div>
-    <span class="topic-badge">Sequential</span>
+    <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Processing sequences by passing hidden state through time</p>
   <p class="prose">RNNs process sequences step-by-step, maintaining a <strong>hidden state h</strong> that carries memory of previous inputs.</p>
@@ -1014,7 +1025,7 @@ function buildLSTM() {
   return `<div class="topic" id="lstm">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">29 — Sequence Models</div><h2>LSTM — <em>Long Short-Term</em> Memory</h2></div>
-    <span class="topic-badge">Sequential</span>
+    <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Gated memory cells that solve the vanishing gradient problem</p>
   <p class="prose">LSTMs add a <strong>cell state c</strong> — a "memory highway" — alongside the hidden state. Three gates control information flow.</p>
@@ -1044,7 +1055,7 @@ function buildGRU() {
   return `<div class="topic" id="gru">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">30 — Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
-    <span class="topic-badge">Sequential</span>
+    <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// LSTM's streamlined sibling — two gates, one state vector</p>
   <p class="prose">GRU simplifies LSTM by merging cell+hidden state and using only <strong>two gates</strong>: update and reset.</p>
@@ -1066,7 +1077,7 @@ function buildPCA() {
   return `<div class="topic" id="pca">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">31 — Generative & Prob.</div><h2>PCA & <em>Eigenvectors</em></h2></div>
-    <span class="topic-badge">Dimensionality</span>
+    <span class="topic-badge">Dimensionality</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding the directions of maximum variance for dimensionality reduction</p>
   <p class="prose">PCA finds the axes along which data <strong>varies the most</strong>. These are the eigenvectors of the covariance matrix.</p>
@@ -1090,7 +1101,7 @@ function buildSVD() {
   return `<div class="topic" id="svd">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">32 — Generative & Prob.</div><h2>SVD — <em>Singular Value</em> Decomposition</h2></div>
-    <span class="topic-badge">Linear Algebra</span>
+    <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Decomposing any matrix into rotation, scaling, and rotation</p>
   <p class="prose">SVD factors <strong>any matrix</strong> into three parts: A = UΣVᵀ. It's the Swiss Army knife of linear algebra — used in PCA, compression, recommenders, and the mathematical foundation of LoRA.</p>
@@ -1120,7 +1131,7 @@ function buildVAE() {
   return `<div class="topic" id="vae">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">33 — Generative & Prob.</div><h2>VAE — Variational <em>Autoencoder</em></h2></div>
-    <span class="topic-badge">Generative</span>
+    <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Learning a structured latent space for generation and interpolation</p>
   <p class="prose">A VAE encodes inputs to a <strong>distribution over latent vectors</strong>, then decodes samples. The KL term forces a smooth, continuous latent space.</p>
@@ -1150,7 +1161,7 @@ function buildDiffusion() {
   return `<div class="topic" id="diffusion">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">34 — Generative & Prob.</div><h2>Diffusion <em>Models</em></h2></div>
-    <span class="topic-badge">Generative</span>
+    <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Generating by learning to reverse a noise process (DDPM, Stable Diffusion)</p>
   <p class="prose">Diffusion models learn to <strong>denoise data</strong>. The forward process adds noise; a neural network learns to reverse it.</p>
@@ -1176,7 +1187,7 @@ function buildGAN() {
   return `<div class="topic" id="gan">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">35 — Generative & Prob.</div><h2>GANs — Generative <em>Adversarial</em> Networks</h2></div>
-    <span class="topic-badge">Generative</span>
+    <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Two networks competing: generator vs discriminator</p>
   <p class="prose">GANs pit a <strong>Generator G</strong> against a <strong>Discriminator D</strong> in a minimax game.</p>
@@ -1201,7 +1212,7 @@ function buildTokenization() {
   return `<div class="topic" id="tokenization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">36 — Modern / LLM</div><h2>Tokenization <em>(BPE)</em></h2></div>
-    <span class="topic-badge">NLP</span>
+    <span class="topic-badge">NLP</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How text becomes numbers — the first step in every language model</p>
   <p class="prose">Byte Pair Encoding (BPE) builds a vocabulary by <strong>iteratively merging the most frequent pair</strong> of tokens. It handles unseen words via subword splitting — no unknown tokens needed.</p>
@@ -1242,7 +1253,7 @@ function buildLoRA() {
   return `<div class="topic" id="lora">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">37 — Modern / LLM</div><h2>LoRA — <em>Low-Rank</em> Adaptation</h2></div>
-    <span class="topic-badge">Fine-tuning</span>
+    <span class="topic-badge">Fine-tuning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Training billion-parameter models by updating only tiny low-rank matrices</p>
   <p class="prose">LoRA freezes the original weights and injects <strong>small trainable rank-r matrices</strong> alongside each layer. Instead of updating a d×d weight matrix (millions of params), you update d×r + r×d (thousands).</p>
@@ -1279,7 +1290,7 @@ function buildRLHF() {
   return `<div class="topic" id="rlhf">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">38 — Modern / LLM</div><h2>RLHF — <em>Alignment</em></h2></div>
-    <span class="topic-badge">Alignment</span>
+    <span class="topic-badge">Alignment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Making language models helpful, harmless, and honest with human feedback</p>
   <p class="prose">RLHF aligns a pretrained LLM with human preferences in three stages: supervised fine-tuning, reward model training, and PPO optimization. <strong>DPO</strong> simplifies this to a single training step.</p>

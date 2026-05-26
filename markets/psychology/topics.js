@@ -132,7 +132,7 @@ function buildContent() {
   let html = buildHome();
   TOPIC_DATA.forEach(t => {
     html += `<div class="topic" id="${t.id}">`;
-    html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div></div>`;
+    html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div><span class="evidence-badge heuristic" title="Behavioral concept — supported by research in behavioral economics but application to trading is heuristic">◐ Behavioral</span></div>`;
     html += `<p class="sub">// ${t.content.split('.')[0]}.</p>`;
     html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;

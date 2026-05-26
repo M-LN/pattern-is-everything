@@ -159,7 +159,7 @@ function buildHome() {
 
 function buildValueAtRisk() {
   return `<div class="topic" id="value-at-risk">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Risk Measures</div><h2>Value at <em>Risk</em> (VaR)</h2></div><span class="topic-badge">Quantile Loss</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Risk Measures</div><h2>Value at <em>Risk</em> (VaR)</h2></div><span class="topic-badge">Quantile Loss</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Maximum expected loss at a chosen confidence level over a given horizon</p>
   <p class="prose">VaR answers one question: <em>"What is the worst loss I should expect on a normal day?"</em> Three methods dominate — parametric (variance-covariance), historical simulation, and Monte Carlo. Parametric VaR assumes normally distributed returns:</p>
   <div class="fb"><div class="fm">VaR<sub>&alpha;</sub> = &mu; &minus; z<sub>&alpha;</sub> &middot; &sigma;</div><div class="fd"><span>z<sub>&alpha;</sub></span> is the inverse-normal quantile (e.g. 1.645 for 95 %). Historical simulation makes no distributional assumption — it ranks past P&amp;L and reads the quantile directly.</div></div>
@@ -186,7 +186,7 @@ function buildValueAtRisk() {
 
 function buildExpectedShortfall() {
   return `<div class="topic" id="expected-shortfall">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Risk Measures</div><h2>Expected <em>Shortfall</em> (CVaR)</h2></div><span class="topic-badge">Tail Average</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Risk Measures</div><h2>Expected <em>Shortfall</em> (CVaR)</h2></div><span class="topic-badge">Tail Average</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Average loss in the worst &alpha; % of scenarios</p>
   <p class="prose">Expected Shortfall (ES), also called Conditional VaR, is the <em>mean</em> of all losses exceeding the VaR cutoff. It is <strong>sub-additive</strong> — combining portfolios never makes ES worse — so regulators prefer it to VaR.</p>
   <div class="fb"><div class="fm">ES<sub>&alpha;</sub> = E[ L | L &gt; VaR<sub>&alpha;</sub> ]</div><div class="fd"><span>For a normal distribution</span> ES has a closed-form: ES = &mu; + &sigma; &middot; &phi;(z<sub>&alpha;</sub>) / (1 &minus; &alpha;). For fat-tailed distributions Monte Carlo or historical methods are used.</div></div>
@@ -205,7 +205,7 @@ function buildExpectedShortfall() {
 
 function buildVolatilityModeling() {
   return `<div class="topic" id="volatility-modeling">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 — Risk Measures</div><h2>Volatility <em>Modeling</em></h2></div><span class="topic-badge">Forecasting</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 — Risk Measures</div><h2>Volatility <em>Modeling</em></h2></div><span class="topic-badge">Forecasting</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Estimate and forecast return variance with GARCH, EWMA, and realized measures</p>
   <p class="prose">Volatility clusters — large moves beget large moves. GARCH(1,1) captures this:</p>
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>t</sub> = &omega; + &alpha; &middot; r&sup2;<sub>t&minus;1</sub> + &beta; &middot; &sigma;&sup2;<sub>t&minus;1</sub></div><div class="fd"><span>EWMA</span> is a special case with &omega; = 0 and &alpha; + &beta; = 1 (RiskMetrics uses &lambda; = 0.94). Realized volatility sums intraday squared returns for a model-free estimate.</div></div>
@@ -231,7 +231,7 @@ function buildVolatilityModeling() {
 
 function buildCorrelationRisk() {
   return `<div class="topic" id="correlation-risk">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 — Risk Measures</div><h2>Correlation <em>Risk</em></h2></div><span class="topic-badge">Dependence</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 — Risk Measures</div><h2>Correlation <em>Risk</em></h2></div><span class="topic-badge">Dependence</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Correlations shift in crises — diversification can vanish when you need it most</p>
   <p class="prose">In calm markets, asset correlations are moderate and diversification works. During stress, correlations spike toward 1 — a phenomenon called <strong>correlation breakdown</strong>.</p>
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>p</sub> = w&prime; &Sigma; w</div><div class="fd"><span>Copula models</span> separate marginal distributions from the dependence structure, allowing non-linear tail dependence to be modeled explicitly. Regime-switching models capture correlation shifts.</div></div>
@@ -250,7 +250,7 @@ function buildCorrelationRisk() {
 
 function buildTailRisk() {
   return `<div class="topic" id="tail-risk">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Risk Measures</div><h2>Tail <em>Risk</em></h2></div><span class="topic-badge">Extremes</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Risk Measures</div><h2>Tail <em>Risk</em></h2></div><span class="topic-badge">Extremes</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Extreme events beyond normal-distribution assumptions</p>
   <p class="prose">Financial returns exhibit <strong>fat tails</strong> — extreme moves occur far more often than a Gaussian predicts. Kurtosis &gt; 3 signals leptokurtic behavior. Extreme Value Theory (EVT) models the tail with a Generalized Pareto Distribution (GPD):</p>
   <div class="fb"><div class="fm">P(X &gt; x | X &gt; u) &asymp; (1 + &xi; &middot; (x&minus;u)/&beta;)<sup>&minus;1/&xi;</sup></div><div class="fd"><span>A positive &xi; &gt; 0</span> indicates a heavy (Pareto-type) tail. EVT lets us extrapolate loss quantiles beyond sample extremes.</div></div>
@@ -269,7 +269,7 @@ function buildTailRisk() {
 
 function buildMeanVariance() {
   return `<div class="topic" id="mean-variance">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 — Portfolio Construction</div><h2>Mean-Variance <em>Optimization</em></h2></div><span class="topic-badge">Efficient Frontier</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 — Portfolio Construction</div><h2>Mean-Variance <em>Optimization</em></h2></div><span class="topic-badge">Efficient Frontier</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Markowitz efficient frontier — balance return against portfolio variance</p>
   <p class="prose">The 1952 Markowitz framework maximizes expected return for a given level of risk (or minimizes variance for a target return). The <strong>efficient frontier</strong> traces optimal portfolios.</p>
   <div class="fb"><div class="fm">min &frac12; w&prime; &Sigma; w &nbsp; s.t. &nbsp; w&prime; &mu; &ge; r<sub>target</sub>, &nbsp; w&prime; 1 = 1</div><div class="fd"><span>Estimation error</span> in &mu; and &Sigma; makes raw MVO unstable — shrinkage estimators (Ledoit-Wolf) and resampling improve robustness. The tangency portfolio maximizes the Sharpe ratio.</div></div>
@@ -295,7 +295,7 @@ function buildMeanVariance() {
 
 function buildRiskParity() {
   return `<div class="topic" id="risk-parity">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">07 — Portfolio Construction</div><h2>Risk <em>Parity</em></h2></div><span class="topic-badge">Equal Risk</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">07 — Portfolio Construction</div><h2>Risk <em>Parity</em></h2></div><span class="topic-badge">Equal Risk</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Weight assets so each contributes equally to total portfolio risk</p>
   <p class="prose">Instead of targeting a return, risk parity targets equal <strong>risk contribution</strong> from each asset. This often leads to leveraged bond allocations to match equity volatility.</p>
   <div class="fb"><div class="fm">RC<sub>i</sub> = w<sub>i</sub> &middot; (&Sigma;w)<sub>i</sub> / &sigma;<sub>p</sub> &nbsp; &rarr; &nbsp; RC<sub>i</sub> = RC<sub>j</sub> &nbsp; &forall; i,j</div><div class="fd"><span>Simplest proxy</span> is inverse-volatility weighting: w<sub>i</sub> &prop; 1/&sigma;<sub>i</sub>. True risk parity requires numerical optimization to equalize marginal risk contributions.</div></div>
@@ -311,7 +311,7 @@ function buildRiskParity() {
 
 function buildFactorModels() {
   return `<div class="topic" id="factor-models">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 — Portfolio Construction</div><h2>Factor <em>Models</em></h2></div><span class="topic-badge">Decomposition</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 — Portfolio Construction</div><h2>Factor <em>Models</em></h2></div><span class="topic-badge">Decomposition</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Decompose returns into systematic factor exposures</p>
   <p class="prose">CAPM uses a single factor (market beta). The Fama-French three-factor model adds size and value. Modern models include momentum, quality, and low-volatility.</p>
   <div class="fb"><div class="fm">r<sub>i</sub> = &alpha;<sub>i</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; + &epsilon;<sub>i</sub></div><div class="fd"><span>Factor tilts</span> explain most of long-only active returns. Pure alpha — returns unexplained by any factor — is exceedingly rare.</div></div>
@@ -335,7 +335,7 @@ function buildFactorModels() {
 
 function buildRebalancing() {
   return `<div class="topic" id="rebalancing">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Portfolio Construction</div><h2>Rebalancing <em>Strategies</em></h2></div><span class="topic-badge">Maintenance</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Portfolio Construction</div><h2>Rebalancing <em>Strategies</em></h2></div><span class="topic-badge">Maintenance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Maintain target allocations through disciplined rebalancing</p>
   <p class="prose">As prices move, actual weights drift from targets. Rebalancing is a contrarian mechanism — <em>sell winners, buy losers</em> — that harvests the diversification return. Two approaches: <strong>calendar</strong> (monthly, quarterly) and <strong>threshold</strong> (rebalance when drift exceeds a band).</p>
   <div class="fb"><div class="fm">Drift<sub>i</sub> = | w<sub>actual,i</sub> &minus; w<sub>target,i</sub> |</div><div class="fd"><span>Wider bands</span> reduce transaction costs but increase tracking error. The optimal band depends on volatility, expected return differences, and trading costs.</div></div>
@@ -354,7 +354,7 @@ function buildRebalancing() {
 
 function buildDiversification() {
   return `<div class="topic" id="diversification">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 — Portfolio Construction</div><h2><em>Diversification</em></h2></div><span class="topic-badge">Free Lunch</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 — Portfolio Construction</div><h2><em>Diversification</em></h2></div><span class="topic-badge">Free Lunch</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// The only free lunch in finance — spread risk across uncorrelated bets</p>
   <p class="prose">Adding N uncorrelated assets reduces portfolio volatility as 1/&radic;N. Effective diversification requires <em>genuine independence</em> — not just different tickers.</p>
   <div class="fb"><div class="fm">&sigma;<sub>p</sub> = &sigma; / &radic;N &nbsp; (equal weight, zero correlation)</div><div class="fd"><span>True diversification</span> spans asset classes (equity, bonds, commodities, real estate), geographies, strategies, and time horizons. The <strong>diversification ratio</strong> measures how much idiosyncratic risk has been diversified away.</div></div>
@@ -373,7 +373,7 @@ function buildDiversification() {
 
 function buildKellyCriterion() {
   return `<div class="topic" id="kelly-criterion">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 — Position Sizing</div><h2>Kelly <em>Criterion</em></h2></div><span class="topic-badge">Optimal Growth</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 — Position Sizing</div><h2>Kelly <em>Criterion</em></h2></div><span class="topic-badge">Optimal Growth</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Optimal bet size for maximum geometric growth</p>
   <p class="prose">Kelly sizing maximizes the expected logarithm of wealth — the fastest compounding rate without risking ruin. For a simple win/loss bet:</p>
   <div class="fb"><div class="fm">f* = (p &middot; b &minus; q) / b</div><div class="fd"><span>p = win probability,</span> q = 1&minus;p, b = win/loss ratio. In continuous markets, Kelly fraction = expected excess return / variance. Most practitioners use <strong>half-Kelly</strong> or less to reduce volatility.</div></div>
@@ -400,7 +400,7 @@ function buildKellyCriterion() {
 
 function buildFixedFractional() {
   return `<div class="topic" id="fixed-fractional">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 — Position Sizing</div><h2>Fixed Fractional <em>Sizing</em></h2></div><span class="topic-badge">Constant %</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 — Position Sizing</div><h2>Fixed Fractional <em>Sizing</em></h2></div><span class="topic-badge">Constant %</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Risk a constant percentage of equity on each trade</p>
   <p class="prose">Fixed fractional sizing sets position size so the <em>dollar risk</em> (distance to stop &times; shares) equals a fixed fraction f of current equity.</p>
   <div class="fb"><div class="fm">Position = (Equity &times; f) / (Entry &minus; Stop)</div><div class="fd"><span>Typical f values:</span> 0.5 %&ndash;2 %. This keeps risk proportional to equity — positions shrink after losses and grow after gains, providing natural anti-martingale behavior.</div></div>
@@ -419,7 +419,7 @@ function buildFixedFractional() {
 
 function buildVolatilitySizing() {
   return `<div class="topic" id="volatility-sizing">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">13 — Position Sizing</div><h2>Volatility-Based <em>Sizing</em></h2></div><span class="topic-badge">Adaptive</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">13 — Position Sizing</div><h2>Volatility-Based <em>Sizing</em></h2></div><span class="topic-badge">Adaptive</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Normalize position size by asset volatility</p>
   <p class="prose">Different assets have different volatilities. A 100-share position in a 40 % vol stock carries far more risk than in a 10 % vol stock. Volatility sizing equalizes dollar-risk:</p>
   <div class="fb"><div class="fm">Shares = Target $ Risk / (N &times; ATR)</div><div class="fd"><span>N is a multiplier</span> (e.g. 2&times; ATR). The Turtle Traders famously used this approach. Each position contributes roughly equally to portfolio P&amp;L variance.</div></div>
@@ -434,7 +434,7 @@ function buildVolatilitySizing() {
 
 function buildPyramiding() {
   return `<div class="topic" id="pyramiding">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">14 — Position Sizing</div><h2><em>Pyramiding</em></h2></div><span class="topic-badge">Scale In</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">14 — Position Sizing</div><h2><em>Pyramiding</em></h2></div><span class="topic-badge">Scale In</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Add to winning positions in decreasing tiers</p>
   <p class="prose">Pyramiding builds a full position across multiple entries as a trade moves favorably. Each additional tier is typically <em>smaller</em> than the last so average cost stays well inside the profit zone.</p>
   <div class="fb"><div class="fm">Risk<sub>total</sub> = &Sigma; tier<sub>i</sub> &times; (entry<sub>i</sub> &minus; stop)</div><div class="fd"><span>Common patterns:</span> 4-3-2-1 units, or three equal tiers at predefined price milestones. The stop is usually tightened with each add so that risk on older entries is locked to breakeven.</div></div>
@@ -453,7 +453,7 @@ function buildPyramiding() {
 
 function buildMaxPosition() {
   return `<div class="topic" id="max-position">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">15 — Position Sizing</div><h2>Maximum Position <em>Limits</em></h2></div><span class="topic-badge">Concentration</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">15 — Position Sizing</div><h2>Maximum Position <em>Limits</em></h2></div><span class="topic-badge">Concentration</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Hard caps on concentration to prevent catastrophic single-name losses</p>
   <p class="prose">No matter how attractive a trade, position limits cap exposure. Common tiers:</p>
   <table class="mt">
@@ -478,7 +478,7 @@ function buildMaxPosition() {
 
 function buildOptionsHedging() {
   return `<div class="topic" id="options-hedging">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 — Hedging &amp; Protection</div><h2>Options <em>Hedging</em></h2></div><span class="topic-badge">Non-Linear</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 — Hedging &amp; Protection</div><h2>Options <em>Hedging</em></h2></div><span class="topic-badge">Non-Linear</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Protective puts, collars, and delta-neutral overlays</p>
   <p class="prose">Options provide non-linear hedging: a <strong>protective put</strong> caps downside while preserving upside. A <strong>collar</strong> finances the put by selling an upside call, reducing net cost.</p>
   <div class="fb"><div class="fm">Collar payoff = Stock + Put(K<sub>1</sub>) &minus; Call(K<sub>2</sub>)</div><div class="fd"><span>Delta hedging</span> continuously adjusts the hedge ratio. The cost is realized volatility — if realized vol &lt; implied vol, the hedge is profitable; otherwise it is a drag.</div></div>
@@ -504,7 +504,7 @@ function buildOptionsHedging() {
 
 function buildStopLosses() {
   return `<div class="topic" id="stop-losses">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">17 — Hedging &amp; Protection</div><h2>Stop-Loss <em>Strategies</em></h2></div><span class="topic-badge">Exit Rules</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">17 — Hedging &amp; Protection</div><h2>Stop-Loss <em>Strategies</em></h2></div><span class="topic-badge">Exit Rules</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Mechanical exit rules to limit drawdowns</p>
   <p class="prose">Stops enforce discipline. Types:</p>
   <table class="mt">
@@ -532,7 +532,7 @@ function buildStopLosses() {
 
 function buildPairsTrading() {
   return `<div class="topic" id="pairs-trading">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 — Hedging &amp; Protection</div><h2>Pairs <em>Trading</em></h2></div><span class="topic-badge">Market Neutral</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 — Hedging &amp; Protection</div><h2>Pairs <em>Trading</em></h2></div><span class="topic-badge">Market Neutral</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Long/short correlated pairs to profit from spread convergence</p>
   <p class="prose">Pairs trading exploits temporary mispricings between cointegrated securities. The spread = log(P<sub>A</sub>) &minus; &beta; &middot; log(P<sub>B</sub>) should be stationary.</p>
   <div class="fb"><div class="fm">z<sub>t</sub> = (spread<sub>t</sub> &minus; &mu;) / &sigma; &nbsp; &rarr; &nbsp; enter at |z| &gt; 2, exit at |z| &lt; 0.5</div><div class="fd"><span>Cointegration</span> (Engle-Granger or Johansen test) is stronger than correlation — it means the spread is mean-reverting. The Augmented Dickey-Fuller test checks stationarity.</div></div>
@@ -551,7 +551,7 @@ function buildPairsTrading() {
 
 function buildPortfolioInsurance() {
   return `<div class="topic" id="portfolio-insurance">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 — Hedging &amp; Protection</div><h2>Portfolio <em>Insurance</em></h2></div><span class="topic-badge">Dynamic Floor</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 — Hedging &amp; Protection</div><h2>Portfolio <em>Insurance</em></h2></div><span class="topic-badge">Dynamic Floor</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// CPPI and OBPI — dynamic protection with a floor</p>
   <p class="prose">Constant Proportion Portfolio Insurance (CPPI) dynamically allocates between a risky asset and a safe asset (cash/bonds) to protect a minimum floor:</p>
   <div class="fb"><div class="fm">Risky allocation = m &times; (Portfolio &minus; Floor)</div><div class="fd"><span>m is the multiplier</span> (typically 3&ndash;5). As the portfolio falls toward the floor, the risky allocation shrinks. OBPI uses a put option to guarantee the floor directly. Gap risk is the main danger.</div></div>
@@ -570,7 +570,7 @@ function buildPortfolioInsurance() {
 
 function buildCurrencyHedging() {
   return `<div class="topic" id="currency-hedging">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">20 — Hedging &amp; Protection</div><h2>Currency <em>Hedging</em></h2></div><span class="topic-badge">FX Neutral</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">20 — Hedging &amp; Protection</div><h2>Currency <em>Hedging</em></h2></div><span class="topic-badge">FX Neutral</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Neutralize FX exposure in global portfolios</p>
   <p class="prose">International allocations introduce currency risk. A US investor buying European equities profits (or loses) from EUR/USD moves on top of the equity return.</p>
   <div class="fb"><div class="fm">R<sub>unhedged</sub> &asymp; R<sub>local</sub> + R<sub>FX</sub></div><div class="fd"><span>Forward contracts</span> lock future exchange rates. Full hedging eliminates FX variance but costs the interest-rate differential (covered interest parity). Partial hedging (50 %) is a common compromise.</div></div>
@@ -596,7 +596,7 @@ function buildCurrencyHedging() {
 
 function buildReturnAttribution() {
   return `<div class="topic" id="return-attribution">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 — Performance &amp; Attribution</div><h2>Return <em>Attribution</em></h2></div><span class="topic-badge">Decomposition</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 — Performance &amp; Attribution</div><h2>Return <em>Attribution</em></h2></div><span class="topic-badge">Decomposition</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Brinson decomposition — allocation, selection, interaction</p>
   <p class="prose">Return attribution answers: <em>"Where did excess return come from?"</em> The Brinson-Fachler model splits active return into three effects:</p>
   <div class="fb"><div class="fm">Active Return = Allocation + Selection + Interaction</div><div class="fd"><span>Allocation:</span> over/underweighting sectors that outperform. <strong>Selection:</strong> picking better stocks within sectors. <strong>Interaction:</strong> the cross-term. Multi-period attribution chains single-period results.</div></div>
@@ -612,7 +612,7 @@ function buildReturnAttribution() {
 
 function buildBenchmarkTracking() {
   return `<div class="topic" id="benchmark-tracking">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 — Performance &amp; Attribution</div><h2>Benchmark <em>Tracking</em></h2></div><span class="topic-badge">Passive/Active</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 — Performance &amp; Attribution</div><h2>Benchmark <em>Tracking</em></h2></div><span class="topic-badge">Passive/Active</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Tracking error measures deviation from the benchmark</p>
   <p class="prose">Tracking error (TE) is the standard deviation of the difference between portfolio and benchmark returns:</p>
   <div class="fb"><div class="fm">TE = &sigma;(R<sub>p</sub> &minus; R<sub>b</sub>)</div><div class="fd"><span>Passive index funds</span> target TE &lt; 10 bps. Active managers accept TE of 2&ndash;8 % depending on mandate. <strong>Active share</strong> measures the fraction of holdings that differ from the benchmark — high active share combined with low TE signals closet indexing.</div></div>
@@ -631,7 +631,7 @@ function buildBenchmarkTracking() {
 
 function buildAlphaGeneration() {
   return `<div class="topic" id="alpha-generation">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">23 — Performance &amp; Attribution</div><h2>Alpha <em>Generation</em></h2></div><span class="topic-badge">Excess Return</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">23 — Performance &amp; Attribution</div><h2>Alpha <em>Generation</em></h2></div><span class="topic-badge">Excess Return</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Capturing risk-adjusted excess returns</p>
   <p class="prose">Alpha (&alpha;) is the intercept of a factor regression — the return not explained by systematic risk exposures. Positive alpha means the manager added value beyond factor tilts.</p>
   <div class="fb"><div class="fm">&alpha; = R<sub>p</sub> &minus; [ R<sub>f</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; ]</div><div class="fd"><span>Sources of alpha:</span> information edges, execution speed, behavioral exploitation, or structural advantages (tax, regulation). Alpha decays — once a signal is widely known, it gets arbitraged away.</div></div>
@@ -647,7 +647,7 @@ function buildAlphaGeneration() {
 
 function buildRiskAdjustedPerf() {
   return `<div class="topic" id="risk-adjusted-perf">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 — Performance &amp; Attribution</div><h2>Risk-Adjusted <em>Performance</em></h2></div><span class="topic-badge">Ratios</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 — Performance &amp; Attribution</div><h2>Risk-Adjusted <em>Performance</em></h2></div><span class="topic-badge">Ratios</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Sharpe, Sortino, Calmar — normalize returns by the risk taken</p>
   <p class="prose">Raw returns are misleading without context. Risk-adjusted ratios level the playing field:</p>
   <table class="mt">
@@ -672,7 +672,7 @@ function buildRiskAdjustedPerf() {
 
 function buildDrawdownAnalysis() {
   return `<div class="topic" id="drawdown-analysis">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 — Performance &amp; Attribution</div><h2>Drawdown <em>Analysis</em></h2></div><span class="topic-badge">Peak-to-Trough</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 — Performance &amp; Attribution</div><h2>Drawdown <em>Analysis</em></h2></div><span class="topic-badge">Peak-to-Trough</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Peak-to-trough losses and recovery time</p>
   <p class="prose">Maximum drawdown (MDD) is the largest peak-to-trough decline in portfolio equity. It measures the <em>worst pain</em> an investor endures.</p>
   <div class="fb"><div class="fm">MDD = max<sub>t</sub> [ (Peak<sub>t</sub> &minus; Trough<sub>t</sub>) / Peak<sub>t</sub> ]</div><div class="fd"><span>Recovery time</span> — how long to regain the prior peak — matters as much as depth. A 50 % drawdown requires a 100 % gain to recover. The <strong>underwater curve</strong> plots drawdown depth over time.</div></div>

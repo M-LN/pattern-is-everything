@@ -172,7 +172,7 @@ function buildModelPackaging() {
   return `<div class="topic" id="model-packaging">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">01 — Deploy & Serve</div><h2>Model Packaging &amp; <em>Containers</em></h2></div>
-    <span class="topic-badge">Deployment</span>
+    <span class="topic-badge">Deployment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exporting models into portable, versioned artifacts</p>
   <p class="prose">A trained model sitting in a notebook is not production-ready. <strong>Model packaging</strong> wraps your model, its dependencies, and inference code into a self-contained artifact — a Docker image, an ONNX file, or an MLflow model directory — that can be deployed anywhere identically.</p>
@@ -216,7 +216,7 @@ function buildServingPatterns() {
   return `<div class="topic" id="serving-patterns">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">02 — Deploy & Serve</div><h2>Serving <em>Patterns</em></h2></div>
-    <span class="topic-badge">Architecture</span>
+    <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Real-time vs batch vs streaming — choosing your inference architecture</p>
   <p class="prose">How you serve predictions matters as much as model accuracy. <strong>Online serving</strong> returns predictions in milliseconds via API calls. <strong>Batch serving</strong> scores entire datasets on a schedule. <strong>Streaming</strong> processes events as they arrive. Each pattern has different latency, cost, and complexity profiles.</p>
@@ -259,7 +259,7 @@ function buildABRollout() {
   return `<div class="topic" id="ab-rollout">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">03 — Deploy & Serve</div><h2>A/B &amp; <em>Canary</em> Rollouts</h2></div>
-    <span class="topic-badge">Deployment</span>
+    <span class="topic-badge">Deployment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Ship models safely with progressive traffic splitting</p>
   <p class="prose">Deploying a new model to 100% of traffic is reckless. <strong>Canary rollouts</strong> send a small fraction (1–5%) of traffic to the new model while monitoring metrics. <strong>Blue-green</strong> deploys keep the old version warm for instant rollback. <strong>A/B tests</strong> run both models simultaneously to measure real-world lift.</p>
@@ -293,7 +293,7 @@ function buildLatencyThroughput() {
   return `<div class="topic" id="latency-throughput">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">04 — Deploy & Serve</div><h2>Latency &amp; <em>Throughput</em></h2></div>
-    <span class="topic-badge">Performance</span>
+    <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// p50, p99, batching, and the tradeoffs that define your SLA</p>
   <p class="prose"><strong>Latency</strong> is the time for a single prediction. <strong>Throughput</strong> is predictions per second. You can often trade one for the other — dynamic batching increases throughput but adds latency. p50 tells you the typical experience; <strong>p99 tells you the worst</strong>.</p>
@@ -317,7 +317,7 @@ function buildGPUInference() {
   return `<div class="topic" id="gpu-inference">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">05 — Deploy & Serve</div><h2>GPU <em>Inference</em></h2></div>
-    <span class="topic-badge">Hardware</span>
+    <span class="topic-badge">Hardware</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// VRAM management, TensorRT, and knowing when CPU is enough</p>
   <p class="prose">GPUs accelerate inference through massive parallelism, but they're expensive and tricky to manage. <strong>TensorRT</strong> optimises models for NVIDIA GPUs with layer fusion and kernel auto-tuning. <strong>Triton Inference Server</strong> handles multi-model scheduling and dynamic batching on GPU.</p>
@@ -348,7 +348,7 @@ function buildDriftDetection() {
   return `<div class="topic" id="drift-detection">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">06 — Monitor & Observe</div><h2>Drift Detection <em>in Production</em></h2></div>
-    <span class="topic-badge">Monitoring</span>
+    <span class="topic-badge">Monitoring</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Detecting when the world changes under your model</p>
   <p class="prose"><strong>Data drift</strong> means input distributions have shifted. <strong>Concept drift</strong> means the relationship between inputs and targets has changed. Both silently degrade model performance. Continuous monitoring with PSI, KS tests, and page-based detection catches drift before users notice.</p>
@@ -379,7 +379,7 @@ function buildModelMonitoring() {
   return `<div class="topic" id="model-monitoring">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Monitor & Observe</div><h2>Model Monitoring <em>Dashboards</em></h2></div>
-    <span class="topic-badge">Observability</span>
+    <span class="topic-badge">Observability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Prediction health, feature drift, and system metrics in one view</p>
   <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana + Prometheus is the standard stack.</p>
@@ -405,7 +405,7 @@ function buildAlertingSLOs() {
   return `<div class="topic" id="alerting-slos">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">08 — Monitor & Observe</div><h2>Alerting &amp; <em>SLOs</em></h2></div>
-    <span class="topic-badge">Reliability</span>
+    <span class="topic-badge">Reliability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Latency budgets, error budgets, and avoiding alert fatigue</p>
   <p class="prose">A <strong>Service Level Objective (SLO)</strong> defines what "good enough" means: "99.5% of predictions return within 200ms." The <strong>error budget</strong> is what's left — you can spend it on risky deployments. Too many alerts and people ignore them; too few and incidents go unnoticed.</p>
@@ -427,7 +427,7 @@ function buildShadowScoring() {
   return `<div class="topic" id="shadow-scoring">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">09 — Monitor & Observe</div><h2>Shadow Mode &amp; <em>Champion/Challenger</em></h2></div>
-    <span class="topic-badge">Validation</span>
+    <span class="topic-badge">Validation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Validating new models in production without serving their predictions</p>
   <p class="prose">In <strong>shadow mode</strong>, the new model scores every request alongside the current champion, but only the champion's prediction is served. You collect real production data to compare — without risking user experience. When the challenger wins on key metrics, you promote it.</p>
@@ -445,7 +445,7 @@ function buildDataQuality() {
   return `<div class="topic" id="data-quality">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">10 — Monitor & Observe</div><h2>Data Quality <em>Gates</em></h2></div>
-    <span class="topic-badge">Data</span>
+    <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Automated checks that stop bad data before it reaches your model</p>
   <p class="prose">Garbage in, garbage out — but in production, garbage arrives silently. <strong>Data quality gates</strong> enforce schema validation, range checks, freshness constraints, and completeness thresholds. They sit in your pipeline before feature engineering and before inference.</p>
@@ -475,7 +475,7 @@ function buildMLPipelines() {
   return `<div class="topic" id="ml-pipelines">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">11 — Pipeline & Automation</div><h2>ML <em>Pipelines</em></h2></div>
-    <span class="topic-badge">Automation</span>
+    <span class="topic-badge">Automation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Composing training, validation, and deployment into reproducible DAGs</p>
   <p class="prose">An <strong>ML pipeline</strong> is a directed acyclic graph (DAG) of steps: data ingestion → preprocessing → training → evaluation → deployment. Each step is versioned, cacheable, and independently retriable. Kubeflow, Airflow, Vertex, and SageMaker Pipelines are the main orchestrators.</p>
@@ -502,7 +502,7 @@ function buildFeatureStores() {
   return `<div class="topic" id="feature-stores">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">12 — Pipeline & Automation</div><h2>Feature <em>Stores</em></h2></div>
-    <span class="topic-badge">Data</span>
+    <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Centralized feature management with online/offline consistency</p>
   <p class="prose">A <strong>feature store</strong> serves two stores from one source of truth: the <strong>offline store</strong> (historical data for training) and the <strong>online store</strong> (low-latency data for serving). This solves the training-serving skew problem — the features your model trains on are identical to what it sees in production.</p>
@@ -537,7 +537,7 @@ function buildExperimentTracking() {
   return `<div class="topic" id="experiment-tracking">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">13 — Pipeline & Automation</div><h2>Experiment <em>Tracking</em></h2></div>
-    <span class="topic-badge">Workflow</span>
+    <span class="topic-badge">Workflow</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Logging every run so you never lose a good result</p>
   <p class="prose"><strong>Experiment tracking</strong> logs hyperparameters, metrics, artifacts, and code versions for every training run. Three months from now, when someone asks "which model was that?" you can answer. MLflow, Weights &amp; Biases, and Neptune are the main tools.</p>
@@ -565,7 +565,7 @@ function buildCICDML() {
   return `<div class="topic" id="ci-cd-ml">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">14 — Pipeline & Automation</div><h2>CI/CD <em>for ML</em></h2></div>
-    <span class="topic-badge">DevOps</span>
+    <span class="topic-badge">DevOps</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Automated testing of data, models, and deployments</p>
   <p class="prose">ML CI/CD extends traditional CI/CD with three additional test layers: <strong>data validation</strong> (schema + quality), <strong>model validation</strong> (performance thresholds), and <strong>serving validation</strong> (latency + correctness). A merge should trigger retraining, evaluation, and conditional deployment.</p>
@@ -592,7 +592,7 @@ function buildOrchestration() {
   return `<div class="topic" id="orchestration">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">15 — Pipeline & Automation</div><h2>Orchestration &amp; <em>Scheduling</em></h2></div>
-    <span class="topic-badge">Infrastructure</span>
+    <span class="topic-badge">Infrastructure</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// DAGs, retries, backfills, and trigger strategies</p>
   <p class="prose"><strong>Orchestrators</strong> manage the when, how, and what-if of ML workflows. Airflow, Prefect, and Dagster define DAGs with dependency resolution, automatic retries, and backfill capabilities. Good orchestration means your retraining runs reliably at 2 AM without you.</p>
@@ -625,7 +625,7 @@ function buildModelCompression() {
   return `<div class="topic" id="model-compression">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">16 — Scale & Optimize</div><h2>Model <em>Compression</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Pruning, distillation, and the lottery ticket hypothesis</p>
   <p class="prose"><strong>Pruning</strong> removes unimportant weights (structured or unstructured). <strong>Knowledge distillation</strong> trains a small "student" model to mimic a large "teacher." The <strong>lottery ticket hypothesis</strong> suggests sparse subnetworks within large models can match full performance — if you find the right ticket.</p>
@@ -648,7 +648,7 @@ function buildQuantization() {
   return `<div class="topic" id="quantization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">17 — Scale & Optimize</div><h2><em>Quantization</em></h2></div>
-    <span class="topic-badge">Optimization</span>
+    <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// FP32 → INT8 — trading precision for speed</p>
   <p class="prose"><strong>Quantization</strong> reduces weight precision from 32-bit floats to 16-bit or 8-bit integers. <strong>Post-training quantization (PTQ)</strong> is the quick path — just convert. <strong>Quantization-aware training (QAT)</strong> simulates low precision during training for better accuracy at INT8.</p>
@@ -676,7 +676,7 @@ function buildCachingLayers() {
   return `<div class="topic" id="caching-layers">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">18 — Scale & Optimize</div><h2>Caching &amp; <em>Prediction Stores</em></h2></div>
-    <span class="topic-badge">Performance</span>
+    <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Don't predict what you've already predicted</p>
   <p class="prose">If 80% of your requests are repeated inputs (product recommendations, credit scores), a <strong>prediction cache</strong> (Redis, Memcached) can serve them in microseconds. <strong>Prediction stores</strong> precompute scores for all known entities on a schedule. TTL and invalidation strategies keep results fresh.</p>
@@ -698,7 +698,7 @@ function buildAutoScaling() {
   return `<div class="topic" id="auto-scaling">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">19 — Scale & Optimize</div><h2>Auto-Scaling <em>Endpoints</em></h2></div>
-    <span class="topic-badge">Infrastructure</span>
+    <span class="topic-badge">Infrastructure</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Scaling with demand — and scaling back to save money</p>
   <p class="prose"><strong>Horizontal Pod Autoscaler (HPA)</strong> adds replicas when CPU/memory/custom metrics exceed thresholds. <strong>Scale-to-zero</strong> (Knative, serverless) eliminates idle costs but adds cold start latency. The right strategy depends on traffic patterns — bursty vs steady, latency-tolerant vs strict SLO.</p>
@@ -720,7 +720,7 @@ function buildCostGovernance() {
   return `<div class="topic" id="cost-governance">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">20 — Scale & Optimize</div><h2>Cost <em>Governance</em></h2></div>
-    <span class="topic-badge">FinOps</span>
+    <span class="topic-badge">FinOps</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Tracking cost per prediction and eliminating ML waste</p>
   <p class="prose">ML workloads are expensive — GPUs, storage, compute for training and serving. <strong>Cost governance</strong> tracks cost per prediction, GPU utilisation, idle resources, and spot vs reserved savings. The goal: same model quality at lower cost, or better models at the same cost.</p>
@@ -747,7 +747,7 @@ function buildModelRegistry() {
   return `<div class="topic" id="model-registry">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">21 — Governance & Trust</div><h2>Model Registry &amp; <em>Versioning</em></h2></div>
-    <span class="topic-badge">Governance</span>
+    <span class="topic-badge">Governance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Central catalog with staging, production, and archive states</p>
   <p class="prose">A <strong>model registry</strong> is a versioned catalog where every model has metadata (who trained it, on what data, with which hyperparameters) and a lifecycle stage: <em>staging</em> → <em>production</em> → <em>archived</em>. Approval workflows ensure no model reaches production without review.</p>
@@ -781,7 +781,7 @@ function buildLineageTracking() {
   return `<div class="topic" id="lineage-tracking">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">22 — Governance & Trust</div><h2>Lineage <em>Tracking</em></h2></div>
-    <span class="topic-badge">Audit</span>
+    <span class="topic-badge">Audit</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Tracing every prediction back to its training data and code</p>
   <p class="prose"><strong>Lineage tracking</strong> records the full provenance chain: which data → which features → which code → which model → which prediction. When a model misbehaves, you can trace backwards to find the root cause. Regulatory compliance (GDPR, finance) often requires this.</p>
@@ -799,7 +799,7 @@ function buildFairnessAudits() {
   return `<div class="topic" id="fairness-audits">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">23 — Governance & Trust</div><h2>Fairness <em>Audits</em></h2></div>
-    <span class="topic-badge">Ethics</span>
+    <span class="topic-badge">Ethics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Testing for bias across protected groups</p>
   <p class="prose"><strong>Fairness audits</strong> measure whether your model treats different groups equitably. <strong>Demographic parity</strong> checks if positive rates are equal across groups. <strong>Equalized odds</strong> checks if error rates are equal. No single metric captures all fairness — you must choose which definition matches your context.</p>
@@ -830,7 +830,7 @@ function buildReproducibility() {
   return `<div class="topic" id="reproducibility">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">24 — Governance & Trust</div><h2><em>Reproducibility</em></h2></div>
-    <span class="topic-badge">Science</span>
+    <span class="topic-badge">Science</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Ensuring any result can be replicated exactly</p>
   <p class="prose"><strong>Reproducibility</strong> means anyone can re-run your experiment and get the same result. This requires pinned dependencies, fixed random seeds, versioned data (DVC), containerised environments, and recorded hardware specs. Without it, your "state of the art" result is just a story.</p>
@@ -862,7 +862,7 @@ function buildIncidentResponse() {
   return `<div class="topic" id="incident-response">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">25 — Governance & Trust</div><h2>Incident Response <em>for ML</em></h2></div>
-    <span class="topic-badge">Operations</span>
+    <span class="topic-badge">Operations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// When models fail in production — rollback, fallback, postmortem</p>
   <p class="prose">ML incidents are different from software bugs: the code runs fine, but predictions are wrong. <strong>Rollback</strong> reverts to the previous model version. <strong>Fallbacks</strong> (rule-based defaults, cached predictions) serve something when the model is down. <strong>Circuit breakers</strong> automatically switch to fallback when error rates spike.</p>

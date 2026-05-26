@@ -182,7 +182,7 @@ function buildTokenization() {
   return `<div class="topic" id="tokenization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2>Token<em>ization</em></h2></div>
-    <span class="topic-badge">BPE · WordPiece · Unigram</span>
+    <span class="topic-badge">BPE · WordPiece · Unigram</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Breaking text into the atomic units a model can process</p>
   <p class="prose">LLMs don't see characters or words — they see <strong>tokens</strong>. A tokenizer maps raw text to integer IDs from a fixed vocabulary. The dominant algorithm is <strong>Byte Pair Encoding (BPE)</strong>: start with individual bytes, iteratively merge the most frequent adjacent pair until the vocabulary reaches the target size (typically 32k–128k).</p>
@@ -226,7 +226,7 @@ function buildEmbeddings() {
   return `<div class="topic" id="embeddings">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Token <em>Embeddings</em></h2></div>
-    <span class="topic-badge">Learned Representations</span>
+    <span class="topic-badge">Learned Representations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Mapping discrete token IDs to continuous vector space</p>
   <p class="prose">Each token ID indexes into a <strong>learned embedding table</strong> of shape <code>(vocab_size, d_model)</code>. The result is a dense vector that captures semantic meaning. Similar tokens end up near each other in this space — "king" and "queen" are close, "cat" and "automobile" are far.</p>
@@ -261,7 +261,7 @@ function buildPositionalEncoding() {
   return `<div class="topic" id="positional-encoding">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Positional <em>Encoding</em></h2></div>
-    <span class="topic-badge">Sinusoidal · RoPE · ALiBi</span>
+    <span class="topic-badge">Sinusoidal · RoPE · ALiBi</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Giving transformers a sense of token order</p>
   <p class="prose">Self-attention is <strong>permutation-equivariant</strong> — it treats "the cat sat" identically to "sat cat the" without positional information. We need to inject position somehow.</p>
@@ -296,7 +296,7 @@ function buildSelfAttention() {
   return `<div class="topic" id="self-attention">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2>Self-<em>Attention</em></h2></div>
-    <span class="topic-badge">Scaled Dot-Product</span>
+    <span class="topic-badge">Scaled Dot-Product</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The mechanism that lets every token look at every other token</p>
   <p class="prose">Self-attention is the <strong>core operation</strong> of transformers. Each token produces a <strong>Query</strong> (what am I looking for?), a <strong>Key</strong> (what do I contain?), and a <strong>Value</strong> (what do I output?). Attention weights are the softmax of query-key dot products.</p>
@@ -329,7 +329,7 @@ function buildMultiHeadAttention() {
   return `<div class="topic" id="multi-head-attention">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">05 — Foundations</div><h2>Multi-Head <em>Attention</em></h2></div>
-    <span class="topic-badge">MHA · MQA · GQA</span>
+    <span class="topic-badge">MHA · MQA · GQA</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Running multiple attention computations in parallel</p>
   <p class="prose">Instead of one big attention operation, we split into <strong>h heads</strong>, each with dimension d_k = d_model / h. Each head learns different patterns — one might track syntax, another coreference, another positional relationships.</p>
@@ -373,7 +373,7 @@ function buildFeedForward() {
   return `<div class="topic" id="feed-forward">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">06 — Foundations</div><h2>Feed-Forward <em>Networks</em></h2></div>
-    <span class="topic-badge">SwiGLU · GELU · Expansion</span>
+    <span class="topic-badge">SwiGLU · GELU · Expansion</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The per-token MLP after every attention layer</p>
   <p class="prose">After attention mixes information across tokens, the <strong>feed-forward network (FFN)</strong> processes each token independently. It expands to a higher dimension, applies a nonlinearity, and projects back down. This is where most of the model's "knowledge" is stored.</p>
@@ -406,7 +406,7 @@ function buildTransformerBlock() {
   return `<div class="topic" id="transformer-block">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Architecture</div><h2>Transformer <em>Block</em></h2></div>
-    <span class="topic-badge">Pre-Norm · Residuals</span>
+    <span class="topic-badge">Pre-Norm · Residuals</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The fundamental repeating unit of every LLM</p>
   <p class="prose">A transformer block combines attention and FFN with <strong>residual connections</strong> and <strong>layer normalization</strong>. Modern LLMs use <strong>Pre-Norm</strong> (normalize before each sublayer) rather than Post-Norm, which stabilizes training at scale.</p>
@@ -441,7 +441,7 @@ function buildDecoderOnly() {
   return `<div class="topic" id="decoder-only">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">08 — Architecture</div><h2>Decoder-Only <em>Models</em></h2></div>
-    <span class="topic-badge">GPT · LLaMA · Causal LM</span>
+    <span class="topic-badge">GPT · LLaMA · Causal LM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The dominant architecture behind GPT, LLaMA, Mistral, and most modern LLMs</p>
   <p class="prose">Decoder-only models use <strong>causal (left-to-right) masking</strong> so each token can only attend to itself and previous tokens — never the future. This enables <strong>autoregressive generation</strong>: predict next token, append, repeat.</p>
@@ -474,7 +474,7 @@ function buildKVCache() {
   return `<div class="topic" id="kv-cache">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">09 — Architecture</div><h2>KV-<em>Cache</em></h2></div>
-    <span class="topic-badge">Memory Optimization</span>
+    <span class="topic-badge">Memory Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Cache once, reuse forever — the key to fast autoregressive generation</p>
   <p class="prose">During generation, each new token only needs to compute its own Q, K, V — but it attends to <strong>all previous K and V vectors</strong>. Without caching, we'd recompute K,V for all prior tokens at every step. The <strong>KV-cache</strong> stores these, turning generation from O(n²) to O(n) per step.</p>
@@ -507,7 +507,7 @@ function buildContextWindows() {
   return `<div class="topic" id="context-windows">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">10 — Architecture</div><h2>Context <em>Windows</em></h2></div>
-    <span class="topic-badge">Long Context · RoPE Scaling</span>
+    <span class="topic-badge">Long Context · RoPE Scaling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How much text can a model see at once — and how to push the limits</p>
   <p class="prose">The context window is the maximum number of tokens a model can process in one forward pass. GPT-3 had 2K, GPT-4 Turbo has 128K, Gemini 1.5 has 1M+. Expanding context is critical for document analysis, code understanding, and long conversations.</p>
@@ -538,7 +538,7 @@ function buildMixtureOfExperts() {
   return `<div class="topic" id="mixture-of-experts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">11 — Architecture</div><h2>Mixture of <em>Experts</em></h2></div>
-    <span class="topic-badge">Sparse · Router · Top-K</span>
+    <span class="topic-badge">Sparse · Router · Top-K</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// More parameters without proportionally more compute</p>
   <p class="prose"><strong>Mixture of Experts (MoE)</strong> replaces the single FFN with multiple "expert" FFNs and a <strong>router</strong> that selects which experts process each token. Only the top-K experts activate per token — typically K=2 out of 8–64 experts.</p>
@@ -583,7 +583,7 @@ function buildScalingLaws() {
   return `<div class="topic" id="scaling-laws">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">12 — Architecture</div><h2>Scaling <em>Laws</em></h2></div>
-    <span class="topic-badge">Chinchilla · Power Laws</span>
+    <span class="topic-badge">Chinchilla · Power Laws</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Predicting performance before spending millions on compute</p>
   <p class="prose"><strong>Scaling laws</strong> reveal that LLM loss follows <strong>power laws</strong> in parameters (N), data (D), and compute (C). The <strong>Chinchilla paper</strong> showed that most models were trained on too little data — the optimal ratio is roughly 20 tokens per parameter.</p>
@@ -619,7 +619,7 @@ function buildPreTraining() {
   return `<div class="topic" id="pre-training">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">13 — Training</div><h2>Pre-<em>Training</em></h2></div>
-    <span class="topic-badge">Next-Token Prediction</span>
+    <span class="topic-badge">Next-Token Prediction</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Learning language from trillions of tokens</p>
   <p class="prose">Pre-training is the foundation: train a randomly-initialized transformer to predict the next token on a massive text corpus. The <strong>cross-entropy loss</strong> between predicted and actual next tokens drives all learning. The model develops grammar, facts, reasoning, and code — all from this single objective.</p>
@@ -660,7 +660,7 @@ function buildFineTuning() {
   return `<div class="topic" id="fine-tuning">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">14 — Training</div><h2>Fine-<em>Tuning</em></h2></div>
-    <span class="topic-badge">SFT · Instruction Tuning</span>
+    <span class="topic-badge">SFT · Instruction Tuning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Turning a base model into a helpful assistant</p>
   <p class="prose">A pre-trained model predicts next tokens but doesn't follow instructions. <strong>Supervised Fine-Tuning (SFT)</strong> trains on curated (instruction, response) pairs — teaching the model to converse, follow directions, and output structured answers.</p>
@@ -695,7 +695,7 @@ function buildLoRA() {
   return `<div class="topic" id="lora-qlora">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">15 — Training</div><h2>LoRA & <em>QLoRA</em></h2></div>
-    <span class="topic-badge">Parameter-Efficient</span>
+    <span class="topic-badge">Parameter-Efficient</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Fine-tune a 70B model on a single GPU</p>
   <p class="prose"><strong>LoRA (Low-Rank Adaptation)</strong> freezes all pre-trained weights and injects small trainable rank-decomposition matrices. Instead of updating W ∈ ℝ^(d×d), we learn W' = W + BA where B ∈ ℝ^(d×r), A ∈ ℝ^(r×d) with rank r ≪ d (typically 8–64).</p>
@@ -730,7 +730,7 @@ function buildRLHF() {
   return `<div class="topic" id="rlhf">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">16 — Training</div><h2><em>RLHF</em></h2></div>
-    <span class="topic-badge">Reward Model · PPO</span>
+    <span class="topic-badge">Reward Model · PPO</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Aligning language models with human preferences</p>
   <p class="prose"><strong>RLHF (Reinforcement Learning from Human Feedback)</strong> is a 3-stage process: (1) SFT the base model, (2) train a <strong>reward model</strong> on human comparison data, (3) optimize the SFT model with <strong>PPO</strong> against the reward model while staying close to the SFT policy.</p>
@@ -767,7 +767,7 @@ function buildDPO() {
   return `<div class="topic" id="dpo">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">17 — Training</div><h2><em>DPO</em></h2></div>
-    <span class="topic-badge">Direct Preference Optimization</span>
+    <span class="topic-badge">Direct Preference Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Skip the reward model — optimize preferences directly</p>
   <p class="prose"><strong>DPO</strong> reformulates RLHF as a simple classification problem: given (chosen, rejected) pairs, directly optimize the policy — no reward model, no PPO, no RL. The key insight: the optimal RLHF solution has a closed-form mapping between reward and policy.</p>
@@ -797,7 +797,7 @@ function buildDataCuration() {
   return `<div class="topic" id="data-curation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">18 — Training</div><h2>Data <em>Curation</em></h2></div>
-    <span class="topic-badge">Quality · Dedup · Mixing</span>
+    <span class="topic-badge">Quality · Dedup · Mixing</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The most impactful and least glamorous part of LLM training</p>
   <p class="prose">Data quality determines model quality. The pipeline: <strong>crawl → filter → deduplicate → classify → mix</strong>. Common Crawl provides ~250B pages, but only a small fraction is high-quality. Aggressive filtering and deduplication are essential.</p>
@@ -834,7 +834,7 @@ function buildDecodingStrategies() {
   return `<div class="topic" id="decoding-strategies">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">19 — Inference</div><h2>Decoding <em>Strategies</em></h2></div>
-    <span class="topic-badge">Greedy · Beam Search</span>
+    <span class="topic-badge">Greedy · Beam Search</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Deterministic methods for converting logits to text</p>
   <p class="prose"><strong>Greedy decoding</strong> picks the highest-probability token at each step. Simple but often suboptimal — it can miss globally better sequences. <strong>Beam search</strong> maintains K candidate sequences (beams) and prunes at each step.</p>
@@ -870,7 +870,7 @@ function buildSampling() {
   return `<div class="topic" id="sampling">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">20 — Inference</div><h2><em>Sampling</em></h2></div>
-    <span class="topic-badge">Temperature · Top-K · Top-P</span>
+    <span class="topic-badge">Temperature · Top-K · Top-P</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Controlling creativity by shaping the probability distribution</p>
   <p class="prose">Instead of argmax, <strong>sample</strong> from the distribution — but shape it first. <strong>Temperature</strong> sharpens or flattens. <strong>Top-K</strong> limits to K most likely tokens. <strong>Top-P (nucleus)</strong> limits to the smallest set that sums to P probability.</p>
@@ -906,7 +906,7 @@ function buildSpeculativeDecoding() {
   return `<div class="topic" id="speculative-decoding">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">21 — Inference</div><h2>Speculative <em>Decoding</em></h2></div>
-    <span class="topic-badge">Draft & Verify</span>
+    <span class="topic-badge">Draft & Verify</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Use a fast model to draft, a large model to verify — 2–3× speedup</p>
   <p class="prose">Autoregressive generation is <strong>memory-bound</strong>: each token requires loading all model weights but does minimal computation. <strong>Speculative decoding</strong> uses a small draft model to generate K candidate tokens, then the large model verifies all K in one forward pass (which is compute-bound, so it's fast).</p>
@@ -954,7 +954,7 @@ function buildQuantization() {
   return `<div class="topic" id="quantization">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">22 — Inference</div><h2>Quant<em>ization</em></h2></div>
-    <span class="topic-badge">INT8 · INT4 · GPTQ · AWQ</span>
+    <span class="topic-badge">INT8 · INT4 · GPTQ · AWQ</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Shrink models 2–4× with minimal quality loss</p>
   <p class="prose"><strong>Quantization</strong> reduces the precision of model weights from 16-bit floats to 8-bit or 4-bit integers. This halves (or quarters) memory usage and speeds up memory-bound inference. The challenge: preserving output quality.</p>
@@ -991,7 +991,7 @@ function buildKVCacheOpt() {
   return `<div class="topic" id="kv-cache-opt">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">23 — Inference</div><h2>KV-Cache <em>Optimization</em></h2></div>
-    <span class="topic-badge">PagedAttention · vLLM</span>
+    <span class="topic-badge">PagedAttention · vLLM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Eliminating the memory fragmentation that limits batch size</p>
   <p class="prose">Standard KV-cache allocates a contiguous buffer for the maximum sequence length per request — this wastes memory (most sequences are shorter). <strong>PagedAttention</strong> (vLLM) allocates KV-cache in <em>fixed-size blocks</em> (like OS virtual memory pages), eliminating fragmentation.</p>
@@ -1025,7 +1025,7 @@ function buildBatching() {
   return `<div class="topic" id="batching">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">24 — Inference</div><h2>Batching & <em>Throughput</em></h2></div>
-    <span class="topic-badge">Continuous Batching · Prefill vs Decode</span>
+    <span class="topic-badge">Continuous Batching · Prefill vs Decode</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Serving hundreds of concurrent requests efficiently</p>
   <p class="prose">LLM inference has two distinct phases: <strong>prefill</strong> (process the full prompt — compute-bound, fast per token) and <strong>decode</strong> (generate one token — memory-bound, slow per token). <strong>Continuous batching</strong> dynamically adds/removes requests from a batch as they finish, rather than waiting for the longest sequence.</p>
@@ -1067,7 +1067,7 @@ function buildPromptEngineering() {
   return `<div class="topic" id="prompt-engineering">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">25 — Applications</div><h2>Prompt <em>Engineering</em></h2></div>
-    <span class="topic-badge">System · Few-Shot · CoT</span>
+    <span class="topic-badge">System · Few-Shot · CoT</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The craft of asking questions that get the best answers</p>
   <p class="prose">Prompt engineering is the art of structuring inputs to maximize output quality. The key tools: <strong>system prompts</strong> (set behavior), <strong>few-shot examples</strong> (show by example), and <strong>chain-of-thought</strong> (encourage step-by-step reasoning).</p>
@@ -1105,7 +1105,7 @@ function buildRAG() {
   return `<div class="topic" id="rag">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">26 — Applications</div><h2><em>RAG</em></h2></div>
-    <span class="topic-badge">Retrieval-Augmented Generation</span>
+    <span class="topic-badge">Retrieval-Augmented Generation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Grounding LLM answers in your own documents</p>
   <p class="prose"><strong>RAG</strong> solves the hallucination problem by retrieving relevant documents before generation. The pipeline: <strong>Chunk</strong> documents → <strong>Embed</strong> chunks → <strong>Store</strong> in vector DB → At query time: <strong>Embed</strong> query → <strong>Retrieve</strong> top-K chunks → <strong>Generate</strong> answer with chunks as context.</p>
@@ -1145,7 +1145,7 @@ function buildEmbeddingSearch() {
   return `<div class="topic" id="embedding-search">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">27 — Applications</div><h2>Embedding <em>Search</em></h2></div>
-    <span class="topic-badge">Vector DB · ANN · HNSW</span>
+    <span class="topic-badge">Vector DB · ANN · HNSW</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding semantically similar content at scale</p>
   <p class="prose">Embedding search converts text to vectors and finds nearest neighbors. The embedding model maps text to a dense vector (768–1536 dimensions). <strong>Cosine similarity</strong> or <strong>dot product</strong> measures closeness. For millions of vectors, exact search is too slow — we use <strong>Approximate Nearest Neighbors (ANN)</strong>.</p>
@@ -1186,7 +1186,7 @@ function buildFunctionCalling() {
   return `<div class="topic" id="function-calling">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">28 — Applications</div><h2>Function <em>Calling</em></h2></div>
-    <span class="topic-badge">Tool Use · Structured Output</span>
+    <span class="topic-badge">Tool Use · Structured Output</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Extending LLMs with real-world capabilities via tool use</p>
   <p class="prose"><strong>Function calling</strong> lets an LLM request the execution of external functions — APIs, databases, calculations — by outputting structured JSON matching a schema you define. The model decides <em>when</em> to call a function, <em>which</em> function, and with what <em>arguments</em>.</p>
@@ -1236,7 +1236,7 @@ function buildAgents() {
   return `<div class="topic" id="agents">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">29 — Applications</div><h2>Agents & <em>Planning</em></h2></div>
-    <span class="topic-badge">ReAct · Tool Chains · Memory</span>
+    <span class="topic-badge">ReAct · Tool Chains · Memory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Autonomous multi-step reasoning with tools and memory</p>
   <p class="prose">An <strong>agent</strong> is an LLM that reasons about what to do, takes actions (tool calls), observes results, and iterates. The <strong>ReAct</strong> pattern (Reason + Act) interleaves thinking and tool use: Thought → Action → Observation → Thought → ...</p>
@@ -1282,7 +1282,7 @@ function buildEvaluation() {
   return `<div class="topic" id="evaluation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">30 — Applications</div><h2>Evaluation & <em>Benchmarks</em></h2></div>
-    <span class="topic-badge">Perplexity · MMLU · Arena</span>
+    <span class="topic-badge">Perplexity · MMLU · Arena</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring what matters — and what doesn't</p>
   <p class="prose">How do you know if an LLM is good? <strong>Perplexity</strong> measures language modeling quality. <strong>Benchmarks</strong> test specific skills. <strong>Human evaluation</strong> and <strong>arena rankings</strong> capture overall helpfulness. Each has blind spots.</p>

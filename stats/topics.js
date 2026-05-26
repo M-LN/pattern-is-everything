@@ -192,7 +192,7 @@ function buildConfusionMatrix() {
   return `<div class="topic" id="confusion-matrix">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">01 — Evaluate Your Model</div><h2>Confusion Matrix &amp; <em>Classification Metrics</em></h2></div>
-    <span class="topic-badge">Classification</span>
+    <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The foundation of classification evaluation — TP, FP, TN, FN and the metrics built on them</p>
   <p class="prose">Every classifier's performance starts here. The <strong>confusion matrix</strong> gives you four counts: true positives (TP), false positives (FP), true negatives (TN), and false negatives (FN). Every classification metric is built from these four numbers.</p>
@@ -237,6 +237,17 @@ r = recall_score(y_true, y_pred)
 f = f1_score(y_true, y_pred)</pre></div>
   <div class="callout info"><strong>Threshold matters:</strong> Most classifiers output probabilities. Changing the threshold trades precision for recall. Don't just use 0.5 — tune it for your problem.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Precision vs recall is the same trade-off you see in <a href="#roc-auc">ROC curves</a> and in <a href="../markets/psychology/#fear-greed" target="_blank" rel="noopener">market fear/greed</a> — cautious vs aggressive, and the cost of being wrong in each direction.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Train your model and get <code>y_pred</code> probabilities on your <strong>validation set</strong> (never train set)</li>
+      <li>Plot the confusion matrix at threshold 0.5 — check if FP or FN is the bigger problem</li>
+      <li>If FP is costly (spam filter, fraud alert) → optimize for <strong>precision</strong> — raise threshold</li>
+      <li>If FN is costly (cancer screening, security) → optimize for <strong>recall</strong> — lower threshold</li>
+      <li>Use <code>classification_report()</code> to get all metrics at once — report this in your model card</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — data leakage:</strong> If you tune the threshold on your test set, you're overfitting to it. Use a separate validation split or nested cross-validation to select the threshold, then evaluate once on the held-out test set.</div>
+  </div>
   <div class="topic-nav" id="nav-confusion-matrix"></div>
 </div>`;
 }
@@ -246,7 +257,7 @@ function buildROCAUC() {
   return `<div class="topic" id="roc-auc">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">02 — Evaluate Your Model</div><h2>ROC &amp; <em>AUC</em> Curves</h2></div>
-    <span class="topic-badge">Classification</span>
+    <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Visualising model performance across all thresholds</p>
   <p class="prose">The <strong>ROC curve</strong> plots True Positive Rate vs False Positive Rate at every threshold. The <strong>AUC</strong> (area under curve) collapses this into a single number: 1.0 = perfect, 0.5 = random. It's threshold-independent, making it ideal for comparing models.</p>
@@ -282,7 +293,7 @@ function buildRegressionMetrics() {
   return `<div class="topic" id="regression-metrics">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">03 — Evaluate Your Model</div><h2>Regression <em>Metrics</em></h2></div>
-    <span class="topic-badge">Regression</span>
+    <span class="topic-badge">Regression</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// MAE, RMSE, R² — which metric for which problem and what the numbers actually mean</p>
   <p class="prose">Regression metrics measure how far predictions are from truth. <strong>MAE</strong> treats every error equally, <strong>RMSE</strong> penalises big errors more, and <strong>R&sup2;</strong> tells you how much variance your model explains vs a baseline mean prediction.</p>
@@ -319,7 +330,7 @@ function buildCrossValidation() {
   return `<div class="topic" id="cross-validation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">04 — Evaluate Your Model</div><h2>Cross-Validation <em>Done Right</em></h2></div>
-    <span class="topic-badge">Validation</span>
+    <span class="topic-badge">Validation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Splitting your data honestly — k-fold, stratified, time-series split, and the leakage traps</p>
   <p class="prose"><strong>Cross-validation</strong> rotates which data is used for training and testing. <strong>K-fold</strong> splits data into k parts, trains on k&minus;1, tests on the held-out fold, and repeats. The mean score across folds is a robust estimate of generalisation.</p>
@@ -356,6 +367,17 @@ tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
 scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
   <div class="callout info"><strong>Data leakage trap:</strong> If you scale or impute <em>before</em> splitting, information from the test fold leaks into training. Always put preprocessing inside a <code>Pipeline</code>.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Cross-validation in ML and <a href="#walk-forward">walk-forward validation</a> in backtesting are the same principle — testing on data the model has never seen. The time-series variant here connects directly to market backtesting.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Pick your CV strategy: <strong>StratifiedKFold</strong> for classification, <strong>TimeSeriesSplit</strong> for temporal data, standard KFold for regression</li>
+      <li>Wrap all preprocessing in a <code>sklearn.pipeline.Pipeline</code> — scaling, imputation, encoding must happen <em>inside</em> each fold</li>
+      <li>Use <code>cross_val_score()</code> for a quick check — report <strong>mean ± std</strong> across folds</li>
+      <li>For hyperparameter tuning, use <strong>nested CV</strong>: inner loop tunes (GridSearchCV), outer loop evaluates</li>
+      <li>If std across folds is high (>10% of mean), your model is unstable — investigate data quality or try more folds</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — overfitting to CV score:</strong> If you run CV many times with different hyperparameters and pick the best, you're overfitting to the CV folds. Use nested CV or hold out a final test set that you touch only once.</div>
+  </div>
   <div class="topic-nav" id="nav-cross-validation"></div>
 </div>`;
 }
@@ -365,7 +387,7 @@ function buildComparingRuns() {
   return `<div class="topic" id="comparing-runs">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">05 — Evaluate Your Model</div><h2>Comparing <em>Model Runs</em></h2></div>
-    <span class="topic-badge">Testing</span>
+    <span class="topic-badge">Testing</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is this improvement real? Statistical tests for comparing model performance across runs</p>
   <p class="prose">Model A got 0.87 F1. Model B got 0.89. Is that difference real or just noise? You need <strong>statistical tests</strong> on paired cross-validation scores to answer confidently. Without them, you're just reading tea leaves.</p>
@@ -401,7 +423,7 @@ function buildLearningCurves() {
   return `<div class="topic" id="learning-curves">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">06 — Evaluate Your Model</div><h2>Learning Curves &amp; <em>Overfitting</em></h2></div>
-    <span class="topic-badge">Diagnostics</span>
+    <span class="topic-badge">Diagnostics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Training vs validation curves — reading the gap to diagnose models</p>
   <p class="prose">A <strong>learning curve</strong> plots training and validation scores as data increases. The <strong>gap</strong> between them tells you everything: large gap = overfitting, both low = underfitting, converging = sweet spot. It also tells you if more data would help.</p>
@@ -427,6 +449,17 @@ plt.plot(sizes, train_scores.mean(axis=<span class="st">1</span>), label=<span c
 plt.plot(sizes, val_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Val'</span>)
 plt.legend(); plt.show()</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Plot learning curves <strong>early</strong> in your project — before spending time on feature engineering</li>
+      <li><strong>Large gap</strong> (overfit) → try regularization, dropout, less complex model, or more data</li>
+      <li><strong>Both scores low</strong> (underfit) → try more features, more complex model, or feature engineering</li>
+      <li><strong>Curves converging but slowly</strong> → more data will help — go collect it</li>
+      <li><strong>Curves flat and apart</strong> → more data won't help — simplify the model instead</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — early stopping too early:</strong> If your validation curve is still improving, you're stopping before convergence. If your training curve keeps rising while validation drops, you've gone past the sweet spot. Use a patience parameter (e.g. 10 epochs with no improvement) to find the right moment.</div>
+  </div>
   <div class="topic-nav" id="nav-learning-curves"></div>
 </div>`;
 }
@@ -436,7 +469,7 @@ function buildSHAPValues() {
   return `<div class="topic" id="shap-values">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Understand Your Features</div><h2>SHAP <em>Values</em></h2></div>
-    <span class="topic-badge">Explainability</span>
+    <span class="topic-badge">Explainability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Game-theoretic feature attribution — understand exactly why your model made each prediction</p>
   <p class="prose"><strong>SHAP</strong> (SHapley Additive exPlanations) assigns each feature a contribution to each prediction. Based on Shapley values from cooperative game theory, SHAP is the only method with mathematical guarantees: consistency, local accuracy, and missingness.</p>
@@ -463,6 +496,17 @@ shap.plots.waterfall(shap_values[<span class="st">0</span>])
 shap.plots.beeswarm(shap_values)</pre></div>
   <div class="callout info"><strong>Explainer choice:</strong> Use <code>TreeExplainer</code> for tree models (fast, exact). <code>KernelExplainer</code> for any model (slow, approximate). <code>DeepExplainer</code> for deep learning.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP reveals which features drive a prediction. In markets, <a href="../markets/indicators/#volume" target="_blank" rel="noopener">volume analysis</a> asks the same question — which factors are driving price? Decomposing into contributions is a universal pattern.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Train your model first — SHAP explains a <em>trained</em> model, it doesn't improve it</li>
+      <li>Use <code>shap.plots.waterfall()</code> to explain <strong>individual predictions</strong> (e.g. "why was this loan denied?")</li>
+      <li>Use <code>shap.plots.beeswarm()</code> for <strong>global feature importance</strong> — which features matter most overall</li>
+      <li>Check for <strong>feature interactions</strong> with <code>shap.plots.scatter()</code> — colored by another feature</li>
+      <li>Compare SHAP with <a href="#permutation-importance">permutation importance</a> — if they disagree, you likely have correlated features</li>
+    </ol>
+    <div class="howto-pitfall"><strong>When SHAP misleads:</strong> SHAP assumes feature independence when computing marginal contributions. With highly correlated features (e.g. height and weight), SHAP may distribute credit unevenly. Always check the correlation matrix first. For critical decisions, combine SHAP with domain knowledge.</div>
+  </div>
   <div class="topic-nav" id="nav-shap-values"></div>
 </div>`;
 }
@@ -472,7 +516,7 @@ function buildPermutationImportance() {
   return `<div class="topic" id="permutation-importance">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">08 — Understand Your Features</div><h2>Permutation <em>Importance</em></h2></div>
-    <span class="topic-badge">Features</span>
+    <span class="topic-badge">Features</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Shuffle a feature, measure the damage — a model-agnostic way to rank feature importance</p>
   <p class="prose"><strong>Permutation importance</strong> randomly shuffles one feature at a time and measures how much the model's score drops. Big drop = important feature. It works with <em>any</em> model and requires no retraining.</p>
@@ -507,7 +551,7 @@ function buildPDPICE() {
   return `<div class="topic" id="pdp-ice">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">09 — Understand Your Features</div><h2>Partial Dependence &amp; <em>ICE</em></h2></div>
-    <span class="topic-badge">Explainability</span>
+    <span class="topic-badge">Explainability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How does changing one feature affect predictions? PDP shows the average, ICE shows every instance</p>
   <p class="prose"><strong>Partial Dependence Plots (PDP)</strong> show the average effect of one feature on predictions, marginalising over all other features. <strong>ICE plots</strong> show the same for each individual instance — revealing heterogeneity the average hides.</p>
@@ -540,7 +584,7 @@ function buildFeatureCorrelation() {
   return `<div class="topic" id="feature-correlation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">10 — Understand Your Features</div><h2>Feature Correlation &amp; <em>Multicollinearity</em></h2></div>
-    <span class="topic-badge">Features</span>
+    <span class="topic-badge">Features</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop</p>
   <p class="prose">Highly correlated features are redundant — they inflate coefficient variance in linear models and confuse importance measures. <strong>VIF</strong> (Variance Inflation Factor) quantifies how much each feature's coefficient variance is inflated by correlation with others.</p>
@@ -576,7 +620,7 @@ function buildInformationGain() {
   return `<div class="topic" id="information-gain">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">11 — Understand Your Features</div><h2>Information Gain &amp; <em>Mutual Information</em></h2></div>
-    <span class="topic-badge">Information Theory</span>
+    <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Beyond linear correlation — information-theoretic measures that capture any kind of dependency</p>
   <p class="prose"><strong>Mutual information</strong> measures how much knowing one variable reduces uncertainty about another — capturing <em>any</em> dependency (linear, nonlinear, categorical). Unlike correlation, it detects complex relationships that Pearson's r misses entirely.</p>
@@ -607,7 +651,7 @@ function buildDistributionShape() {
   return `<div class="topic" id="distribution-shape">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">12 — Analyze Your Data</div><h2>Distribution <em>Shape</em></h2></div>
-    <span class="topic-badge">Data Analysis</span>
+    <span class="topic-badge">Data Analysis</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Skewness, kurtosis, QQ plots — is your data normal, and does it matter?</p>
   <p class="prose">Before modelling, know your data's shape. <strong>Skewness</strong> measures asymmetry (are the tails lopsided?), <strong>kurtosis</strong> measures tail heaviness (how many extreme values?), and <strong>QQ plots</strong> show deviations from normality at a glance.</p>
@@ -642,7 +686,7 @@ function buildOutlierDetection() {
   return `<div class="topic" id="outlier-detection">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">13 — Analyze Your Data</div><h2>Outlier <em>Detection</em></h2></div>
-    <span class="topic-badge">Data Analysis</span>
+    <span class="topic-badge">Data Analysis</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// IQR, Z-score, Isolation Forest — finding extreme values and knowing when they're the signal</p>
   <p class="prose">Outliers can be errors to fix or signal to keep. <strong>Z-score</strong> flags points far from the mean, <strong>IQR</strong> is robust to skew, and <strong>Isolation Forest</strong> catches complex multi-dimensional outliers that univariate methods miss.</p>
@@ -678,7 +722,7 @@ function buildMissingData() {
   return `<div class="topic" id="missing-data">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">14 — Analyze Your Data</div><h2>Missing Data <em>Strategies</em></h2></div>
-    <span class="topic-badge">Data Quality</span>
+    <span class="topic-badge">Data Quality</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Imputation, MICE, missingness patterns — handling gaps without corrupting your analysis</p>
   <p class="prose">Missing data isn't just annoying — <em>why</em> it's missing matters. <strong>MCAR</strong> (completely random) is safe to drop. <strong>MAR</strong> (depends on observed data) needs smart imputation. <strong>MNAR</strong> (depends on the missing value itself) is the hardest case.</p>
@@ -716,7 +760,7 @@ function buildDataDrift() {
   return `<div class="topic" id="data-drift">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">15 — Analyze Your Data</div><h2>Data Drift &amp; <em>Distribution Shift</em></h2></div>
-    <span class="topic-badge">Monitoring</span>
+    <span class="topic-badge">Monitoring</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is your model still valid? PSI, KS test, and detecting when the world has changed</p>
   <p class="prose">Models decay when the data distribution shifts. <strong>PSI</strong> (Population Stability Index) detects changes in feature distributions. The <strong>KS test</strong> checks if two samples came from the same distribution. Monitor these to know when to retrain.</p>
@@ -744,6 +788,17 @@ function buildDataDrift() {
 stat, p_val = ks_2samp(ref_data, new_data)
 print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Data drift in ML mirrors <a href="../markets/psychology/#regime" target="_blank" rel="noopener">regime changes</a> in markets. Both signal that the rules have changed — past patterns no longer predict the future.</div>
+  <div class="howto">
+    <div class="howto-title">Real-world pipeline: monitoring for drift</div>
+    <ol>
+      <li><strong>Baseline:</strong> Save reference distributions from your training data (histograms, quantiles per feature)</li>
+      <li><strong>Schedule:</strong> Run PSI or KS test on each feature weekly (or per batch in streaming)</li>
+      <li><strong>Alert thresholds:</strong> PSI &gt; 0.1 = moderate drift, PSI &gt; 0.25 = significant — trigger investigation</li>
+      <li><strong>Investigate:</strong> Check if drift is in inputs (covariate shift) or in the target (concept drift)</li>
+      <li><strong>Retrain or adapt:</strong> If performance has degraded, retrain on recent data. For gradual drift, use a sliding training window</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — feature drift ≠ model decay:</strong> A feature's distribution can shift without affecting model performance (if it's a low-importance feature). Always cross-check drift detection with actual model metrics on labelled data.</div>
+  </div>
   <div class="topic-nav" id="nav-data-drift"></div>
 </div>`;
 }
@@ -753,7 +808,7 @@ function buildClassImbalance() {
   return `<div class="topic" id="class-imbalance">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">16 — Analyze Your Data</div><h2>Sampling &amp; <em>Class Imbalance</em></h2></div>
-    <span class="topic-badge">Data Prep</span>
+    <span class="topic-badge">Data Prep</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// SMOTE, undersampling, class weights — strategies when your classes are nowhere near 50/50</p>
   <p class="prose">Fraud detection: 0.1% positive. Disease screening: 2% positive. With severe class imbalance, a model that predicts "no" always gets 99%+ accuracy while being useless. You need <strong>resampling</strong> or <strong>cost-sensitive learning</strong>.</p>
@@ -790,7 +845,7 @@ function buildSharpeRatio() {
   return `<div class="topic" id="sharpe-ratio">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">17 — Backtest &amp; Validate</div><h2>Sharpe Ratio &amp; <em>Risk-Adjusted Returns</em></h2></div>
-    <span class="topic-badge">Performance</span>
+    <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Interpreting Sharpe, Sortino, Calmar — return per unit of risk</p>
   <p class="prose">Raw returns are meaningless without risk context. The <strong>Sharpe ratio</strong> measures excess return per unit of <em>total</em> volatility. <strong>Sortino</strong> only penalises downside volatility. <strong>Calmar</strong> divides return by maximum drawdown — the worst-case measure.</p>
@@ -833,7 +888,7 @@ function buildMaxDrawdown() {
   return `<div class="topic" id="max-drawdown">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">18 — Backtest &amp; Validate</div><h2>Maximum Drawdown &amp; <em>Recovery</em></h2></div>
-    <span class="topic-badge">Risk</span>
+    <span class="topic-badge">Risk</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring worst-case loss from peak — depth, duration, and recovery time</p>
   <p class="prose"><strong>Maximum drawdown</strong> is the largest peak-to-trough decline in portfolio value. It answers the question every investor asks: "How bad can it get?" <strong>Recovery time</strong> — how long to reach a new high — is equally important.</p>
@@ -871,7 +926,7 @@ function buildWalkForward() {
   return `<div class="topic" id="walk-forward">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">19 — Backtest &amp; Validate</div><h2>Walk-Forward <em>Validation</em></h2></div>
-    <span class="topic-badge">Backtesting</span>
+    <span class="topic-badge">Backtesting</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Rolling window backtesting — the right way to validate strategies on time-ordered data</p>
   <p class="prose"><strong>Walk-forward</strong> slides a training window through time, always testing on the next unseen period. It simulates real deployment: train on the past, predict the future. <strong>Anchored</strong> mode grows the training window. <strong>Rolling</strong> keeps it fixed.</p>
@@ -897,6 +952,17 @@ results = []
 
 print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trends" target="_blank" rel="noopener">market trend analysis</a>.</div>
+  <div class="howto">
+    <div class="howto-title">Real-world pipeline: backtesting a strategy</div>
+    <ol>
+      <li><strong>Define windows:</strong> Train on 2 years, test on next 3 months, slide forward by 3 months</li>
+      <li><strong>Feature engineering inside each fold</strong> — never compute indicators on future data</li>
+      <li><strong>Track per-window metrics:</strong> Sharpe, drawdown, hit rate — look for consistency, not just the average</li>
+      <li><strong>Compare to benchmark:</strong> Does your model beat buy-and-hold in each window, or just on average?</li>
+      <li><strong>Stress test:</strong> Include windows with crashes (2008, 2020, 2022) — how does the model perform under stress?</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — look-ahead bias:</strong> Using indicators like 52-week high/low that peek into the future of your test window. Also: survivorship bias — backtesting on today's S&P 500 ignores all the companies that went bankrupt. Use point-in-time datasets.</div>
+  </div>
   <div class="topic-nav" id="nav-walk-forward"></div>
 </div>`;
 }
@@ -906,7 +972,7 @@ function buildMonteCarlo() {
   return `<div class="topic" id="monte-carlo">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">20 — Backtest &amp; Validate</div><h2>Monte Carlo <em>Simulation</em></h2></div>
-    <span class="topic-badge">Simulation</span>
+    <span class="topic-badge">Simulation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Simulating thousands of paths — confidence bands on strategy performance</p>
   <p class="prose"><strong>Monte Carlo</strong> generates thousands of possible equity paths by resampling or simulating returns. Instead of one backtest (which is one path through history), you get a <em>distribution</em> of outcomes. The 5th percentile shows your realistic worst case.</p>
@@ -945,7 +1011,7 @@ function buildSurvivorshipBias() {
   return `<div class="topic" id="survivorship-bias">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">21 — Backtest &amp; Validate</div><h2>Survivorship &amp; <em>Look-Ahead Bias</em></h2></div>
-    <span class="topic-badge">Bias</span>
+    <span class="topic-badge">Bias</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The silent traps that make your backtest a fantasy</p>
   <p class="prose"><strong>Survivorship bias</strong>: testing only on stocks that still exist today (ignoring delisted failures). <strong>Look-ahead bias</strong>: using data that wasn't available at the time of the decision. Both make backtests look better than reality.</p>
@@ -981,7 +1047,7 @@ function buildConfidenceIntervals() {
   return `<div class="topic" id="confidence-intervals">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">22 — Make Decisions</div><h2>Confidence <em>Intervals</em></h2></div>
-    <span class="topic-badge">Inference</span>
+    <span class="topic-badge">Inference</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How sure are you? — bootstrap and parametric CIs, and interpreting their width</p>
   <p class="prose">A <strong>confidence interval</strong> gives a range of plausible values for an unknown parameter. A 95% CI means: if we repeated this experiment many times, 95% of the intervals computed this way would contain the true value. Width = uncertainty.</p>
@@ -1018,7 +1084,7 @@ function buildBootstrapMethods() {
   return `<div class="topic" id="bootstrap-methods">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">23 — Make Decisions</div><h2>Bootstrap <em>Methods</em></h2></div>
-    <span class="topic-badge">Resampling</span>
+    <span class="topic-badge">Resampling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Estimate anything with resampling — the nonparametric Swiss army knife for uncertainty</p>
   <p class="prose"><strong>Bootstrap</strong> resamples your data with replacement thousands of times, computing your statistic each time. The distribution of bootstrap estimates approximates the sampling distribution of your statistic — giving you standard errors and CIs without formulas.</p>
@@ -1055,7 +1121,7 @@ function buildBayesianAB() {
   return `<div class="topic" id="bayesian-ab">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">24 — Make Decisions</div><h2>Bayesian <em>A/B Testing</em></h2></div>
-    <span class="topic-badge">Experimentation</span>
+    <span class="topic-badge">Experimentation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is version B actually better? Credible intervals and probability of improvement</p>
   <p class="prose"><strong>Bayesian A/B testing</strong> gives you what you actually want: "the probability that B is better than A." Unlike frequentist tests, you can check results early, get direct probability statements, and don't need fixed sample sizes.</p>
@@ -1096,7 +1162,7 @@ function buildEffectSize() {
   return `<div class="topic" id="effect-size">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">25 — Make Decisions</div><h2>Effect Size &amp; <em>Practical Significance</em></h2></div>
-    <span class="topic-badge">Significance</span>
+    <span class="topic-badge">Significance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Statistically significant &ne; meaningful — Cohen's d and the difference between p-values and impact</p>
   <p class="prose">With enough data, <em>any</em> tiny difference becomes statistically significant. <strong>Effect size</strong> measures how <em>big</em> the difference is, independent of sample size. <strong>Cohen's d</strong> expresses the difference in standard deviation units.</p>
@@ -1131,7 +1197,7 @@ function buildPowerAnalysis() {
   return `<div class="topic" id="power-analysis">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">26 — Make Decisions</div><h2>Power <em>Analysis</em></h2></div>
-    <span class="topic-badge">Planning</span>
+    <span class="topic-badge">Planning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How much data do you need? Sample size planning for experiments that can actually detect effects</p>
   <p class="prose"><strong>Statistical power</strong> is the probability of detecting a real effect if one exists. Convention: aim for 80% power. <strong>Power analysis</strong> links four quantities — sample size, effect size, significance level, and power — so you can solve for any one given the other three.</p>
@@ -1171,7 +1237,7 @@ function buildSklearnEval() {
   return `<div class="topic" id="sklearn-eval">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">27 — Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
-    <span class="topic-badge">Python</span>
+    <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module</p>
   <p class="prose"><strong>scikit-learn</strong> includes everything covered in this toolkit under one roof. The <code>metrics</code> module has every scorer, <code>model_selection</code> has every CV strategy, and <code>inspection</code> has permutation importance and partial dependence.</p>
@@ -1224,7 +1290,7 @@ function buildSHAPLibrary() {
   return `<div class="topic" id="shap-library">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">28 — Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
-    <span class="topic-badge">Python</span>
+    <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP toolkit</p>
   <p class="prose">The <code>shap</code> library implements everything from <a href="#shap-values">SHAP Values</a> in production-ready code. <strong>TreeExplainer</strong> is exact and fast for tree models. The visualisations — waterfall, beeswarm, dependence — are publication-ready out of the box.</p>
@@ -1270,7 +1336,7 @@ function buildOptuna() {
   return `<div class="topic" id="optuna">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">29 — Python Power Tools</div><h2><em>Optuna</em></h2></div>
-    <span class="topic-badge">Python</span>
+    <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Smart hyperparameter tuning — TPE, pruning, study visualisation, any framework</p>
   <p class="prose"><strong>Optuna</strong> is a hyperparameter optimisation framework that uses <strong>TPE</strong> (Tree-structured Parzen Estimator) to intelligently search the parameter space. It supports <strong>pruning</strong> (killing bad trials early) and integrates with scikit-learn, XGBoost, PyTorch, and more.</p>
@@ -1319,7 +1385,7 @@ function buildPandasTA() {
   return `<div class="topic" id="pandas-ta">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">30 — Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
-    <span class="topic-badge">Python</span>
+    <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Technical indicators + market data in one-liners</p>
   <p class="prose"><strong>yfinance</strong> downloads free historical market data from Yahoo Finance. <strong>pandas-ta</strong> computes 130+ technical indicators as DataFrame operations. Together, they're the fastest way to go from idea to analysis for any market strategy.</p>
@@ -1365,7 +1431,7 @@ function buildScipyStatsmodels() {
   return `<div class="topic" id="scipy-statsmodels">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">31 — Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
-    <span class="topic-badge">Python</span>
+    <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Statistical tests, regression diagnostics, time series — the Python stats foundation</p>
   <p class="prose"><strong>scipy.stats</strong> has every distribution and statistical test. <strong>statsmodels</strong> adds regression diagnostics, time series models (ARIMA, ADF), and proper statistical inference with confidence intervals — what sklearn deliberately leaves out.</p>

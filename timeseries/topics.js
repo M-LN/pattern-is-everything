@@ -172,7 +172,7 @@ function buildStationarity() {
   return `<div class="topic" id="stationarity">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2><em>Stationarity</em></h2></div>
-    <span class="topic-badge">Foundations</span>
+    <span class="topic-badge">Foundations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The assumption that makes forecasting possible</p>
   <p class="prose">A time series is <strong>stationary</strong> if its statistical properties &mdash; mean, variance, and autocovariance &mdash; do not change over time. Most classical models (ARIMA, ETS) require stationarity. If your series has a trend or changing variance, you must transform it first.</p>
@@ -211,7 +211,7 @@ function buildAutocorrelation() {
   return `<div class="topic" id="autocorrelation">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Autocorrelation <em>(ACF/PACF)</em></h2></div>
-    <span class="topic-badge">Foundations</span>
+    <span class="topic-badge">Foundations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how a series remembers its own past</p>
   <p class="prose">The <strong>autocorrelation function (ACF)</strong> measures correlation between a series and its lagged values. The <strong>partial autocorrelation function (PACF)</strong> removes the influence of intermediate lags. Together they reveal the memory structure and guide ARIMA order selection.</p>
@@ -249,7 +249,7 @@ function buildDecomposition() {
   return `<div class="topic" id="decomposition">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2><em>Decomposition</em></h2></div>
-    <span class="topic-badge">Foundations</span>
+    <span class="topic-badge">Foundations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Separating signal from noise, season from trend</p>
   <p class="prose"><strong>Decomposition</strong> splits a time series into three components: <strong>trend</strong> (long-term direction), <strong>seasonality</strong> (repeating patterns), and <strong>residual</strong> (noise). This reveals the structure hidden in raw data and guides model choice.</p>
@@ -279,7 +279,7 @@ function buildDifferencing() {
   return `<div class="topic" id="differencing">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2><em>Differencing</em></h2></div>
-    <span class="topic-badge">Foundations</span>
+    <span class="topic-badge">Foundations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The simplest way to make a series stationary</p>
   <p class="prose"><strong>Differencing</strong> subtracts the previous observation from the current one: &Delta;y<sub>t</sub> = y<sub>t</sub> &minus; y<sub>t&minus;1</sub>. This removes trends. <strong>Second differencing</strong> removes quadratic trends. <strong>Seasonal differencing</strong> (y<sub>t</sub> &minus; y<sub>t&minus;m</sub>) removes periodic patterns.</p>
@@ -308,7 +308,7 @@ function buildResampling() {
   return `<div class="topic" id="resampling">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">05 — Foundations</div><h2>Resampling &amp; <em>Frequency</em></h2></div>
-    <span class="topic-badge">Foundations</span>
+    <span class="topic-badge">Foundations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Converting between time granularities</p>
   <p class="prose"><strong>Downsampling</strong> aggregates high-frequency data (e.g., ticks &rarr; daily). <strong>Upsampling</strong> fills gaps in lower-frequency data (e.g., monthly &rarr; daily with interpolation). Proper frequency alignment prevents lookahead bias and ensures your features match your target.</p>
@@ -338,7 +338,7 @@ function buildARModels() {
   return `<div class="topic" id="ar-models">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">06 — Classical Models</div><h2>AR <em>Models</em></h2></div>
-    <span class="topic-badge">Classical</span>
+    <span class="topic-badge">Classical</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Regressing a series on its own past</p>
   <p class="prose">An <strong>AR(p)</strong> model predicts each value as a weighted sum of the previous p values plus noise. The weights (&phi; coefficients) capture how strongly the series depends on each lag. PACF cutoff at lag p identifies the order.</p>
@@ -367,7 +367,7 @@ function buildMAModels() {
   return `<div class="topic" id="ma-models">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Classical Models</div><h2>MA <em>Models</em></h2></div>
-    <span class="topic-badge">Classical</span>
+    <span class="topic-badge">Classical</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Modeling dependence through past shocks</p>
   <p class="prose">An <strong>MA(q)</strong> model expresses each value as a weighted sum of q past error terms. While AR uses past values, MA uses past surprises. ACF cutoff at lag q identifies the order.</p>
@@ -395,7 +395,7 @@ function buildARIMA() {
   return `<div class="topic" id="arima">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">08 — Classical Models</div><h2><em>ARIMA</em></h2></div>
-    <span class="topic-badge">Classical</span>
+    <span class="topic-badge">Classical</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The workhorse of classical forecasting</p>
   <p class="prose"><strong>ARIMA(p,d,q)</strong> combines autoregression (AR), differencing (I), and moving average (MA). The Box-Jenkins methodology uses ACF/PACF to identify orders, fits the model, then checks residuals for white noise. Auto-ARIMA automates this.</p>
@@ -426,7 +426,7 @@ function buildSARIMA() {
   return `<div class="topic" id="sarima">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">09 — Classical Models</div><h2><em>SARIMA</em></h2></div>
-    <span class="topic-badge">Classical</span>
+    <span class="topic-badge">Classical</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// ARIMA with seasonal intelligence</p>
   <p class="prose"><strong>SARIMA(p,d,q)(P,D,Q)<sub>m</sub></strong> adds seasonal AR, differencing, and MA terms at seasonal lag m. This captures repeating patterns at fixed intervals &mdash; weekly (m=7), monthly (m=12), quarterly (m=4).</p>
@@ -457,7 +457,7 @@ function buildExponentialSmoothing() {
   return `<div class="topic" id="exponential-smoothing">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">10 — Classical Models</div><h2>Exponential <em>Smoothing</em></h2></div>
-    <span class="topic-badge">Classical</span>
+    <span class="topic-badge">Classical</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Weighted averages that fade the past</p>
   <p class="prose"><strong>Exponential smoothing (ETS)</strong> assigns exponentially decreasing weights to past observations. <strong>Simple</strong> smoothing handles level-only series. <strong>Holt&rsquo;s</strong> adds trend. <strong>Holt-Winters</strong> adds seasonality. The ETS framework (Error, Trend, Seasonality) covers 30 model variants.</p>
@@ -487,7 +487,7 @@ function buildProphet() {
   return `<div class="topic" id="prophet">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">11 — Advanced Models</div><h2><em>Prophet</em></h2></div>
-    <span class="topic-badge">Advanced</span>
+    <span class="topic-badge">Advanced</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Decomposable forecasting at scale</p>
   <p class="prose">Facebook&rsquo;s <strong>Prophet</strong> fits an additive model: y(t) = g(t) + s(t) + h(t) + &epsilon;. The <strong>trend</strong> g(t) can be linear or logistic (saturating). <strong>Seasonality</strong> s(t) uses Fourier series. <strong>Holidays</strong> h(t) handle irregular events. Changepoints are detected automatically.</p>
@@ -517,7 +517,7 @@ function buildStateSpace() {
   return `<div class="topic" id="state-space">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">12 — Advanced Models</div><h2>State-Space <em>Models</em></h2></div>
-    <span class="topic-badge">Advanced</span>
+    <span class="topic-badge">Advanced</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Hidden states evolving under noise</p>
   <p class="prose"><strong>State-space models</strong> assume a hidden state evolves over time according to a transition equation, and we observe it with noise through an observation equation. The <strong>Kalman filter</strong> optimally estimates the hidden state. ETS and ARIMA can both be written in state-space form.</p>
@@ -548,7 +548,7 @@ function buildGARCH() {
   return `<div class="topic" id="garch">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">13 — Advanced Models</div><h2><em>GARCH</em></h2></div>
-    <span class="topic-badge">Advanced</span>
+    <span class="topic-badge">Advanced</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Modeling volatility that clusters</p>
   <p class="prose">Financial returns exhibit <strong>volatility clustering</strong> &mdash; calm periods and turbulent periods tend to persist. <strong>GARCH(1,1)</strong> models the conditional variance as a function of past squared returns and past variance, capturing this self-exciting behaviour.</p>
@@ -579,7 +579,7 @@ function buildVARModels() {
   return `<div class="topic" id="var-models">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">14 — Advanced Models</div><h2>VAR <em>Models</em></h2></div>
-    <span class="topic-badge">Advanced</span>
+    <span class="topic-badge">Advanced</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Multiple series forecasting each other</p>
   <p class="prose"><strong>Vector Autoregression (VAR)</strong> generalises AR to multiple interrelated series. Each variable is modeled as a linear function of all variables&rsquo; lags. <strong>Granger causality</strong> tests whether one series helps predict another. <strong>Impulse response</strong> functions show how shocks propagate.</p>
@@ -608,7 +608,7 @@ function buildChangepointDetection() {
   return `<div class="topic" id="changepoint-detection">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">15 — Advanced Models</div><h2>Changepoint <em>Detection</em></h2></div>
-    <span class="topic-badge">Advanced</span>
+    <span class="topic-badge">Advanced</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding where the rules change</p>
   <p class="prose">A <strong>changepoint</strong> is where the statistical properties of a series abruptly shift &mdash; a new mean, variance, or trend slope. <strong>PELT</strong> (Pruned Exact Linear Time) finds optimal changepoints efficiently. <strong>BOCPD</strong> (Bayesian Online Changepoint Detection) detects them in real-time.</p>
@@ -635,7 +635,7 @@ function buildRNNForTS() {
   return `<div class="topic" id="rnn-for-ts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">16 — Deep Learning</div><h2>RNNs for <em>Time Series</em></h2></div>
-    <span class="topic-badge">Deep Learning</span>
+    <span class="topic-badge">Deep Learning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Sequence processing with recurrent memory</p>
   <p class="prose"><strong>Recurrent Neural Networks</strong> process sequences step by step, carrying a hidden state that summarises the past. Each step updates the hidden state and optionally produces an output. The RNN learns temporal patterns through backpropagation through time (BPTT), though vanilla RNNs struggle with long-range dependencies.</p>
@@ -665,7 +665,7 @@ function buildLSTMForTS() {
   return `<div class="topic" id="lstm-for-ts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">17 — Deep Learning</div><h2>LSTM &amp; <em>GRU</em></h2></div>
-    <span class="topic-badge">Deep Learning</span>
+    <span class="topic-badge">Deep Learning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Gated architectures for long-range memory</p>
   <p class="prose"><strong>LSTM</strong> adds a cell state and three gates (forget, input, output) to control information flow, solving the vanishing gradient problem. <strong>GRU</strong> simplifies this to two gates (reset, update) with comparable performance. Both are the default deep learning baseline for time series.</p>
@@ -694,7 +694,7 @@ function buildTemporalCNN() {
   return `<div class="topic" id="temporal-cnn">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">18 — Deep Learning</div><h2>Temporal <em>CNN (TCN)</em></h2></div>
-    <span class="topic-badge">Deep Learning</span>
+    <span class="topic-badge">Deep Learning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Convolutions that see the past, never the future</p>
   <p class="prose"><strong>Temporal Convolutional Networks</strong> apply 1D causal convolutions with increasing dilation rates to capture long-range dependencies. Unlike RNNs, they are fully parallelisable during training. The <strong>receptive field</strong> grows exponentially with depth, allowing efficient long-context processing.</p>
@@ -726,7 +726,7 @@ function buildTransformersForTS() {
   return `<div class="topic" id="transformers-for-ts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">19 — Deep Learning</div><h2>Transformers for <em>Time Series</em></h2></div>
-    <span class="topic-badge">Deep Learning</span>
+    <span class="topic-badge">Deep Learning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Attention-based forecasting at scale</p>
   <p class="prose"><strong>Time-series transformers</strong> adapt the attention mechanism from NLP for temporal data. <strong>Informer</strong> uses ProbSparse attention for long sequences. <strong>Autoformer</strong> integrates decomposition into the architecture. <strong>PatchTST</strong> treats time windows as patches, achieving state-of-the-art results with channel-independent processing.</p>
@@ -762,7 +762,7 @@ function buildNBEATS() {
   return `<div class="topic" id="nbeats">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">20 — Deep Learning</div><h2>N-BEATS &amp; <em>N-HiTS</em></h2></div>
-    <span class="topic-badge">Deep Learning</span>
+    <span class="topic-badge">Deep Learning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Pure MLP architectures for forecasting</p>
   <p class="prose"><strong>N-BEATS</strong> uses stacks of fully-connected blocks that produce both a <strong>backward forecast</strong> (reconstructing the input) and a <strong>forward forecast</strong>. Residual connections between blocks let each stack focus on what previous stacks missed. The interpretable variant decomposes into trend and seasonal basis functions. <strong>N-HiTS</strong> adds hierarchical interpolation for efficiency.</p>
@@ -792,7 +792,7 @@ function buildFeatureEngineering() {
   return `<div class="topic" id="feature-engineering">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">21 — Practice & Tooling</div><h2>Feature <em>Engineering</em></h2></div>
-    <span class="topic-badge">Practice</span>
+    <span class="topic-badge">Practice</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Turning raw timestamps into predictive signals</p>
   <p class="prose">Time series features fall into three categories: <strong>lag features</strong> (past values), <strong>rolling statistics</strong> (windowed mean/std/min/max), and <strong>calendar features</strong> (day of week, month, holiday flags). Fourier features encode seasonality as continuous sine/cosine pairs.</p>
@@ -829,7 +829,7 @@ function buildCrossValidationTS() {
   return `<div class="topic" id="cross-validation-ts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">22 — Practice & Tooling</div><h2>Cross-Validation <em>for TS</em></h2></div>
-    <span class="topic-badge">Practice</span>
+    <span class="topic-badge">Practice</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Never shuffle time series</p>
   <p class="prose">Standard k-fold cross-validation breaks temporal ordering and causes <strong>data leakage</strong>. Time series requires <strong>expanding window</strong> (growing training set), <strong>sliding window</strong> (fixed-size window), or <strong>walk-forward</strong> validation. A <strong>purge gap</strong> between train and test prevents contamination from lagged features.</p>
@@ -859,7 +859,7 @@ function buildBacktestingForecasts() {
   return `<div class="topic" id="backtesting-forecasts">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">23 — Practice & Tooling</div><h2>Backtesting <em>Forecasts</em></h2></div>
-    <span class="topic-badge">Practice</span>
+    <span class="topic-badge">Practice</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How good are your predictions, really?</p>
   <p class="prose"><strong>Rolling-origin backtesting</strong> simulates how your model would have performed if deployed at each past point. Evaluate with <strong>MAE</strong> (robust to outliers), <strong>RMSE</strong> (penalises large errors), <strong>MAPE</strong> (scale-free), and <strong>SMAPE</strong> (symmetric). Always evaluate across multiple horizons.</p>
@@ -887,7 +887,7 @@ function buildAnomalyDetection() {
   return `<div class="topic" id="anomaly-detection">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">24 — Practice & Tooling</div><h2>Anomaly <em>Detection</em></h2></div>
-    <span class="topic-badge">Practice</span>
+    <span class="topic-badge">Practice</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding the signal in the noise</p>
   <p class="prose">Temporal anomalies are observations that deviate from expected patterns. <strong>Point anomalies</strong> are individual outliers. <strong>Contextual anomalies</strong> are normal values at the wrong time (e.g., summer demand in winter). Methods range from simple z-score thresholds to autoencoders that learn the normal pattern.</p>
@@ -918,7 +918,7 @@ function buildForecastEnsembles() {
   return `<div class="topic" id="forecast-ensembles">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">25 — Practice & Tooling</div><h2>Forecast <em>Ensembles</em></h2></div>
-    <span class="topic-badge">Practice</span>
+    <span class="topic-badge">Practice</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Combining models for better accuracy</p>
   <p class="prose">No single model wins everywhere. <strong>Ensemble forecasting</strong> combines diverse models &mdash; ARIMA, ETS, neural nets &mdash; for more robust predictions. The simplest approach (equal-weight average) is surprisingly hard to beat. More sophisticated methods include <strong>inverse-error weighting</strong> and <strong>stacking</strong> with a meta-learner.</p>
