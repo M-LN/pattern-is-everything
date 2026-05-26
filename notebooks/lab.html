@@ -8,14 +8,38 @@
   <link rel="stylesheet" href="../css/main.css">
   <style>
     .lab-shell {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 32px));
       margin: 0 auto 72px;
     }
     .lab-grid {
       display: grid;
-      grid-template-columns: 220px minmax(0, 1fr) 340px;
-      gap: 18px;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 20px;
       align-items: start;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-left: auto;
+    }
+    .nav-links a {
+      font: 600 11px var(--mono);
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .lab-workspace {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
     }
     .lab-panel,
     .lab-sidebar,
@@ -27,7 +51,18 @@
     }
     .lab-sidebar,
     .lab-output {
-      padding: 14px;
+      padding: 16px;
+    }
+    .lab-sidebar {
+      position: sticky;
+      top: calc(var(--hdr-h) + 16px);
+      max-height: calc(100vh - var(--hdr-h) - 32px);
+      overflow: auto;
+    }
+    .sidebar-block + .sidebar-block {
+      margin-top: 18px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
     }
     .sample-list {
       display: grid;
@@ -45,6 +80,27 @@
       cursor: pointer;
       transition: border-color .2s ease, background .2s ease;
     }
+    .lab-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      white-space: nowrap;
+    }
+    .lab-action.primary {
+      border-color: rgba(200,75,47,.38);
+      background: var(--accent);
+      color: #fff;
+      min-width: 96px;
+    }
+    .lab-action.primary:hover:not(:disabled) {
+      background: var(--accent);
+      color: #fff;
+      filter: brightness(1.04);
+    }
+    .lab-action.subtle {
+      color: var(--muted);
+    }
     .sample-btn:hover,
     .sample-btn.active,
     .lab-action:hover:not(:disabled) {
@@ -59,8 +115,8 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: center;
-      padding: 12px 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
       border-bottom: 1px solid var(--border);
     }
     .lab-title {
@@ -68,17 +124,68 @@
       letter-spacing: 0;
     }
     .lab-status {
-      font: 600 11px var(--mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 7px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font: 700 10px var(--mono);
       color: var(--muted);
+      background: var(--bg);
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
+    .lab-status::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border2);
+    }
+    .lab-status.ready::before { background: var(--accent2); }
+    .lab-status.running::before { background: var(--accent3); }
+    .lab-status.error::before { background: var(--accent); }
     .lab-toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      justify-content: flex-end;
+      max-width: 560px;
+    }
+    .lab-secondary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .lab-cell {
+      background: var(--bg);
+    }
+    .lab-cell-bar,
+    .output-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .lab-cell-label,
+    .output-title {
+      font: 700 11px var(--mono);
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .lab-cell-meta {
+      font: 10px var(--mono);
+      color: var(--border2);
     }
     #pythonEditor {
       width: 100%;
-      min-height: 520px;
+      min-height: 460px;
       resize: vertical;
       border: 0;
       outline: 0;
@@ -87,21 +194,15 @@
       color: var(--text);
       font: 13px/1.55 var(--mono);
       tab-size: 4;
+      display: block;
     }
     .output-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .output-title {
-      font: 700 12px var(--mono);
-      color: var(--muted);
-      text-transform: uppercase;
+      padding: 0 0 10px;
+      border-bottom: 0;
     }
     #labOutput {
-      min-height: 520px;
+      min-height: 220px;
+      max-height: 420px;
       margin: 0;
       white-space: pre-wrap;
       overflow: auto;
@@ -117,11 +218,6 @@
       font: 12px/1.5 var(--sans);
       color: var(--muted);
     }
-    .saved-runs {
-      margin-top: 18px;
-      border-top: 1px solid var(--border);
-      padding-top: 14px;
-    }
     .saved-run-list {
       display: grid;
       gap: 8px;
@@ -133,6 +229,11 @@
       border-radius: 8px;
       padding: 10px;
       font: 11px/1.5 var(--mono);
+    }
+    .saved-run.empty {
+      border-style: dashed;
+      color: var(--muted);
+      background: transparent;
     }
     .saved-run-title {
       color: var(--text);
@@ -165,10 +266,23 @@
       .lab-grid {
         grid-template-columns: 1fr;
       }
+      .lab-sidebar {
+        position: static;
+        max-height: none;
+      }
       #pythonEditor,
       #labOutput {
         min-height: 360px;
       }
+    }
+    @media (max-width: 700px) {
+      .nav-links a[href="../sandbox/index.html"] { display: none; }
+      .lab-panel-head { flex-direction: column; }
+      .lab-toolbar,
+      .lab-secondary-actions { justify-content: flex-start; }
+      .lab-action.primary { width: 100%; }
+      .lab-secondary-actions .lab-action { flex: 1 1 110px; }
+      #pythonEditor { font-size: 12px; }
     }
   </style>
 </head>
@@ -187,8 +301,8 @@
   <div class="case-hero">
     <div>
       <div class="eyebrow">Browser Lab</div>
-      <h1>Runnable Python Experiments</h1>
-      <p>Small Pattern Portal workflows that execute locally in the page through Pyodide.</p>
+      <h1>Browser Notebook Lab</h1>
+      <p>Editable Python cells for Pattern Portal workflows, running locally in the browser.</p>
     </div>
     <div class="cc-tags" aria-label="Runtime scope">
       <span class="tag t1">Python</span>
@@ -200,41 +314,53 @@
 
   <section class="lab-grid" aria-label="Runnable Python lab">
     <aside class="lab-sidebar">
-      <div class="output-title">Experiments</div>
-      <div class="sample-list" id="sampleList"></div>
-      <p class="runtime-note">First run loads the Python runtime from the Pyodide CDN.</p>
-      <div class="saved-runs">
+      <div class="sidebar-block">
+        <div class="output-title">Experiments</div>
+        <div class="sample-list" id="sampleList"></div>
+        <p class="runtime-note">Python runtime loads on first visit.</p>
+      </div>
+      <div class="sidebar-block saved-runs">
         <div class="output-title">Saved Runs</div>
         <div class="saved-run-list" id="savedRunsList"></div>
       </div>
     </aside>
 
-    <section class="lab-panel">
-      <div class="lab-panel-head">
-        <div>
-          <div class="lab-title" id="sampleTitle">Linear Regression</div>
-          <div class="lab-status" id="runtimeStatus">Python runtime loading...</div>
+    <div class="lab-workspace">
+      <section class="lab-panel">
+        <div class="lab-panel-head">
+          <div>
+            <div class="lab-title" id="sampleTitle">Linear Regression</div>
+            <div class="lab-status" id="runtimeStatus">Loading</div>
+          </div>
+          <div class="lab-toolbar">
+            <button class="lab-action primary" id="runBtn" disabled title="Run cell">Run</button>
+            <div class="lab-secondary-actions" aria-label="Notebook actions">
+              <button class="lab-action" id="saveRunBtn">Save</button>
+              <button class="lab-action" id="exportRunsBtn">Export</button>
+              <button class="lab-action" id="importRunsBtn">Import</button>
+              <button class="lab-action subtle" id="resetBtn">Reset</button>
+              <button class="lab-action subtle" id="copyBtn">Copy</button>
+            </div>
+          </div>
         </div>
-        <div class="lab-toolbar">
-          <button class="lab-action" id="runBtn" disabled>Run</button>
-          <button class="lab-action" id="saveRunBtn">Save</button>
-          <button class="lab-action" id="exportRunsBtn">Export JSON</button>
-          <button class="lab-action" id="importRunsBtn">Import</button>
-          <button class="lab-action" id="resetBtn">Reset</button>
-          <button class="lab-action" id="copyBtn">Copy</button>
+        <div class="lab-cell">
+          <div class="lab-cell-bar">
+            <div class="lab-cell-label">Code Cell</div>
+            <div class="lab-cell-meta" id="cellMeta">NumPy ready sample</div>
+          </div>
+          <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor"></textarea>
         </div>
-      </div>
-      <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor"></textarea>
-      <input id="importRunsInput" type="file" accept="application/json,.json" hidden>
-    </section>
+        <input id="importRunsInput" type="file" accept="application/json,.json" hidden>
+      </section>
 
-    <aside class="lab-output">
-      <div class="output-head">
-        <div class="output-title">Output</div>
-        <button class="lab-action" id="clearBtn">Clear</button>
-      </div>
-      <pre id="labOutput">Loading Python...</pre>
-    </aside>
+      <section class="lab-output">
+        <div class="output-head">
+          <div class="output-title">Output</div>
+          <button class="lab-action subtle" id="clearBtn">Clear</button>
+        </div>
+        <pre id="labOutput">Loading Python...</pre>
+      </section>
+    </div>
   </section>
 </main>
 
@@ -244,12 +370,16 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
-<script src="lab.js?v=1"></script>
+<script src="lab.js?v=2"></script>
 <script>
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
 }
+const saved = localStorage.getItem('theme');
+if (saved) document.documentElement.setAttribute('data-theme', saved);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
 </script>
 </body>
 </html>

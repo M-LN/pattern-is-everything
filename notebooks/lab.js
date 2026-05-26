@@ -122,6 +122,7 @@ const sampleList = document.getElementById('sampleList');
 const savedRunsList = document.getElementById('savedRunsList');
 const sampleTitle = document.getElementById('sampleTitle');
 const runtimeStatus = document.getElementById('runtimeStatus');
+const cellMeta = document.getElementById('cellMeta');
 
 const RUNS_KEY = 'pattern-browser-lab-runs';
 let pyodide;
@@ -130,6 +131,16 @@ let lastRun = null;
 
 function setOutput(text) {
   output.textContent = text || '';
+}
+
+function setStatus(text, state = '') {
+  runtimeStatus.textContent = text;
+  runtimeStatus.classList.remove('ready', 'running', 'error');
+  if (state) runtimeStatus.classList.add(state);
+}
+
+function updateCellMeta(text) {
+  if (cellMeta) cellMeta.textContent = text;
 }
 
 function escapeHTML(value) {
@@ -172,6 +183,8 @@ function selectSample(key) {
   const sample = SAMPLES[key];
   sampleTitle.textContent = sample.title;
   editor.value = sample.code;
+  lastRun = null;
+  updateCellMeta(`${editor.value.split('\n').length} lines · editable sample`);
   document.querySelectorAll('.sample-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.sample === key);
   });
@@ -185,6 +198,7 @@ function loadRun(runId) {
   editor.value = run.code;
   setOutput(run.output);
   lastRun = run;
+  updateCellMeta(`Loaded run · ${editor.value.split('\n').length} lines`);
   document.querySelectorAll('.sample-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.sample === run.sample);
   });
@@ -198,7 +212,7 @@ function renderSavedRuns() {
   const runs = readRuns().slice(-8).reverse();
   if (!savedRunsList) return;
   if (!runs.length) {
-    savedRunsList.innerHTML = '<div class="saved-run"><div class="saved-run-meta">No saved runs yet.</div></div>';
+    savedRunsList.innerHTML = '<div class="saved-run empty"><div class="saved-run-title">No saved runs</div><div class="saved-run-meta">Saved experiments will appear here.</div></div>';
     return;
   }
   savedRunsList.innerHTML = runs.map(run => {
@@ -233,15 +247,15 @@ function renderSamples() {
 
 async function bootRuntime() {
   try {
-    runtimeStatus.textContent = 'Loading Pyodide...';
+    setStatus('Loading', 'running');
     pyodide = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/' });
-    runtimeStatus.textContent = 'Loading NumPy...';
+    setStatus('Loading NumPy', 'running');
     await pyodide.loadPackage(['numpy']);
-    runtimeStatus.textContent = 'Ready';
+    setStatus('Ready', 'ready');
     runBtn.disabled = false;
-    setOutput('Python is ready. Choose an experiment or edit the code, then run it.');
+    setOutput('Python is ready.');
   } catch (error) {
-    runtimeStatus.textContent = 'Runtime failed';
+    setStatus('Runtime failed', 'error');
     setOutput(error.message || String(error));
   }
 }
@@ -249,7 +263,7 @@ async function bootRuntime() {
 async function runCurrentCode() {
   if (!pyodide) return;
   runBtn.disabled = true;
-  runtimeStatus.textContent = 'Running...';
+  setStatus('Running', 'running');
   const chunks = [];
   pyodide.setStdout({ batched: text => chunks.push(text) });
   pyodide.setStderr({ batched: text => chunks.push(text) });
@@ -267,7 +281,8 @@ async function runCurrentCode() {
       output: text,
       metrics: extractMetrics(text)
     };
-    runtimeStatus.textContent = 'Ready';
+    updateCellMeta(`Last run · ${Object.keys(lastRun.metrics).length || 0} metrics parsed`);
+    setStatus('Ready', 'ready');
   } catch (error) {
     const text = chunks.concat(error.message || String(error)).join('\n');
     setOutput(text);
@@ -280,7 +295,8 @@ async function runCurrentCode() {
       output: text,
       metrics: {}
     };
-    runtimeStatus.textContent = 'Error';
+    updateCellMeta('Last run failed');
+    setStatus('Error', 'error');
   } finally {
     runBtn.disabled = false;
   }
@@ -297,8 +313,8 @@ function saveCurrentRun() {
     metrics: extractMetrics(output.textContent)
   };
   writeRuns(readRuns().concat({ ...run, id: `browser-lab-${Date.now()}`, savedAt: new Date().toISOString() }));
-  runtimeStatus.textContent = 'Saved';
-  setTimeout(() => { if (pyodide) runtimeStatus.textContent = 'Ready'; }, 900);
+  setStatus('Saved', 'ready');
+  setTimeout(() => { if (pyodide) setStatus('Ready', 'ready'); }, 900);
 }
 
 function exportRuns() {
@@ -318,11 +334,11 @@ function importRuns(file) {
       const imported = Array.isArray(parsed) ? parsed : parsed.runs;
       if (!Array.isArray(imported)) throw new Error('No runs array found.');
       writeRuns(readRuns().concat(imported.filter(run => run && run.code && run.output)));
-      runtimeStatus.textContent = 'Imported';
-      setTimeout(() => { if (pyodide) runtimeStatus.textContent = 'Ready'; }, 900);
+      setStatus('Imported', 'ready');
+      setTimeout(() => { if (pyodide) setStatus('Ready', 'ready'); }, 900);
     } catch (error) {
       setOutput(error.message || String(error));
-      runtimeStatus.textContent = 'Import failed';
+      setStatus('Import failed', 'error');
     }
   };
   reader.readAsText(file);
@@ -330,8 +346,8 @@ function importRuns(file) {
 
 function copyCode() {
   navigator.clipboard.writeText(editor.value).then(() => {
-    runtimeStatus.textContent = 'Copied';
-    setTimeout(() => { if (pyodide) runtimeStatus.textContent = 'Ready'; }, 900);
+    setStatus('Copied', 'ready');
+    setTimeout(() => { if (pyodide) setStatus('Ready', 'ready'); }, 900);
   });
 }
 
@@ -347,3 +363,10 @@ importRunsInput.addEventListener('change', event => importRuns(event.target.file
 resetBtn.addEventListener('click', () => selectSample(activeSample));
 copyBtn.addEventListener('click', copyCode);
 clearBtn.addEventListener('click', () => setOutput(''));
+editor.addEventListener('input', () => updateCellMeta(`${editor.value.split('\n').length} lines · edited`));
+editor.addEventListener('keydown', event => {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    event.preventDefault();
+    runCurrentCode();
+  }
+});
