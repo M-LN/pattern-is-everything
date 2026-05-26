@@ -152,7 +152,7 @@
       flex-wrap: wrap;
       gap: 8px;
       justify-content: flex-end;
-      max-width: 560px;
+      max-width: 740px;
     }
     .lab-secondary-actions {
       display: flex;
@@ -160,8 +160,35 @@
       gap: 8px;
       justify-content: flex-end;
     }
-    .lab-cell {
+    .notebook-cells {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
       background: var(--bg);
+    }
+    .notebook-cell {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .notebook-cell.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(200,75,47,.08);
+    }
+    .cell-gutter {
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      padding: 12px 8px;
+      color: var(--muted);
+      font: 700 11px var(--mono);
+      text-align: right;
+      user-select: none;
+    }
+    .cell-main {
+      min-width: 0;
     }
     .lab-cell-bar,
     .output-head {
@@ -171,6 +198,25 @@
       gap: 12px;
       padding: 10px 14px;
       border-bottom: 1px solid var(--border);
+    }
+    .cell-controls {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .cell-mini-action {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 4px;
+      padding: 4px 7px;
+      font: 700 10px var(--mono);
+      cursor: pointer;
+    }
+    .cell-mini-action:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
     .lab-cell-label,
     .output-title {
@@ -183,9 +229,9 @@
       font: 10px var(--mono);
       color: var(--border2);
     }
-    #pythonEditor {
+    .cell-editor {
       width: 100%;
-      min-height: 460px;
+      min-height: 150px;
       resize: vertical;
       border: 0;
       outline: 0;
@@ -196,6 +242,39 @@
       tab-size: 4;
       display: block;
     }
+    .markdown-preview {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      font: 14px/1.65 var(--sans);
+      color: var(--text);
+    }
+    .markdown-preview h1,
+    .markdown-preview h2,
+    .markdown-preview h3 {
+      margin: 0 0 8px;
+      font-family: var(--serif);
+    }
+    .markdown-preview p { margin: 0 0 8px; }
+    .markdown-preview code {
+      font-family: var(--mono);
+      font-size: .92em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+    .cell-output {
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      padding: 12px 14px;
+      white-space: pre-wrap;
+      overflow: auto;
+      max-height: 280px;
+      font: 12px/1.55 var(--mono);
+      color: var(--text);
+    }
+    .cell-output:empty { display: none; }
     .output-head {
       padding: 0 0 10px;
       border-bottom: 0;
@@ -329,7 +408,7 @@
         position: static;
         max-height: none;
       }
-      #pythonEditor,
+      .cell-editor,
       #labOutput {
         min-height: 360px;
       }
@@ -342,7 +421,9 @@
       .lab-secondary-actions { justify-content: flex-start; }
       .lab-action.primary { width: 100%; }
       .lab-secondary-actions .lab-action { flex: 1 1 110px; }
-      #pythonEditor { font-size: 12px; }
+      .notebook-cell { grid-template-columns: 54px minmax(0, 1fr); }
+      .cell-gutter { padding: 12px 6px; font-size: 10px; }
+      .cell-editor { font-size: 12px; }
     }
   </style>
 </head>
@@ -362,13 +443,13 @@
     <div>
       <div class="eyebrow">Browser Lab</div>
       <h1>Browser Notebook Lab</h1>
-      <p>Editable Python cells for Pattern Portal workflows, running locally in the browser.</p>
+      <p>Multi-cell Python notebooks for Pattern Portal workflows, running locally in the browser.</p>
     </div>
     <div class="cc-tags" aria-label="Runtime scope">
       <span class="tag t1">Python</span>
       <span class="tag t2">NumPy</span>
-      <span class="tag t3">No Server</span>
-      <span class="tag t4">Editable</span>
+      <span class="tag t3">Multi-cell</span>
+      <span class="tag t4">.ipynb Export</span>
     </div>
   </div>
 
@@ -393,23 +474,21 @@
             <div class="lab-status" id="runtimeStatus">Loading</div>
           </div>
           <div class="lab-toolbar">
-            <button class="lab-action primary" id="runBtn" disabled title="Run cell">Run</button>
+            <button class="lab-action primary" id="runBtn" disabled title="Run selected cell">Run</button>
             <div class="lab-secondary-actions" aria-label="Notebook actions">
+              <button class="lab-action" id="runAllBtn" disabled>Run all</button>
+              <button class="lab-action" id="addCodeCellBtn">+ Code</button>
+              <button class="lab-action" id="addMarkdownCellBtn">+ Text</button>
               <button class="lab-action" id="saveRunBtn">Save</button>
-              <button class="lab-action" id="exportRunsBtn">Export</button>
+              <button class="lab-action" id="exportNotebookBtn">.ipynb</button>
+              <button class="lab-action" id="exportRunsBtn">Runs</button>
               <button class="lab-action" id="importRunsBtn">Import</button>
               <button class="lab-action subtle" id="resetBtn">Reset</button>
               <button class="lab-action subtle" id="copyBtn">Copy</button>
             </div>
           </div>
         </div>
-        <div class="lab-cell">
-          <div class="lab-cell-bar">
-            <div class="lab-cell-label">Code Cell</div>
-            <div class="lab-cell-meta" id="cellMeta">NumPy ready sample</div>
-          </div>
-          <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor"></textarea>
-        </div>
+        <div class="notebook-cells" id="notebookCells"></div>
         <input id="importRunsInput" type="file" accept="application/json,.json" hidden>
       </section>
 
@@ -440,7 +519,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
-<script src="lab.js?v=3"></script>
+<script src="lab.js?v=4"></script>
 <script>
 function toggleTheme() {
   const d = document.documentElement;
