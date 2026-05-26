@@ -244,6 +244,9 @@ function renderCase(caseData) {
       </div>
       <h2 class="case-title">${caseData.title}</h2>
       <p class="case-summary">${escapeHTML(caseData.summary)}</p>
+      <div class="case-primary-actions">
+        <a class="case-jupyterlite-cta" href="${JUPYTER_LITE_NOTEBOOK}" target="_blank" rel="noopener">Open in JupyterLite</a>
+      </div>
 
       <div class="dataset-card">
         <div class="dataset-card-title">Use this dataset</div>
@@ -265,10 +268,7 @@ function renderCase(caseData) {
 
       <div class="why-matters">
         <div class="why-matters-title">Connect the pattern</div>
-        <div class="case-links">
-          <a href="${JUPYTER_LITE_NOTEBOOK}" target="_blank" rel="noopener">Run this case in JupyterLite</a>
-          ${topicLinks}<a href="${caseData.lab[1]}">${escapeHTML(caseData.lab[0])}</a>
-        </div>
+        <div class="case-links">${topicLinks}<a href="${caseData.lab[1]}">${escapeHTML(caseData.lab[0])}</a></div>
       </div>
 
       <div class="dev-export">

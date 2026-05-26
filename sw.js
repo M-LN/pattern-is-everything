@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v29';
+const CACHE_NAME = 'pattern-v30';
 const SHELL = [
   '/index.html',
   '/css/main.css',
