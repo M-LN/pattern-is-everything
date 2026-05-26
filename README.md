@@ -36,7 +36,7 @@
 - **Local sample datasets** — tiny CSV files under `cases/datasets/` for quick offline pipeline practice
 - **Start Here path** — guided beginner → build → advanced progression through the site
 - **Notebook-ready snippets** — practical copy blocks with minimal Python dependencies where relevant
-- **Notebook companion** — `notebooks/pattern-portal-real-data-lab.ipynb` for executable Python case workflows
+- **Notebook companion** — `notebooks/pattern-portal-real-data-lab-browser.ipynb` for executable Python case workflows
 - **Keyboard navigation** — `←` `→` arrow keys between topics, `Ctrl+K` to search
 - **Dark / light mode** — respects system preference, persists via localStorage
 - **Progress tracking** — tracks how many topics you've viewed per collection

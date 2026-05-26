@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v27';
+const CACHE_NAME = 'pattern-v28';
 const SHELL = [
   '/index.html',
   '/css/main.css',
@@ -22,6 +22,7 @@ const SHELL = [
   '/notebooks/README.md',
   '/notebooks/lab.html',
   '/notebooks/lab.js',
+  '/notebooks/pattern-portal-real-data-lab-browser.ipynb',
   '/notebooks/pattern-portal-real-data-lab.ipynb',
   '/mlops/index.html',
   '/timeseries/index.html',

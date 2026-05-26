@@ -4,7 +4,7 @@
       pipeline: ['Choose a loss that matches the task.', 'Scale inputs and start with a conservative learning rate.', 'Track train and validation loss every epoch.', 'Stop when validation loss stops improving.', 'Save the run with optimizer, learning rate, seed, and metric.'],
       pitfall: 'Learning rate too high can diverge; too low can look like the model is broken.',
       metrics: ['Training loss', 'Validation loss', 'Gradient norm', 'Wall-clock time'],
-      build: ['Open JupyterLite regression lab', '../lite/lab/?path=pattern-portal-real-data-lab.ipynb']
+      build: ['Open JupyterLite regression lab', '../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb']
     },
     'bias-variance': {
       pipeline: ['Fit a simple baseline.', 'Compare train vs validation error.', 'Increase capacity only if both errors are high.', 'Regularize or simplify if validation lags behind training.', 'Confirm with cross-validation before using the test set.'],
@@ -34,7 +34,7 @@
       pipeline: ['Save reference feature distributions from training data.', 'Compute PSI/KS on new batches.', 'Prioritize drift on important features.', 'Compare drift alerts against model performance.', 'Retrain only when drift affects decisions.'],
       pitfall: 'Feature drift is not automatically model failure.',
       metrics: ['PSI', 'KS statistic', 'Metric decay', 'Alert precision'],
-      build: ['Open JupyterLite drift lab', '../lite/lab/?path=pattern-portal-real-data-lab.ipynb']
+      build: ['Open JupyterLite drift lab', '../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb']
     },
     'cross-validation-ts': {
       pipeline: ['Sort by timestamp.', 'Create lag features using past values only.', 'Use expanding or sliding windows.', 'Add a purge gap when labels overlap.', 'Report metrics by forecast horizon.'],
