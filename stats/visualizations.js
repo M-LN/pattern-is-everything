@@ -2028,3 +2028,30 @@ window.updateLCPlayground = function() {
   }
   el.innerHTML = diagnosis + '<br><span style="color:var(--muted);font-size:11px">Train score: ' + trainScore.toFixed(3) + ' | Val score: ' + valScore.toFixed(3) + ' | Gap: ' + gap.toFixed(3) + '</span>';
 };
+
+// ── Learning Curves Playground ──
+window.updateLCPlayground = function() {
+  const complexity = +document.getElementById('lcComplexity').value;
+  const size = +document.getElementById('lcSize').value;
+  const noise = +document.getElementById('lcNoise').value;
+  document.getElementById('lcComplexV').textContent = complexity;
+  document.getElementById('lcSizeV').textContent = size;
+  document.getElementById('lcNoiseV').textContent = noise;
+
+  // Simulate train/val scores
+  const trainScore = Math.min(0.99, 0.5 + complexity * 0.06 - noise * 0.015 + size * 0.0001);
+  const valScore = Math.min(trainScore, 0.5 + size * 0.0003 - complexity * 0.03 - noise * 0.025 + 0.1);
+  const gap = trainScore - valScore;
+
+  let diagnosis = '';
+  if (gap > 0.25) {
+    diagnosis = '🔴 <strong>Overfitting</strong> — large train/val gap (' + gap.toFixed(2) + '). Reduce complexity, add regularization, or get more data.';
+  } else if (valScore < 0.55) {
+    diagnosis = '🟡 <strong>Underfitting</strong> — both scores low. Increase complexity or reduce noise.';
+  } else if (gap < 0.08 && valScore > 0.7) {
+    diagnosis = '🟢 <strong>Good fit</strong> — small gap (' + gap.toFixed(2) + '), high validation score (' + valScore.toFixed(2) + '). Model is well-calibrated.';
+  } else {
+    diagnosis = '🟠 <strong>Moderate gap</strong> (' + gap.toFixed(2) + ') — val score ' + valScore.toFixed(2) + '. More data or light regularization may help.';
+  }
+  document.getElementById('lcDiagnosis').innerHTML = '→ Train: ' + trainScore.toFixed(2) + ' | Val: ' + valScore.toFixed(2) + '<br>' + diagnosis;
+};

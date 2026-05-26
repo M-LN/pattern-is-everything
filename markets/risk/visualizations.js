@@ -987,3 +987,29 @@ window.updateVaRPlayground = function() {
 
   el.innerHTML = html;
 };
+
+// ── VaR Playground ──
+window.updateVaRPlayground = function() {
+  const portfolio = +document.getElementById('varPortfolio').value;
+  const vol = +document.getElementById('varVol').value;
+  const conf = +document.getElementById('varConfPg').value;
+
+  document.getElementById('varPortV').textContent = portfolio >= 1000000 ? '$' + (portfolio/1000000) + 'M' : '$' + (portfolio/1000) + 'K';
+  document.getElementById('varVolV').textContent = vol + '%';
+  document.getElementById('varConfV').textContent = conf + '%';
+
+  // Z-scores for common confidence levels
+  const zScores = {90:1.282, 91:1.341, 92:1.405, 93:1.476, 94:1.555, 95:1.645, 96:1.751, 97:1.881, 98:2.054, 99:2.326};
+  const z = zScores[conf] || 1.645;
+  const dailyVol = (vol / 100) / Math.sqrt(252);
+  const var1d = portfolio * z * dailyVol;
+  const var10d = var1d * Math.sqrt(10);
+
+  const fmt = function(n) { return n >= 1000000 ? '$' + (n/1000000).toFixed(2) + 'M' : '$' + (n/1000).toFixed(1) + 'K'; };
+
+  document.getElementById('varResult').innerHTML =
+    '<strong>Parametric VaR (' + conf + '% confidence)</strong><br>' +
+    '1-day VaR: <strong>' + fmt(var1d) + '</strong> — worst expected daily loss<br>' +
+    '10-day VaR: <strong>' + fmt(var10d) + '</strong> — Basel III reporting period<br>' +
+    '<span style="opacity:0.7">Daily vol: ' + (dailyVol * 100).toFixed(2) + '% | z-score: ' + z.toFixed(3) + '</span>';
+};

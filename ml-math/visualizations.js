@@ -1912,3 +1912,34 @@ window.updateRegPlayground = function() {
 
   el.innerHTML = lines.join('<br>');
 };
+
+// ── Regularization Playground ──
+window.updateRegPlayground = function() {
+  const lambdaRaw = +document.getElementById('regExpLambda').value;
+  const dropout = +document.getElementById('regExpDrop').value;
+  const dataSize = +document.getElementById('regExpData').value;
+
+  const lambdaVal = lambdaRaw === 0 ? 0 : Math.pow(10, -5 + lambdaRaw / 20);
+  document.getElementById('regExpLV').textContent = lambdaRaw === 0 ? '0' : lambdaVal.toExponential(0);
+  document.getElementById('regExpDV').textContent = (dropout / 100).toFixed(2);
+  document.getElementById('regExpDataV').textContent = dataSize >= 1000 ? (dataSize / 1000) + 'K' : dataSize;
+
+  const totalReg = (lambdaRaw / 100) + (dropout / 100);
+  let advice = [];
+
+  if (totalReg < 0.1 && dataSize < 500) {
+    advice.push('🔴 <strong>High overfit risk</strong> — small data + minimal regularization. Add dropout ≥ 0.3 or increase λ.');
+  } else if (totalReg > 1.2) {
+    advice.push('🟡 <strong>Over-regularized</strong> — model may underfit. Reduce dropout or λ.');
+  } else if (dataSize > 5000 && totalReg > 0.8) {
+    advice.push('🟠 Large dataset often needs less regularization. Consider reducing dropout.');
+  } else {
+    advice.push('🟢 <strong>Balanced setup</strong> — regularization looks reasonable for this data size.');
+  }
+
+  if (dropout > 50) advice.push('⚠️ Dropout > 0.5 is aggressive — typically 0.1–0.3 for hidden layers.');
+  if (lambdaRaw > 70) advice.push('⚠️ Very strong weight decay — may prevent learning.');
+  if (dataSize > 5000 && lambdaRaw === 0 && dropout === 0) advice.push('💡 With ' + (dataSize/1000) + 'K samples, you might be fine without regularization — but test it.');
+
+  document.getElementById('regDiagnosis').innerHTML = advice.join('<br>');
+};
