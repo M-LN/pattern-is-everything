@@ -110,6 +110,10 @@ print('Final equity:', round(float(equity[-1]), 3))`
 
 const editor = document.getElementById('pythonEditor');
 const output = document.getElementById('labOutput');
+const metricGrid = document.getElementById('metricGrid');
+const resultCanvas = document.getElementById('resultCanvas');
+const chartTitle = document.getElementById('chartTitle');
+const chartMeta = document.getElementById('chartMeta');
 const runBtn = document.getElementById('runBtn');
 const saveRunBtn = document.getElementById('saveRunBtn');
 const exportRunsBtn = document.getElementById('exportRunsBtn');
@@ -131,6 +135,11 @@ let lastRun = null;
 
 function setOutput(text) {
   output.textContent = text || '';
+}
+
+function clearSummary() {
+  renderMetrics({});
+  drawPreview(activeSample, null);
 }
 
 function setStatus(text, state = '') {
@@ -178,6 +187,120 @@ function extractMetrics(text) {
   return metrics;
 }
 
+function renderMetrics(metrics) {
+  if (!metricGrid) return;
+  const entries = Object.entries(metrics || {}).slice(0, 6);
+  if (!entries.length) {
+    metricGrid.innerHTML = '<div class="metric-card empty"><div class="metric-label">Metrics</div><div class="saved-run-meta">Run a cell to parse key values.</div></div>';
+    return;
+  }
+  metricGrid.innerHTML = entries.map(([label, value]) => `
+    <div class="metric-card">
+      <div class="metric-label">${escapeHTML(label)}</div>
+      <div class="metric-value">${escapeHTML(value)}</div>
+    </div>`).join('');
+}
+
+function resizeCanvas(canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+  canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, width: rect.width, height: rect.height };
+}
+
+function drawAxes(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height);
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#ddd';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(32, 14);
+  ctx.lineTo(32, height - 24);
+  ctx.lineTo(width - 12, height - 24);
+  ctx.stroke();
+}
+
+function scalePoints(values, width, height) {
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min || 1;
+  return value => height - 24 - ((value - min) / span) * (height - 44);
+}
+
+function line(ctx, points, color) {
+  if (!points.length) return;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  points.forEach(([x, y], index) => {
+    if (index) ctx.lineTo(x, y);
+    else ctx.moveTo(x, y);
+  });
+  ctx.stroke();
+}
+
+function drawPreview(sampleKey, metrics) {
+  if (!resultCanvas) return;
+  const { ctx, width, height } = resizeCanvas(resultCanvas);
+  const styles = getComputedStyle(document.documentElement);
+  const accent = styles.getPropertyValue('--accent').trim() || '#c84b2f';
+  const accent2 = styles.getPropertyValue('--accent2').trim() || '#2a7d5f';
+  const accent3 = styles.getPropertyValue('--accent3').trim() || '#2955a0';
+  drawAxes(ctx, width, height);
+  chartTitle.textContent = SAMPLES[sampleKey]?.title || 'Preview';
+  chartMeta.textContent = metrics ? 'Generated from sample pattern' : 'Run a cell';
+
+  if (!metrics) {
+    ctx.fillStyle = styles.getPropertyValue('--muted').trim() || '#888';
+    ctx.font = '12px IBM Plex Mono, monospace';
+    ctx.fillText('Preview appears after run', 44, height / 2);
+    return;
+  }
+
+  if (sampleKey === 'regression') {
+    const xs = Array.from({ length: 24 }, (_, i) => i / 23 * 10);
+    const actual = xs.map(x => 2.4 * x + 3 + Math.sin(x * 1.7) * 1.8);
+    const pred = xs.map(x => 2.4 * x + 3);
+    const yScale = scalePoints(actual.concat(pred), width, height);
+    actual.forEach((y, i) => {
+      const x = 32 + i / (actual.length - 1) * (width - 48);
+      ctx.beginPath();
+      ctx.arc(x, yScale(y), 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.fill();
+    });
+    line(ctx, pred.map((y, i) => [32 + i / (pred.length - 1) * (width - 48), yScale(y)]), accent2);
+    return;
+  }
+
+  if (sampleKey === 'drift') {
+    const ref = [2, 7, 18, 31, 25, 12, 5];
+    const prod = [1, 3, 9, 19, 30, 24, 12];
+    const yScale = scalePoints(ref.concat(prod), width, height);
+    const barW = (width - 52) / ref.length;
+    ref.forEach((value, i) => {
+      const x = 36 + i * barW;
+      ctx.fillStyle = 'rgba(42,125,95,.42)';
+      ctx.fillRect(x, yScale(value), barW * .38, height - 24 - yScale(value));
+      ctx.fillStyle = 'rgba(200,75,47,.42)';
+      ctx.fillRect(x + barW * .42, yScale(prod[i]), barW * .38, height - 24 - yScale(prod[i]));
+    });
+    return;
+  }
+
+  const values = Array.from({ length: 70 }, (_, i) => 50 + i * .12 + Math.sin(i / 6) * 4 + Math.cos(i / 11) * 2);
+  const yScale = scalePoints(values, width, height);
+  const points = values.map((value, i) => [32 + i / (values.length - 1) * (width - 48), yScale(value)]);
+  line(ctx, points, sampleKey === 'market' ? accent : accent3);
+  if (sampleKey === 'market') {
+    const equity = values.map((value, i) => value + Math.sin(i / 4) * 2);
+    const equityScale = scalePoints(equity, width, height);
+    line(ctx, equity.map((value, i) => [32 + i / (equity.length - 1) * (width - 48), equityScale(value)]), accent2);
+  }
+}
+
 function selectSample(key) {
   activeSample = key;
   const sample = SAMPLES[key];
@@ -185,6 +308,7 @@ function selectSample(key) {
   editor.value = sample.code;
   lastRun = null;
   updateCellMeta(`${editor.value.split('\n').length} lines · editable sample`);
+  clearSummary();
   document.querySelectorAll('.sample-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.sample === key);
   });
@@ -198,6 +322,8 @@ function loadRun(runId) {
   editor.value = run.code;
   setOutput(run.output);
   lastRun = run;
+  renderMetrics(run.metrics || extractMetrics(run.output));
+  drawPreview(run.sample || activeSample, run.metrics || {});
   updateCellMeta(`Loaded run · ${editor.value.split('\n').length} lines`);
   document.querySelectorAll('.sample-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.sample === run.sample);
@@ -282,6 +408,8 @@ async function runCurrentCode() {
       metrics: extractMetrics(text)
     };
     updateCellMeta(`Last run · ${Object.keys(lastRun.metrics).length || 0} metrics parsed`);
+    renderMetrics(lastRun.metrics);
+    drawPreview(activeSample, lastRun.metrics);
     setStatus('Ready', 'ready');
   } catch (error) {
     const text = chunks.concat(error.message || String(error)).join('\n');
@@ -296,6 +424,8 @@ async function runCurrentCode() {
       metrics: {}
     };
     updateCellMeta('Last run failed');
+    renderMetrics({});
+    drawPreview(activeSample, null);
     setStatus('Error', 'error');
   } finally {
     runBtn.disabled = false;
@@ -353,6 +483,7 @@ function copyCode() {
 
 renderSamples();
 renderSavedRuns();
+clearSummary();
 bootRuntime();
 
 runBtn.addEventListener('click', runCurrentCode);
@@ -362,7 +493,7 @@ importRunsBtn.addEventListener('click', () => importRunsInput.click());
 importRunsInput.addEventListener('change', event => importRuns(event.target.files[0]));
 resetBtn.addEventListener('click', () => selectSample(activeSample));
 copyBtn.addEventListener('click', copyCode);
-clearBtn.addEventListener('click', () => setOutput(''));
+clearBtn.addEventListener('click', () => { setOutput(''); clearSummary(); });
 editor.addEventListener('input', () => updateCellMeta(`${editor.value.split('\n').length} lines · edited`));
 editor.addEventListener('keydown', event => {
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
@@ -370,3 +501,4 @@ editor.addEventListener('keydown', event => {
     runCurrentCode();
   }
 });
+window.addEventListener('resize', () => drawPreview(activeSample, lastRun?.metrics || null));
