@@ -248,6 +248,45 @@ f = f1_score(y_true, y_pred)</pre></div>
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — data leakage:</strong> If you tune the threshold on your test set, you're overfitting to it. Use a separate validation split or nested cross-validation to select the threshold, then evaluate once on the held-out test set.</div>
   </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <p>In production fraud detection at scale (millions of transactions/day), the precision-recall trade-off has real dollar costs:</p>
+    <ul>
+      <li><strong>Low precision</strong> (many false positives) → customer friction, blocked legitimate purchases, support costs ~$5-15 per case</li>
+      <li><strong>Low recall</strong> (missed fraud) → direct financial loss, average $150+ per missed case</li>
+      <li>Most production systems operate at 95%+ precision with 60-80% recall — the cost asymmetry drives the threshold</li>
+      <li>At Stripe/PayPal scale, moving the threshold by 0.01 can shift millions of dollars annually</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Any binary classification task. Always your first evaluation step. Essential for imbalanced datasets where accuracy is misleading (99% accuracy on 1% fraud rate = useless).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Regression tasks (use MSE/MAE instead), ranking problems (use NDCG/MAP), or when you only care about ordering (use ROC-AUC instead of fixed-threshold metrics).</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank" rel="noopener">Kaggle: Credit Card Fraud Detection (284K transactions, 492 frauds)</a>
+    <a href="https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic" target="_blank" rel="noopener">UCI: Breast Cancer Wisconsin (569 samples, binary diagnosis)</a>
+    <div class="ds-note">The credit card dataset is extremely imbalanced (0.17% positive) — perfect for seeing why accuracy fails and precision/recall matters.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install scikit-learn pandas matplotlib seaborn
+# ────────────────────────────────────────
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('creditcard.csv')
+X, y = df.drop('Class', axis=1), df['Class']
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
+model = LogisticRegression(max_iter=1000).fit(X_train, y_train)
+print(classification_report(y_test, y_pred=model.predict(X_test)))
+ConfusionMatrixDisplay.from_estimator(model, X_test, y_test)
+plt.show()</code></pre>
+  </div>
   <div class="topic-nav" id="nav-confusion-matrix"></div>
 </div>`;
 }
@@ -378,6 +417,21 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — overfitting to CV score:</strong> If you run CV many times with different hyperparameters and pick the best, you're overfitting to the CV folds. Use nested CV or hold out a final test set that you touch only once.</div>
   </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <p>CV fold count impacts both reliability and compute cost:</p>
+    <ul>
+      <li><strong>k=5</strong> is the standard — good bias-variance trade-off, 5x training cost</li>
+      <li><strong>k=10</strong> reduces variance slightly but doubles compute vs k=5. Rarely worth it for large datasets</li>
+      <li><strong>LOOCV</strong> (k=n) is nearly unbiased but has high variance and n× compute — avoid for n > 10K</li>
+      <li>At Google scale, even 5-fold CV on large datasets uses distributed computing. For quick iteration, use a single holdout, then CV for the final report</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Small-to-medium datasets where every sample matters. Model comparison and selection. Hyperparameter tuning (inside nested CV). Reporting final model performance for publication.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Very large datasets (>500K samples) where a single 80/20 split gives stable estimates. Real-time/streaming data where temporal order matters — use walk-forward instead. Quick prototyping where a holdout split is sufficient.</div>
+  </div>
   <div class="topic-nav" id="nav-cross-validation"></div>
 </div>`;
 }
@@ -460,6 +514,23 @@ plt.legend(); plt.show()</pre></div>
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — early stopping too early:</strong> If your validation curve is still improving, you're stopping before convergence. If your training curve keeps rising while validation drops, you've gone past the sweet spot. Use a patience parameter (e.g. 10 epochs with no improvement) to find the right moment.</div>
   </div>
+  <div class="playground">
+    <div class="playground-title">Experiment — diagnose the learning curve</div>
+    <div class="pg-controls">
+      <label>Model complexity <input type="range" id="lcComplexity" min="1" max="10" step="1" value="5" oninput="updateLCPlayground()"><span class="pg-val" id="lcComplexV">5</span></label>
+      <label>Training size <input type="range" id="lcSize" min="50" max="1000" step="50" value="200" oninput="updateLCPlayground()"><span class="pg-val" id="lcSizeV">200</span></label>
+      <label>Noise level <input type="range" id="lcNoise" min="1" max="10" step="1" value="3" oninput="updateLCPlayground()"><span class="pg-val" id="lcNoiseV">3</span></label>
+    </div>
+    <div class="pg-output" id="lcPlayground">
+      <strong>Diagnosis:</strong> Adjust the sliders to see how model complexity, data size, and noise affect the learning curve gap.<br>
+      <span id="lcDiagnosis">→ Balanced setup — moderate gap between train and val scores</span>
+    </div>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> You need to decide between getting more data vs. improving the model. Diagnosing overfitting vs underfitting. Justifying compute budget — will more training help? Before deploying to production as a sanity check.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You're doing a quick prototype where directional results are enough. Using pre-trained models where the learning dynamics are already well-studied. The dataset is fixed and you can't get more data anyway.</div>
+  </div>
   <div class="topic-nav" id="nav-learning-curves"></div>
 </div>`;
 }
@@ -506,6 +577,43 @@ shap.plots.beeswarm(shap_values)</pre></div>
       <li>Compare SHAP with <a href="#permutation-importance">permutation importance</a> — if they disagree, you likely have correlated features</li>
     </ol>
     <div class="howto-pitfall"><strong>When SHAP misleads:</strong> SHAP assumes feature independence when computing marginal contributions. With highly correlated features (e.g. height and weight), SHAP may distribute credit unevenly. Always check the correlation matrix first. For critical decisions, combine SHAP with domain knowledge.</div>
+  </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <p>SHAP compute cost varies dramatically by explainer type:</p>
+    <ul>
+      <li><strong>TreeExplainer</strong>: O(TLD²) per prediction — fast, handles 100K samples in seconds for XGBoost/LightGBM</li>
+      <li><strong>KernelExplainer</strong>: O(2^M) where M=features — exponential. With 50 features, use background subsampling (100-200 samples) or wait hours</li>
+      <li><strong>Production tip:</strong> Pre-compute SHAP for common feature ranges and cache them. Real-time SHAP on every API call is expensive — batch process nightly</li>
+      <li>EU AI Act and US lending regulations increasingly require explainability — SHAP is the de facto standard for regulatory compliance</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Regulatory compliance requires explanations (finance, healthcare). Debugging model behavior on specific predictions. Stakeholder communication about model decisions. Feature selection guided by contribution analysis.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Prototyping where speed matters more than explanation. Linear models where coefficients already tell the story. Very high-dimensional data (1000+ features) — use permutation importance first to narrow down, then SHAP on the top features.</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset" target="_blank" rel="noopener">Kaggle: Credit Card Default (30K clients, explain why predictions differ)</a>
+    <a href="https://www.kaggle.com/c/home-credit-default-risk/data" target="_blank" rel="noopener">Kaggle: Home Credit Default Risk (300K loans, real feature interactions)</a>
+    <div class="ds-note">Train any tree model, then run SHAP — you'll immediately see which features the model relies on most. Compare waterfall plots for approved vs denied loans.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install shap xgboost pandas matplotlib
+# ────────────────────────────────────────
+import shap, xgboost, pandas as pd
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv('your_data.csv')
+X_train, X_test, y_train, y_test = train_test_split(df.drop('target',1), df['target'])
+model = xgboost.XGBClassifier().fit(X_train, y_train)
+
+explainer = shap.TreeExplainer(model)
+sv = explainer(X_test)
+shap.plots.beeswarm(sv)           # global importance
+shap.plots.waterfall(sv[0])       # explain one prediction</code></pre>
   </div>
   <div class="topic-nav" id="nav-shap-values"></div>
 </div>`;
@@ -799,6 +907,24 @@ print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — feature drift ≠ model decay:</strong> A feature's distribution can shift without affecting model performance (if it's a low-importance feature). Always cross-check drift detection with actual model metrics on labelled data.</div>
   </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li>Uber's Michelangelo platform monitors 10K+ models — PSI is the primary drift signal. They retrain automatically when PSI > 0.2 on any top-10 feature</li>
+      <li>COVID-19 caused massive covariate shift in credit scoring models — income, spending, employment features all drifted simultaneously. Models that flagged drift early saved banks millions in bad decisions</li>
+      <li>Gradual drift (seasonal) is normal — build it into your retraining schedule. Sudden drift (COVID, regulatory change) requires immediate response</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Any production ML model. The longer a model runs without monitoring, the more likely it has silently degraded. Especially critical for high-stakes decisions (lending, healthcare, fraud).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> One-off analyses where the model won't be reused. Static datasets that never change (benchmark competitions). Models retrained on every batch already (online learning).</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank" rel="noopener">Kaggle: Credit Card Fraud — split by time to simulate temporal drift</a>
+    <div class="ds-note">Split the dataset at the midpoint (Time column). Compute PSI between first-half and second-half feature distributions — you'll see real drift in V1-V28.</div>
+  </div>
   <div class="topic-nav" id="nav-data-drift"></div>
 </div>`;
 }
@@ -836,6 +962,20 @@ X_res, y_res = pipeline.fit_resample(X_train, y_train)
 <span class="cm"># Or just use class weights</span>
 model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)</pre></div>
   <div class="callout info"><strong>Never SMOTE the test set.</strong> Apply resampling only to training data, inside the CV loop.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>class_weight='balanced'</strong> is often enough — it's free, no extra data, and works with any sklearn model. Try this first</li>
+      <li>SMOTE improves recall by 5-15% on average but can hurt precision. Best combined with undersampling the majority</li>
+      <li>At extreme ratios (1:10000+, e.g. click fraud), even SMOTE struggles. Consider anomaly detection (Isolation Forest) instead of classification</li>
+      <li>In Kaggle competitions, the top fraud/anomaly solutions almost always use ensemble + threshold tuning rather than heavy resampling</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Your minority class is < 10% of data. Your model's recall on the minority class is poor. You're working in fraud, disease detection, churn prediction, or any domain with naturally rare events.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Classes are roughly balanced (30-70% split). You have enough minority samples (>5K). You're using models that handle imbalance natively (like focal loss in neural nets).</div>
+  </div>
   <div class="topic-nav" id="nav-class-imbalance"></div>
 </div>`;
 }

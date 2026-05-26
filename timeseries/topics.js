@@ -417,6 +417,43 @@ model = auto_arima(series, seasonal=<span class="st">False</span>,
 print(model.summary())
 forecast = model.predict(n_periods=<span class="st">30</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> ARIMA&rsquo;s model selection via AIC/BIC is the same bias-variance tradeoff as <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> in ML. In markets, ARIMA forecasts on price returns connect directly to <a href="../markets/indicators/#moving-averages" target="_blank" rel="noopener">moving average</a> signals.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li>The M4 competition (100K time series) showed ARIMA-based methods still competitive for short horizons (1-6 steps) — within 5% of neural methods, at 100x less compute</li>
+      <li><strong>Auto-ARIMA</strong> (pmdarima) fits most univariate series in <1 second. Manual Box-Jenkins is educational but rarely needed in practice</li>
+      <li>For financial returns: ARIMA captures linear dependencies but misses volatility clustering. Pair with GARCH for the variance equation</li>
+      <li>ARIMA fails on non-stationary series with structural breaks — always test stationarity first (ADF test) and watch for regime changes</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Univariate forecasting where interpretability matters. Short-horizon forecasts (1-30 steps). As a strong baseline before trying complex models. Demand forecasting, inventory planning, economic indicators.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You have many exogenous features (use machine learning instead). Very long horizons where uncertainty dominates. Non-stationary data with structural breaks. Multivariate dependencies are important (use VAR or neural methods).</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/ashfakyeafi/air-passenger-data-for-time-series-analysis" target="_blank" rel="noopener">Kaggle: Airline Passengers (classic seasonal time series, 144 monthly observations)</a>
+    <a href="https://fred.stlouisfed.org/series/UNRATE" target="_blank" rel="noopener">FRED: US Unemployment Rate (macroeconomic monthly series, 900+ observations)</a>
+    <div class="ds-note">The airline dataset is perfect for SARIMA (clear trend + seasonality). The FRED series tests ARIMA on regime-change data — notice how 2008 and 2020 break the model's assumptions.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pmdarima statsmodels pandas matplotlib
+# ────────────────────────────────────────
+import pandas as pd, matplotlib.pyplot as plt
+from pmdarima import auto_arima
+from statsmodels.tsa.stattools import adfuller
+
+df = pd.read_csv('AirPassengers.csv', parse_dates=['Month'], index_col='Month')
+print(f"ADF p-value: {adfuller(df['#Passengers'])[1]:.4f}")  # test stationarity
+
+model = auto_arima(df, seasonal=True, m=12, stepwise=True, trace=True)
+fc, ci = model.predict(24, return_conf_int=True)
+plt.plot(df.index, df.values, label='Observed')
+plt.fill_between(pd.date_range(df.index[-1], periods=24, freq='M'), ci[:,0], ci[:,1], alpha=.2)
+plt.show()</code></pre>
+  </div>
   <div class="topic-nav" id="nav-arima"></div>
 </div>`;
 }

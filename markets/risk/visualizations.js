@@ -958,3 +958,32 @@ x.fillStyle=ACCENT();x.fillText('Equity curve',pad.l+5,pad.t+15);
 x.fillStyle=MUTED();x.font='10px sans-serif';x.textAlign='center';x.fillText('Time →',pad.l+pw/2,h-8);
 if(ctrl)ctrl.oninput=()=>DRAWS['drawdown-analysis']();
 };
+
+/* ── VaR Playground ── */
+window.updateVaRPlayground = function() {
+  const portfolio = parseInt(document.getElementById('varPortfolio')?.value || 100000);
+  const vol = parseInt(document.getElementById('varVol')?.value || 20) / 100;
+  const conf = parseInt(document.getElementById('varConfPg')?.value || 95) / 100;
+
+  const pv = document.getElementById('varPortV'); if (pv) pv.textContent = '$' + (portfolio >= 1000000 ? (portfolio/1000000).toFixed(1) + 'M' : (portfolio/1000).toFixed(0) + 'K');
+  const vv = document.getElementById('varVolV'); if (vv) vv.textContent = (vol*100).toFixed(0) + '%';
+  const cv = document.getElementById('varConfV'); if (cv) cv.textContent = (conf*100).toFixed(0) + '%';
+
+  // z-scores for common confidence levels
+  const zScores = {0.90:1.282, 0.91:1.341, 0.92:1.405, 0.93:1.476, 0.94:1.555, 0.95:1.645, 0.96:1.751, 0.97:1.881, 0.98:2.054, 0.99:2.326};
+  const z = zScores[conf] || 1.645;
+  const dailyVol = vol / Math.sqrt(252);
+  const var1d = portfolio * z * dailyVol;
+  const var10d = var1d * Math.sqrt(10);
+
+  const el = document.getElementById('varResult'); if (!el) return;
+  let html = '<strong>Parametric VaR (' + (conf*100).toFixed(0) + '% confidence):</strong><br>';
+  html += '📊 1-day VaR: <strong>$' + var1d.toLocaleString('en-US', {maximumFractionDigits:0}) + '</strong> — on 95 out of 100 trading days, you won\'t lose more than this<br>';
+  html += '📊 10-day VaR: <strong>$' + var10d.toLocaleString('en-US', {maximumFractionDigits:0}) + '</strong> — Basel III regulatory horizon<br>';
+  html += '<span style="color:var(--muted);font-size:11px">Daily σ = ' + (dailyVol*100).toFixed(2) + '% | z = ' + z.toFixed(3) + ' | Annual σ = ' + (vol*100).toFixed(0) + '%</span>';
+
+  if (vol > 0.4) html += '<br>⚠️ Very high volatility — typical of crypto or leveraged positions. Consider reducing exposure.';
+  else if (vol < 0.1) html += '<br>✓ Low volatility — typical of bonds or money market instruments.';
+
+  el.innerHTML = html;
+};

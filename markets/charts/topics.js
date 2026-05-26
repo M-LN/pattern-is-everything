@@ -179,6 +179,25 @@ function buildHeadAndShoulders() {
     </ol>
     <div class="howto-pitfall"><strong>Reality check:</strong> Academic studies show mixed results for chart patterns. A 2000 study by Lo, Mamaysky & Wang found some statistical significance, but later studies with transaction costs often show diminishing edge. Use chart patterns as <em>one input</em> alongside quantitative signals — never as your sole decision tool.</div>
   </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>Bulkowski's backtests</strong> (10K+ patterns): H&S top reaches the measured target ~55% of the time. Inverse H&S (bottom) hits target ~74% — bottoms are more reliable than tops</li>
+      <li>Win rate improves with <strong>volume confirmation</strong> — patterns with declining volume on the right shoulder outperform by ~8%</li>
+      <li>Failure rate increases in strong trends — a clear H&S in a raging bull market often results in a "failed breakdown" and continuation higher</li>
+      <li>Most systematic hedge funds don't trade chart patterns in isolation. They combine with momentum, volatility, and fundamental signals</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> You see three clear peaks after an extended uptrend. Volume declines on each successive peak. The pattern is forming on a daily or weekly timeframe (higher timeframes are more reliable). You have other confirming signals (RSI divergence, declining momentum).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> The pattern is on an intraday chart (noise dominates). The broader trend is strongly bullish with no momentum divergence. You're relying solely on the pattern without risk management. The "head" is barely higher than the "shoulders" — ambiguous patterns have low reliability.</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">Kaggle: Daily Stock Prices (S&P 500, all tickers, 2000-2023)</a>
+    <div class="ds-note">Download daily OHLCV data and look for H&S patterns in SPY around major tops (2000, 2007, 2022). Compare the pattern's predicted target vs actual drawdown.</div>
+  </div>
   <div class="topic-nav" id="nav-head-and-shoulders"></div>
 </div>`;
 }

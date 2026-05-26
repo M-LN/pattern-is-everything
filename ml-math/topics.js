@@ -346,6 +346,20 @@ function buildGradient() {
     </ol>
     <div class="howto-pitfall"><strong>When gradient descent fails:</strong> Non-convex loss landscapes have local minima and saddle points. SGD with momentum helps escape saddle points; Adam helps with sparse gradients. For very deep networks, poor initialization can cause vanishing gradients — use He or Xavier init.</div>
   </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>Adam</strong> converges 2-5x faster than plain SGD on most tasks, but SGD+momentum often finds flatter minima → better generalization</li>
+      <li>GPT-3 training used Adam with β1=0.9, β2=0.95, lr warmup over 375M tokens then cosine decay</li>
+      <li><strong>Batch size matters:</strong> larger batches = more stable gradients but worse generalization. Most papers use 32-256 for CV, 8-64 for NLP</li>
+      <li>Mixed-precision training (FP16) cuts memory 2x and speeds up training 30-50% on modern GPUs with negligible accuracy loss</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Training any neural network. Fine-tuning pre-trained models. Logistic regression on large datasets. Any differentiable loss function.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Tree models (XGBoost, Random Forest) — they use different optimization. Small linear models where closed-form solutions exist (OLS). Problems where derivative-free optimization (genetic algorithms, Bayesian optimization) is more appropriate.</div>
+  </div>
   <div class="topic-nav" id="nav-gradient"></div>
 </div>`;
 }
@@ -411,6 +425,20 @@ function buildBiasVariance() {
     <div class="step"><div class="sn">✓</div><div><h4>Sweet Spot</h4><p>Regularization, dropout, cross-validation help find the optimal complexity.</p></div></div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The U-curve of bias vs. variance is the same tradeoff between <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval width</a> and precision in statistics. In markets, <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">overconfidence</a> is low bias, high variance — the model fits noise.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>Random Forests</strong> = low bias, moderate variance → bagging reduces variance. Rarely overfit severely, which is why they're the go-to baseline</li>
+      <li><strong>Deep neural networks</strong> = very low bias, potentially high variance → need dropout, weight decay, early stopping, data augmentation</li>
+      <li><strong>Linear models</strong> = high bias, low variance → add polynomial features or switch to a more expressive model if underfitting</li>
+      <li>The "double descent" phenomenon: very large neural nets can go past the interpolation threshold and generalize well again — the classic U-curve doesn't always hold</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Diagnosing why your model performs poorly. Deciding between a simpler or more complex model. Choosing regularization strength. Understanding why ensemble methods work.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You already know the problem is data quality (garbage in, garbage out). Using pre-trained models where the bias-variance trade-off was already optimized by the pre-training team.</div>
+  </div>
   <div class="topic-nav" id="nav-bias-variance"></div>
 </div>`;
 }
@@ -529,6 +557,31 @@ optim = torch.optim.AdamW(model.parameters(), weight_decay=<span class="st">1e-4
 model.eval()   <span class="cm"># disables dropout at test time</span>
 model.train()  <span class="cm"># re-enables dropout</span></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> L1/L2 penalties constrain complexity. In markets, <a href="../markets/psychology/#loss-aversion" target="_blank" rel="noopener">loss aversion</a> acts as a natural regularizer, penalizing risky bets.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>Dropout 0.1-0.3</strong> is standard for transformers. BERT uses 0.1; higher values hurt for large pre-trained models that already have strong representations</li>
+      <li><strong>Weight decay 1e-2</strong> (AdamW) is the default for most LLM fine-tuning. Higher values (0.1) for small datasets, lower (1e-4) for large</li>
+      <li>L1 creates sparse models that are 2-10x faster at inference — great for mobile/edge deployment</li>
+      <li><strong>Data augmentation</strong> is the most powerful regularizer for vision (flips, crops, color jitter add 2-5% accuracy). Mixup and CutMix push it further</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Train loss is much lower than val loss (classic overfitting). Small dataset relative to model capacity. Fine-tuning a large model on a small domain dataset.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Model is underfitting (both train and val loss high) — you need more capacity, not less. Very large datasets where overfitting is unlikely (e.g. training CLIP on 400M image-text pairs).</div>
+  </div>
+  <div class="playground">
+    <div class="playground-title">Experiment — regularization strength</div>
+    <div class="pg-controls">
+      <label>λ (weight decay) <input type="range" id="regExpLambda" min="0" max="100" step="1" value="10" oninput="updateRegPlayground()"><span class="pg-val" id="regExpLV">1e-3</span></label>
+      <label>Dropout rate <input type="range" id="regExpDrop" min="0" max="80" step="5" value="20" oninput="updateRegPlayground()"><span class="pg-val" id="regExpDV">0.20</span></label>
+      <label>Dataset size <input type="range" id="regExpData" min="100" max="10000" step="100" value="1000" oninput="updateRegPlayground()"><span class="pg-val" id="regExpDataV">1K</span></label>
+    </div>
+    <div class="pg-output" id="regPlayground">
+      <span id="regDiagnosis">Adjust sliders to see how regularization affects your model's behavior.</span>
+    </div>
+  </div>
   <div class="topic-nav" id="nav-regularization"></div>
 </div>`;
 }

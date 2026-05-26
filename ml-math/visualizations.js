@@ -1878,3 +1878,37 @@ function initVisualizations(topicId) {
 // Expose globally
 window.DRAWS = DRAWS;
 window.initVisualizations = initVisualizations;
+
+/* ── Regularization Playground ── */
+window.updateRegPlayground = function() {
+  const lambdaRaw = parseInt(document.getElementById('regExpLambda')?.value || 10);
+  const dropRate = parseInt(document.getElementById('regExpDrop')?.value || 20) / 100;
+  const dataSize = parseInt(document.getElementById('regExpData')?.value || 1000);
+  const lambda = Math.pow(10, -5 + lambdaRaw / 20); // 1e-5 to 1e0
+
+  const lv = document.getElementById('regExpLV'); if (lv) lv.textContent = lambda.toExponential(0);
+  const dv = document.getElementById('regExpDV'); if (dv) dv.textContent = dropRate.toFixed(2);
+  const dav = document.getElementById('regExpDataV'); if (dav) dav.textContent = dataSize >= 1000 ? (dataSize/1000).toFixed(0) + 'K' : dataSize;
+
+  const el = document.getElementById('regDiagnosis'); if (!el) return;
+
+  const totalReg = lambda * 1000 + dropRate * 2;
+  const dataNorm = dataSize / 10000;
+  const needForReg = 1 - dataNorm; // small data = more regularization needed
+
+  let lines = [];
+  if (lambda > 0.01) lines.push('⚠️ <strong>λ very high</strong> — weights will be pushed near zero. Risk of underfitting.');
+  else if (lambda < 1e-4 && dataSize < 500) lines.push('⚠️ <strong>λ too low for small data</strong> — model will memorize. Try λ ≥ 1e-3.');
+  else lines.push('✓ λ = ' + lambda.toExponential(1) + ' — reasonable for this data size.');
+
+  if (dropRate > 0.5) lines.push('⚠️ <strong>Dropout > 0.5</strong> — losing too much information. Most architectures use 0.1-0.3.');
+  else if (dropRate > 0.3 && dataSize > 5000) lines.push('⚡ Dropout ' + dropRate.toFixed(1) + ' is high for ' + (dataSize >= 1000 ? (dataSize/1000).toFixed(0) + 'K' : dataSize) + ' samples — try 0.1-0.2.');
+  else if (dropRate === 0 && dataSize < 1000) lines.push('⚡ No dropout + small data → likely overfitting. Start with 0.2.');
+  else lines.push('✓ Dropout ' + dropRate.toFixed(2) + ' — good for this setup.');
+
+  if (totalReg > 3 && dataSize > 5000) lines.push('🎯 <strong>Over-regularized</strong> for a large dataset. Reduce λ and dropout — you have enough data.');
+  else if (totalReg < 0.5 && dataSize < 500) lines.push('🎯 <strong>Under-regularized</strong> for small data. Increase both λ and dropout.');
+  else lines.push('🎯 Overall: ' + (totalReg > 1.5 ? 'strong' : totalReg > 0.5 ? 'moderate' : 'light') + ' regularization.');
+
+  el.innerHTML = lines.join('<br>');
+};

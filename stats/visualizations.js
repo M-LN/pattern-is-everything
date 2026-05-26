@@ -1999,3 +1999,32 @@ DRAWS['scipy-statsmodels'] = function() {
     });
   });
 };
+
+/* ── Learning Curve Playground ── */
+window.updateLCPlayground = function() {
+  const complexity = parseInt(document.getElementById('lcComplexity')?.value || 5);
+  const size = parseInt(document.getElementById('lcSize')?.value || 200);
+  const noise = parseInt(document.getElementById('lcNoise')?.value || 3);
+  const cv = document.getElementById('lcComplexV'); if (cv) cv.textContent = complexity;
+  const sv = document.getElementById('lcSizeV'); if (sv) sv.textContent = size;
+  const nv = document.getElementById('lcNoiseV'); if (nv) nv.textContent = noise;
+  const el = document.getElementById('lcDiagnosis'); if (!el) return;
+
+  const trainScore = Math.min(0.99, 0.5 + complexity * 0.05 + size * 0.0002 - noise * 0.01);
+  const valScore = Math.min(trainScore, 0.4 + size * 0.0004 - complexity * 0.03 + (10 - noise) * 0.02);
+  const gap = trainScore - valScore;
+
+  let diagnosis = '';
+  if (gap > 0.2 && valScore < 0.6) {
+    diagnosis = '⚠️ <strong>Overfitting</strong> — large train/val gap. Try: reduce complexity, add regularization, or get more data.';
+  } else if (trainScore < 0.65 && valScore < 0.6) {
+    diagnosis = '⚠️ <strong>Underfitting</strong> — both scores low. Try: increase complexity, add features, or reduce noise.';
+  } else if (gap < 0.1 && valScore > 0.7) {
+    diagnosis = '✅ <strong>Good fit</strong> — small gap, high scores. Model is generalizing well.';
+  } else if (gap > 0.15) {
+    diagnosis = '⚡ <strong>Mild overfitting</strong> — some gap. More data or slight regularization would help.';
+  } else {
+    diagnosis = '→ Moderate setup. Train: ' + trainScore.toFixed(2) + ', Val: ' + valScore.toFixed(2) + ', Gap: ' + gap.toFixed(2);
+  }
+  el.innerHTML = diagnosis + '<br><span style="color:var(--muted);font-size:11px">Train score: ' + trainScore.toFixed(3) + ' | Val score: ' + valScore.toFixed(3) + ' | Gap: ' + gap.toFixed(3) + '</span>';
+};

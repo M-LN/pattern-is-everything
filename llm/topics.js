@@ -320,6 +320,20 @@ def self_attention(x, W_q, W_k, W_v):
     weights = F.softmax(scores, dim=-1)
     return weights @ V  # (batch, seq_len, d_v)</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#correlation" target="_blank" rel="noopener">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> weights each price by volume — attention over the session.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>O(n²) is the bottleneck:</strong> For a 128K context window, the attention matrix has 16 billion entries. Flash Attention reduces memory from O(n²) to O(n) by tiling and fusing CUDA kernels</li>
+      <li><strong>Flash Attention 2</strong> gives 2-4x speedup over standard attention on A100 GPUs. It's now default in PyTorch 2.0+ via <code>torch.nn.functional.scaled_dot_product_attention</code></li>
+      <li>GPT-4 likely uses mixture-of-experts with grouped-query attention (GQA) to handle 128K context at reasonable cost</li>
+      <li>For inference: KV-cache means attention cost is O(n) per new token, not O(n²). Cache size = 2 × n_layers × n_heads × d_head × seq_len × dtype_bytes</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Building or understanding any transformer model. Debugging attention patterns to understand model behavior. Designing custom architectures. Understanding why context length is limited.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Using LLMs via API — attention is handled for you. Working with very long sequences (>100K tokens) where linear attention variants (Mamba, RWKV) may be more efficient.</div>
+  </div>
   <div class="topic-nav" id="nav-self-attention"></div>
 </div>`;
 }
@@ -686,6 +700,36 @@ def sft_loss(model, input_ids, response_start_idx):
 # Typical hyperparameters
 # lr: 2e-5, epochs: 2-3, batch: 128, warmup: 3%</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Adapting a pre-trained model to a specific task. In markets, adapting a general <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving average strategy</a> to a specific asset class.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>LoRA</strong> reduces trainable parameters by 99%+ — fine-tune a 7B model on a single GPU (16GB) in hours. Full fine-tuning of 7B needs 4× A100 80GB</li>
+      <li>OpenAI's fine-tuning API: ~$8/million tokens for GPT-4o-mini. Cost-effective for domain-specific tasks, but you lose control over the base model</li>
+      <li><strong>10K high-quality examples</strong> often outperform 1M noisy examples. Alpaca (52K examples) made LLaMA competitive with ChatGPT on many tasks</li>
+      <li>For production: fine-tune on your domain, then eval on held-out examples. If perplexity improves but task metrics don't, your data quality is the bottleneck</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> You need a model to follow specific output formats. Domain-specific knowledge that the base model doesn't have. Consistent style/tone requirements. Reducing prompt length (teach the model once instead of repeating instructions).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Prompt engineering with examples (few-shot) already works well enough. Your data is small (<100 examples) — few-shot is better. You need to switch between many tasks dynamically — keep the generalist model.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — LoRA fine-tuning</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install transformers peft datasets accelerate bitsandbytes
+# ────────────────────────────────────────
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
+from peft import LoraConfig, get_peft_model
+from trl import SFTTrainer
+
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3-8B", load_in_4bit=True)
+lora = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj","v_proj"])
+model = get_peft_model(model, lora)  # ~0.5% trainable params
+
+trainer = SFTTrainer(model, train_dataset=dataset,
+    args=TrainingArguments(num_train_epochs=2, learning_rate=2e-4, per_device_train_batch_size=4))
+trainer.train()</code></pre>
+  </div>
   <div class="topic-nav" id="nav-fine-tuning"></div>
 </div>`;
 }
@@ -982,6 +1026,20 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 # 70B model now fits in ~35GB VRAM</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is <a href="../stats/#percentiles" target="_blank" rel="noopener">binning</a> applied to weights — discrete approximation of continuous values.</div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li><strong>GPTQ 4-bit</strong> loses <1% accuracy on most benchmarks vs FP16. GGUF format (llama.cpp) runs 70B models on a MacBook with 64GB RAM</li>
+      <li>Memory savings: FP32→FP16 = 2x, FP16→INT8 = 2x, INT8→INT4 = 2x. A 70B model goes from 280GB → 35GB</li>
+      <li><strong>Inference speed</strong>: INT4 on GPU is 2-3x faster than FP16 because memory bandwidth is the bottleneck, not compute</li>
+      <li>AWQ (Activation-aware Weight Quantization) preserves salient weights at higher precision — better quality than naive rounding</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Deploying models locally or on limited hardware. Reducing inference costs in production. Running large models (30B+) on consumer GPUs. Edge deployment on phones/laptops.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Using cloud APIs (already optimized). Tasks requiring maximum precision (scientific computation). Small models (<1B) that already fit in memory. Training — quantize for inference only.</div>
+  </div>
   <div class="topic-nav" id="nav-quantization"></div>
 </div>`;
 }

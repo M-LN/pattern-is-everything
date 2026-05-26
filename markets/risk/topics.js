@@ -180,6 +180,54 @@ function buildValueAtRisk() {
   </table>
   <div class="callout info"><strong>Limitation.</strong> VaR says nothing about the <em>magnitude</em> of losses beyond the threshold — Expected Shortfall fills that gap.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Confidence intervals and quantiles are foundational in <a href="../../stats/index.html#confidence-intervals">The Toolkit — Confidence Intervals</a>.</div>
+  <div class="playground">
+    <div class="playground-title">Experiment — your portfolio's VaR</div>
+    <div class="pg-controls">
+      <label>Portfolio ($) <input type="range" id="varPortfolio" min="10000" max="1000000" step="10000" value="100000" oninput="updateVaRPlayground()"><span class="pg-val" id="varPortV">$100K</span></label>
+      <label>Annual vol (%) <input type="range" id="varVol" min="5" max="60" step="1" value="20" oninput="updateVaRPlayground()"><span class="pg-val" id="varVolV">20%</span></label>
+      <label>Confidence <input type="range" id="varConfPg" min="90" max="99" step="1" value="95" oninput="updateVaRPlayground()"><span class="pg-val" id="varConfV">95%</span></label>
+    </div>
+    <div class="pg-output" id="varPlayground">
+      <span id="varResult">Adjust sliders to calculate your portfolio's Value at Risk.</span>
+    </div>
+  </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Performance in practice</div>
+    <ul>
+      <li>Basel III requires banks to report <strong>99% 10-day VaR</strong> daily. Capital reserves must cover 3× this number — a $10M VaR means $30M in regulatory capital</li>
+      <li>Parametric VaR underestimated tail risk in 2008 by ~50% because returns were far from normal. Historical VaR caught the fat tails but missed unprecedented correlations</li>
+      <li>JPMorgan's RiskMetrics (1994) popularized VaR. Their original assumption of i.i.d. normal returns is still the baseline, despite known limitations</li>
+      <li>Modern practice: run all three methods and report the worst case. If they disagree significantly, your risk model has a blind spot</li>
+    </ul>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Setting position sizes. Regulatory reporting (Basel III). Communicating risk to non-technical stakeholders. Comparing risk across different portfolios or strategies.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You need to understand tail risk severity (use Expected Shortfall). Illiquid positions where you can't exit at market price. Options/derivatives with non-linear payoffs (use Monte Carlo or stress tests instead).</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install numpy pandas yfinance scipy
+# ────────────────────────────────────────
+import numpy as np, pandas as pd, yfinance as yf
+from scipy.stats import norm
+
+prices = yf.download('SPY', period='2y')['Close']
+returns = prices.pct_change().dropna()
+
+# Parametric VaR (95%, 1-day)
+mu, sigma = returns.mean(), returns.std()
+var_95 = -(mu + norm.ppf(0.05) * sigma)
+print(f"Parametric VaR (95%): {var_95:.2%}")
+
+# Historical VaR
+var_hist = -np.percentile(returns, 5)
+print(f"Historical VaR (95%): {var_hist:.2%}")
+
+# Dollar VaR for $100K portfolio
+portfolio = 100_000
+print(f"1-day dollar VaR: ${portfolio * var_95:,.0f}")</code></pre>
+  </div>
   <div class="topic-nav" id="nav-value-at-risk"></div>
 </div>`;
 }

@@ -126,6 +126,12 @@ const PATTERN_BRIDGES = {
   'mean-reversion-psychology': '<div class="callout bridge"><strong>Pattern bridge:</strong> The belief that extremes return to average — a psychological trust in the <a href="../../stats/#central-limit" target="_blank" rel="noopener">central limit theorem</a>. In ML, <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">normalization layers</a> enforce mean reversion on activations.</div>'
 };
 
+const TOPIC_EXTRAS = {
+  'loss-aversion': `<div class="perf-insight"><div class="perf-insight-title">Performance in practice</div><ul><li>Kahneman & Tversky's research shows losses are psychologically <strong>~2.25x more painful</strong> than equivalent gains are pleasant</li><li>In trading: this means most people hold losing positions too long (hoping for recovery) and cut winners too early (locking in gains). Studies show retail traders hold losers 1.5x longer than winners</li><li>Professional funds combat this with <strong>pre-committed stop-losses</strong> and systematic rules that remove emotion from exit decisions</li></ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Designing your trading plan — set exit rules before entering. Portfolio review to check if you're holding "hope trades." Understanding why you feel worse about losses than good about wins.</div><div class="skip-when">✗ <strong>Skip when:</strong> You have a fully systematic/algorithmic approach with pre-defined rules. Long-term index investing where short-term losses are irrelevant to the strategy.</div></div>`,
+  'fear-and-greed': `<div class="perf-insight"><div class="perf-insight-title">Performance in practice</div><ul><li>The CNN Fear & Greed Index as a <strong>contrarian signal</strong>: buying when index < 20 (extreme fear) historically returns +14.5% over the following year vs +9.5% average</li><li>VIX > 30 + Fear Index < 15 has preceded major bottoms in 2009, 2011, 2018, 2020</li><li>Extreme greed (>80) is a weaker sell signal — markets can stay euphoric longer than they stay panicked</li></ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Timing lump-sum additions to a portfolio. Gauging whether a sell-off is panic-driven or fundamentally justified. As a contrarian filter — consider buying when others are fearful.</div><div class="skip-when">✗ <strong>Skip when:</strong> Day trading — sentiment indices update too slowly. Ignoring in a disciplined DCA strategy where emotions shouldn't affect contributions. As a standalone timing signal — always combine with price/volume.</div></div>`,
+  'herd-behavior': `<div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> You notice everyone around you talking about the same trade. Social media is flooded with one-directional conviction. Volume spikes massively with no fundamental catalyst. A contrarian position has become very painful.</div><div class="skip-when">✗ <strong>Skip when:</strong> The "herd" is responding to genuine fundamental changes (earnings beat, regulatory approval). Early in a trend — herding is most dangerous at extremes, not at the start. In highly efficient markets (large-cap liquid stocks) where herding is arbitraged away quickly.</div></div>`
+};
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -137,6 +143,7 @@ function buildContent() {
     html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
     if (PATTERN_BRIDGES[t.id]) html += PATTERN_BRIDGES[t.id];
+    if (TOPIC_EXTRAS[t.id]) html += TOPIC_EXTRAS[t.id];
     html += `<div class="topic-nav" id="nav-${t.id}"></div>`;
     html += '</div>';
   });
