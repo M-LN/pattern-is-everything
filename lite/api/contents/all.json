@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2026-05-26T17:04:30.166740Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-05-26T16:23:06.711990Z",
+      "mimetype": null,
+      "name": "pattern-portal-real-data-lab.ipynb",
+      "path": "pattern-portal-real-data-lab.ipynb",
+      "size": 6695,
+      "type": "notebook",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2026-05-26T17:04:30.166740Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2026-05-26T17:04:20.907119Z",
+      "mimetype": "text/markdown",
+      "name": "README.md",
+      "path": "README.md",
+      "size": 1351,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2026-05-26T17:04:30.166740Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2026-05-26T17:04:30.166740Z",
+  "mimetype": null,
+  "name": "",
+  "path": "",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

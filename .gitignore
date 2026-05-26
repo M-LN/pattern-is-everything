@@ -6,6 +6,8 @@ Thumbs.db
 .vscode/
 .idea/
 node_modules/
+.venv/
+.jupyterlite.doit.db
 .vercel/
 .vercel
 git-push.bat
