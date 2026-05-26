@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browser Python Lab - Pattern Portal</title>
+  <meta name="description" content="Run small Pattern Portal Python experiments directly in the browser with Pyodide.">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .lab-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto 72px;
+    }
+    .lab-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 340px;
+      gap: 18px;
+      align-items: start;
+    }
+    .lab-panel,
+    .lab-sidebar,
+    .lab-output {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .lab-sidebar,
+    .lab-output {
+      padding: 14px;
+    }
+    .sample-list {
+      display: grid;
+      gap: 8px;
+    }
+    .sample-btn,
+    .lab-action {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: 600 12px var(--sans);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .sample-btn:hover,
+    .sample-btn.active,
+    .lab-action:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(200, 75, 47, .07);
+    }
+    .lab-action:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+    .lab-panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .lab-title {
+      font: 700 14px var(--mono);
+      letter-spacing: 0;
+    }
+    .lab-status {
+      font: 600 11px var(--mono);
+      color: var(--muted);
+    }
+    .lab-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #pythonEditor {
+      width: 100%;
+      min-height: 520px;
+      resize: vertical;
+      border: 0;
+      outline: 0;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+      font: 13px/1.55 var(--mono);
+      tab-size: 4;
+    }
+    .output-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .output-title {
+      font: 700 12px var(--mono);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    #labOutput {
+      min-height: 520px;
+      margin: 0;
+      white-space: pre-wrap;
+      overflow: auto;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px;
+      color: var(--text);
+      font: 12px/1.55 var(--mono);
+    }
+    .runtime-note {
+      margin-top: 10px;
+      font: 12px/1.5 var(--sans);
+      color: var(--muted);
+    }
+    @media (max-width: 1000px) {
+      .lab-grid {
+        grid-template-columns: 1fr;
+      }
+      #pythonEditor,
+      #labOutput {
+        min-height: 360px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="brand" href="../index.html">Pattern Portal</a>
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="../cases/index.html">Cases</a>
+    <a href="../sandbox/index.html">Sandbox</a>
+    <a href="../ml/index.html">ML</a>
+  </nav>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">◐</button>
+</header>
+
+<main class="lab-shell">
+  <div class="case-hero">
+    <div>
+      <div class="eyebrow">Browser Lab</div>
+      <h1>Runnable Python Experiments</h1>
+      <p>Small Pattern Portal workflows that execute locally in the page through Pyodide.</p>
+    </div>
+    <div class="cc-tags" aria-label="Runtime scope">
+      <span class="tag t1">Python</span>
+      <span class="tag t2">NumPy</span>
+      <span class="tag t3">No Server</span>
+      <span class="tag t4">Editable</span>
+    </div>
+  </div>
+
+  <section class="lab-grid" aria-label="Runnable Python lab">
+    <aside class="lab-sidebar">
+      <div class="output-title">Experiments</div>
+      <div class="sample-list" id="sampleList"></div>
+      <p class="runtime-note">First run loads the Python runtime from the Pyodide CDN.</p>
+    </aside>
+
+    <section class="lab-panel">
+      <div class="lab-panel-head">
+        <div>
+          <div class="lab-title" id="sampleTitle">Linear Regression</div>
+          <div class="lab-status" id="runtimeStatus">Python runtime loading...</div>
+        </div>
+        <div class="lab-toolbar">
+          <button class="lab-action" id="runBtn" disabled>Run</button>
+          <button class="lab-action" id="resetBtn">Reset</button>
+          <button class="lab-action" id="copyBtn">Copy</button>
+        </div>
+      </div>
+      <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor"></textarea>
+    </section>
+
+    <aside class="lab-output">
+      <div class="output-head">
+        <div class="output-title">Output</div>
+        <button class="lab-action" id="clearBtn">Clear</button>
+      </div>
+      <pre id="labOutput">Loading Python...</pre>
+    </aside>
+  </section>
+</main>
+
+<div class="portal-footer">
+  Pattern is Everything · 2026
+  <p><a href="../cases/index.html" style="color:var(--accent);text-decoration:none;">Back to Real-Data Cases</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="lab.js?v=1"></script>
+<script>
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+}
+</script>
+</body>
+</html>

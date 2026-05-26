@@ -25,6 +25,10 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://patterniseverything.com/notebooks/lab.html</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://patterniseverything.com/ml-math/index.html</loc>
     <priority>0.7</priority>
   </url>
