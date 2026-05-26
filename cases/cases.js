@@ -1,4 +1,6 @@
-const JUPYTER_LITE_NOTEBOOK = '../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb';
+function jupyterLiteNotebook(path) {
+  return `../lite/lab/?path=${encodeURIComponent(path)}`;
+}
 
 const CASES = [
   {
@@ -13,6 +15,7 @@ const CASES = [
     datasetUrl: 'https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud',
     localDatasetName: 'Local fraud sample CSV',
     localDatasetUrl: 'datasets/fraud_sample.csv',
+    notebookPath: 'case-credit-fraud.ipynb',
     datasetNote: 'Use the local sample to test the pipeline quickly, then swap in the full Kaggle dataset for meaningful model evaluation.',
     pipeline: [
       'Load anonymized transaction features and inspect class imbalance.',
@@ -66,6 +69,7 @@ print('PR-AUC:', average_precision_score(y_test, proba))`
     datasetUrl: 'https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html',
     localDatasetName: 'Local housing sample CSV',
     localDatasetUrl: 'datasets/housing_sample.csv',
+    notebookPath: 'case-housing-regression.ipynb',
     datasetNote: 'A tiny local tabular sample for pipeline practice; use the full scikit-learn dataset for robust scores.',
     pipeline: [
       'Load the dataset and separate features from target.',
@@ -118,6 +122,7 @@ print('First predictions:', pred[:5])`
     datasetUrl: 'https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption',
     localDatasetName: 'Local energy demand sample CSV',
     localDatasetUrl: 'datasets/energy_demand_sample.csv',
+    notebookPath: 'case-energy-forecast.ipynb',
     datasetNote: 'A tiny daily-demand sample for lag-feature practice; use the UCI dataset for serious forecasting validation.',
     pipeline: [
       'Parse timestamps and resample noisy readings to an hourly or daily grain.',
@@ -172,6 +177,7 @@ print('Naive MAE:', mean_absolute_error(test['y'], naive))`
     datasetUrl: 'https://pypi.org/project/yfinance/',
     localDatasetName: 'Local OHLCV sample CSV',
     localDatasetUrl: 'datasets/market_ohlcv_sample.csv',
+    notebookPath: 'case-market-backtest.ipynb',
     datasetNote: 'Use the local OHLCV sample for mechanics. For real claims, validate with point-in-time data, fees, slippage, and survivorship controls.',
     pipeline: [
       'Load OHLCV and compute indicators using only past prices.',
@@ -245,7 +251,7 @@ function renderCase(caseData) {
       <h2 class="case-title">${caseData.title}</h2>
       <p class="case-summary">${escapeHTML(caseData.summary)}</p>
       <div class="case-primary-actions">
-        <a class="case-jupyterlite-cta" href="${JUPYTER_LITE_NOTEBOOK}" target="_blank" rel="noopener">Open in JupyterLite</a>
+        <a class="case-jupyterlite-cta" href="${jupyterLiteNotebook(caseData.notebookPath)}" target="_blank" rel="noopener">Open this case in JupyterLite</a>
       </div>
 
       <div class="dataset-card">
