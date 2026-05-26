@@ -117,6 +117,50 @@
       font: 12px/1.5 var(--sans);
       color: var(--muted);
     }
+    .saved-runs {
+      margin-top: 18px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .saved-run-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .saved-run {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px;
+      font: 11px/1.5 var(--mono);
+    }
+    .saved-run-title {
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .saved-run-meta {
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .saved-run-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .saved-run-actions button {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 4px;
+      padding: 4px 6px;
+      font: 700 10px var(--mono);
+      cursor: pointer;
+    }
+    .saved-run-actions button:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
     @media (max-width: 1000px) {
       .lab-grid {
         grid-template-columns: 1fr;
@@ -159,6 +203,10 @@
       <div class="output-title">Experiments</div>
       <div class="sample-list" id="sampleList"></div>
       <p class="runtime-note">First run loads the Python runtime from the Pyodide CDN.</p>
+      <div class="saved-runs">
+        <div class="output-title">Saved Runs</div>
+        <div class="saved-run-list" id="savedRunsList"></div>
+      </div>
     </aside>
 
     <section class="lab-panel">
@@ -169,11 +217,15 @@
         </div>
         <div class="lab-toolbar">
           <button class="lab-action" id="runBtn" disabled>Run</button>
+          <button class="lab-action" id="saveRunBtn">Save</button>
+          <button class="lab-action" id="exportRunsBtn">Export JSON</button>
+          <button class="lab-action" id="importRunsBtn">Import</button>
           <button class="lab-action" id="resetBtn">Reset</button>
           <button class="lab-action" id="copyBtn">Copy</button>
         </div>
       </div>
       <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor"></textarea>
+      <input id="importRunsInput" type="file" accept="application/json,.json" hidden>
     </section>
 
     <aside class="lab-output">

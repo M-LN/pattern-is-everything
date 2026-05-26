@@ -4,7 +4,7 @@ Notebook companions for the Real-Data Cases workflow.
 
 ## Available notebooks
 
-- `lab.html` — browser-runnable Python lab powered by Pyodide, with small editable experiments for regression, drift, forecasting, and indicator backtesting.
+- `lab.html` — browser-runnable Python lab powered by Pyodide, with small editable experiments for regression, drift, forecasting, and indicator backtesting. Runs can be saved, exported to JSON, imported again, and reloaded.
 - `pattern-portal-real-data-lab.ipynb` — one compact lab covering housing regression, fraud classification, time-series forecasting, and market backtesting templates.
 
 ## How to use

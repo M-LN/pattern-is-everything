@@ -111,18 +111,60 @@ print('Final equity:', round(float(equity[-1]), 3))`
 const editor = document.getElementById('pythonEditor');
 const output = document.getElementById('labOutput');
 const runBtn = document.getElementById('runBtn');
+const saveRunBtn = document.getElementById('saveRunBtn');
+const exportRunsBtn = document.getElementById('exportRunsBtn');
+const importRunsBtn = document.getElementById('importRunsBtn');
+const importRunsInput = document.getElementById('importRunsInput');
 const resetBtn = document.getElementById('resetBtn');
 const copyBtn = document.getElementById('copyBtn');
 const clearBtn = document.getElementById('clearBtn');
 const sampleList = document.getElementById('sampleList');
+const savedRunsList = document.getElementById('savedRunsList');
 const sampleTitle = document.getElementById('sampleTitle');
 const runtimeStatus = document.getElementById('runtimeStatus');
 
+const RUNS_KEY = 'pattern-browser-lab-runs';
 let pyodide;
 let activeSample = 'regression';
+let lastRun = null;
 
 function setOutput(text) {
   output.textContent = text || '';
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+}
+
+function readRuns() {
+  try { return JSON.parse(localStorage.getItem(RUNS_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function writeRuns(runs) {
+  localStorage.setItem(RUNS_KEY, JSON.stringify(runs.slice(-40)));
+  renderSavedRuns();
+}
+
+function downloadJSON(filename, data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function extractMetrics(text) {
+  const metrics = {};
+  String(text).split('\n').forEach(line => {
+    const match = line.match(/^([^:]{2,40}):\s*(.+)$/);
+    if (match) metrics[match[1].trim()] = match[2].trim();
+  });
+  return metrics;
 }
 
 function selectSample(key) {
@@ -133,6 +175,46 @@ function selectSample(key) {
   document.querySelectorAll('.sample-btn').forEach(button => {
     button.classList.toggle('active', button.dataset.sample === key);
   });
+}
+
+function loadRun(runId) {
+  const run = readRuns().find(item => item.id === runId);
+  if (!run) return;
+  if (SAMPLES[run.sample]) activeSample = run.sample;
+  sampleTitle.textContent = run.title;
+  editor.value = run.code;
+  setOutput(run.output);
+  lastRun = run;
+  document.querySelectorAll('.sample-btn').forEach(button => {
+    button.classList.toggle('active', button.dataset.sample === run.sample);
+  });
+}
+
+function deleteRun(runId) {
+  writeRuns(readRuns().filter(item => item.id !== runId));
+}
+
+function renderSavedRuns() {
+  const runs = readRuns().slice(-8).reverse();
+  if (!savedRunsList) return;
+  if (!runs.length) {
+    savedRunsList.innerHTML = '<div class="saved-run"><div class="saved-run-meta">No saved runs yet.</div></div>';
+    return;
+  }
+  savedRunsList.innerHTML = runs.map(run => {
+    const metrics = Object.entries(run.metrics || {}).slice(0, 3).map(([key, value]) => `${key}: ${value}`).join(' · ') || 'No metrics parsed';
+    const runId = escapeHTML(run.id);
+    return `<div class="saved-run">
+      <div class="saved-run-title">${escapeHTML(run.title)}</div>
+      <div class="saved-run-meta">${escapeHTML(new Date(run.savedAt).toLocaleString())}<br>${escapeHTML(metrics)}</div>
+      <div class="saved-run-actions">
+        <button type="button" data-run-load="${runId}">Load</button>
+        <button type="button" data-run-delete="${runId}">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+  savedRunsList.querySelectorAll('[data-run-load]').forEach(button => button.addEventListener('click', () => loadRun(button.dataset.runLoad)));
+  savedRunsList.querySelectorAll('[data-run-delete]').forEach(button => button.addEventListener('click', () => deleteRun(button.dataset.runDelete)));
 }
 
 function renderSamples() {
@@ -174,14 +256,76 @@ async function runCurrentCode() {
   try {
     const result = await pyodide.runPythonAsync(editor.value);
     if (result !== undefined && result !== null) chunks.push(String(result));
-    setOutput(chunks.join('\n') || 'Done.');
+    const text = chunks.join('\n') || 'Done.';
+    setOutput(text);
+    lastRun = {
+      id: `browser-lab-${Date.now()}`,
+      sample: activeSample,
+      title: sampleTitle.textContent,
+      savedAt: new Date().toISOString(),
+      code: editor.value,
+      output: text,
+      metrics: extractMetrics(text)
+    };
     runtimeStatus.textContent = 'Ready';
   } catch (error) {
-    setOutput(chunks.concat(error.message || String(error)).join('\n'));
+    const text = chunks.concat(error.message || String(error)).join('\n');
+    setOutput(text);
+    lastRun = {
+      id: `browser-lab-${Date.now()}`,
+      sample: activeSample,
+      title: `${sampleTitle.textContent} (error)`,
+      savedAt: new Date().toISOString(),
+      code: editor.value,
+      output: text,
+      metrics: {}
+    };
     runtimeStatus.textContent = 'Error';
   } finally {
     runBtn.disabled = false;
   }
+}
+
+function saveCurrentRun() {
+  const run = lastRun || {
+    id: `browser-lab-${Date.now()}`,
+    sample: activeSample,
+    title: sampleTitle.textContent,
+    savedAt: new Date().toISOString(),
+    code: editor.value,
+    output: output.textContent,
+    metrics: extractMetrics(output.textContent)
+  };
+  writeRuns(readRuns().concat({ ...run, id: `browser-lab-${Date.now()}`, savedAt: new Date().toISOString() }));
+  runtimeStatus.textContent = 'Saved';
+  setTimeout(() => { if (pyodide) runtimeStatus.textContent = 'Ready'; }, 900);
+}
+
+function exportRuns() {
+  downloadJSON('pattern-browser-lab-runs.json', {
+    exportedAt: new Date().toISOString(),
+    source: 'Pattern Portal Browser Python Lab',
+    runs: readRuns()
+  });
+}
+
+function importRuns(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const imported = Array.isArray(parsed) ? parsed : parsed.runs;
+      if (!Array.isArray(imported)) throw new Error('No runs array found.');
+      writeRuns(readRuns().concat(imported.filter(run => run && run.code && run.output)));
+      runtimeStatus.textContent = 'Imported';
+      setTimeout(() => { if (pyodide) runtimeStatus.textContent = 'Ready'; }, 900);
+    } catch (error) {
+      setOutput(error.message || String(error));
+      runtimeStatus.textContent = 'Import failed';
+    }
+  };
+  reader.readAsText(file);
 }
 
 function copyCode() {
@@ -192,9 +336,14 @@ function copyCode() {
 }
 
 renderSamples();
+renderSavedRuns();
 bootRuntime();
 
 runBtn.addEventListener('click', runCurrentCode);
+saveRunBtn.addEventListener('click', saveCurrentRun);
+exportRunsBtn.addEventListener('click', exportRuns);
+importRunsBtn.addEventListener('click', () => importRunsInput.click());
+importRunsInput.addEventListener('change', event => importRuns(event.target.files[0]));
 resetBtn.addEventListener('click', () => selectSample(activeSample));
 copyBtn.addEventListener('click', copyCode);
 clearBtn.addEventListener('click', () => setOutput(''));

@@ -9,7 +9,9 @@ const CASES = [
     summary: 'Detect rare fraudulent transactions without letting accuracy hide the real failure mode.',
     datasetName: 'Kaggle Credit Card Fraud Detection',
     datasetUrl: 'https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud',
-    datasetNote: 'Highly imbalanced anonymized card transactions. Use a validation split before touching the final test set.',
+    localDatasetName: 'Local fraud sample CSV',
+    localDatasetUrl: 'datasets/fraud_sample.csv',
+    datasetNote: 'Use the local sample to test the pipeline quickly, then swap in the full Kaggle dataset for meaningful model evaluation.',
     pipeline: [
       'Load anonymized transaction features and inspect class imbalance.',
       'Split train/validation/test with stratification.',
@@ -32,19 +34,17 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, average_precision_score
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv('creditcard.csv')
-X = df.drop(columns=['Class'])
-y = df['Class']
+df = pd.read_csv('../cases/datasets/fraud_sample.csv')
+target = 'Class' if 'Class' in df.columns else 'is_fraud'
+X = df.drop(columns=[target])
+y = df[target]
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, stratify=y, random_state=42
+    X, y, test_size=0.3, stratify=y, random_state=42
 )
 
-model = RandomForestClassifier(
-    n_estimators=300, class_weight='balanced', random_state=42, n_jobs=-1
-)
+model = RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=42)
 model.fit(X_train, y_train)
-
 proba = model.predict_proba(X_test)[:, 1]
 pred = (proba >= 0.35).astype(int)
 
@@ -62,10 +62,12 @@ print('PR-AUC:', average_precision_score(y_test, proba))`
     summary: 'Build a clean tabular regression baseline, then diagnose error instead of chasing a leaderboard score.',
     datasetName: 'California Housing via scikit-learn',
     datasetUrl: 'https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html',
-    datasetNote: 'Small enough for a first model, but real enough to show scaling, leakage, residuals, and feature importance.',
+    localDatasetName: 'Local housing sample CSV',
+    localDatasetUrl: 'datasets/housing_sample.csv',
+    datasetNote: 'A tiny local tabular sample for pipeline practice; use the full scikit-learn dataset for robust scores.',
     pipeline: [
       'Load the dataset and separate features from target.',
-      'Build a preprocessing + model pipeline.',
+      'Build a preprocessing plus model pipeline.',
       'Evaluate with cross-validation before inspecting the test set.',
       'Compare MAE and RMSE to understand average vs large errors.',
       'Inspect residuals and feature importance for failure patterns.'
@@ -80,18 +82,17 @@ print('PR-AUC:', average_precision_score(y_test, proba))`
     ],
     lab: ['Linear Regression Lab', '../sandbox/ml/index.html#linear-regression'],
     snippet: `# pip install scikit-learn pandas
-import numpy as np
-from sklearn.datasets import fetch_california_housing
+import pandas as pd
 from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
-data = fetch_california_housing(as_frame=True)
-X = data.frame.drop(columns=['MedHouseVal'])
-y = data.frame['MedHouseVal']
+df = pd.read_csv('../cases/datasets/housing_sample.csv')
+X = df.drop(columns=['median_house_value'])
+y = df['median_house_value']
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y, test_size=0.3, random_state=42
 )
 
 model = HistGradientBoostingRegressor(random_state=42)
@@ -101,7 +102,7 @@ pred = model.predict(X_test)
 print('MAE:', mean_absolute_error(y_test, pred))
 print('RMSE:', mean_squared_error(y_test, pred, squared=False))
 print('R2:', r2_score(y_test, pred))
-print('Largest errors:', np.abs(y_test - pred).sort_values(ascending=False).head())`
+print('First predictions:', pred[:5])`
   },
   {
     id: 'energy-forecast',
@@ -113,7 +114,9 @@ print('Largest errors:', np.abs(y_test - pred).sort_values(ascending=False).head
     summary: 'Forecast temporal demand with walk-forward validation instead of a random split that breaks time.',
     datasetName: 'UCI Individual Household Electric Power Consumption',
     datasetUrl: 'https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption',
-    datasetNote: 'A practical time-series dataset for resampling, lag features, seasonality checks, and honest backtesting.',
+    localDatasetName: 'Local energy demand sample CSV',
+    localDatasetUrl: 'datasets/energy_demand_sample.csv',
+    datasetNote: 'A tiny daily-demand sample for lag-feature practice; use the UCI dataset for serious forecasting validation.',
     pipeline: [
       'Parse timestamps and resample noisy readings to an hourly or daily grain.',
       'Create lag and rolling-window features using only past values.',
@@ -135,21 +138,19 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 
-df = pd.read_csv('household_power_consumption.txt', sep=';', na_values='?')
-dt = pd.to_datetime(df['Date'] + ' ' + df['Time'], dayfirst=True)
-series = df.assign(ds=dt).set_index('ds')['Global_active_power'].astype(float)
-daily = series.resample('D').mean().dropna().to_frame('y')
+df = pd.read_csv('../cases/datasets/energy_demand_sample.csv', parse_dates=['date'])
+daily = df.set_index('date')[['demand_kwh']].rename(columns={'demand_kwh': 'y'})
 
-for lag in [1, 2, 7, 14]:
+for lag in [1, 2, 3]:
     daily[f'lag_{lag}'] = daily['y'].shift(lag)
-daily['rolling_7'] = daily['y'].shift(1).rolling(7).mean()
+daily['rolling_3'] = daily['y'].shift(1).rolling(3).mean()
 daily = daily.dropna()
 
-split = int(len(daily) * 0.8)
+split = max(6, int(len(daily) * 0.75))
 train, test = daily.iloc[:split], daily.iloc[split:]
 features = [c for c in daily.columns if c != 'y']
 
-model = RandomForestRegressor(n_estimators=300, random_state=42)
+model = RandomForestRegressor(n_estimators=100, random_state=42)
 model.fit(train[features], train['y'])
 pred = model.predict(test[features])
 naive = test['lag_1']
@@ -167,9 +168,11 @@ print('Naive MAE:', mean_absolute_error(test['y'], naive))`
     summary: 'Test a simple indicator strategy with walk-forward discipline, costs, and risk-adjusted metrics.',
     datasetName: 'Yahoo Finance OHLCV via yfinance',
     datasetUrl: 'https://pypi.org/project/yfinance/',
-    datasetNote: 'Convenient for education, but not point-in-time institutional data. Treat results as a learning artifact.',
+    localDatasetName: 'Local OHLCV sample CSV',
+    localDatasetUrl: 'datasets/market_ohlcv_sample.csv',
+    datasetNote: 'Use the local OHLCV sample for mechanics. For real claims, validate with point-in-time data, fees, slippage, and survivorship controls.',
     pipeline: [
-      'Download adjusted OHLCV and compute indicators using only past prices.',
+      'Load OHLCV and compute indicators using only past prices.',
       'Define entry, exit, position sizing, and transaction costs before testing.',
       'Walk forward through time without reusing future information.',
       'Compare against buy-and-hold and cash baselines.',
@@ -184,17 +187,16 @@ print('Naive MAE:', mean_absolute_error(test['y'], naive))`
       ['RSI', '../markets/indicators/index.html#rsi']
     ],
     lab: ['Markets Paper Trading Lab', '../sandbox/markets/index.html#paper-trading'],
-    snippet: `# pip install yfinance pandas numpy
+    snippet: `# pip install pandas numpy
 import numpy as np
 import pandas as pd
-import yfinance as yf
 
-px = yf.download('SPY', start='2015-01-01', auto_adjust=True, progress=False)
-close = px['Close']
+px = pd.read_csv('../cases/datasets/market_ohlcv_sample.csv', parse_dates=['date']).set_index('date')
+close = px['close']
 returns = close.pct_change()
 
-fast = close.rolling(20).mean()
-slow = close.rolling(100).mean()
+fast = close.rolling(3).mean()
+slow = close.rolling(5).mean()
 signal = (fast > slow).astype(int).shift(1).fillna(0)
 
 turnover = signal.diff().abs().fillna(0)
@@ -230,6 +232,7 @@ function renderCase(caseData) {
   const pipelineItems = caseData.pipeline
     .map(step => `<li>${escapeHTML(step)}</li>`)
     .join('');
+  const pitfallParts = caseData.pitfall.split(' - ');
   return `
     <article class="case-card" id="${caseData.id}">
       <div class="case-kicker">
@@ -243,13 +246,14 @@ function renderCase(caseData) {
       <div class="dataset-card">
         <div class="dataset-card-title">Use this dataset</div>
         <a href="${caseData.datasetUrl}" target="_blank" rel="noopener">${escapeHTML(caseData.datasetName)}</a>
+        <div class="case-links"><a href="${caseData.localDatasetUrl}" download>${escapeHTML(caseData.localDatasetName)}</a></div>
         <div class="ds-note">${escapeHTML(caseData.datasetNote)}</div>
       </div>
 
       <div class="howto">
         <div class="howto-title">Pipeline</div>
         <ol>${pipelineItems}</ol>
-        <div class="howto-pitfall"><strong>${escapeHTML(caseData.pitfall.split(' - ')[0])}:</strong> ${escapeHTML(caseData.pitfall.split(' - ').slice(1).join(' - '))}</div>
+        <div class="howto-pitfall"><strong>${escapeHTML(pitfallParts[0])}:</strong> ${escapeHTML(pitfallParts.slice(1).join(' - '))}</div>
       </div>
 
       <div class="perf-insight">

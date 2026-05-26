@@ -1,10 +1,13 @@
-const CACHE_NAME = 'pattern-v21';
+const CACHE_NAME = 'pattern-v22';
 const SHELL = [
   '/index.html',
   '/css/main.css',
   '/css/sandbox.css',
   '/js/evidence-taxonomy.js',
+  '/js/practical-template.js',
+  '/js/market-evidence-warning.js',
   '/js/sandbox-build-mode.js',
+  '/start/index.html',
   '/ml/index.html',
   '/markets/index.html',
   '/essays/index.html',
@@ -12,6 +15,10 @@ const SHELL = [
   '/essays/visualizations.js',
   '/cases/index.html',
   '/cases/cases.js',
+  '/cases/datasets/fraud_sample.csv',
+  '/cases/datasets/housing_sample.csv',
+  '/cases/datasets/energy_demand_sample.csv',
+  '/cases/datasets/market_ohlcv_sample.csv',
   '/notebooks/README.md',
   '/notebooks/lab.html',
   '/notebooks/lab.js',

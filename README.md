@@ -33,6 +33,8 @@
 
 - **Interactive visualizations** — every topic has a canvas-drawn diagram or animation
 - **Real-data cases** — mini workflows for classification, regression, forecasting, and market backtesting
+- **Local sample datasets** — tiny CSV files under `cases/datasets/` for quick offline pipeline practice
+- **Start Here path** — guided beginner → build → advanced progression through the site
 - **Notebook-ready snippets** — practical copy blocks with minimal Python dependencies where relevant
 - **Notebook companion** — `notebooks/pattern-portal-real-data-lab.ipynb` for executable Python case workflows
 - **Keyboard navigation** — `←` `→` arrow keys between topics, `Ctrl+K` to search
@@ -62,6 +64,8 @@ Pattern Portal/
 ├── index.html                  ← Homepage (2 universe cards)
 ├── css/main.css                ← Global design system
 ├── cases/                      ← Real-data mini-cases and notebook starters
+│   └── datasets/               ← Small local CSV samples for case workflows
+├── start/                      ← Guided Start Here learning path
 ├── notebooks/                  ← Jupyter notebook companions for cases
 ├── ml/index.html               ← ML hub
 │   ├── ml-math/                ← 38 topics
