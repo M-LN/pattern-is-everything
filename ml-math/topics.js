@@ -360,6 +360,26 @@ function buildGradient() {
     <div class="use-when">✓ <strong>Use when:</strong> Training any neural network. Fine-tuning pre-trained models. Logistic regression on large datasets. Any differentiable loss function.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Tree models (XGBoost, Random Forest) — they use different optimization. Small linear models where closed-form solutions exist (OLS). Problems where derivative-free optimization (genetic algorithms, Bayesian optimization) is more appropriate.</div>
   </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Use this pattern on real data</div>
+    <a href="../cases/index.html#housing-regression">Pattern Portal Case: Housing Regression</a>
+    <div class="ds-note">Train a baseline model, monitor train/validation loss, and compare learning-rate choices against MAE/RMSE.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install torch scikit-learn
+import torch
+
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
+for epoch in range(20):
+    model.train()
+    optimizer.zero_grad()
+    pred = model(X_train)
+    loss = loss_fn(pred, y_train)
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+    optimizer.step()</code></pre>
+  </div>
   <div class="topic-nav" id="nav-gradient"></div>
 </div>`;
 }
@@ -423,6 +443,17 @@ function buildBiasVariance() {
     <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple — misses real patterns. Both train and test error are high.</p></div></div>
     <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex — memorises noise. Low train error, high test error.</p></div></div>
     <div class="step"><div class="sn">✓</div><div><h4>Sweet Spot</h4><p>Regularization, dropout, cross-validation help find the optimal complexity.</p></div></div>
+  </div>
+  <div class="howto">
+    <div class="howto-title">How to diagnose this in practice</div>
+    <ol>
+      <li>Train a simple baseline first and record train/validation metrics.</li>
+      <li>If both train and validation scores are weak, add features or use a more expressive model.</li>
+      <li>If train score is strong but validation score is weak, add regularization, simplify the model, or collect more data.</li>
+      <li>Use learning curves to test whether more data is likely to help before spending time collecting it.</li>
+      <li>Confirm the diagnosis with cross-validation; a single lucky split can hide high variance.</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — tuning to the test set:</strong> If you keep checking the final test set while reducing variance, you are training on it indirectly. Keep one final holdout untouched.</div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The U-curve of bias vs. variance is the same tradeoff between <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval width</a> and precision in statistics. In markets, <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">overconfidence</a> is low bias, high variance — the model fits noise.</div>
   <div class="perf-insight">
@@ -557,6 +588,17 @@ optim = torch.optim.AdamW(model.parameters(), weight_decay=<span class="st">1e-4
 model.eval()   <span class="cm"># disables dropout at test time</span>
 model.train()  <span class="cm"># re-enables dropout</span></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> L1/L2 penalties constrain complexity. In markets, <a href="../markets/psychology/#loss-aversion" target="_blank" rel="noopener">loss aversion</a> acts as a natural regularizer, penalizing risky bets.</div>
+  <div class="howto">
+    <div class="howto-title">How to apply regularization safely</div>
+    <ol>
+      <li>Start with an unregularized baseline and save train/validation metrics.</li>
+      <li>Add L2/weight decay first; tune it on validation data, not the test set.</li>
+      <li>Use L1 only when sparsity or feature selection matters.</li>
+      <li>Add dropout for neural nets only when the validation gap is real.</li>
+      <li>Re-check calibration and feature importance after regularization; it can change model behavior.</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — regularizing underfit models:</strong> If both train and validation loss are high, regularization will usually make the model worse. Increase capacity or improve features first.</div>
+  </div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>

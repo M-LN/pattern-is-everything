@@ -1456,6 +1456,11 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   background: rgba(42,125,95,.08);
   border: 1px solid rgba(42,125,95,.18);
 }
+.evidence-badge.statistical {
+  color: var(--accent3);
+  background: rgba(41,85,160,.08);
+  border: 1px solid rgba(41,85,160,.18);
+}
 .evidence-badge.heuristic {
   color: #c87f2f;
   background: rgba(200,127,47,.08);
@@ -1465,6 +1470,11 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   color: var(--accent);
   background: rgba(200,75,47,.08);
   border: 1px solid rgba(200,75,47,.18);
+}
+.evidence-badge.educational {
+  color: var(--accent4);
+  background: rgba(139,79,168,.08);
+  border: 1px solid rgba(139,79,168,.18);
 }
 
 /* ── How-To Sections ── */

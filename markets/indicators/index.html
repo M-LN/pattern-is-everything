@@ -82,5 +82,6 @@ function buildNavButtons(id){const navEl=document.getElementById('nav-'+id);if(!
 window.addEventListener('load',()=>{buildNav();buildContent();const homeNI=document.querySelector('.ni[data-topic="home"]');if(homeNI)homeNI.classList.add('active');if(location.hash){const id=location.hash.slice(1);if(TOPICS.includes(id)){show(id,true);return;}}show('home');});
 </script>
 <script src="../../js/pattern-thread.js"></script>
+<script src="../../js/evidence-taxonomy.js?v=1"></script>
 </body>
 </html>

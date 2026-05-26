@@ -17,6 +17,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://patterniseverything.com/cases/index.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/notebooks/pattern-portal-real-data-lab.ipynb</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://patterniseverything.com/ml-math/index.html</loc>
     <priority>0.7</priority>
   </url>

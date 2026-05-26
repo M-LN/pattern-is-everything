@@ -52,6 +52,7 @@ const LR = {
   // Data range: x ∈ [0, 10], y ∈ [0, 10]
   xMin: 0, xMax: 10, yMin: 0, yMax: 10,
 };
+window.LR = LR;
 
 function lrToPixel(s, dx, dy) {
   const padX = 50, padY = 40;

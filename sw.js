@@ -1,13 +1,19 @@
-const CACHE_NAME = 'pattern-v17';
+const CACHE_NAME = 'pattern-v20';
 const SHELL = [
   '/index.html',
   '/css/main.css',
   '/css/sandbox.css',
+  '/js/evidence-taxonomy.js',
+  '/js/sandbox-build-mode.js',
   '/ml/index.html',
   '/markets/index.html',
   '/essays/index.html',
   '/essays/topics.js',
   '/essays/visualizations.js',
+  '/cases/index.html',
+  '/cases/cases.js',
+  '/notebooks/README.md',
+  '/notebooks/pattern-portal-real-data-lab.ipynb',
   '/mlops/index.html',
   '/timeseries/index.html',
   '/markets/risk/index.html',

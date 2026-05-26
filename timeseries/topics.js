@@ -887,6 +887,31 @@ tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>, gap=<span class="st">
     y_train, y_test = y[train_idx], y[test_idx]
     <span class="cm"># fit and evaluate</span></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is the forecasting equivalent of <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> from The Toolkit. In markets, this is exactly how <a href="../markets/indicators/#backtesting-rules" target="_blank" rel="noopener">trading strategy backtesting</a> disciplines prevent look-ahead bias.</div>
+  <div class="howto">
+    <div class="howto-title">Real-world pipeline: time-series validation</div>
+    <ol>
+      <li>Sort data by timestamp and freeze a final holdout period before feature engineering.</li>
+      <li>Create lag and rolling features using only past values; shift rolling features by one period.</li>
+      <li>Use expanding-window validation for growing history or sliding-window validation for changing regimes.</li>
+      <li>Add a purge gap when features use delayed labels, rolling windows, or overlapping horizons.</li>
+      <li>Report metrics by horizon, not just one average score.</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — shuffled folds:</strong> Random k-fold makes future observations available to the model indirectly. It usually overstates forecast quality.</div>
+  </div>
+  <div class="perf-insight">
+    <div class="perf-insight-title">Metrics in practice</div>
+    <ul>
+      <li><strong>MAE</strong> is easiest to explain in original units.</li>
+      <li><strong>RMSE</strong> is better when large forecast misses are expensive.</li>
+      <li><strong>MAPE</strong> is readable for stakeholders but unstable near zero.</li>
+      <li>Always compare against naive and seasonal-naive baselines.</li>
+    </ul>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Use this pattern on real data</div>
+    <a href="../cases/index.html#energy-forecast">Pattern Portal Case: Energy Demand Forecast</a>
+    <div class="ds-note">Use the case workflow to test lag features, rolling windows, naive baselines, and walk-forward validation.</div>
+  </div>
   <div class="topic-nav" id="nav-cross-validation-ts"></div>
 </div>`;
 }

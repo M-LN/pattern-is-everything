@@ -2,7 +2,7 @@
 
 **An interactive visual encyclopedia of patterns — in math and markets.**
 
-249 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
+249 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. The site now also includes practical real-data mini-cases that connect topics to datasets, metrics, pitfalls, and notebook-ready workflows. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
 
 🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
 
@@ -32,6 +32,9 @@
 ## Features
 
 - **Interactive visualizations** — every topic has a canvas-drawn diagram or animation
+- **Real-data cases** — mini workflows for classification, regression, forecasting, and market backtesting
+- **Notebook-ready snippets** — practical copy blocks with minimal Python dependencies where relevant
+- **Notebook companion** — `notebooks/pattern-portal-real-data-lab.ipynb` for executable Python case workflows
 - **Keyboard navigation** — `←` `→` arrow keys between topics, `Ctrl+K` to search
 - **Dark / light mode** — respects system preference, persists via localStorage
 - **Progress tracking** — tracks how many topics you've viewed per collection
@@ -58,6 +61,8 @@ HTML + CSS + JavaScript
 Pattern Portal/
 ├── index.html                  ← Homepage (2 universe cards)
 ├── css/main.css                ← Global design system
+├── cases/                      ← Real-data mini-cases and notebook starters
+├── notebooks/                  ← Jupyter notebook companions for cases
 ├── ml/index.html               ← ML hub
 │   ├── ml-math/                ← 38 topics
 │   ├── stats/                  ← 31 topics

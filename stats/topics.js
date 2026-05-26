@@ -925,6 +925,24 @@ print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div
     <a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank" rel="noopener">Kaggle: Credit Card Fraud — split by time to simulate temporal drift</a>
     <div class="ds-note">Split the dataset at the midpoint (Time column). Compute PSI between first-half and second-half feature distributions — you'll see real drift in V1-V28.</div>
   </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install scipy pandas numpy
+import numpy as np
+from scipy.stats import ks_2samp
+
+def psi(ref, new, bins=10):
+    edges = np.histogram_bin_edges(ref, bins=bins)
+    p = np.histogram(ref, bins=edges)[0] / len(ref) + 1e-6
+    q = np.histogram(new, bins=edges)[0] / len(new) + 1e-6
+    return np.sum((p - q) * np.log(p / q))
+
+feature = 'V14'
+ref = train_df[feature].dropna().to_numpy()
+new = production_df[feature].dropna().to_numpy()
+ks_stat, p_value = ks_2samp(ref, new)
+print({'psi': psi(ref, new), 'ks': ks_stat, 'p_value': p_value})</code></pre>
+  </div>
   <div class="topic-nav" id="nav-data-drift"></div>
 </div>`;
 }
