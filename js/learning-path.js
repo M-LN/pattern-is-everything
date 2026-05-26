@@ -96,6 +96,7 @@
       ]
     }
   };
+  const STORAGE_PREFIX = 'patternPortal.learningPathProgress.';
 
   function toUrl(path) {
     return new URL(path, window.location.origin).href;
@@ -105,6 +106,44 @@
     return String(value).replace(/[&<>"']/g, char => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
     }[char]));
+  }
+
+  function storageKey(pathId) {
+    return STORAGE_PREFIX + pathId;
+  }
+
+  function readProgress(pathId) {
+    try {
+      const values = JSON.parse(localStorage.getItem(storageKey(pathId)) || '[]');
+      return new Set(Array.isArray(values) ? values.map(Number).filter(Boolean) : []);
+    } catch (error) {
+      return new Set();
+    }
+  }
+
+  function saveProgress(pathId, progress) {
+    try {
+      localStorage.setItem(storageKey(pathId), JSON.stringify(Array.from(progress).sort((a, b) => a - b)));
+    } catch (error) {}
+  }
+
+  function markStep(pathId, stepNumber) {
+    const progress = readProgress(pathId);
+    progress.add(stepNumber);
+    saveProgress(pathId, progress);
+    return progress;
+  }
+
+  function renderStepPills(pathId, path, currentStep, progress) {
+    return path.steps.map((step, index) => {
+      const number = index + 1;
+      const isComplete = progress.has(number);
+      const isCurrent = number === currentStep;
+      const classes = ['learning-path-step'];
+      if (isComplete) classes.push('is-complete');
+      if (isCurrent) classes.push('is-current');
+      return `<a class="${classes.join(' ')}" href="${toUrl(step[1])}" title="Step ${number}: ${html(step[0])}" aria-label="Step ${number}: ${html(step[0])}${isComplete ? ', completed' : ''}">${isComplete ? '&#10003;' : number}</a>`;
+    }).join('');
   }
 
   function injectStyles() {
@@ -150,6 +189,34 @@
         font-family: var(--mono);
         font-size: 11px;
         font-weight: 400;
+      }
+      .learning-path-steps {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 8px;
+      }
+      .learning-path-step {
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--surface2);
+        color: var(--muted);
+        font: 700 10px var(--mono);
+        text-decoration: none;
+      }
+      .learning-path-step.is-complete {
+        border-color: rgba(42,125,95,.36);
+        background: rgba(42,125,95,.12);
+        color: var(--accent2);
+      }
+      .learning-path-step.is-current {
+        border-color: var(--accent3);
+        box-shadow: 0 0 0 3px rgba(41,85,160,.12);
       }
       .learning-path-actions {
         display: flex;
@@ -199,6 +266,8 @@
     const current = path.steps[index];
     const previous = path.steps[index - 1];
     const next = path.steps[index + 1];
+    const progress = markStep(pathId, stepNumber);
+    const completedCount = path.steps.filter((_, stepIndex) => progress.has(stepIndex + 1)).length;
 
     injectStyles();
     const bar = document.createElement('aside');
@@ -206,8 +275,11 @@
     bar.setAttribute('aria-label', 'Learning path progress');
     bar.innerHTML = `
       <div class="learning-path-meta">
-        <div class="learning-path-kicker">Learning Path · Step ${stepNumber} / ${path.steps.length}</div>
+        <div class="learning-path-kicker">Learning Path · ${completedCount} / ${path.steps.length} done</div>
         <div class="learning-path-title">${html(path.title)} <span>· ${html(current[0])}</span></div>
+        <div class="learning-path-steps" aria-label="Completed learning path steps">
+          ${renderStepPills(pathId, path, stepNumber, progress)}
+        </div>
       </div>
       <div class="learning-path-actions">
         <a href="${toUrl(path.start)}">Path Overview</a>
@@ -215,6 +287,14 @@
         <a class="learning-path-next ${next ? '' : 'is-disabled'}" href="${next ? toUrl(next[1]) : '#'}">${next ? `Next: ${html(next[0])}` : 'Path Complete'}</a>
       </div>
     `;
+    bar.addEventListener('click', event => {
+      const link = event.target.closest('a[href]');
+      if (!link || !link.href.includes('/lite/')) return;
+      const url = new URL(link.href);
+      const nextPathId = url.searchParams.get('lp');
+      const nextStep = Number(url.searchParams.get('lstep'));
+      if (nextPathId && PATHS[nextPathId] && nextStep) markStep(nextPathId, nextStep);
+    });
     document.body.appendChild(bar);
   }
 
