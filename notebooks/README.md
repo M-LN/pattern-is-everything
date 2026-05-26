@@ -5,7 +5,7 @@ Notebook companions for the Real-Data Cases workflow.
 ## Available notebooks
 
 - `lab.html` — browser-runnable multi-cell Python lab powered by Pyodide, with markdown/code cells, per-cell output, run-all, saved runs, JSON run export/import, and `.ipynb` notebook export.
-- `../lite/lab?path=pattern-portal-real-data-lab.ipynb` — full JupyterLite Lab integration that opens the real notebook in a Jupyter interface directly on the static site.
+- `../lite/lab/?path=pattern-portal-real-data-lab.ipynb` — full JupyterLite Lab integration that opens the real notebook in a Jupyter interface directly on the static site.
 - `pattern-portal-real-data-lab.ipynb` — one compact lab covering housing regression, fraud classification, time-series forecasting, and market backtesting templates.
 
 ## How to use
