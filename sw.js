@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v31';
+const CACHE_NAME = 'pattern-v32';
 const SHELL = [
   '/index.html',
   '/css/main.css',
@@ -7,9 +7,16 @@ const SHELL = [
   '/js/practical-template.js',
   '/js/market-evidence-warning.js',
   '/js/sandbox-build-mode.js',
+  '/js/learning-path.js',
   '/start/index.html',
+  '/stats/index.html',
+  '/ml-math/index.html',
   '/ml/index.html',
   '/markets/index.html',
+  '/markets/indicators/index.html',
+  '/markets/psychology/index.html',
+  '/markets/charts/index.html',
+  '/llm/index.html',
   '/essays/index.html',
   '/essays/topics.js',
   '/essays/visualizations.js',

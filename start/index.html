@@ -182,55 +182,55 @@
     </aside>
   </section>
 
-  <section class="path-band">
+  <section class="path-band" id="start-ml-foundations">
     <div class="path-head">
       <div><div class="path-level">Beginner</div><div class="path-title">ML <em>Foundations</em></div></div>
       <div class="path-time">~60 min · no prior ML required</div>
     </div>
     <div class="path-grid">
-      <a class="step-card" href="../stats/index.html#distribution-shape"><div class="step-num">Step 1</div><div class="step-name">Know Your Data</div><div class="step-note">Distribution shape, outliers, and why summaries can hide failure modes.</div></a>
-      <a class="step-card" href="../ml-math/index.html#gradient"><div class="step-num">Step 2</div><div class="step-name">How Models Learn</div><div class="step-note">Gradient descent as a practical training loop: loss, updates, stopping, and failure.</div></a>
-      <a class="step-card" href="../stats/index.html#confusion-matrix"><div class="step-num">Step 3</div><div class="step-name">Classification Metrics</div><div class="step-note">Precision, recall, false positives, and why accuracy is often the wrong target.</div></a>
-      <a class="step-card" href="../stats/index.html#cross-validation"><div class="step-num">Step 4</div><div class="step-name">Honest Evaluation</div><div class="step-note">Cross-validation, leakage checks, and the difference between tuning and testing.</div></a>
+      <a class="step-card" href="../stats/index.html?lp=start-ml-foundations&lstep=1#distribution-shape"><div class="step-num">Step 1</div><div class="step-name">Know Your Data</div><div class="step-note">Distribution shape, outliers, and why summaries can hide failure modes.</div></a>
+      <a class="step-card" href="../ml-math/index.html?lp=start-ml-foundations&lstep=2#gradient"><div class="step-num">Step 2</div><div class="step-name">How Models Learn</div><div class="step-note">Gradient descent as a practical training loop: loss, updates, stopping, and failure.</div></a>
+      <a class="step-card" href="../stats/index.html?lp=start-ml-foundations&lstep=3#confusion-matrix"><div class="step-num">Step 3</div><div class="step-name">Classification Metrics</div><div class="step-note">Precision, recall, false positives, and why accuracy is often the wrong target.</div></a>
+      <a class="step-card" href="../stats/index.html?lp=start-ml-foundations&lstep=4#cross-validation"><div class="step-num">Step 4</div><div class="step-name">Honest Evaluation</div><div class="step-note">Cross-validation, leakage checks, and the difference between tuning and testing.</div></a>
     </div>
   </section>
 
-  <section class="path-band">
+  <section class="path-band" id="start-real-data-workflow">
     <div class="path-head">
       <div><div class="path-level">Build</div><div class="path-title">First <em>Real-Data Workflow</em></div></div>
       <div class="path-time">~75 min · includes local CSVs</div>
     </div>
     <div class="path-grid">
-      <a class="step-card" href="../cases/index.html#housing-regression"><div class="step-num">Case 1</div><div class="step-name">Housing Regression</div><div class="step-note">Load a local sample, split the data, fit a baseline, and report MAE/RMSE.</div></a>
-      <a class="step-card" href="../ml-math/index.html#bias-variance"><div class="step-num">Step 2</div><div class="step-name">Bias vs Variance</div><div class="step-note">Diagnose underfitting, overfitting, and whether more data will help.</div></a>
-      <a class="step-card" href="../ml-math/index.html#regularization"><div class="step-num">Step 3</div><div class="step-name">Regularization</div><div class="step-note">Control model complexity without blindly tuning the test set.</div></a>
-      <a class="step-card" href="../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">Open the real notebook in a Jupyter interface directly in the browser.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-real-data-workflow&lstep=1#housing-regression"><div class="step-num">Case 1</div><div class="step-name">Housing Regression</div><div class="step-note">Load a local sample, split the data, fit a baseline, and report MAE/RMSE.</div></a>
+      <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=2#bias-variance"><div class="step-num">Step 2</div><div class="step-name">Bias vs Variance</div><div class="step-note">Diagnose underfitting, overfitting, and whether more data will help.</div></a>
+      <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=3#regularization"><div class="step-num">Step 3</div><div class="step-name">Regularization</div><div class="step-note">Control model complexity without blindly tuning the test set.</div></a>
+      <a class="step-card" href="../lite/lab/?path=case-housing-regression.ipynb&lp=start-real-data-workflow&lstep=4" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">Open the real notebook in a Jupyter interface directly in the browser.</div></a>
     </div>
   </section>
 
-  <section class="path-band">
+  <section class="path-band" id="start-time-series-drift">
     <div class="path-head">
       <div><div class="path-level">Intermediate</div><div class="path-title">Time Series <em>and Drift</em></div></div>
       <div class="path-time">~90 min · production-minded validation</div>
     </div>
     <div class="path-grid">
-      <a class="step-card" href="../timeseries/index.html#stationarity"><div class="step-num">Step 1</div><div class="step-name">Stationarity</div><div class="step-note">Check whether the structure of the series is changing over time.</div></a>
-      <a class="step-card" href="../timeseries/index.html#cross-validation-ts"><div class="step-num">Step 2</div><div class="step-name">Walk-Forward Validation</div><div class="step-note">Avoid random splits and evaluate models in time order.</div></a>
-      <a class="step-card" href="../stats/index.html#data-drift"><div class="step-num">Step 3</div><div class="step-name">Data Drift</div><div class="step-note">Monitor PSI/KS and connect distribution shift to model decay.</div></a>
-      <a class="step-card" href="../cases/index.html#energy-forecast"><div class="step-num">Case 2</div><div class="step-name">Energy Forecast</div><div class="step-note">Use local demand data to build lag features and compare against a naive baseline.</div></a>
+      <a class="step-card" href="../timeseries/index.html?lp=start-time-series-drift&lstep=1#stationarity"><div class="step-num">Step 1</div><div class="step-name">Stationarity</div><div class="step-note">Check whether the structure of the series is changing over time.</div></a>
+      <a class="step-card" href="../timeseries/index.html?lp=start-time-series-drift&lstep=2#cross-validation-ts"><div class="step-num">Step 2</div><div class="step-name">Walk-Forward Validation</div><div class="step-note">Avoid random splits and evaluate models in time order.</div></a>
+      <a class="step-card" href="../stats/index.html?lp=start-time-series-drift&lstep=3#data-drift"><div class="step-num">Step 3</div><div class="step-name">Data Drift</div><div class="step-note">Monitor PSI/KS and connect distribution shift to model decay.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-time-series-drift&lstep=4#energy-forecast"><div class="step-num">Case 2</div><div class="step-name">Energy Forecast</div><div class="step-note">Use local demand data to build lag features and compare against a naive baseline.</div></a>
     </div>
   </section>
 
-  <section class="path-band">
+  <section class="path-band" id="start-market-evidence">
     <div class="path-head">
       <div><div class="path-level">Advanced</div><div class="path-title">Explainability and <em>Market Evidence</em></div></div>
       <div class="path-time">~90 min · evidence-aware decisions</div>
     </div>
     <div class="path-grid">
-      <a class="step-card" href="../stats/index.html#shap-values"><div class="step-num">Step 1</div><div class="step-name">SHAP Values</div><div class="step-note">Explain predictions while avoiding causal overclaims.</div></a>
-      <a class="step-card" href="../markets/index.html"><div class="step-num">Step 2</div><div class="step-name">Market Evidence Legend</div><div class="step-note">Separate statistical risk tools from heuristic chart and indicator hypotheses.</div></a>
-      <a class="step-card" href="../markets/indicators/index.html#rsi"><div class="step-num">Step 3</div><div class="step-name">Validate Indicators</div><div class="step-note">Treat indicator signals as hypotheses and test costs, drawdown, and walk-forward stability.</div></a>
-      <a class="step-card" href="../cases/index.html#market-backtest"><div class="step-num">Case 3</div><div class="step-name">Market Backtest</div><div class="step-note">Use the local OHLCV sample to test mechanics before making any claim.</div></a>
+      <a class="step-card" href="../stats/index.html?lp=start-market-evidence&lstep=1#shap-values"><div class="step-num">Step 1</div><div class="step-name">SHAP Values</div><div class="step-note">Explain predictions while avoiding causal overclaims.</div></a>
+      <a class="step-card" href="../markets/index.html?lp=start-market-evidence&lstep=2"><div class="step-num">Step 2</div><div class="step-name">Market Evidence Legend</div><div class="step-note">Separate statistical risk tools from heuristic chart and indicator hypotheses.</div></a>
+      <a class="step-card" href="../markets/indicators/index.html?lp=start-market-evidence&lstep=3#rsi"><div class="step-num">Step 3</div><div class="step-name">Validate Indicators</div><div class="step-note">Treat indicator signals as hypotheses and test costs, drawdown, and walk-forward stability.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-market-evidence&lstep=4#market-backtest"><div class="step-num">Case 3</div><div class="step-name">Market Backtest</div><div class="step-note">Use the local OHLCV sample to test mechanics before making any claim.</div></a>
     </div>
   </section>
 
