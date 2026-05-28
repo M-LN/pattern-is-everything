@@ -4,11 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support — Pattern is Everything</title>
-  <meta name="description" content="Support Pattern is Everything — a free educational platform. 100% of donations go to mental health organizations.">
+  <meta name="description" content="Support Pattern is Everything — a free educational platform with 249 core topics across machine learning and markets. Donations support mental health organizations.">
   <meta property="og:title" content="Support — Pattern is Everything">
-  <meta property="og:description" content="Support free education. 100% of donations go to mental health organizations.">
+  <meta property="og:description" content="Support free visual education and mental health organizations.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://patterniseverything.com/support/">
+  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image:type" content="image/png">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta name="theme-color" content="#c84b2f">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
   <link rel="canonical" href="https://patterniseverything.com/support/">
@@ -18,7 +22,7 @@
     "@type": "WebPage",
     "name": "Support — Pattern is Everything",
     "url": "https://patterniseverything.com/support/",
-    "description": "Support free education. 100% of donations go to mental health organizations.",
+    "description": "Support free visual education and mental health organizations.",
     "isPartOf": { "@type": "WebSite", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" }
   }
   </script>
@@ -36,7 +40,9 @@
       font-size: 11px;
       color: var(--muted);
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
       margin-bottom: 32px;
       transition: color .2s var(--ease);
     }
@@ -91,6 +97,16 @@
       color: var(--text);
       font-weight: 600;
     }
+    .support-section a,
+    .pledge-detail a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      text-underline-offset: 4px;
+    }
+    .support-section a:hover,
+    .pledge-detail a:hover { color: var(--accent2); }
     .pledge-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -150,6 +166,11 @@
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
     }
+    .support-section .support-cta,
+    .support-section .support-cta:hover {
+      color: #fff;
+      border-bottom: 0;
+    }
     .support-cta svg {
       width: 18px; height: 18px;
       fill: currentColor;
@@ -204,6 +225,9 @@
     .support-footer a {
       color: var(--muted);
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
     }
     .support-footer a:hover { color: var(--accent); }
     .theme-toggle {
@@ -224,13 +248,23 @@
       transition: transform .2s var(--ease);
     }
     .theme-toggle:hover { transform: scale(1.1); }
+    @media (max-width: 720px) {
+      .support-page { padding-top: 72px; }
+      .theme-toggle { width: 44px; height: 44px; }
+      .support-back,
+      .support-section a,
+      .pledge-detail a,
+      .support-footer a { min-height: 44px; align-items: center; }
+      .support-section a,
+      .pledge-detail a { display: inline-flex; }
+    }
   </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+<button class="theme-toggle" type="button" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
 
-<div class="support-page">
+<main class="support-page">
   <a href="../index.html" class="support-back">← Back to Portal</a>
 
   <h1 class="support-title">Patterns for <em>Good</em></h1>
@@ -238,7 +272,7 @@
 
   <div class="support-section">
     <h2>The Mission</h2>
-    <p><strong>Pattern is Everything</strong> is a free, open-source educational platform — 249 interactive topics across Machine Learning & Markets. No ads. No paywalls. No tracking cookies. Just patterns, made visual.</p>
+    <p><strong>Pattern is Everything</strong> is a free, open-source educational platform — 249 core interactive topics across Machine Learning & Markets. No ads. No paywalls. No tracking cookies. Just patterns, made visual.</p>
     <p style="margin-top:12px;">We believe learning should be accessible to everyone. Every diagram, formula, and code snippet on this site will always be free.</p>
   </div>
 
@@ -246,13 +280,13 @@
     <div class="pledge-number">100%</div>
     <div class="pledge-label">of donations go to mental health</div>
     <p class="pledge-detail">Every contribution you make goes directly to mental health organizations. We keep nothing. The site runs on zero cost — no servers to pay for, no team to fund. This is a passion project, and your generosity goes where it matters.</p>
-    <p class="pledge-detail"><a href="../impact/index.html" style="color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid var(--accent);">See full transparency report →</a></p>
+    <p class="pledge-detail"><a href="../impact/index.html">See donation log →</a></p>
   </div>
 
   <div class="support-section">
     <h2>Where It Goes</h2>
     <p>When donations come in, they will be forwarded to organizations working on mental health support and awareness. We believe that understanding patterns — in data, in language, in markets — starts with understanding ourselves.</p>
-    <p style="margin-top:12px;">Designated recipient: <strong>To Write Love on Her Arms</strong> (TWLOHA) — a nonprofit dedicated to presenting hope and finding help for people struggling with depression, addiction, self-injury, and suicide. <a href="../impact/index.html" style="color:var(--accent);">See full transparency report →</a></p>
+    <p style="margin-top:12px;">The recipient will be confirmed before the first transfer and published in the donation log, including the amount, date, and organization receiving it.</p>
   </div>
 
   <div class="support-section">
@@ -269,7 +303,7 @@
     <div class="values-grid">
       <div class="value-item">
         <strong>Free Forever</strong>
-        <span>All 252 topics remain free and open. No content gates.</span>
+        <span>All 249 core topics remain free and open. No content gates.</span>
       </div>
       <div class="value-item">
         <strong>No Ads</strong>
@@ -277,7 +311,7 @@
       </div>
       <div class="value-item">
         <strong>Open Source</strong>
-        <span>Built with vanilla HTML, CSS & JS. Zero dependencies.</span>
+        <span>Static pages built with vanilla HTML, CSS & JS.</span>
       </div>
       <div class="value-item">
         <strong>Privacy First</strong>
@@ -290,14 +324,14 @@
     <h2>Other Ways to Help</h2>
     <p>Not everyone can donate — and that's completely fine. Here are other ways to support:</p>
     <p style="margin-top:12px;"><strong>Share it.</strong> Send a link to someone who might find it useful.</p>
-    <p><strong>Star it.</strong> Give the <a href="https://github.com/M-LN/pattern-is-everything" style="color:var(--accent);" target="_blank" rel="noopener noreferrer">GitHub repo</a> a star.</p>
+    <p><strong>Star it.</strong> Give the <a href="https://github.com/M-LN/pattern-is-everything" target="_blank" rel="noopener noreferrer">GitHub repo</a> a star.</p>
     <p><strong>Talk about it.</strong> Post about it on Reddit, Dev.to, or wherever you learn in public.</p>
   </div>
 
   <div class="support-footer">
     Pattern is Everything · 2026 · <a href="../index.html">Back to Portal</a>
   </div>
-</div>
+</main>
 
 <script>
 function toggleTheme() {

@@ -353,6 +353,10 @@
         justify-content: flex-end;
       }
       .learning-path-actions a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         font: 700 10px var(--mono);
         text-decoration: none;
         color: var(--accent3);
@@ -379,6 +383,7 @@
         .learning-path-actions a { flex: 1 1 auto; text-align: center; }
         .learning-path-overview-status { align-items: flex-start; flex-direction: column; }
         .learning-path-overview-steps { justify-content: flex-start; }
+        .learning-path-step { width: 40px; height: 40px; }
       }
     `;
     document.head.appendChild(style);

@@ -1,104 +1,112 @@
 # Pattern is Everything
 
-**An interactive visual encyclopedia of patterns — in math and markets.**
+**A visual field guide to patterns in machine learning, markets, and ideas.**
 
-249 topics across 2 universes, each with interactive canvas visualizations, formulas, code examples, and deep explanations. The site now also includes practical real-data mini-cases that connect topics to datasets, metrics, pitfalls, and notebook-ready workflows. Zero dependencies. Pure vanilla HTML, CSS, and JavaScript.
+[Live site](https://patterniseverything.com) · [Start here](https://patterniseverything.com/start/) · [Support](https://patterniseverything.com/support/)
 
-🔗 **Live:** [patterniseverything.com](https://patterniseverything.com)
+Pattern is Everything is a free educational platform for learning complex concepts through interactive visual references. The core library covers **249 topics** across machine learning and markets, each paired with a canvas-based visualization, practical explanation, formulas, and code-oriented context.
 
----
+The project also includes essays, real-data mini-cases, notebook companions, sandboxes, and a public donation log for mental-health-related giving.
+
+## At a Glance
+
+| Metric | Count | Notes |
+|---|---:|---|
+| Core topics | 249 | Machine Learning + Markets topic pages, excluding collection overview pages |
+| Core visualizations | 249 | One interactive visual reference per core topic |
+| Universes | 3 | Machine Learning, Markets, and Pattern Essays |
+| Collections | 10 | 5 ML collections, 4 Markets collections, 1 Essays collection |
 
 ## Universes
 
-### 🧠 Machine Learning — 149 topics
+### Machine Learning - 149 topics
+
 | Collection | Topics | Covers |
-|---|---|---|
-| **ML Math** | 38 | Linear algebra, gradient descent, backprop, attention, transformers, diffusion, LoRA, RLHF |
-| **The Toolkit** | 31 | Model evaluation, feature importance, data analysis, backtesting, decision-making, Python tools |
-| **LLM Engineering** | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
-| **MLOps & Production ML** | 25 | Model serving, drift detection, ML pipelines, feature stores, governance |
-| **Timeseries Engineering** | 25 | Stationarity, ARIMA, SARIMA, Prophet, LSTM, Transformers, anomaly detection, backtesting |
+|---|---:|---|
+| ML Math | 38 | Linear algebra, gradients, backprop, attention, transformers, diffusion, LoRA, RLHF |
+| The Toolkit | 31 | Evaluation, feature importance, uncertainty, data analysis, backtesting, decision support |
+| LLM Engineering | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
+| MLOps & Production ML | 25 | Serving, drift, feature stores, pipelines, monitoring, governance |
+| Timeseries Engineering | 25 | Stationarity, ARIMA, Prophet, LSTM, transformers, anomaly detection, forecasting workflows |
 
-### 📈 Markets — 100 topics
+### Markets - 100 topics
+
 | Collection | Topics | Covers |
-|---|---|---|
-| **Chart Patterns** | 25 | Head & shoulders, double tops, flags, wedges, cup & handle |
-| **Technical Indicators** | 25 | Moving averages, RSI, MACD, Bollinger Bands, Fibonacci |
-| **Market Psychology** | 25 | Cognitive biases, fear & greed, herd behavior, sentiment cycles |
-| **Risk & Portfolio** | 25 | VaR, expected shortfall, position sizing, hedging, performance attribution |
+|---|---:|---|
+| Chart Patterns | 25 | Head and shoulders, double tops, flags, wedges, cup and handle |
+| Technical Indicators | 25 | Moving averages, RSI, MACD, Bollinger Bands, Fibonacci, volatility tools |
+| Market Psychology | 25 | Biases, fear and greed, herding, sentiment cycles, behavioral traps |
+| Risk & Portfolio | 25 | VaR, expected shortfall, position sizing, hedging, performance attribution |
 
----
+### Pattern Essays
 
-## Features
+Long-form visual essays that connect pattern thinking across machine learning, markets, language, systems, and decision-making.
 
-- **Interactive visualizations** — every topic has a canvas-drawn diagram or animation
-- **Real-data cases** — mini workflows for classification, regression, forecasting, and market backtesting
-- **Local sample datasets** — tiny CSV files under `cases/datasets/` for quick offline pipeline practice
-- **Start Here path** — guided beginner → build → advanced progression through the site
-- **Notebook-ready snippets** — practical copy blocks with minimal Python dependencies where relevant
-- **Notebook companion** — `notebooks/pattern-portal-real-data-lab-browser.ipynb` for executable Python case workflows
-- **Keyboard navigation** — `←` `→` arrow keys between topics, `Ctrl+K` to search
-- **Dark / light mode** — respects system preference, persists via localStorage
-- **Progress tracking** — tracks how many topics you've viewed per collection
-- **Deep linking** — every topic has a hash URL you can share
-- **Responsive** — works on mobile, tablet, and desktop
-- **Zero dependencies** — no frameworks, no build step, no npm
+## What Makes It Useful
 
-## Tech Stack
+- **Visual first** - diagrams and animations make abstract ideas easier to inspect.
+- **Practical by default** - formulas, examples, pitfalls, and code-oriented notes sit beside the visuals.
+- **Real-data cases** - small workflows for classification, regression, forecasting, fraud detection, and market backtesting.
+- **Notebook companions** - Jupyter notebooks under `notebooks/` for executable case walkthroughs.
+- **Guided learning path** - the Start Here flow helps visitors move from beginner concepts to applied workflows.
+- **Sandbox areas** - focused playgrounds for ML, stats, deep learning, markets, and chaos concepts.
+- **Fast static site** - the public site is plain HTML, CSS, and JavaScript with no app build step.
+- **Respectful experience** - no ads, no paywalls, and privacy-friendly analytics only.
 
-```
-HTML + CSS + JavaScript
-├── css/main.css          → Design system with CSS custom properties
-├── */index.html          → Shell pages with inline runtime
-├── */topics.js           → Topic data, builders, search index
-└── */visualizations.js   → Canvas drawing functions (DRAWS object)
-```
+## Project Map
 
-**Fonts:** Playfair Display · IBM Plex Mono · Inter  
-**Colors:** Rust `#c84b2f` · Green `#2a7d5f` · Blue `#2955a0` · Purple `#8b4fa8`
-
-## Project Structure
-
-```
+```text
 Pattern Portal/
-├── index.html                  ← Homepage (2 universe cards)
-├── css/main.css                ← Global design system
-├── cases/                      ← Real-data mini-cases and notebook starters
-│   └── datasets/               ← Small local CSV samples for case workflows
-├── start/                      ← Guided Start Here learning path
-├── notebooks/                  ← Jupyter notebook companions for cases
-├── ml/index.html               ← ML hub
-│   ├── ml-math/                ← 38 topics
-│   ├── stats/                  ← 31 topics
-│   ├── llm/                    ← 30 topics
-│   ├── mlops/                  ← 25 topics
-│   └── timeseries/             ← 25 topics
-├── markets/index.html          ← Markets hub
-│   ├── charts/                 ← 25 topics
-│   ├── indicators/             ← 25 topics
-│   ├── psychology/             ← 25 topics
-│   └── risk/                   ← 25 topics
-└── vercel.json                 ← Deployment config
+├── index.html                 # Homepage
+├── css/main.css               # Shared design system
+├── js/                        # Shared homepage and learning-path behavior
+├── start/                     # Guided beginner path
+├── stats/                     # The Toolkit collection
+├── ml-math/                   # ML Math collection
+├── llm/                       # LLM Engineering collection
+├── mlops/                     # MLOps & Production ML collection
+├── timeseries/                # Timeseries Engineering collection
+├── markets/                   # Market hub and market collections
+│   ├── charts/
+│   ├── indicators/
+│   ├── psychology/
+│   └── risk/
+├── essays/                    # Pattern Essays universe
+├── cases/                     # Real-data mini-cases and local CSV samples
+├── notebooks/                 # Notebook companions
+├── sandbox/                   # Interactive sandbox surfaces
+├── support/                   # Giving page
+├── impact/                    # Public donation log
+└── vercel.json                # Deployment headers and cache rules
 ```
 
 ## Run Locally
 
-No install needed. Just serve the files:
+Use any static file server from the repository root.
 
 ```bash
-npx serve .
+python -m http.server 4173
 ```
 
-Or open `index.html` directly in a browser.
+Then open:
 
-## Deploy
+```text
+http://localhost:4173/
+```
 
-Connected to Vercel — pushes to `master` auto-deploy.
+You can also use `npx serve .` or another static server if that is your normal workflow.
+
+## Deployment
+
+The site is deployed on Vercel. Pushes to `master` trigger production deployment.
 
 ```bash
-# Manual deploy
-vercel --prod
+git push origin master
 ```
+
+## Giving
+
+Pattern is Everything is free to use. Donations are intended to support mental health organizations. The receiving organization is confirmed before transfer, and received amounts, transfers, and kept amounts are documented in the public donation log.
 
 ## License
 

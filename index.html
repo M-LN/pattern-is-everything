@@ -9,9 +9,14 @@
   <meta property="og:description" content="249 interactive topics across Machine Learning & Markets. Visual references with canvas diagrams, formulas, and code.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://patterniseverything.com/">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Pattern is Everything">
   <meta name="twitter:description" content="249 interactive topics across ML & Markets — zero dependencies.">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta name="theme-color" content="#c84b2f">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
@@ -36,71 +41,19 @@
 <body>
 
 <div class="portal-header">
-  <div class="logo-ring"></div>
-  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">
+  <a class="logo-ring" href="index.html" aria-label="Pattern is Everything home"></a>
+  <div class="portal-brand">
     Pattern is <em style="font-style:italic;color:var(--accent)">Everything</em>
-  </h1>
+  </div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
   </div>
 </div>
 
+<main id="mainContent">
 <div class="portal-hero">
-  <h2>Pattern is<br><em>Everything</em></h2>
+  <h1>Pattern is<br><em>Everything</em></h1>
   <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 249 interactive, visual references across machine learning and markets.</p>
-</div>
-
-<div class="portal-video">
-  <div class="portal-video-wrap">
-    <iframe src="https://www.youtube-nocookie.com/embed/hchZlpgAgRY" title="Pattern is Everything — Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <p class="portal-video-label">A quick tour of the site</p>
-</div>
-
-<div class="portal-stats">
-  <div class="portal-stat">
-    <div class="portal-stat-num" id="totalTopics">254</div>
-    <div class="portal-stat-label">Topics</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num" id="totalViz">254</div>
-    <div class="portal-stat-label">Visualizations</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">3</div>
-    <div class="portal-stat-label">Universes</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">9</div>
-    <div class="portal-stat-label">Collections</div>
-  </div>
-</div>
-
-<div class="live-preview">
-  <div class="live-preview-label">Live Interactive Preview</div>
-  <div class="live-preview-wrap">
-    <canvas id="heroCanvas"></canvas>
-    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
-  </div>
-</div>
-
-<div class="inside-preview">
-  <div class="inside-strip">
-    <div class="inside-chip"><span>📐</span> Interactive canvas diagrams</div>
-    <div class="inside-chip"><span>📝</span> Core formulas explained</div>
-    <div class="inside-chip"><span>🐍</span> JupyterLite notebooks</div>
-    <div class="inside-chip"><span>📊</span> Real-data mini-cases</div>
-    <div class="inside-chip"><span>🎛️</span> Draggable parameters</div>
-    <div class="inside-chip"><span>🌙</span> Dark mode</div>
-    <div class="inside-chip"><span>⚡</span> Zero dependencies</div>
-  </div>
-</div>
-
-<div class="mission-bar">
-  <a href="support/index.html">
-    <span class="mission-heart">♥</span> 100% of donations go to mental health
-    <span class="mission-arrow">→</span>
-  </a>
 </div>
 
 <div class="start-exploring">
@@ -169,6 +122,59 @@
       </div>
     </a>
   </div>
+</div>
+
+<div class="portal-video">
+  <div class="portal-video-wrap">
+    <iframe src="https://www.youtube-nocookie.com/embed/hchZlpgAgRY" title="Pattern is Everything — Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="portal-video-label">A quick tour of the site</p>
+</div>
+
+<div class="portal-stats">
+  <div class="portal-stat">
+    <div class="portal-stat-num" id="totalTopics">249</div>
+    <div class="portal-stat-label">Core Topics</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num" id="totalViz">249</div>
+    <div class="portal-stat-label">Core Visualizations</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num">3</div>
+    <div class="portal-stat-label">Universes</div>
+  </div>
+  <div class="portal-stat">
+    <div class="portal-stat-num">10</div>
+    <div class="portal-stat-label">Collections</div>
+  </div>
+</div>
+
+<div class="live-preview">
+  <div class="live-preview-label">Live Interactive Preview</div>
+  <div class="live-preview-wrap">
+    <canvas id="heroCanvas"></canvas>
+    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
+  </div>
+</div>
+
+<div class="inside-preview">
+  <div class="inside-strip">
+    <div class="inside-chip"><span>📐</span> Interactive canvas diagrams</div>
+    <div class="inside-chip"><span>📝</span> Core formulas explained</div>
+    <div class="inside-chip"><span>🐍</span> JupyterLite notebooks</div>
+    <div class="inside-chip"><span>📊</span> Real-data mini-cases</div>
+    <div class="inside-chip"><span>🎛️</span> Draggable parameters</div>
+    <div class="inside-chip"><span>🌙</span> Dark mode</div>
+    <div class="inside-chip"><span>⚡</span> Zero dependencies</div>
+  </div>
+</div>
+
+<div class="mission-bar">
+  <a href="support/index.html">
+    <span class="mission-heart">♥</span> 100% of donations go to mental health
+    <span class="mission-arrow">→</span>
+  </a>
 </div>
 
 <!-- Learning Paths -->
@@ -478,6 +484,8 @@
     </a>
   </div>
 </div>
+
+</main>
 
 <div class="portal-footer">
   Pattern is Everything · 2026
