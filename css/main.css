@@ -637,6 +637,12 @@ canvas {
   border-radius: 6px;
   background: var(--bg);
 }
+/* Decorative overlay canvases on homepage feature cards must stay transparent */
+#universePreviewCanvas,
+#driftPreviewCanvas {
+  background: transparent;
+  border-radius: 0;
+}
 
 .ctrl {
   display: flex;
