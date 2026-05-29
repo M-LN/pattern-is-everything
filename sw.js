@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v35';
+const CACHE_NAME = 'pattern-v36';
 const SHELL = [
   '/index.html',
   '/css/main.css',
@@ -50,7 +50,12 @@ const SHELL = [
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(SHELL)));
-  self.skipWaiting();
+  // Do NOT skipWaiting here — let the page show an update banner and
+  // call SKIP_WAITING when the user clicks Reload.
+});
+
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {

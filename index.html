@@ -40,6 +40,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+
 <div class="portal-header">
   <a class="logo-ring" href="index.html" aria-label="Pattern is Everything home"></a>
   <div class="portal-brand">
@@ -153,7 +155,7 @@
 <div class="live-preview">
   <div class="live-preview-label">Live Interactive Preview</div>
   <div class="live-preview-wrap">
-    <canvas id="heroCanvas"></canvas>
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
     <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
   </div>
 </div>
@@ -507,10 +509,12 @@ else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
 // Animated counters
+const PREFERS_REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function animateCounters() {
   document.querySelectorAll('.portal-stat-num').forEach(el => {
     const target = parseInt(el.textContent, 10);
     if (isNaN(target)) return;
+    if (PREFERS_REDUCED_MOTION) { el.textContent = target; return; }
     let current = 0;
     const step = Math.max(1, Math.floor(target / 30));
     const timer = setInterval(() => {
@@ -531,9 +535,44 @@ if (statsEl && 'IntersectionObserver' in window) {
   animateCounters();
 }
 
-// Register service worker
+// Register service worker + update banner
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    function showBanner() {
+      if (document.querySelector('.sw-update-banner')) return;
+      const b = document.createElement('div');
+      b.className = 'sw-update-banner';
+      b.setAttribute('role', 'status');
+      b.setAttribute('aria-live', 'polite');
+      b.innerHTML = '<span>New version available.</span>' +
+        '<button type="button" class="sw-reload">Reload</button>' +
+        '<button type="button" class="sw-dismiss" aria-label="Dismiss">×</button>';
+      document.body.appendChild(b);
+      requestAnimationFrame(() => b.classList.add('is-visible'));
+      b.querySelector('.sw-reload').addEventListener('click', () => {
+        if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        else window.location.reload();
+      });
+      b.querySelector('.sw-dismiss').addEventListener('click', () => {
+        b.classList.remove('is-visible');
+        setTimeout(() => b.remove(), 400);
+      });
+    }
+    if (reg.waiting && navigator.serviceWorker.controller) showBanner();
+    reg.addEventListener('updatefound', () => {
+      const nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener('statechange', () => {
+        if (nw.state === 'installed' && navigator.serviceWorker.controller) showBanner();
+      });
+    });
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+  }).catch(() => {});
 }
 
 /* ── Hero Canvas: Animated normal distribution ── */
