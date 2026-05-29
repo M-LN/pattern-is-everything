@@ -1192,6 +1192,15 @@ nav {
   flex-wrap: wrap;
   gap: 8px 18px;
   margin: 14px 0 4px;
+  /* Reset the generic sidebar `nav {}` rule that otherwise applies here */
+  position: static;
+  height: auto;
+  padding: 0;
+  border-right: 0;
+  overflow: visible;
+  background: none;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 .footer-links a {
   display: inline-flex;
