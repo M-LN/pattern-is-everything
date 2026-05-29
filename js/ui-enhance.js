@@ -445,6 +445,9 @@
     initBackToTop();
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
+    // Expose programmatic API for buttons/links
+    window.__openPalette = openPalette;
+    window.__closePalette = closePalette;
   }
 
   if (document.readyState === 'loading') {

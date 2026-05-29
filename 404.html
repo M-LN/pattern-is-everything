@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found — Pattern is Everything</title>
+  <meta name="description" content="The page you were looking for doesn't exist. Find your way back to Pattern is Everything.">
+  <meta name="theme-color" content="#c84b2f">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    /* Page-specific layout */
+    .nf-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .nf-inner { max-width: 560px; }
+    .nf-code {
+      font-family: var(--mono);
+      font-size: clamp(64px, 14vw, 120px);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0 0 16px;
+    }
+    .nf-title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 400;
+      letter-spacing: -.01em;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+    .nf-msg {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0 0 28px;
+    }
+    .nf-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .nf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-family: var(--mono);
+      font-size: 13px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease), transform .15s var(--ease);
+      cursor: pointer;
+    }
+    .nf-btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+    .nf-btn-primary:hover, .nf-btn-primary:focus-visible {
+      background: var(--accent2);
+      border-color: var(--accent2);
+      transform: translateY(-1px);
+      outline: none;
+    }
+    .nf-btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+    }
+    .nf-btn-ghost:hover, .nf-btn-ghost:focus-visible {
+      background: var(--surface2);
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+    .nf-hint {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .nf-hint kbd {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin: 0 2px;
+      color: var(--text);
+    }
+    .nf-suggest {
+      list-style: none;
+      margin: 28px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .nf-suggest a {
+      display: block;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      text-decoration: none;
+      transition: background .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+    }
+    .nf-suggest a:hover, .nf-suggest a:focus-visible {
+      background: var(--surface2);
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nf-btn { transition: none; }
+      .nf-btn-primary:hover, .nf-btn-primary:focus-visible { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#nfMain">Skip to main content</a>
+  <main id="nfMain" class="nf-wrap">
+    <div class="nf-inner">
+      <p class="nf-code" aria-hidden="true">404</p>
+      <h1 class="nf-title">This pattern doesn't exist (yet)</h1>
+      <p class="nf-msg" id="nfMsg">
+        The page you were looking for couldn't be found. It may have moved,
+        or you may be offline and viewing this from your local cache.
+      </p>
+      <div class="nf-actions">
+        <a class="nf-btn nf-btn-primary" href="/">← Back to portal</a>
+        <button type="button" class="nf-btn nf-btn-ghost" onclick="if (window.__openPalette) window.__openPalette(); else alert('Press Ctrl+K to search');">⌕ Search</button>
+      </div>
+      <p class="nf-hint">Tip: press <kbd>Ctrl</kbd>+<kbd>K</kbd> or <kbd>/</kbd> anywhere to jump to a page.</p>
+      <ul class="nf-suggest">
+        <li><a href="/stats/">Statistics</a></li>
+        <li><a href="/ml/">Machine Learning</a></li>
+        <li><a href="/markets/">Markets</a></li>
+        <li><a href="/cases/">Cases</a></li>
+        <li><a href="/sandbox/">Sandbox</a></li>
+        <li><a href="/start/">Start here</a></li>
+      </ul>
+    </div>
+  </main>
+  <script>
+    // If served as an offline fallback, tweak the message.
+    if (!navigator.onLine) {
+      var msg = document.getElementById('nfMsg');
+      if (msg) msg.textContent = "You're offline and this page isn't in your cache yet. Try again once you reconnect, or pick a destination below.";
+    }
+  </script>
+  <script src="/js/ui-enhance.js?v=4" defer></script>
+</body>
+</html>

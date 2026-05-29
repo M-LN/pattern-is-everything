@@ -1,6 +1,8 @@
-const CACHE_NAME = 'pattern-v40';
+const CACHE_NAME = 'pattern-v41';
+const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
+  '/404.html',
   '/css/main.css',
   '/css/sandbox.css',
   '/js/evidence-taxonomy.js',
@@ -72,13 +74,25 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
   if (url.pathname === '/lite' || url.pathname.startsWith('/lite/')) return;
+  const isNavigation = e.request.mode === 'navigate';
   e.respondWith(
     fetch(e.request)
       .then(res => {
-        const clone = res.clone();
-        caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+        // Only cache successful responses (avoid caching 404s/errors)
+        if (res && res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+        }
+        // If the navigation returned a 404 from the network, serve the offline page
+        if (isNavigation && res && res.status === 404) {
+          return caches.match(OFFLINE_URL).then(m => m || res);
+        }
         return res;
       })
-      .catch(() => caches.match(e.request))
+      .catch(() => caches.match(e.request).then(cached => {
+        if (cached) return cached;
+        if (isNavigation) return caches.match(OFFLINE_URL);
+        return new Response('', { status: 504, statusText: 'Offline' });
+      }))
   );
 });
