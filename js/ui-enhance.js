@@ -784,8 +784,29 @@
       a.textContent = h.textContent.replace(/#$/, '').trim();
       a.addEventListener('click', function (e) {
         e.preventDefault();
-        history.replaceState(null, '', '#' + h.id);
-        h.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        // Topic-hub pages show one section at a time via a global show(id) and keep
+        // the others display:none. If this heading is currently hidden, reveal its
+        // owning topic first, then scroll to it.
+        var hidden = h.offsetParent === null || !!h.closest('[hidden]');
+        var container = h.closest('.topic, .home, [data-topic-id]');
+        if (hidden && typeof window.show === 'function' && container && container.id) {
+          try { window.show(container.id, true); } catch (err) {}
+          var doScroll = function () {
+            var t = document.getElementById(h.id) || h;
+            history.replaceState(null, '', '#' + h.id);
+            if (t.offsetParent !== null) {
+              t.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+            }
+          };
+          if (window.requestAnimationFrame) {
+            requestAnimationFrame(function () { setTimeout(doScroll, 80); });
+          } else {
+            setTimeout(doScroll, 100);
+          }
+        } else {
+          history.replaceState(null, '', '#' + h.id);
+          h.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        }
         // Auto-close on mobile after navigating
         if (window.matchMedia('(max-width: 900px)').matches) {
           panel.classList.remove('is-open');
