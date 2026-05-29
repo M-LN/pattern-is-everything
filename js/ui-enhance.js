@@ -9,6 +9,7 @@
  * - Reading-time badges injected into topic headers
  * - Share-link button on topic headers (copies canonical deep link)
  * - Flash highlight on heading navigated to via deep link
+ * - External-link decoration (↗ icon + rel="noopener noreferrer")
  * - Command palette also indexes on-page headings for deep-link jumps
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
@@ -504,6 +505,7 @@
     initReadingTime();
     initShareTopic();
     initFlashTarget();
+    initExternalLinks();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
@@ -513,7 +515,8 @@
       initReadingTime();
       initShareTopic();
       initFlashTarget();
-      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); initReadingTime(); initShareTopic(); initFlashTarget(); }, 400);
+      initExternalLinks();
+      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); initReadingTime(); initShareTopic(); initFlashTarget(); initExternalLinks(); }, 400);
     });
     window.addEventListener('hashchange', initFlashTarget);
     recordCurrentPage();
@@ -844,6 +847,48 @@
     el.classList.add('flash-target');
     clearTimeout(initFlashTarget._t);
     initFlashTarget._t = setTimeout(function () { el.classList.remove('flash-target'); }, 2200);
+  }
+
+  /* ── External-link decoration + security ── */
+  function initExternalLinks() {
+    var here = window.location.hostname;
+    var links = document.querySelectorAll('a[href^="http"]');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      if (a.dataset._extProcessed) continue;
+      var href = a.getAttribute('href') || '';
+      var hostMatch = href.match(/^https?:\/\/([^\/?#]+)/i);
+      if (!hostMatch) { a.dataset._extProcessed = '1'; continue; }
+      var host = hostMatch[1].toLowerCase();
+      // Skip same-site (or current host on localhost) and opt-outs
+      if (host === here || host === 'patterniseverything.com' || host === 'www.patterniseverything.com') { a.dataset._extProcessed = '1'; continue; }
+      if (a.classList.contains('no-ext-icon') || a.dataset.noExtIcon === '1') { a.dataset._extProcessed = '1'; continue; }
+      // Skip if link contains a non-text node (image/svg/button) — don't pollute icons or CTAs with visible labels-only
+      if (!a.textContent || !a.textContent.trim()) { a.dataset._extProcessed = '1'; continue; }
+      // Ensure safety attrs on links opening in a new tab
+      if (a.target === '_blank') {
+        var rel = (a.getAttribute('rel') || '').toLowerCase();
+        var parts = rel.split(/\s+/).filter(Boolean);
+        if (parts.indexOf('noopener') === -1) parts.push('noopener');
+        if (parts.indexOf('noreferrer') === -1) parts.push('noreferrer');
+        a.setAttribute('rel', parts.join(' '));
+      }
+      // Inject icon (skip if author already provided one)
+      if (!a.querySelector('.ext-icon')) {
+        var ico = document.createElement('span');
+        ico.className = 'ext-icon';
+        ico.setAttribute('aria-hidden', 'true');
+        // Compact NE arrow inside a square
+        ico.innerHTML = '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 L9 3"/><path d="M4.5 3 H9 V7.5"/></svg>';
+        a.appendChild(ico);
+      }
+      // Accessible label for screen readers
+      if (!a.hasAttribute('aria-label') && !a.querySelector('[aria-label]')) {
+        var label = a.textContent.trim();
+        a.setAttribute('aria-label', label + ' (opens in new window)');
+      }
+      a.dataset._extProcessed = '1';
+    }
   }
 
   /* ── First-visit "What's new" toast ── */
