@@ -2853,3 +2853,152 @@ pre:hover > .code-copy-btn,
 @media print {
   pre > .code-copy-btn { display: none; }
 }
+
+
+/* =================================================================
+   Comprehensive print stylesheet (Phase 12)
+   Hides interactive chrome added by ui-enhance.js; optimizes layout.
+   ================================================================= */
+@media print {
+  /* Hide all UI chrome */
+  #scrollProgress,
+  #shortcutOverlay,
+  #cmdkPalette,
+  #backToTop,
+  #outlineToggle,
+  #pageOutline,
+  #whatsNewToast,
+  #anchorCopyToast,
+  .sw-update-banner,
+  .skip-link,
+  .heading-anchor,
+  .cmdk-palette,
+  .shortcut-overlay,
+  .whats-new-toast,
+  .anchor-copy-toast,
+  .back-to-top,
+  .outline-toggle,
+  .page-outline,
+  .scroll-progress,
+  .code-copy-btn,
+  .copy-btn,
+  iframe[src*="goatcounter"],
+  script,
+  noscript {
+    display: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 18mm 16mm 20mm 16mm;
+  }
+  @page :first {
+    margin-top: 14mm;
+  }
+
+  /* Base typography for paper */
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Force light theme for print */
+  :root, [data-theme="dark"] {
+    --bg: #fff !important;
+    --surface: #fff !important;
+    --surface2: #f5f5f5 !important;
+    --text: #111 !important;
+    --muted: #444 !important;
+    --border: #ccc !important;
+    --border2: #bbb !important;
+    --accent: #b04020 !important;
+    --accent2: #2a7d5f !important;
+    --accent3: #2955a0 !important;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4 {
+    color: #111 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  h1 { font-size: 22pt; margin: 0 0 12pt; }
+  h2 { font-size: 16pt; margin: 16pt 0 8pt; }
+  h3 { font-size: 13pt; margin: 12pt 0 6pt; }
+
+  /* Avoid orphan/widow lines */
+  p, li { orphans: 3; widows: 3; }
+
+  /* Show link URLs (except in-page anchors and javascript) */
+  a[href^="http"]::after,
+  a[href^="https"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+    font-family: var(--mono, monospace);
+    word-break: break-all;
+  }
+  a[href^="#"]::after,
+  a[href^="mailto:"]::after,
+  a[href^="javascript:"]::after,
+  .heading-anchor::after,
+  nav a::after,
+  .logo-ring::after,
+  a.cmdk-item::after { content: ""; }
+
+  /* Tables: keep together when possible */
+  table { page-break-inside: avoid; break-inside: avoid; border-collapse: collapse; }
+  th, td { border: 1px solid #ccc; padding: 4pt 6pt; }
+  thead { display: table-header-group; }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Code blocks */
+  pre, code {
+    background: #f5f5f5 !important;
+    color: #111 !important;
+    border: 1px solid #ddd;
+    font-size: 9pt;
+  }
+  pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 6pt 8pt;
+  }
+
+  /* Figures / canvases / images */
+  img, canvas, svg, figure {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Cards / callouts */
+  .callout, .fb, .pattern-thread, .collection-card, .va,
+  article, section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  /* Remove fancy interactions */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Show URL footer once at end via a print-only block (optional, opt-in by adding .print-url class) */
+}
