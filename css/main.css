@@ -3002,3 +3002,24 @@ pre:hover > .code-copy-btn,
 
   /* Show URL footer once at end via a print-only block (optional, opt-in by adding .print-url class) */
 }
+
+/* ── Phase 14: Reading-time badges (injected by js/ui-enhance.js) ── */
+.reading-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--surface2);
+  flex-shrink: 0;
+  margin-top: 4px;
+  letter-spacing: .02em;
+}
+.reading-time-badge svg { opacity: .75; }
+@media print {
+  .reading-time-badge { border-color: #ccc !important; background: transparent !important; color: #555 !important; }
+}

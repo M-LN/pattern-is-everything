@@ -6,6 +6,7 @@
  * - Auto heading anchors with click-to-copy deep links
  * - Floating on-page outline with active-section highlighting
  * - Automatic copy buttons on code blocks
+ * - Reading-time badges injected into topic headers
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -450,13 +451,15 @@
     initHeadingAnchors();
     initOutline();
     initCodeCopy();
+    initReadingTime();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
       initHeadingAnchors();
       initOutline();
       initCodeCopy();
-      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); }, 400);
+      initReadingTime();
+      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); initReadingTime(); }, 400);
     });
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
@@ -698,6 +701,37 @@
         });
       });
       pre.appendChild(btn);
+    });
+  }
+
+  /* ── Reading-time badges on topic headers ── */
+  function initReadingTime() {
+    var topics = document.querySelectorAll('.topic');
+    if (!topics.length) return;
+    topics.forEach(function (topic) {
+      if (topic.dataset._rtAdded) return;
+      var header = topic.querySelector('.topic-header');
+      if (!header) return;
+      // Count words from prose, list items, blockquotes, and table cells
+      var nodes = topic.querySelectorAll('.prose, li, blockquote, td, th');
+      var words = 0;
+      nodes.forEach(function (n) {
+        var t = (n.innerText || n.textContent || '').trim();
+        if (!t) return;
+        words += t.split(/\s+/).length;
+      });
+      // Skip very short topics (intro snippets, navigation stubs)
+      if (words < 120) { topic.dataset._rtAdded = '1'; return; }
+      var mins = Math.max(1, Math.round(words / 220));
+      var badge = document.createElement('span');
+      badge.className = 'reading-time-badge';
+      badge.setAttribute('aria-label', mins + ' minute read, approximately ' + words + ' words');
+      badge.title = '~' + words + ' words';
+      badge.innerHTML =
+        '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>' +
+        '<span>' + mins + ' min read</span>';
+      header.appendChild(badge);
+      topic.dataset._rtAdded = '1';
     });
   }
 
