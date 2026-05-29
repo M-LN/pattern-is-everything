@@ -258,6 +258,7 @@
       if (!item) return;
       var href = item.getAttribute('data-href');
       if (href) {
+        pushRecent(href);
         closePalette();
         window.location.href = href;
       }
@@ -283,11 +284,29 @@
     var list = document.getElementById('cmdkList');
     if (!list) return;
     var q = (query || '').trim();
+
+    // Empty query: show Recents (if any) + all pages
+    if (!q) {
+      var recents = getRecents();
+      var groups = '';
+      if (recents.length) {
+        groups += '<li class="cmdk-group">Recent</li>' + recents.map(function (rp, idx) {
+          return renderItem(rp, idx === 0);
+        }).join('');
+        groups += '<li class="cmdk-group">All</li>';
+      }
+      groups += PAGES.map(function (p, i) {
+        return renderItem(p, !recents.length && i === 0);
+      }).join('');
+      list.innerHTML = groups;
+      return;
+    }
+
     var scored = [];
     for (var i = 0; i < PAGES.length; i++) {
       var p = PAGES[i];
       var hay = p.t + ' ' + p.cat + ' ' + p.kw;
-      var s = q ? fuzzyScore(q, hay) : 1;
+      var s = fuzzyScore(q, hay);
       if (s >= 0) scored.push({ p: p, s: s });
     }
     scored.sort(function (a, b) { return b.s - a.s; });
@@ -296,13 +315,56 @@
       list.innerHTML = '<li class="cmdk-empty">No matches for "' + escapeHtml(q) + '"</li>';
       return;
     }
-    list.innerHTML = top.map(function (r, idx) {
-      return '<li class="cmdk-item' + (idx === 0 ? ' is-active' : '') + '" role="option" data-href="' + r.p.path + '">' +
-        '<span class="cmdk-cat">' + escapeHtml(r.p.cat) + '</span>' +
-        '<span class="cmdk-title">' + escapeHtml(r.p.t) + '</span>' +
-        '<span class="cmdk-path">' + escapeHtml(r.p.path) + '</span>' +
-      '</li>';
-    }).join('');
+    list.innerHTML = top.map(function (r, idx) { return renderItem(r.p, idx === 0); }).join('');
+  }
+
+  function renderItem(p, active) {
+    return '<li class="cmdk-item' + (active ? ' is-active' : '') + '" role="option" data-href="' + p.path + '">' +
+      '<span class="cmdk-cat">' + escapeHtml(p.cat) + '</span>' +
+      '<span class="cmdk-title">' + escapeHtml(p.t) + '</span>' +
+      '<span class="cmdk-path">' + escapeHtml(p.path) + '</span>' +
+    '</li>';
+  }
+
+  /* Recently visited (localStorage) */
+  var RECENTS_KEY = 'pp_recents_v1';
+  function getRecents() {
+    try {
+      var raw = localStorage.getItem(RECENTS_KEY);
+      if (!raw) return [];
+      var paths = JSON.parse(raw);
+      if (!Array.isArray(paths)) return [];
+      var byPath = {};
+      for (var i = 0; i < PAGES.length; i++) byPath[PAGES[i].path] = PAGES[i];
+      var out = [];
+      for (var j = 0; j < paths.length && out.length < 5; j++) {
+        if (byPath[paths[j]]) out.push(byPath[paths[j]]);
+      }
+      return out;
+    } catch (e) { return []; }
+  }
+  function pushRecent(path) {
+    try {
+      var raw = localStorage.getItem(RECENTS_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) arr = [];
+      arr = arr.filter(function (p) { return p !== path; });
+      arr.unshift(path);
+      if (arr.length > 8) arr = arr.slice(0, 8);
+      localStorage.setItem(RECENTS_KEY, JSON.stringify(arr));
+    } catch (e) {}
+  }
+  // Record current page on load if it matches a known PAGES path
+  function recordCurrentPage() {
+    var here = window.location.pathname;
+    // Normalize trailing index.html → directory
+    var normalized = here.replace(/index\.html$/, '');
+    for (var i = 0; i < PAGES.length; i++) {
+      if (PAGES[i].path === normalized || PAGES[i].path === here) {
+        pushRecent(PAGES[i].path);
+        return;
+      }
+    }
   }
 
   function setActive(item) {
@@ -349,8 +411,39 @@
     }
   }
 
+  /* ── Back-to-top button ── */
+  function initBackToTop() {
+    if (document.getElementById('backToTop')) return;
+    var btn = document.createElement('button');
+    btn.id = 'backToTop';
+    btn.type = 'button';
+    btn.className = 'back-to-top';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.title = 'Back to top';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+    document.body.appendChild(btn);
+    var visible = false;
+    function update() {
+      var should = window.scrollY > 600;
+      if (should !== visible) {
+        visible = should;
+        btn.classList.toggle('is-visible', visible);
+      }
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { window.requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; }
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+    update();
+  }
+
   function init() {
     initScrollProgress();
+    initBackToTop();
+    recordCurrentPage();
     document.addEventListener('keydown', onKey);
   }
 
