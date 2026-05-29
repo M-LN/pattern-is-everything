@@ -12,12 +12,21 @@
  * - External-link decoration (↗ icon + rel="noopener noreferrer")
  * - Command palette also indexes on-page headings for deep-link jumps
  * - Theme-color meta tags kept in sync with manual dark/light toggle
+ * - Theme-toggle fallback: defines window.toggleTheme + auto-wires .theme-toggle
+ *   buttons on pages that don't ship their own implementation
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
   'use strict';
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Live-evaluated so OS preference changes are honored mid-session.
+  var _rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function isReduced() { return _rmq.matches; }
+  // Backward-compatible alias for the rest of the file.
+  Object.defineProperty(window, '__pp_reduced', { get: isReduced });
+  var reduced = isReduced();
+  if (_rmq.addEventListener) _rmq.addEventListener('change', function (e) { reduced = e.matches; });
+  else if (_rmq.addListener) _rmq.addListener(function (e) { reduced = e.matches; });
 
   /* ── Scroll progress bar ── */
   function initScrollProgress() {
@@ -440,7 +449,7 @@
     var i = current ? Array.prototype.indexOf.call(items, current) : -1;
     i = (i + delta + items.length) % items.length;
     setActive(items[i]);
-    items[i].scrollIntoView({ block: 'nearest' });
+    items[i].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' });
   }
 
   var paletteLastFocused = null;
@@ -541,6 +550,43 @@
     }
   }
 
+  /* ── Theme-toggle fallback ──
+     Pages that ship their own toggleTheme() keep working. Pages that lack
+     one (or that have a .theme-toggle button but no handler) get a sensible
+     default: localStorage-persisted manual override on <html data-theme>. */
+  function initThemeToggleFallback() {
+    if (typeof window.toggleTheme !== 'function') {
+      window.toggleTheme = function () {
+        var d = document.documentElement;
+        var current = d.getAttribute('data-theme');
+        // If unset, detect current effective scheme from OS.
+        if (!current) {
+          current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        var next = current === 'dark' ? 'light' : 'dark';
+        d.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      };
+    }
+    // Restore saved preference if html has none yet.
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved && !document.documentElement.getAttribute('data-theme')) {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    } catch (e) {}
+    // Auto-wire any .theme-toggle button missing an onclick handler.
+    var btns = document.querySelectorAll('.theme-toggle');
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      if (b.dataset._tt) continue;
+      if (!b.onclick && !b.getAttribute('onclick')) {
+        b.addEventListener('click', function () { window.toggleTheme(); });
+      }
+      b.dataset._tt = '1';
+    }
+  }
+
   function init() {
     initScrollProgress();
     initBackToTop();
@@ -552,6 +598,7 @@
     initFlashTarget();
     initExternalLinks();
     initThemeColorSync();
+    initThemeToggleFallback();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
