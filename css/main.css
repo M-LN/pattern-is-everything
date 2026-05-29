@@ -2608,3 +2608,67 @@ body:not(:has(.portal-header)):not(:has(header)) .scroll-progress { top: 0; }
   .whats-new-toast { transition: opacity .1s linear; transform: translate(-50%, 0); }
   .whats-new-toast.is-visible { transform: translate(-50%, 0); }
 }
+
+
+/* =================================================================
+   Heading anchors (click-to-copy deep links)
+   ================================================================= */
+main h2, main h3 {
+  position: relative;
+  scroll-margin-top: calc(var(--hdr-h, 64px) + 16px);
+}
+.heading-anchor {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 4px;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.7em;
+  vertical-align: middle;
+  opacity: 0;
+  transition: opacity .15s var(--ease), color .15s var(--ease);
+  border-radius: 3px;
+}
+main h2:hover .heading-anchor,
+main h3:hover .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+.heading-anchor:hover {
+  color: var(--accent);
+}
+.heading-anchor:focus-visible {
+  color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent2);
+}
+@media (hover: none) {
+  .heading-anchor { opacity: .55; }
+}
+
+.anchor-copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 12px);
+  z-index: 260;
+  padding: 8px 14px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.anchor-copy-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .anchor-copy-toast { transition: opacity .1s linear; transform: translate(-50%, 0); }
+}

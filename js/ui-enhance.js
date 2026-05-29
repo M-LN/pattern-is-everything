@@ -3,6 +3,7 @@
  * - Keyboard shortcut overlay (press `?`)
  * - Command palette (press Ctrl/Cmd+K or `/`)
  * - Back-to-top button + first-visit feature discovery toast
+ * - Auto heading anchors with click-to-copy deep links
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -444,12 +445,113 @@
   function init() {
     initScrollProgress();
     initBackToTop();
+    initHeadingAnchors();
+    // Re-run after load and once more later, because some pages render
+    // content (e.g. topic SPAs) after DOMContentLoaded.
+    window.addEventListener('load', function () {
+      initHeadingAnchors();
+      setTimeout(initHeadingAnchors, 400);
+    });
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
     // Expose programmatic API for buttons/links
     window.__openPalette = openPalette;
     window.__closePalette = closePalette;
     initWhatsNew();
+  }
+
+  /* ── Heading anchors with click-to-copy ── */
+  function slugify(s) {
+    return (s || '')
+      .toLowerCase()
+      .replace(/[\u2018\u2019\u201C\u201D]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 60);
+  }
+  function showAnchorToast(msg) {
+    var t = document.getElementById('anchorCopyToast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'anchorCopyToast';
+      t.className = 'anchor-copy-toast';
+      t.setAttribute('role', 'status');
+      t.setAttribute('aria-live', 'polite');
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('is-visible');
+    clearTimeout(showAnchorToast._t);
+    showAnchorToast._t = setTimeout(function () { t.classList.remove('is-visible'); }, 1600);
+  }
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      } catch (e) { reject(e); }
+    });
+  }
+  function initHeadingAnchors() {
+    var scope = document.querySelector('main') || document.body;
+    if (!scope) return;
+    var used = {};
+    var headings = scope.querySelectorAll('h2, h3');
+    headings.forEach(function (h) {
+      // Skip headings inside the palette/overlay/toasts
+      if (h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor]')) return;
+      // Assign an id if missing
+      var id = h.id;
+      if (!id) {
+        var base = slugify(h.textContent) || 'section';
+        var candidate = base, n = 2;
+        while (document.getElementById(candidate) || used[candidate]) {
+          candidate = base + '-' + n++;
+        }
+        id = candidate;
+        h.id = id;
+      }
+      used[id] = true;
+      if (h.querySelector('.heading-anchor')) return;
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + id;
+      a.setAttribute('aria-label', 'Copy link to this section');
+      a.title = 'Copy link to this section';
+      a.textContent = '#';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var url = window.location.origin + window.location.pathname + '#' + id;
+        // Update URL hash without scrolling
+        history.replaceState(null, '', '#' + id);
+        copyToClipboard(url).then(function () {
+          showAnchorToast('Link copied');
+        }).catch(function () {
+          showAnchorToast('#' + id);
+        });
+      });
+      h.appendChild(a);
+    });
+    // If page loaded with a hash, scroll into view (browser default may miss late-assigned ids)
+    if (window.location.hash && window.location.hash.length > 1) {
+      var target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+      if (target && !target.dataset._scrolled) {
+        target.dataset._scrolled = '1';
+        setTimeout(function () { target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); }, 0);
+      }
+    }
   }
 
   /* ── First-visit "What's new" toast ── */
