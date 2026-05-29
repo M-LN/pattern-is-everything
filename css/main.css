@@ -3023,3 +3023,52 @@ pre:hover > .code-copy-btn,
 @media print {
   .reading-time-badge { border-color: #ccc !important; background: transparent !important; color: #555 !important; }
 }
+
+/* ── Phase 17: Share-link button + flash-target highlight ── */
+.share-topic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--surface2);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 4px;
+  letter-spacing: .02em;
+  transition: color .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease);
+}
+.share-topic-btn:hover { color: var(--accent); border-color: var(--accent); }
+.share-topic-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.share-topic-btn .sh-check { display: none; }
+.share-topic-btn.is-copied {
+  color: var(--accent2);
+  border-color: var(--accent2);
+  background: color-mix(in srgb, var(--accent2) 10%, transparent);
+}
+.share-topic-btn.is-copied .sh-icon { display: none; }
+.share-topic-btn.is-copied .sh-check { display: inline; }
+
+@keyframes pp-flash-target {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  60%  { box-shadow: 0 0 0 6px transparent; background: color-mix(in srgb, var(--accent) 4%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; background: transparent; }
+}
+.flash-target {
+  animation: pp-flash-target 2.0s var(--ease) 1;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flash-target { animation: none; outline: 2px solid var(--accent); outline-offset: 4px; }
+}
+@media print {
+  .share-topic-btn { display: none !important; }
+  .flash-target { animation: none !important; }
+}

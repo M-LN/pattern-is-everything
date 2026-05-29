@@ -7,6 +7,8 @@
  * - Floating on-page outline with active-section highlighting
  * - Automatic copy buttons on code blocks
  * - Reading-time badges injected into topic headers
+ * - Share-link button on topic headers (copies canonical deep link)
+ * - Flash highlight on heading navigated to via deep link
  * - Command palette also indexes on-page headings for deep-link jumps
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
@@ -500,6 +502,8 @@
     initOutline();
     initCodeCopy();
     initReadingTime();
+    initShareTopic();
+    initFlashTarget();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
@@ -507,8 +511,11 @@
       initOutline();
       initCodeCopy();
       initReadingTime();
-      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); initReadingTime(); }, 400);
+      initShareTopic();
+      initFlashTarget();
+      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); initReadingTime(); initShareTopic(); initFlashTarget(); }, 400);
     });
+    window.addEventListener('hashchange', initFlashTarget);
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
     // Expose programmatic API for buttons/links
@@ -781,6 +788,62 @@
       header.appendChild(badge);
       topic.dataset._rtAdded = '1';
     });
+  }
+
+  /* ── Share-link buttons on topic headers ── */
+  function initShareTopic() {
+    var topics = document.querySelectorAll('.topic[id]');
+    if (!topics.length) return;
+    topics.forEach(function (topic) {
+      if (topic.dataset._shareAdded) return;
+      var header = topic.querySelector('.topic-header');
+      if (!header) return;
+      topic.dataset._shareAdded = '1';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'share-topic-btn';
+      btn.title = 'Copy link to this topic';
+      btn.setAttribute('aria-label', 'Copy link to this topic');
+      btn.innerHTML =
+        '<svg class="sh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>' +
+        '<svg class="sh-check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"/></svg>' +
+        '<span class="sh-label">Share</span>';
+      btn.addEventListener('click', function () {
+        var url = window.location.origin + window.location.pathname + '#' + topic.id;
+        copyToClipboard(url).then(function () {
+          btn.classList.add('is-copied');
+          btn.querySelector('.sh-label').textContent = 'Link copied';
+          clearTimeout(btn._t);
+          btn._t = setTimeout(function () {
+            btn.classList.remove('is-copied');
+            btn.querySelector('.sh-label').textContent = 'Share';
+          }, 1600);
+        }).catch(function () {
+          btn.querySelector('.sh-label').textContent = 'Err';
+          setTimeout(function () { btn.querySelector('.sh-label').textContent = 'Share'; }, 1500);
+        });
+      });
+      header.appendChild(btn);
+    });
+  }
+
+  /* ── Brief highlight when arriving at a heading via deep link ── */
+  function initFlashTarget() {
+    var h = window.location.hash;
+    if (!h || h.length < 2) return;
+    var id;
+    try { id = decodeURIComponent(h.slice(1)); } catch (e) { id = h.slice(1); }
+    var el = document.getElementById(id);
+    if (!el) return;
+    // Only flash headings/topics; ignore other arbitrary targets
+    var tag = el.tagName;
+    if (tag !== 'H1' && tag !== 'H2' && tag !== 'H3' && tag !== 'H4' && !el.classList.contains('topic')) return;
+    el.classList.remove('flash-target');
+    // Re-trigger animation
+    void el.offsetWidth;
+    el.classList.add('flash-target');
+    clearTimeout(initFlashTarget._t);
+    initFlashTarget._t = setTimeout(function () { el.classList.remove('flash-target'); }, 2200);
   }
 
   /* ── First-visit "What's new" toast ── */
