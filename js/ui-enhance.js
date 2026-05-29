@@ -617,6 +617,7 @@
     // Expose programmatic API for buttons/links
     window.__openPalette = openPalette;
     window.__closePalette = closePalette;
+    window.__refreshOutline = initOutline;
     initWhatsNew();
   }
 
@@ -722,7 +723,9 @@
     var headings = Array.prototype.filter.call(
       scope.querySelectorAll('h2, h3'),
       function (h) {
-        return h.id && !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor]');
+        return h.id &&
+          h.offsetParent !== null &&
+          !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor], [hidden]');
       }
     );
     // Require at least 3 sections to bother showing the outline

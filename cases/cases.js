@@ -371,6 +371,8 @@ function applyFilters() {
   }
   const empty = document.getElementById('casesEmpty');
   if (empty) empty.hidden = shown !== 0;
+  // Keep the floating "On this page" outline in sync with visible cases
+  if (typeof window.__refreshOutline === 'function') window.__refreshOutline();
 }
 
 function resetFilters() {

@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-lab="ml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML Lab — Pattern is Everything</title>
-  <meta name="description" content="Interactive ML sandbox — play with linear regression, K-Means clustering, and more hands-on activities.">
-  <meta property="og:title" content="ML Lab — Pattern is Everything">
-  <meta property="og:description" content="Interactive ML sandbox — play with linear regression, K-Means clustering, and more hands-on activities.">
+  <title>ML Lab â€” Pattern is Everything</title>
+  <meta name="description" content="Interactive ML sandbox â€” play with linear regression, K-Means clustering, and more hands-on activities.">
+  <meta property="og:title" content="ML Lab â€” Pattern is Everything">
+  <meta property="og:description" content="Interactive ML sandbox â€” play with linear regression, K-Means clustering, and more hands-on activities.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Pattern is Everything — free interactive ML & markets education">
+  <meta property="og:image:alt" content="Pattern is Everything â€” free interactive ML & markets education">
   <meta name="twitter:card" content="summary">
   <meta name="theme-color" content="#4fc3f7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234fc3f7'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
@@ -25,7 +25,7 @@
     "@type": "Course",
     "name": "ML Lab",
     "url": "https://patterniseverything.com/sandbox/ml/",
-    "description": "Interactive ML sandbox — hands-on activities for linear regression, K-Means clustering, and more.",
+    "description": "Interactive ML sandbox â€” hands-on activities for linear regression, K-Means clustering, and more.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -41,8 +41,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "ML Lab — Interactive ML Sandbox",
-    "description": "Play with linear regression, K-Means, gradient descent, PCA, neural nets — learn by interaction.",
+    "headline": "ML Lab â€” Interactive ML Sandbox",
+    "description": "Play with linear regression, K-Means, gradient descent, PCA, neural nets â€” learn by interaction.",
     "url": "https://patterniseverything.com/sandbox/ml/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/sandbox/ml/" },
     "image": "https://patterniseverything.com/assets/social-preview.png",
@@ -75,17 +75,17 @@
   <span class="topic-counter" id="topicCounter">9 Activities</span>
   <div class="hdr-meta">Interactive Sandbox<br>Hands-on Machine Learning</div>
   <div class="hdr-actions">
-    <a href="../dl/index.html" class="lab-switch">→ DL Lab</a>
-    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
-    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
+    <a href="../dl/index.html" class="lab-switch">â†’ DL Lab</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">âŒ•</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">â—</button>
+    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">â™¥</a>
   </div>
 </header>
 
 <!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search activities…" autocomplete="off">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search activitiesâ€¦" autocomplete="off">
     <div class="search-results" id="searchResults"></div>
   </div>
 </div>
@@ -102,7 +102,7 @@
 <script src="activities.js?v=4"></script>
 <script src="engines.js?v=4"></script>
 <script>
-/* ── Theme ── */
+/* â”€â”€ Theme â”€â”€ */
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
@@ -113,7 +113,7 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* ── Search ── */
+/* â”€â”€ Search â”€â”€ */
 function toggleSearch() {
   const o = document.getElementById('searchOverlay');
   o.classList.toggle('active');
@@ -148,13 +148,13 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).slice(0, 8);
   res.innerHTML = matches.map(t =>
     `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} — ${t.category}</div>
+      <div class="sr-cat">${t.num} â€” ${t.category}</div>
       <div class="sr-title">${t.title}</div>
     </div>`
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
-/* ── Navigation ── */
+/* â”€â”€ Navigation â”€â”€ */
 let currentTopic = null;
 const viewed = new Set();
 
@@ -184,7 +184,7 @@ function updateProgress() {
   if (txt) txt.textContent = `${n} / ${total} viewed`;
 }
 
-/* ── Init ── */
+/* â”€â”€ Init â”€â”€ */
 window.addEventListener('load', () => {
   buildContent();
   if (location.hash) {
@@ -194,7 +194,7 @@ window.addEventListener('load', () => {
   if (TOPICS.length > 0) show(TOPICS[0], true);
 });
 
-/* ── Formula Decoder ── */
+/* â”€â”€ Formula Decoder â”€â”€ */
 (function() {
   const tooltip = document.createElement('div');
   tooltip.id = 'fd-tooltip';
@@ -248,6 +248,6 @@ window.addEventListener('load', () => {
 <script src="../../js/pattern-thread.js"></script>
 <script src="../../js/sandbox-build-mode.js?v=1"></script>
 <script src="../../js/learning-path.js?v=3"></script>
-<script src="../../js/ui-enhance.js?v=14" defer></script>
+<script src="../../js/ui-enhance.js?v=15" defer></script>
 </body>
 </html>

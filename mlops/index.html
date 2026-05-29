@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLOps & Production ML — Pattern is Everything</title>
-  <meta name="description" content="25 interactive topics — model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
-  <meta property="og:title" content="MLOps & Production ML — Pattern is Everything">
-  <meta property="og:description" content="25 interactive topics — model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
+  <title>MLOps & Production ML â€” Pattern is Everything</title>
+  <meta name="description" content="25 interactive topics â€” model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
+  <meta property="og:title" content="MLOps & Production ML â€” Pattern is Everything">
+  <meta property="og:description" content="25 interactive topics â€” model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
@@ -20,7 +20,7 @@
     "@type": "Course",
     "name": "MLOps & Production ML",
     "url": "https://patterniseverything.com/mlops/",
-    "description": "25 interactive topics — model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.",
+    "description": "25 interactive topics â€” model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -36,7 +36,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "MLOps — Shipping ML to Production",
+    "headline": "MLOps â€” Shipping ML to Production",
     "description": "Interactive topics on training pipelines, model registries, monitoring, drift, and reliable deployment.",
     "url": "https://patterniseverything.com/mlops/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/mlops/" },
@@ -61,8 +61,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta name="twitter:title" content="MLOps & Production ML — Pattern is Everything">
-  <meta name="twitter:description" content="25 interactive topics — model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
+  <meta name="twitter:title" content="MLOps & Production ML â€” Pattern is Everything">
+  <meta name="twitter:description" content="25 interactive topics â€” model serving, monitoring, drift detection, pipelines, feature stores, and governance for production ML.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -105,7 +105,7 @@
 <script src="topics.js?v=1"></script>
 <script src="visualizations.js?v=1"></script>
 <script>
-/* ── Theme ── */
+/* â”€â”€ Theme â”€â”€ */
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
@@ -116,7 +116,7 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* ── Search ── */
+/* â”€â”€ Search â”€â”€ */
 function toggleSearch() {
   const o = document.getElementById('searchOverlay');
   o.classList.toggle('active');
@@ -157,7 +157,7 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
-/* ── Navigation ── */
+/* â”€â”€ Navigation â”€â”€ */
 let currentTopic = 'home';
 const viewed = new Set();
 
@@ -222,7 +222,7 @@ function buildNavButtons(id) {
   }
 }
 
-/* ── Init ── */
+/* â”€â”€ Init â”€â”€ */
 window.addEventListener('load', () => {
   buildNav();
   buildContent();
@@ -237,6 +237,6 @@ window.addEventListener('load', () => {
 </script>
 <script src="../js/pattern-thread.js"></script>
 <script src="../js/evidence-taxonomy.js?v=1"></script>
-<script src="../js/ui-enhance.js?v=14" defer></script>
+<script src="../js/ui-enhance.js?v=15" defer></script>
 </body>
 </html>
