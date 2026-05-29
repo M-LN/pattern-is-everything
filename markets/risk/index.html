@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Risk & Portfolio â€” Pattern is Everything</title>
-  <meta name="description" content="25 interactive topics â€” VaR, portfolio construction, position sizing, hedging strategies, and performance attribution.">
-  <meta property="og:title" content="Risk & Portfolio â€” Pattern is Everything">
+  <title>Risk & Portfolio — Pattern is Everything</title>
+  <meta name="description" content="25 interactive topics — VaR, portfolio construction, position sizing, hedging strategies, and performance attribution.">
+  <meta property="og:title" content="Risk & Portfolio — Pattern is Everything">
   <meta property="og:description" content="25 interactive risk management and portfolio construction topics with live visualizations.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
@@ -20,7 +20,7 @@
     "@type": "Course",
     "name": "Risk & Portfolio",
     "url": "https://patterniseverything.com/markets/risk/",
-    "description": "25 interactive topics â€” VaR, portfolio construction, position sizing, hedging, and performance attribution.",
+    "description": "25 interactive topics — VaR, portfolio construction, position sizing, hedging, and performance attribution.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -61,7 +61,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta name="twitter:title" content="Risk & Portfolio â€” Pattern is Everything">
+  <meta name="twitter:title" content="Risk & Portfolio — Pattern is Everything">
   <meta name="twitter:description" content="25 interactive risk management and portfolio construction topics with live visualizations.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
@@ -78,16 +78,16 @@
   <span class="topic-counter" id="topicCounter">25 Topics</span>
   <div class="hdr-meta">Interactive Reference<br>Risk, Position Sizing &amp; Attribution</div>
   <div class="hdr-actions">
-    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">â† Markets</a>
-    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">âŒ•</button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">â—</button>
-    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">â™¥</a>
+    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Markets</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
   </div>
 </header>
 
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search risk, portfolio, hedgingâ€¦" autocomplete="off">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search risk, portfolio, hedging…" autocomplete="off">
     <div class="search-results" id="searchResults"></div>
   </div>
 </div>
@@ -108,14 +108,14 @@ const savedTheme=localStorage.getItem('theme');if(savedTheme)document.documentEl
 
 function toggleSearch(){const o=document.getElementById('searchOverlay');o.classList.toggle('active');if(o.classList.contains('active')){document.getElementById('searchInput').focus();document.getElementById('searchInput').value='';document.getElementById('searchResults').innerHTML='';}}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();toggleSearch();}if(e.key==='Escape'){const o=document.getElementById('searchOverlay');if(o.classList.contains('active'))toggleSearch();}if(e.key==='ArrowLeft'||e.key==='ArrowRight'){if(document.activeElement.tagName==='INPUT')return;const idx=TOPICS.indexOf(currentTopic);if(e.key==='ArrowLeft'&&idx>0)show(TOPICS[idx-1]);if(e.key==='ArrowRight'&&idx<TOPICS.length-1)show(TOPICS[idx+1]);}});
-document.getElementById('searchInput')?.addEventListener('input',function(){const q=this.value.toLowerCase().trim();const res=document.getElementById('searchResults');if(!q){res.innerHTML='';return;}const matches=TOPIC_DATA.filter(t=>t.title.toLowerCase().includes(q)||t.category.toLowerCase().includes(q)||t.keywords.some(k=>k.toLowerCase().includes(q))||t.content.toLowerCase().includes(q)).slice(0,8);res.innerHTML=matches.map(t=>`<div class="search-result" onclick="show('${t.id}');toggleSearch();"><div class="sr-cat">${t.num} â€” ${t.category}</div><div class="sr-title">${t.title}</div></div>`).join('')||'<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';});
+document.getElementById('searchInput')?.addEventListener('input',function(){const q=this.value.toLowerCase().trim();const res=document.getElementById('searchResults');if(!q){res.innerHTML='';return;}const matches=TOPIC_DATA.filter(t=>t.title.toLowerCase().includes(q)||t.category.toLowerCase().includes(q)||t.keywords.some(k=>k.toLowerCase().includes(q))||t.content.toLowerCase().includes(q)).slice(0,8);res.innerHTML=matches.map(t=>`<div class="search-result" onclick="show('${t.id}');toggleSearch();"><div class="sr-cat">${t.num} — ${t.category}</div><div class="sr-title">${t.title}</div></div>`).join('')||'<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';});
 
 let currentTopic='home';const viewed=new Set();
 function show(id,scrollNav){currentTopic=id;document.querySelectorAll('.topic,.home').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');const ni=document.querySelector(`.ni[data-topic="${id}"]`);if(ni){ni.classList.add('active');if(scrollNav)ni.scrollIntoView({block:'nearest'});}if(id!=='home')viewed.add(id);updateProgress();buildNavButtons(id);setTimeout(()=>{if(DRAWS[id])DRAWS[id]();},60);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'});}
 function showSection(secId,topicId){const sec=document.getElementById(secId);if(sec&&!sec.classList.contains('open'))sec.classList.add('open');show(topicId,true);}
 function toggleSection(id){document.getElementById(id).classList.toggle('open');}
 function updateProgress(){const total=TOPICS.filter(t=>t!=='home').length;const n=viewed.size;const pct=Math.round(n/total*100);const bar=document.getElementById('progressBar');const txt=document.getElementById('progressText');if(bar)bar.style.width=pct+'%';if(txt)txt.textContent=`${n} / ${total} viewed`;}
-function buildNavButtons(id){const navEl=document.getElementById('nav-'+id);if(!navEl)return;const idx=TOPICS.indexOf(id);const prev=idx>1?TOPICS[idx-1]:null;const next=idx>=0&&idx<TOPICS.length-1?TOPICS[idx+1]:null;navEl.innerHTML='';if(prev&&prev!=='home'){const b=document.createElement('div');b.className='tnav-btn';b.innerHTML=`<div class="tnav-dir">â† Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;b.onclick=()=>show(prev,true);navEl.appendChild(b);}else{navEl.appendChild(document.createElement('div'));}if(next){const b=document.createElement('div');b.className='tnav-btn next';b.innerHTML=`<div class="tnav-dir">Next â†’</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;b.onclick=()=>show(next,true);navEl.appendChild(b);}}
+function buildNavButtons(id){const navEl=document.getElementById('nav-'+id);if(!navEl)return;const idx=TOPICS.indexOf(id);const prev=idx>1?TOPICS[idx-1]:null;const next=idx>=0&&idx<TOPICS.length-1?TOPICS[idx+1]:null;navEl.innerHTML='';if(prev&&prev!=='home'){const b=document.createElement('div');b.className='tnav-btn';b.innerHTML=`<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;b.onclick=()=>show(prev,true);navEl.appendChild(b);}else{navEl.appendChild(document.createElement('div'));}if(next){const b=document.createElement('div');b.className='tnav-btn next';b.innerHTML=`<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;b.onclick=()=>show(next,true);navEl.appendChild(b);}}
 window.addEventListener('load',()=>{buildNav();buildContent();const homeNI=document.querySelector('.ni[data-topic="home"]');if(homeNI)homeNI.classList.add('active');if(location.hash){const id=location.hash.slice(1);if(TOPICS.includes(id)){show(id,true);return;}}show('home');});
 </script>
 <script src="../../js/pattern-thread.js"></script>

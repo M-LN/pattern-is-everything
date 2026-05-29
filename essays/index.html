@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pattern Essays â€” Pattern is Everything</title>
-  <meta name="description" content="8 short reflections on patterns in the world â€” the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.">
-  <meta property="og:title" content="Pattern Essays â€” Pattern is Everything">
-  <meta property="og:description" content="8 short reflections on patterns in the world â€” calm, minimalist, with interactive visualizations.">
+  <title>Pattern Essays — Pattern is Everything</title>
+  <meta name="description" content="8 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.">
+  <meta property="og:title" content="Pattern Essays — Pattern is Everything">
+  <meta property="og:description" content="8 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#8b4fa8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
@@ -20,7 +20,7 @@
     "@type": "CreativeWorkSeries",
     "name": "Pattern Essays",
     "url": "https://patterniseverything.com/essays/",
-    "description": "8 short reflections on patterns in the world â€” the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.",
+    "description": "8 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, and thresholds.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -45,8 +45,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta name="twitter:title" content="Pattern Essays â€” Pattern is Everything">
-  <meta name="twitter:description" content="8 short reflections on patterns in the world â€” calm, minimalist, with interactive visualizations.">
+  <meta name="twitter:title" content="Pattern Essays — Pattern is Everything">
+  <meta name="twitter:description" content="8 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -62,17 +62,17 @@
   <span class="topic-counter" id="topicCounter">8 Essays</span>
   <div class="hdr-meta">Short Reflections on Patterns<br>Calm, Minimalist, Visual</div>
   <div class="hdr-actions">
-    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">â† Portal</a>
-    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">âŒ•</button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">â—</button>
-    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">â™¥</a>
+    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Portal</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
   </div>
 </header>
 
 <!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search essays, themes, conceptsâ€¦" autocomplete="off">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search essays, themes, concepts…" autocomplete="off">
     <div class="search-results" id="searchResults"></div>
   </div>
 </div>
@@ -89,7 +89,7 @@
 <script src="topics.js?v=2"></script>
 <script src="visualizations.js?v=2"></script>
 <script>
-/* â”€â”€ Theme â”€â”€ */
+/* ── Theme ── */
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
@@ -100,7 +100,7 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* â”€â”€ Search â”€â”€ */
+/* ── Search ── */
 function toggleSearch() {
   const o = document.getElementById('searchOverlay');
   o.classList.toggle('active');
@@ -135,13 +135,13 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).slice(0, 8);
   res.innerHTML = matches.map(t =>
     `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} â€” ${t.category}</div>
+      <div class="sr-cat">${t.num} — ${t.category}</div>
       <div class="sr-title">${t.title}</div>
     </div>`
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
-/* â”€â”€ Navigation â”€â”€ */
+/* ── Navigation ── */
 let currentTopic = 'home';
 const viewed = new Set();
 
@@ -191,7 +191,7 @@ function buildNavButtons(id) {
   if (prev && prev !== 'home') {
     const b = document.createElement('div');
     b.className = 'tnav-btn';
-    b.innerHTML = `<div class="tnav-dir">â† Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
+    b.innerHTML = `<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
     b.onclick = () => show(prev, true);
     navEl.appendChild(b);
   } else {
@@ -200,13 +200,13 @@ function buildNavButtons(id) {
   if (next) {
     const b = document.createElement('div');
     b.className = 'tnav-btn next';
-    b.innerHTML = `<div class="tnav-dir">Next â†’</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
+    b.innerHTML = `<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
     b.onclick = () => show(next, true);
     navEl.appendChild(b);
   }
 }
 
-/* â”€â”€ Init â”€â”€ */
+/* ── Init ── */
 window.addEventListener('load', () => {
   buildNav();
   buildContent();

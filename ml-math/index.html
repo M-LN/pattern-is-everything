@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML Math â€” Pattern is Everything</title>
+  <title>ML Math — Pattern is Everything</title>
   <meta name="description" content="38 interactive topics from linear algebra to diffusion models. Core math, visual intuition, and PyTorch code.">
-  <meta property="og:title" content="ML Math â€” Pattern is Everything">
+  <meta property="og:title" content="ML Math — Pattern is Everything">
   <meta property="og:description" content="38 interactive topics from linear algebra to diffusion models.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "The Math Behind Machine Learning",
-    "description": "Linear algebra, calculus, probability, and statistics â€” visualized as the foundations of ML.",
+    "description": "Linear algebra, calculus, probability, and statistics — visualized as the foundations of ML.",
     "url": "https://patterniseverything.com/ml-math/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/ml-math/" },
     "image": "https://patterniseverything.com/assets/social-preview.png",
@@ -61,7 +61,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta name="twitter:title" content="ML Math â€” Pattern is Everything">
+  <meta name="twitter:title" content="ML Math — Pattern is Everything">
   <meta name="twitter:description" content="38 interactive topics from linear algebra to diffusion models.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
@@ -78,17 +78,17 @@
   <span class="topic-counter" id="topicCounter">38 Topics</span>
   <div class="hdr-meta">Complete Visual Reference<br>Machine Learning Mathematics</div>
   <div class="hdr-actions">
-    <a href="../ml/index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">â† Machine Learning</a>
-    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">âŒ•</button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">â—</button>
-    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">â™¥</a>
+    <a href="../ml/index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Machine Learning</a>
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
   </div>
 </header>
 
 <!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search topics, formulas, conceptsâ€¦" autocomplete="off">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search topics, formulas, concepts…" autocomplete="off">
     <div class="search-results" id="searchResults"></div>
   </div>
 </div>
@@ -107,7 +107,7 @@
 <script src="topics.js?v=4"></script>
 <script src="visualizations.js"></script>
 <script>
-/* â”€â”€ Theme â”€â”€ */
+/* ── Theme ── */
 function toggleTheme() {
   const d = document.documentElement;
   d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
@@ -118,7 +118,7 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* â”€â”€ Search â”€â”€ */
+/* ── Search ── */
 function toggleSearch() {
   const o = document.getElementById('searchOverlay');
   o.classList.toggle('active');
@@ -154,13 +154,13 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).slice(0, 8);
   res.innerHTML = matches.map(t =>
     `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} â€” ${t.category}</div>
+      <div class="sr-cat">${t.num} — ${t.category}</div>
       <div class="sr-title">${t.title}</div>
     </div>`
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
-/* â”€â”€ Navigation â”€â”€ */
+/* ── Navigation ── */
 let currentTopic = 'home';
 const viewed = new Set();
 
@@ -213,7 +213,7 @@ function buildNavButtons(id) {
   if (prev && prev !== 'home') {
     const b = document.createElement('div');
     b.className = 'tnav-btn';
-    b.innerHTML = `<div class="tnav-dir">â† Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
+    b.innerHTML = `<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
     b.onclick = () => show(prev, true);
     navEl.appendChild(b);
   } else {
@@ -222,13 +222,13 @@ function buildNavButtons(id) {
   if (next) {
     const b = document.createElement('div');
     b.className = 'tnav-btn next';
-    b.innerHTML = `<div class="tnav-dir">Next â†’</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
+    b.innerHTML = `<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
     b.onclick = () => show(next, true);
     navEl.appendChild(b);
   }
 }
 
-/* â”€â”€ Init â”€â”€ */
+/* ── Init ── */
 window.addEventListener('load', () => {
   buildNav();
   buildContent();
