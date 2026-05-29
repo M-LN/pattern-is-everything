@@ -11,6 +11,7 @@
  * - Flash highlight on heading navigated to via deep link
  * - External-link decoration (↗ icon + rel="noopener noreferrer")
  * - Command palette also indexes on-page headings for deep-link jumps
+ * - Theme-color meta tags kept in sync with manual dark/light toggle
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -496,6 +497,50 @@
     update();
   }
 
+  /* ── Sync theme-color meta with manual dark/light toggle ──
+     The site ships <meta name="theme-color" ... media="(prefers-color-scheme: ...)">
+     which only follows the OS. When the user clicks the on-page toggle
+     (which sets html[data-theme]), browsers still pick the OS-matched tag,
+     so the address bar can disagree with the page. This observer rewrites
+     the active theme-color meta to match the manual override. */
+  function initThemeColorSync() {
+    var html = document.documentElement;
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    if (!metas.length) return;
+    // Remember the original light/dark colors keyed by media query.
+    if (!window.__themeColorOriginals) {
+      window.__themeColorOriginals = { light: null, dark: null, plain: null };
+      for (var i = 0; i < metas.length; i++) {
+        var m = metas[i];
+        var media = (m.getAttribute('media') || '').toLowerCase();
+        var content = m.getAttribute('content');
+        if (media.indexOf('dark') !== -1) window.__themeColorOriginals.dark = content;
+        else if (media.indexOf('light') !== -1) window.__themeColorOriginals.light = content;
+        else window.__themeColorOriginals.plain = content;
+      }
+    }
+    function apply() {
+      var manual = html.getAttribute('data-theme'); // 'dark' | 'light' | null
+      if (!manual) return; // no manual override; let OS media queries decide
+      var orig = window.__themeColorOriginals;
+      var target = manual === 'dark'
+        ? (orig.dark || '#141210')
+        : (orig.light || orig.plain || '#c84b2f');
+      var tags = document.querySelectorAll('meta[name="theme-color"]');
+      for (var j = 0; j < tags.length; j++) {
+        var t = tags[j];
+        // Drop media attribute so this tag wins regardless of OS.
+        if (t.hasAttribute('media')) t.removeAttribute('media');
+        t.setAttribute('content', target);
+      }
+    }
+    apply();
+    if (!window.__themeColorObserver) {
+      window.__themeColorObserver = new MutationObserver(apply);
+      window.__themeColorObserver.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+    }
+  }
+
   function init() {
     initScrollProgress();
     initBackToTop();
@@ -506,6 +551,7 @@
     initShareTopic();
     initFlashTarget();
     initExternalLinks();
+    initThemeColorSync();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
