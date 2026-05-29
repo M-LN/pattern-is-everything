@@ -4,6 +4,7 @@
  * - Command palette (press Ctrl/Cmd+K or `/`)
  * - Back-to-top button + first-visit feature discovery toast
  * - Auto heading anchors with click-to-copy deep links
+ * - Floating on-page outline with active-section highlighting
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -446,11 +447,13 @@
     initScrollProgress();
     initBackToTop();
     initHeadingAnchors();
+    initOutline();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
       initHeadingAnchors();
-      setTimeout(initHeadingAnchors, 400);
+      initOutline();
+      setTimeout(function () { initHeadingAnchors(); initOutline(); }, 400);
     });
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
@@ -551,6 +554,104 @@
         target.dataset._scrolled = '1';
         setTimeout(function () { target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); }, 0);
       }
+    }
+  }
+
+  /* ── Floating on-page outline ── */
+  var outlineObserver = null;
+  function initOutline() {
+    var scope = document.querySelector('main') || document.body;
+    if (!scope) return;
+    var headings = Array.prototype.filter.call(
+      scope.querySelectorAll('h2, h3'),
+      function (h) {
+        return h.id && !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor]');
+      }
+    );
+    // Require at least 3 sections to bother showing the outline
+    var existing = document.getElementById('pageOutline');
+    if (headings.length < 3) {
+      if (existing) existing.remove();
+      var btn = document.getElementById('outlineToggle');
+      if (btn) btn.remove();
+      return;
+    }
+
+    // Build/replace toggle button
+    var toggle = document.getElementById('outlineToggle');
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.id = 'outlineToggle';
+      toggle.type = 'button';
+      toggle.className = 'outline-toggle';
+      toggle.setAttribute('aria-label', 'Open page outline');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.title = 'Page outline';
+      toggle.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.3" fill="currentColor"/><circle cx="4" cy="12" r="1.3" fill="currentColor"/><circle cx="4" cy="18" r="1.3" fill="currentColor"/></svg>';
+      document.body.appendChild(toggle);
+      toggle.addEventListener('click', function () {
+        var p = document.getElementById('pageOutline');
+        if (p) {
+          var open = p.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          toggle.classList.toggle('is-active', open);
+        }
+      });
+    }
+
+    // Rebuild panel
+    if (existing) existing.remove();
+    var panel = document.createElement('nav');
+    panel.id = 'pageOutline';
+    panel.className = 'page-outline';
+    panel.setAttribute('aria-label', 'On this page');
+    var title = document.createElement('div');
+    title.className = 'po-title';
+    title.textContent = 'On this page';
+    panel.appendChild(title);
+    var ul = document.createElement('ul');
+    ul.className = 'po-list';
+    headings.forEach(function (h) {
+      var li = document.createElement('li');
+      li.className = 'po-item po-' + h.tagName.toLowerCase();
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.className = 'po-link';
+      a.dataset.target = h.id;
+      a.textContent = h.textContent.replace(/#$/, '').trim();
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        history.replaceState(null, '', '#' + h.id);
+        h.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        // Auto-close on mobile after navigating
+        if (window.matchMedia('(max-width: 900px)').matches) {
+          panel.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.classList.remove('is-active');
+        }
+      });
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    panel.appendChild(ul);
+    document.body.appendChild(panel);
+
+    // Active-section highlighting via IntersectionObserver
+    if (outlineObserver) { try { outlineObserver.disconnect(); } catch (e) {} }
+    if ('IntersectionObserver' in window) {
+      var visible = {};
+      outlineObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          visible[en.target.id] = en.isIntersecting;
+        });
+        // Highlight the topmost currently-visible heading
+        var firstVisible = headings.find(function (h) { return visible[h.id]; });
+        var activeId = firstVisible ? firstVisible.id : null;
+        ul.querySelectorAll('.po-link').forEach(function (link) {
+          link.classList.toggle('is-active', link.dataset.target === activeId);
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: [0, 1] });
+      headings.forEach(function (h) { outlineObserver.observe(h); });
     }
   }
 
