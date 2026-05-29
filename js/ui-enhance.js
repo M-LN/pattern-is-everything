@@ -199,8 +199,7 @@
     { t: 'Sandbox · Chaos',           cat: 'Sandbox', path: '/sandbox/chaos/',      kw: 'chaos fractal lorenz' },
     { t: 'Sandbox · Markets',         cat: 'Sandbox', path: '/sandbox/markets/',    kw: 'trading interactive' },
     // Tools / Labs
-    { t: 'Notebooks · Lab',           cat: 'Tools',   path: '/notebooks/lab.html',  kw: 'jupyter lab notebook' },
-    { t: 'Jupyter Lite',              cat: 'Tools',   path: '/lite/',               kw: 'browser jupyter python pyodide' },
+    { t: 'Jupyter Lite',              cat: 'Tools',   path: '/lite/',               kw: 'browser jupyter python pyodide notebook lab' },
     { t: 'ML Math Reference',         cat: 'Tools',   path: '/ml-math-reference-v1.html', kw: 'reference cheatsheet formulas' },
     { t: 'Game',                      cat: 'Tools',   path: '/game/',               kw: 'play interactive' },
     { t: 'Universe',                  cat: 'Tools',   path: '/universe/',           kw: 'visualization stars cosmos' },
