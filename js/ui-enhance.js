@@ -7,6 +7,7 @@
  * - Floating on-page outline with active-section highlighting
  * - Automatic copy buttons on code blocks
  * - Reading-time badges injected into topic headers
+ * - Command palette also indexes on-page headings for deep-link jumps
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -262,11 +263,20 @@
       var item = e.target.closest('.cmdk-item');
       if (!item) return;
       var href = item.getAttribute('data-href');
-      if (href) {
-        pushRecent(href);
+      if (!href) return;
+      // Same-page anchor: smooth-scroll without reload
+      if (href.charAt(0) === '#') {
+        var target = document.getElementById(href.slice(1));
         closePalette();
-        window.location.href = href;
+        if (target) {
+          history.replaceState(null, '', href);
+          target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        }
+        return;
       }
+      pushRecent(href);
+      closePalette();
+      window.location.href = href;
     });
     list.addEventListener('mousemove', function (e) {
       var item = e.target.closest('.cmdk-item');
@@ -289,19 +299,32 @@
     var list = document.getElementById('cmdkList');
     if (!list) return;
     var q = (query || '').trim();
+    var headings = getPageHeadings();
 
-    // Empty query: show Recents (if any) + all pages
+    // Empty query: show On-this-page + Recents + all pages
     if (!q) {
       var recents = getRecents();
       var groups = '';
+      var firstAssigned = false;
+      if (headings.length) {
+        groups += '<li class="cmdk-group">On this page</li>' + headings.map(function (h, idx) {
+          var isActive = !firstAssigned && idx === 0;
+          if (isActive) firstAssigned = true;
+          return renderItem(h, isActive);
+        }).join('');
+      }
       if (recents.length) {
         groups += '<li class="cmdk-group">Recent</li>' + recents.map(function (rp, idx) {
-          return renderItem(rp, idx === 0);
+          var isActive = !firstAssigned && idx === 0;
+          if (isActive) firstAssigned = true;
+          return renderItem(rp, isActive);
         }).join('');
         groups += '<li class="cmdk-group">All</li>';
       }
       groups += PAGES.map(function (p, i) {
-        return renderItem(p, !recents.length && i === 0);
+        var isActive = !firstAssigned && i === 0;
+        if (isActive) firstAssigned = true;
+        return renderItem(p, isActive);
       }).join('');
       list.innerHTML = groups;
       return;
@@ -314,6 +337,12 @@
       var s = fuzzyScore(q, hay);
       if (s >= 0) scored.push({ p: p, s: s });
     }
+    // Headings score slightly higher when matched (deep links beat top-level)
+    for (var j = 0; j < headings.length; j++) {
+      var h = headings[j];
+      var hs = fuzzyScore(q, h.t + ' ' + h.cat);
+      if (hs >= 0) scored.push({ p: h, s: hs + 50 });
+    }
     scored.sort(function (a, b) { return b.s - a.s; });
     var top = scored.slice(0, 20);
     if (top.length === 0) {
@@ -321,6 +350,25 @@
       return;
     }
     list.innerHTML = top.map(function (r, idx) { return renderItem(r.p, idx === 0); }).join('');
+  }
+
+  /* Collect headings on the current page (active topic SPA section or whole doc) */
+  function getPageHeadings() {
+    var scope = document.querySelector('.topic.active') || document.querySelector('main') || document.body;
+    if (!scope) return [];
+    var nodes = scope.querySelectorAll('h2[id], h3[id]');
+    var out = [];
+    for (var i = 0; i < nodes.length && out.length < 30; i++) {
+      var n = nodes[i];
+      // Clone and remove any injected anchor link before reading text
+      var clone = n.cloneNode(true);
+      var a = clone.querySelector('.heading-anchor');
+      if (a) a.remove();
+      var txt = (clone.innerText || clone.textContent || '').trim().replace(/\s+/g, ' ');
+      if (!txt || txt.length > 90) continue;
+      out.push({ t: txt, cat: n.tagName === 'H2' ? 'Section' : 'Subsection', path: '#' + n.id, kw: '' });
+    }
+    return out;
   }
 
   function renderItem(p, active) {
