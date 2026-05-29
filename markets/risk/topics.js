@@ -226,7 +226,7 @@ print(f"Historical VaR (95%): {var_hist:.2%}")
 
 # Dollar VaR for $100K portfolio
 portfolio = 100_000
-print(f"1-day dollar VaR: ${portfolio * var_95:,.0f}")</code></pre>
+print(f"1-day dollar VaR: \${portfolio * var_95:,.0f}")</code></pre>
   </div>
   <div class="topic-nav" id="nav-value-at-risk"></div>
 </div>`;

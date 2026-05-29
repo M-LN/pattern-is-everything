@@ -100,8 +100,8 @@
 <main id="mainContent"></main>
 </div>
 
-<script src="topics.js"></script>
-<script src="visualizations.js"></script>
+<script src="topics.js?v=2"></script>
+<script src="visualizations.js?v=2"></script>
 <script>
 function toggleTheme(){const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('theme',d.getAttribute('data-theme'));}
 const savedTheme=localStorage.getItem('theme');if(savedTheme)document.documentElement.setAttribute('data-theme',savedTheme);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');
