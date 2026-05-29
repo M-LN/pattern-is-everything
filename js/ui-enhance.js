@@ -5,6 +5,7 @@
  * - Back-to-top button + first-visit feature discovery toast
  * - Auto heading anchors with click-to-copy deep links
  * - Floating on-page outline with active-section highlighting
+ * - Automatic copy buttons on code blocks
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -448,12 +449,14 @@
     initBackToTop();
     initHeadingAnchors();
     initOutline();
+    initCodeCopy();
     // Re-run after load and once more later, because some pages render
     // content (e.g. topic SPAs) after DOMContentLoaded.
     window.addEventListener('load', function () {
       initHeadingAnchors();
       initOutline();
-      setTimeout(function () { initHeadingAnchors(); initOutline(); }, 400);
+      initCodeCopy();
+      setTimeout(function () { initHeadingAnchors(); initOutline(); initCodeCopy(); }, 400);
     });
     recordCurrentPage();
     document.addEventListener('keydown', onKey);
@@ -653,6 +656,49 @@
       }, { rootMargin: '-80px 0px -70% 0px', threshold: [0, 1] });
       headings.forEach(function (h) { outlineObserver.observe(h); });
     }
+  }
+
+  /* ── Automatic copy buttons on code blocks ── */
+  function initCodeCopy() {
+    var blocks = document.querySelectorAll('pre > code');
+    blocks.forEach(function (code) {
+      var pre = code.parentElement;
+      if (!pre || pre.dataset._copyAdded) return;
+      // Skip if the page already provides its own copy button (e.g. cases.js)
+      if (pre.querySelector('.copy-btn, .code-copy-btn')) {
+        pre.dataset._copyAdded = '1';
+        return;
+      }
+      pre.dataset._copyAdded = '1';
+      // Ensure pre is positioned so the absolute button anchors correctly
+      var cs = window.getComputedStyle(pre);
+      if (cs.position === 'static') pre.style.position = 'relative';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy-btn';
+      btn.setAttribute('aria-label', 'Copy code');
+      btn.title = 'Copy code';
+      btn.innerHTML =
+        '<svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>' +
+        '<svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"/></svg>' +
+        '<span class="cc-label">Copy</span>';
+      btn.addEventListener('click', function () {
+        var text = code.innerText || code.textContent || '';
+        copyToClipboard(text).then(function () {
+          btn.classList.add('is-copied');
+          btn.querySelector('.cc-label').textContent = 'Copied';
+          clearTimeout(btn._t);
+          btn._t = setTimeout(function () {
+            btn.classList.remove('is-copied');
+            btn.querySelector('.cc-label').textContent = 'Copy';
+          }, 1500);
+        }).catch(function () {
+          btn.querySelector('.cc-label').textContent = 'Err';
+          setTimeout(function () { btn.querySelector('.cc-label').textContent = 'Copy'; }, 1500);
+        });
+      });
+      pre.appendChild(btn);
+    });
   }
 
   /* ── First-visit "What's new" toast ── */

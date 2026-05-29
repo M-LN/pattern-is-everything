@@ -2804,3 +2804,52 @@ main h3:hover .heading-anchor,
   .page-outline { transform: none; }
   .page-outline.is-open { transform: none; }
 }
+
+
+/* =================================================================
+   Code-block copy button (auto-injected)
+   ================================================================= */
+pre > .code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease), background .15s var(--ease);
+  z-index: 2;
+}
+pre:hover > .code-copy-btn,
+.code-copy-btn:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+.code-copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.code-copy-btn .cc-icon-check { display: none; }
+.code-copy-btn.is-copied {
+  opacity: 1;
+  color: var(--accent2);
+  border-color: var(--accent2);
+}
+.code-copy-btn.is-copied .cc-icon-copy { display: none; }
+.code-copy-btn.is-copied .cc-icon-check { display: inline; }
+@media (hover: none) {
+  pre > .code-copy-btn { opacity: .8; }
+}
+@media print {
+  pre > .code-copy-btn { display: none; }
+}
