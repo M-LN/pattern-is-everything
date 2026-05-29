@@ -2469,3 +2469,25 @@ body:not(:has(.portal-header)):not(:has(header)) .scroll-progress { top: 0; }
   margin-top: 2px;
 }
 .cmdk-group:first-child { border-top: 0; margin-top: 0; }
+
+
+/* =================================================================
+   Cross-document View Transitions (Chromium 126+ progressive enhancement)
+   Provides a smooth fade between page navigations within the site.
+   ================================================================= */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease, cubic-bezier(.4,0,.2,1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
