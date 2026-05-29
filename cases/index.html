@@ -126,6 +126,66 @@
       line-height: 1.7;
       color: var(--muted);
     }
+    .case-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0 0 14px;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 56px;
+    }
+    .fchip {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 13px;
+      cursor: pointer;
+      transition: all .15s var(--ease);
+    }
+    .fchip:hover { border-color: var(--accent2); color: var(--text); }
+    .fchip.active {
+      background: var(--accent2);
+      border-color: var(--accent2);
+      color: #fff;
+    }
+    .filter-count {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .cases-empty {
+      grid-column: 1 / -1;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      padding: 32px 0;
+    }
+    .difficulty { display: inline-flex; align-items: center; gap: 3px; }
+    .dd-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border2);
+    }
+    .dd-dot.on { background: var(--accent2); }
     .case-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -295,7 +355,10 @@
       <a href="../notebooks/README.md">Notebook notes</a>
     </div>
   </div>
+  <div class="case-filters" id="caseFilters" role="group" aria-label="Filter cases by domain and level"></div>
+  <p class="filter-count" id="filterCount" aria-live="polite"></p>
   <div class="case-grid" id="caseGrid"></div>
+  <p class="cases-empty" id="casesEmpty" hidden>No cases match those filters. <button type="button" class="fchip" onclick="resetFilters()">Reset filters</button></p>
 </div>
 
 <div class="portal-footer">
@@ -304,7 +367,7 @@
   <p><a href="../support/index.html" style="color:var(--accent);text-decoration:none;">♥ Patterns for Good</a></p>
 </div>
 
-<script src="cases.js"></script>
+<script src="cases.js?v=2"></script>
 <script src="../js/evidence-taxonomy.js?v=1"></script>
 <script src="../js/learning-path.js?v=3"></script>
 <script src="../js/ui-enhance.js?v=14" defer></script>

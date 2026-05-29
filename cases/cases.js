@@ -230,6 +230,17 @@ function escapeHTML(value) {
     .replace(/'/g, '&#039;');
 }
 
+const LEVEL_RANK = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+
+function difficultyDots(level) {
+  const rank = LEVEL_RANK[level] || 1;
+  let dots = '';
+  for (let i = 1; i <= 3; i++) {
+    dots += `<span class="dd-dot${i <= rank ? ' on' : ''}"></span>`;
+  }
+  return `<span class="difficulty" title="${escapeHTML(level)} difficulty" aria-label="${escapeHTML(level)} difficulty">${dots}</span>`;
+}
+
 function renderCase(caseData) {
   const topicLinks = caseData.topics
     .map(([label, href]) => `<a href="${href}">${label}</a>`)
@@ -242,9 +253,10 @@ function renderCase(caseData) {
     .join('');
   const pitfallParts = caseData.pitfall.split(' - ');
   return `
-    <article class="case-card" id="${caseData.id}">
+    <article class="case-card" id="${caseData.id}" data-badge="${escapeHTML(caseData.badge)}" data-level="${escapeHTML(caseData.level)}">
       <div class="case-kicker">
         <span class="tag t1">${escapeHTML(caseData.level)}</span>
+        ${difficultyDots(caseData.level)}
         <span class="tag t3">${escapeHTML(caseData.badge)}</span>
         <span class="evidence-badge ${caseData.evidenceClass}" title="Evidence framing for this case">${escapeHTML(caseData.evidenceLabel)}</span>
       </div>
@@ -313,6 +325,60 @@ function renderCases() {
   const grid = document.getElementById('caseGrid');
   if (!grid) return;
   grid.innerHTML = CASES.map(renderCase).join('');
+  buildFilters();
+  applyFilters();
+}
+
+let activeDomain = 'all';
+let activeLevel = 'all';
+
+function buildFilters() {
+  const bar = document.getElementById('caseFilters');
+  if (!bar) return;
+  const domains = ['all', ...Array.from(new Set(CASES.map(c => c.badge)))];
+  const levels = ['all', ...Array.from(new Set(CASES.map(c => c.level)))
+    .sort((a, b) => (LEVEL_RANK[a] || 0) - (LEVEL_RANK[b] || 0))];
+  const chip = (type, value) =>
+    `<button class="fchip${value === 'all' ? ' active' : ''}" type="button" data-type="${type}" data-value="${escapeHTML(value)}">${value === 'all' ? 'All' : escapeHTML(value)}</button>`;
+  bar.innerHTML =
+    `<div class="filter-row"><span class="filter-label">Domain</span>${domains.map(d => chip('domain', d)).join('')}</div>` +
+    `<div class="filter-row"><span class="filter-label">Level</span>${levels.map(l => chip('level', l)).join('')}</div>`;
+  bar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.fchip');
+    if (!btn) return;
+    const { type, value } = btn.dataset;
+    if (type === 'domain') activeDomain = value;
+    else if (type === 'level') activeLevel = value;
+    bar.querySelectorAll(`.fchip[data-type="${type}"]`).forEach(b => b.classList.toggle('active', b === btn));
+    applyFilters();
+  });
+}
+
+function applyFilters() {
+  let shown = 0;
+  document.querySelectorAll('.case-card').forEach(card => {
+    const okD = activeDomain === 'all' || card.dataset.badge === activeDomain;
+    const okL = activeLevel === 'all' || card.dataset.level === activeLevel;
+    const show = okD && okL;
+    card.hidden = !show;
+    if (show) shown++;
+  });
+  const count = document.getElementById('filterCount');
+  if (count) {
+    count.textContent = (activeDomain === 'all' && activeLevel === 'all')
+      ? `${CASES.length} cases`
+      : `Showing ${shown} of ${CASES.length} cases`;
+  }
+  const empty = document.getElementById('casesEmpty');
+  if (empty) empty.hidden = shown !== 0;
+}
+
+function resetFilters() {
+  activeDomain = 'all';
+  activeLevel = 'all';
+  document.querySelectorAll('#caseFilters .fchip').forEach(b =>
+    b.classList.toggle('active', b.dataset.value === 'all'));
+  applyFilters();
 }
 
 document.addEventListener('DOMContentLoaded', renderCases);
