@@ -725,15 +725,12 @@
         !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor]');
     }
     // All candidate sections on the page (regardless of current filter/visibility).
-    // Used for the threshold so the toggle button stays put when filtering hides cards.
+    // The outline always lists every section so the full set of topics stays visible.
     var allHeadings = Array.prototype.filter.call(
       scope.querySelectorAll('h2, h3'),
       notExcluded
     );
-    // Only the currently-visible sections are listed in the panel.
-    var headings = allHeadings.filter(function (h) {
-      return h.offsetParent !== null && !h.closest('[hidden]');
-    });
+    var headings = allHeadings;
     // Require at least 3 sections total to bother showing the outline at all.
     var existing = document.getElementById('pageOutline');
     if (allHeadings.length < 3) {
@@ -742,9 +739,6 @@
       if (btn) btn.remove();
       return;
     }
-    // If a filter has hidden everything, fall back to listing all sections
-    // rather than rendering an empty panel.
-    if (headings.length === 0) headings = allHeadings;
 
     // Build/replace toggle button
     var toggle = document.getElementById('outlineToggle');
