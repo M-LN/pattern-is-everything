@@ -1,6 +1,7 @@
 /* Pattern Portal — UI enhancements
  * - Scroll progress bar under the header
  * - Keyboard shortcut overlay (press `?`)
+ * - Command palette (press Ctrl/Cmd+K or `/`)
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -119,16 +120,232 @@
   }
 
   function onKey(e) {
-    if (isTypingTarget(e.target)) return;
+    if (isTypingTarget(e.target)) {
+      // Allow Escape inside the palette input
+      if (e.key === 'Escape' && e.target.id === 'cmdkInput') {
+        e.preventDefault(); closePalette();
+      }
+      return;
+    }
     // `?` = Shift + /
     if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
       e.preventDefault();
       toggleOverlay();
       return;
     }
+    // `/` opens palette (without Shift)
+    if (e.key === '/' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      openPalette();
+      return;
+    }
+    // Ctrl/Cmd + K opens palette
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      openPalette();
+      return;
+    }
     if (e.key === 'Escape') {
       var ov = document.getElementById('shortcutOverlay');
-      if (ov && !ov.hidden) { e.preventDefault(); closeOverlay(); }
+      if (ov && !ov.hidden) { e.preventDefault(); closeOverlay(); return; }
+      var p = document.getElementById('cmdkPalette');
+      if (p && !p.hidden) { e.preventDefault(); closePalette(); }
+    }
+  }
+
+  /* ── Command palette ── */
+  // Compute a base prefix so absolute /paths work whether served from root or a subdir.
+  // We use absolute paths (leading /) which work on Vercel and python http.server.
+  var PAGES = [
+    // Topics
+    { t: 'Statistics',                cat: 'Topic',   path: '/stats/',              kw: 'probability bayes distribution inference hypothesis' },
+    { t: 'ML Math',                   cat: 'Topic',   path: '/ml-math/',            kw: 'linear algebra calculus gradient matrix vector' },
+    { t: 'Machine Learning',          cat: 'Topic',   path: '/ml/',                 kw: 'regression classification clustering supervised' },
+    { t: 'LLMs',                      cat: 'Topic',   path: '/llm/',                kw: 'language model transformer attention prompt' },
+    { t: 'MLOps',                     cat: 'Topic',   path: '/mlops/',              kw: 'deployment pipeline ci cd monitoring drift' },
+    { t: 'Time Series',               cat: 'Topic',   path: '/timeseries/',         kw: 'forecasting arima trend seasonality' },
+    { t: 'Markets',                   cat: 'Topic',   path: '/markets/',            kw: 'finance trading stocks indicators' },
+    { t: 'Cases',                     cat: 'Topic',   path: '/cases/',              kw: 'real world projects fraud housing energy' },
+    { t: 'Essays',                    cat: 'Topic',   path: '/essays/',             kw: 'reading writing ideas' },
+    // Markets sub-pages
+    { t: 'Markets · Charts',          cat: 'Markets', path: '/markets/charts/',     kw: 'candlestick ohlcv plotting' },
+    { t: 'Markets · Indicators',      cat: 'Markets', path: '/markets/indicators/', kw: 'rsi macd sma ema bollinger' },
+    { t: 'Markets · Psychology',      cat: 'Markets', path: '/markets/psychology/', kw: 'sentiment bias behavioral fear greed' },
+    { t: 'Markets · Risk',            cat: 'Markets', path: '/markets/risk/',       kw: 'var drawdown position sizing volatility' },
+    // Sandbox
+    { t: 'Sandbox',                   cat: 'Sandbox', path: '/sandbox/',            kw: 'playground interactive build experiment' },
+    { t: 'Sandbox · ML',              cat: 'Sandbox', path: '/sandbox/ml/',         kw: 'machine learning interactive' },
+    { t: 'Sandbox · Stats',           cat: 'Sandbox', path: '/sandbox/stats/',      kw: 'statistics interactive' },
+    { t: 'Sandbox · Deep Learning',   cat: 'Sandbox', path: '/sandbox/dl/',         kw: 'neural network deep learning' },
+    { t: 'Sandbox · Chaos',           cat: 'Sandbox', path: '/sandbox/chaos/',      kw: 'chaos fractal lorenz' },
+    { t: 'Sandbox · Markets',         cat: 'Sandbox', path: '/sandbox/markets/',    kw: 'trading interactive' },
+    // Tools / Labs
+    { t: 'Notebooks · Lab',           cat: 'Tools',   path: '/notebooks/lab.html',  kw: 'jupyter lab notebook' },
+    { t: 'Jupyter Lite',              cat: 'Tools',   path: '/lite/',               kw: 'browser jupyter python pyodide' },
+    { t: 'ML Math Reference',         cat: 'Tools',   path: '/ml-math-reference-v1.html', kw: 'reference cheatsheet formulas' },
+    { t: 'Game',                      cat: 'Tools',   path: '/game/',               kw: 'play interactive' },
+    { t: 'Universe',                  cat: 'Tools',   path: '/universe/',           kw: 'visualization stars cosmos' },
+    // Meta
+    { t: 'Home',                      cat: 'Meta',    path: '/',                    kw: 'index landing start' },
+    { t: 'Start',                     cat: 'Meta',    path: '/start/',              kw: 'getting started onboarding' },
+    { t: 'Impact',                    cat: 'Meta',    path: '/impact/',             kw: 'about mission' },
+    { t: 'Support',                   cat: 'Meta',    path: '/support/',            kw: 'help contact donate' }
+  ];
+
+  function fuzzyScore(query, hay) {
+    // Simple subsequence fuzzy match. Returns -1 if no match, else a score (higher = better).
+    if (!query) return 0;
+    var q = query.toLowerCase();
+    var h = hay.toLowerCase();
+    // Direct substring boost
+    var idx = h.indexOf(q);
+    if (idx !== -1) return 1000 - idx;
+    // Subsequence
+    var qi = 0, score = 0, lastHit = -1, streak = 0;
+    for (var i = 0; i < h.length && qi < q.length; i++) {
+      if (h[i] === q[qi]) {
+        score += 10;
+        if (lastHit === i - 1) { streak++; score += streak * 5; } else { streak = 0; }
+        lastHit = i;
+        qi++;
+      }
+    }
+    if (qi < q.length) return -1;
+    return score;
+  }
+
+  function buildPalette() {
+    var existing = document.getElementById('cmdkPalette');
+    if (existing) return existing;
+    var p = document.createElement('div');
+    p.id = 'cmdkPalette';
+    p.className = 'cmdk-palette';
+    p.setAttribute('role', 'dialog');
+    p.setAttribute('aria-modal', 'true');
+    p.setAttribute('aria-label', 'Command palette');
+    p.hidden = true;
+    p.innerHTML =
+      '<div class="cmdk-backdrop" data-close></div>' +
+      '<div class="cmdk-panel">' +
+        '<div class="cmdk-inputwrap">' +
+          '<span class="cmdk-icon" aria-hidden="true">⌕</span>' +
+          '<input id="cmdkInput" type="text" autocomplete="off" spellcheck="false" placeholder="Jump to a topic, page, or tool…" aria-label="Search" aria-controls="cmdkList" aria-autocomplete="list" />' +
+          '<kbd class="cmdk-esc">Esc</kbd>' +
+        '</div>' +
+        '<ul id="cmdkList" class="cmdk-list" role="listbox"></ul>' +
+        '<div class="cmdk-foot">' +
+          '<span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>' +
+          '<span><kbd>↵</kbd> open</span>' +
+          '<span><kbd>Esc</kbd> close</span>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(p);
+
+    var input = p.querySelector('#cmdkInput');
+    var list = p.querySelector('#cmdkList');
+    input.addEventListener('input', function () { renderResults(input.value); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+        var active = list.querySelector('.cmdk-item.is-active');
+        if (active) active.click();
+      }
+    });
+    list.addEventListener('click', function (e) {
+      var item = e.target.closest('.cmdk-item');
+      if (!item) return;
+      var href = item.getAttribute('data-href');
+      if (href) {
+        closePalette();
+        window.location.href = href;
+      }
+    });
+    list.addEventListener('mousemove', function (e) {
+      var item = e.target.closest('.cmdk-item');
+      if (!item) return;
+      setActive(item);
+    });
+    p.addEventListener('click', function (e) {
+      if (e.target && e.target.matches('[data-close]')) closePalette();
+    });
+    return p;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+    });
+  }
+
+  function renderResults(query) {
+    var list = document.getElementById('cmdkList');
+    if (!list) return;
+    var q = (query || '').trim();
+    var scored = [];
+    for (var i = 0; i < PAGES.length; i++) {
+      var p = PAGES[i];
+      var hay = p.t + ' ' + p.cat + ' ' + p.kw;
+      var s = q ? fuzzyScore(q, hay) : 1;
+      if (s >= 0) scored.push({ p: p, s: s });
+    }
+    scored.sort(function (a, b) { return b.s - a.s; });
+    var top = scored.slice(0, 20);
+    if (top.length === 0) {
+      list.innerHTML = '<li class="cmdk-empty">No matches for "' + escapeHtml(q) + '"</li>';
+      return;
+    }
+    list.innerHTML = top.map(function (r, idx) {
+      return '<li class="cmdk-item' + (idx === 0 ? ' is-active' : '') + '" role="option" data-href="' + r.p.path + '">' +
+        '<span class="cmdk-cat">' + escapeHtml(r.p.cat) + '</span>' +
+        '<span class="cmdk-title">' + escapeHtml(r.p.t) + '</span>' +
+        '<span class="cmdk-path">' + escapeHtml(r.p.path) + '</span>' +
+      '</li>';
+    }).join('');
+  }
+
+  function setActive(item) {
+    var list = document.getElementById('cmdkList');
+    if (!list) return;
+    var prev = list.querySelector('.cmdk-item.is-active');
+    if (prev) prev.classList.remove('is-active');
+    item.classList.add('is-active');
+  }
+  function moveActive(delta) {
+    var list = document.getElementById('cmdkList');
+    if (!list) return;
+    var items = list.querySelectorAll('.cmdk-item');
+    if (!items.length) return;
+    var current = list.querySelector('.cmdk-item.is-active');
+    var i = current ? Array.prototype.indexOf.call(items, current) : -1;
+    i = (i + delta + items.length) % items.length;
+    setActive(items[i]);
+    items[i].scrollIntoView({ block: 'nearest' });
+  }
+
+  var paletteLastFocused = null;
+  function openPalette() {
+    var p = buildPalette();
+    // If shortcut overlay is open, close it first
+    var ov = document.getElementById('shortcutOverlay');
+    if (ov && !ov.hidden) closeOverlay();
+    if (!p.hidden) return;
+    paletteLastFocused = document.activeElement;
+    renderResults('');
+    p.hidden = false;
+    requestAnimationFrame(function () { p.classList.add('is-open'); });
+    var input = p.querySelector('#cmdkInput');
+    if (input) { input.value = ''; input.focus(); }
+  }
+  function closePalette() {
+    var p = document.getElementById('cmdkPalette');
+    if (!p || p.hidden) return;
+    p.classList.remove('is-open');
+    var hide = function () { p.hidden = true; };
+    if (reduced) hide(); else setTimeout(hide, 180);
+    if (paletteLastFocused && typeof paletteLastFocused.focus === 'function') {
+      try { paletteLastFocused.focus(); } catch (e) {}
     }
   }
 
