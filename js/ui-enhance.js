@@ -720,22 +720,31 @@
   function initOutline() {
     var scope = document.querySelector('main') || document.body;
     if (!scope) return;
-    var headings = Array.prototype.filter.call(
+    function notExcluded(h) {
+      return h.id &&
+        !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor]');
+    }
+    // All candidate sections on the page (regardless of current filter/visibility).
+    // Used for the threshold so the toggle button stays put when filtering hides cards.
+    var allHeadings = Array.prototype.filter.call(
       scope.querySelectorAll('h2, h3'),
-      function (h) {
-        return h.id &&
-          h.offsetParent !== null &&
-          !h.closest('.cmdk-palette, .shortcut-overlay, .whats-new-toast, .sw-update-banner, [data-no-anchor], [hidden]');
-      }
+      notExcluded
     );
-    // Require at least 3 sections to bother showing the outline
+    // Only the currently-visible sections are listed in the panel.
+    var headings = allHeadings.filter(function (h) {
+      return h.offsetParent !== null && !h.closest('[hidden]');
+    });
+    // Require at least 3 sections total to bother showing the outline at all.
     var existing = document.getElementById('pageOutline');
-    if (headings.length < 3) {
+    if (allHeadings.length < 3) {
       if (existing) existing.remove();
       var btn = document.getElementById('outlineToggle');
       if (btn) btn.remove();
       return;
     }
+    // If a filter has hidden everything, fall back to listing all sections
+    // rather than rendering an empty panel.
+    if (headings.length === 0) headings = allHeadings;
 
     // Build/replace toggle button
     var toggle = document.getElementById('outlineToggle');
