@@ -2,6 +2,7 @@
  * - Scroll progress bar under the header
  * - Keyboard shortcut overlay (press `?`)
  * - Command palette (press Ctrl/Cmd+K or `/`)
+ * - Back-to-top button + first-visit feature discovery toast
  * Lightweight, no dependencies. Self-initializing on DOMContentLoaded.
  */
 (function () {
@@ -448,6 +449,63 @@
     // Expose programmatic API for buttons/links
     window.__openPalette = openPalette;
     window.__closePalette = closePalette;
+    initWhatsNew();
+  }
+
+  /* ── First-visit "What's new" toast ── */
+  // Bump version when there are notable new features to re-show the toast.
+  var WHATSNEW_VERSION = 1;
+  var WHATSNEW_KEY = 'pp_whatsnew_seen';
+  function initWhatsNew() {
+    try {
+      var seen = parseInt(localStorage.getItem(WHATSNEW_KEY) || '0', 10);
+      if (seen >= WHATSNEW_VERSION) return;
+    } catch (e) { /* localStorage may be blocked */ }
+    // Defer to avoid competing with LCP
+    setTimeout(buildWhatsNewToast, 1800);
+  }
+  function dismissWhatsNew() {
+    var t = document.getElementById('whatsNewToast');
+    if (t) {
+      t.classList.remove('is-visible');
+      setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 250);
+    }
+    try { localStorage.setItem(WHATSNEW_KEY, String(WHATSNEW_VERSION)); } catch (e) {}
+  }
+  function buildWhatsNewToast() {
+    if (document.getElementById('whatsNewToast')) return;
+    var t = document.createElement('div');
+    t.id = 'whatsNewToast';
+    t.className = 'whats-new-toast';
+    t.setAttribute('role', 'status');
+    t.setAttribute('aria-live', 'polite');
+    t.innerHTML =
+      '<div class="wn-icon" aria-hidden="true">✨</div>' +
+      '<div class="wn-body">' +
+        '<div class="wn-title">New keyboard shortcuts</div>' +
+        '<div class="wn-text">Press <kbd>Ctrl</kbd>+<kbd>K</kbd> to jump to any page, or <kbd>?</kbd> to see all shortcuts.</div>' +
+      '</div>' +
+      '<div class="wn-actions">' +
+        '<button type="button" class="wn-btn wn-try">Try it</button>' +
+        '<button type="button" class="wn-btn wn-dismiss" aria-label="Dismiss">×</button>' +
+      '</div>';
+    document.body.appendChild(t);
+    // If the SW update banner is on screen, stack above it
+    var swBanner = document.querySelector('.sw-update-banner.is-visible');
+    if (swBanner) {
+      var h = swBanner.getBoundingClientRect().height;
+      t.style.bottom = (20 + h + 12) + 'px';
+    }
+    requestAnimationFrame(function () { t.classList.add('is-visible'); });
+    t.querySelector('.wn-try').addEventListener('click', function () {
+      dismissWhatsNew();
+      openPalette();
+    });
+    t.querySelector('.wn-dismiss').addEventListener('click', dismissWhatsNew);
+    // Auto-dismiss after 20 seconds of no interaction
+    setTimeout(function () {
+      if (document.getElementById('whatsNewToast')) dismissWhatsNew();
+    }, 20000);
   }
 
   if (document.readyState === 'loading') {
