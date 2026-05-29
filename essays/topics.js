@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold'] },
+  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -19,6 +19,9 @@ const TOPIC_NAMES = {
   'essay-feedback':'The Feedback Loop',
   'essay-walk':'The Random Walk',
   'essay-threshold':'The Threshold',
+  'essay-survivor':'Survivorship Bias',
+  'essay-fractal':'The Fractal',
+  'essay-simpson':'Simpson\u2019s Paradox',
 };
 
 /* ── Full topic data for search ── */
@@ -31,6 +34,9 @@ const TOPIC_DATA = [
   { id:'essay-feedback', num:'E6', title:'The Feedback Loop', category:'Pattern Essays', keywords:['feedback','compounding','exponential','S-curve','logistic','growth','tipping point','self-reinforcing'], content:'When a system\'s output feeds back into its input, small nudges can cascade into enormous change — or freeze everything in place.' },
   { id:'essay-walk', num:'E7', title:'The Random Walk', category:'Pattern Essays', keywords:['random walk','Brownian motion','stock prices','drift','volatility','unpredictability','efficient market','path dependence'], content:'Each step is random, yet the path that emerges is not without structure. Distance grows — just not in the direction you expect.' },
   { id:'essay-threshold', num:'E8', title:'The Threshold', category:'Pattern Essays', keywords:['threshold','tipping point','phase transition','sigmoid','bifurcation','critical point','nonlinear','catastrophe'], content:'Many systems stay quiet for a long time, then change all at once. The threshold is the hidden line that separates gradual from sudden.' },
+  { id:'essay-survivor', num:'E9', title:'Survivorship Bias', category:'Pattern Essays', keywords:['survivorship bias','selection bias','missing data','Wald','bombers','survivors','hidden failures','censored'], content:'We study what survived and forget what did not. The missing data is often where the real lesson hides.' },
+  { id:'essay-fractal', num:'E10', title:'The Fractal', category:'Pattern Essays', keywords:['fractal','self-similarity','scale invariance','Mandelbrot','recursion','coastline','dimension','branching'], content:'Zoom in and the pattern repeats. Self-similarity across scales is one of nature\u2019s most common signatures.' },
+  { id:'essay-simpson', num:'E11', title:'Simpson\u2019s Paradox', category:'Pattern Essays', keywords:['Simpson paradox','confounding','aggregation','lurking variable','reversal','subgroups','causation','statistics'], content:'A trend can point one way in every group and the opposite way when the groups are combined. Aggregation can lie.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -75,7 +81,10 @@ function buildContent() {
     + buildEssayMap()
     + buildEssayFeedback()
     + buildEssayWalk()
-    + buildEssayThreshold();
+    + buildEssayThreshold()
+    + buildEssaySurvivor()
+    + buildEssayFractal()
+    + buildEssaySimpson();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -132,6 +141,21 @@ function buildHome() {
       <div class="cat-card-name">The Threshold</div>
       <div class="cat-card-count">Quiet for a long time &mdash; then all at once</div>
     </div>
+    <div class="cat-card" onclick="show('essay-survivor',true)">
+      <div class="cat-card-icon">\u2708</div>
+      <div class="cat-card-name">Survivorship Bias</div>
+      <div class="cat-card-count">We study what survived &mdash; and forget what did not</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-fractal',true)">
+      <div class="cat-card-icon">\u2745</div>
+      <div class="cat-card-name">The Fractal</div>
+      <div class="cat-card-count">Zoom in &mdash; and the pattern repeats itself</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-simpson',true)">
+      <div class="cat-card-icon">\u2696</div>
+      <div class="cat-card-name">Simpson\u2019s Paradox</div>
+      <div class="cat-card-count">Every group says one thing &mdash; the total says another</div>
+    </div>
   </div>
 </div>`;
 }
@@ -145,7 +169,7 @@ function buildEssayBell() {
   return `<div class="topic pattern-essay" id="essay-bell">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E1 \u2014 Pattern Essays</div><h2>The Bell in <em>Everything</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Wherever many small, independent forces combine, the same shape appears</p>
   <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms \u2014 not because anyone designed it, but because height is the sum of many small genetic and environmental nudges, each roughly independent, each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
@@ -160,6 +184,7 @@ function buildEssayBell() {
     </div>
     <div class="essay-label">Sum of <em>n</em> dice &mdash; watch the bell emerge</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Whenever many small, independent effects add up, expect a bell curve \u2014 and expect genuine extremes to be rare.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Laplace, P.-S. (1810). M\u00e9moire sur les approximations des formules qui sont fonctions de tr\u00e8s grands nombres. <em>M\u00e9moires de l\u2019Acad\u00e9mie royale des Sciences de Paris.</em></div>
@@ -176,7 +201,7 @@ function buildEssayMean() {
   return `<div class="topic pattern-essay" id="essay-mean">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E2 \u2014 Pattern Essays</div><h2>Regression to the <em>Mean</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Extreme outcomes are followed by less extreme ones \u2014 not a force, just arithmetic</p>
   <p class="prose">Francis Galton measured parents and children in the 1880s and noticed something odd: the tallest parents tended to have children who were tall \u2014 but not <em>quite</em> as tall. The shortest parents had children who were short \u2014 but not quite as short. He called it &ldquo;regression toward mediocrity.&rdquo;</p>
@@ -191,6 +216,7 @@ function buildEssayMean() {
     </div>
     <div class="essay-label">First measurement vs. second &mdash; the pull toward centre</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>After any extreme result, bet on something more ordinary next \u2014 and resist inventing a story for the change.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Galton, F. (1886). Regression Towards Mediocrity in Hereditary Stature. <em>Journal of the Anthropological Institute, 15</em>, 246\u2013263. <a href="https://doi.org/10.2307/2841583" target="_blank" rel="noopener">doi:10.2307/2841583</a></div>
@@ -207,7 +233,7 @@ function buildEssayTail() {
   return `<div class="topic pattern-essay" id="essay-tail">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E3 \u2014 Pattern Essays</div><h2>The Long <em>Tail</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Most things are small \u2014 a few are enormous \u2014 and the pattern keeps repeating</p>
   <p class="prose">Rank cities by population and plot the result. A handful of megacities tower on the left; thousands of towns form a long, whispering tail stretching to the right. Now do the same with word frequencies, website traffic, earthquake magnitudes, or personal wealth. The shape is the same: steep drop, then a tail that refuses to die.</p>
@@ -222,6 +248,7 @@ function buildEssayTail() {
     </div>
     <div class="essay-label">The few and the many &mdash; drag to steepen the tail</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>In a power-law world the average is misleading, and the single biggest event can outweigh all the rest combined.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Newman, M. E. J. (2005). Power laws, Pareto distributions and Zipf\u2019s law. <em>Contemporary Physics, 46</em>(5), 323\u2013351. <a href="https://doi.org/10.1080/00107510500052444" target="_blank" rel="noopener">doi:10.1080/00107510500052444</a></div>
@@ -238,7 +265,7 @@ function buildEssaySignal() {
   return `<div class="topic pattern-essay" id="essay-signal">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E4 \u2014 Pattern Essays</div><h2>Signal in the <em>Noise</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// The hard part is not finding pattern \u2014 it is resisting the urge to find it where there is none</p>
   <p class="prose">Scatter a hundred random points on a plane. Stare long enough and you will see clusters, streaks, shapes. The human brain is a pattern-completion machine \u2014 it was built for a world where mistaking a shadow for a predator was safer than ignoring a predator. That wiring does not switch off when you look at data.</p>
@@ -253,6 +280,7 @@ function buildEssaySignal() {
     </div>
     <div class="essay-label">A wave hiding in noise &mdash; drag to reveal or bury it</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Before trusting a pattern, ask whether you would still see it in fresh data you have not looked at yet.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Silver, N. (2012). <em>The Signal and the Noise: Why So Many Predictions Fail \u2014 but Some Don\u2019t.</em> Penguin Press.</div>
@@ -269,7 +297,7 @@ function buildEssayMap() {
   return `<div class="topic pattern-essay" id="essay-map">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E5 \u2014 Pattern Essays</div><h2>The Map and the <em>Territory</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// A model is a deliberate simplification \u2014 the danger is forgetting what was left out</p>
   <p class="prose">Jorge Luis Borges imagined an empire whose cartographers drew a map so detailed it was the same size as the empire itself. It was, of course, useless. A map\u2019s value is in what it <em>leaves out</em> \u2014 the irrelevant streets, the unchanged fields \u2014 so that what remains becomes visible.</p>
@@ -284,6 +312,7 @@ function buildEssayMap() {
     </div>
     <div class="essay-label">The line and the dots &mdash; watch the model overfit</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Every model is wrong in some way \u2014 keep the residuals in view and never mistake the line for the world.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Borges, J. L. (1946). On Exactitude in Science. <em>Los Anales de Buenos Aires, 1</em>(3).</div>
@@ -300,7 +329,7 @@ function buildEssayFeedback() {
   return `<div class="topic pattern-essay" id="essay-feedback">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E6 — Pattern Essays</div><h2>The Feedback <em>Loop</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
   <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. Nothing changed in the rules — only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
@@ -315,6 +344,7 @@ function buildEssayFeedback() {
     </div>
     <div class="essay-label">Exponential growth hitting a ceiling &mdash; the S-curve</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Find the loop \u2014 what feeds back into what \u2014 because that, not the starting point, decides where a system ends up.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Meadows, D. H. (2008). <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing.</div>
@@ -331,7 +361,7 @@ function buildEssayWalk() {
   return `<div class="topic pattern-essay" id="essay-walk">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E7 — Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Each step is random — yet the path that emerges is not without structure</p>
   <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started — the distance from the lamp post grows, just not in a predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
@@ -342,6 +372,7 @@ function buildEssayWalk() {
     <button class="viz-regen" onclick="DRAWS['essay-walk']()">&#8635; New walk</button>
     <div class="essay-label">Five simultaneous random walks &mdash; each unique, none predictable</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Uncertainty grows with the square root of time, and a convincing path in hindsight may carry no signal at all.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Pearson, K. (1905). The Problem of the Random Walk. <em>Nature, 72</em>(1865), 294. <a href="https://doi.org/10.1038/072294b0" target="_blank" rel="noopener">doi:10.1038/072294b0</a></div>
@@ -358,7 +389,7 @@ function buildEssayThreshold() {
   return `<div class="topic pattern-essay" id="essay-threshold">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E8 — Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
-    <span class="topic-badge">Essay</span>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Many systems stay quiet for a long time — then change all at once</p>
   <p class="prose">Add grains of sand to a pile, one at a time. For a long while, nothing dramatic happens. Then, at some unpredictable moment, a single grain triggers an avalanche. The pile was always close to collapse. The last grain gets the credit it did not deserve.</p>
@@ -373,6 +404,7 @@ function buildEssayThreshold() {
     </div>
     <div class="essay-label">The sigmoid &mdash; drag through the threshold</div>
   </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Slow, invisible accumulation can end in a sudden snap \u2014 watch the approach to the line, not just the line itself.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Bak, P., Tang, C. &amp; Wiesenfeld, K. (1987). Self-organized criticality. <em>Physical Review Letters, 59</em>(4), 381–384. <a href="https://doi.org/10.1103/PhysRevLett.59.381" target="_blank" rel="noopener">doi:10.1103/PhysRevLett.59.381</a></div>
@@ -381,5 +413,101 @@ function buildEssayThreshold() {
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../ml/index.html#logistic-regression">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief.</div>
   <div class="topic-nav" id="nav-essay-threshold"></div>
+</div>`;
+}
+
+/* E9 — Survivorship Bias */
+function buildEssaySurvivor() {
+  return `<div class="topic pattern-essay" id="essay-survivor">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E9 \u2014 Pattern Essays</div><h2>Survivorship <em>Bias</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+  </div>
+  <p class="sub">// We study what survived \u2014 and quietly forget everything that did not</p>
+  <p class="prose">During the Second World War, the U.S. military studied bombers returning from missions and mapped where they were riddled with bullet holes \u2014 the wings, the fuselage, the tail. The instinct was to reinforce those areas. The statistician Abraham Wald saw it differently: the holes showed where a plane could be hit <em>and still come home</em>. The places with no holes \u2014 the engines, the cockpit \u2014 were where the lost planes had been struck. Reinforce the gaps, he argued, not the marks.</p>
+  <p class="prose">This is survivorship bias: we draw conclusions from the things that made it through the filter and never see the ones that did not. We study successful founders and copy their habits, ignoring the identical habits of thousands who failed. We admire old buildings and call past craftsmanship superior, forgetting the flimsy ones that already collapsed.</p>
+  <p class="prose">The pattern is a hole in the data, not in the analysis. The missing observations are invisible by definition \u2014 which is exactly why they are so easy to forget, and so dangerous to ignore.</p>
+  <div class="va">
+    <canvas id="survivorCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Survival cutoff</span>
+      <input type="range" id="survivorCutSlider" min="0" max="80" value="40" oninput="document.getElementById('survivorCutVal').textContent=this.value;DRAWS['essay-survivor']()">
+      <span class="viz-ctrl-val" id="survivorCutVal">40</span>
+    </div>
+    <div class="essay-label">Only survivors are seen &mdash; drag to watch the visible average inflate</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Before trusting any lesson drawn from winners, ask what happened to everyone who is no longer in the sample.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Wald, A. (1943). <em>A Method of Estimating Plane Vulnerability Based on Damage of Survivors.</em> Statistical Research Group, Columbia University. Reprinted CRC 432 (1980).</div>
+    <div class="essay-ref">[2] Mangel, M. &amp; Samaniego, F. J. (1984). Abraham Wald\u2019s Work on Aircraft Survivability. <em>Journal of the American Statistical Association, 79</em>(386), 259\u2013267. <a href="https://doi.org/10.1080/01621459.1984.10478038" target="_blank" rel="noopener">doi:10.1080/01621459.1984.10478038</a></div>
+    <div class="essay-ref">[3] Brown, S. J., Goetzmann, W., Ibbotson, R. G. &amp; Ross, S. A. (1992). Survivorship Bias in Performance Studies. <em>Review of Financial Studies, 5</em>(4), 553\u2013580. <a href="https://doi.org/10.1093/rfs/5.4.553" target="_blank" rel="noopener">doi:10.1093/rfs/5.4.553</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic deals with the data you can see, while <a href="../stats/index.html#survivorship-bias">survivorship &amp; look-ahead bias</a> is the backtesting trap built on funds and strategies that quietly disappeared.</div>
+  <div class="topic-nav" id="nav-essay-survivor"></div>
+</div>`;
+}
+
+/* E10 — The Fractal */
+function buildEssayFractal() {
+  return `<div class="topic pattern-essay" id="essay-fractal">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E10 \u2014 Pattern Essays</div><h2>The <em>Fractal</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+  </div>
+  <p class="sub">// Zoom in, and the pattern repeats \u2014 the same shape living inside itself</p>
+  <p class="prose">How long is the coastline of Britain? It sounds like a question with an answer, until you try to measure it. Use a long ruler and you cut across the bays; use a shorter one and you trace into each inlet, finding more length. Shrink the ruler again and the coastline grows once more. The closer you look, the more detail appears \u2014 and the detail looks like the whole.</p>
+  <p class="prose">Beno\u00eet Mandelbrot called these shapes fractals: objects whose structure repeats across scales. A branch resembles the tree; a tributary resembles the river; a jagged minute of stock prices resembles a jagged year. Self-similarity is not a curiosity \u2014 it is one of the most common signatures of how nature builds, from lungs and blood vessels to lightning and snowflakes.</p>
+  <p class="prose">The pattern is recursion made visible: a simple rule applied to itself, over and over, producing endless complexity from almost nothing. The whole is written into every part.</p>
+  <div class="va">
+    <canvas id="fractalCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Recursion depth</span>
+      <input type="range" id="fractalDepthSlider" min="1" max="10" value="6" oninput="document.getElementById('fractalDepthVal').textContent=this.value;DRAWS['essay-fractal']()">
+      <span class="viz-ctrl-val" id="fractalDepthVal">6</span>
+    </div>
+    <div class="essay-label">A recursive tree &mdash; drag to grow detail from a single rule</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>When a shape looks the same at every zoom level, a simple repeated rule is usually doing the work \u2014 and there may be no single \u201ctrue\u201d scale to measure.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Mandelbrot, B. (1967). How Long Is the Coast of Britain? Statistical Self-Similarity and Fractional Dimension. <em>Science, 156</em>(3775), 636\u2013638. <a href="https://doi.org/10.1126/science.156.3775.636" target="_blank" rel="noopener">doi:10.1126/science.156.3775.636</a></div>
+    <div class="essay-ref">[2] Mandelbrot, B. (1982). <em>The Fractal Geometry of Nature.</em> W. H. Freeman and Company.</div>
+    <div class="essay-ref">[3] Mandelbrot, B. &amp; Hudson, R. L. (2004). <em>The (Mis)Behavior of Markets: A Fractal View of Risk, Ruin, and Reward.</em> Basic Books.</div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The fat tails of <a href="../stats/index.html#distribution-shape">distribution shape</a> are a fractal fingerprint, and <a href="../stats/index.html#monte-carlo">Monte Carlo simulation</a> generates the jagged, self-similar paths Mandelbrot described.</div>
+  <div class="topic-nav" id="nav-essay-fractal"></div>
+</div>`;
+}
+
+/* E11 — Simpson's Paradox */
+function buildEssaySimpson() {
+  return `<div class="topic pattern-essay" id="essay-simpson">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E11 \u2014 Pattern Essays</div><h2>Simpson\u2019s <em>Paradox</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+  </div>
+  <p class="sub">// A trend can point one way in every group \u2014 and the opposite way once they are combined</p>
+  <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments actually favoured women slightly. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>
+  <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable \u2014 department, severity, the way cases were sorted \u2014 quietly steers the total.</p>
+  <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is not better arithmetic \u2014 it is asking what was combined, and why.</p>
+  <div class="va">
+    <canvas id="simpsonCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Group separation</span>
+      <input type="range" id="simpsonSepSlider" min="0" max="100" value="70" oninput="document.getElementById('simpsonSepVal').textContent=this.value+'%';DRAWS['essay-simpson']()">
+      <span class="viz-ctrl-val" id="simpsonSepVal">70%</span>
+    </div>
+    <div class="essay-label">Two rising groups, one falling total &mdash; drag to separate them</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Before trusting an overall trend, split the data by the obvious subgroups \u2014 the aggregate can point where no group does.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Simpson, E. H. (1951). The Interpretation of Interaction in Contingency Tables. <em>Journal of the Royal Statistical Society B, 13</em>(2), 238\u2013241. <a href="https://doi.org/10.1111/j.2517-6161.1951.tb00088.x" target="_blank" rel="noopener">doi:10.1111/j.2517-6161.1951.tb00088.x</a></div>
+    <div class="essay-ref">[2] Bickel, P. J., Hammel, E. A. &amp; O\u2019Connell, J. W. (1975). Sex Bias in Graduate Admissions: Data from Berkeley. <em>Science, 187</em>(4175), 398\u2013404. <a href="https://doi.org/10.1126/science.187.4175.398" target="_blank" rel="noopener">doi:10.1126/science.187.4175.398</a></div>
+    <div class="essay-ref">[3] Pearl, J. (2014). Comment: Understanding Simpson\u2019s Paradox. <em>The American Statistician, 68</em>(1), 8\u201313. <a href="https://doi.org/10.1080/00031305.2014.876829" target="_blank" rel="noopener">doi:10.1080/00031305.2014.876829</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#feature-correlation">feature correlation</a> topic shares this lurking-variable trap, and <a href="../stats/index.html#bayesian-ab">Bayesian A/B testing</a> must guard against pooling groups that should stay apart.</div>
+  <div class="topic-nav" id="nav-essay-simpson"></div>
 </div>`;
 }

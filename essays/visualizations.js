@@ -596,4 +596,202 @@ const DRAWS = {
     ctx.textAlign = 'center';
     ctx.fillText('threshold', threshX, pad + 12);
   },
+
+  /* E9 — Survivorship Bias
+     Hidden failures pull the true mean down; only survivors are seen */
+  'essay-survivor'() {
+    const s = setupCanvas('survivorCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const cut = parseInt(document.getElementById('survivorCutSlider')?.value || 40);
+    const pad = 34;
+    const areaH = h - pad * 2;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    /* deterministic point cloud (stable across slider drags) */
+    let seed = 20240601;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    const sgauss = (mu, sd) => {
+      let u = 0, v = 0;
+      while (u === 0) u = rnd();
+      while (v === 0) v = rnd();
+      return mu + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+    const N = 90;
+    const pts = [];
+    for (let i = 0; i < N; i++) {
+      const val = Math.max(2, Math.min(98, sgauss(45, 20)));
+      const fx = pad + rnd() * (w - pad * 2);
+      pts.push({ val, fx });
+    }
+
+    const yFor = val => h - pad - (val / 100) * areaH;
+    const survivors = pts.filter(p => p.val >= cut);
+    const trueMean = pts.reduce((a, p) => a + p.val, 0) / pts.length;
+    const obsMean = survivors.length ? survivors.reduce((a, p) => a + p.val, 0) / survivors.length : trueMean;
+
+    /* cutoff line */
+    const cutY = yFor(cut);
+    ctx.beginPath();
+    ctx.moveTo(pad, cutY); ctx.lineTo(w - pad, cutY);
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'var(--muted)';
+    ctx.lineWidth = 0.75;
+    ctx.globalAlpha = 0.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+
+    /* points: failures faded, survivors solid */
+    pts.forEach(p => {
+      const py = yFor(p.val);
+      ctx.beginPath();
+      ctx.arc(p.fx, py, 2.4, 0, Math.PI * 2);
+      if (p.val >= cut) { ctx.fillStyle = ACCENT4; ctx.fill(); }
+      else { ctx.strokeStyle = 'var(--muted)'; ctx.globalAlpha = 0.3; ctx.lineWidth = 1; ctx.stroke(); ctx.globalAlpha = 1; }
+    });
+
+    /* mean lines */
+    const drawMean = (val, color, label, align) => {
+      const my = yFor(val);
+      ctx.beginPath();
+      ctx.moveTo(pad, my); ctx.lineTo(w - pad, my);
+      ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.globalAlpha = 0.8;
+      ctx.stroke(); ctx.globalAlpha = 1;
+      ctx.font = '9px "IBM Plex Mono", monospace';
+      ctx.fillStyle = color;
+      ctx.textAlign = align;
+      const lx = align === 'left' ? pad + 4 : w - pad - 4;
+      ctx.fillText(`${label}: ${val.toFixed(0)}`, lx, my - 5);
+    };
+    drawMean(trueMean, 'var(--muted)', 'true avg', 'left');
+    drawMean(obsMean, ACCENT4, 'visible avg', 'right');
+
+    /* cutoff label */
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = 'var(--muted)';
+    ctx.textAlign = 'left';
+    ctx.fillText('survival cutoff', pad + 4, cutY - 5);
+  },
+
+  /* E10 — The Fractal
+     A recursive branching tree — self-similarity across scales */
+  'essay-fractal'() {
+    const s = setupCanvas('fractalCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const depth = parseInt(document.getElementById('fractalDepthSlider')?.value || 6);
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    const len0 = h * 0.27;
+    const spread = 0.42;
+
+    const branch = (x, y, angle, len, d) => {
+      if (d > depth || len < 1.2) return;
+      const x2 = x + Math.cos(angle) * len;
+      const y2 = y + Math.sin(angle) * len;
+      ctx.beginPath();
+      ctx.moveTo(x, y); ctx.lineTo(x2, y2);
+      ctx.strokeStyle = ACCENT4;
+      ctx.globalAlpha = Math.max(0.28, 1 - d / (depth + 2));
+      ctx.lineWidth = Math.max(0.5, (depth - d) * 0.45);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      branch(x2, y2, angle - spread, len * 0.72, d + 1);
+      branch(x2, y2, angle + spread, len * 0.72, d + 1);
+    };
+
+    branch(w / 2, h - 18, -Math.PI / 2, len0, 0);
+  },
+
+  /* E11 — Simpson's Paradox
+     Two groups rise; the combined trend falls when they separate */
+  'essay-simpson'() {
+    const s = setupCanvas('simpsonCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const sep = (parseInt(document.getElementById('simpsonSepSlider')?.value || 70)) / 100;
+    const pad = 30;
+    const areaW = w - pad * 2;
+    const areaH = h - pad * 2;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    const C_A = '#2955a0';
+    const C_B = '#c84b2f';
+    const slope = 0.55;
+
+    let seed = 991733;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+
+    /* two groups: positive within-group slope, intercepts pushed apart by sep */
+    const groups = [
+      { cx: 0.325, lo: 0.15, hi: 0.5, base: 0.45 + sep * 0.30, color: C_A, pts: [] },
+      { cx: 0.675, lo: 0.5, hi: 0.85, base: 0.45 - sep * 0.30, color: C_B, pts: [] },
+    ];
+    const all = [];
+    groups.forEach(g => {
+      for (let i = 0; i < 40; i++) {
+        const x = g.lo + rnd() * (g.hi - g.lo);
+        const y = Math.max(0.04, Math.min(0.96, g.base + slope * (x - g.cx) + (rnd() - 0.5) * 0.12));
+        g.pts.push([x, y]);
+        all.push([x, y]);
+      }
+    });
+
+    const px = x => pad + x * areaW;
+    const py = y => h - pad - y * areaH;
+
+    /* least-squares line over a point set, drawn across [x0,x1] */
+    const drawFit = (pset, x0, x1, color, dash, lw) => {
+      const n = pset.length;
+      let sx = 0, sy = 0, sxx = 0, sxy = 0;
+      pset.forEach(([x, y]) => { sx += x; sy += y; sxx += x * x; sxy += x * y; });
+      const m = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+      const b = (sy - m * sx) / n;
+      ctx.beginPath();
+      ctx.moveTo(px(x0), py(m * x0 + b));
+      ctx.lineTo(px(x1), py(m * x1 + b));
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lw;
+      if (dash) ctx.setLineDash(dash); else ctx.setLineDash([]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
+
+    /* scatter */
+    groups.forEach(g => {
+      ctx.fillStyle = g.color;
+      ctx.globalAlpha = 0.55;
+      g.pts.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(px(x), py(y), 2.2, 0, Math.PI * 2); ctx.fill(); });
+      ctx.globalAlpha = 1;
+    });
+
+    /* within-group fits */
+    groups.forEach(g => drawFit(g.pts, g.lo, g.hi, g.color, null, 1.6));
+    /* combined fit */
+    drawFit(all, 0.15, 0.85, ACCENT4, [5, 4], 2);
+
+    /* axes */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad); ctx.lineTo(w - pad, h - pad);
+    ctx.strokeStyle = 'var(--border)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    /* legend */
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = C_A; ctx.fillText('group A \u2197', pad + 4, pad + 12);
+    ctx.fillStyle = C_B; ctx.fillText('group B \u2197', pad + 4, pad + 24);
+    ctx.fillStyle = ACCENT4; ctx.fillText('combined \u2935', pad + 4, pad + 36);
+  },
 };
