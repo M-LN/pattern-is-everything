@@ -71,6 +71,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"></noscript></head>
 <body>
+<script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+<div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
+<script src="../../js/pattern-loader.js"></script>
 
 <header>
   <a class="logo-ring" href="../../index.html" title="Back to Pattern is Everything"></a>
@@ -105,6 +108,7 @@
 <script>
 function toggleTheme(){const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('theme',d.getAttribute('data-theme'));}
 const savedTheme=localStorage.getItem('theme');if(savedTheme)document.documentElement.setAttribute('data-theme',savedTheme);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');
+if(window.PatternLoader)PatternLoader.hide();
 
 function toggleSearch(){const o=document.getElementById('searchOverlay');o.classList.toggle('active');if(o.classList.contains('active')){document.getElementById('searchInput').focus();document.getElementById('searchInput').value='';document.getElementById('searchResults').innerHTML='';}}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();toggleSearch();}if(e.key==='Escape'){const o=document.getElementById('searchOverlay');if(o.classList.contains('active'))toggleSearch();}if(e.key==='ArrowLeft'||e.key==='ArrowRight'){if(document.activeElement.tagName==='INPUT')return;const idx=TOPICS.indexOf(currentTopic);if(e.key==='ArrowLeft'&&idx>0)show(TOPICS[idx-1]);if(e.key==='ArrowRight'&&idx<TOPICS.length-1)show(TOPICS[idx+1]);}});
