@@ -794,4 +794,124 @@ const DRAWS = {
     ctx.fillStyle = C_B; ctx.fillText('group B \u2197', pad + 4, pad + 24);
     ctx.fillStyle = ACCENT4; ctx.fillText('combined \u2935', pad + 4, pad + 36);
   },
+
+  /* E12 — The Deep Kalman Filter
+     A hidden "true" hotspot signal, noisy sensor readings, and the filter
+     estimate. The slider sets how much the filter trusts the sensor — i.e.
+     the steady-state Kalman gain. Low trust → smooth but laggy; high trust →
+     tracks the noisy dots. Noise is seeded so dragging stays stable. */
+  'essay-kalman'() {
+    const s = setupCanvas('kalmanCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const trust = (parseInt(document.getElementById('kalmanTrustSlider')?.value || 30)) / 100;
+    const pad = 34;
+    const areaW = w - pad * 2;
+    const areaH = h - pad * 2;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(139,79,168,.04)';
+    ctx.fillRect(0, 0, w, h);
+
+    /* deterministic noise so the cloud is stable across slider drags */
+    let seed = 71531;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    const sgauss = () => {
+      let u = 0, v = 0;
+      while (u === 0) u = rnd();
+      while (v === 0) v = rnd();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+
+    /* hidden true hotspot temperature curve (°C scale, normalised 0..1) */
+    const smooth = u => { u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); };
+    const N = 100;
+    const tempLo = 40, tempHi = 105;
+    const trueAt = t => {
+      const base = 58;
+      const ramp = 38 * smooth((t - 0.10) / 0.32);   // load step heats the winding
+      const wob = 2.4 * Math.sin(t * 13 + 0.6);        // small operating wobble
+      const cool = -13 * smooth((t - 0.80) / 0.18);    // load shed, partial cooling
+      return base + ramp + wob + cool;
+    };
+
+    const xAt = i => pad + (i / (N - 1)) * areaW;
+    const yFor = temp => h - pad - ((temp - tempLo) / (tempHi - tempLo)) * areaH;
+
+    /* generate measurements */
+    const noiseAmp = 9;            // °C sensor noise
+    const meas = [];
+    for (let i = 0; i < N; i++) meas.push(trueAt(i / (N - 1)) + sgauss() * noiseAmp);
+
+    /* run a steady-state Kalman filter (exponential form):
+       gain alpha grows with "trust in sensor". Also keep a velocity term so
+       the estimate can follow the ramp instead of lagging — the predict step. */
+    const alpha = 0.04 + trust * 0.90;
+    const beta = alpha * alpha * 0.5;     // trend correction (predict-step memory)
+    let x = meas[0], vel = 0;
+    const est = [];
+    for (let i = 0; i < N; i++) {
+      /* predict */
+      const xPred = x + vel;
+      /* correct */
+      const resid = meas[i] - xPred;
+      x = xPred + alpha * resid;
+      vel = vel + beta * resid;
+      est.push(x);
+    }
+
+    /* hidden truth — dashed muted line */
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const px = xAt(i), py = yFor(trueAt(i / (N - 1)));
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = 'var(--muted)';
+    ctx.globalAlpha = 0.55;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+
+    /* noisy sensor readings — faint dots */
+    ctx.fillStyle = 'var(--muted)';
+    ctx.globalAlpha = 0.32;
+    for (let i = 0; i < N; i++) {
+      ctx.beginPath();
+      ctx.arc(xAt(i), yFor(meas[i]), 1.7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    /* filter estimate — solid accent line */
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const px = xAt(i), py = yFor(est[i]);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = ACCENT4;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* baseline */
+    ctx.beginPath();
+    ctx.moveTo(pad, h - pad); ctx.lineTo(w - pad, h - pad);
+    ctx.strokeStyle = 'var(--border)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    /* legend */
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'var(--muted)'; ctx.fillText('\u2504 hidden hotspot', pad + 4, pad + 10);
+    ctx.fillStyle = 'var(--muted)'; ctx.globalAlpha = 0.6; ctx.fillText('\u00b7 sensor', pad + 4, pad + 22); ctx.globalAlpha = 1;
+    ctx.fillStyle = ACCENT4; ctx.fillText('\u2014 filter estimate', pad + 4, pad + 34);
+
+    /* mode hint */
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'var(--muted)';
+    const hint = trust < 0.25 ? 'trusts model \u2192 smooth, slow' : trust > 0.7 ? 'trusts sensor \u2192 jumpy' : 'balanced blend';
+    ctx.fillText(hint, w - pad - 2, pad + 10);
+  },
 };

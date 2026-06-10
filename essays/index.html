@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pattern Essays — Pattern is Everything</title>
-  <meta name="description" content="11 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, thresholds, survivorship bias, fractals, and Simpson's paradox.">
+  <meta name="description" content="12 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, thresholds, survivorship bias, fractals, Simpson's paradox, and the deep Kalman filter.">
   <meta property="og:title" content="Pattern Essays — Pattern is Everything">
-  <meta property="og:description" content="11 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
+  <meta property="og:description" content="12 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#8b4fa8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
@@ -20,7 +20,7 @@
     "@type": "CreativeWorkSeries",
     "name": "Pattern Essays",
     "url": "https://patterniseverything.com/essays/",
-    "description": "11 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, thresholds, survivorship bias, fractals, and Simpson's paradox.",
+    "description": "12 short reflections on patterns in the world — the bell curve, regression to the mean, the long tail, signal and noise, models vs reality, feedback loops, random walks, thresholds, survivorship bias, fractals, Simpson's paradox, and the deep Kalman filter.",
     "provider": { "@type": "Organization", "name": "Pattern is Everything" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -39,6 +39,9 @@
     .viz-ctrl-val { min-width:28px; text-align:right; color:#8b4fa8; font-weight:600; }
     .viz-regen { display:block; margin:6px auto 0; padding:4px 14px; font-family:var(--mono); font-size:11px; background:none; border:1px solid rgba(139,79,168,.3); border-radius:4px; color:#8b4fa8; cursor:pointer; }
     .viz-regen:hover { background:rgba(139,79,168,.08); }
+    .pattern-essay .essay-case { max-width:640px; margin:18px 0; padding:16px 18px; border:1px solid var(--border); border-left:3px solid #8b4fa8; border-radius:var(--radius); background:rgba(139,79,168,.035); }
+    .pattern-essay .essay-case h4 { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8b4fa8; margin:0 0 9px; }
+    .pattern-essay .essay-case p { font-size:14px; line-height:1.8; color:var(--text); margin:0; }
   </style>
   <meta property="og:url" content="https://patterniseverything.com/essays/">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
@@ -46,7 +49,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:title" content="Pattern Essays — Pattern is Everything">
-  <meta name="twitter:description" content="11 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
+  <meta name="twitter:description" content="12 short reflections on patterns in the world — calm, minimalist, with interactive visualizations.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -62,7 +65,7 @@
 <header>
   <a class="logo-ring" href="../index.html" title="Back to Portal"></a>
   <h1>Pattern <em>Essays</em></h1>
-  <span class="topic-counter" id="topicCounter">11 Essays</span>
+  <span class="topic-counter" id="topicCounter">12 Essays</span>
   <div class="hdr-meta">Short Reflections on Patterns<br>Calm, Minimalist, Visual</div>
   <div class="hdr-actions">
     <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Portal</a>
@@ -83,14 +86,14 @@
 <div class="layout">
 <nav id="mainNav">
   <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
-  <div class="nav-progress-text" id="progressText">0 / 11 viewed</div>
+  <div class="nav-progress-text" id="progressText">0 / 12 viewed</div>
 </nav>
 <main id="mainContent">
 </main>
 </div>
 
-<script src="topics.js?v=3"></script>
-<script src="visualizations.js?v=3"></script>
+<script src="topics.js?v=4"></script>
+<script src="visualizations.js?v=4"></script>
 <script>
 /* ── Theme ── */
 function toggleTheme() {

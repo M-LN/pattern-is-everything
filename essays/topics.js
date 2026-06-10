@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson'] },
+  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson','essay-kalman'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -22,6 +22,7 @@ const TOPIC_NAMES = {
   'essay-survivor':'Survivorship Bias',
   'essay-fractal':'The Fractal',
   'essay-simpson':'Simpson\u2019s Paradox',
+  'essay-kalman':'The Deep Kalman Filter',
 };
 
 /* ── Full topic data for search ── */
@@ -37,6 +38,7 @@ const TOPIC_DATA = [
   { id:'essay-survivor', num:'E9', title:'Survivorship Bias', category:'Pattern Essays', keywords:['survivorship bias','selection bias','missing data','Wald','bombers','survivors','hidden failures','censored'], content:'We study what survived and forget what did not. The missing data is often where the real lesson hides.' },
   { id:'essay-fractal', num:'E10', title:'The Fractal', category:'Pattern Essays', keywords:['fractal','self-similarity','scale invariance','Mandelbrot','recursion','coastline','dimension','branching'], content:'Zoom in and the pattern repeats. Self-similarity across scales is one of nature\u2019s most common signatures.' },
   { id:'essay-simpson', num:'E11', title:'Simpson\u2019s Paradox', category:'Pattern Essays', keywords:['Simpson paradox','confounding','aggregation','lurking variable','reversal','subgroups','causation','statistics'], content:'A trend can point one way in every group and the opposite way when the groups are combined. Aggregation can lie.' },
+  { id:'essay-kalman', num:'E12', title:'The Deep Kalman Filter', category:'Pattern Essays', keywords:['Kalman filter','deep Kalman filter','state estimation','hidden state','sensor fusion','hotspot temperature','generator','transformer winding','state of charge','battery','EHR','health monitoring','filtering','prediction','measurement','process noise','Kalman gain','neural network','latent state'], content:'You cannot measure everything directly. The Kalman filter estimates a hidden state by blending what it predicts with what it noisily measures \u2014 and the deep version learns the model from data.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -84,7 +86,8 @@ function buildContent() {
     + buildEssayThreshold()
     + buildEssaySurvivor()
     + buildEssayFractal()
-    + buildEssaySimpson();
+    + buildEssaySimpson()
+    + buildEssayKalman();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -155,6 +158,11 @@ function buildHome() {
       <div class="cat-card-icon">\u2696</div>
       <div class="cat-card-name">Simpson\u2019s Paradox</div>
       <div class="cat-card-count">Every group says one thing &mdash; the total says another</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-kalman',true)">
+      <div class="cat-card-icon">\u29bf</div>
+      <div class="cat-card-name">The Deep Kalman Filter</div>
+      <div class="cat-card-count">Estimating what you cannot measure &mdash; predict, then correct</div>
     </div>
   </div>
 </div>`;
@@ -509,5 +517,56 @@ function buildEssaySimpson() {
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#feature-correlation">feature correlation</a> topic shares this lurking-variable trap, and <a href="../stats/index.html#bayesian-ab">Bayesian A/B testing</a> must guard against pooling groups that should stay apart.</div>
   <div class="topic-nav" id="nav-essay-simpson"></div>
+</div>`;
+}
+
+/* E12 — The Deep Kalman Filter */
+function buildEssayKalman() {
+  return `<div class="topic pattern-essay" id="essay-kalman">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E12 \u2014 Pattern Essays</div><h2>The Deep <em>Kalman Filter</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// Estimating what you cannot measure \u2014 predict, then correct, then predict again</p>
+  <p class="prose">Some of the most important numbers in the world cannot be measured directly. The temperature deep inside a spinning generator. The exact charge left in a battery. The true health of a patient between hospital visits. In each case the quantity that matters is <em>hidden</em> \u2014 wrapped in insulation, sealed in a cell, hidden inside a body \u2014 and all we have are noisy, indirect signals from the outside.</p>
+  <p class="prose">In 1960, Rudolf K\u00e1lm\u00e1n described a way to estimate such hidden quantities. The idea is a rhythm of two steps. First <strong>predict</strong>: use a model of how the system behaves to guess where the hidden state should be a moment from now. Then <strong>correct</strong>: when a noisy measurement arrives, nudge the guess toward it \u2014 but only partway, in proportion to how much you trust the sensor versus the model. Repeat forever. The amount of that nudge is the famous <em>Kalman gain</em>, and it automatically settles on the optimal blend of prediction and measurement.</p>
+  <p class="prose">The classic filter assumes you can write the system\u2019s physics down by hand as neat linear equations. Reality is rarely so polite. The <strong>Deep Kalman Filter</strong> keeps the same predict-then-correct rhythm but replaces the hand-written model with neural networks that <em>learn</em> how the hidden state evolves and how it shows up in the sensors \u2014 straight from data. It is the same ancient pattern of disciplined guessing, now able to handle systems too tangled to derive on paper.</p>
+
+  <div class="essay-case">
+    <h4>Case 1 \u2014 The generator\u2019s hidden hotspot</h4>
+    <p>Inside a large generator or power transformer, the part that fails first is the hottest spot in the copper winding, buried under layers of insulation where no thermometer can sit. Run too hot for too long and the insulation ages and cracks. Engineers cannot read that hotspot directly \u2014 instead they measure load current, coolant and oil temperature, and ambient air, then let a thermal model infer the rest. A Kalman-style estimator fuses those noisy outside readings with a model of how heat builds and dissipates to track the unseen hotspot in real time. A deep version learns the messy, nonlinear thermal behaviour of a specific machine \u2014 something the textbook IEC loading curves only approximate \u2014 so operators can push the machine harder when it is safe and back off before insulation life is quietly spent.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Case 2 \u2014 How much charge is really left?</h4>
+    <p>The \u201cstate of charge\u201d on an electric car or laptop is not measured \u2014 it cannot be. There is no fuel gauge inside a lithium-ion cell. The battery management system only sees voltage, current, and temperature, and must <em>estimate</em> the charge from them. The relationship is nonlinear and drifts as the battery ages, so a raw reading jumps around with every change in load. Kalman filters have become the industry workhorse here: predict the charge from current drawn, correct using the measured voltage, and average out the noise. Deep Kalman variants learn the cell\u2019s aging chemistry, giving a steadier, more honest percentage \u2014 the difference between a car that strands you and one you can trust.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Case 3 \u2014 A patient between visits</h4>
+    <p>A person\u2019s underlying health is a hidden state that moves continuously, yet we only glimpse it through scattered, irregular measurements \u2014 a blood test here, a blood-pressure reading there, a symptom noted weeks apart. Krishnan, Shalit and Sontag introduced the Deep Kalman Filter precisely for this setting: to estimate a latent patient state from sparse electronic health records and even reason about how a medication would change its trajectory. The filter fills the gaps between observations with a learned model of how the disease progresses, then snaps back to reality each time a real measurement arrives \u2014 the same predict-and-correct heartbeat, applied to a human being.</p>
+  </div>
+
+  <p class="prose">Three very different worlds \u2014 a power plant, a battery pack, a hospital ward \u2014 share one structure. Something essential is hidden; the sensors are noisy and indirect; and the way forward is not to trust the model alone, nor the measurement alone, but to weigh them against each other, moment by moment. That weighing <em>is</em> the pattern.</p>
+
+  <div class="va">
+    <canvas id="kalmanCanvas" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Trust in sensor</span>
+      <input type="range" id="kalmanTrustSlider" min="3" max="95" value="30" oninput="document.getElementById('kalmanTrustVal').textContent=this.value+'%';DRAWS['essay-kalman']()">
+      <span class="viz-ctrl-val" id="kalmanTrustVal">30%</span>
+    </div>
+    <div class="essay-label">Hidden truth \u00b7 noisy sensor \u00b7 filter estimate &mdash; drag to trust the sensor more or less</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>When the thing you care about is hidden, do not chase the raw sensor and do not trust the model blindly \u2014 blend the two, weighting each by how much you trust it. A deep filter just learns that model from data instead of deriving it by hand.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Kalman, R. E. (1960). A New Approach to Linear Filtering and Prediction Problems. <em>Journal of Basic Engineering, 82</em>(1), 35\u201345. <a href="https://doi.org/10.1115/1.3662552" target="_blank" rel="noopener">doi:10.1115/1.3662552</a></div>
+    <div class="essay-ref">[2] Krishnan, R. G., Shalit, U. &amp; Sontag, D. (2015). Deep Kalman Filters. <em>arXiv preprint.</em> <a href="https://arxiv.org/abs/1511.05121" target="_blank" rel="noopener">arXiv:1511.05121</a></div>
+    <div class="essay-ref">[3] Krishnan, R. G., Shalit, U. &amp; Sontag, D. (2017). Structured Inference Networks for Nonlinear State Space Models. <em>Proceedings of the AAAI Conference on Artificial Intelligence, 31</em>(1). <a href="https://doi.org/10.1609/aaai.v31i1.10779" target="_blank" rel="noopener">doi:10.1609/aaai.v31i1.10779</a></div>
+    <div class="essay-ref">[4] IEC 60076-7 (2018). <em>Power transformers \u2014 Part 7: Loading guide for mineral-oil-immersed power transformers.</em> International Electrotechnical Commission.</div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> This essay is the applied face of <a href="../timeseries/index.html#state-space">state-space models</a> in The Toolkit, where the Kalman filter lives, and the \u201cdeep\u201d half borrows the learned dynamics of <a href="../timeseries/index.html#lstm-for-ts">recurrent networks</a>.</div>
+  <div class="topic-nav" id="nav-essay-kalman"></div>
 </div>`;
 }
