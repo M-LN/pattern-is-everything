@@ -8,9 +8,13 @@ function caSetup(id) {
   const dpr = window.devicePixelRatio || 1;
   const rect = c.getBoundingClientRect();
   const w = rect.width || c.offsetWidth || 300;
-  const h = c.height || rect.height || 200;
-  c.width = w * dpr;
-  c.height = h * dpr;
+  // Capture the logical (CSS-pixel) height once, before we scale the backing store.
+  // Re-reading c.height on later calls would re-inflate it by dpr each time (e.g. on
+  // Windows display scaling, dpr≠1), making the canvas grow on every slider input.
+  if (c._logicalH == null) c._logicalH = c.height || rect.height || 200;
+  const h = c._logicalH;
+  c.width = Math.round(w * dpr);
+  c.height = Math.round(h * dpr);
   c.style.width = w + 'px';
   c.style.height = h + 'px';
   const ctx = c.getContext('2d');
@@ -1425,10 +1429,10 @@ ENGINE.drawEmbeddings = function() {
         const d = Math.hypot(px(p.x) - mx, py(p.y) - my);
         if (d < minD) { minD = d; closest = i; }
       });
-      ENGINE._embHover = minD < 20 ? closest : null;
-      ENGINE.drawEmbeddings();
+      const newHover = minD < 20 ? closest : null;
+      if (newHover !== ENGINE._embHover) { ENGINE._embHover = newHover; ENGINE.drawEmbeddings(); }
     });
-    c.addEventListener('mouseleave', () => { ENGINE._embHover = null; ENGINE.drawEmbeddings(); });
+    c.addEventListener('mouseleave', () => { if (ENGINE._embHover !== null) { ENGINE._embHover = null; ENGINE.drawEmbeddings(); } });
   }
 };
 
@@ -1440,6 +1444,321 @@ ENGINE.teachEmbeddings = function() {
   bar.querySelectorAll('.narrator-dot').forEach((d, i) => {
     d.onclick = () => { step = i; showNarration('embeddings', step); };
   });
+};
+
+/* ────────────────────────────────────────────────────────────────
+   D11 — Discrete Kalman Filter (Theory · Univariate · Multivariate)
+   ──────────────────────────────────────────────────────────────── */
+
+/* Colour roles shared across the three parts */
+const KAL_C = {
+  truth:   'rgba(120,200,150,',   // green  — true state
+  meas:    'rgba(255,150,80,',    // orange — noisy measurement
+  est:     'rgba(77,208,225,',    // teal   — DKF estimate
+  predict: 'rgba(150,130,255,',   // violet — predict phase
+  update:  'rgba(255,150,80,',    // orange — update phase
+};
+
+/* ── 2×2 matrix helpers (row-major [a,b,c,d]) ── */
+const M = {
+  I:  () => [1, 0, 0, 1],
+  add:(A, B) => [A[0]+B[0], A[1]+B[1], A[2]+B[2], A[3]+B[3]],
+  sub:(A, B) => [A[0]-B[0], A[1]-B[1], A[2]-B[2], A[3]-B[3]],
+  mul:(A, B) => [
+    A[0]*B[0]+A[1]*B[2], A[0]*B[1]+A[1]*B[3],
+    A[2]*B[0]+A[3]*B[2], A[2]*B[1]+A[3]*B[3],
+  ],
+  T:  (A) => [A[0], A[2], A[1], A[3]],
+  inv:(A) => { const det = A[0]*A[3] - A[1]*A[2] || 1e-9; return [A[3]/det, -A[1]/det, -A[2]/det, A[0]/det]; },
+};
+
+/* ════ Part 1 — Theory: Kalman gain emitter line ════ */
+ENGINE._kalK = 0.5;
+ENGINE._kalPred = 4.2;   // prediction value (on a 0..12 line)
+ENGINE._kalMeas = 9.4;   // measurement value
+
+ENGINE.setKalGain = function(k) {
+  ENGINE._kalK = Math.max(0, Math.min(1, k));
+  ENGINE.drawKalGain();
+};
+
+ENGINE.drawKalGain = function() {
+  const r = caSetup('kalGainCanvas');
+  if (!r) return;
+  const { c, ctx, w, h } = r;
+  const K = ENGINE._kalK, pred = ENGINE._kalPred, meas = ENGINE._kalMeas;
+  const est = pred + K * (meas - pred);
+  ctx.clearRect(0, 0, w, h);
+
+  const ml = 40, mr = 40, lineY = h * 0.52;
+  const lo = 0, hi = 12;
+  const toX = (v) => ml + (v - lo) / (hi - lo) * (w - ml - mr);
+
+  // base emitter line
+  ctx.strokeStyle = 'rgba(150,150,160,0.35)';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(toX(lo), lineY); ctx.lineTo(toX(hi), lineY); ctx.stroke();
+
+  // span between prediction and measurement (the "trust" interval)
+  ctx.strokeStyle = 'rgba(150,150,160,0.25)';
+  ctx.setLineDash([3, 4]);
+  ctx.beginPath(); ctx.moveTo(toX(pred), lineY); ctx.lineTo(toX(meas), lineY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  const marker = (v, colBase, label, sub, up) => {
+    const x = toX(v), dir = up ? -1 : 1;
+    ctx.strokeStyle = colBase + '0.9)';
+    ctx.fillStyle = colBase + '0.9)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x, lineY); ctx.lineTo(x, lineY + dir * 26); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, lineY, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.font = 'bold 11px var(--mono)'; ctx.textAlign = 'center';
+    ctx.fillText(label, x, lineY + dir * 40);
+    ctx.font = '9px var(--mono)'; ctx.fillStyle = colBase + '0.6)';
+    ctx.fillText(sub, x, lineY + dir * 53);
+  };
+
+  marker(pred, KAL_C.predict, 'prediction x̂⁻', pred.toFixed(1), true);
+  marker(meas, KAL_C.meas, 'measurement z', meas.toFixed(1), true);
+
+  // estimate marker (animated position by K)
+  const ex = toX(est);
+  ctx.fillStyle = KAL_C.est + '1)';
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(ex, lineY, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = KAL_C.est + '1)';
+  ctx.font = 'bold 12px var(--mono)'; ctx.textAlign = 'center';
+  ctx.fillText('estimate x̂ = ' + est.toFixed(2), ex, lineY + 78);
+
+  // gain readout + interpretation
+  let msg;
+  if (K <= 0.02) msg = 'K = 0 → trust the model completely, ignore the sensor.';
+  else if (K >= 0.98) msg = 'K = 1 → trust the sensor completely, ignore the model.';
+  else if (Math.abs(K - 0.5) < 0.03) msg = 'K = 0.5 → weight model and sensor equally.';
+  else msg = 'K = ' + K.toFixed(2) + ' → blend ' + Math.round((1-K)*100) + '% model / ' + Math.round(K*100) + '% sensor.';
+  ctx.fillStyle = 'rgba(200,200,215,0.85)';
+  ctx.font = '12px var(--mono)'; ctx.textAlign = 'center';
+  ctx.fillText('x̂ = x̂⁻ + K (z − x̂⁻)', w / 2, 24);
+  ctx.fillStyle = KAL_C.est + '0.95)';
+  ctx.font = '11px var(--mono)';
+  ctx.fillText(msg, w / 2, h - 10);
+
+  // click / drag the line to set K continuously
+  if (!c._kalGainInit) {
+    c._kalGainInit = true;
+    const setFromX = (clientX) => {
+      const rect = c.getBoundingClientRect();
+      const v = lo + (clientX - rect.left - ml) / (rect.width - ml - mr) * (hi - lo);
+      const k = (v - pred) / (meas - pred);
+      ENGINE.setKalGain(k);
+    };
+    let dragging = false;
+    c.addEventListener('mousedown', (e) => { dragging = true; setFromX(e.clientX); });
+    c.addEventListener('mousemove', (e) => { if (dragging) setFromX(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; });
+    c.addEventListener('touchstart', (e) => { setFromX(e.touches[0].clientX); }, { passive: true });
+    c.addEventListener('touchmove', (e) => { setFromX(e.touches[0].clientX); }, { passive: true });
+  }
+};
+
+ENGINE.teachKalman = function() {
+  let step = 0;
+  showNarration('kalman', step);
+  const bar = document.getElementById('narrator-kalman');
+  if (!bar) return;
+  bar.querySelectorAll('.narrator-dot').forEach((d, i) => {
+    d.onclick = () => { step = i; showNarration('kalman', step); };
+  });
+};
+
+/* ════ Part 2 — Univariate sandbox ════ */
+ENGINE._kalUni = null;   // { truth:[], noise:[], N }
+
+ENGINE.genKalUni = function() {
+  const N = 140;
+  const truth = [], noise = [];
+  for (let t = 0; t < N; t++) {
+    // smooth true state: slow sine + a step partway through
+    let v = 4 * Math.sin(t / 22) + (t > 80 ? 3 : 0) + 0.5 * Math.sin(t / 5);
+    truth.push(v);
+    noise.push(gaussRand(0, 1));   // unit noise, scaled by sensor std at draw time
+  }
+  ENGINE._kalUni = { truth, noise, N };
+};
+
+ENGINE.runKalUni = function() {
+  if (!ENGINE._kalUni) ENGINE.genKalUni();
+  const { truth, noise, N } = ENGINE._kalUni;
+  const Q = parseFloat(document.getElementById('kalUniQ')?.value || 50) / 100;   // process noise
+  const R = parseFloat(document.getElementById('kalUniR')?.value || 200) / 100;  // measurement noise (assumed)
+  const sensorStd = 2.2;   // the *real* sensor std (fixed) — measurements use this
+
+  const meas = truth.map((v, i) => v + noise[i] * sensorStd);
+
+  // 1-D Kalman filter (random-walk model: A=1, H=1)
+  let x = meas[0], P = 1;
+  const est = [], Karr = [], Parr = [];
+  for (let t = 0; t < N; t++) {
+    // predict
+    const Pm = P + Q;
+    // update
+    const K = Pm / (Pm + R);
+    x = x + K * (meas[t] - x);
+    P = (1 - K) * Pm;
+    est.push(x); Karr.push(K); Parr.push(P);
+  }
+
+  ENGINE._kalUniRun = { truth, meas, est, Karr, Parr, N };
+  ENGINE.drawKalUni();
+};
+
+ENGINE._kalAxes = function(ctx, w, h, m, ymin, ymax, label) {
+  ctx.strokeStyle = 'rgba(150,150,160,0.25)'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(m.l, m.t); ctx.lineTo(m.l, h - m.b); ctx.lineTo(w - m.r, h - m.b);
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(150,150,160,0.6)'; ctx.font = '9px var(--mono)';
+  ctx.textAlign = 'left';
+  if (label) ctx.fillText(label, m.l, m.t - 4);
+};
+
+ENGINE.drawKalUni = function() {
+  const run = ENGINE._kalUniRun;
+  if (!run) return;
+  const { truth, meas, est, N } = run;
+
+  const r = caSetup('kalUniCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  ctx.clearRect(0, 0, w, h);
+  const m = { l: 34, r: 14, t: 22, b: 22 };
+
+  let ymin = Infinity, ymax = -Infinity;
+  meas.forEach(v => { ymin = Math.min(ymin, v); ymax = Math.max(ymax, v); });
+  ymin -= 1; ymax += 1;
+  const toX = (i) => m.l + i / (N - 1) * (w - m.l - m.r);
+  const toY = (v) => m.t + (1 - (v - ymin) / (ymax - ymin)) * (h - m.t - m.b);
+
+  ENGINE._kalAxes(ctx, w, h, m, ymin, ymax, '');
+
+  // measurements (orange dots)
+  ctx.fillStyle = KAL_C.meas + '0.55)';
+  meas.forEach((v, i) => { ctx.beginPath(); ctx.arc(toX(i), toY(v), 1.8, 0, Math.PI * 2); ctx.fill(); });
+
+  // true state (green)
+  ctx.strokeStyle = KAL_C.truth + '0.9)'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  truth.forEach((v, i) => i ? ctx.lineTo(toX(i), toY(v)) : ctx.moveTo(toX(i), toY(v)));
+  ctx.stroke();
+
+  // estimate (teal)
+  ctx.strokeStyle = KAL_C.est + '1)'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  est.forEach((v, i) => i ? ctx.lineTo(toX(i), toY(v)) : ctx.moveTo(toX(i), toY(v)));
+  ctx.stroke();
+
+  // legend
+  const leg = [['true state', KAL_C.truth], ['measurements', KAL_C.meas], ['DKF estimate', KAL_C.est]];
+  ctx.font = '10px var(--mono)'; ctx.textAlign = 'left';
+  let lx = m.l + 4;
+  leg.forEach(([t, col]) => {
+    ctx.fillStyle = col + '1)';
+    ctx.fillRect(lx, m.t + 2, 10, 3);
+    ctx.fillText(t, lx + 14, m.t + 6);
+    lx += 14 + t.length * 6.2 + 16;
+  });
+
+  // sub-graphs: K(t) and P(t)
+  ENGINE._kalSubPlot('kalKCanvas', run.Karr, KAL_C.est, 'Kalman gain K(t)', 0, 1);
+  ENGINE._kalSubPlot('kalPCanvas', run.Parr, KAL_C.predict, 'Covariance P(t)', 0, null);
+};
+
+ENGINE._kalSubPlot = function(id, arr, colBase, label, fmin, fmax) {
+  const r = caSetup(id);
+  if (!r) return;
+  const { ctx, w, h } = r;
+  ctx.clearRect(0, 0, w, h);
+  const m = { l: 30, r: 10, t: 18, b: 14 };
+  const N = arr.length;
+  let ymin = fmin != null ? fmin : Math.min(...arr);
+  let ymax = fmax != null ? fmax : Math.max(...arr) * 1.05 || 1;
+  if (ymax === ymin) ymax = ymin + 1;
+  const toX = (i) => m.l + i / (N - 1) * (w - m.l - m.r);
+  const toY = (v) => m.t + (1 - (v - ymin) / (ymax - ymin)) * (h - m.t - m.b);
+
+  ENGINE._kalAxes(ctx, w, h, m, ymin, ymax, label);
+  // y ticks
+  ctx.fillStyle = 'rgba(150,150,160,0.55)'; ctx.font = '8px var(--mono)'; ctx.textAlign = 'right';
+  ctx.fillText(ymax.toFixed(2), m.l - 3, m.t + 4);
+  ctx.fillText(ymin.toFixed(2), m.l - 3, h - m.b);
+
+  ctx.strokeStyle = colBase + '1)'; ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  arr.forEach((v, i) => i ? ctx.lineTo(toX(i), toY(v)) : ctx.moveTo(toX(i), toY(v)));
+  ctx.stroke();
+  // fill under
+  ctx.lineTo(toX(N - 1), h - m.b); ctx.lineTo(toX(0), h - m.b); ctx.closePath();
+  ctx.fillStyle = colBase + '0.1)'; ctx.fill();
+};
+
+/* ════ Part 3 — Multivariate sandbox (2-state thermal) ════ */
+ENGINE.runKalMulti = function() {
+  const q = parseFloat(document.getElementById('kalMultiQ')?.value || 20) / 1000;
+  const rr = parseFloat(document.getElementById('kalMultiR')?.value || 200) / 1000;
+  const c = parseFloat(document.getElementById('kalMultiC')?.value || 15) / 100;   // thermal coupling 0..0.5
+
+  // state transition: two coupled temperatures (core, surface)
+  const A = [1 - c, c, c, 1 - c];
+  const Q = [q, 0, 0, q];
+  const R = [rr, 0, 0, rr];
+  const H = M.I();
+
+  // iterate Riccati recursion to steady state
+  let P = M.I();
+  let K = [0, 0, 0, 0];
+  for (let it = 0; it < 300; it++) {
+    const Pm = M.add(M.mul(M.mul(A, P), M.T(A)), Q);       // P⁻ = A P Aᵀ + Q
+    const S = M.add(M.mul(M.mul(H, Pm), M.T(H)), R);       // S = H P⁻ Hᵀ + R
+    K = M.mul(M.mul(Pm, M.T(H)), M.inv(S));                // K = P⁻ Hᵀ S⁻¹
+    P = M.mul(M.sub(M.I(), M.mul(K, H)), Pm);             // P = (I − K H) P⁻
+  }
+
+  ENGINE._kalHeat('kalAHeat', A, 'A — state transition', ['core', 'surf'], 0, 1);
+  ENGINE._kalHeat('kalKHeat', K, 'K — Kalman gain (steady state)', ['core', 'surf'], 0, 1);
+};
+
+ENGINE._kalHeat = function(id, Mx, label, names, vmin, vmax) {
+  const r = caSetup(id);
+  if (!r) return;
+  const { ctx, w, h } = r;
+  ctx.clearRect(0, 0, w, h);
+  const pad = 30, top = 26;
+  const cell = Math.min((w - pad - 10) / 2, (h - top - 24) / 2);
+  const gx = pad, gy = top;
+
+  ctx.fillStyle = 'rgba(200,200,215,0.85)'; ctx.font = '10px var(--mono)'; ctx.textAlign = 'left';
+  ctx.fillText(label, 6, 16);
+
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 2; col++) {
+      const v = Mx[row * 2 + col];
+      const t = Math.max(0, Math.min(1, (v - vmin) / (vmax - vmin || 1)));
+      ctx.fillStyle = 'rgba(77,208,225,' + (0.08 + t * 0.85).toFixed(3) + ')';
+      ctx.fillRect(gx + col * cell, gy + row * cell, cell - 2, cell - 2);
+      ctx.fillStyle = t > 0.55 ? '#06181c' : 'rgba(220,230,235,0.95)';
+      ctx.font = 'bold 13px var(--mono)'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(v.toFixed(2), gx + col * cell + cell / 2 - 1, gy + row * cell + cell / 2 - 1);
+      ctx.textBaseline = 'alphabetic';
+    }
+  }
+  // labels
+  ctx.fillStyle = 'rgba(150,150,160,0.7)'; ctx.font = '9px var(--mono)';
+  ctx.textAlign = 'center';
+  names.forEach((nm, i) => ctx.fillText(nm, gx + i * cell + cell / 2, gy - 6));
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  names.forEach((nm, i) => ctx.fillText(nm, gx - 4, gy + i * cell + cell / 2));
+  ctx.textBaseline = 'alphabetic';
 };
 
 /* ════════════════════════════════════════════════════════════════
@@ -1456,6 +1775,7 @@ const DRAWS = {
   'diffusion':     () => { if (!ENGINE._diffPoints) ENGINE.resetDiffusion(); else ENGINE.drawDiffusion(); },
   'residual':      () => ENGINE.drawResidual(),
   'embeddings':    () => ENGINE.drawEmbeddings(),
+  'kalman':        () => { ENGINE.drawKalGain(); ENGINE.runKalUni(); ENGINE.runKalMulti(); },
 };
 
 window.addEventListener('resize', () => {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v71';
+const CACHE_NAME = 'pattern-v72';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',

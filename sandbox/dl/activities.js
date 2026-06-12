@@ -79,6 +79,14 @@ const NARRATIONS = {
     'The geometry is meaningful: vector arithmetic works. King − Man + Woman ≈ Queen. The difference vector encodes the "gender" concept as a direction in space.',
     'Embeddings are the input layer of almost every modern deep learning model. Images, audio, graphs, molecules — everything gets embedded before the main network processes it.',
   ],
+  'kalman': [
+    'A Kalman filter tracks a hidden state from noisy measurements. It runs two steps forever: predict where the state should go, then update that guess with the next measurement.',
+    'The Kalman gain K decides who to trust. K = 0 means ignore the sensor and follow the model; K = 1 means snap to the sensor; in between it blends the two. Drag the emitter line to feel it.',
+    'In the univariate sandbox, Q is how much you expect the true state to drift (process noise) and R is how noisy you think the sensor is (measurement noise). Watch the teal estimate thread between the green truth and the orange measurements.',
+    'Notice the K(t) and P(t) sub-graphs settle to steady values after a few steps. The filter converges: the gain and the uncertainty stop changing once it has learned how much to trust each source.',
+    'High R (distrust the sensor) → low gain, smooth but laggy estimate. High Q (expect fast drift) → high gain, responsive but jittery estimate. Tuning Q and R is the whole art of filtering.',
+    'The multivariate sandbox tracks two coupled temperatures. The A matrix mixes core and surface each step; the thermal-coupling slider fills its off-diagonals. The K matrix is the steady-state gain solved from the Riccati recursion — watch both heatmaps respond live.',
+  ],
 };
 
 const _narratorStep = {};
@@ -116,7 +124,7 @@ function buildNarratorBar(topicId) {
 }
 
 const SECTIONS = [
-  { id:'sec-dl-lab', title:'Deep Learning Lab', topics:['cnn-filter','self-attention','autoencoder','vae','unet','seq2seq','gan','diffusion','residual','embeddings'] },
+  { id:'sec-dl-lab', title:'Deep Learning Lab', topics:['cnn-filter','self-attention','autoencoder','vae','unet','seq2seq','gan','diffusion','residual','embeddings','kalman'] },
 ];
 const TOPICS = SECTIONS.flatMap(s => s.topics);
 const TOPIC_NAMES = {
@@ -130,6 +138,7 @@ const TOPIC_NAMES = {
   'diffusion':     'Diffusion Process',
   'residual':      'Residual Networks',
   'embeddings':    'Embedding Space',
+  'kalman':        'Discrete Kalman Filter',
 };
 const TOPIC_DATA = [
   { id:'cnn-filter',    num:'D1',  title:'CNN Filter Explorer',        category:'Deep Learning Lab', keywords:['CNN','convolution','filter','kernel','feature map','stride','padding','pooling','edge detection'], content:'Paint on a grid and watch a convolution filter slide across it, producing a feature map in real time.' },
@@ -142,6 +151,7 @@ const TOPIC_DATA = [
   { id:'diffusion',     num:'D8',  title:'Diffusion Process',          category:'Deep Learning Lab', keywords:['diffusion','denoising','DDPM','score matching','noise schedule','forward process','reverse process','DALL-E','Stable Diffusion'], content:'Drag the timestep slider to add noise forward or denoise backward. Structure dissolves and re-emerges.' },
   { id:'residual',      num:'D9',  title:'Residual Networks',          category:'Deep Learning Lab', keywords:['ResNet','skip connection','residual','vanishing gradient','deep network','identity mapping','batch norm','He initialization'], content:'Toggle skip connections and watch the gradient signal fade in a deep network — or stay strong with residuals.' },
   { id:'embeddings',    num:'D10', title:'Embedding Space',            category:'Deep Learning Lab', keywords:['embeddings','word2vec','semantic space','nearest neighbours','vector arithmetic','representation learning','cosine similarity'], content:'A 2D projection of a semantic embedding space. Hover for labels, click to see nearest neighbours, discover the geometry of meaning.' },
+  { id:'kalman',        num:'D11', title:'Discrete Kalman Filter',     category:'Deep Learning Lab', keywords:['Kalman filter','DKF','predict update','Kalman gain','state estimation','covariance','process noise','measurement noise','sensor fusion','recursive estimation','filtering','Riccati'], content:'Predict/update cycle with colour-coded formulas, a univariate sandbox tuning process and measurement noise, and a multivariate thermal model with live Kalman-gain and transition-matrix heatmaps.' },
 ];
 
 const EXPLAINERS = {
@@ -265,6 +275,19 @@ const EXPLAINERS = {
       <li>This 2D view is a PCA projection — real embeddings have hundreds or thousands of dimensions.</li>
     </ul>
   </details>`,
+  'kalman': `<details class="sandbox-explainer"><summary>How it Works</summary>
+    <h3>Predict / Update Recursion</h3>
+    <p>The Kalman filter alternates two phases. <strong>Predict</strong> rolls the state forward through the dynamics model and grows the uncertainty. <strong>Update</strong> corrects that prediction with the new measurement, weighted by the Kalman gain, and shrinks the uncertainty.</p>
+    <div class="exp-formula">${T('K','Kalman gain — between 0 and 1 (or a matrix). It sets how far the estimate moves from the prediction toward the measurement.')} = ${T('P⁻','Predicted (a-priori) covariance — uncertainty after the predict step, before seeing the measurement.')} Hᵀ ( ${T('H P⁻ Hᵀ + R','Innovation covariance — predicted measurement uncertainty plus sensor noise R.')} )⁻¹</div>
+    <div class="exp-formula">${T('x̂','Updated (a-posteriori) state estimate.')} = ${T('x̂⁻','Predicted state — the model\'s guess before the measurement.')} + K ( ${T('z − H x̂⁻','Innovation — the surprise: how far the measurement z fell from the prediction.')} )</div>
+    <h3>What to Observe</h3>
+    <ul>
+      <li><strong>Theory:</strong> K = 0 ignores the sensor, K = 1 ignores the model, K = 0.5 splits the difference. The estimate always lands on the line between prediction and measurement.</li>
+      <li><strong>Univariate:</strong> raise R to distrust the sensor — the estimate smooths out but lags; raise Q to expect drift — it tracks faster but gets noisier.</li>
+      <li>K(t) and P(t) converge to steady values: a Kalman filter "learns" its trust level within a handful of steps.</li>
+      <li><strong>Multivariate:</strong> the A matrix's off-diagonals are the thermal coupling between core and surface; the K matrix is the steady-state gain from iterating the Riccati recursion.</li>
+    </ul>
+  </details>`,
 };
 
 function buildContent() {
@@ -289,7 +312,7 @@ function buildContent() {
     const builders = { 'cnn-filter': buildCnnFilter, 'self-attention': buildSelfAttention,
       'autoencoder': buildAutoencoder, 'vae': buildVae, 'unet': buildUnet,
       'seq2seq': buildSeq2Seq, 'gan': buildGan, 'diffusion': buildDiffusion,
-      'residual': buildResidual, 'embeddings': buildEmbeddings };
+      'residual': buildResidual, 'embeddings': buildEmbeddings, 'kalman': buildKalman };
     if (builders[id]) div.innerHTML = builders[id]();
     div.innerHTML += buildNarratorBar(id);
     div.innerHTML += EXPLAINERS[id] || '';
@@ -558,6 +581,105 @@ function buildEmbeddings() {
     </div>
     <div class="ctrl-row">
       <button class="sb-btn teach-btn" onclick="ENGINE.teachEmbeddings()">🎓 Teach Me</button>
+    </div>
+  </div>`;
+}
+
+function buildKalman() {
+  const partHead = (n, title, sub) => `
+    <div style="margin:34px 0 14px;padding-top:18px;border-top:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#4dd0e1;margin-bottom:4px;">Part ${n}</div>
+      <h3 style="font-family:var(--serif);font-size:clamp(18px,3vw,24px);font-weight:400;margin:0 0 6px;">${title}</h3>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.65;margin:0;">${sub}</p>
+    </div>`;
+
+  return DL_HEAD('D11','Discrete <em style="color:#4dd0e1">Kalman</em> Filter',
+    `Track a hidden state from noisy measurements. The filter runs a ${T('predict','Roll the state forward through the dynamics model and grow the uncertainty: x̂⁻ = A x̂, P⁻ = A P Aᵀ + Q.')} → ${T('update','Correct the prediction with the new measurement, weighted by the Kalman gain, and shrink the uncertainty.')} loop forever.`)
+
+  /* ── PART 1 — THEORY ── */
+  + partHead('1', 'Theory — the predict/update cycle',
+      'The two phases below run every step. The Kalman gain K (orange line) decides how much the measurement corrects the prediction.')
+  + `
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;">
+    <div style="border:1.5px solid ${'rgba(150,130,255,0.5)'};border-radius:10px;padding:14px 16px;background:rgba(150,130,255,0.05);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#9c82ff;margin-bottom:10px;">▸ Predict</div>
+      <div class="exp-formula" style="border-left:3px solid #9c82ff;">${T('x̂⁻','A-priori state — the model\'s guess before the measurement.')} = ${T('A','State-transition matrix — how the state evolves one step.')} x̂</div>
+      <div class="exp-formula" style="border-left:3px solid #9c82ff;">${T('P⁻','A-priori covariance — uncertainty grown by the process noise.')} = A P Aᵀ + ${T('Q','Process noise — how much the true state is expected to drift each step.')}</div>
+    </div>
+    <div style="border:1.5px solid rgba(255,150,80,0.5);border-radius:10px;padding:14px 16px;background:rgba(255,150,80,0.05);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#ff9650;margin-bottom:10px;">▸ Update</div>
+      <div class="exp-formula" style="border-left:3px solid #ff9650;">${T('K','Kalman gain — how far to move from prediction toward measurement.')} = P⁻ Hᵀ (H P⁻ Hᵀ + ${T('R','Measurement noise — how noisy the sensor is assumed to be.')})⁻¹</div>
+      <div class="exp-formula" style="border-left:3px solid #ff9650;">x̂ = x̂⁻ + K (${T('z','The incoming measurement.')} − H x̂⁻)</div>
+      <div class="exp-formula" style="border-left:3px solid #ff9650;">P = (I − K H) P⁻</div>
+    </div>
+  </div>
+  <div class="sandbox-canvas-wrap"><canvas id="kalGainCanvas" height="200"></canvas></div>
+  <div class="sandbox-controls">
+    <div class="ctrl-row">
+      <label class="ctrl-label">Drag the line, or:</label>
+      <button class="sb-btn" onclick="ENGINE.setKalGain(0)">K = 0 (model)</button>
+      <button class="sb-btn" onclick="ENGINE.setKalGain(0.5)">K = 0.5 (blend)</button>
+      <button class="sb-btn" onclick="ENGINE.setKalGain(1)">K = 1 (sensor)</button>
+    </div>
+  </div>`
+
+  /* ── PART 2 — UNIVARIATE SANDBOX ── */
+  + partHead('2', 'Univariate sandbox — tune the noise',
+      'A 1-D filter (A = 1, H = 1) tracks a drifting signal. Raise R to distrust the sensor, raise Q to expect faster drift. Watch the gain and covariance settle in the sub-graphs.')
+  + `
+  <div class="sandbox-canvas-wrap"><canvas id="kalUniCanvas" height="260"></canvas></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKCanvas" height="150"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalPCanvas" height="150"></canvas></div>
+  </div>
+  <div class="sandbox-controls">
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('Q — process noise','How much the true state is expected to change each step. Higher Q → higher gain → more responsive, noisier estimate.')}</label>
+      <input type="range" id="kalUniQ" min="1" max="400" step="1" value="50"
+             oninput="document.getElementById('kalUniQV').textContent=(this.value/100).toFixed(2);ENGINE.runKalUni()">
+      <span class="ctrl-val" id="kalUniQV">0.50</span>
+    </div>
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('R — measurement noise','How noisy the sensor is assumed to be. Higher R → lower gain → smoother but laggier estimate.')}</label>
+      <input type="range" id="kalUniR" min="10" max="1200" step="10" value="200"
+             oninput="document.getElementById('kalUniRV').textContent=(this.value/100).toFixed(2);ENGINE.runKalUni()">
+      <span class="ctrl-val" id="kalUniRV">2.00</span>
+    </div>
+    <div class="ctrl-row">
+      <button class="sb-btn" onclick="ENGINE.genKalUni();ENGINE.runKalUni()">↻ New data</button>
+      <button class="sb-btn teach-btn" onclick="ENGINE.teachKalman()">🎓 Teach Me</button>
+    </div>
+  </div>`
+
+  /* ── PART 3 — MULTIVARIATE SANDBOX ── */
+  + partHead('3', 'Multivariate sandbox — two coupled temperatures',
+      'A 2-state thermal model (core + surface). Thermal coupling fills the off-diagonals of the transition matrix A. The Kalman gain K is the steady-state solution of the Riccati recursion — both heatmaps update live.')
+  + `
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 18px;">
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalAHeat" height="190"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKHeat" height="190"></canvas></div>
+  </div>
+  <div class="sandbox-controls">
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('Q — process noise','Process-noise level on the diagonal of Q. More process noise pushes the steady-state gain up.')}</label>
+      <input type="range" id="kalMultiQ" min="1" max="200" step="1" value="20"
+             oninput="document.getElementById('kalMultiQV').textContent=(this.value/1000).toFixed(3);ENGINE.runKalMulti()">
+      <span class="ctrl-val" id="kalMultiQV">0.020</span>
+    </div>
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('R — measurement noise','Sensor-noise level on the diagonal of R. More sensor noise pulls the steady-state gain down.')}</label>
+      <input type="range" id="kalMultiR" min="10" max="1000" step="10" value="200"
+             oninput="document.getElementById('kalMultiRV').textContent=(this.value/1000).toFixed(3);ENGINE.runKalMulti()">
+      <span class="ctrl-val" id="kalMultiRV">0.200</span>
+    </div>
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('Thermal coupling','How fast heat flows between core and surface each step. It fills the off-diagonal terms of the A matrix.')}</label>
+      <input type="range" id="kalMultiC" min="0" max="50" step="1" value="15"
+             oninput="document.getElementById('kalMultiCV').textContent=(this.value/100).toFixed(2);ENGINE.runKalMulti()">
+      <span class="ctrl-val" id="kalMultiCV">0.15</span>
+    </div>
+    <div class="ctrl-row">
+      <button class="sb-btn teach-btn" onclick="ENGINE.teachKalman()">🎓 Teach Me</button>
     </div>
   </div>`;
 }
