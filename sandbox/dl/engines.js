@@ -1761,6 +1761,459 @@ ENGINE._kalHeat = function(id, Mx, label, names, vmin, vmax) {
   ctx.textBaseline = 'alphabetic';
 };
 
+/* ────────────────────────────────────────────────────────────────
+   D12 — Neural Network: Deep Dive (emitter level)
+   A real, trainable 2-H-1 MLP. Forward pass + full backprop in vanilla
+   JS. Click any neuron to inspect what it emits; click the boundary to
+   set the input probe.
+   ──────────────────────────────────────────────────────────────── */
+ENGINE._nn        = null;          // { H, W1, b1, W2, b2 }
+ENGINE._nnH       = 4;
+ENGINE._nnAct     = 'tanh';
+ENGINE._nnData    = [];
+ENGINE._nnEpoch   = 0;
+ENGINE._nnLoss    = 0;
+ENGINE._nnTraining= false;
+ENGINE._nnRAF     = null;
+ENGINE._nnProbe   = [0.45, 0.45];  // the input point the diagram forward-passes
+ENGINE._nnSel     = { layer: 1, idx: 0 };  // layer 1 = hidden, 2 = output
+ENGINE._nnNodes   = [];            // {x,y,r,layer,idx} for click hit-testing
+ENGINE._nnGrad    = null;          // last-batch |∂L/∂w| for the gradient overlay
+ENGINE._nnShowGrad= false;
+
+ENGINE._nnSig = z => 1 / (1 + Math.exp(-z));
+ENGINE._nnActFns = {
+  tanh:    { f: z => Math.tanh(z),          d: (a)    => 1 - a * a, label: 'tanh' },
+  sigmoid: { f: z => 1 / (1 + Math.exp(-z)),d: (a)    => a * (1 - a), label: 'σ (sigmoid)' },
+  relu:    { f: z => Math.max(0, z),        d: (a, z) => (z > 0 ? 1 : 0), label: 'ReLU' },
+};
+
+ENGINE._nnEl = id => document.getElementById(id);
+
+ENGINE.genNnData = function(preset, n) {
+  const data = [];
+  const jit = () => (Math.random() - 0.5) * 0.08;
+  for (let i = 0; i < n; i++) {
+    const x1 = Math.random() * 2 - 1, x2 = Math.random() * 2 - 1;
+    let y;
+    if (preset === 'xor')        y = (x1 * x2 > 0) ? 1 : 0;
+    else if (preset === 'linear')y = (0.8 * x1 + x2 > 0) ? 1 : 0;
+    else if (preset === 'spiral') {
+      const r = Math.hypot(x1, x2), th = Math.atan2(x2, x1);
+      y = (Math.sin(3.2 * r * Math.PI + th) > 0) ? 1 : 0;
+    } else { // circle (concentric) — the classic non-linearly-separable case
+      y = (x1 * x1 + x2 * x2 < 0.5) ? 1 : 0;
+    }
+    data.push({ x: [x1 + jit(), x2 + jit()], y });
+  }
+  return data;
+};
+
+ENGINE._nnInitWeights = function() {
+  const H = ENGINE._nnH;
+  const r = (s) => (Math.random() * 2 - 1) * s;
+  ENGINE._nn = {
+    H,
+    W1: Array.from({ length: H }, () => [r(1.4), r(1.4)]),
+    b1: Array.from({ length: H }, () => r(0.3)),
+    W2: Array.from({ length: H }, () => r(1.4)),
+    b2: r(0.3),
+  };
+  ENGINE._nnEpoch = 0;
+  ENGINE._nnLoss = 0;
+  ENGINE._nnGrad = null;
+};
+
+ENGINE._nnForward = function(x) {
+  const nn = ENGINE._nn, act = ENGINE._nnActFns[ENGINE._nnAct];
+  const z1 = new Array(nn.H), a1 = new Array(nn.H);
+  for (let h = 0; h < nn.H; h++) {
+    z1[h] = nn.b1[h] + nn.W1[h][0] * x[0] + nn.W1[h][1] * x[1];
+    a1[h] = act.f(z1[h]);
+  }
+  let z2 = nn.b2;
+  for (let h = 0; h < nn.H; h++) z2 += nn.W2[h] * a1[h];
+  return { a0: x, z1, a1, z2, a2: ENGINE._nnSig(z2) };
+};
+
+ENGINE.trainNnEpoch = function() {
+  const nn = ENGINE._nn, act = ENGINE._nnActFns[ENGINE._nnAct], data = ENGINE._nnData;
+  const lr = (parseInt(ENGINE._nnEl('nnLR')?.value || 10)) / 20;
+  const H = nn.H, N = data.length;
+  const gW1 = Array.from({ length: H }, () => [0, 0]);
+  const gb1 = new Array(H).fill(0);
+  const gW2 = new Array(H).fill(0);
+  let gb2 = 0, loss = 0;
+  for (const s of data) {
+    const fp = ENGINE._nnForward(s.x);
+    const p = Math.min(1 - 1e-7, Math.max(1e-7, fp.a2));
+    loss += -(s.y * Math.log(p) + (1 - s.y) * Math.log(1 - p));
+    const dz2 = fp.a2 - s.y;                 // ∂BCE/∂z2 for a sigmoid output
+    gb2 += dz2;
+    for (let h = 0; h < H; h++) {
+      gW2[h] += dz2 * fp.a1[h];
+      const da1 = dz2 * nn.W2[h];
+      const dz1 = da1 * act.d(fp.a1[h], fp.z1[h]);
+      gW1[h][0] += dz1 * s.x[0];
+      gW1[h][1] += dz1 * s.x[1];
+      gb1[h]    += dz1;
+    }
+  }
+  nn.b2 -= lr * gb2 / N;
+  for (let h = 0; h < H; h++) {
+    nn.W2[h]    -= lr * gW2[h] / N;
+    nn.W1[h][0] -= lr * gW1[h][0] / N;
+    nn.W1[h][1] -= lr * gW1[h][1] / N;
+    nn.b1[h]    -= lr * gb1[h] / N;
+  }
+  ENGINE._nnGrad = {
+    W2: gW2.map(g => Math.abs(g / N)),
+    W1: gW1.map(row => row.map(g => Math.abs(g / N))),
+  };
+  ENGINE._nnLoss = loss / N;
+  ENGINE._nnEpoch++;
+};
+
+ENGINE._nnAccuracy = function() {
+  let ok = 0;
+  for (const s of ENGINE._nnData) if ((ENGINE._nnForward(s.x).a2 > 0.5 ? 1 : 0) === s.y) ok++;
+  return ok / ENGINE._nnData.length;
+};
+
+ENGINE.initNn = function() {
+  ENGINE._nnH   = parseInt(ENGINE._nnEl('nnHidden')?.value || 4);
+  ENGINE._nnAct = ENGINE._nnEl('nnAct')?.value || 'tanh';
+  const preset  = ENGINE._nnEl('nnData')?.value || 'circle';
+  ENGINE._nnData = ENGINE.genNnData(preset, 130);
+  ENGINE._nnInitWeights();
+  ENGINE._nnProbe = [0.45, 0.45];
+  if (ENGINE._nnSel.layer === 1 && ENGINE._nnSel.idx >= ENGINE._nnH) ENGINE._nnSel = { layer: 1, idx: 0 };
+  ENGINE.drawNnAll();
+};
+
+ENGINE.drawNnAll = function() {
+  ENGINE.drawNn();
+  ENGINE.drawNnBoundary();
+  ENGINE.updateNnInspector();
+  ENGINE.updateNnStats();
+};
+
+ENGINE.resetNn = function() {
+  if (ENGINE._nnTraining) ENGINE.toggleNnTrain();
+  ENGINE._nnInitWeights();
+  ENGINE.drawNnAll();
+};
+
+ENGINE.stepNn = function(n) {
+  for (let i = 0; i < n; i++) ENGINE.trainNnEpoch();
+  ENGINE.drawNnAll();
+};
+
+ENGINE.toggleNnTrain = function() {
+  ENGINE._nnTraining = !ENGINE._nnTraining;
+  const btn = ENGINE._nnEl('nnTrainBtn');
+  if (btn) btn.textContent = ENGINE._nnTraining ? '⏸ Pause' : '▶ Train';
+  if (ENGINE._nnTraining) ENGINE._nnLoop();
+  else if (ENGINE._nnRAF) cancelAnimationFrame(ENGINE._nnRAF);
+};
+
+ENGINE._nnLoop = function() {
+  if (!ENGINE._nnTraining) return;
+  // Stop the loop if the user has navigated away from this activity.
+  if (typeof currentTopic !== 'undefined' && currentTopic !== 'mlp-deep') {
+    ENGINE._nnTraining = false;
+    const btn = ENGINE._nnEl('nnTrainBtn'); if (btn) btn.textContent = '▶ Train';
+    return;
+  }
+  for (let i = 0; i < 6; i++) ENGINE.trainNnEpoch();
+  ENGINE.drawNnAll();
+  ENGINE._nnRAF = requestAnimationFrame(ENGINE._nnLoop);
+};
+
+ENGINE.toggleNnGrad = function() {
+  ENGINE._nnShowGrad = ENGINE._nnEl('nnGradToggle')?.checked || false;
+  ENGINE.drawNn();
+};
+
+// signed activation → colour: teal for positive, orange for negative
+ENGINE._nnColor = function(v, max) {
+  const m = max || 1;
+  const t = Math.min(1, Math.abs(v) / m);
+  return v >= 0 ? `rgba(77,208,225,${0.12 + 0.78 * t})` : `rgba(255,150,80,${0.12 + 0.78 * t})`;
+};
+
+ENGINE.drawNn = function() {
+  const r = caSetup('nnNetCanvas');
+  if (!r) return;
+  const { c, ctx, w, h } = r;
+  const nn = ENGINE._nn; if (!nn) return;
+  ctx.clearRect(0, 0, w, h);
+
+  const fp = ENGINE._nnForward(ENGINE._nnProbe);
+  const H = nn.H;
+  const colX = [w * 0.13, w * 0.5, w * 0.87];
+  const nr = 17;
+  const colY = (count, i) => {
+    const top = 50, bot = h - 36, span = bot - top;
+    return count === 1 ? top + span / 2 : top + span * i / (count - 1);
+  };
+
+  // node positions
+  const inN  = [0, 1].map(i => ({ x: colX[0], y: colY(2, i), r: nr, layer: 0, idx: i }));
+  const hidN = Array.from({ length: H }, (_, i) => ({ x: colX[1], y: colY(H, i), r: nr, layer: 1, idx: i }));
+  const outN = { x: colX[2], y: colY(1, 0), r: nr, layer: 2, idx: 0 };
+  ENGINE._nnNodes = [...hidN, outN]; // only weighted neurons are inspectable
+
+  const wWidth = aw => Math.min(5, 0.4 + Math.abs(aw) * 1.8);
+
+  // ── connections: input → hidden ──
+  for (let i = 0; i < 2; i++) for (let hh = 0; hh < H; hh++) {
+    const wv = nn.W1[hh][i];
+    ctx.beginPath();
+    ctx.moveTo(inN[i].x + nr, inN[i].y);
+    ctx.lineTo(hidN[hh].x - nr, hidN[hh].y);
+    ctx.strokeStyle = ENGINE._nnColor(wv, 2);
+    ctx.lineWidth = wWidth(wv);
+    ctx.stroke();
+  }
+  // ── connections: hidden → output ──
+  for (let hh = 0; hh < H; hh++) {
+    const wv = nn.W2[hh];
+    ctx.beginPath();
+    ctx.moveTo(hidN[hh].x + nr, hidN[hh].y);
+    ctx.lineTo(outN.x - nr, outN.y);
+    ctx.strokeStyle = ENGINE._nnColor(wv, 2);
+    ctx.lineWidth = wWidth(wv);
+    ctx.stroke();
+  }
+
+  // ── gradient overlay (dashed purple, width ∝ |∂L/∂w|) ──
+  if (ENGINE._nnShowGrad && ENGINE._nnGrad) {
+    const g = ENGINE._nnGrad;
+    let gmax = 1e-6;
+    g.W1.forEach(row => row.forEach(v => gmax = Math.max(gmax, v)));
+    g.W2.forEach(v => gmax = Math.max(gmax, v));
+    ctx.setLineDash([4, 4]);
+    for (let i = 0; i < 2; i++) for (let hh = 0; hh < H; hh++) {
+      const t = g.W1[hh][i] / gmax;
+      ctx.beginPath();
+      ctx.moveTo(hidN[hh].x - nr, hidN[hh].y);
+      ctx.lineTo(inN[i].x + nr, inN[i].y);
+      ctx.strokeStyle = `rgba(156,130,255,${0.25 + 0.65 * t})`;
+      ctx.lineWidth = 0.5 + 3.5 * t;
+      ctx.stroke();
+    }
+    for (let hh = 0; hh < H; hh++) {
+      const t = g.W2[hh] / gmax;
+      ctx.beginPath();
+      ctx.moveTo(outN.x - nr, outN.y);
+      ctx.lineTo(hidN[hh].x + nr, hidN[hh].y);
+      ctx.strokeStyle = `rgba(156,130,255,${0.25 + 0.65 * t})`;
+      ctx.lineWidth = 0.5 + 3.5 * t;
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  const sel = ENGINE._nnSel;
+  const drawNode = (n, val, max, label, sub) => {
+    const isSel = sel.layer === n.layer && sel.idx === n.idx;
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = ENGINE._nnColor(val, max);
+    ctx.fill();
+    ctx.lineWidth = isSel ? 3 : 1.2;
+    ctx.strokeStyle = isSel ? '#4dd0e1' : 'rgba(150,150,160,0.55)';
+    ctx.stroke();
+    ctx.fillStyle = 'var(--text,#eee)';
+    ctx.font = '10px var(--mono,monospace)';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(val.toFixed(2), n.x, n.y);
+    ctx.fillStyle = 'rgba(150,150,160,0.85)';
+    ctx.font = '11px var(--mono,monospace)';
+    if (label) ctx.fillText(label, n.x, n.y - n.r - 9);
+    if (sub) { ctx.fillStyle = 'rgba(150,150,160,0.6)'; ctx.font = '9px var(--mono,monospace)'; ctx.fillText(sub, n.x, n.y + n.r + 11); }
+  };
+
+  inN.forEach((n, i)  => drawNode(n, ENGINE._nnProbe[i], 1, 'x' + (i + 1)));
+  hidN.forEach((n, i) => drawNode(n, fp.a1[i], ENGINE._nnAct === 'relu' ? 2 : 1, 'h' + (i + 1)));
+  drawNode(outN, fp.a2, 1, 'ŷ', fp.a2 > 0.5 ? 'class 1' : 'class 0');
+
+  // column captions
+  ctx.fillStyle = 'rgba(150,150,160,0.55)';
+  ctx.font = '10px var(--mono,monospace)';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText('INPUT', colX[0], 26);
+  ctx.fillText(`HIDDEN · ${ENGINE._nnActFns[ENGINE._nnAct].label}`, colX[1], 26);
+  ctx.fillText('OUTPUT · σ', colX[2], 26);
+  ctx.fillStyle = 'rgba(150,150,160,0.5)';
+  ctx.fillText('teal +w · orange −w · click a neuron', w / 2, h - 8);
+
+  if (!c._nnInit) {
+    c._nnInit = true;
+    c.addEventListener('click', (e) => {
+      const rect = c.getBoundingClientRect();
+      const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      for (const n of ENGINE._nnNodes) {
+        if (Math.hypot(mx - n.x, my - n.y) <= n.r + 4) {
+          ENGINE._nnSel = { layer: n.layer, idx: n.idx };
+          ENGINE.drawNn(); ENGINE.updateNnInspector();
+          break;
+        }
+      }
+    });
+  }
+};
+
+ENGINE.drawNnBoundary = function() {
+  const r = caSetup('nnBoundaryCanvas');
+  if (!r) return;
+  const { c, ctx, w, h } = r;
+  if (!ENGINE._nn) return;
+  ctx.clearRect(0, 0, w, h);
+
+  const res = 40;
+  const cw = w / res, ch = h / res;
+  const toData = (px, py) => [(px / w) * 2 - 1, (py / h) * 2 - 1];
+  for (let i = 0; i < res; i++) for (let j = 0; j < res; j++) {
+    const [dx, dy] = toData((i + 0.5) * cw, (j + 0.5) * ch);
+    const p = ENGINE._nnForward([dx, dy]).a2;
+    // orange (class 0) ↔ teal (class 1)
+    const tealR = 77, tealG = 208, tealB = 225, orR = 255, orG = 150, orB = 80;
+    const R = Math.round(orR + (tealR - orR) * p);
+    const G = Math.round(orG + (tealG - orG) * p);
+    const B = Math.round(orB + (tealB - orB) * p);
+    ctx.fillStyle = `rgba(${R},${G},${B},0.42)`;
+    ctx.fillRect(i * cw, j * ch, cw + 1, ch + 1);
+  }
+  // data points
+  for (const s of ENGINE._nnData) {
+    const px = (s.x[0] + 1) / 2 * w, py = (s.x[1] + 1) / 2 * h;
+    ctx.beginPath();
+    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.fillStyle = s.y === 1 ? 'rgba(77,208,225,0.95)' : 'rgba(255,150,80,0.95)';
+    ctx.fill();
+    ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(20,18,16,0.6)'; ctx.stroke();
+  }
+  // probe point
+  const ppx = (ENGINE._nnProbe[0] + 1) / 2 * w, ppy = (ENGINE._nnProbe[1] + 1) / 2 * h;
+  ctx.beginPath(); ctx.arc(ppx, ppy, 7, 0, Math.PI * 2);
+  ctx.lineWidth = 2.5; ctx.strokeStyle = '#fff'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(ppx, ppy, 2.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff'; ctx.fill();
+
+  if (!c._nnbInit) {
+    c._nnbInit = true;
+    const setProbe = (e) => {
+      const rect = c.getBoundingClientRect();
+      const px = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const py = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+      ENGINE._nnProbe = [
+        Math.max(-1, Math.min(1, (px / rect.width) * 2 - 1)),
+        Math.max(-1, Math.min(1, (py / rect.height) * 2 - 1)),
+      ];
+      ENGINE.drawNn(); ENGINE.drawNnBoundary(); ENGINE.updateNnInspector();
+    };
+    c.addEventListener('click', setProbe);
+    c.addEventListener('touchstart', (e) => { e.preventDefault(); setProbe(e); }, { passive: false });
+  }
+};
+
+ENGINE.updateNnStats = function() {
+  const ep = ENGINE._nnEl('nnEpoch'), ls = ENGINE._nnEl('nnLossV'), ac = ENGINE._nnEl('nnAcc');
+  if (ep) ep.textContent = ENGINE._nnEpoch;
+  if (ls) ls.textContent = ENGINE._nnLoss.toFixed(4);
+  if (ac) ac.textContent = (ENGINE._nnAccuracy() * 100).toFixed(1) + '%';
+};
+
+ENGINE.updateNnInspector = function() {
+  const box = ENGINE._nnEl('nnInspector');
+  if (!box || !ENGINE._nn) return;
+  const nn = ENGINE._nn, act = ENGINE._nnActFns[ENGINE._nnAct];
+  const fp = ENGINE._nnForward(ENGINE._nnProbe);
+  const sel = ENGINE._nnSel;
+  const fmt = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(3);
+  const wbar = (v) => {
+    const t = Math.min(1, Math.abs(v) / 2);
+    const col = v >= 0 ? '#4dd0e1' : '#ff9650';
+    return `<span style="display:inline-block;width:${Math.round(t * 70)}px;height:8px;background:${col};border-radius:2px;vertical-align:middle;"></span>`;
+  };
+
+  let html = '', zParts, z, a, emit;
+  if (sel.layer === 2) {
+    const ins = fp.a1;
+    zParts = ins.map((ai, h) => `<tr><td>h${h + 1}</td><td>${ai.toFixed(3)}</td><td>${fmt(nn.W2[h])}</td><td>${wbar(nn.W2[h])}</td><td>${(ai * nn.W2[h]).toFixed(3)}</td></tr>`).join('');
+    z = fp.z2; a = fp.a2; emit = a;
+    html = `<div class="nn-insp-title">Output neuron <em>ŷ</em></div>
+      <table class="nn-insp-tbl"><thead><tr><th>from</th><th>aᵢ</th><th>wᵢ</th><th></th><th>wᵢ·aᵢ</th></tr></thead><tbody>${zParts}</tbody></table>
+      <div class="exp-formula" style="border-left-color:#4dd0e1;">z = Σ wᵢ·aᵢ + b = <strong>${z.toFixed(3)}</strong> &nbsp;(b = ${fmt(nn.b2)})</div>
+      <div class="exp-formula" style="border-left-color:#4dd0e1;">ŷ = σ(z) = <strong>${a.toFixed(3)}</strong> → predicts <strong>class ${a > 0.5 ? 1 : 0}</strong></div>`;
+  } else {
+    const h = Math.min(sel.idx, nn.H - 1);
+    const ins = ENGINE._nnProbe;
+    zParts = [0, 1].map(i => `<tr><td>x${i + 1}</td><td>${ins[i].toFixed(3)}</td><td>${fmt(nn.W1[h][i])}</td><td>${wbar(nn.W1[h][i])}</td><td>${(ins[i] * nn.W1[h][i]).toFixed(3)}</td></tr>`).join('');
+    z = fp.z1[h]; a = fp.a1[h]; emit = a;
+    html = `<div class="nn-insp-title">Hidden neuron <em>h${h + 1}</em></div>
+      <table class="nn-insp-tbl"><thead><tr><th>from</th><th>xᵢ</th><th>wᵢ</th><th></th><th>wᵢ·xᵢ</th></tr></thead><tbody>${zParts}</tbody></table>
+      <div class="exp-formula" style="border-left-color:#4dd0e1;">z = Σ wᵢ·xᵢ + b = <strong>${z.toFixed(3)}</strong> &nbsp;(b = ${fmt(nn.b1[h])})</div>
+      <div class="exp-formula" style="border-left-color:#4dd0e1;">a = ${act.label}(z) = <strong>${a.toFixed(3)}</strong></div>`;
+  }
+  html += `<div class="nn-emit">▶ this neuron <strong>emits ${emit.toFixed(3)}</strong> downstream</div>
+    <canvas id="nnActCanvas" height="120" style="width:100%;margin-top:10px;"></canvas>`;
+  box.innerHTML = html;
+  ENGINE.drawNnActCurve(z, a);
+};
+
+ENGINE.drawNnActCurve = function(z0, a0) {
+  const r = caSetup('nnActCanvas');
+  if (!r) return;
+  const { ctx, w, h } = r;
+  const act = ENGINE._nnActFns[ENGINE._nnAct];
+  const isOut = ENGINE._nnSel.layer === 2;
+  const fn = isOut ? ENGINE._nnSig : act.f;
+  const label = isOut ? 'σ (sigmoid)' : act.label;
+  ctx.clearRect(0, 0, w, h);
+  const m = { l: 28, r: 10, t: 14, b: 18 };
+  const pw = w - m.l - m.r, ph = h - m.t - m.b;
+  const zMin = -6, zMax = 6;
+  // y-range: relu unbounded → clamp to view of operating point
+  const yMin = (act === ENGINE._nnActFns.relu && !isOut) ? 0 : (isOut ? 0 : -1.1);
+  const yMax = (act === ENGINE._nnActFns.relu && !isOut) ? Math.max(2, Math.abs(a0) * 1.2 + 0.5) : 1.1;
+  const toX = z => m.l + (z - zMin) / (zMax - zMin) * pw;
+  const toY = v => m.t + ph - (v - yMin) / (yMax - yMin) * ph;
+  // axes
+  ctx.strokeStyle = 'rgba(150,150,160,0.25)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(m.l, toY(0)); ctx.lineTo(m.l + pw, toY(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(toX(0), m.t); ctx.lineTo(toX(0), m.t + ph); ctx.stroke();
+  // curve
+  ctx.beginPath();
+  for (let i = 0; i <= 120; i++) {
+    const z = zMin + (zMax - zMin) * i / 120;
+    const v = Math.max(yMin, Math.min(yMax, fn(z)));
+    i === 0 ? ctx.moveTo(toX(z), toY(v)) : ctx.lineTo(toX(z), toY(v));
+  }
+  ctx.strokeStyle = '#4dd0e1'; ctx.lineWidth = 2; ctx.stroke();
+  // operating point
+  const zc = Math.max(zMin, Math.min(zMax, z0));
+  ctx.beginPath(); ctx.moveTo(toX(zc), m.t); ctx.lineTo(toX(zc), m.t + ph);
+  ctx.strokeStyle = 'rgba(255,150,80,0.45)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.arc(toX(zc), toY(Math.max(yMin, Math.min(yMax, a0))), 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#ff9650'; ctx.fill();
+  ctx.fillStyle = 'rgba(150,150,160,0.7)'; ctx.font = '9px var(--mono,monospace)';
+  ctx.textAlign = 'left'; ctx.fillText(label, m.l + 2, m.t + 8);
+  ctx.textAlign = 'center'; ctx.fillText('z', m.l + pw, toY(0) + 14);
+};
+
+ENGINE.teachNn = function() {
+  let step = 0;
+  showNarration('mlp-deep', step);
+  const bar = document.getElementById('narrator-mlp-deep');
+  if (!bar) return;
+  bar.querySelectorAll('.narrator-dot').forEach((d, i) => {
+    d.onclick = () => { step = i; showNarration('mlp-deep', step); };
+  });
+};
+
 /* ════════════════════════════════════════════════════════════════
    DRAWS dispatch — called 60ms after show(id)
    ════════════════════════════════════════════════════════════════ */
@@ -1776,6 +2229,7 @@ const DRAWS = {
   'residual':      () => ENGINE.drawResidual(),
   'embeddings':    () => ENGINE.drawEmbeddings(),
   'kalman':        () => { ENGINE.drawKalGain(); ENGINE.runKalUni(); ENGINE.runKalMulti(); },
+  'mlp-deep':      () => { if (!ENGINE._nn) ENGINE.initNn(); else ENGINE.drawNnAll(); },
 };
 
 window.addEventListener('resize', () => {

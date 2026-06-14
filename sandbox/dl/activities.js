@@ -87,6 +87,14 @@ const NARRATIONS = {
     'High R (distrust the sensor) → low gain, smooth but laggy estimate. High Q (expect fast drift) → high gain, responsive but jittery estimate. Tuning Q and R is the whole art of filtering.',
     'The multivariate sandbox tracks two coupled temperatures. The A matrix mixes core and surface each step; the thermal-coupling slider fills its off-diagonals. The K matrix is the steady-state gain solved from the Riccati recursion — watch both heatmaps respond live.',
   ],
+  'mlp-deep': [
+    'This is a real, trainable neural network — two inputs, a hidden layer, one output — running full forward-pass and backpropagation in your browser. No libraries, no faking. Hit ▶ Train and watch it learn.',
+    'The right panel is the decision boundary: the network\'s guess at every point in the input space. As training runs, the boundary bends to separate the teal dots (class 1) from the orange dots (class 0). The "circle" and "XOR" datasets are impossible for a single straight line — the hidden layer is what bends the boundary.',
+    'Every connection is a weight. Teal lines are positive weights, orange are negative, and thickness is magnitude. During training the weights move; the lines thicken, thin, and flip colour as the network reorganises itself.',
+    'Now go to the emitter level. Click any neuron in the diagram. The inspector shows exactly what it does: each incoming signal times its weight, summed with the bias to give z, then squashed by the activation function into a — the value it emits to the next layer. The orange dot on the curve is its current operating point.',
+    'Click anywhere on the decision-boundary panel to move the white probe. That sets the input the whole diagram forward-passes, so you can watch one specific point flow through every neuron and see what each one emits for it.',
+    'Tick "show gradients" to overlay backpropagation: purple dashed lines, thickness ∝ |∂Loss/∂weight| — the correction signal flowing backward. Big gradients early in training, fading toward zero as the loss flattens and the network converges.',
+  ],
 };
 
 const _narratorStep = {};
@@ -124,7 +132,7 @@ function buildNarratorBar(topicId) {
 }
 
 const SECTIONS = [
-  { id:'sec-dl-lab', title:'Deep Learning Lab', topics:['cnn-filter','self-attention','autoencoder','vae','unet','seq2seq','gan','diffusion','residual','embeddings','kalman'] },
+  { id:'sec-dl-lab', title:'Deep Learning Lab', topics:['cnn-filter','self-attention','autoencoder','vae','unet','seq2seq','gan','diffusion','residual','embeddings','kalman','mlp-deep'] },
 ];
 const TOPICS = SECTIONS.flatMap(s => s.topics);
 const TOPIC_NAMES = {
@@ -139,6 +147,7 @@ const TOPIC_NAMES = {
   'residual':      'Residual Networks',
   'embeddings':    'Embedding Space',
   'kalman':        'Discrete Kalman Filter',
+  'mlp-deep':      'Neural Network: Deep Dive',
 };
 const TOPIC_DATA = [
   { id:'cnn-filter',    num:'D1',  title:'CNN Filter Explorer',        category:'Deep Learning Lab', keywords:['CNN','convolution','filter','kernel','feature map','stride','padding','pooling','edge detection'], content:'Paint on a grid and watch a convolution filter slide across it, producing a feature map in real time.' },
@@ -152,6 +161,7 @@ const TOPIC_DATA = [
   { id:'residual',      num:'D9',  title:'Residual Networks',          category:'Deep Learning Lab', keywords:['ResNet','skip connection','residual','vanishing gradient','deep network','identity mapping','batch norm','He initialization'], content:'Toggle skip connections and watch the gradient signal fade in a deep network — or stay strong with residuals.' },
   { id:'embeddings',    num:'D10', title:'Embedding Space',            category:'Deep Learning Lab', keywords:['embeddings','word2vec','semantic space','nearest neighbours','vector arithmetic','representation learning','cosine similarity'], content:'A 2D projection of a semantic embedding space. Hover for labels, click to see nearest neighbours, discover the geometry of meaning.' },
   { id:'kalman',        num:'D11', title:'Discrete Kalman Filter',     category:'Deep Learning Lab', keywords:['Kalman filter','DKF','predict update','Kalman gain','state estimation','covariance','process noise','measurement noise','sensor fusion','recursive estimation','filtering','Riccati'], content:'Predict/update cycle with colour-coded formulas, a univariate sandbox tuning process and measurement noise, and a multivariate thermal model with live Kalman-gain and transition-matrix heatmaps.' },
+  { id:'mlp-deep',      num:'D12', title:'Neural Network: Deep Dive',   category:'Deep Learning Lab', keywords:['neural network','MLP','multilayer perceptron','neuron','emitter','perceptron','forward pass','backpropagation','gradient descent','weights','bias','activation function','tanh','sigmoid','ReLU','decision boundary','training','hidden layer','classification','XOR'], content:'A real, trainable multilayer perceptron. Watch it learn a decision boundary, then click any neuron to drill down to the emitter level — its weights, weighted sum, activation curve, and exactly what it emits downstream.' },
 ];
 
 const EXPLAINERS = {
@@ -288,6 +298,23 @@ const EXPLAINERS = {
       <li><strong>Multivariate:</strong> the A matrix's off-diagonals are the thermal coupling between core and surface; the K matrix is the steady-state gain from iterating the Riccati recursion.</li>
     </ul>
   </details>`,
+  'mlp-deep': `<details class="sandbox-explainer"><summary>How it Works</summary>
+    <h3>What every neuron does</h3>
+    <p>A neuron is a tiny machine: it takes each incoming signal, multiplies it by a learned <strong>weight</strong>, adds them all up with a <strong>bias</strong>, then passes the result through a non-linear <strong>activation function</strong>. That single output number is what it "emits" to the next layer.</p>
+    <div class="exp-formula">${T('z','The pre-activation — the weighted sum of inputs plus the bias. A linear combination, before any non-linearity.')} = Σ ${T('wᵢ','A learned weight on one incoming connection. Its sign and size decide how much that input pushes the neuron up or down.')} · ${T('xᵢ','One input to the neuron — a raw feature for a hidden neuron, or a previous neuron\'s output for a deeper one.')} + ${T('b','The bias — shifts the activation threshold left or right, independent of the inputs.')}</div>
+    <div class="exp-formula">${T('a','The activation — the value the neuron emits. The non-linearity is what lets stacked layers carve curved decision boundaries.')} = ${T('f(z)','The activation function: tanh, sigmoid, or ReLU here. Without it the whole network would collapse into a single linear map.')}</div>
+    <h3>How it learns — backpropagation</h3>
+    <p>The output is compared to the true label to get a <strong>loss</strong> (binary cross-entropy). The chain rule pushes that error backward, computing ∂Loss/∂w for every weight, and each weight steps a little against its gradient. Repeat thousands of times and the boundary forms.</p>
+    <div class="exp-formula">${T('w ← w − η · ∂L/∂w','Gradient-descent update — nudge each weight downhill on the loss surface. η is the learning rate.')}</div>
+    <h3>What to Observe</h3>
+    <ul>
+      <li><strong>Circle &amp; XOR are not linearly separable</strong> — one neuron (a straight line) can't solve them. Watch the hidden layer combine several lines into a curved boundary.</li>
+      <li><strong>Click a neuron</strong> to open its emitter inspector: weights, weighted sum z, the activation curve, and the exact value it emits for the current probe input.</li>
+      <li><strong>Move the probe</strong> (click the boundary panel) and watch one input propagate through every neuron.</li>
+      <li><strong>Show gradients</strong> to see backprop: thick purple early, thinning to nothing as the loss flattens — that's convergence.</li>
+      <li><strong>Learning rate</strong> too high → loss bounces or diverges; too low → painfully slow. Try ReLU vs tanh and watch the boundary's character change.</li>
+    </ul>
+  </details>`,
 };
 
 function buildContent() {
@@ -312,7 +339,8 @@ function buildContent() {
     const builders = { 'cnn-filter': buildCnnFilter, 'self-attention': buildSelfAttention,
       'autoencoder': buildAutoencoder, 'vae': buildVae, 'unet': buildUnet,
       'seq2seq': buildSeq2Seq, 'gan': buildGan, 'diffusion': buildDiffusion,
-      'residual': buildResidual, 'embeddings': buildEmbeddings, 'kalman': buildKalman };
+      'residual': buildResidual, 'embeddings': buildEmbeddings, 'kalman': buildKalman,
+      'mlp-deep': buildMlpDeep };
     if (builders[id]) div.innerHTML = builders[id]();
     div.innerHTML += buildNarratorBar(id);
     div.innerHTML += EXPLAINERS[id] || '';
@@ -682,4 +710,83 @@ function buildKalman() {
       <button class="sb-btn teach-btn" onclick="ENGINE.teachKalman()">🎓 Teach Me</button>
     </div>
   </div>`;
+}
+
+function buildMlpDeep() {
+  const partHead = (n, title, sub) => `
+    <div style="margin:34px 0 14px;padding-top:18px;border-top:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#4dd0e1;margin-bottom:4px;">Part ${n}</div>
+      <h3 style="font-family:var(--serif);font-size:clamp(18px,3vw,24px);font-weight:400;margin:0 0 6px;">${title}</h3>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.65;margin:0;">${sub}</p>
+    </div>`;
+
+  return DL_HEAD('D12','Neural Network — <em style="color:#4dd0e1">Deep Dive</em>',
+    `A real, trainable ${T('MLP','Multilayer perceptron — the original deep network. Stacked layers of neurons, each a weighted sum followed by a non-linearity, trained by backpropagation.')}: two inputs → a hidden layer → one output. It runs genuine ${T('forward pass','Feed the input through every layer to produce a prediction — each neuron computes its weighted sum and activation in turn.')} and ${T('backpropagation','The chain rule applied backward through the network to get ∂Loss/∂weight for every weight, so gradient descent can update them.')} in your browser. Train it, then drill down to the emitter level.`)
+
+  /* ── PART 1 — THE LIVING NETWORK ── */
+  + partHead('1', 'The living network — train it',
+      'Hit Train and watch the weights move and the decision boundary bend. The teal/orange lines are positive/negative weights; thickness is magnitude. Tick "show gradients" to overlay the backprop signal.')
+  + `
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;align-items:start;margin:14px 0 4px;">
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnNetCanvas" height="360"></canvas></div>
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">DECISION BOUNDARY · click to move the probe ◉</div>
+      <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnBoundaryCanvas" height="300" style="cursor:crosshair;"></canvas></div>
+    </div>
+  </div>
+  <div class="sandbox-controls">
+    <div class="ctrl-row">
+      <label class="ctrl-label">Dataset</label>
+      <select id="nnData" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+        <option value="circle">Circle (concentric)</option>
+        <option value="xor">XOR</option>
+        <option value="spiral">Spiral</option>
+        <option value="linear">Linear</option>
+      </select>
+      <label class="ctrl-label" style="margin-left:8px;">${T('Activation','The non-linearity each hidden neuron applies. tanh and sigmoid squash into a fixed range; ReLU passes positives straight through and zeros negatives.')}</label>
+      <select id="nnAct" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+        <option value="tanh">tanh</option>
+        <option value="sigmoid">sigmoid</option>
+        <option value="relu">ReLU</option>
+      </select>
+    </div>
+    <div class="ctrl-row">
+      <label class="ctrl-label">${T('Hidden neurons','How many neurons in the hidden layer. More neurons = more lines to combine = a more flexible boundary (and more to overfit with).')}</label>
+      <input type="range" id="nnHidden" min="2" max="6" step="1" value="4"
+             oninput="document.getElementById('nnHiddenV').textContent=this.value;ENGINE.initNn()">
+      <span class="ctrl-val" id="nnHiddenV">4</span>
+      <label class="ctrl-label" style="margin-left:8px;">${T('Learning rate η','How big a step each weight takes against its gradient. Too high → the loss bounces or blows up; too low → it crawls.')}</label>
+      <input type="range" id="nnLR" min="1" max="100" step="1" value="10"
+             oninput="document.getElementById('nnLRV').textContent=(this.value/20).toFixed(2)">
+      <span class="ctrl-val" id="nnLRV">0.50</span>
+    </div>
+    <div class="ctrl-row">
+      <button class="sb-btn" id="nnTrainBtn" onclick="ENGINE.toggleNnTrain()">▶ Train</button>
+      <button class="sb-btn" onclick="ENGINE.stepNn(20)">+20 epochs</button>
+      <button class="sb-btn" onclick="ENGINE.resetNn()">↺ Reset weights</button>
+      <label style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:8px;">
+        <input type="checkbox" id="nnGradToggle" onchange="ENGINE.toggleNnGrad()"> show gradients
+      </label>
+      <button class="sb-btn teach-btn" onclick="ENGINE.teachNn()">🎓 Teach Me</button>
+    </div>
+    <div class="ctrl-row" style="font-family:var(--mono);font-size:11px;color:var(--muted);">
+      Epoch: <strong id="nnEpoch">0</strong> &nbsp;·&nbsp; Loss: <strong id="nnLossV">—</strong> &nbsp;·&nbsp; Accuracy: <strong id="nnAcc">—</strong>
+    </div>
+  </div>`
+
+  /* ── PART 2 — EMITTER-LEVEL INSPECTION ── */
+  + partHead('2', 'Emitter level — what one neuron emits',
+      'Click any neuron in the diagram above. This is the full story of that single unit for the current probe input: every weighted input, the summed pre-activation z, the activation curve, and the value a it emits downstream.')
+  + `
+  <div id="nnInspector" class="nn-inspector"></div>
+  <style>
+    .nn-inspector { border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin:6px 0 4px; background:var(--surface); }
+    .nn-insp-title { font-family:var(--serif); font-size:18px; margin-bottom:10px; }
+    .nn-insp-title em { color:#4dd0e1; font-style:italic; }
+    .nn-insp-tbl { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:11px; margin-bottom:8px; }
+    .nn-insp-tbl th { text-align:left; color:var(--muted); font-weight:400; padding:3px 8px 3px 0; border-bottom:1px solid var(--border); }
+    .nn-insp-tbl td { padding:3px 8px 3px 0; color:var(--text); border-bottom:1px solid var(--border); }
+    .nn-emit { font-family:var(--mono); font-size:12px; color:#4dd0e1; margin-top:8px; }
+    .nn-emit strong { color:#4dd0e1; }
+  </style>`;
 }
