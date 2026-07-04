@@ -1118,6 +1118,41 @@ nav {
   text-align: center;
   position: relative;
 }
+/* Pattern of the day — one topic, same for everyone, rotates daily */
+.pattern-of-day {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  max-width: 720px;
+  margin: -6px auto 34px;
+  padding: 0 24px;
+  font-family: var(--mono);
+  text-align: center;
+}
+.pod-kicker {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 9px;
+}
+.pattern-of-day a {
+  color: var(--text);
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-color: rgba(200,75,47,.35);
+  text-underline-offset: 3px;
+  transition: color .15s var(--ease);
+}
+.pattern-of-day a:hover { color: var(--accent); }
+.pod-cat {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
 /* Ambient generative pattern behind the hero text */
 .hero-pattern {
   position: absolute;

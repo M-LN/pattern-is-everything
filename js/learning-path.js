@@ -377,6 +377,32 @@
         background: transparent;
         pointer-events: none;
       }
+      .learning-path-complete-toast {
+        position: fixed;
+        top: 76px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px);
+        z-index: 400;
+        max-width: min(480px, calc(100vw - 32px));
+        padding: 12px 18px;
+        border: 1px solid rgba(42,125,95,.36);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow-lg);
+        color: var(--text);
+        font: 400 13px var(--sans);
+        opacity: 0;
+        transition: opacity .3s var(--ease), transform .3s var(--ease);
+      }
+      .learning-path-complete-toast strong {
+        color: var(--accent2);
+        font-weight: 700;
+        margin-right: 6px;
+      }
+      .learning-path-complete-toast.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
       @media (max-width: 720px) {
         .learning-path-bar { grid-template-columns: 1fr; bottom: 10px; }
         .learning-path-actions { justify-content: flex-start; }
@@ -387,6 +413,67 @@
       }
     `;
     document.head.appendChild(style);
+  }
+
+  /* ── Completion celebration ── */
+  function showCompleteToast(title) {
+    const el = document.createElement('div');
+    el.className = 'learning-path-complete-toast';
+    el.setAttribute('role', 'status');
+    el.innerHTML = `<strong>&#127881; Path complete!</strong> ${html(title)} &mdash; nicely done.`;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('is-visible'));
+    setTimeout(() => {
+      el.classList.remove('is-visible');
+      setTimeout(() => el.remove(), 400);
+    }, 6000);
+  }
+
+  function celebrate(title) {
+    showCompleteToast(title);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(canvas);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(innerWidth * dpr);
+    canvas.height = Math.round(innerHeight * dpr);
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const colors = ['#c84b2f', '#2a7d5f', '#2955a0', '#8b4fa8', '#e0a63c'];
+    const parts = [];
+    for (let i = 0; i < 140; i++) {
+      parts.push({
+        x: innerWidth / 2 + (Math.random() - .5) * 140,
+        y: innerHeight * .35,
+        vx: (Math.random() - .5) * 11,
+        vy: -(4 + Math.random() * 9),
+        w: 5 + Math.random() * 5,
+        h: 8 + Math.random() * 6,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - .5) * .3,
+        color: colors[i % colors.length]
+      });
+    }
+    const t0 = performance.now();
+    const DURATION = 2800;
+    (function frame(t) {
+      const elapsed = t - t0;
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      for (const p of parts) {
+        p.vy += .18; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vx *= .992;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = Math.max(0, 1 - elapsed / DURATION);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      if (elapsed < DURATION) requestAnimationFrame(frame);
+      else canvas.remove();
+    })(t0);
   }
 
   function renderBar() {
@@ -400,8 +487,12 @@
     const current = path.steps[index];
     const previous = path.steps[index - 1];
     const next = path.steps[index + 1];
+    const wasComplete = progressCount(path, readProgress(pathId)) === path.steps.length;
     const progress = markStep(pathId, stepNumber);
     const completedCount = progressCount(path, progress);
+    if (!wasComplete && completedCount === path.steps.length) {
+      setTimeout(() => celebrate(path.title), 600);
+    }
 
     injectStyles();
     const bar = document.createElement('aside');

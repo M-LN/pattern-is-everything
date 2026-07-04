@@ -39,7 +39,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="css/main.css?v=8">
+  <link rel="stylesheet" href="css/main.css?v=9">
   </head>
 <body>
 
@@ -60,6 +60,12 @@
   <canvas id="heroPattern" class="hero-pattern" aria-hidden="true"></canvas>
   <h1>Pattern is<br><em>Everything</em></h1>
   <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 249 interactive, visual references across machine learning and markets.</p>
+</div>
+
+<div class="pattern-of-day" id="patternOfDay" hidden>
+  <span class="pod-kicker">✦ Pattern of the day</span>
+  <a id="podLink" href="#"><span id="podTitle"></span></a>
+  <span class="pod-cat" id="podCat"></span>
 </div>
 
 <div class="start-exploring">
@@ -520,6 +526,34 @@ else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
 // Animated counters
 const PREFERS_REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Pattern of the day — deterministic pick from the global topic index,
+// seeded by the date so every visitor sees the same topic.
+fetch('search-index.json')
+  .then(r => r.ok ? r.json() : null)
+  .then(list => {
+    if (!Array.isArray(list) || !list.length) return;
+    const day = Math.floor(Date.now() / 86400000);
+    const t = list[day % list.length];
+    document.getElementById('podLink').href = t.path;
+    document.getElementById('podTitle').textContent = t.t;
+    document.getElementById('podCat').textContent = t.cat;
+    document.getElementById('patternOfDay').hidden = false;
+  })
+  .catch(() => {});
+
+// Gentle 3D tilt on universe cards (pointer devices only)
+if (!PREFERS_REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
+  document.querySelectorAll('.collection-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top) / r.height - .5) * -4;
+      const ry = ((e.clientX - r.left) / r.width - .5) * 4;
+      card.style.transform = `perspective(700px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+
 // Ambient hero pattern — three gaussian curves slowly breathing.
 // Static single frame under prefers-reduced-motion; paused when offscreen.
 (function () {
@@ -783,7 +817,7 @@ if ('serviceWorker' in navigator) {
   obs.observe(canvas);
 })();
 </script>
-<script src="js/learning-path.js?v=3"></script>
+<script src="js/learning-path.js?v=4"></script>
 <script src="js/ui-enhance.js?v=21" defer></script>
 </body>
 </html>
