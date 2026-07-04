@@ -1,16 +1,27 @@
-const CACHE_NAME = 'pattern-v72';
+const CACHE_NAME = 'pattern-v74';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
   '/404.html',
   '/css/main.css',
+  '/css/fonts.css',
   '/css/sandbox.css',
+  '/search-index.json',
+  '/assets/fonts/ibm-plex-mono-300.woff2',
+  '/assets/fonts/ibm-plex-mono-400.woff2',
+  '/assets/fonts/ibm-plex-mono-500.woff2',
+  '/assets/fonts/ibm-plex-mono-300-italic.woff2',
+  '/assets/fonts/playfair-display-var.woff2',
+  '/assets/fonts/playfair-display-400-italic.woff2',
+  '/assets/fonts/inter-var.woff2',
   '/js/evidence-taxonomy.js',
   '/js/practical-template.js',
   '/js/market-evidence-warning.js',
   '/js/sandbox-build-mode.js',
   '/js/learning-path.js',
   '/js/ui-enhance.js',
+  '/js/pattern-thread.js',
+  '/js/pattern-loader.js',
   '/start/index.html',
   '/stats/index.html',
   '/ml-math/index.html',
@@ -49,6 +60,17 @@ const SHELL = [
   '/sandbox/stats/index.html',
   '/sandbox/stats/activities.js',
   '/sandbox/stats/engines.js',
+  '/sandbox/dl/index.html',
+  '/sandbox/dl/activities.js',
+  '/sandbox/dl/engines.js',
+  '/sandbox/chaos/index.html',
+  '/sandbox/chaos/activities.js',
+  '/sandbox/chaos/engines.js',
+  '/support/index.html',
+  '/impact/index.html',
+  '/game/index.html',
+  '/game/game-data.js',
+  '/universe/index.html',
 ];
 
 self.addEventListener('install', e => {

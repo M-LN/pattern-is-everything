@@ -55,7 +55,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../../css/main.css?v=6">
+  <link rel="stylesheet" href="../../css/main.css?v=7">
   <meta property="og:url" content="https://patterniseverything.com/markets/charts/">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta property="og:image:width" content="1200">
@@ -65,15 +65,11 @@
   <meta name="twitter:description" content="25 interactive chart patterns with visual breakdowns.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"></noscript></head>
+  </head>
 <body>
 <script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
 <div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
-<script src="../../js/pattern-loader.js"></script>
+<script src="../../js/pattern-loader.js?v=1"></script>
 
 <header>
   <a class="logo-ring" href="../../index.html" title="Back to Pattern is Everything"></a>
@@ -122,11 +118,11 @@ function updateProgress(){const total=TOPICS.filter(t=>t!=='home').length;const 
 function buildNavButtons(id){const navEl=document.getElementById('nav-'+id);if(!navEl)return;const idx=TOPICS.indexOf(id);const prev=idx>1?TOPICS[idx-1]:null;const next=idx>=0&&idx<TOPICS.length-1?TOPICS[idx+1]:null;navEl.innerHTML='';if(prev&&prev!=='home'){const b=document.createElement('div');b.className='tnav-btn';b.innerHTML=`<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;b.onclick=()=>show(prev,true);navEl.appendChild(b);}else{navEl.appendChild(document.createElement('div'));}if(next){const b=document.createElement('div');b.className='tnav-btn next';b.innerHTML=`<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;b.onclick=()=>show(next,true);navEl.appendChild(b);}}
 window.addEventListener('load',()=>{buildNav();buildContent();const homeNI=document.querySelector('.ni[data-topic="home"]');if(homeNI)homeNI.classList.add('active');if(location.hash){const id=location.hash.slice(1);if(TOPICS.includes(id)){show(id,true);return;}}show('home');});
 </script>
-<script src="../../js/pattern-thread.js"></script>
+<script src="../../js/pattern-thread.js?v=1"></script>
 <script src="../../js/evidence-taxonomy.js?v=1"></script>
 <script src="../../js/practical-template.js?v=1"></script>
 <script src="../../js/market-evidence-warning.js?v=1"></script>
 <script src="../../js/learning-path.js?v=3"></script>
-<script src="../../js/ui-enhance.js?v=19" defer></script>
+<script src="../../js/ui-enhance.js?v=20" defer></script>
 </body>
 </html>
