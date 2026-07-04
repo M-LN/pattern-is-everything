@@ -54,6 +54,18 @@
   --muted:    #9a8e80;
   --hi:       rgba(200,75,47,0.1);
 }
+/* Explicit light theme must win over the OS dark-mode media query,
+   otherwise the toggle can never switch to light on a dark-OS machine. */
+[data-theme="light"] {
+  --bg:       #faf8f4;
+  --surface:  #ffffff;
+  --surface2: #f2ede4;
+  --border:   #e2d9cc;
+  --border2:  #c9bead;
+  --text:     #1a1714;
+  --muted:    #6a5e52;
+  --hi:       rgba(200,75,47,0.06);
+}
 
 /* ── Reset ── */
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
@@ -808,14 +820,18 @@ input[type=range]:focus-visible {
 .tag {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 9px;
-  padding: 2px 7px;
+  font-size: 10px;
+  padding: 2px 8px;
   border-radius: 3px;
+  border: 1px solid transparent;
 }
-.t1 { background: rgba(200,75,47,.1); color: var(--accent); }
-.t2 { background: rgba(42,125,95,.1); color: var(--accent2); }
-.t3 { background: rgba(41,85,160,.1); color: var(--accent3); }
-.t4 { background: rgba(139,79,168,.1); color: var(--accent4); }
+.t1 { background: rgba(200,75,47,.1); color: var(--accent); border-color: rgba(200,75,47,.22); }
+.t2 { background: rgba(42,125,95,.1); color: var(--accent2); border-color: rgba(42,125,95,.22); }
+.t3 { background: rgba(41,85,160,.1); color: var(--accent3); border-color: rgba(41,85,160,.22); }
+.t4 { background: rgba(139,79,168,.1); color: var(--accent4); border-color: rgba(139,79,168,.22); }
+/* --accent3 blue is too dark to read on dark surfaces */
+[data-theme="dark"] .t3 { color: #6fa8ff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .t3 { color: #6fa8ff; } }
 
 /* ── Callouts ── */
 .callout {
@@ -1005,7 +1021,7 @@ input[type=range]:focus-visible {
 }
 .cc-meta {
   font-family: var(--mono);
-  font-size: 10px; color: var(--border2);
+  font-size: 10px; color: var(--muted);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -1102,6 +1118,16 @@ nav {
   text-align: center;
   position: relative;
 }
+/* Ambient generative pattern behind the hero text */
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .28;
+  z-index: -1;
+}
 .portal-hero::before {
   content: '';
   position: absolute;
@@ -1174,7 +1200,7 @@ nav {
   border-top: 1px solid var(--border);
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--border2);
+  color: var(--muted);
   position: relative;
 }
 .portal-footer::before {
@@ -1470,8 +1496,9 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   margin-top: 2px;
 }
 .start-card .start-badge {
-  position: absolute;
-  top: 8px; right: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: flex-start;
   font-family: var(--mono);
   font-size: 8px;
   letter-spacing: .1em;
@@ -1481,6 +1508,7 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   border: 1px solid rgba(42,125,95,.15);
   border-radius: 4px;
   padding: 1px 6px;
+  white-space: nowrap;
 }
 
 /* ── Learning Paths ── */
@@ -1512,6 +1540,9 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 18px;
 }
+/* An odd card count leaves an orphan hole in the 2-col grid — let the
+   last card span the full row instead. */
+.lp-grid > .lp-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .lp-card {
   display: block;
   padding: 24px 22px;

@@ -630,9 +630,57 @@
     }
   }
 
+  /* "Surprise me" — jump to a random topic from the global index */
+  function goRandomTopic() {
+    var go = function () {
+      if (!TOPIC_INDEX.length) return;
+      var t = TOPIC_INDEX[Math.floor(Math.random() * TOPIC_INDEX.length)];
+      window.location.href = t.path;
+    };
+    if (topicIndexState === 'ready') { go(); return; }
+    loadTopicIndex();
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      if (topicIndexState === 'ready') { clearInterval(iv); go(); }
+      else if (topicIndexState === 'failed' || tries > 40) clearInterval(iv);
+    }, 100);
+  }
+
+  function initRandomButton() {
+    var slot = document.querySelector('.portal-header .theme-toggle');
+    if (!slot || document.querySelector('.portal-header .random-toggle')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'theme-toggle random-toggle';
+    btn.title = 'Surprise me — random topic';
+    btn.setAttribute('aria-label', 'Go to a random topic');
+    btn.textContent = '⚄';
+    btn.dataset._tt = '1'; // opt out of the theme-toggle auto-wiring fallback
+    btn.addEventListener('click', goRandomTopic);
+    slot.parentNode.insertBefore(btn, slot);
+  }
+
+  /* Visible search button on hub pages — topic pages ship their own */
+  function initSearchButton() {
+    var slot = document.querySelector('.portal-header .theme-toggle');
+    if (!slot || document.querySelector('.portal-header .search-toggle')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'theme-toggle search-toggle';
+    btn.title = 'Search all topics (Ctrl+K)';
+    btn.setAttribute('aria-label', 'Search all topics');
+    btn.textContent = '⌕';
+    btn.dataset._tt = '1'; // opt out of the theme-toggle auto-wiring fallback
+    btn.addEventListener('click', openPalette);
+    slot.parentNode.insertBefore(btn, slot);
+  }
+
   function init() {
     initScrollProgress();
     initBackToTop();
+    initRandomButton();
+    initSearchButton();
     initHeadingAnchors();
     initOutline();
     initCodeCopy();
