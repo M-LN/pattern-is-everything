@@ -1279,6 +1279,14 @@ html, body { overflow-x: clip; }
   z-index: -1;
 }
 
+/* ── SVG icon sizing for card/chip icon slots ── */
+.cc-icon { color: var(--accent); }
+.cc-icon svg { width: 24px; height: 24px; display: block; }
+.domain-icon { color: var(--accent); }
+.domain-icon svg { width: 26px; height: 26px; display: block; }
+.info-chip span { display: inline-flex; color: var(--accent); }
+.info-chip span svg { width: 14px; height: 14px; display: block; }
+
 /* ── Collection card mini-viz ── */
 .cc-viz {
   display: block;
