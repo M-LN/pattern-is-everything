@@ -1118,7 +1118,9 @@ nav {
   text-align: center;
   position: relative;
 }
-/* Pattern of the day — one topic, same for everyone, rotates daily */
+/* Pattern of the day — one topic, same for everyone, rotates daily.
+   Space is reserved up front (min-height + visibility) so the strip
+   doesn't push content down when the index loads. */
 .pattern-of-day {
   display: flex;
   align-items: baseline;
@@ -1126,11 +1128,14 @@ nav {
   flex-wrap: wrap;
   gap: 6px 12px;
   max-width: 720px;
+  min-height: 20px;
   margin: -6px auto 34px;
   padding: 0 24px;
   font-family: var(--mono);
   text-align: center;
+  visibility: hidden;
 }
+.pattern-of-day.is-ready { visibility: visible; }
 .pod-kicker {
   color: var(--accent);
   text-transform: uppercase;
@@ -1151,6 +1156,17 @@ nav {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: .1em;
+}
+
+/* Scroll-reveal — sections fade up as they enter the viewport.
+   Applied by JS only to below-the-fold sections; no-JS pages are unaffected. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .55s var(--ease), transform .55s var(--ease);
+  }
+  .reveal.is-in { opacity: 1; transform: none; }
 }
 
 /* Ambient generative pattern behind the hero text */

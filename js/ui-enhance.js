@@ -708,6 +708,7 @@
     // Expose programmatic API for buttons/links
     window.__openPalette = openPalette;
     window.__closePalette = closePalette;
+    window.__randomTopic = goRandomTopic;
     window.__refreshOutline = initOutline;
     initWhatsNew();
   }

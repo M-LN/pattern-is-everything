@@ -39,7 +39,10 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="css/main.css?v=9">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
+  <link rel="stylesheet" href="css/main.css?v=10">
   </head>
 <body>
 
@@ -62,7 +65,7 @@
   <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 249 interactive, visual references across machine learning and markets.</p>
 </div>
 
-<div class="pattern-of-day" id="patternOfDay" hidden>
+<div class="pattern-of-day" id="patternOfDay">
   <span class="pod-kicker">✦ Pattern of the day</span>
   <a id="podLink" href="#"><span id="podTitle"></span></a>
   <span class="pod-cat" id="podCat"></span>
@@ -537,9 +540,40 @@ fetch('search-index.json')
     document.getElementById('podLink').href = t.path;
     document.getElementById('podTitle').textContent = t.t;
     document.getElementById('podCat').textContent = t.cat;
-    document.getElementById('patternOfDay').hidden = false;
+    document.getElementById('patternOfDay').classList.add('is-ready');
   })
   .catch(() => {});
+
+// Scroll-reveal: below-the-fold homepage sections fade up as they enter view
+if (!PREFERS_REDUCED_MOTION && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { threshold: .08 });
+  const pending = new Set();
+  document.querySelectorAll('#mainContent > div:not(.portal-hero):not(.pattern-of-day)').forEach(el => {
+    if (el.getBoundingClientRect().top > window.innerHeight * .85) {
+      el.classList.add('reveal');
+      io.observe(el);
+      pending.add(el);
+    }
+  });
+  // Instant jumps (anchors, End key) can skip past IO without ever
+  // intersecting — sweep on scroll so nothing stays invisible.
+  const sweep = () => {
+    pending.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * .92 || r.bottom < 0) {
+        el.classList.add('is-in');
+        io.unobserve(el);
+        pending.delete(el);
+      }
+    });
+    if (!pending.size) window.removeEventListener('scroll', sweep);
+  };
+  window.addEventListener('scroll', sweep, { passive: true });
+}
 
 // Gentle 3D tilt on universe cards (pointer devices only)
 if (!PREFERS_REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
@@ -818,6 +852,6 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 <script src="js/learning-path.js?v=4"></script>
-<script src="js/ui-enhance.js?v=21" defer></script>
+<script src="js/ui-enhance.js?v=22" defer></script>
 </body>
 </html>

@@ -19,7 +19,7 @@
   <meta name="robots" content="noindex">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
-  <link rel="stylesheet" href="/css/main.css?v=9">
+  <link rel="stylesheet" href="/css/main.css?v=10">
   <style>
     /* Page-specific layout */
     .nf-wrap {
@@ -161,6 +161,7 @@
       <div class="nf-actions">
         <a class="nf-btn nf-btn-primary" href="/">← Back to portal</a>
         <button type="button" class="nf-btn nf-btn-ghost" onclick="if (window.__openPalette) window.__openPalette(); else alert('Press Ctrl+K to search');">⌕ Search</button>
+        <button type="button" class="nf-btn nf-btn-ghost" onclick="if (window.__randomTopic) window.__randomTopic();">⚄ Random pattern</button>
       </div>
       <p class="nf-hint">Tip: press <kbd>Ctrl</kbd>+<kbd>K</kbd> or <kbd>/</kbd> anywhere to jump to a page.</p>
       <ul class="nf-suggest">
@@ -180,6 +181,6 @@
       if (msg) msg.textContent = "You're offline and this page isn't in your cache yet. Try again once you reconnect, or pick a destination below.";
     }
   </script>
-  <script src="/js/ui-enhance.js?v=21" defer></script>
+  <script src="/js/ui-enhance.js?v=22" defer></script>
 </body>
 </html>
