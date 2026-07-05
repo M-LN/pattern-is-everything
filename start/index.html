@@ -19,7 +19,7 @@
   }
   </script>
   <meta property="og:url" content="https://patterniseverything.com/start/">
-  <link rel="stylesheet" href="../css/main.css?v=14">
+  <link rel="stylesheet" href="../css/main.css?v=15">
   <style>
     body { padding-top: var(--hdr-h); }
     .portal-header {
@@ -88,9 +88,14 @@
   color: var(--text);
     }
     .path-band {
-      margin: 20px 0;
+      margin: 56px 0;
       border-top: 1px solid var(--border);
-      padding-top: 24px;
+      padding-top: 28px;
+    }
+    /* Alternate full-bleed surface bands for chapter rhythm */
+    .path-band.band {
+      border-top: 0;
+      padding: 44px 0 48px;
     }
     .path-head {
       display: flex;
@@ -167,14 +172,14 @@
   <meta property="og:title" content="Start Here - Pattern Portal">
   <meta property="og:description" content="A guided beginner-to-advanced learning path through Pattern Portal's ML, statistics, time-series, and market evidence topics.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Start Here - Pattern Portal">
   <meta name="twitter:description" content="A guided beginner-to-advanced learning path through Pattern Portal's ML, statistics, time-series, and market evidence topics.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-start.png">
 
   </head>
 <body>
@@ -229,7 +234,7 @@
     </div>
   </section>
 
-  <section class="path-band" id="start-real-data-workflow">
+  <section class="path-band band" id="start-real-data-workflow">
     <div class="path-head">
       <div><div class="path-level">Build</div><div class="path-title">First <em>Real-Data Workflow</em></div></div>
       <div class="path-time">~75 min · includes local CSVs</div>
@@ -255,7 +260,7 @@
     </div>
   </section>
 
-  <section class="path-band" id="start-market-evidence">
+  <section class="path-band band" id="start-market-evidence">
     <div class="path-head">
       <div><div class="path-level">Advanced</div><div class="path-title">Explainability and <em>Market Evidence</em></div></div>
       <div class="path-time">~90 min · evidence-aware decisions</div>

@@ -127,27 +127,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-reversal','head-and-shoulders')">
-      <div class="cat-card-icon">🔄</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 18 6.5 12 9.5 15 12 6 14.5 15 17.5 12 21 18"/></svg></div>
       <div class="cat-card-name">Reversal Patterns</div>
       <div class="cat-card-count">5 topics · H&S, Double Top/Bottom, Rounding</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-continuation','bull-flag')">
-      <div class="cat-card-icon">📈</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/></svg></div>
       <div class="cat-card-name">Continuation Patterns</div>
       <div class="cat-card-count">5 topics · Flags, Pennants, Triangles</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-bilateral','symmetric-triangle')">
-      <div class="cat-card-icon">📐</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5l16 5M4 17.5l16-5"/></svg></div>
       <div class="cat-card-name">Bilateral & Wedge</div>
       <div class="cat-card-count">5 topics · Sym Triangle, Wedges, Rectangle</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-candlestick','doji')">
-      <div class="cat-card-icon">🕯️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="4" x2="8" y2="20"/><rect x="5.5" y="8" width="5" height="7" rx="1"/><line x1="16" y1="6" x2="16" y2="18"/><rect x="13.5" y="10" width="5" height="5" rx="1"/></svg></div>
       <div class="cat-card-name">Candlestick Patterns</div>
       <div class="cat-card-count">5 topics · Doji, Hammer, Engulfing, Stars</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-structure','support-resistance')">
-      <div class="cat-card-icon">🏗️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Structural Analysis</div>
       <div class="cat-card-count">5 topics · S&R, Trendlines, Gaps, Cup & Handle</div>
     </div>

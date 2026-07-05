@@ -159,12 +159,12 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','vectors')">
-      <div class="cat-card-icon">📐</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></div>
       <div class="cat-card-name">Foundations</div>
       <div class="cat-card-count">6 topics · Vectors, regression, gradients, activations</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-training','loss')">
-      <div class="cat-card-icon">⚙️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5c5 1 7.5 5 9 12"/><circle cx="15" cy="17.5" r="2.4"/></svg></div>
       <div class="cat-card-name">Training</div>
       <div class="cat-card-count">8 topics · Loss, optimizers, regularization, init</div>
     </div>
@@ -174,22 +174,22 @@ function buildHome() {
       <div class="cat-card-count">8 topics · Probability, statistics, similarity</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-deep','cnn')">
-      <div class="cat-card-icon">🧠</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="12" cy="18" r="1.8"/><circle cx="19" cy="12" r="1.8"/><path d="M6.6 11l3.9-4M6.6 13l3.9 4M13.4 7l4 4M13.4 17l4-4"/></svg></div>
       <div class="cat-card-name">Deep Learning</div>
       <div class="cat-card-count">5 topics · CNNs, attention, transformers</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-sequence','rnn')">
-      <div class="cat-card-icon">⏱</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3"/></svg></div>
       <div class="cat-card-name">Sequence Models</div>
       <div class="cat-card-count">3 topics · RNN, LSTM, GRU</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-generative','pca')">
-      <div class="cat-card-icon">🎨</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a1.5 1.5 0 0 0 3 0 4 4 0 0 0-8 0 6.5 6.5 0 0 0 13 0 9 9 0 0 0-18 0"/></svg></div>
       <div class="cat-card-name">Generative & Prob.</div>
       <div class="cat-card-count">5 topics · PCA, SVD, VAE, Diffusion, GANs</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-modern','tokenization')">
-      <div class="cat-card-icon">🚀</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Modern / LLM</div>
       <div class="cat-card-count">3 topics · BPE, LoRA, RLHF</div>
     </div>

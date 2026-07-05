@@ -150,32 +150,32 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-evaluate','confusion-matrix')">
-      <div class="cat-card-icon">&#127919;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Evaluate Your Model</div>
       <div class="cat-card-count">6 topics &middot; Confusion matrix, ROC, regression metrics, CV</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-features','shap-values')">
-      <div class="cat-card-icon">&#128269;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></div>
       <div class="cat-card-name">Understand Your Features</div>
       <div class="cat-card-count">5 topics &middot; SHAP, permutation importance, PDP, correlation</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-data','distribution-shape')">
-      <div class="cat-card-icon">&#128202;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></div>
       <div class="cat-card-name">Analyze Your Data</div>
       <div class="cat-card-count">5 topics &middot; Distributions, outliers, drift, imbalance</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-backtest','sharpe-ratio')">
-      <div class="cat-card-icon">&#128200;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3"/></svg></div>
       <div class="cat-card-name">Backtest &amp; Validate</div>
       <div class="cat-card-count">5 topics &middot; Sharpe, drawdown, walk-forward, Monte Carlo</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-decisions','confidence-intervals')">
-      <div class="cat-card-icon">&#9878;&#65039;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 12h2l1-3 2 6 1-3h3"/></svg></div>
       <div class="cat-card-name">Make Decisions</div>
       <div class="cat-card-count">5 topics &middot; CI, bootstrap, Bayesian A/B, power analysis</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-python','sklearn-eval')">
-      <div class="cat-card-icon">&#128013;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12" y1="17" x2="19" y2="17"/></svg></div>
       <div class="cat-card-name">Python Power Tools</div>
       <div class="cat-card-count">5 topics &middot; scikit-learn, SHAP, Optuna, pandas-ta, scipy</div>
     </div>

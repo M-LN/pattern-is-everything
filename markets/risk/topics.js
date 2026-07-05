@@ -125,27 +125,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-risk','value-at-risk')">
-      <div class="cat-card-icon">&#9888;&#65039;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><line x1="12" y1="10" x2="12" y2="14"/><circle cx="12" cy="16.6" r=".6" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Risk Measures</div>
       <div class="cat-card-count">5 topics &middot; VaR, CVaR, GARCH, Correlation, Tail</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-port','mean-variance')">
-      <div class="cat-card-icon">&#127959;&#65039;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="10" x2="10" y2="19"/></svg></div>
       <div class="cat-card-name">Portfolio Construction</div>
       <div class="cat-card-count">5 topics &middot; MVO, Risk Parity, Factors, Rebalancing</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-size','kelly-criterion')">
-      <div class="cat-card-icon">&#128208;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></div>
       <div class="cat-card-name">Position Sizing</div>
       <div class="cat-card-count">5 topics &middot; Kelly, Fractional, Volatility, Pyramiding</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-hedge','options-hedging')">
-      <div class="cat-card-icon">&#128737;&#65039;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V6z"/></svg></div>
       <div class="cat-card-name">Hedging &amp; Protection</div>
       <div class="cat-card-count">5 topics &middot; Options, Stops, Pairs, Insurance, FX</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-perf','return-attribution')">
-      <div class="cat-card-icon">&#128202;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></div>
       <div class="cat-card-name">Performance &amp; Attribution</div>
       <div class="cat-card-count">5 topics &middot; Brinson, Tracking, Alpha, Sharpe, Drawdown</div>
     </div>

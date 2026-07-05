@@ -145,27 +145,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','tokenization')">
-      <div class="cat-card-icon">🔤</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Foundations</div>
       <div class="cat-card-count">6 topics · Tokenization, attention, embeddings</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-architecture','transformer-block')">
-      <div class="cat-card-icon">🏗️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Architecture</div>
       <div class="cat-card-count">6 topics · Transformer, MoE, scaling laws</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-training','pre-training')">
-      <div class="cat-card-icon">⚡</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5c5 1 7.5 5 9 12"/><circle cx="15" cy="17.5" r="2.4"/></svg></div>
       <div class="cat-card-name">Training</div>
       <div class="cat-card-count">6 topics · Pre-training, LoRA, RLHF, DPO</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-inference','decoding-strategies')">
-      <div class="cat-card-icon">🚀</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></div>
       <div class="cat-card-name">Inference</div>
       <div class="cat-card-count">6 topics · Sampling, quantization, batching</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-applications','prompt-engineering')">
-      <div class="cat-card-icon">🛠️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></div>
       <div class="cat-card-name">Applications</div>
       <div class="cat-card-count">6 topics · RAG, agents, function calling</div>
     </div>

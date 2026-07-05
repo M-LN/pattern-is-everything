@@ -135,27 +135,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','stationarity')">
-      <div class="cat-card-icon">&#128200;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3"/></svg></div>
       <div class="cat-card-name">Foundations</div>
       <div class="cat-card-count">5 topics &middot; Stationarity, ACF, decomposition</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-classical','ar-models')">
-      <div class="cat-card-icon">&#128202;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></div>
       <div class="cat-card-name">Classical Models</div>
       <div class="cat-card-count">5 topics &middot; AR, MA, ARIMA, SARIMA, ETS</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-advanced','prophet')">
-      <div class="cat-card-icon">&#128301;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Advanced Models</div>
       <div class="cat-card-count">5 topics &middot; Prophet, state-space, GARCH, VAR</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-deep','rnn-for-ts')">
-      <div class="cat-card-icon">&#129302;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="12" cy="18" r="1.8"/><circle cx="19" cy="12" r="1.8"/><path d="M6.6 11l3.9-4M6.6 13l3.9 4M13.4 7l4 4M13.4 17l4-4"/></svg></div>
       <div class="cat-card-name">Deep Learning</div>
       <div class="cat-card-count">5 topics &middot; LSTM, TCN, Transformers, N-BEATS</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-practice','feature-engineering')">
-      <div class="cat-card-icon">&#128736;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></div>
       <div class="cat-card-name">Practice &amp; Tooling</div>
       <div class="cat-card-count">5 topics &middot; Features, CV, backtesting, ensembles</div>
     </div>

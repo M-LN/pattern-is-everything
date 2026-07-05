@@ -135,27 +135,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-serve','model-packaging')">
-      <div class="cat-card-icon">&#128230;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Deploy &amp; Serve</div>
       <div class="cat-card-count">5 topics &middot; Packaging, serving patterns, rollouts, latency, GPU</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-monitor','drift-detection')">
-      <div class="cat-card-icon">&#128065;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/></svg></div>
       <div class="cat-card-name">Monitor &amp; Observe</div>
       <div class="cat-card-count">5 topics &middot; Drift, dashboards, SLOs, shadow mode, data quality</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-pipeline','ml-pipelines')">
-      <div class="cat-card-icon">&#9881;&#65039;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 4v2.5M12 17.5V20M4 12h2.5M17.5 12H20M6.4 6.4l1.8 1.8M15.8 15.8l1.8 1.8M17.6 6.4l-1.8 1.8M8.2 15.8l-1.8 1.8"/></svg></div>
       <div class="cat-card-name">Pipeline &amp; Automation</div>
       <div class="cat-card-count">5 topics &middot; Pipelines, feature stores, tracking, CI/CD</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-scale','model-compression')">
-      <div class="cat-card-icon">&#128640;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/></svg></div>
       <div class="cat-card-name">Scale &amp; Optimize</div>
       <div class="cat-card-count">5 topics &middot; Compression, quantization, caching, auto-scaling</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-govern','model-registry')">
-      <div class="cat-card-icon">&#128737;</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V6z"/></svg></div>
       <div class="cat-card-name">Governance &amp; Trust</div>
       <div class="cat-card-count">5 topics &middot; Registry, lineage, fairness, reproducibility</div>
     </div>

@@ -162,27 +162,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-biases','confirmation-bias')">
-      <div class="cat-card-icon">🧠</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 12h2l1-3 2 6 1-3h3"/></svg></div>
       <div class="cat-card-name">Cognitive Biases</div>
       <div class="cat-card-count">5 topics · Confirmation, Anchoring, Recency</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-emotional','fear-and-greed')">
-      <div class="cat-card-icon">💓</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.8-9.3-9.2A5 5 0 0 1 12 7a5 5 0 0 1 9.3 3.8C19.5 15.2 12 20 12 20z"/></svg></div>
       <div class="cat-card-name">Emotional Drivers</div>
       <div class="cat-card-count">5 topics · Fear & Greed, Loss Aversion</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-herd','herd-behavior')">
-      <div class="cat-card-icon">🐑</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="2.6"/><circle cx="16.5" cy="10.5" r="2.2"/><path d="M3.5 19a4.8 4.8 0 0 1 9 0M13.5 19a4 4 0 0 1 7 0"/></svg></div>
       <div class="cat-card-name">Herd & Social</div>
       <div class="cat-card-count">5 topics · Herding, FOMO, Social Proof</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-decision','sunk-cost-fallacy')">
-      <div class="cat-card-icon">🪤</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><line x1="12" y1="10" x2="12" y2="14"/><circle cx="12" cy="16.6" r=".6" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Decision Traps</div>
       <div class="cat-card-count">5 topics · Sunk Cost, Gambler's, Framing</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-cycles','market-sentiment-cycle')">
-      <div class="cat-card-icon">🔄</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><polyline points="20.5 2.5 20.5 7 16 7"/></svg></div>
       <div class="cat-card-name">Market Cycles</div>
       <div class="cat-card-count">5 topics · Sentiment, Euphoria & Panic</div>
     </div>

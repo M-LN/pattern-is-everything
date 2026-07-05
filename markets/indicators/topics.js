@@ -170,27 +170,27 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-moving-avg','sma')">
-      <div class="cat-card-icon">📊</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></div>
       <div class="cat-card-name">Moving Averages</div>
       <div class="cat-card-count">5 topics · SMA, EMA, WMA, DEMA, VWAP</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-oscillators','rsi')">
-      <div class="cat-card-icon">〰️</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3"/></svg></div>
       <div class="cat-card-name">Oscillators</div>
       <div class="cat-card-count">5 topics · RSI, Stochastic, CCI, Williams, ROC</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-trend','macd')">
-      <div class="cat-card-icon">📈</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/></svg></div>
       <div class="cat-card-name">Trend & Momentum</div>
       <div class="cat-card-count">5 topics · MACD, ADX, SAR, Ichimoku, Aroon</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-volatility','bollinger-bands')">
-      <div class="cat-card-icon">🌊</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 18 6.5 12 9.5 15 12 6 14.5 15 17.5 12 21 18"/></svg></div>
       <div class="cat-card-name">Volatility</div>
       <div class="cat-card-count">5 topics · Bollinger, ATR, Keltner, Donchian, StdDev</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-volume','obv')">
-      <div class="cat-card-icon">🔊</div>
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></div>
       <div class="cat-card-name">Volume Indicators</div>
       <div class="cat-card-count">5 topics · OBV, A/D, MFI, Chaikin, VWAP Bands</div>
     </div>
