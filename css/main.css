@@ -995,7 +995,7 @@ input[type=range]:focus-visible {
 .collection-card:hover {
   border-color: var(--accent);
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06);
+  box-shadow: 0 12px 40px rgba(200,75,47,.12), 0 2px 8px rgba(0,0,0,.06);
 }
 .collection-card:active { transform: translateY(-2px); }
 .cc-icon {
@@ -1182,6 +1182,46 @@ nav {
   transform: translateY(-2px);
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* ── Ambient glows — restrained radial light for depth ── */
+.portal-hero::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, 100vw);
+  height: 440px;
+  background: radial-gradient(ellipse 55% 55% at 50% 38%, rgba(200,75,47,.09), transparent 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+.learning-paths { position: relative; }
+.learning-paths::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1000px, 100vw);
+  height: 480px;
+  background: radial-gradient(ellipse 55% 55% at 50% 30%, rgba(42,125,95,.06), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+#universes { position: relative; }
+#universes::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1050px, 100vw);
+  height: 520px;
+  background: radial-gradient(ellipse 55% 55% at 50% 28%, rgba(41,85,160,.07), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ── Collection card mini-viz ── */
@@ -1608,7 +1648,9 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   background: var(--hi);
   border-radius: 8px;
   flex-shrink: 0;
+  color: var(--accent);
 }
+.start-card-icon svg { width: 20px; height: 20px; display: block; }
 .start-card-text { min-width: 0; }
 .start-card-name {
   font-size: 14px;
@@ -2239,7 +2281,8 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   border-radius: 20px;
   background: var(--surface);
 }
-.inside-chip span { font-size: 14px; }
+.inside-chip span { font-size: 14px; display: inline-flex; color: var(--accent); }
+.inside-chip span svg { width: 14px; height: 14px; display: block; }
 
 /* Pattern Thread Banner */
 .pattern-thread-home {
