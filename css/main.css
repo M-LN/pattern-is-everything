@@ -1184,6 +1184,61 @@ nav {
   color: var(--accent);
 }
 
+/* ── Section heads — mono kicker + serif headline scale ── */
+.section-head { margin: 0 0 32px; }
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.section-kicker::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.section-head h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  line-height: 1.12;
+  color: var(--text);
+}
+.section-head h2 em { font-style: italic; color: var(--accent); }
+.section-sub {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 560px;
+}
+
+/* ── Full-bleed section bands ── */
+html, body { overflow-x: clip; }
+.band { position: relative; }
+.band::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  z-index: -2;
+  pointer-events: none;
+}
+
 /* ── Ambient glows — restrained radial light for depth ── */
 .portal-hero::after {
   content: '';
@@ -3357,3 +3412,11 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 @media (prefers-reduced-motion: reduce) {
   .page-loader { display: none; }
 }
+
+/* ── Section rhythm — more air between chapters (overrides earlier margins) ── */
+.portal-video { margin: 72px auto; }
+.portal-stats { margin: 72px 0; padding: 52px 24px; }
+.live-preview { margin: 72px auto; }
+.inside-preview { margin-bottom: 72px; }
+.learning-paths { margin-bottom: 96px; }
+#universes { padding-top: 56px; padding-bottom: 96px; }
