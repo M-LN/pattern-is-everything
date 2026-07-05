@@ -630,6 +630,15 @@
     }
   }
 
+  /* Mark the current section in the portal top nav */
+  function initPortalNavCurrent() {
+    var here = window.location.pathname;
+    document.querySelectorAll('.portal-nav a').forEach(function (a) {
+      var p = a.getAttribute('href');
+      if (p && p !== '/' && here.indexOf(p) === 0) a.classList.add('is-current');
+    });
+  }
+
   /* "Surprise me" — jump to a random topic from the global index */
   function goRandomTopic() {
     var go = function () {
@@ -679,6 +688,7 @@
   function init() {
     initScrollProgress();
     initBackToTop();
+    initPortalNavCurrent();
     initRandomButton();
     initSearchButton();
     initHeadingAnchors();

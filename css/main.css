@@ -1118,6 +1118,83 @@ nav {
   text-align: center;
   position: relative;
 }
+/* ── Portal top nav ── */
+.portal-nav {
+  /* Reset the generic sidebar `nav {}` rules that otherwise leak in here */
+  position: static;
+  height: auto;
+  overflow: visible;
+  border: 0;
+  padding: 0;
+  background: none;
+  mask-image: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 12px;
+}
+.portal-nav a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 7px 10px;
+  border-radius: 6px;
+  transition: color .15s var(--ease), background .15s var(--ease);
+}
+.portal-nav a:hover { color: var(--text); background: var(--hi); }
+.portal-nav a.is-current { color: var(--accent); background: var(--hi); }
+@media (max-width: 860px) { .portal-nav { display: none; } }
+
+/* ── Hero CTAs ── */
+.hero-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font: 600 14px var(--sans);
+  text-decoration: none;
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+}
+.hero-btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(200,75,47,.28);
+}
+.hero-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(200,75,47,.4);
+}
+.hero-btn-ghost {
+  border: 1px solid var(--border2);
+  color: var(--text);
+}
+.hero-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Collection card mini-viz ── */
+.cc-viz {
+  display: block;
+  width: 100%;
+  height: 110px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+}
+
 /* Pattern of the day — one topic, same for everyone, rotates daily.
    Space is reserved up front (min-height + visibility) so the strip
    doesn't push content down when the index loads. */

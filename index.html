@@ -42,7 +42,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
-  <link rel="stylesheet" href="css/main.css?v=10">
+  <link rel="stylesheet" href="css/main.css?v=11">
   </head>
 <body>
 
@@ -53,6 +53,14 @@
   <div class="portal-brand">
     Pattern is <em style="font-style:italic;color:var(--accent)">Everything</em>
   </div>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/cases/">Cases</a>
+    <a href="/sandbox/">Sandbox</a>
+    <a href="/start/">Start</a>
+  </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <button class="theme-toggle" type="button" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
   </div>
@@ -63,6 +71,10 @@
   <canvas id="heroPattern" class="hero-pattern" aria-hidden="true"></canvas>
   <h1>Pattern is<br><em>Everything</em></h1>
   <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 249 interactive, visual references across machine learning and markets.</p>
+  <div class="hero-ctas">
+    <a class="hero-btn hero-btn-primary" href="start/index.html">Start learning →</a>
+    <a class="hero-btn hero-btn-ghost" href="#universes">Browse all 249 topics</a>
+  </div>
 </div>
 
 <div class="pattern-of-day" id="patternOfDay">
@@ -445,12 +457,12 @@
   </a>
 </div>
 
-<div class="portal-content">
+<div class="portal-content" id="universes">
   <div class="portal-section-title">Universes</div>
 
   <div class="portal-grid">
     <a class="collection-card" href="ml/index.html">
-      <div class="cc-icon">🧠</div>
+      <canvas class="cc-viz" data-viz="ml" aria-hidden="true"></canvas>
       <div class="cc-title">Machine <em>Learning</em></div>
       <div class="cc-desc">149 topics across five collections — ML Math, The Toolkit, LLM Engineering, MLOps, and Timeseries Engineering. From linear algebra to production deployment, with interactive visualizations and code.</div>
       <div class="cc-tags">
@@ -462,7 +474,7 @@
     </a>
 
     <a class="collection-card" href="markets/index.html">
-      <div class="cc-icon">📈</div>
+      <canvas class="cc-viz" data-viz="markets" aria-hidden="true"></canvas>
       <div class="cc-title">Market <em>Patterns</em></div>
       <div class="cc-desc">100 topics across four collections — Chart Patterns, Technical Indicators, Market Psychology, and Risk & Portfolio. Visual guides to the patterns that move markets.</div>
       <div class="cc-tags">
@@ -474,7 +486,7 @@
     </a>
 
     <a class="collection-card" href="essays/index.html">
-      <div class="cc-icon">✦</div>
+      <canvas class="cc-viz" data-viz="essays" aria-hidden="true"></canvas>
       <div class="cc-title">Pattern <em>Essays</em></div>
       <div class="cc-desc">12 short, calm reflections on patterns that appear across the world — the bell curve, the long tail, feedback loops, survivorship bias, fractals, Simpson's paradox, and the Kalman filter. Each with an interactive visualization.</div>
       <div class="cc-tags">
@@ -486,7 +498,7 @@
     </a>
 
     <a class="collection-card" href="cases/index.html">
-      <div class="cc-icon">↗</div>
+      <canvas class="cc-viz" data-viz="cases" aria-hidden="true"></canvas>
       <div class="cc-title">Real-Data <em>Cases</em></div>
       <div class="cc-desc">4 practical mini-cases that connect the visual references to datasets, pipelines, metrics, failure modes, and notebook-ready starting points.</div>
       <div class="cc-tags">
@@ -543,6 +555,186 @@ fetch('search-index.json')
     document.getElementById('patternOfDay').classList.add('is-ready');
   })
   .catch(() => {});
+
+// Universe card mini-visualizations — small deterministic previews of what
+// lives inside each universe, drawn in the theme's accent colors.
+(function () {
+  const canvases = document.querySelectorAll('.cc-viz');
+  if (!canvases.length) return;
+
+  // Seeded PRNG so every visitor sees the same composition
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function colors() {
+    const s = getComputedStyle(document.documentElement);
+    return {
+      accent: s.getPropertyValue('--accent').trim(),
+      green: s.getPropertyValue('--accent2').trim(),
+      blue: s.getPropertyValue('--accent3').trim(),
+      purple: s.getPropertyValue('--accent4').trim(),
+      muted: s.getPropertyValue('--muted').trim(),
+      border: s.getPropertyValue('--border2').trim(),
+    };
+  }
+
+  const DRAW = {
+    // Gradient descent: contour rings + a path rolling into the minimum
+    ml(ctx, w, h, c) {
+      const cx = w * .62, cy = h * .55;
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 5; i++) {
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, i * w * .085, i * h * .14, -.3, 0, Math.PI * 2);
+        ctx.strokeStyle = c.border;
+        ctx.globalAlpha = .8 - i * .1;
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      const steps = 9;
+      let px = w * .1, py = h * .16;
+      ctx.strokeStyle = c.accent;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        px = px + (cx - px) * .38;
+        py = py + (cy - py) * .34 + Math.sin(i * 2.1) * h * .04 * (1 - t);
+        ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      let dx = w * .1, dy = h * .16;
+      for (let i = 0; i <= steps; i++) {
+        ctx.beginPath();
+        ctx.arc(dx, dy, 3.4 - i * .22, 0, Math.PI * 2);
+        ctx.fillStyle = c.accent;
+        ctx.fill();
+        dx = dx + (cx - dx) * .38;
+        dy = dy + (cy - dy) * .34 + Math.sin((i + 1) * 2.1) * h * .04 * (1 - (i + 1) / steps);
+      }
+    },
+    // Candlesticks tracing a head-and-shoulders arc
+    markets(ctx, w, h, c) {
+      const rnd = mulberry32(7);
+      const n = 16, bw = w / (n + 3);
+      for (let i = 0; i < n; i++) {
+        const t = i / (n - 1);
+        const arc = Math.sin(t * Math.PI) * .5 + Math.sin(t * Math.PI * 3) * .22;
+        const mid = h * .78 - arc * h * .5;
+        const o = mid + (rnd() - .5) * h * .1;
+        const cl = mid + (rnd() - .5) * h * .1;
+        const hi = Math.min(o, cl) - rnd() * h * .07;
+        const lo = Math.max(o, cl) + rnd() * h * .07;
+        const x = bw * 1.5 + i * bw;
+        const up = cl < o;
+        ctx.strokeStyle = ctx.fillStyle = up ? c.green : c.accent;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, hi); ctx.lineTo(x, lo);
+        ctx.stroke();
+        ctx.fillRect(x - bw * .28, Math.min(o, cl), bw * .56, Math.max(2, Math.abs(cl - o)));
+      }
+      ctx.strokeStyle = c.border;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath();
+      ctx.moveTo(bw, h * .72); ctx.lineTo(w - bw, h * .72);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    },
+    // Bell curve with a calm random walk drifting through it
+    essays(ctx, w, h, c) {
+      ctx.beginPath();
+      for (let px = 0; px <= w; px += 2) {
+        const x = px / w;
+        const y = h * .88 - h * .62 * Math.exp(-((x - .5) ** 2) / .028);
+        px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
+      }
+      ctx.lineTo(w, h * .88); ctx.lineTo(0, h * .88);
+      ctx.closePath();
+      ctx.fillStyle = c.purple;
+      ctx.globalAlpha = .12;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = c.purple;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let px = 0; px <= w; px += 2) {
+        const x = px / w;
+        const y = h * .88 - h * .62 * Math.exp(-((x - .5) ** 2) / .028);
+        px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
+      }
+      ctx.stroke();
+      const rnd = mulberry32(21);
+      let wy = h * .5;
+      ctx.strokeStyle = c.accent;
+      ctx.lineWidth = 1.2;
+      ctx.globalAlpha = .85;
+      ctx.beginPath();
+      ctx.moveTo(0, wy);
+      for (let px = 4; px <= w; px += 4) {
+        wy += (rnd() - .5) * h * .09;
+        wy = Math.max(h * .12, Math.min(h * .8, wy));
+        ctx.lineTo(px, wy);
+      }
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    },
+    // Scatter + fitted regression line
+    cases(ctx, w, h, c) {
+      const rnd = mulberry32(11);
+      const x0 = w * .1, y0 = h * .82, x1 = w * .92, y1 = h * .2;
+      for (let i = 0; i < 26; i++) {
+        const t = rnd();
+        const px = x0 + (x1 - x0) * t;
+        const py = y0 + (y1 - y0) * t + (rnd() - .5) * h * .28;
+        ctx.beginPath();
+        ctx.arc(px, Math.max(h * .08, Math.min(h * .92, py)), 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = c.blue;
+        ctx.globalAlpha = .75;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = c.accent;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+      ctx.stroke();
+      ctx.strokeStyle = c.border;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(w * .06, h * .08); ctx.lineTo(w * .06, h * .92); ctx.lineTo(w * .96, h * .92);
+      ctx.stroke();
+    },
+  };
+
+  function drawAll() {
+    const c = colors();
+    canvases.forEach(canvas => {
+      const draw = DRAW[canvas.dataset.viz];
+      if (!draw) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      if (!r.width) return;
+      canvas.width = Math.round(r.width * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw(ctx, r.width, r.height, c);
+    });
+  }
+
+  drawAll();
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(drawAll, 150); });
+  new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
 
 // Scroll-reveal: below-the-fold homepage sections fade up as they enter view
 if (!PREFERS_REDUCED_MOTION && 'IntersectionObserver' in window) {
@@ -852,6 +1044,6 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 <script src="js/learning-path.js?v=4"></script>
-<script src="js/ui-enhance.js?v=22" defer></script>
+<script src="js/ui-enhance.js?v=23" defer></script>
 </body>
 </html>
