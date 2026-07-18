@@ -1118,6 +1118,7 @@
   var WHATSNEW_VERSION = 1;
   var WHATSNEW_KEY = 'pp_whatsnew_seen';
   function initWhatsNew() {
+    var visits = 0;
     try {
       var seen = parseInt(localStorage.getItem(WHATSNEW_KEY) || '0', 10);
       if (seen >= WHATSNEW_VERSION) return;
@@ -1126,10 +1127,15 @@
       var VISITS_KEY = 'pp_visit_sessions';
       if (!sessionStorage.getItem('pp_session_counted')) {
         sessionStorage.setItem('pp_session_counted', '1');
-        localStorage.setItem(VISITS_KEY, String(parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) + 1));
+        localStorage.setItem(VISITS_KEY, String((parseInt(localStorage.getItem(VISITS_KEY), 10) || 0) + 1));
       }
-      if (parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) < 2) return;
-    } catch (e) { /* localStorage may be blocked */ }
+      visits = parseInt(localStorage.getItem(VISITS_KEY), 10) || 0;
+    } catch (e) {
+      // Storage blocked (private mode etc.) — fail closed: a dismissal
+      // couldn't persist either, so the toast would nag on every load.
+      return;
+    }
+    if (visits < 2) return;
     // Defer to avoid competing with LCP
     setTimeout(buildWhatsNewToast, 1800);
   }

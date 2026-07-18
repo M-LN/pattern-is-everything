@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v85';
+const CACHE_NAME = 'pattern-v86';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -111,7 +111,7 @@ self.addEventListener('fetch', e => {
         }
         return res;
       })
-      .catch(() => caches.match(e.request).then(cached => {
+      .catch(() => caches.match(e.request, { ignoreSearch: true }).then(cached => {
         if (cached) return cached;
         if (isNavigation) return caches.match(OFFLINE_URL);
         return new Response('', { status: 504, statusText: 'Offline' });
