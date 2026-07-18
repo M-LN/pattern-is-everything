@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pattern is Everything</title>
-  <meta name="description" content="257 interactive topics across Machine Learning & Markets. Visual references with canvas diagrams, formulas, and code.">
+  <meta name="description" content="257 interactive topics across Machine Learning, Statistics & Markets. Visual references with canvas diagrams, formulas, and code.">
   <meta property="og:title" content="Pattern is Everything">
-  <meta property="og:description" content="257 interactive topics across Machine Learning & Markets. Visual references with canvas diagrams, formulas, and code.">
+  <meta property="og:description" content="257 interactive topics across Machine Learning, Statistics & Markets. Visual references with canvas diagrams, formulas, and code.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://patterniseverything.com/">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
@@ -15,7 +15,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Pattern is Everything">
-  <meta name="twitter:description" content="257 interactive topics across ML & Markets — zero dependencies.">
+  <meta name="twitter:description" content="257 interactive topics across ML, Statistics & Markets — zero dependencies.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
   <link rel="manifest" href="manifest.json">
@@ -30,7 +30,7 @@
     "@type": "WebSite",
     "name": "Pattern is Everything",
     "url": "https://patterniseverything.com/",
-    "description": "257 interactive topics across Machine Learning & Markets. Visual references with canvas diagrams, formulas, and code.",
+    "description": "257 interactive topics across Machine Learning, Statistics & Markets. Visual references with canvas diagrams, formulas, and code.",
     "publisher": {
       "@type": "Organization",
       "name": "Pattern is Everything",
@@ -55,6 +55,7 @@
   </div>
   <nav class="portal-nav" aria-label="Primary">
     <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
     <a href="/markets/">Markets</a>
     <a href="/essays/">Essays</a>
     <a href="/cases/">Cases</a>
@@ -70,7 +71,7 @@
 <div class="portal-hero">
   <canvas id="heroPattern" class="hero-pattern" aria-hidden="true"></canvas>
   <h1>Pattern is<br><em>Everything</em></h1>
-  <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 257 interactive, visual references across machine learning and markets.</p>
+  <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 257 interactive, visual references across machine learning, statistics, and markets.</p>
   <div class="hero-ctas">
     <a class="hero-btn hero-btn-primary" href="start/index.html">Start learning →</a>
     <a class="hero-btn hero-btn-ghost" href="#universes">Browse all 257 topics</a>
@@ -171,7 +172,7 @@
     <div class="portal-stat-label">Core Visualizations</div>
   </div>
   <div class="portal-stat">
-    <div class="portal-stat-num">3</div>
+    <div class="portal-stat-num">4</div>
     <div class="portal-stat-label">Universes</div>
   </div>
   <div class="portal-stat">
@@ -472,20 +473,32 @@
   <div class="section-head">
     <div class="section-kicker">Universes</div>
     <h2>Pick your <em>universe</em></h2>
-    <p class="section-sub">Three worlds, ten collections, 261 interactive references — machine learning, markets, and the patterns that connect them.</p>
+    <p class="section-sub">Four worlds, ten collections, 269 interactive references — machine learning, statistics, markets, and the patterns that connect them.</p>
   </div>
 
   <div class="portal-grid">
     <a class="collection-card" href="ml/index.html">
       <canvas class="cc-viz" data-viz="ml" aria-hidden="true"></canvas>
       <div class="cc-title">Machine <em>Learning</em></div>
-      <div class="cc-desc">157 topics across five collections — ML Math, The Toolkit, LLM Engineering, MLOps, and Timeseries Engineering. From linear algebra to production deployment, with interactive visualizations and code.</div>
+      <div class="cc-desc">118 topics across four collections — ML Math, LLM Engineering, MLOps, and Timeseries Engineering. From linear algebra to production deployment, with interactive visualizations and code.</div>
       <div class="cc-tags">
-        <span class="tag t1">157 Topics</span>
-        <span class="tag t2">5 Collections</span>
+        <span class="tag t1">118 Topics</span>
+        <span class="tag t2">4 Collections</span>
         <span class="tag t3">PyTorch</span>
       </div>
-      <div class="cc-meta" style="margin-top:14px;">ML Math · The Toolkit · LLM Engineering · MLOps · Timeseries</div>
+      <div class="cc-meta" style="margin-top:14px;">ML Math · LLM Engineering · MLOps · Timeseries</div>
+    </a>
+
+    <a class="collection-card" href="stats/index.html">
+      <canvas class="cc-viz" data-viz="stats" aria-hidden="true"></canvas>
+      <div class="cc-title">Statistics &amp; <em>Data Analytics</em></div>
+      <div class="cc-desc">39 topics in The Toolkit — hypothesis testing, statistical foundations, EDA, cohorts, funnels, model evaluation, backtesting, and decision-making. Every topic with interactive visuals, formulas, and Python you can use today.</div>
+      <div class="cc-tags">
+        <span class="tag t1">39 Topics</span>
+        <span class="tag t2">8 Sections</span>
+        <span class="tag t3">pandas · scipy</span>
+      </div>
+      <div class="cc-meta" style="margin-top:14px;">Evaluate · Statistics · Analytics · Backtest · Decide · Python</div>
     </a>
 
     <a class="collection-card" href="markets/index.html">
@@ -700,6 +713,39 @@ fetch('search-index.json')
       }
       ctx.stroke();
       ctx.globalAlpha = 1;
+    },
+    // Retention-triangle heatmap with a rising trend line — the analytics dashboard
+    stats(ctx, w, h, c) {
+      const rows = 5, cols = 8;
+      const gx = w * .08, gy = h * .12, gw = w * .58, gh = h * .76;
+      const cw = gw / cols, ch = gh / rows;
+      for (let r = 0; r < rows; r++) {
+        const visible = cols - r;
+        for (let m = 0; m < visible; m++) {
+          const v = Math.pow(.78, m);
+          ctx.fillStyle = c.accent;
+          ctx.globalAlpha = .08 + v * .55;
+          ctx.fillRect(gx + m * cw + 1, gy + r * ch + 1, cw - 2, ch - 2);
+        }
+      }
+      ctx.globalAlpha = 1;
+      const rnd = mulberry32(17);
+      const x0 = w * .72, x1 = w * .95, y0 = h * .8, y1 = h * .18;
+      ctx.strokeStyle = c.green;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let i = 0; i <= 10; i++) {
+        const t = i / 10;
+        const px = x0 + (x1 - x0) * t;
+        const py = y0 + (y1 - y0) * t + (rnd() - .5) * h * .09;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.strokeStyle = c.border;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x0 - 4, h * .12); ctx.lineTo(x0 - 4, h * .88); ctx.lineTo(w * .97, h * .88);
+      ctx.stroke();
     },
     // Scatter + fitted regression line
     cases(ctx, w, h, c) {
