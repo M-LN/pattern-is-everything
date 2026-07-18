@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    The Toolkit — Visualizations Engine
-   Canvas-based interactive visualizations for 31 topics
+   Canvas-based interactive visualizations for 39 topics
    ═══════════════════════════════════════════════════════════════ */
 
 const DRAWS = {};
@@ -2054,4 +2054,595 @@ window.updateLCPlayground = function() {
     diagnosis = '🟠 <strong>Moderate gap</strong> (' + gap.toFixed(2) + ') — val score ' + valScore.toFixed(2) + '. More data or light regularization may help.';
   }
   document.getElementById('lcDiagnosis').innerHTML = '→ Train: ' + trainScore.toFixed(2) + ' | Val: ' + valScore.toFixed(2) + '<br>' + diagnosis;
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   27 — Hypothesis Testing & p-values
+   ═══════════════════════════════════════════════════════════════ */
+DRAWS['hypothesis-testing'] = function() {
+  const s = setupCanvas('hypCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const zS = document.getElementById('hypZ'), aS = document.getElementById('hypAlpha');
+  if (!zS || !aS) return;
+
+  // Standard normal CDF via erf approximation
+  function phi(x) {
+    const t = 1 / (1 + 0.2316419 * Math.abs(x));
+    const d = 0.3989423 * Math.exp(-x * x / 2);
+    let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return x > 0 ? 1 - p : p;
+  }
+  function zCrit(alpha) { // two-tailed critical value via bisection
+    let lo = 0, hi = 6;
+    for (let i = 0; i < 50; i++) {
+      const mid = (lo + hi) / 2;
+      if (2 * (1 - phi(mid)) > alpha) lo = mid; else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  function draw() {
+    const z = +zS.value / 100;
+    const alpha = +aS.value / 100;
+    document.getElementById('hypZV').textContent = z.toFixed(2);
+    document.getElementById('hypAlphaV').textContent = alpha.toFixed(2);
+    const p = 2 * (1 - phi(Math.abs(z)));
+    const reject = p < alpha;
+    document.getElementById('hypP').textContent = p < 0.0001 ? '<0.0001' : p.toFixed(4);
+    const dec = document.getElementById('hypDecision');
+    dec.textContent = reject ? 'Reject H₀' : 'Fail to reject';
+    dec.style.color = reject ? RED : GREEN;
+
+    ctx.clearRect(0, 0, w, h);
+    const px = 30, pw = w - 60, py = 20, ph = h - 60;
+    const xToPx = x => px + (x + 4) / 8 * pw;
+    const zc = zCrit(alpha);
+    const peak = gaussPdf(0, 0, 1);
+
+    // Rejection regions (shaded tails)
+    ctx.fillStyle = 'rgba(229,115,115,0.18)';
+    [[-4, -zc], [zc, 4]].forEach(([a, b]) => {
+      ctx.beginPath();
+      ctx.moveTo(xToPx(a), py + ph);
+      for (let x = a; x <= b + 0.001; x += 0.02) ctx.lineTo(xToPx(x), py + ph - gaussPdf(x, 0, 1) / peak * ph);
+      ctx.lineTo(xToPx(b), py + ph);
+      ctx.closePath(); ctx.fill();
+    });
+
+    // Null distribution curve
+    ctx.strokeStyle = BLUE; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let x = -4; x <= 4; x += 0.02) {
+      const cx = xToPx(x), cy = py + ph - gaussPdf(x, 0, 1) / peak * ph;
+      x === -4 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+
+    // Axis
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(px, py + ph); ctx.lineTo(px + pw, py + ph); ctx.stroke();
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'center';
+    [-3, -2, -1, 0, 1, 2, 3].forEach(t => ctx.fillText(t, xToPx(t), py + ph + 14));
+
+    // Critical value markers
+    ctx.fillStyle = RED; ctx.font = `10px ${MONO()}`;
+    ctx.fillText('−z₍crit₎ ' + (-zc).toFixed(2), xToPx(-zc), py + 10);
+    ctx.fillText('+z₍crit₎ ' + zc.toFixed(2), xToPx(zc), py + 10);
+
+    // Observed statistic
+    const ox = xToPx(clamp(z, -4, 4));
+    ctx.strokeStyle = ACCENT(); ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(ox, py); ctx.lineTo(ox, py + ph); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = ACCENT(); ctx.textAlign = 'center';
+    ctx.fillText('observed z', ox, py + ph + 28);
+
+    ctx.fillStyle = MUTED(); ctx.textAlign = 'left';
+    ctx.fillText('H₀ distribution — red tails = rejection region (α)', px + 4, h - 6);
+  }
+  zS.oninput = draw; aS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   28 — Choosing the Right Statistical Test
+   ═══════════════════════════════════════════════════════════════ */
+DRAWS['stat-tests'] = function() {
+  const s = setupCanvas('testCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const gS = document.getElementById('testGroups'), pS = document.getElementById('testPaired'), nS = document.getElementById('testNormal');
+  if (!gS || !pS || !nS) return;
+
+  function draw() {
+    const groups = +gS.value, paired = +pS.value === 1, normal = +nS.value === 1;
+    document.getElementById('testGroupsV').textContent = groups === 2 ? '2' : '3+';
+    document.getElementById('testPairedV').textContent = paired ? 'Yes' : 'No';
+    document.getElementById('testNormalV').textContent = normal ? 'Yes' : 'No';
+
+    let rec;
+    if (groups >= 3) rec = normal ? 'One-way ANOVA' : 'Kruskal-Wallis';
+    else if (paired) rec = normal ? 'Paired t-test' : 'Wilcoxon signed-rank';
+    else rec = normal ? 'Welch t-test' : 'Mann-Whitney U';
+    document.getElementById('testRec').textContent = rec;
+
+    ctx.clearRect(0, 0, w, h);
+    const cells = [
+      { name: 'Welch t-test',        sub: '2 groups · independent · normal' },
+      { name: 'Mann-Whitney U',      sub: '2 groups · independent · any shape' },
+      { name: 'Paired t-test',       sub: '2 groups · paired · normal' },
+      { name: 'Wilcoxon signed-rank',sub: '2 groups · paired · any shape' },
+      { name: 'One-way ANOVA',       sub: '3+ groups · normal' },
+      { name: 'Kruskal-Wallis',      sub: '3+ groups · any shape' },
+    ];
+    const cols = 2, rows = 3;
+    const gx = 20, gy = 34, gw = w - 40, gh = h - 54;
+    const cw = gw / cols, chh = gh / rows;
+
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('// decision map — your situation highlights the test to reach for', gx, 18);
+
+    cells.forEach((cell, i) => {
+      const r = Math.floor(i / cols), c = i % cols;
+      const x = gx + c * cw + 4, y = gy + r * chh + 4, bw = cw - 8, bh = chh - 8;
+      const hot = cell.name === rec;
+      ctx.fillStyle = hot ? 'rgba(200,169,110,0.16)' : 'rgba(128,128,128,0.05)';
+      ctx.fillRect(x, y, bw, bh);
+      ctx.strokeStyle = hot ? ACCENT() : BORDER(); ctx.lineWidth = hot ? 2 : 1;
+      ctx.strokeRect(x, y, bw, bh);
+      ctx.fillStyle = hot ? ACCENT() : MUTED();
+      ctx.font = `${hot ? 'bold ' : ''}12px ${MONO()}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(cell.name, x + bw / 2, y + bh / 2 - 8);
+      ctx.font = `9px ${MONO()}`; ctx.fillStyle = MUTED();
+      ctx.fillText(cell.sub, x + bw / 2, y + bh / 2 + 10);
+      ctx.textBaseline = 'alphabetic';
+    });
+  }
+  gS.oninput = draw; pS.oninput = draw; nS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   29 — Central Limit Theorem & Sampling
+   ═══════════════════════════════════════════════════════════════ */
+DRAWS['clt-sampling'] = function() {
+  const s = setupCanvas('cltCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const skS = document.getElementById('cltSkew'), nS = document.getElementById('cltN');
+  if (!skS || !nS) return;
+
+  function popSample(skew) {
+    // Mix of normal and exponential controlled by skew ∈ [0,1]
+    const g = 0.5 + gauss() * 0.12;
+    const e = -Math.log(1 - Math.random()) * 0.22;
+    return clamp((1 - skew) * g + skew * e, 0, 1);
+  }
+
+  function draw() {
+    const skew = +skS.value / 100, n = +nS.value;
+    document.getElementById('cltSkewV').textContent = skew.toFixed(2);
+    document.getElementById('cltNV').textContent = n;
+
+    // Simulate
+    const POP = 4000, TRIALS = 3000;
+    const popBins = new Array(40).fill(0);
+    for (let i = 0; i < POP; i++) popBins[clamp(Math.floor(popSample(skew) * 40), 0, 39)]++;
+    const meanBins = new Array(40).fill(0);
+    const means = [];
+    for (let t = 0; t < TRIALS; t++) {
+      let sum = 0;
+      for (let i = 0; i < n; i++) sum += popSample(skew);
+      const m = sum / n;
+      means.push(m);
+      meanBins[clamp(Math.floor(m * 40), 0, 39)]++;
+    }
+    const mMean = means.reduce((a, b) => a + b, 0) / means.length;
+    const mSd = Math.sqrt(means.reduce((a, b) => a + (b - mMean) ** 2, 0) / means.length);
+    document.getElementById('cltSE').textContent = mSd.toFixed(3);
+
+    ctx.clearRect(0, 0, w, h);
+    const px = 30, pw = w - 60;
+    const panel = (bins, py, ph, color, label) => {
+      const maxB = Math.max(...bins, 1);
+      const bw = pw / bins.length;
+      ctx.fillStyle = color;
+      bins.forEach((b, i) => {
+        const bh = b / maxB * (ph - 16);
+        ctx.globalAlpha = 0.75;
+        ctx.fillRect(px + i * bw, py + ph - bh, bw - 1, bh);
+        ctx.globalAlpha = 1;
+      });
+      ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px, py + ph); ctx.lineTo(px + pw, py + ph); ctx.stroke();
+      ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+      ctx.fillText(label, px, py + 10);
+    };
+    const half = (h - 30) / 2;
+    panel(popBins, 8, half, BLUE, '// population (one draw at a time)');
+    panel(meanBins, half + 22, half, ACCENT(), '// distribution of sample means (n=' + n + ')');
+
+    // Normal overlay on bottom panel
+    const maxB = Math.max(...meanBins, 1);
+    const py2 = half + 22, ph2 = half;
+    ctx.strokeStyle = GREEN; ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    let started = false;
+    for (let i = 0; i < 200; i++) {
+      const x = i / 199;
+      const pdf = gaussPdf(x, mMean, Math.max(mSd, 0.004));
+      const binApprox = pdf / 40 * TRIALS; // expected count per bin width
+      const yy = py2 + ph2 - clamp(binApprox / maxB, 0, 1) * (ph2 - 16);
+      const cx = px + x * pw;
+      started ? ctx.lineTo(cx, yy) : ctx.moveTo(cx, yy); started = true;
+    }
+    ctx.stroke();
+    ctx.fillStyle = GREEN; ctx.font = `10px ${MONO()}`; ctx.textAlign = 'right';
+    ctx.fillText('normal fit', px + pw, py2 + 10);
+  }
+  skS.oninput = draw; nS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   30 — Correlation, Causation & Simpson's Paradox
+   ═══════════════════════════════════════════════════════════════ */
+let causBase;
+DRAWS['correlation-causation'] = function() {
+  const s = setupCanvas('causCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const cS = document.getElementById('causConf');
+  if (!cS) return;
+
+  if (!causBase) {
+    causBase = [];
+    for (let g = 0; g < 3; g++)
+      for (let i = 0; i < 26; i++)
+        causBase.push({ g, u: Math.random(), e: gauss() * 0.05 });
+  }
+
+  function pearson(pts) {
+    const n = pts.length;
+    const mx = pts.reduce((a, p) => a + p.x, 0) / n, my = pts.reduce((a, p) => a + p.y, 0) / n;
+    let sxy = 0, sxx = 0, syy = 0;
+    pts.forEach(p => { sxy += (p.x - mx) * (p.y - my); sxx += (p.x - mx) ** 2; syy += (p.y - my) ** 2; });
+    return sxy / Math.sqrt(sxx * syy || 1);
+  }
+  function fitLine(pts) {
+    const n = pts.length;
+    const mx = pts.reduce((a, p) => a + p.x, 0) / n, my = pts.reduce((a, p) => a + p.y, 0) / n;
+    let sxy = 0, sxx = 0;
+    pts.forEach(p => { sxy += (p.x - mx) * (p.y - my); sxx += (p.x - mx) ** 2; });
+    const b = sxy / (sxx || 1);
+    return { b, a: my - b * mx };
+  }
+
+  function draw() {
+    const conf = +cS.value / 100;
+    document.getElementById('causConfV').textContent = conf.toFixed(2);
+
+    // Within each group, x-y slope is positive; confounder shifts groups so pooled slope turns negative
+    const pts = causBase.map(p => {
+      const gx = p.g * 0.30 * conf;            // group offset on x
+      const gy = -p.g * 0.34 * conf;           // opposite offset on y
+      const x = 0.08 + gx + p.u * 0.32;
+      const y = 0.22 + gy + p.u * 0.28 + p.e + conf * 0.34;
+      return { x: clamp(x, 0, 1), y: clamp(y, 0.02, 0.98), g: p.g };
+    });
+
+    const rPooled = pearson(pts);
+    const rWithin = [0, 1, 2].map(g => pearson(pts.filter(p => p.g === g)));
+    const rW = rWithin.reduce((a, b) => a + b, 0) / 3;
+    const pool = document.getElementById('causPooled');
+    pool.textContent = rPooled.toFixed(2);
+    pool.style.color = rPooled < 0 ? RED : GREEN;
+    document.getElementById('causWithin').textContent = rW.toFixed(2);
+
+    ctx.clearRect(0, 0, w, h);
+    const px = 34, pw = w - 60, py = 16, ph = h - 50;
+    const X = v => px + v * pw, Y = v => py + (1 - v) * ph;
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.strokeRect(px, py, pw, ph);
+
+    const gcols = [BLUE, GREEN, '#f0a050'];
+    // Group points + group fit lines
+    [0, 1, 2].forEach(g => {
+      const gp = pts.filter(p => p.g === g);
+      ctx.fillStyle = gcols[g];
+      gp.forEach(p => { ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), 3, 0, Math.PI * 2); ctx.fill(); });
+      const f = fitLine(gp);
+      const x0 = Math.min(...gp.map(p => p.x)), x1 = Math.max(...gp.map(p => p.x));
+      ctx.strokeStyle = gcols[g]; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(X(x0), Y(clamp(f.a + f.b * x0, 0, 1))); ctx.lineTo(X(x1), Y(clamp(f.a + f.b * x1, 0, 1))); ctx.stroke();
+    });
+
+    // Pooled fit line (dashed red)
+    const f = fitLine(pts);
+    ctx.strokeStyle = RED; ctx.lineWidth = 2; ctx.setLineDash([6, 5]);
+    ctx.beginPath(); ctx.moveTo(X(0.02), Y(clamp(f.a + f.b * 0.02, 0, 1))); ctx.lineTo(X(0.98), Y(clamp(f.a + f.b * 0.98, 0, 1))); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('colored = subgroups (each trends up) · dashed = pooled trend', px, h - 8);
+  }
+  cS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   31 — Exploratory Data Analysis (EDA)
+   ═══════════════════════════════════════════════════════════════ */
+let edaBase;
+DRAWS['eda-workflow'] = function() {
+  const s = setupCanvas('edaCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const skS = document.getElementById('edaSkew'), oS = document.getElementById('edaOut');
+  if (!skS || !oS) return;
+
+  if (!edaBase) edaBase = Array.from({ length: 600 }, () => ({ g: gauss(), e: -Math.log(1 - Math.random()), u: Math.random() }));
+
+  function draw() {
+    const skew = +skS.value / 100, outPct = +oS.value;
+    document.getElementById('edaSkewV').textContent = skew.toFixed(2);
+    document.getElementById('edaOutV').textContent = outPct + '%';
+
+    const data = edaBase.map((p, i) => {
+      let v = (1 - skew) * (0.45 + p.g * 0.1) + skew * (0.15 + p.e * 0.14);
+      if (p.u < outPct / 100) v = 0.85 + (p.g * 0.05 + 0.08); // injected outliers
+      return clamp(v, 0, 1);
+    });
+    const sorted = [...data].sort((a, b) => a - b);
+    const mean = data.reduce((a, b) => a + b, 0) / data.length;
+    const median = sorted[Math.floor(sorted.length / 2)];
+    const q1 = sorted[Math.floor(sorted.length * 0.25)], q3 = sorted[Math.floor(sorted.length * 0.75)];
+    const iqr = q3 - q1;
+    document.getElementById('edaMean').textContent = mean.toFixed(3);
+    document.getElementById('edaMedian').textContent = median.toFixed(3);
+
+    ctx.clearRect(0, 0, w, h);
+    const px = 30, pw = w - 60;
+
+    // Histogram (top)
+    const hy = 14, hh = h - 110;
+    const bins = new Array(44).fill(0);
+    data.forEach(v => bins[clamp(Math.floor(v * 44), 0, 43)]++);
+    const maxB = Math.max(...bins, 1), bw = pw / bins.length;
+    ctx.fillStyle = BLUE;
+    bins.forEach((b, i) => {
+      const bh = b / maxB * (hh - 10);
+      ctx.globalAlpha = 0.7; ctx.fillRect(px + i * bw, hy + hh - bh, bw - 1, bh); ctx.globalAlpha = 1;
+    });
+    ctx.strokeStyle = BORDER(); ctx.beginPath(); ctx.moveTo(px, hy + hh); ctx.lineTo(px + pw, hy + hh); ctx.stroke();
+
+    // Mean / median markers
+    const mx = px + mean * pw, mdx = px + median * pw;
+    ctx.strokeStyle = RED; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(mx, hy); ctx.lineTo(mx, hy + hh); ctx.stroke();
+    ctx.strokeStyle = GREEN;
+    ctx.beginPath(); ctx.moveTo(mdx, hy); ctx.lineTo(mdx, hy + hh); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = `10px ${MONO()}`; ctx.textAlign = 'center';
+    ctx.fillStyle = RED; ctx.fillText('mean', mx, hy + 10);
+    ctx.fillStyle = GREEN; ctx.fillText('median', mdx, hy + hh - 4);
+
+    // Box plot (bottom)
+    const by = hy + hh + 26, bh2 = 34;
+    const lo = Math.max(sorted[0], q1 - 1.5 * iqr), hi = Math.min(sorted[sorted.length - 1], q3 + 1.5 * iqr);
+    ctx.strokeStyle = ACCENT(); ctx.lineWidth = 1.5;
+    // whiskers
+    ctx.beginPath();
+    ctx.moveTo(px + lo * pw, by + bh2 / 2); ctx.lineTo(px + q1 * pw, by + bh2 / 2);
+    ctx.moveTo(px + q3 * pw, by + bh2 / 2); ctx.lineTo(px + hi * pw, by + bh2 / 2);
+    ctx.stroke();
+    // box
+    ctx.fillStyle = 'rgba(200,169,110,0.15)';
+    ctx.fillRect(px + q1 * pw, by, (q3 - q1) * pw, bh2);
+    ctx.strokeRect(px + q1 * pw, by, (q3 - q1) * pw, bh2);
+    // median line
+    ctx.strokeStyle = GREEN; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(px + median * pw, by); ctx.lineTo(px + median * pw, by + bh2); ctx.stroke();
+    // outlier dots
+    ctx.fillStyle = RED;
+    sorted.filter(v => v < lo || v > hi).forEach(v => {
+      ctx.beginPath(); ctx.arc(px + v * pw, by + bh2 / 2, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('// box plot — IQR box, whiskers, outliers beyond 1.5×IQR in red', px, by + bh2 + 14);
+  }
+  skS.oninput = draw; oS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   32 — GroupBy, Pivot & Aggregation
+   ═══════════════════════════════════════════════════════════════ */
+let gbData;
+DRAWS['groupby-aggregation'] = function() {
+  const s = setupCanvas('gbCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const aS = document.getElementById('gbAgg');
+  if (!aS) return;
+
+  if (!gbData) {
+    gbData = [];
+    const sizes = [7, 5, 9];
+    sizes.forEach((n, g) => { for (let i = 0; i < n; i++) gbData.push({ g, v: 0.25 + Math.random() * 0.65 + g * 0.05 }); });
+  }
+  const AGGS = ['count', 'sum', 'mean', 'max'];
+
+  function draw() {
+    const aggIdx = +aS.value;
+    const aggName = AGGS[aggIdx];
+    document.getElementById('gbAggV').textContent = aggName;
+
+    ctx.clearRect(0, 0, w, h);
+    const gcols = [BLUE, GREEN, '#f0a050'];
+    const midX = w * 0.52;
+    const py = 30, ph = h - 60;
+
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('// raw rows (grouped by color)', 20, 18);
+    ctx.fillText('// one bar per group — ' + aggName, midX + 30, 18);
+
+    // Raw rows as small bars, left panel
+    const rows = gbData.length;
+    const rowH = Math.min(10, ph / rows - 2);
+    let yy = py;
+    gbData.forEach(p => {
+      ctx.fillStyle = gcols[p.g]; ctx.globalAlpha = 0.8;
+      ctx.fillRect(30, yy, p.v * (midX - 80), rowH);
+      ctx.globalAlpha = 1;
+      yy += rowH + 2;
+    });
+
+    // Arrow
+    drawArrow(ctx, midX - 24, h / 2, midX + 16, h / 2, MUTED(), 1.5);
+
+    // Aggregated values
+    const groups = [0, 1, 2].map(g => {
+      const vals = gbData.filter(p => p.g === g).map(p => p.v);
+      let out;
+      if (aggName === 'count') out = vals.length;
+      else if (aggName === 'sum') out = vals.reduce((a, b) => a + b, 0);
+      else if (aggName === 'mean') out = vals.reduce((a, b) => a + b, 0) / vals.length;
+      else out = Math.max(...vals);
+      return out;
+    });
+    const maxOut = Math.max(...groups, 0.001);
+    const barW = (w - midX - 80) / 3;
+    groups.forEach((v, g) => {
+      const bh = v / maxOut * (ph - 20);
+      const x = midX + 40 + g * (barW + 12);
+      ctx.fillStyle = gcols[g]; ctx.globalAlpha = 0.85;
+      ctx.fillRect(x, py + ph - bh, barW, bh);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = gcols[g]; ctx.font = `bold 11px ${MONO()}`; ctx.textAlign = 'center';
+      ctx.fillText(aggName === 'count' ? v : v.toFixed(2), x + barW / 2, py + ph - bh - 6);
+      ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`;
+      ctx.fillText('G' + (g + 1), x + barW / 2, py + ph + 14);
+    });
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(midX + 30, py + ph); ctx.lineTo(w - 20, py + ph); ctx.stroke();
+  }
+  aS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   33 — Cohort & Retention Analysis
+   ═══════════════════════════════════════════════════════════════ */
+DRAWS['cohort-retention'] = function() {
+  const s = setupCanvas('cohortCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const cS = document.getElementById('cohChurn'), iS = document.getElementById('cohImprove');
+  if (!cS || !iS) return;
+
+  function draw() {
+    const churn = +cS.value / 100, improve = +iS.value / 100;
+    document.getElementById('cohChurnV').textContent = Math.round(churn * 100) + '%';
+    document.getElementById('cohImproveV').textContent = Math.round(improve * 100) + '%';
+
+    const COHORTS = 6, MONTHS = 8;
+    // Older cohorts have higher churn; newest is (1 - improve*...) better
+    const grid = [];
+    for (let c = 0; c < COHORTS; c++) {
+      const cohChurnRate = churn * (1 - improve * c / (COHORTS - 1));
+      const row = [];
+      const visible = MONTHS - c; // triangle: newer cohorts observed fewer months
+      for (let m = 0; m < visible; m++) row.push(Math.pow(1 - cohChurnRate, m));
+      grid.push(row);
+    }
+    const latest = grid[COHORTS - 1];
+    const m3 = Math.pow(1 - churn * (1 - improve), 3);
+    document.getElementById('cohM3').textContent = Math.round(m3 * 100) + '%';
+
+    ctx.clearRect(0, 0, w, h);
+    const lx = 86, ty = 34;
+    const cw = Math.min(62, (w - lx - 20) / MONTHS), chh = (h - ty - 16) / COHORTS;
+
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'center';
+    for (let m = 0; m < MONTHS; m++) ctx.fillText('M' + m, lx + m * cw + cw / 2, ty - 8);
+    ctx.textAlign = 'right';
+    for (let c = 0; c < COHORTS; c++) ctx.fillText('Cohort ' + (c + 1), lx - 8, ty + c * chh + chh / 2 + 3);
+
+    grid.forEach((row, c) => {
+      row.forEach((v, m) => {
+        const x = lx + m * cw, y = ty + c * chh;
+        // gold → dark gradient by retention
+        ctx.fillStyle = ACCENT();
+        ctx.globalAlpha = 0.08 + v * 0.8;
+        ctx.fillRect(x, y, cw - 2, chh - 2);
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, cw - 2, chh - 2);
+        ctx.fillStyle = v > 0.45 ? '#1a150e' : MUTED();
+        ctx.font = `10px ${MONO()}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(Math.round(v * 100) + '%', x + cw / 2 - 1, y + chh / 2);
+        ctx.textBaseline = 'alphabetic';
+      });
+    });
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('// rows = signup cohorts · columns = months since signup', lx, h - 4);
+  }
+  cS.oninput = draw; iS.oninput = draw;
+  draw();
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   34 — Funnel & Conversion Analysis
+   ═══════════════════════════════════════════════════════════════ */
+DRAWS['funnel-analysis'] = function() {
+  const s = setupCanvas('funnelCanvas'); if (!s) return;
+  const { ctx, w, h } = s;
+  const mS = document.getElementById('funMid'), cS = document.getElementById('funCheckout');
+  if (!mS || !cS) return;
+
+  function draw() {
+    const midRate = +mS.value / 100, coRate = +cS.value / 100;
+    document.getElementById('funMidV').textContent = Math.round(midRate * 100) + '%';
+    document.getElementById('funCheckoutV').textContent = Math.round(coRate * 100) + '%';
+
+    const stages = [
+      { name: 'Visit',        rate: 1 },
+      { name: 'View product', rate: 0.55 },
+      { name: 'Add to cart',  rate: midRate },
+      { name: 'Checkout',     rate: 0.70 },
+      { name: 'Purchase',     rate: coRate },
+    ];
+    let users = 10000;
+    const counts = stages.map((st, i) => { users = i === 0 ? users : users * st.rate; return Math.round(users); });
+    const overall = counts[counts.length - 1] / counts[0];
+    document.getElementById('funOverall').textContent = (overall * 100).toFixed(2) + '%';
+
+    // Biggest leak (lowest stage conversion, ignoring stage 0)
+    let worst = 1, worstIdx = 1;
+    stages.forEach((st, i) => { if (i > 0 && st.rate < worst) { worst = st.rate; worstIdx = i; } });
+
+    ctx.clearRect(0, 0, w, h);
+    const ty = 20, bh = h - 50, n = stages.length;
+    const rowH = bh / n;
+    const maxW = w - 220;
+
+    counts.forEach((cnt, i) => {
+      const frac = cnt / counts[0];
+      const bw = Math.max(frac * maxW, 4);
+      const x = (w - 160 - bw) / 2 + 30, y = ty + i * rowH;
+      const hot = i === worstIdx;
+      ctx.fillStyle = hot ? RED : ACCENT();
+      ctx.globalAlpha = hot ? 0.75 : 0.55 + 0.35 * frac;
+      ctx.fillRect(x, y + 4, bw, rowH - 14);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = hot ? RED : BORDER(); ctx.lineWidth = 1;
+      ctx.strokeRect(x, y + 4, bw, rowH - 14);
+
+      ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'right';
+      ctx.fillText(stages[i].name, x - 8, y + rowH / 2 + 1);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = hot ? RED : MUTED();
+      const pct = i === 0 ? '100%' : Math.round(stages[i].rate * 100) + '%';
+      ctx.fillText(cnt.toLocaleString() + '  (' + pct + (hot ? ' ← biggest leak' : '') + ')', x + bw + 8, y + rowH / 2 + 1);
+    });
+    ctx.fillStyle = MUTED(); ctx.font = `10px ${MONO()}`; ctx.textAlign = 'left';
+    ctx.fillText('// bar width = share of initial visitors still in the funnel', 30, h - 8);
+  }
+  mS.oninput = draw; cS.oninput = draw;
+  draw();
 };

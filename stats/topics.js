@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    The Toolkit — Topics Data & Content Builder
-   31 practical topics for ML evaluation & market analysis
+   39 practical topics for ML evaluation, statistics & data analytics
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
@@ -9,6 +9,8 @@ const SECTIONS = [
   { id:'sec-data',        title:'Analyze Your Data',         topics:['distribution-shape','outlier-detection','missing-data','data-drift','class-imbalance'] },
   { id:'sec-backtest',    title:'Backtest & Validate',       topics:['sharpe-ratio','max-drawdown','walk-forward','monte-carlo','survivorship-bias'] },
   { id:'sec-decisions',   title:'Make Decisions',            topics:['confidence-intervals','bootstrap-methods','bayesian-ab','effect-size','power-analysis'] },
+  { id:'sec-foundations', title:'Statistical Foundations',   topics:['hypothesis-testing','stat-tests','clt-sampling','correlation-causation'] },
+  { id:'sec-analytics',   title:'Data Analytics',            topics:['eda-workflow','groupby-aggregation','cohort-retention','funnel-analysis'] },
   { id:'sec-python',      title:'Python Power Tools',        topics:['sklearn-eval','shap-library','optuna','pandas-ta','scipy-statsmodels'] },
 ];
 
@@ -42,6 +44,14 @@ const TOPIC_NAMES = {
   'bayesian-ab':'Bayesian A/B Testing',
   'effect-size':'Effect Size & Practical Significance',
   'power-analysis':'Power Analysis',
+  'hypothesis-testing':'Hypothesis Testing & p-values',
+  'stat-tests':'Choosing the Right Statistical Test',
+  'clt-sampling':'Central Limit Theorem & Sampling',
+  'correlation-causation':"Correlation, Causation & Simpson's Paradox",
+  'eda-workflow':'Exploratory Data Analysis (EDA)',
+  'groupby-aggregation':'GroupBy, Pivot & Aggregation',
+  'cohort-retention':'Cohort & Retention Analysis',
+  'funnel-analysis':'Funnel & Conversion Analysis',
   'sklearn-eval':'scikit-learn Evaluation Suite',
   'shap-library':'SHAP Library',
   'optuna':'Optuna',
@@ -77,11 +87,19 @@ const TOPIC_DATA = [
   { id:'bayesian-ab', num:'24', title:'Bayesian A/B Testing', category:'Make Decisions', keywords:['credible interval','posterior','prior','probability of improvement','early stopping','conversion rate','Beta-Binomial'], content:'Is version B actually better? Bayesian credible intervals and probability of improvement.' },
   { id:'effect-size', num:'25', title:'Effect Size & Practical Significance', category:'Make Decisions', keywords:["Cohen's d",'practical significance','meaningful difference','small medium large','overlap','statistical vs practical'], content:"Statistically significant \u2260 meaningful \u2014 Cohen's d and the difference between p-values and impact." },
   { id:'power-analysis', num:'26', title:'Power Analysis', category:'Make Decisions', keywords:['sample size','MDE','minimum detectable effect','type II error','statistical power','beta','experiment planning'], content:'How much data do you need? Sample size planning for experiments that can actually detect effects.' },
-  { id:'sklearn-eval', num:'27', title:'scikit-learn Evaluation Suite', category:'Python Power Tools', keywords:['classification_report','cross_val_score','learning_curve','confusion_matrix','GridSearchCV','sklearn metrics','pipeline'], content:'The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module.' },
-  { id:'shap-library', num:'28', title:'SHAP Library', category:'Python Power Tools', keywords:['shap','TreeExplainer','force_plot','summary_plot','waterfall','dependence_plot','KernelExplainer','DeepExplainer'], content:'TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP visualization toolkit.' },
-  { id:'optuna', num:'29', title:'Optuna', category:'Python Power Tools', keywords:['hyperparameter','optimization','pruning','study','TPE','random search','Bayesian optimization','trial','objective'], content:'Smart hyperparameter tuning — TPE, pruning, study visualization, and integration with any framework.' },
-  { id:'pandas-ta', num:'30', title:'pandas-ta & yfinance', category:'Python Power Tools', keywords:['technical indicators','yfinance','market data','SMA','RSI','MACD','Bollinger','candlestick','OHLCV','download'], content:'Technical indicators + market data in one-liners — pandas-ta for TA, yfinance for data.' },
-  { id:'scipy-statsmodels', num:'31', title:'scipy.stats & statsmodels', category:'Python Power Tools', keywords:['scipy','statsmodels','statistical tests','ttest_ind','OLS','regression diagnostics','time series','ARIMA','ADF'], content:'Statistical tests, regression diagnostics, time series — the Python stats foundation.' },
+  { id:'hypothesis-testing', num:'27', title:'Hypothesis Testing & p-values', category:'Statistical Foundations', keywords:['null hypothesis','alternative hypothesis','p-value','significance','alpha','type I error','type II error','rejection region','two-tailed','test statistic'], content:'The grammar of statistical claims — null vs alternative, what a p-value actually means, and the two ways to be wrong.' },
+  { id:'stat-tests', num:'28', title:'Choosing the Right Statistical Test', category:'Statistical Foundations', keywords:['t-test','chi-square','ANOVA','Mann-Whitney','Wilcoxon','Kruskal-Wallis','parametric','nonparametric','paired','normality'], content:'A decision map for statistical tests — t-test, chi-square, ANOVA, and their nonparametric cousins, and when each applies.' },
+  { id:'clt-sampling', num:'29', title:'Central Limit Theorem & Sampling', category:'Statistical Foundations', keywords:['central limit theorem','CLT','sampling distribution','standard error','sample mean','normal approximation','law of large numbers','sample size'], content:'Why averages become normal — the theorem underneath every confidence interval and t-test you have ever run.' },
+  { id:'correlation-causation', num:'30', title:"Correlation, Causation & Simpson's Paradox", category:'Statistical Foundations', keywords:['correlation','causation','confounder','Simpson paradox','spurious correlation','lurking variable','selection bias','reverse causality','subgroup'], content:'Why correlated is not caused — confounders, Simpson’s paradox, and trends that reverse when you split the data.' },
+  { id:'eda-workflow', num:'31', title:'Exploratory Data Analysis (EDA)', category:'Data Analytics', keywords:['EDA','describe','summary statistics','data profiling','histogram','box plot','missing values','data types','value counts','skew'], content:'The first hour with any dataset — a repeatable workflow for profiling shape, types, gaps, and distributions before modeling.' },
+  { id:'groupby-aggregation', num:'32', title:'GroupBy, Pivot & Aggregation', category:'Data Analytics', keywords:['groupby','pivot table','aggregation','split-apply-combine','crosstab','resample','mean sum count','SQL GROUP BY','segment'], content:'Split-apply-combine — the single most-used pattern in data analytics, from pandas groupby to SQL GROUP BY.' },
+  { id:'cohort-retention', num:'33', title:'Cohort & Retention Analysis', category:'Data Analytics', keywords:['cohort','retention','churn','retention curve','heatmap','user analytics','LTV','signup month','engagement','triangle chart'], content:'Group users by when they arrived, track them over time — the retention heatmap that reveals whether your product actually keeps people.' },
+  { id:'funnel-analysis', num:'34', title:'Funnel & Conversion Analysis', category:'Data Analytics', keywords:['funnel','conversion rate','drop-off','landing page','checkout','signup flow','stage','bottleneck','product analytics','events'], content:'Where do users leak out? Multiplying stage conversions, finding the biggest drop-off, and fixing the right bottleneck.' },
+  { id:'sklearn-eval', num:'35', title:'scikit-learn Evaluation Suite', category:'Python Power Tools', keywords:['classification_report','cross_val_score','learning_curve','confusion_matrix','GridSearchCV','sklearn metrics','pipeline'], content:'The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module.' },
+  { id:'shap-library', num:'36', title:'SHAP Library', category:'Python Power Tools', keywords:['shap','TreeExplainer','force_plot','summary_plot','waterfall','dependence_plot','KernelExplainer','DeepExplainer'], content:'TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP visualization toolkit.' },
+  { id:'optuna', num:'37', title:'Optuna', category:'Python Power Tools', keywords:['hyperparameter','optimization','pruning','study','TPE','random search','Bayesian optimization','trial','objective'], content:'Smart hyperparameter tuning — TPE, pruning, study visualization, and integration with any framework.' },
+  { id:'pandas-ta', num:'38', title:'pandas-ta & yfinance', category:'Python Power Tools', keywords:['technical indicators','yfinance','market data','SMA','RSI','MACD','Bollinger','candlestick','OHLCV','download'], content:'Technical indicators + market data in one-liners — pandas-ta for TA, yfinance for data.' },
+  { id:'scipy-statsmodels', num:'39', title:'scipy.stats & statsmodels', category:'Python Power Tools', keywords:['scipy','statsmodels','statistical tests','ttest_ind','OLS','regression diagnostics','time series','ARIMA','ADF'], content:'Statistical tests, regression diagnostics, time series — the Python stats foundation.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -130,6 +148,10 @@ function buildContent() {
     + buildMonteCarlo() + buildSurvivorshipBias()
     + buildConfidenceIntervals() + buildBootstrapMethods() + buildBayesianAB()
     + buildEffectSize() + buildPowerAnalysis()
+    + buildHypothesisTesting() + buildStatTests() + buildCLTSampling()
+    + buildCorrelationCausation()
+    + buildEDAWorkflow() + buildGroupbyAggregation() + buildCohortRetention()
+    + buildFunnelAnalysis()
     + buildSklearnEval() + buildSHAPLibrary() + buildOptuna()
     + buildPandasTA() + buildScipyStatsmodels();
 }
@@ -141,8 +163,8 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>The <em>Toolkit</em></h2>
-    <p style="margin-top:14px">A practical reference covering 31 topics &mdash; from model evaluation
-    and feature explainability to backtesting and decision-making. Every topic has interactive visuals, real formulas, and Python code you can use today.</p>
+    <p style="margin-top:14px">A practical reference covering 39 topics &mdash; from model evaluation
+    and feature explainability to statistical foundations, data analytics, backtesting, and decision-making. Every topic has interactive visuals, real formulas, and Python code you can use today.</p>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
@@ -173,6 +195,16 @@ function buildHome() {
       <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 12h2l1-3 2 6 1-3h3"/></svg></div>
       <div class="cat-card-name">Make Decisions</div>
       <div class="cat-card-count">5 topics &middot; CI, bootstrap, Bayesian A/B, power analysis</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-foundations','hypothesis-testing')">
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19c4 0 4.5-11 9-11s5 11 9 11"/><line x1="3" y1="19" x2="21" y2="19"/></svg></div>
+      <div class="cat-card-name">Statistical Foundations</div>
+      <div class="cat-card-count">4 topics &middot; Hypothesis tests, p-values, CLT, causation</div>
+    </div>
+    <div class="cat-card" onclick="showSection('sec-analytics','eda-workflow')">
+      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg></div>
+      <div class="cat-card-name">Data Analytics</div>
+      <div class="cat-card-count">4 topics &middot; EDA, groupby, cohorts, funnels</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-python','sklearn-eval')">
       <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12" y1="17" x2="19" y2="17"/></svg></div>
@@ -1390,11 +1422,488 @@ plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="s
 </div>`;
 }
 
-/* 27 — scikit-learn Evaluation Suite */
+/* 27 — Hypothesis Testing & p-values */
+function buildHypothesisTesting() {
+  return `<div class="topic" id="hypothesis-testing">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">27 — Statistical Foundations</div><h2>Hypothesis Testing &amp; <em>p-values</em></h2></div>
+    <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Null vs alternative, what a p-value actually means, and the two ways to be wrong</p>
+  <p class="prose">Every statistical claim follows the same script. Assume nothing interesting is happening (the <strong>null hypothesis</strong> H&#8320;), collect data, and ask: <em>if H&#8320; were true, how surprising would this data be?</em> That surprise, quantified, is the <strong>p-value</strong>. If it drops below a pre-chosen threshold &alpha; (usually 0.05), you reject H&#8320; in favour of the <strong>alternative</strong> H&#8321;.</p>
+  <div class="fb"><div class="fm">p = P(data at least this extreme | H&#8320; true)</div><div class="fd"><span>p-value</span> = probability of seeing a test statistic this extreme <em>assuming the null is true</em>. It is NOT the probability that H&#8320; is true.</div></div>
+  <div class="fb c2"><div class="fm">z = (x&#772; &minus; &mu;&#8320;) / (&sigma; / &radic;n)</div><div class="fd"><span>Test statistic</span> = how many standard errors the observed mean sits from the null value. Big |z| &rarr; small p.</div></div>
+  <div class="fb c3"><div class="fm">&alpha; = P(Type I) &nbsp;&nbsp; &beta; = P(Type II) &nbsp;&nbsp; Power = 1 &minus; &beta;</div><div class="fd"><span>Type I</span> = false alarm (reject a true null) &nbsp;|&nbsp; <span>Type II</span> = miss (fail to reject a false null)</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — slide the observed statistic and &alpha;, watch the p-value and the decision flip</div>
+    <canvas id="hypCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Observed z</span><input type="range" id="hypZ" min="-400" max="400" step="5" value="180"><span class="vd" id="hypZV">1.80</span></div>
+      <div class="cg"><span class="cl">&alpha;</span><input type="range" id="hypAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="hypAlphaV">0.05</span></div>
+      <div class="cg"><span class="cl">p-value</span><span class="vd" id="hypP" style="color:var(--accent)">—</span></div>
+      <div class="cg"><span class="cl">Decision</span><span class="vd" id="hypDecision" style="color:#81c784">—</span></div>
+    </div>
+  </div>
+  <table class="mt">
+    <thead><tr><th></th><th>H&#8320; is true</th><th>H&#8320; is false</th></tr></thead>
+    <tbody>
+      <tr><td>Reject H&#8320;</td><td>Type I error (prob &alpha;)</td><td>Correct — power (1&minus;&beta;)</td></tr>
+      <tr><td>Fail to reject</td><td>Correct</td><td>Type II error (prob &beta;)</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — one-sample and two-sample tests</span>
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Does this sample's mean differ from 100?</span>
+sample = np.random.normal(<span class="st">103</span>, <span class="st">15</span>, size=<span class="st">50</span>)
+t_stat, p_val = stats.ttest_1samp(sample, popmean=<span class="st">100</span>)
+print(<span class="st">f"t = {t_stat:.2f}, p = {p_val:.4f}"</span>)
+
+<span class="cm"># Do two groups differ?</span>
+t_stat, p_val = stats.ttest_ind(group_a, group_b)
+
+alpha = <span class="st">0.05</span>
+<span class="kw">if</span> p_val &lt; alpha:
+    print(<span class="st">"Reject H0 — difference is statistically significant"</span>)
+<span class="kw">else</span>:
+    print(<span class="st">"Fail to reject H0 — not enough evidence"</span>)</pre></div>
+  <div class="callout info"><strong>What a p-value is NOT:</strong> it is not the probability the null is true, not the probability the result is a fluke, and not a measure of effect size. p = 0.001 with a tiny, irrelevant effect is common with big data — always pair p-values with <a href="#effect-size">effect size</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> This machinery powers <a href="#comparing-runs">comparing model runs</a> and A/B tests, and <a href="#power-analysis">power analysis</a> tells you how much data the test needs before you run it.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>State H&#8320; and H&#8321; <strong>before</strong> looking at the data, and fix &alpha; up front</li>
+      <li>Pick the test that matches your data — see <a href="#stat-tests">choosing the right test</a></li>
+      <li>Run the test, report the p-value <strong>and</strong> the effect size with a confidence interval</li>
+      <li>Interpret: p &lt; &alpha; means "surprising if nothing were going on" — not "large" or "important"</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — p-hacking:</strong> testing many metrics, subgroups, or stopping rules until something crosses 0.05 guarantees false positives. With 20 independent tests at &alpha; = 0.05, you expect one significant result by pure chance. Pre-register your analysis or correct for multiple comparisons (Bonferroni, Benjamini-Hochberg).</div>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Comparing groups, validating that a change moved a metric, checking whether a model improvement is real — any decision that should survive sampling noise.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You have the full population (no sampling uncertainty), or the question is "how big is the effect?" rather than "is there an effect?" — go straight to estimation with <a href="#confidence-intervals">confidence intervals</a>.</div>
+  </div>
+  <div class="topic-nav" id="nav-hypothesis-testing"></div>
+</div>`;
+}
+
+/* 28 — Choosing the Right Statistical Test */
+function buildStatTests() {
+  return `<div class="topic" id="stat-tests">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">28 — Statistical Foundations</div><h2>Choosing the Right <em>Statistical Test</em></h2></div>
+    <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// t-test, chi-square, ANOVA and their nonparametric cousins — a decision map</p>
+  <p class="prose">Most real questions reduce to three: <em>how many groups am I comparing, are the measurements paired, and can I assume normality?</em> Answer those and the test picks itself. Parametric tests (t-test, ANOVA) assume roughly normal data and are more powerful; nonparametric tests (Mann-Whitney, Wilcoxon, Kruskal-Wallis) rank the data instead and work almost anywhere.</p>
+  <div class="fb"><div class="fm">t = (x&#772;&#8321; &minus; x&#772;&#8322;) / &radic;(s&#8321;&sup2;/n&#8321; + s&#8322;&sup2;/n&#8322;)</div><div class="fd"><span>Two-sample t</span> (Welch) = difference in means scaled by its standard error. Default choice for two independent groups.</div></div>
+  <div class="fb c2"><div class="fm">&chi;&sup2; = &Sigma; (observed &minus; expected)&sup2; / expected</div><div class="fd"><span>Chi-square</span> = for counts and categories — is the observed table compatible with independence?</div></div>
+  <div class="va">
+    <div class="vl">// Interactive decision map — set your situation, the recommended test lights up</div>
+    <canvas id="testCanvas" height="250"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Groups</span><input type="range" id="testGroups" min="2" max="3" step="1" value="2"><span class="vd" id="testGroupsV">2</span></div>
+      <div class="cg"><span class="cl">Paired</span><input type="range" id="testPaired" min="0" max="1" step="1" value="0"><span class="vd" id="testPairedV">No</span></div>
+      <div class="cg"><span class="cl">Normal-ish</span><input type="range" id="testNormal" min="0" max="1" step="1" value="1"><span class="vd" id="testNormalV">Yes</span></div>
+      <div class="cg"><span class="cl">Use</span><span class="vd" id="testRec" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <table class="mt">
+    <thead><tr><th>Question</th><th>Parametric</th><th>Nonparametric</th></tr></thead>
+    <tbody>
+      <tr><td>2 independent groups differ?</td><td>Welch t-test</td><td>Mann-Whitney U</td></tr>
+      <tr><td>Before vs after (paired)?</td><td>Paired t-test</td><td>Wilcoxon signed-rank</td></tr>
+      <tr><td>3+ groups differ?</td><td>One-way ANOVA</td><td>Kruskal-Wallis</td></tr>
+      <tr><td>Two categorical variables related?</td><td colspan="2">Chi-square test of independence</td></tr>
+      <tr><td>Two numeric variables related?</td><td>Pearson r</td><td>Spearman &rho;</td></tr>
+      <tr><td>Sample from this distribution?</td><td colspan="2">Kolmogorov-Smirnov / Shapiro-Wilk</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — the whole decision map in scipy</span>
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+
+<span class="cm"># 2 independent groups</span>
+stats.ttest_ind(a, b, equal_var=<span class="st">False</span>)   <span class="cm"># Welch t-test</span>
+stats.mannwhitneyu(a, b)                    <span class="cm"># nonparametric</span>
+
+<span class="cm"># Paired (same subjects, before/after)</span>
+stats.ttest_rel(before, after)
+stats.wilcoxon(before, after)               <span class="cm"># nonparametric</span>
+
+<span class="cm"># 3+ groups</span>
+stats.f_oneway(g1, g2, g3)                  <span class="cm"># ANOVA</span>
+stats.kruskal(g1, g2, g3)                   <span class="cm"># nonparametric</span>
+
+<span class="cm"># Categorical vs categorical</span>
+chi2, p, dof, exp = stats.chi2_contingency(contingency_table)
+
+<span class="cm"># Check normality first (n &lt; ~50)</span>
+stat, p = stats.shapiro(a)</pre></div>
+  <div class="callout info"><strong>Normality worries less than you think:</strong> with n &gt; ~30 per group, the <a href="#clt-sampling">Central Limit Theorem</a> makes the t-test robust to non-normal data. Reach for nonparametric tests when samples are small, heavily skewed, or ordinal.</div>
+  <div class="callout"><strong>ANOVA says "some group differs" — not which.</strong> Follow a significant ANOVA with pairwise post-hoc tests (Tukey HSD) rather than running raw t-tests between every pair, which inflates the false-positive rate.</div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> You have a concrete comparison question and need the defensible test — experiments, feature launches, model comparisons, survey analysis.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> The dataset is the full population, or you need effect estimates rather than yes/no answers — estimate with <a href="#bootstrap-methods">bootstrap</a> or regression instead.</div>
+  </div>
+  <div class="topic-nav" id="nav-stat-tests"></div>
+</div>`;
+}
+
+/* 29 — Central Limit Theorem & Sampling */
+function buildCLTSampling() {
+  return `<div class="topic" id="clt-sampling">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">29 — Statistical Foundations</div><h2>Central Limit Theorem &amp; <em>Sampling</em></h2></div>
+    <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Why averages become normal — the theorem underneath every CI and t-test</p>
+  <p class="prose">Take any population — skewed, lumpy, weird. Draw samples of size n and compute each sample's mean. The <strong>Central Limit Theorem</strong> says the distribution of those means approaches a normal distribution as n grows, <em>regardless of the population's shape</em>. That single fact is why confidence intervals, t-tests, and A/B testing work at all.</p>
+  <div class="fb"><div class="fm">x&#772; &nbsp;&rarr;&nbsp; N(&mu;, &sigma;&sup2;/n)</div><div class="fd"><span>Sampling distribution</span> of the mean: centred on the true mean &mu;, with variance shrinking as 1/n.</div></div>
+  <div class="fb c2"><div class="fm">SE = &sigma; / &radic;n</div><div class="fd"><span>Standard error</span> = the standard deviation of the sample mean. Quadruple the sample to halve the error.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — skew the population, grow n, watch the sample means turn normal</div>
+    <canvas id="cltCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Population skew</span><input type="range" id="cltSkew" min="0" max="100" step="1" value="70"><span class="vd" id="cltSkewV">0.70</span></div>
+      <div class="cg"><span class="cl">Sample size n</span><input type="range" id="cltN" min="1" max="64" step="1" value="5"><span class="vd" id="cltNV">5</span></div>
+      <div class="cg"><span class="cl">SE &prop; 1/&radic;n</span><span class="vd" id="cltSE" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — watch the CLT happen</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># A very non-normal population (exponential)</span>
+population = np.random.exponential(scale=<span class="st">1.0</span>, size=<span class="st">1_000_000</span>)
+
+<span class="kw">for</span> n <span class="kw">in</span> [<span class="st">1</span>, <span class="st">5</span>, <span class="st">30</span>]:
+    means = [np.mean(np.random.choice(population, n))
+             <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="st">10_000</span>)]
+    plt.hist(means, bins=<span class="st">60</span>, alpha=<span class="st">0.5</span>, label=<span class="st">f"n={n}"</span>)
+
+plt.legend(); plt.title(<span class="st">"Sampling distribution of the mean"</span>)
+plt.show()
+
+<span class="cm"># Standard error shrinks as 1/sqrt(n)</span>
+print(population.std() / np.sqrt(<span class="st">30</span>))</pre></div>
+  <table class="mt">
+    <thead><tr><th>Concept</th><th>What it says</th><th>Practical use</th></tr></thead>
+    <tbody>
+      <tr><td>Law of Large Numbers</td><td>x&#772; &rarr; &mu; as n grows</td><td>More data &rarr; estimates converge</td></tr>
+      <tr><td>Central Limit Theorem</td><td>x&#772; becomes normally distributed</td><td>Justifies CIs, t-tests, z-tests</td></tr>
+      <tr><td>Standard error</td><td>Spread of x&#772; is &sigma;/&radic;n</td><td>Sizing experiments, error bars</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><strong>Rule of thumb:</strong> n &ge; 30 usually suffices for the normal approximation — but the more skewed the population, the more n you need. Very heavy-tailed data (rare in nature, common in finance) converges slowly or, with infinite variance, not at all.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The CLT also assumes <em>independent</em> draws. Market returns are autocorrelated and fat-tailed — see <a href="#distribution-shape">distribution shape</a> and <a href="#monte-carlo">Monte Carlo simulation</a> for why financial error bars deserve extra suspicion.</div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Reasoning about any average, proportion, or error bar — experiment metrics, survey estimates, batch statistics in monitoring.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Data is strongly dependent (time series), heavy-tailed, or you care about extremes rather than means — the CLT says nothing about the tails of the original distribution.</div>
+  </div>
+  <div class="topic-nav" id="nav-clt-sampling"></div>
+</div>`;
+}
+
+/* 30 — Correlation, Causation & Simpson's Paradox */
+function buildCorrelationCausation() {
+  return `<div class="topic" id="correlation-causation">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">30 — Statistical Foundations</div><h2>Correlation, Causation &amp; <em>Simpson's Paradox</em></h2></div>
+    <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Confounders, spurious correlations, and trends that reverse when you split the data</p>
+  <p class="prose">Correlation measures whether two variables move together — nothing more. A strong r can come from X causing Y, Y causing X, a hidden <strong>confounder</strong> Z driving both, selection effects, or plain chance. <strong>Simpson's paradox</strong> is the most dramatic failure: a trend that holds in every subgroup can <em>reverse</em> when the groups are pooled.</p>
+  <div class="fb"><div class="fm">r = cov(X, Y) / (&sigma;<sub>X</sub> &middot; &sigma;<sub>Y</sub>) &isin; [&minus;1, 1]</div><div class="fd"><span>Pearson r</span> = linear co-movement only. r = 0 does not mean independent; r = 0.9 does not mean causal.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive Simpson's paradox — increase the confounder, watch the pooled trend flip against the groups</div>
+    <canvas id="causCanvas" height="260"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Confounder strength</span><input type="range" id="causConf" min="0" max="100" step="1" value="70"><span class="vd" id="causConfV">0.70</span></div>
+      <div class="cg"><span class="cl">Pooled r</span><span class="vd" id="causPooled" style="color:#e57373">—</span></div>
+      <div class="cg"><span class="cl">Within-group r</span><span class="vd" id="causWithin" style="color:#81c784">—</span></div>
+    </div>
+  </div>
+  <table class="mt">
+    <thead><tr><th>Why X and Y correlate</th><th>Example</th><th>Antidote</th></tr></thead>
+    <tbody>
+      <tr><td>X causes Y</td><td>Price cut &rarr; more sales</td><td>Randomized experiment confirms it</td></tr>
+      <tr><td>Y causes X</td><td>More police &harr; more crime (reverse)</td><td>Temporal ordering, natural experiments</td></tr>
+      <tr><td>Confounder Z</td><td>Ice cream &harr; drownings (summer)</td><td>Stratify or control for Z</td></tr>
+      <tr><td>Selection bias</td><td>Only survivors measured</td><td>Audit how the sample was formed</td></tr>
+      <tr><td>Chance</td><td>Any two trending series</td><td>Out-of-sample checks, corrections</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — Simpson's paradox in three lines of groupby</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Pooled correlation says one thing…</span>
+print(df[[<span class="st">'dose'</span>, <span class="st">'recovery'</span>]].corr().iloc[<span class="st">0</span>, <span class="st">1</span>])
+
+<span class="cm"># …every subgroup says the opposite</span>
+print(df.groupby(<span class="st">'severity'</span>)
+        .apply(<span class="kw">lambda</span> g: g[<span class="st">'dose'</span>].corr(g[<span class="st">'recovery'</span>])))
+
+<span class="cm"># Always check candidate confounders before trusting a trend</span>
+pd.crosstab(df[<span class="st">'severity'</span>], df[<span class="st">'treatment'</span>], normalize=<span class="st">'index'</span>)</pre></div>
+  <div class="callout info"><strong>Which number is right?</strong> Neither, automatically. If severity drives both dose and recovery, the within-group trend is the honest one. The answer depends on the causal structure — what drives what — not on the arithmetic.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="#feature-correlation">Feature correlation</a> shows the same trap inside models, and <a href="#survivorship-bias">survivorship bias</a> is selection-driven correlation in backtests. The only clean escape is randomization — the logic behind <a href="#bayesian-ab">A/B testing</a>.</div>
+  <div class="howto">
+    <div class="howto-title">How to use this in practice</div>
+    <ol>
+      <li>Before trusting any correlation, list plausible confounders — time, size, cohort, seasonality are the usual suspects</li>
+      <li>Recompute the relationship <strong>within</strong> each stratum of the confounder (groupby is enough)</li>
+      <li>If pooled and stratified trends disagree, resolve it with causal knowledge, not with more data</li>
+      <li>For decisions that matter, push for a randomized test — it severs every confounder at once</li>
+    </ol>
+    <div class="howto-pitfall"><strong>Common pitfall — controlling for everything:</strong> conditioning on a variable that sits <em>between</em> cause and effect (a mediator), or on a common effect (a collider), <em>creates</em> bias instead of removing it. Adding every column to a regression is not caution — think about the causal graph first.</div>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Any observational comparison — dashboards, cohort metrics, "users who do X retain better" claims, feature-importance readings you are tempted to act on.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> The data comes from a properly randomized experiment — randomization already balances confounders (but check the randomization actually held).</div>
+  </div>
+  <div class="topic-nav" id="nav-correlation-causation"></div>
+</div>`;
+}
+
+/* 31 — Exploratory Data Analysis (EDA) */
+function buildEDAWorkflow() {
+  return `<div class="topic" id="eda-workflow">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">31 — Data Analytics</div><h2>Exploratory <em>Data Analysis</em></h2></div>
+    <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// The first hour with any dataset — a repeatable profiling workflow</p>
+  <p class="prose"><strong>EDA</strong> is the disciplined version of "poking at the data": shape and types first, then missingness, then each variable's distribution, then relationships between variables. The goal is not pretty plots — it is a list of <em>surprises and decisions</em>: columns to fix, outliers to investigate, transformations to apply, hypotheses worth testing.</p>
+  <div class="fb"><div class="fm">shape &rarr; types &rarr; missing &rarr; distributions &rarr; relationships</div><div class="fd"><span>The EDA loop</span> — always in this order. Each step decides what the next one means.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — skew the data and inject outliers, watch mean vs median diverge</div>
+    <canvas id="edaCanvas" height="250"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Skew</span><input type="range" id="edaSkew" min="0" max="100" step="1" value="40"><span class="vd" id="edaSkewV">0.40</span></div>
+      <div class="cg"><span class="cl">Outliers %</span><input type="range" id="edaOut" min="0" max="10" step="1" value="0"><span class="vd" id="edaOutV">0%</span></div>
+      <div class="cg"><span class="cl">Mean</span><span class="vd" id="edaMean" style="color:#e57373">—</span></div>
+      <div class="cg"><span class="cl">Median</span><span class="vd" id="edaMedian" style="color:#81c784">—</span></div>
+    </div>
+  </div>
+  <table class="mt">
+    <thead><tr><th>Step</th><th>pandas</th><th>You're looking for</th></tr></thead>
+    <tbody>
+      <tr><td>Shape &amp; types</td><td>df.shape, df.info()</td><td>Row count, wrong dtypes, IDs read as numbers</td></tr>
+      <tr><td>Missingness</td><td>df.isna().mean()</td><td>Columns to drop, impute, or flag — see <a href="#missing-data">missing data</a></td></tr>
+      <tr><td>Numeric profile</td><td>df.describe()</td><td>Impossible values, skew (mean &ne; median), scale</td></tr>
+      <tr><td>Categorical profile</td><td>value_counts()</td><td>Cardinality, typos ("NY" vs "N.Y."), rare levels</td></tr>
+      <tr><td>Distributions</td><td>df.hist(), boxplot</td><td>Shape, outliers — see <a href="#distribution-shape">distribution shape</a></td></tr>
+      <tr><td>Relationships</td><td>df.corr(), scatter_matrix</td><td>Redundancy, leakage candidates, target signal</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — the 10-line EDA opener</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.read_csv(<span class="st">'data.csv'</span>)
+
+print(df.shape)
+print(df.info())                          <span class="cm"># dtypes + non-null counts</span>
+print(df.describe(include=<span class="st">'all'</span>).T)      <span class="cm"># numeric + categorical profile</span>
+print(df.isna().mean().sort_values(ascending=<span class="st">False</span>).head(<span class="st">10</span>))
+
+<span class="kw">for</span> col <span class="kw">in</span> df.select_dtypes(<span class="st">'object'</span>):
+    print(col, df[col].nunique(), df[col].value_counts().head(<span class="st">3</span>).to_dict())
+
+df.hist(bins=<span class="st">40</span>, figsize=(<span class="st">12</span>, <span class="st">8</span>))     <span class="cm"># every numeric at once</span></pre></div>
+  <div class="callout info"><strong>Mean vs median is a free skew detector:</strong> when they disagree badly (as in the visual above), the distribution is skewed or contaminated by outliers — report medians, and consider a log transform before modeling.</div>
+  <div class="callout"><strong>EDA before splitting? Careful.</strong> Profile structure on everything, but tune decisions (imputation values, outlier caps, transformations) on the <em>training split only</em> — otherwise test-set information leaks into your pipeline.</div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/competitions/titanic/data" target="_blank" rel="noopener">Kaggle: Titanic (classic messy mix of numeric, categorical, and missing)</a>
+    <a href="https://archive.ics.uci.edu/dataset/2/adult" target="_blank" rel="noopener">UCI: Adult Income (48K rows, categorical-heavy, "?" as missing marker)</a>
+    <div class="ds-note">Adult hides its missing values as the string "?" — a perfect first test of whether your EDA actually catches what df.isna() misses.</div>
+  </div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Every new dataset, every refreshed pipeline, before every model. Ten minutes of EDA routinely saves days of debugging silent data problems.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Never entirely — but for a stable, monitored pipeline the ongoing version of EDA is <a href="#data-drift">drift detection</a>, not manual re-profiling.</div>
+  </div>
+  <div class="topic-nav" id="nav-eda-workflow"></div>
+</div>`;
+}
+
+/* 32 — GroupBy, Pivot & Aggregation */
+function buildGroupbyAggregation() {
+  return `<div class="topic" id="groupby-aggregation">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">32 — Data Analytics</div><h2>GroupBy, Pivot &amp; <em>Aggregation</em></h2></div>
+    <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Split-apply-combine — the single most-used pattern in data analytics</p>
+  <p class="prose">Nearly every analytics question is "metric X <em>by</em> segment Y" — revenue by region, churn by plan, latency by endpoint. The engine underneath is always <strong>split-apply-combine</strong>: split rows into groups, apply an aggregation to each, combine the results into a table. pandas <code>groupby</code>, SQL <code>GROUP BY</code>, and spreadsheet pivot tables are the same idea in three dialects.</p>
+  <div class="fb"><div class="fm">split(rows, key) &rarr; apply(agg) &rarr; combine</div><div class="fd"><span>Split-apply-combine</span> — group rows by key, reduce each group with mean/sum/count/…, stack the results.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive — raw rows on the left, one aggregated bar per group on the right</div>
+    <canvas id="gbCanvas" height="240"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Aggregation</span><input type="range" id="gbAgg" min="0" max="3" step="1" value="2"><span class="vd" id="gbAggV">mean</span></div>
+    </div>
+  </div>
+  <table class="mt">
+    <thead><tr><th>Tool</th><th>Best for</th><th>One-liner</th></tr></thead>
+    <tbody>
+      <tr><td>groupby + agg</td><td>Metrics by one or more keys</td><td>df.groupby('region')['rev'].sum()</td></tr>
+      <tr><td>pivot_table</td><td>Two keys &rarr; rows &times; columns grid</td><td>df.pivot_table('rev', 'region', 'month')</td></tr>
+      <tr><td>crosstab</td><td>Counts of category &times; category</td><td>pd.crosstab(df.plan, df.churned)</td></tr>
+      <tr><td>resample</td><td>Time-based grouping</td><td>df.resample('W')['rev'].sum()</td></tr>
+      <tr><td>transform</td><td>Group stat broadcast back to rows</td><td>g['rev'].transform('mean')</td></tr>
+    </tbody>
+  </table>
+  <div class="code-block"><pre><span class="cm"># Python — the aggregation toolbox</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Multiple metrics per group, named columns</span>
+summary = (df.groupby(<span class="st">'region'</span>)
+             .agg(orders=(<span class="st">'order_id'</span>, <span class="st">'count'</span>),
+                  revenue=(<span class="st">'amount'</span>, <span class="st">'sum'</span>),
+                  avg_basket=(<span class="st">'amount'</span>, <span class="st">'mean'</span>))
+             .sort_values(<span class="st">'revenue'</span>, ascending=<span class="st">False</span>))
+
+<span class="cm"># Rows × columns grid</span>
+pivot = df.pivot_table(values=<span class="st">'amount'</span>, index=<span class="st">'region'</span>,
+                       columns=<span class="st">'month'</span>, aggfunc=<span class="st">'sum'</span>, fill_value=<span class="st">0</span>)
+
+<span class="cm"># Same thing in SQL</span>
+<span class="cm"># SELECT region, COUNT(*), SUM(amount), AVG(amount)</span>
+<span class="cm"># FROM orders GROUP BY region ORDER BY SUM(amount) DESC;</span>
+
+<span class="cm"># Group stat next to each row (for "% of segment" columns)</span>
+df[<span class="st">'pct_of_region'</span>] = df[<span class="st">'amount'</span>] / df.groupby(<span class="st">'region'</span>)[<span class="st">'amount'</span>].transform(<span class="st">'sum'</span>)</pre></div>
+  <div class="callout info"><strong>Mean of means &ne; overall mean.</strong> Averaging per-group averages weights every group equally regardless of size. Aggregate from raw rows (or weight by group size) — this is <a href="#correlation-causation">Simpson's paradox</a> waiting to happen in a dashboard.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Aggregation is also feature engineering — per-entity groupby stats ("customer's average order", "merchant's txn count") are among the strongest features in tabular ML and fraud models.</div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Building any report, dashboard metric, or segment comparison — and when engineering aggregate features for models.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> You need row-level detail (aggregation destroys it) — or the "groups" are time windows with order mattering, where rolling windows beat plain groupby.</div>
+  </div>
+  <div class="topic-nav" id="nav-groupby-aggregation"></div>
+</div>`;
+}
+
+/* 33 — Cohort & Retention Analysis */
+function buildCohortRetention() {
+  return `<div class="topic" id="cohort-retention">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">33 — Data Analytics</div><h2>Cohort &amp; <em>Retention</em> Analysis</h2></div>
+    <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Group users by when they arrived, track them over time — the retention heatmap</p>
+  <p class="prose">Averages hide everything in user analytics: growth pumps new users into the numerator and masks that older users are quietly leaving. <strong>Cohort analysis</strong> fixes this by grouping users by their start month and tracking each cohort separately. The classic output is the <strong>retention triangle</strong> — rows are cohorts, columns are months since signup, cells are the share still active.</p>
+  <div class="fb"><div class="fm">retention(c, t) = active(c, t) / size(c)</div><div class="fd"><span>Retention</span> = share of cohort c still active t periods after joining. Read down a column to compare cohorts at the same age.</div></div>
+  <div class="fb c2"><div class="fm">churn = 1 &minus; retention&nbsp;&nbsp;&middot;&nbsp;&nbsp;LTV &asymp; ARPU / churn</div><div class="fd"><span>Churn</span> is retention's complement — and the denominator of the standard lifetime-value approximation.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive retention triangle — set churn, then let newer cohorts improve</div>
+    <canvas id="cohortCanvas" height="250"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">Monthly churn</span><input type="range" id="cohChurn" min="5" max="50" step="1" value="25"><span class="vd" id="cohChurnV">25%</span></div>
+      <div class="cg"><span class="cl">Newer cohorts improve</span><input type="range" id="cohImprove" min="0" max="30" step="1" value="0"><span class="vd" id="cohImproveV">0%</span></div>
+      <div class="cg"><span class="cl">Month-3 retention (latest)</span><span class="vd" id="cohM3" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — retention triangle in pandas</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># events: user_id, event_date</span>
+events[<span class="st">'month'</span>] = events[<span class="st">'event_date'</span>].dt.to_period(<span class="st">'M'</span>)
+events[<span class="st">'cohort'</span>] = events.groupby(<span class="st">'user_id'</span>)[<span class="st">'month'</span>].transform(<span class="st">'min'</span>)
+events[<span class="st">'age'</span>] = (events[<span class="st">'month'</span>] - events[<span class="st">'cohort'</span>]).apply(<span class="kw">lambda</span> p: p.n)
+
+counts = (events.drop_duplicates([<span class="st">'user_id'</span>, <span class="st">'month'</span>])
+                .pivot_table(index=<span class="st">'cohort'</span>, columns=<span class="st">'age'</span>,
+                             values=<span class="st">'user_id'</span>, aggfunc=<span class="st">'nunique'</span>))
+
+retention = counts.div(counts[<span class="st">0</span>], axis=<span class="st">0</span>)   <span class="cm"># normalize by cohort size</span>
+print((retention * <span class="st">100</span>).round(<span class="st">1</span>))</pre></div>
+  <table class="mt">
+    <thead><tr><th>Read the triangle</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Down a column</td><td>Same-age comparison — are newer cohorts retaining better? (Product is improving)</td></tr>
+      <tr><td>Along a row</td><td>One cohort's decay curve — where is the steepest drop?</td></tr>
+      <tr><td>Flattening rows</td><td>A retained core exists — the curve's plateau is your product-market-fit signal</td></tr>
+      <tr><td>Rows hitting zero</td><td>Leaky bucket — growth is refilling, not compounding</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><strong>Define "active" first.</strong> Logged in? Performed the core action? Paid? Retention numbers are meaningless without a stated activity definition and period — and comparisons across products even more so.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Averaging metrics over <em>current</em> users only is <a href="#survivorship-bias">survivorship bias</a> — cohort analysis is the antidote, because the churned users stay in their cohort's denominator.</div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Any subscription or repeat-use product — separating growth from stickiness, judging whether product changes moved long-term behaviour, computing honest LTV.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> One-shot transactions with no expected repeat behaviour, or cohorts too small for stable percentages (a 20-user cohort moves 5 points per person).</div>
+  </div>
+  <div class="topic-nav" id="nav-cohort-retention"></div>
+</div>`;
+}
+
+/* 34 — Funnel & Conversion Analysis */
+function buildFunnelAnalysis() {
+  return `<div class="topic" id="funnel-analysis">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">34 — Data Analytics</div><h2>Funnel &amp; <em>Conversion</em> Analysis</h2></div>
+    <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+  </div>
+  <p class="sub">// Where do users leak out? Stage conversions, drop-offs, and fixing the right bottleneck</p>
+  <p class="prose">A <strong>funnel</strong> is an ordered sequence of steps — visit &rarr; view product &rarr; add to cart &rarr; checkout &rarr; purchase. Because overall conversion is the <em>product</em> of stage conversions, small stage improvements compound, and one bad stage caps everything downstream. The job of funnel analysis is finding the stage where fixing the leak buys the most.</p>
+  <div class="fb"><div class="fm">overall = &prod; stage&#7522; &nbsp;&nbsp;&nbsp; e.g. 0.40 &times; 0.30 &times; 0.60 &times; 0.75 = 5.4%</div><div class="fd"><span>Overall conversion</span> = product of per-stage rates. A 10% relative lift at any stage lifts the whole funnel 10%.</div></div>
+  <div class="va">
+    <div class="vl">// Interactive funnel — tune two stages, watch the overall conversion and the biggest leak</div>
+    <canvas id="funnelCanvas" height="250"></canvas>
+    <div class="ctrl">
+      <div class="cg"><span class="cl">View &rarr; Cart</span><input type="range" id="funMid" min="5" max="80" step="1" value="30"><span class="vd" id="funMidV">30%</span></div>
+      <div class="cg"><span class="cl">Checkout &rarr; Purchase</span><input type="range" id="funCheckout" min="10" max="95" step="1" value="60"><span class="vd" id="funCheckoutV">60%</span></div>
+      <div class="cg"><span class="cl">Overall</span><span class="vd" id="funOverall" style="color:var(--accent)">—</span></div>
+    </div>
+  </div>
+  <div class="code-block"><pre><span class="cm"># Python — funnel from an event log</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+stages = [<span class="st">'visit'</span>, <span class="st">'view_product'</span>, <span class="st">'add_to_cart'</span>, <span class="st">'checkout'</span>, <span class="st">'purchase'</span>]
+
+<span class="cm"># events: user_id, event — count users reaching each stage</span>
+reached = {s: events.loc[events.event == s, <span class="st">'user_id'</span>].nunique()
+           <span class="kw">for</span> s <span class="kw">in</span> stages}
+
+funnel = pd.DataFrame({<span class="st">'users'</span>: reached.values()}, index=stages)
+funnel[<span class="st">'stage_conv'</span>] = funnel[<span class="st">'users'</span>] / funnel[<span class="st">'users'</span>].shift(<span class="st">1</span>)
+funnel[<span class="st">'overall'</span>] = funnel[<span class="st">'users'</span>] / funnel[<span class="st">'users'</span>].iloc[<span class="st">0</span>]
+print(funnel.round(<span class="st">3</span>))
+
+<span class="cm"># Biggest leak = stage with lowest stage_conv</span>
+print(<span class="st">"Fix first:"</span>, funnel[<span class="st">'stage_conv'</span>].idxmin())</pre></div>
+  <table class="mt">
+    <thead><tr><th>Metric</th><th>Definition</th><th>Watch for</th></tr></thead>
+    <tbody>
+      <tr><td>Stage conversion</td><td>users(stage) / users(previous)</td><td>The bottleneck — lowest rate first</td></tr>
+      <tr><td>Overall conversion</td><td>users(last) / users(first)</td><td>Topline; hides <em>where</em> the leak is</td></tr>
+      <tr><td>Drop-off</td><td>1 &minus; stage conversion</td><td>Multiply by traffic to rank by impact</td></tr>
+      <tr><td>Time-to-convert</td><td>Median time between stages</td><td>Slow stages often precede abandonment</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><strong>Fix by impact, not by rate:</strong> the lowest-converting stage isn't automatically the best fix — weight each leak by the users flowing into it and by how movable it plausibly is. A 2-point lift on a high-traffic early stage often beats 10 points at the bottom.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Found the bottleneck? Verify the fix with <a href="#bayesian-ab">Bayesian A/B testing</a>, and size the experiment with <a href="#power-analysis">power analysis</a> — conversion deltas of a few percent need surprisingly many users.</div>
+  <div class="why-matters">
+    <div class="why-matters-title">When to use this</div>
+    <div class="use-when">✓ <strong>Use when:</strong> Any multi-step flow — signup, onboarding, checkout, sales pipelines, even ML pipeline stage attrition (candidates &rarr; labeled &rarr; trained &rarr; deployed).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Steps aren't genuinely ordered, or users routinely loop and skip — session-path analysis fits exploratory browsing better than a strict funnel.</div>
+  </div>
+  <div class="topic-nav" id="nav-funnel-analysis"></div>
+</div>`;
+}
+
+/* 35 — scikit-learn Evaluation Suite */
 function buildSklearnEval() {
   return `<div class="topic" id="sklearn-eval">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">27 — Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">35 — Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The Swiss army knife — classification_report, cross_val_score, learning_curve, and the metrics module</p>
@@ -1443,11 +1952,11 @@ grid.fit(X_train, y_train)</pre></div>
 </div>`;
 }
 
-/* 28 — SHAP Library */
+/* 36 — SHAP Library */
 function buildSHAPLibrary() {
   return `<div class="topic" id="shap-library">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">28 — Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">36 — Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// TreeExplainer, force_plot, summary_plot, waterfall — the complete SHAP toolkit</p>
@@ -1489,11 +1998,11 @@ inter = explainer.shap_interaction_values(X_test)</pre></div>
 </div>`;
 }
 
-/* 29 — Optuna */
+/* 37 — Optuna */
 function buildOptuna() {
   return `<div class="topic" id="optuna">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">29 — Python Power Tools</div><h2><em>Optuna</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">37 — Python Power Tools</div><h2><em>Optuna</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Smart hyperparameter tuning — TPE, pruning, study visualisation, any framework</p>
@@ -1538,11 +2047,11 @@ optuna.visualization.plot_optimization_history(study)</pre></div>
 </div>`;
 }
 
-/* 30 — pandas-ta & yfinance */
+/* 38 — pandas-ta & yfinance */
 function buildPandasTA() {
   return `<div class="topic" id="pandas-ta">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">30 — Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">38 — Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Technical indicators + market data in one-liners</p>
@@ -1584,11 +2093,11 @@ print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <sp
 </div>`;
 }
 
-/* 31 — scipy.stats & statsmodels */
+/* 39 — scipy.stats & statsmodels */
 function buildScipyStatsmodels() {
   return `<div class="topic" id="scipy-statsmodels">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">31 — Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">39 — Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Statistical tests, regression diagnostics, time series — the Python stats foundation</p>

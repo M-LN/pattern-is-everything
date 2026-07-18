@@ -1,6 +1,6 @@
 /* ───────────────────────────────────────────────────
    Pattern Drift — Game Data
-   All 249 topics from 9 collections, 2 domains
+   All 260 topics from 9 collections, 2 domains
    ─────────────────────────────────────────────────── */
 
 const DOMAINS = {
@@ -22,7 +22,7 @@ const COLLECTIONS = {
 
 const GAME_TOPICS = [
 
-  // ── Stats (34) ──────────────────────────────────
+  // ── Stats (42) ──────────────────────────────────
   { id:'mean-median', title:'Mean, Median & Mode', domain:'ml', col:'stats', cat:'Descriptive Stats', kw:['average','central tendency','median','mode','mean'] },
   { id:'variance-std', title:'Variance & Std Dev', domain:'ml', col:'stats', cat:'Descriptive Stats', kw:['spread','dispersion','standard deviation','variance','range'] },
   { id:'percentiles', title:'Percentiles & Quartiles', domain:'ml', col:'stats', cat:'Descriptive Stats', kw:['quartile','percentile','IQR','box plot','outlier'] },
@@ -57,6 +57,14 @@ const GAME_TOPICS = [
   { id:'mle-stats', title:'MLE (Statistics)', domain:'ml', col:'stats', cat:'Applied', kw:['maximum likelihood','likelihood function','log-likelihood','fisher information'] },
   { id:'correlation-vs-causation', title:'Correlation vs Causation', domain:'ml', col:'stats', cat:'Applied', kw:['confounding','spurious','causal inference','randomization','DAG'] },
   { id:'simpsons-paradox', title:"Simpson's Paradox", domain:'ml', col:'stats', cat:'Applied', kw:['aggregation','subgroup','reversal','confounding','lurking variable'] },
+  { id:'hypothesis-testing', title:'Hypothesis Testing & p-values', domain:'ml', col:'stats', cat:'Statistical Foundations', kw:['null hypothesis','p-value','significance','alpha','type I error'] },
+  { id:'stat-tests', title:'Choosing the Right Statistical Test', domain:'ml', col:'stats', cat:'Statistical Foundations', kw:['t-test','chi-square','ANOVA','Mann-Whitney','nonparametric'] },
+  { id:'clt-sampling', title:'Central Limit Theorem & Sampling', domain:'ml', col:'stats', cat:'Statistical Foundations', kw:['central limit theorem','sampling distribution','standard error','sample mean'] },
+  { id:'correlation-causation', title:"Correlation, Causation & Simpson's Paradox", domain:'ml', col:'stats', cat:'Statistical Foundations', kw:['confounder','spurious correlation','Simpson paradox','causal'] },
+  { id:'eda-workflow', title:'Exploratory Data Analysis (EDA)', domain:'ml', col:'stats', cat:'Data Analytics', kw:['EDA','describe','profiling','missing values','distributions'] },
+  { id:'groupby-aggregation', title:'GroupBy, Pivot & Aggregation', domain:'ml', col:'stats', cat:'Data Analytics', kw:['groupby','pivot table','split-apply-combine','aggregation','SQL'] },
+  { id:'cohort-retention', title:'Cohort & Retention Analysis', domain:'ml', col:'stats', cat:'Data Analytics', kw:['cohort','retention','churn','heatmap','LTV'] },
+  { id:'funnel-analysis', title:'Funnel & Conversion Analysis', domain:'ml', col:'stats', cat:'Data Analytics', kw:['funnel','conversion rate','drop-off','bottleneck','product analytics'] },
 
   // ── ML-Math (38) ────────────────────────────────
   { id:'vectors', title:'Vectors & Matrices', domain:'ml', col:'ml-math', cat:'Foundations', kw:['dot product','matrix multiplication','transpose','linear algebra','eigenvector'] },
