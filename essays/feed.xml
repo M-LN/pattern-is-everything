@@ -5,7 +5,7 @@
   <link>https://patterniseverything.com/essays/</link>
   <description>Short visual essays on patterns in machine learning, markets, and the world.</description>
   <language>en</language>
-  <lastBuildDate>Sat, 04 Jul 2026 08:43:48 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 18 Jul 2026 15:41:50 GMT</lastBuildDate>
   <atom:link href="https://patterniseverything.com/essays/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
     <title>The Deep Kalman Filter</title>
@@ -36,60 +36,60 @@
     <description>A trend can point one way in every group and the opposite way when the groups are combined. Aggregation can lie.</description>
   </item>
   <item>
-    <title>The Feedback Loop</title>
-    <link>https://patterniseverything.com/essays/#essay-feedback</link>
-    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-feedback</guid>
-    <pubDate>Sun, 17 May 2026 16:59:46 GMT</pubDate>
-    <description>When a system's output feeds back into its input, small nudges can cascade into enormous change — or freeze everything in place.</description>
-  </item>
-  <item>
-    <title>The Random Walk</title>
-    <link>https://patterniseverything.com/essays/#essay-walk</link>
-    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-walk</guid>
-    <pubDate>Sun, 17 May 2026 16:59:46 GMT</pubDate>
-    <description>Each step is random, yet the path that emerges is not without structure. Distance grows — just not in the direction you expect.</description>
-  </item>
-  <item>
-    <title>The Threshold</title>
-    <link>https://patterniseverything.com/essays/#essay-threshold</link>
-    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-threshold</guid>
-    <pubDate>Sun, 17 May 2026 16:59:46 GMT</pubDate>
-    <description>Many systems stay quiet for a long time, then change all at once. The threshold is the hidden line that separates gradual from sudden.</description>
-  </item>
-  <item>
     <title>The Bell in Everything</title>
     <link>https://patterniseverything.com/essays/#essay-bell</link>
     <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-bell</guid>
-    <pubDate>Mon, 30 Mar 2026 18:41:14 GMT</pubDate>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
     <description>Normal distributions emerge wherever many small, independent forces combine.</description>
   </item>
   <item>
     <title>Regression to the Mean</title>
     <link>https://patterniseverything.com/essays/#essay-mean</link>
     <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-mean</guid>
-    <pubDate>Mon, 30 Mar 2026 18:41:14 GMT</pubDate>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
     <description>Extreme outcomes tend to be followed by less extreme ones — not a force, just arithmetic.</description>
   </item>
   <item>
     <title>The Long Tail</title>
     <link>https://patterniseverything.com/essays/#essay-tail</link>
     <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-tail</guid>
-    <pubDate>Mon, 30 Mar 2026 18:41:14 GMT</pubDate>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
     <description>Most things are small. A few are enormous. The pattern repeats across domains that seem unrelated.</description>
   </item>
   <item>
     <title>Signal in the Noise</title>
     <link>https://patterniseverything.com/essays/#essay-signal</link>
     <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-signal</guid>
-    <pubDate>Mon, 30 Mar 2026 18:41:14 GMT</pubDate>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
     <description>Every dataset is a mix of pattern and randomness. The hard part is not inventing signal where there is none.</description>
   </item>
   <item>
     <title>The Map and the Territory</title>
     <link>https://patterniseverything.com/essays/#essay-map</link>
     <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-map</guid>
-    <pubDate>Mon, 30 Mar 2026 18:41:14 GMT</pubDate>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
     <description>A model is a deliberate simplification. The danger is forgetting what was left out.</description>
+  </item>
+  <item>
+    <title>The Feedback Loop</title>
+    <link>https://patterniseverything.com/essays/#essay-feedback</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-feedback</guid>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
+    <description>When a system's output feeds back into its input, small nudges can cascade into enormous change — or freeze everything in place.</description>
+  </item>
+  <item>
+    <title>The Random Walk</title>
+    <link>https://patterniseverything.com/essays/#essay-walk</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-walk</guid>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
+    <description>Each step is random, yet the path that emerges is not without structure. Distance grows — just not in the direction you expect.</description>
+  </item>
+  <item>
+    <title>The Threshold</title>
+    <link>https://patterniseverything.com/essays/#essay-threshold</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-threshold</guid>
+    <pubDate>Fri, 29 May 2026 12:05:45 GMT</pubDate>
+    <description>Many systems stay quiet for a long time, then change all at once. The threshold is the hidden line that separates gradual from sudden.</description>
   </item>
 </channel>
 </rss>
