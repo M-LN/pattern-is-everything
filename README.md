@@ -4,7 +4,7 @@
 
 [Live site](https://patterniseverything.com) · [Start here](https://patterniseverything.com/start/) · [Support](https://patterniseverything.com/support/)
 
-Pattern is Everything is a free educational platform for learning complex concepts through interactive visual references. The core library covers **249 topics** across machine learning and markets, each paired with a canvas-based visualization, practical explanation, formulas, and code-oriented context.
+Pattern is Everything is a free educational platform for learning complex concepts through interactive visual references. The core library covers **257 topics** across machine learning and markets, each paired with a canvas-based visualization, practical explanation, formulas, and code-oriented context.
 
 The project also includes essays, real-data mini-cases, notebook companions, sandboxes, and a public donation log for mental-health-related giving.
 
@@ -12,19 +12,19 @@ The project also includes essays, real-data mini-cases, notebook companions, san
 
 | Metric | Count | Notes |
 |---|---:|---|
-| Core topics | 249 | Machine Learning + Markets topic pages, excluding collection overview pages |
-| Core visualizations | 249 | One interactive visual reference per core topic |
+| Core topics | 257 | Machine Learning + Markets topic pages, excluding collection overview pages |
+| Core visualizations | 257 | One interactive visual reference per core topic |
 | Universes | 3 | Machine Learning, Markets, and Pattern Essays |
 | Collections | 10 | 5 ML collections, 4 Markets collections, 1 Essays collection |
 
 ## Universes
 
-### Machine Learning - 149 topics
+### Machine Learning - 157 topics
 
 | Collection | Topics | Covers |
 |---|---:|---|
 | ML Math | 38 | Linear algebra, gradients, backprop, attention, transformers, diffusion, LoRA, RLHF |
-| The Toolkit | 31 | Evaluation, feature importance, uncertainty, data analysis, backtesting, decision support |
+| The Toolkit | 39 | Evaluation, feature importance, statistical foundations, data analytics, backtesting, decision support |
 | LLM Engineering | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
 | MLOps & Production ML | 25 | Serving, drift, feature stores, pipelines, monitoring, governance |
 | Timeseries Engineering | 25 | Stationarity, ARIMA, Prophet, LSTM, transformers, anomaly detection, forecasting workflows |
