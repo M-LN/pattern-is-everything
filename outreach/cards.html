@@ -15,6 +15,7 @@
       --green: #2a7d5f;
       --blue: #2955a0;
       --purple: #8b4fa8;
+      --gold: #c8a96e;
       --serif: 'Playfair Display', Georgia, serif;
       --mono: 'IBM Plex Mono', 'Courier New', monospace;
       --sans: 'Inter', system-ui, sans-serif;
@@ -166,6 +167,10 @@
     .card-ml::before { background: var(--rust); }
     .card-ml .card-stat-num, .card-ml .uni-icon { color: var(--rust); }
 
+    .card-statsu { background: linear-gradient(135deg, #0e0e10 0%, #1a1610 100%); }
+    .card-statsu::before { background: var(--gold); }
+    .card-statsu .card-stat-num, .card-statsu .uni-icon { color: var(--gold); }
+
     .card-markets { background: linear-gradient(135deg, #0e0e10 0%, #0e1a14 100%); }
     .card-markets::before { background: var(--green); }
     .card-markets .card-stat-num, .card-markets .uni-icon { color: var(--green); }
@@ -314,23 +319,49 @@
     <div class="social-card card-universe card-ml">
       <div class="uni-icon">🧠</div>
       <div class="card-title">Machine Learning <em>Patterns</em></div>
-      <div class="card-desc">99 interactive visual references — from gradient descent to transformers. Every concept visualized on canvas.</div>
+      <div class="card-desc">118 interactive visual references — from linear algebra to production ML. Every concept visualized on canvas.</div>
       <div class="card-collections">
         <div class="card-collection">
           <div class="card-collection-name">ML Math</div>
           <div class="card-collection-count">38 topics</div>
         </div>
         <div class="card-collection">
-          <div class="card-collection-name">The Toolkit</div>
-          <div class="card-collection-count">39 topics</div>
+          <div class="card-collection-name">LLM Engineering</div>
+          <div class="card-collection-count">30 topics</div>
         </div>
         <div class="card-collection">
-          <div class="card-collection-name">LLM Architecture</div>
-          <div class="card-collection-count">30 topics</div>
+          <div class="card-collection-name">MLOps</div>
+          <div class="card-collection-count">25 topics</div>
         </div>
       </div>
       <div class="card-badge">♥ 100% of donations → mental health</div>
       <div class="card-url">patterniseverything.com/ml/</div>
+    </div>
+  </div>
+
+  <!-- ═══ STATISTICS CARD ═══ -->
+  <div>
+    <div class="card-label">Statistics &amp; Data Analytics — use for r/statistics, r/dataanalysis</div>
+    <div class="social-card card-universe card-statsu">
+      <div class="uni-icon">📊</div>
+      <div class="card-title">Statistics &amp; <em>Data Analytics</em></div>
+      <div class="card-desc">39 interactive visual references — hypothesis testing, EDA, cohorts, funnels, model evaluation, and decision-making. Every topic with formulas and Python.</div>
+      <div class="card-collections">
+        <div class="card-collection">
+          <div class="card-collection-name">Statistical Foundations</div>
+          <div class="card-collection-count">4 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Data Analytics</div>
+          <div class="card-collection-count">4 topics</div>
+        </div>
+        <div class="card-collection">
+          <div class="card-collection-name">Evaluate &amp; Decide</div>
+          <div class="card-collection-count">11 topics</div>
+        </div>
+      </div>
+      <div class="card-badge">♥ 100% of donations → mental health</div>
+      <div class="card-url">patterniseverything.com/stats/</div>
     </div>
   </div>
 
@@ -340,7 +371,7 @@
     <div class="social-card card-universe card-markets">
       <div class="uni-icon">📈</div>
       <div class="card-title">Market <em>Patterns</em></div>
-      <div class="card-desc">75 interactive visual references — chart patterns, technical indicators, and market psychology. Visual guides to what moves markets.</div>
+      <div class="card-desc">100 interactive visual references — chart patterns, technical indicators, market psychology, and risk. Visual guides to what moves markets.</div>
       <div class="card-collections">
         <div class="card-collection">
           <div class="card-collection-name">Chart Patterns</div>
