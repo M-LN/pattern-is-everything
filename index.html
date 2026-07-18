@@ -89,7 +89,7 @@
     <div class="section-kicker">Start here</div>
     <h2>New here? <em>Start with these</em></h2>
   </div>
-  <div class="start-grid">
+  <div class="start-grid" style="grid-template-columns:repeat(auto-fit,minmax(185px,1fr));">
     <a class="start-card" href="start/index.html">
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="8 5.5 18.5 12 8 18.5"/></svg></div>
       <div class="start-card-text">
@@ -114,22 +114,6 @@
       </div>
       <span class="start-badge">Popular</span>
     </a>
-    <a class="start-card" href="stats/index.html#shap-values">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="4" x2="5" y2="20"/><line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="14" y2="12"/><line x1="5" y1="17" x2="10" y2="17"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">SHAP Values</div>
-        <div class="start-card-universe">Machine Learning → The Toolkit</div>
-      </div>
-      <span class="start-badge">Start here</span>
-    </a>
-    <a class="start-card" href="cases/index.html">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="10" x2="10" y2="19"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Real-Data Cases</div>
-        <div class="start-card-universe">Build → Dataset → Model → Metrics</div>
-      </div>
-      <span class="start-badge">Build</span>
-    </a>
     <a class="start-card" href="markets/charts/index.html#head-and-shoulders">
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 18 6.5 12 9.5 15 12 6 14.5 15 17.5 12 21 18"/></svg></div>
       <div class="start-card-text">
@@ -138,28 +122,7 @@
       </div>
       <span class="start-badge">Popular</span>
     </a>
-    <a class="start-card" href="llm/index.html#tokenization">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Tokenization</div>
-        <div class="start-card-universe">Machine Learning → LLM Engineering</div>
-      </div>
-    </a>
-    <a class="start-card" href="stats/index.html#sharpe-ratio">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/><line x1="4" y1="21" x2="20" y2="21" stroke-dasharray="2 3"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Sharpe Ratio</div>
-        <div class="start-card-universe">Machine Learning → The Toolkit</div>
-      </div>
-    </a>
   </div>
-</div>
-
-<div class="portal-video">
-  <div class="portal-video-wrap">
-    <iframe src="https://www.youtube-nocookie.com/embed/hchZlpgAgRY" title="Pattern is Everything — Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <p class="portal-video-label">A quick tour of the site</p>
 </div>
 
 <div class="portal-stats band">
@@ -179,294 +142,6 @@
     <div class="portal-stat-num">10</div>
     <div class="portal-stat-label">Collections</div>
   </div>
-</div>
-
-<div class="live-preview">
-  <div class="section-head">
-    <div class="section-kicker">Live interactive preview</div>
-    <h2>Every topic is a <em>living diagram</em></h2>
-    <p class="section-sub">Not screenshots — every reference on this site is drawn live on canvas, with parameters you can drag.</p>
-  </div>
-  <div class="live-preview-wrap">
-    <canvas id="heroCanvas" aria-hidden="true"></canvas>
-    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
-  </div>
-</div>
-
-<div class="inside-preview">
-  <div class="inside-strip">
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></span> Interactive canvas diagrams</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 5H7l6 7-6 7h10"/></svg></span> Core formulas explained</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12" y1="17" x2="19" y2="17"/></svg></span> JupyterLite notebooks</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span> Real-data mini-cases</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></span> Draggable parameters</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a6.6 6.6 0 0 0 8.5 8.5z"/></svg></span> Dark mode</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></span> Zero dependencies</div>
-  </div>
-</div>
-
-<div class="mission-bar">
-  <a href="support/index.html">
-    <span class="mission-heart">♥</span> 100% of donations go to mental health
-    <span class="mission-arrow">→</span>
-  </a>
-</div>
-
-<!-- Learning Paths -->
-<div class="learning-paths">
-  <div class="section-head">
-    <div class="section-kicker">Learning paths</div>
-    <h2>Guided <em>progression</em></h2>
-    <p class="section-sub">Five curated routes from beginner to advanced. Your progress is saved locally — no account needed.</p>
-  </div>
-  <div class="lp-grid">
-
-    <div class="lp-card beginner" id="home-ml-fundamentals">
-      <span class="lp-level">Beginner</span>
-      <div class="lp-name">ML <em>Fundamentals</em></div>
-      <div class="lp-desc">Start from zero — distributions, metrics, and your first model evaluation. No prior ML experience needed.</div>
-      <ol class="lp-steps">
-        <li><a href="stats/index.html?lp=home-ml-fundamentals&lstep=1#distribution-shape">Distribution Shape</a> — know your data</li>
-        <li><a href="ml-math/index.html?lp=home-ml-fundamentals&lstep=2#gradient">Gradient Descent</a> — how models learn</li>
-        <li><a href="stats/index.html?lp=home-ml-fundamentals&lstep=3#confusion-matrix">Confusion Matrix</a> — measuring results</li>
-        <li><a href="stats/index.html?lp=home-ml-fundamentals&lstep=4#roc-auc">ROC & AUC</a> — comparing models</li>
-        <li><a href="stats/index.html?lp=home-ml-fundamentals&lstep=5#cross-validation">Cross-Validation</a> — honest evaluation</li>
-      </ol>
-      <div class="lp-time">~45 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card beginner" id="home-real-data-model">
-      <span class="lp-level">Build</span>
-      <div class="lp-name">First <em>Real-Data Model</em></div>
-      <div class="lp-desc">Move from visual intuition into a practical workflow: dataset, split, model, metric, and failure mode.</div>
-      <ol class="lp-steps">
-        <li><a href="cases/index.html?lp=home-real-data-model&lstep=1#housing-regression">Housing Regression</a> — start with tabular data</li>
-        <li><a href="stats/index.html?lp=home-real-data-model&lstep=2#regression-metrics">Regression Metrics</a> — measure error clearly</li>
-        <li><a href="stats/index.html?lp=home-real-data-model&lstep=3#cross-validation">Cross-Validation</a> — evaluate honestly</li>
-        <li><a href="stats/index.html?lp=home-real-data-model&lstep=4#shap-values">SHAP Values</a> — inspect model behavior</li>
-        <li><a href="sandbox/ml/index.html?lp=home-real-data-model&lstep=5#linear-regression">ML Lab</a> — experiment by hand</li>
-      </ol>
-      <div class="lp-time">~60 min · case + 4 topics</div>
-    </div>
-
-    <div class="lp-card intermediate" id="home-time-series-mastery">
-      <span class="lp-level">Intermediate</span>
-      <div class="lp-name">Time Series <em>Mastery</em></div>
-      <div class="lp-desc">From stationarity to forecasting — the full pipeline for time-dependent data.</div>
-      <ol class="lp-steps">
-        <li><a href="timeseries/index.html?lp=home-time-series-mastery&lstep=1#stationarity">Stationarity</a> — is your data ready?</li>
-        <li><a href="timeseries/index.html?lp=home-time-series-mastery&lstep=2#arima">ARIMA</a> — classical forecasting</li>
-        <li><a href="timeseries/index.html?lp=home-time-series-mastery&lstep=3#prophet">Prophet</a> — fast, practical forecasting</li>
-        <li><a href="stats/index.html?lp=home-time-series-mastery&lstep=4#walk-forward">Walk-Forward Validation</a> — test honestly</li>
-        <li><a href="timeseries/index.html?lp=home-time-series-mastery&lstep=5#anomaly-detection">Anomaly Detection</a> — find the unusual</li>
-      </ol>
-      <div class="lp-time">~60 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card advanced" id="home-llm-engineering">
-      <span class="lp-level">Advanced</span>
-      <div class="lp-name">LLM <em>Engineering</em></div>
-      <div class="lp-desc">From tokenization to RLHF — understand and build with large language models.</div>
-      <ol class="lp-steps">
-        <li><a href="llm/index.html?lp=home-llm-engineering&lstep=1#tokenization">Tokenization</a> — how text becomes numbers</li>
-        <li><a href="llm/index.html?lp=home-llm-engineering&lstep=2#self-attention">Self-Attention</a> — the core mechanism</li>
-        <li><a href="llm/index.html?lp=home-llm-engineering&lstep=3#rag">RAG</a> — retrieval-augmented generation</li>
-        <li><a href="llm/index.html?lp=home-llm-engineering&lstep=4#rlhf">RLHF</a> — aligning models</li>
-        <li><a href="llm/index.html?lp=home-llm-engineering&lstep=5#quantization">Quantization</a> — making it fast</li>
-      </ol>
-      <div class="lp-time">~90 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card beginner" id="home-market-intuition">
-      <span class="lp-level">Beginner</span>
-      <div class="lp-name">Market <em>Intuition</em></div>
-      <div class="lp-desc">Understand how markets move — risk, psychology, and the patterns traders watch. Evidence levels clearly marked.</div>
-      <ol class="lp-steps">
-        <li><a href="markets/psychology/index.html?lp=home-market-intuition&lstep=1#fear-and-greed">Fear & Greed</a> — market emotions</li>
-        <li><a href="markets/risk/index.html?lp=home-market-intuition&lstep=2#value-at-risk">Value at Risk</a> — quantifying danger</li>
-        <li><a href="markets/indicators/index.html?lp=home-market-intuition&lstep=3#sma">Moving Averages</a> — trend detection</li>
-        <li><a href="stats/index.html?lp=home-market-intuition&lstep=4#sharpe-ratio">Sharpe Ratio</a> — risk-adjusted returns</li>
-        <li><a href="markets/charts/index.html?lp=home-market-intuition&lstep=5#support-resistance">Support & Resistance</a> — price levels</li>
-      </ol>
-      <div class="lp-time">~45 min · 5 topics</div>
-    </div>
-
-  </div>
-</div>
-
-<div class="pattern-thread-home">
-  <span class="pt-label">◆ The Pattern</span>
-  <span class="pt-text">A bell curve in model outputs, a head-and-shoulders on a chart — the same structural principle, different data. Every topic here makes that connection visible.</span>
-</div>
-
-<!-- Real-Data Cases Feature -->
-<div style="max-width:860px;margin:0 auto 48px;padding:0 24px;">
-  <a href="cases/index.html" style="display:block;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#080e0c 60%,#050508 100%);padding:40px 48px;color:inherit;transition:border-color .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='rgba(129,199,132,.35)';this.style.boxShadow='0 8px 32px rgba(129,199,132,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-    <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#5a8a6e;margin-bottom:12px;">◆ Real-Data Workflow</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,4vw,34px);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:#81c784;margin-bottom:12px;">Build from <em style="font-style:italic;">Cases</em></div>
-        <div style="font-family:var(--mono);font-size:12px;color:#9a8e80;line-height:1.7;max-width:520px;">Four practical mini-cases connect topics to datasets, pipelines, metrics, pitfalls, and a browser JupyterLite notebook: fraud detection, housing regression, energy forecasting, and market backtesting.</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#81c784;border:1px solid #81c78444;border-radius:3px;padding:3px 10px;">Datasets</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4fc3f7;border:1px solid #4fc3f744;border-radius:3px;padding:3px 10px;">Metrics</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#ce93d8;border:1px solid #ce93d844;border-radius:3px;padding:3px 10px;">JupyterLite Lab</span>
-        </div>
-      </div>
-      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:#5a8a6e;white-space:nowrap;border:1px solid #5a8a6e44;border-radius:3px;padding:8px 18px;flex-shrink:0;">Open Cases →</div>
-    </div>
-  </a>
-</div>
-
-<!-- Pattern Cosmos Feature -->
-<div style="max-width:860px;margin:0 auto 48px;padding:0 24px;">
-  <a href="universe/index.html" style="display:block;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:40px 48px;color:inherit;transition:border-color .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#c8a96e44';this.style.boxShadow='0 8px 32px rgba(200,169,110,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-    <!-- Starfield decoration -->
-    <canvas id="universePreviewCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6;" aria-hidden="true"></canvas>
-    <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;margin-bottom:12px;">◆ Interactive Experience</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,4vw,34px);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:#c8a96e;margin-bottom:12px;">Pattern <em style="font-style:italic;">Cosmos</em></div>
-        <div style="font-family:var(--mono);font-size:12px;color:#9a8e80;line-height:1.7;max-width:480px;">A galaxy of all 257 topics — pan, zoom, and click through nine glowing collection clusters. Cross-domain filaments reveal hidden connections between Machine Learning and Markets.</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4fc3f7;border:1px solid #4fc3f744;border-radius:3px;padding:3px 10px;">Machine Learning</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#81c784;border:1px solid #81c78444;border-radius:3px;padding:3px 10px;">Markets</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#c8a96e;border:1px solid #c8a96e44;border-radius:3px;padding:3px 10px;">257 Topics</span>
-        </div>
-      </div>
-      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:#7a6340;white-space:nowrap;border:1px solid #7a634044;border-radius:3px;padding:8px 18px;flex-shrink:0;">Enter Cosmos →</div>
-    </div>
-  </a>
-</div>
-
-<script>
-(function(){
-  const c = document.getElementById('universePreviewCanvas');
-  if(!c) return;
-  const TAU = Math.PI*2;
-  let req, t=0;
-  const pts = Array.from({length:55},()=>({
-    x:Math.random(), y:Math.random(),
-    r:Math.random()*.9+.2, sp:Math.random()*.4+.1, ph:Math.random()*TAU
-  }));
-  const nodes = [
-    {x:.22,y:.38,col:'#4fc3f7',r:3.5},{x:.15,y:.62,col:'#4fc3f7',r:2.8},
-    {x:.38,y:.25,col:'#4fc3f7',r:2.2},{x:.28,y:.72,col:'#4fc3f7',r:2},
-    {x:.72,y:.35,col:'#81c784',r:3.2},{x:.82,y:.58,col:'#81c784',r:2.6},
-    {x:.65,y:.68,col:'#81c784',r:2.1},{x:.78,y:.22,col:'#81c784',r:1.8},
-    {x:.5,y:.42,col:'#c8a96e',r:4.5},{x:.42,y:.55,col:'#c8a96e',r:3},
-    {x:.58,y:.52,col:'#c8a96e',r:2.5}
-  ];
-  const edges=[[8,9],[8,10],[9,10],[8,0],[8,4],[9,1],[10,5],[0,1],[4,5],[0,2],[4,6]];
-  function hexA(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `rgba(${r},${g},${b},${a})`;}
-  function draw(){
-    const rect=c.getBoundingClientRect(); if(!rect.width) return;
-    const dpr=window.devicePixelRatio||1;
-    c.width=rect.width*dpr; c.height=rect.height*dpr;
-    const ctx=c.getContext('2d'); ctx.scale(dpr,dpr);
-    const W=rect.width,H=rect.height;
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(p=>{ const bri=.12+.08*Math.sin(t*p.sp+p.ph); ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.r,0,TAU); ctx.fillStyle=`rgba(200,180,130,${bri})`; ctx.fill(); });
-    const nx=nodes.map(n=>({...n,sx:n.x*W,sy:n.y*H}));
-    edges.forEach(([a,b])=>{
-      const na=nx[a],nb=nx[b];
-      const pulse=(Math.sin(t*1.2+a*.7)+1)/2;
-      const gr=ctx.createLinearGradient(na.sx,na.sy,nb.sx,nb.sy);
-      gr.addColorStop(0,hexA(na.col,.08+.05*pulse)); gr.addColorStop(1,hexA(nb.col,.08+.05*pulse));
-      ctx.beginPath(); ctx.moveTo(na.sx,na.sy); ctx.lineTo(nb.sx,nb.sy); ctx.strokeStyle=gr; ctx.lineWidth=.8; ctx.stroke();
-      const ft=((t*.35+pulse*2.5)%1), px=na.sx+(nb.sx-na.sx)*ft, py=na.sy+(nb.sy-na.sy)*ft;
-      ctx.beginPath(); ctx.arc(px,py,1.2,0,TAU); ctx.fillStyle=`rgba(255,255,255,${.12+.1*pulse})`; ctx.fill();
-    });
-    nx.forEach(n=>{ const pulse=(Math.sin(t*2+n.sx)*.5+.5); const glow=ctx.createRadialGradient(n.sx,n.sy,0,n.sx,n.sy,n.r*3.5); glow.addColorStop(0,hexA(n.col,.18+.08*pulse)); glow.addColorStop(1,hexA(n.col,0)); ctx.beginPath(); ctx.arc(n.sx,n.sy,n.r*3.5,0,TAU); ctx.fillStyle=glow; ctx.fill(); ctx.beginPath(); ctx.arc(n.sx,n.sy,n.r,0,TAU); ctx.fillStyle=hexA(n.col,.7+.2*pulse); ctx.fill(); });
-  }
-  function loop(){ req=requestAnimationFrame(loop); t+=.008; draw(); }
-  if('IntersectionObserver' in window){
-    const obs=new IntersectionObserver(entries=>{ if(entries[0].isIntersecting){loop();} else{cancelAnimationFrame(req);} },{threshold:0.1});
-    obs.observe(c);
-  } else { loop(); }
-})();
-</script>
-
-<!-- Pattern Weaver Game Feature -->
-<div style="max-width:860px;margin:0 auto 48px;padding:0 24px;">
-  <a href="game/index.html" style="display:block;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:40px 48px;color:inherit;transition:border-color .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#c8a96e44';this.style.boxShadow='0 8px 32px rgba(200,169,110,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-    <canvas id="driftPreviewCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.5;" aria-hidden="true"></canvas>
-    <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;margin-bottom:12px;">◆ Game</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,4vw,34px);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:#c8a96e;margin-bottom:12px;">Pattern <em style="font-style:italic;">Weaver</em></div>
-        <div style="font-family:var(--mono);font-size:12px;color:#9a8e80;line-height:1.7;max-width:480px;">A pattern-matching quiz — two topics from different domains, three possible connections, one correct thread. Build a constellation of discovered links between Machine Learning and Markets.</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4fc3f7;border:1px solid #4fc3f744;border-radius:3px;padding:3px 10px;">Machine Learning</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#81c784;border:1px solid #81c78444;border-radius:3px;padding:3px 10px;">Markets</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#c8a96e;border:1px solid #c8a96e44;border-radius:3px;padding:3px 10px;">Cross-Domain Quiz</span>
-        </div>
-      </div>
-      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:#7a6340;white-space:nowrap;border:1px solid #7a634044;border-radius:3px;padding:8px 18px;flex-shrink:0;">Begin Weaving →</div>
-    </div>
-  </a>
-</div>
-
-<script>
-(function(){
-  const c = document.getElementById('driftPreviewCanvas');
-  if(!c) return;
-  const TAU = Math.PI*2;
-  let req, t=0;
-  const dust = Array.from({length:40},()=>({x:Math.random(),y:Math.random(),r:Math.random()*.7+.2,sp:Math.random()*.3+.1,ph:Math.random()*TAU}));
-  const orbs = [
-    {x:.18,y:.4,col:'#4fc3f7',r:4,sp:.6,ph:0},
-    {x:.35,y:.7,col:'#4fc3f7',r:3,sp:.5,ph:1.2},
-    {x:.52,y:.3,col:'#81c784',r:3.5,sp:.7,ph:2.4},
-    {x:.7,y:.6,col:'#81c784',r:2.8,sp:.55,ph:3.6},
-    {x:.85,y:.45,col:'#4fc3f7',r:3.2,sp:.65,ph:4.8},
-    {x:.42,y:.85,col:'#81c784',r:2.5,sp:.45,ph:5.5},
-    {x:.6,y:.55,col:'#c8a96e',r:5,sp:.4,ph:1}
-  ];
-  function hexA(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
-  function draw(){
-    const rect=c.getBoundingClientRect();if(!rect.width)return;
-    const dpr=window.devicePixelRatio||1;
-    c.width=rect.width*dpr;c.height=rect.height*dpr;
-    const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
-    const W=rect.width,H=rect.height;
-    ctx.clearRect(0,0,W,H);
-    dust.forEach(p=>{const bri=.1+.06*Math.sin(t*p.sp+p.ph);ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,TAU);ctx.fillStyle=`rgba(200,180,130,${bri})`;ctx.fill();});
-    orbs.forEach(o=>{
-      const ox=((o.x+t*o.sp*.02)%1.1)*W, oy=o.y*H+Math.sin(t*1.5+o.ph)*6;
-      const glow=ctx.createRadialGradient(ox,oy,0,ox,oy,o.r*4);
-      glow.addColorStop(0,hexA(o.col,.25));glow.addColorStop(1,hexA(o.col,0));
-      ctx.beginPath();ctx.arc(ox,oy,o.r*4,0,TAU);ctx.fillStyle=glow;ctx.fill();
-      ctx.beginPath();ctx.arc(ox,oy,o.r,0,TAU);ctx.fillStyle=hexA(o.col,.8);ctx.fill();
-    });
-  }
-  function loop(){req=requestAnimationFrame(loop);t+=.008;draw();}
-  if('IntersectionObserver' in window){
-    const obs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){loop();}else{cancelAnimationFrame(req);}},{threshold:0.1});
-    obs.observe(c);
-  } else {loop();}
-})();
-</script>
-
-<!-- The Sandbox -->
-<div style="max-width:860px;margin:0 auto 48px;padding:0 24px;">
-  <a href="sandbox/index.html" style="display:block;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0a0c14 60%,#050508 100%);padding:40px 48px;color:inherit;transition:border-color .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#4fc3f744';this.style.boxShadow='0 8px 32px rgba(79,195,247,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-    <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#4a7a8a;margin-bottom:12px;">◆ Sandbox</div>
-        <div style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,4vw,34px);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:#4fc3f7;margin-bottom:12px;">The <em style="font-style:italic;">Sandbox</em></div>
-        <div style="font-family:var(--mono);font-size:12px;color:#9a8e80;line-height:1.7;max-width:480px;">Hands-on interactive labs — fit regression lines, cluster data, trade on candlestick charts, watch the logistic map tip into chaos, and bring Conway's Game of Life to life.</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4fc3f7;border:1px solid #4fc3f744;border-radius:3px;padding:3px 10px;">ML Lab</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#81c784;border:1px solid #81c78444;border-radius:3px;padding:3px 10px;">Markets Lab</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#ce93d8;border:1px solid #ce93d844;border-radius:3px;padding:3px 10px;">Stats Lab</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#ff8a65;border:1px solid #ff8a6544;border-radius:3px;padding:3px 10px;">Chaos Lab</span>
-          <span style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4dd0e1;border:1px solid #4dd0e144;border-radius:3px;padding:3px 10px;">Deep Learning Lab</span>
-        </div>
-      </div>
-      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:#4a7a8a;white-space:nowrap;border:1px solid #4a7a8a44;border-radius:3px;padding:8px 18px;flex-shrink:0;">Open Sandbox →</div>
-    </div>
-  </a>
 </div>
 
 <div class="portal-content" id="universes">
@@ -537,6 +212,122 @@
       <div class="cc-meta" style="margin-top:14px;">Fraud · Regression · Forecasting · Backtesting</div>
     </a>
   </div>
+</div>
+
+<div class="live-preview">
+  <div class="section-head">
+    <div class="section-kicker">Live interactive preview</div>
+    <h2>Every topic is a <em>living diagram</em></h2>
+    <p class="section-sub">Not screenshots — every reference on this site is drawn live on canvas, with parameters you can drag.</p>
+  </div>
+  <div class="live-preview-wrap">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#normal">Try it →</a></div>
+  </div>
+</div>
+
+<div class="inside-preview">
+  <div class="inside-strip">
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></span> Interactive canvas diagrams</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 5H7l6 7-6 7h10"/></svg></span> Core formulas explained</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12" y1="17" x2="19" y2="17"/></svg></span> JupyterLite notebooks</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span> Real-data mini-cases</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></span> Draggable parameters</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a6.6 6.6 0 0 0 8.5 8.5z"/></svg></span> Dark mode</div>
+    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></span> Zero dependencies</div>
+  </div>
+</div>
+
+<div class="mission-bar">
+  <a href="support/index.html">
+    <span class="mission-heart">♥</span> 100% of donations go to mental health
+    <span class="mission-arrow">→</span>
+  </a>
+</div>
+
+<!-- Learning Paths -->
+<div class="learning-paths">
+  <div class="section-head">
+    <div class="section-kicker">Learning paths</div>
+    <h2>Guided <em>progression</em></h2>
+    <p class="section-sub">Five curated routes from beginner to advanced — open one to see its steps. Progress is saved locally, no account needed.</p>
+  </div>
+  <div class="lp-grid">
+
+    <div class="lp-card beginner" id="home-ml-fundamentals">
+      <span class="lp-level">Beginner</span>
+      <div class="lp-name">ML <em>Fundamentals</em></div>
+      <div class="lp-desc">Start from zero — distributions, metrics, and your first model evaluation. No prior ML experience needed.</div>
+      <div class="lp-time">~45 min · 5 topics</div>
+    </div>
+
+    <div class="lp-card beginner" id="home-real-data-model">
+      <span class="lp-level">Build</span>
+      <div class="lp-name">First <em>Real-Data Model</em></div>
+      <div class="lp-desc">Move from visual intuition into a practical workflow: dataset, split, model, metric, and failure mode.</div>
+      <div class="lp-time">~60 min · case + 4 topics</div>
+    </div>
+
+    <div class="lp-card intermediate" id="home-time-series-mastery">
+      <span class="lp-level">Intermediate</span>
+      <div class="lp-name">Time Series <em>Mastery</em></div>
+      <div class="lp-desc">From stationarity to forecasting — the full pipeline for time-dependent data.</div>
+      <div class="lp-time">~60 min · 5 topics</div>
+    </div>
+
+    <div class="lp-card advanced" id="home-llm-engineering">
+      <span class="lp-level">Advanced</span>
+      <div class="lp-name">LLM <em>Engineering</em></div>
+      <div class="lp-desc">From tokenization to RLHF — understand and build with large language models.</div>
+      <div class="lp-time">~90 min · 5 topics</div>
+    </div>
+
+    <div class="lp-card beginner" id="home-market-intuition">
+      <span class="lp-level">Beginner</span>
+      <div class="lp-name">Market <em>Intuition</em></div>
+      <div class="lp-desc">Understand how markets move — risk, psychology, and the patterns traders watch. Evidence levels clearly marked.</div>
+      <div class="lp-time">~45 min · 5 topics</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pattern-thread-home">
+  <span class="pt-label">◆ The Pattern</span>
+  <span class="pt-text">A bell curve in model outputs, a head-and-shoulders on a chart — the same structural principle, different data. Every topic here makes that connection visible.</span>
+</div>
+<div class="portal-content">
+  <div class="section-head">
+    <div class="section-kicker">Beyond the library</div>
+    <h2>Explore <em>differently</em></h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;">
+    <a href="universe/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;">◆ Interactive experience</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#c8a96e;">Pattern <em style="font-style:italic;">Cosmos</em></div>
+      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">A galaxy of all 257 topics — pan, zoom, and click through nine glowing collection clusters.</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#7a6340;margin-top:6px;">Enter Cosmos →</div>
+    </a>
+    <a href="game/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;">◆ Game</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#c8a96e;">Pattern <em style="font-style:italic;">Weaver</em></div>
+      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">A cross-domain quiz — find the thread connecting two topics and build a constellation of links.</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#7a6340;margin-top:6px;">Begin Weaving →</div>
+    </a>
+    <a href="sandbox/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#4a7a8a66';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#4a7a8a;">◆ Sandbox</div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#4fc3f7;">The <em style="font-style:italic;">Sandbox</em></div>
+      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">Hands-on labs — fit regressions, cluster data, trade candlesticks, and tip the logistic map into chaos.</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#4a7a8a;margin-top:6px;">Open Sandbox →</div>
+    </a>
+  </div>
+</div>
+
+<div class="portal-video">
+  <div class="portal-video-wrap">
+    <iframe src="https://www.youtube-nocookie.com/embed/hchZlpgAgRY" title="Pattern is Everything — Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="portal-video-label">A quick tour of the site</p>
 </div>
 
 </main>
@@ -1105,6 +896,6 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 <script src="js/learning-path.js?v=4"></script>
-<script src="js/ui-enhance.js?v=23" defer></script>
+<script src="js/ui-enhance.js?v=24" defer></script>
 </body>
 </html>

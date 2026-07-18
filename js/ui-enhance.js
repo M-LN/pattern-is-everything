@@ -1121,6 +1121,14 @@
     try {
       var seen = parseInt(localStorage.getItem(WHATSNEW_KEY) || '0', 10);
       if (seen >= WHATSNEW_VERSION) return;
+      // Count one visit per browser session; keep the very first session
+      // calm — feature-discovery toasts are for returning visitors.
+      var VISITS_KEY = 'pp_visit_sessions';
+      if (!sessionStorage.getItem('pp_session_counted')) {
+        sessionStorage.setItem('pp_session_counted', '1');
+        localStorage.setItem(VISITS_KEY, String(parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) + 1));
+      }
+      if (parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) < 2) return;
     } catch (e) { /* localStorage may be blocked */ }
     // Defer to avoid competing with LCP
     setTimeout(buildWhatsNewToast, 1800);
