@@ -14,20 +14,25 @@ The project also includes essays, real-data mini-cases, notebook companions, san
 |---|---:|---|
 | Core topics | 257 | Machine Learning + Markets topic pages, excluding collection overview pages |
 | Core visualizations | 257 | One interactive visual reference per core topic |
-| Universes | 3 | Machine Learning, Markets, and Pattern Essays |
-| Collections | 10 | 5 ML collections, 4 Markets collections, 1 Essays collection |
+| Universes | 4 | Machine Learning, Statistics & Data Analytics, Markets, and Pattern Essays |
+| Collections | 10 | 4 ML collections, 1 Statistics & Analytics collection, 4 Markets collections, 1 Essays collection |
 
 ## Universes
 
-### Machine Learning - 157 topics
+### Machine Learning - 118 topics
 
 | Collection | Topics | Covers |
 |---|---:|---|
 | ML Math | 38 | Linear algebra, gradients, backprop, attention, transformers, diffusion, LoRA, RLHF |
-| The Toolkit | 39 | Evaluation, feature importance, statistical foundations, data analytics, backtesting, decision support |
 | LLM Engineering | 30 | Tokenization, transformer internals, RLHF, DPO, RAG, inference optimization |
 | MLOps & Production ML | 25 | Serving, drift, feature stores, pipelines, monitoring, governance |
 | Timeseries Engineering | 25 | Stationarity, ARIMA, Prophet, LSTM, transformers, anomaly detection, forecasting workflows |
+
+### Statistics & Data Analytics - 39 topics
+
+| Collection | Topics | Covers |
+|---|---:|---|
+| The Toolkit | 39 | Evaluation, feature importance, statistical foundations, data analytics, backtesting, decision support |
 
 ### Markets - 100 topics
 
@@ -61,7 +66,7 @@ Pattern Portal/
 ├── css/main.css               # Shared design system
 ├── js/                        # Shared homepage and learning-path behavior
 ├── start/                     # Guided beginner path
-├── stats/                     # The Toolkit collection
+├── stats/                     # Statistics & Data Analytics universe (The Toolkit)
 ├── ml-math/                   # ML Math collection
 ├── llm/                       # LLM Engineering collection
 ├── mlops/                     # MLOps & Production ML collection
