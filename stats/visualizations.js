@@ -769,7 +769,9 @@ DRAWS['distribution-shape'] = function() {
     document.getElementById('distSkewV').textContent = skew.toFixed(1);
     document.getElementById('distKurtV').textContent = kurt.toFixed(1);
     ctx.clearRect(0, 0, w, h);
-    const pad = 30, pw = w - pad * 2, ph = h - pad - 10;
+    const padX = 24, padT = 16, padB = 24;
+    const pw = w - padX * 2, ph = h - padT - padB;
+    const baseY = padT + ph;
 
     // Generate skewed distribution using sinh-arcsinh transform
     const pts = [];
@@ -784,14 +786,20 @@ DRAWS['distribution-shape'] = function() {
       pts.push({ x, y });
     }
 
-    function toX(v) { return pad + (v + 4) / 8 * pw; }
-    function toY(v) { return pad + ph - (v / (maxY || 1)) * ph * 0.9; }
+    function toX(v) { return padX + (v + 4) / 8 * pw; }
+    // Sit the curve on the baseline and use ~92% of the height so it fills
+    // the box instead of floating with a large empty band on top.
+    function toY(v) { return baseY - (v / (maxY || 1)) * ph * 0.92; }
+
+    // Baseline axis so the distribution visibly rests on the bottom
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padX, baseY); ctx.lineTo(padX + pw, baseY); ctx.stroke();
 
     // Fill
     ctx.fillStyle = `rgba(200,169,110,0.15)`;
-    ctx.beginPath(); ctx.moveTo(toX(-4), toY(0));
+    ctx.beginPath(); ctx.moveTo(toX(-4), baseY);
     pts.forEach(p => ctx.lineTo(toX(p.x), toY(p.y)));
-    ctx.lineTo(toX(4), toY(0)); ctx.fill();
+    ctx.lineTo(toX(4), baseY); ctx.closePath(); ctx.fill();
 
     // Line
     ctx.strokeStyle = ACCENT(); ctx.lineWidth = 2; ctx.beginPath();
@@ -801,8 +809,6 @@ DRAWS['distribution-shape'] = function() {
     // Normal overlay
     ctx.strokeStyle = MUTED(); ctx.lineWidth = 1; ctx.setLineDash([4, 4]); ctx.beginPath();
     for (let x = -4; x <= 4; x += 0.05) {
-      const ny = gaussPdf(x, 0, 1);
-      const nScaled = ny / (maxY || 1);
       x === -4 ? ctx.moveTo(toX(x), toY(gaussPdf(x, 0, 1))) : ctx.lineTo(toX(x), toY(gaussPdf(x, 0, 1)));
     }
     ctx.stroke(); ctx.setLineDash([]);

@@ -799,7 +799,7 @@ function buildDistributionShape() {
   <div class="fb c2"><div class="fm">Kurt = E[(X&minus;&mu;)⁴] / &sigma;⁴ &minus; 3</div><div class="fd"><span>Excess kurtosis</span> = 0 is normal &nbsp;|&nbsp; &gt;0 heavy tails &nbsp;|&nbsp; &lt;0 light tails</div></div>
   <div class="va">
     <div class="vl">// Interactive — adjust skew and kurtosis</div>
-    <canvas id="distCanvas" height="260"></canvas>
+    <canvas id="distCanvas" height="230"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Skewness</span><input type="range" id="distSkew" min="-30" max="30" step="1" value="0"><span class="vd" id="distSkewV">0.0</span></div>
       <div class="cg"><span class="cl">Tail weight</span><input type="range" id="distKurt" min="0" max="100" step="1" value="30"><span class="vd" id="distKurtV">3.0</span></div>
