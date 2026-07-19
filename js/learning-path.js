@@ -84,6 +84,17 @@
         ['Quantization', '/llm/?lp=home-llm-engineering&lstep=5#quantization']
       ]
     },
+    'home-stats-foundations': {
+      title: 'Statistics Foundations',
+      start: '/#home-stats-foundations',
+      steps: [
+        ['Distribution Shape', '/stats/?lp=home-stats-foundations&lstep=1#distribution-shape'],
+        ['Hypothesis Testing & p-values', '/stats/?lp=home-stats-foundations&lstep=2#hypothesis-testing'],
+        ['Choosing the Right Test', '/stats/?lp=home-stats-foundations&lstep=3#stat-tests'],
+        ['Central Limit Theorem', '/stats/?lp=home-stats-foundations&lstep=4#clt-sampling'],
+        ["Correlation vs Causation", '/stats/?lp=home-stats-foundations&lstep=5#correlation-causation']
+      ]
+    },
     'home-market-intuition': {
       title: 'Market Intuition',
       start: '/#home-market-intuition',

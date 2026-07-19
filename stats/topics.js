@@ -1485,6 +1485,28 @@ alpha = <span class="st">0.05</span>
     <div class="use-when">✓ <strong>Use when:</strong> Comparing groups, validating that a change moved a metric, checking whether a model improvement is real — any decision that should survive sampling noise.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> You have the full population (no sampling uncertainty), or the question is "how big is the effect?" rather than "is there an effect?" — go straight to estimation with <a href="#confidence-intervals">confidence intervals</a>.</div>
   </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/yufengsui/mobile-games-ab-testing" target="_blank" rel="noopener">Kaggle: Mobile Games A/B Testing — Cookie Cats (90K players)</a>
+    <a href="https://archive.ics.uci.edu/dataset/186/wine+quality" target="_blank" rel="noopener">UCI: Wine Quality (red vs white — a natural two-group comparison)</a>
+    <div class="ds-note">Cookie Cats is a real product experiment: did moving a gate from level 30 to 40 change retention? Perfect first hypothesis test.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install scipy numpy
+# ────────────────────────────────────────
+import numpy as np
+from scipy import stats
+
+rng = np.random.default_rng(7)
+control = rng.normal(100, 15, 200)
+variant = rng.normal(104, 15, 200)
+
+t, p = stats.ttest_ind(variant, control, equal_var=False)
+d = (variant.mean() - control.mean()) / np.sqrt(
+    (control.var() + variant.var()) / 2)
+print(f"t = {t:.2f}, p = {p:.4f}, Cohen's d = {d:.2f}")</code></pre>
+  </div>
   <div class="topic-nav" id="nav-hypothesis-testing"></div>
 </div>`;
 }
@@ -1548,6 +1570,30 @@ stat, p = stats.shapiro(a)</pre></div>
     <div class="use-when">✓ <strong>Use when:</strong> You have a concrete comparison question and need the defensible test — experiments, feature launches, model comparisons, survey analysis.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> The dataset is the full population, or you need effect estimates rather than yes/no answers — estimate with <a href="#bootstrap-methods">bootstrap</a> or regression instead.</div>
   </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://github.com/allisonhorst/palmerpenguins" target="_blank" rel="noopener">Palmer Penguins (3 species — made for ANOVA and chi-square)</a>
+    <a href="https://archive.ics.uci.edu/dataset/186/wine+quality" target="_blank" rel="noopener">UCI: Wine Quality (rating groups, skewed features)</a>
+    <div class="ds-note">Penguins ships with seaborn (sns.load_dataset('penguins')) — three species, numeric and categorical columns, a few NaNs. Every test in the table above has a natural question here.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install scipy pandas seaborn
+# ────────────────────────────────────────
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+
+df = sns.load_dataset('penguins').dropna()
+groups = [g for _, g in df.groupby('species')['body_mass_g']]
+
+print(stats.f_oneway(*groups))     # 3 groups, parametric
+print(stats.kruskal(*groups))      # 3 groups, rank-based
+
+chi2, p, dof, _ = stats.chi2_contingency(
+    pd.crosstab(df['species'], df['island']))
+print(f"chi2 = {chi2:.1f}, p = {p:.4g}")</code></pre>
+  </div>
   <div class="topic-nav" id="nav-stat-tests"></div>
 </div>`;
 }
@@ -1603,6 +1649,22 @@ print(population.std() / np.sqrt(<span class="st">30</span>))</pre></div>
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Reasoning about any average, proportion, or error bar — experiment metrics, survey estimates, batch statistics in monitoring.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Data is strongly dependent (time series), heavy-tailed, or you care about extremes rather than means — the CLT says nothing about the tails of the original distribution.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install numpy matplotlib
+# ────────────────────────────────────────
+import numpy as np
+import matplotlib.pyplot as plt
+
+population = np.random.exponential(1.0, 1_000_000)
+
+fig, axes = plt.subplots(1, 3, figsize=(12, 3), sharex=True)
+for ax, n in zip(axes, [1, 5, 30]):
+    idx = np.random.randint(0, len(population), (10_000, n))
+    ax.hist(population[idx].mean(axis=1), bins=60)
+    ax.set_title(f"sample means, n = {n}")
+plt.tight_layout(); plt.show()</code></pre>
   </div>
   <div class="topic-nav" id="nav-clt-sampling"></div>
 </div>`;
@@ -1666,6 +1728,27 @@ pd.crosstab(df[<span class="st">'severity'</span>], df[<span class="st">'treatme
     <div class="use-when">✓ <strong>Use when:</strong> Any observational comparison — dashboards, cohort metrics, "users who do X retain better" claims, feature-importance readings you are tempted to act on.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> The data comes from a properly randomized experiment — randomization already balances confounders (but check the randomization actually held).</div>
   </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox" target="_blank" rel="noopener">The classic case: UC Berkeley admissions (Simpson's paradox)</a>
+    <a href="https://github.com/allisonhorst/palmerpenguins" target="_blank" rel="noopener">Palmer Penguins (pooled vs per-species correlations flip sign)</a>
+    <div class="ds-note">In the penguins data, bill length vs bill depth correlates negatively pooled — and positively within every species. A Simpson's paradox you can groupby in one line.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pandas seaborn
+# ────────────────────────────────────────
+import seaborn as sns
+
+df = sns.load_dataset('penguins').dropna()
+
+pooled = df['bill_length_mm'].corr(df['bill_depth_mm'])
+within = df.groupby('species').apply(
+    lambda g: g['bill_length_mm'].corr(g['bill_depth_mm']))
+
+print(f"pooled r = {pooled:.2f}")   # negative!
+print(within.round(2))              # all positive</code></pre>
+  </div>
   <div class="topic-nav" id="nav-correlation-causation"></div>
 </div>`;
 }
@@ -1728,6 +1811,23 @@ df.hist(bins=<span class="st">40</span>, figsize=(<span class="st">12</span>, <s
     <div class="use-when">✓ <strong>Use when:</strong> Every new dataset, every refreshed pipeline, before every model. Ten minutes of EDA routinely saves days of debugging silent data problems.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Never entirely — but for a stable, monitored pipeline the ongoing version of EDA is <a href="#data-drift">drift detection</a>, not manual re-profiling.</div>
   </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pandas seaborn matplotlib
+# ────────────────────────────────────────
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = sns.load_dataset('titanic')
+
+print(df.shape)
+print(df.describe(include='all').T)
+print(df.isna().mean().sort_values(ascending=False).head())
+
+df.hist(bins=40, figsize=(12, 6))
+sns.heatmap(df.isna(), cbar=False)   # missingness at a glance
+plt.show()</code></pre>
+  </div>
   <div class="topic-nav" id="nav-eda-workflow"></div>
 </div>`;
 }
@@ -1786,6 +1886,30 @@ df[<span class="st">'pct_of_region'</span>] = df[<span class="st">'amount'</span
     <div class="use-when">✓ <strong>Use when:</strong> Building any report, dashboard metric, or segment comparison — and when engineering aggregate features for models.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> You need row-level detail (aggregation destroys it) — or the "groups" are time windows with order mattering, where rolling windows beat plain groupby.</div>
   </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/vivek468/superstore-dataset-final" target="_blank" rel="noopener">Kaggle: Superstore Sales (10K orders — region, category, segment)</a>
+    <a href="https://archive.ics.uci.edu/dataset/352/online+retail" target="_blank" rel="noopener">UCI: Online Retail (540K transactions, invoice-level)</a>
+    <div class="ds-note">Superstore is the canonical groupby playground: every business question is a two-line aggregation away.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pandas seaborn
+# ────────────────────────────────────────
+import seaborn as sns
+
+tips = sns.load_dataset('tips')
+
+summary = (tips.groupby(['day', 'time'], observed=True)
+               .agg(orders=('total_bill', 'count'),
+                    revenue=('total_bill', 'sum'),
+                    avg_bill=('total_bill', 'mean'))
+               .round(2))
+print(summary)
+
+print(tips.pivot_table('total_bill', index='day',
+                       columns='time', aggfunc='sum', observed=True))</code></pre>
+  </div>
   <div class="topic-nav" id="nav-groupby-aggregation"></div>
 </div>`;
 }
@@ -1839,6 +1963,32 @@ print((retention * <span class="st">100</span>).round(<span class="st">1</span>)
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Any subscription or repeat-use product — separating growth from stickiness, judging whether product changes moved long-term behaviour, computing honest LTV.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> One-shot transactions with no expected repeat behaviour, or cohorts too small for stable percentages (a 20-user cohort moves 5 points per person).</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://archive.ics.uci.edu/dataset/352/online+retail" target="_blank" rel="noopener">UCI: Online Retail (540K transactions — build real purchase cohorts)</a>
+    <div class="ds-note">Assign each customer to their first-invoice month, pivot by months-since, and you have a genuine retention triangle from real e-commerce data.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pandas numpy
+# ────────────────────────────────────────
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(5)
+rows = []
+for cohort in range(6):                      # signup month
+    months_active = rng.geometric(0.25, 500).clip(max=8 - cohort)
+    for uid, life in enumerate(months_active):
+        rows += [(f"{cohort}-{uid}", cohort, cohort + m)
+                 for m in range(life)]
+
+ev = pd.DataFrame(rows, columns=['user_id', 'cohort', 'month'])
+ev['age'] = ev['month'] - ev['cohort']
+counts = ev.pivot_table(index='cohort', columns='age',
+                        values='user_id', aggfunc='nunique')
+print((counts.div(counts[0], axis=0) * 100).round(1))</code></pre>
   </div>
   <div class="topic-nav" id="nav-cohort-retention"></div>
 </div>`;
@@ -1894,6 +2044,34 @@ print(<span class="st">"Fix first:"</span>, funnel[<span class="st">'stage_conv'
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Any multi-step flow — signup, onboarding, checkout, sales pipelines, even ML pipeline stage attrition (candidates &rarr; labeled &rarr; trained &rarr; deployed).</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Steps aren't genuinely ordered, or users routinely loop and skip — session-path analysis fits exploratory browsing better than a strict funnel.</div>
+  </div>
+  <div class="dataset-card">
+    <div class="dataset-card-title">Try it on real data</div>
+    <a href="https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop" target="_blank" rel="noopener">Kaggle: eCommerce Events — Cosmetics Shop (20M view/cart/purchase events)</a>
+    <div class="ds-note">Real view → cart → purchase events with timestamps — build the funnel, then measure time-to-convert between stages.</div>
+  </div>
+  <div class="dev-export">
+    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install pandas numpy
+# ────────────────────────────────────────
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(11)
+stages = ['visit', 'view_product', 'add_to_cart', 'checkout', 'purchase']
+rates  = [1.0, .55, .30, .70, .60]
+
+events = []
+for uid in range(10_000):
+    for stage, rate in zip(stages, rates):
+        if rng.random() &gt; rate:
+            break
+        events.append((uid, stage))
+
+ev = pd.DataFrame(events, columns=['user_id', 'event'])
+funnel = ev.groupby('event')['user_id'].nunique().reindex(stages)
+print((funnel / funnel.iloc[0]).round(3))
+print("fix first:", (funnel / funnel.shift(1)).idxmin())</code></pre>
   </div>
   <div class="topic-nav" id="nav-funnel-analysis"></div>
 </div>`;
