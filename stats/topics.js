@@ -162,10 +162,16 @@ function buildContent() {
 function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
-    <h2>The <em>Toolkit</em></h2>
+    <div class="home-kicker">// The Toolkit</div>
+    <h2>Statistics &amp; Data <em>Analytics</em></h2>
     <p style="margin-top:14px">A practical reference covering 39 topics &mdash; from model evaluation
     and feature explainability to statistical foundations, data analytics, backtesting, and decision-making. Every topic has interactive visuals, real formulas, and Python code you can use today.</p>
-    <p style="margin-top:10px;font-size:11px;color:var(--muted)">
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">39</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">39</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">8</div><div class="home-stat-label">Sections</div></div>
+    </div>
+    <p style="margin-top:18px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
     </p>
