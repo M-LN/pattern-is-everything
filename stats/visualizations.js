@@ -386,15 +386,23 @@ DRAWS['comparing-runs'] = function() {
     function toX(v) { return pad + (v - xMin) / (xMax - xMin) * pw; }
     function toY(v) { return pad + ph - v * ph; }
 
-    // Density curves
-    [{ mu: muA, sig: sigA, col: BLUE, label: 'A' }, { mu: muB, sig: sigB, col: GREEN, label: 'B' }].forEach(m => {
-      ctx.strokeStyle = m.col; ctx.lineWidth = 2; ctx.beginPath();
+    // Baseline
+    const baseY = toY(0);
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad, baseY); ctx.lineTo(pad + pw, baseY); ctx.stroke();
+
+    // Density curves — filled so they read as grounded distributions
+    [{ mu: muA, sig: sigA, col: BLUE, fill: 'rgba(79,195,247,0.13)', label: 'A' },
+     { mu: muB, sig: sigB, col: GREEN, fill: 'rgba(129,199,132,0.13)', label: 'B' }].forEach(m => {
       let maxPdf = 0;
       for (let x = xMin; x <= xMax; x += 0.002) maxPdf = Math.max(maxPdf, gaussPdf(x, m.mu, m.sig));
-      for (let x = xMin; x <= xMax; x += 0.002) {
-        const y = gaussPdf(x, m.mu, m.sig) / maxPdf;
-        x === xMin ? ctx.moveTo(toX(x), toY(y * 0.8)) : ctx.lineTo(toX(x), toY(y * 0.8));
-      }
+      const pt = x => toY(gaussPdf(x, m.mu, m.sig) / maxPdf * 0.9);
+      ctx.fillStyle = m.fill;
+      ctx.beginPath(); ctx.moveTo(toX(xMin), baseY);
+      for (let x = xMin; x <= xMax; x += 0.002) ctx.lineTo(toX(x), pt(x));
+      ctx.lineTo(toX(xMax), baseY); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = m.col; ctx.lineWidth = 2; ctx.beginPath();
+      for (let x = xMin; x <= xMax; x += 0.002) x === xMin ? ctx.moveTo(toX(x), pt(x)) : ctx.lineTo(toX(x), pt(x));
       ctx.stroke();
     });
 
@@ -582,7 +590,7 @@ DRAWS['permutation-importance'] = function() {
 /* ═══════════════════════════════════════════════════════════════
    09 — PDP & ICE
    ═══════════════════════════════════════════════════════════════ */
-let iceMode = false;
+let iceMode = true;
 window.toggleICE = function() {
   iceMode = !iceMode;
   const btn = document.getElementById('pdpIce');
@@ -977,30 +985,27 @@ DRAWS['data-drift'] = function() {
     ctx.clearRect(0, 0, w, h);
     const pad = 40, pw = w - pad * 2, ph = h - pad - 20;
 
-    function toX(v) { return pad + (v + 5) / 10 * pw; }
+    const xLo = -4, xHi = 4.5; // tighter domain so the bells fill the width
+    function toX(v) { return pad + (v - xLo) / (xHi - xLo) * pw; }
     function toY(v) { return 10 + ph - v * ph; }
+    const baseY = toY(0);
+    ctx.strokeStyle = BORDER(); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad, baseY); ctx.lineTo(pad + pw, baseY); ctx.stroke();
 
-    // Reference distribution
-    let maxPdf = 0;
-    for (let x = -5; x <= 5; x += 0.1) maxPdf = Math.max(maxPdf, gaussPdf(x, 0, 1));
-
-    // Reference (blue)
-    ctx.strokeStyle = BLUE; ctx.lineWidth = 2; ctx.beginPath();
-    for (let x = -5; x <= 5; x += 0.05) {
-      const y = gaussPdf(x, 0, 1) / maxPdf * 0.85;
-      x === -5 ? ctx.moveTo(toX(x), toY(y)) : ctx.lineTo(toX(x), toY(y));
+    function drawDist(mu, sig, stroke, fill) {
+      let mx = 0;
+      for (let x = xLo; x <= xHi; x += 0.1) mx = Math.max(mx, gaussPdf(x, mu, sig));
+      const pt = x => toY(gaussPdf(x, mu, sig) / mx * 0.9);
+      ctx.fillStyle = fill;
+      ctx.beginPath(); ctx.moveTo(toX(xLo), baseY);
+      for (let x = xLo; x <= xHi; x += 0.05) ctx.lineTo(toX(x), pt(x));
+      ctx.lineTo(toX(xHi), baseY); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.beginPath();
+      for (let x = xLo; x <= xHi; x += 0.05) x === xLo ? ctx.moveTo(toX(x), pt(x)) : ctx.lineTo(toX(x), pt(x));
+      ctx.stroke();
     }
-    ctx.stroke();
-
-    // New (drifted) distribution
-    maxPdf = 0;
-    for (let x = -5; x <= 5; x += 0.1) maxPdf = Math.max(maxPdf, gaussPdf(x, d, 1 + d * 0.2));
-    ctx.strokeStyle = RED; ctx.lineWidth = 2; ctx.beginPath();
-    for (let x = -5; x <= 5; x += 0.05) {
-      const y = gaussPdf(x, d, 1 + d * 0.2) / maxPdf * 0.85;
-      x === -5 ? ctx.moveTo(toX(x), toY(y)) : ctx.lineTo(toX(x), toY(y));
-    }
-    ctx.stroke();
+    drawDist(0, 1, BLUE, 'rgba(79,195,247,0.13)');
+    drawDist(d, 1 + d * 0.2, RED, 'rgba(229,115,115,0.13)');
 
     // PSI approximation
     let psi = 0;
@@ -1111,13 +1116,16 @@ DRAWS['sharpe-ratio'] = function() {
     ctx.save(); ctx.translate(12, 10 + ph / 2); ctx.rotate(-Math.PI / 2);
     ctx.fillText('Return %', 0, 0); ctx.restore();
 
-    // Risk-free point
-    function toX(v) { return pad + v / 50 * pw; }
-    function toY(v) { return 10 + ph - v / 50 * ph; }
+    // Axis max adapts to the current values so the chart fills the box
+    // instead of squeezing everything into the lower-left of a fixed 0-50 grid.
+    const axMax = Math.max(25, ret * 1.35, vol * 1.35);
+    function toX(v) { return pad + v / axMax * pw; }
+    function toY(v) { return 10 + ph - v / axMax * ph; }
 
-    // Capital market line (Sharpe line from rf)
+    // Capital market line (Sharpe line from rf), clipped to the axis box
+    const lineX = sharpe > 0 ? Math.min(axMax, (axMax - rf) / sharpe) : axMax;
     ctx.strokeStyle = ACCENT(); ctx.lineWidth = 2; ctx.setLineDash([6, 3]);
-    ctx.beginPath(); ctx.moveTo(toX(0), toY(rf)); ctx.lineTo(toX(50), toY(rf + sharpe * 50)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(toX(0), toY(rf)); ctx.lineTo(toX(lineX), toY(rf + sharpe * lineX)); ctx.stroke();
     ctx.setLineDash([]);
 
     // Portfolio dot

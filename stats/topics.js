@@ -700,7 +700,7 @@ function buildPDPICE() {
     <div class="vl">// Interactive — PDP line with individual ICE curves</div>
     <canvas id="pdpCanvas" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Show ICE</span><button class="btn" id="pdpIce" onclick="toggleICE()">ICE OFF</button></div>
+      <div class="cg"><span class="cl">Show ICE</span><button class="btn" id="pdpIce" onclick="toggleICE()">ICE ON</button></div>
       <div class="cg"><span class="cl">Instances</span><input type="range" id="pdpN" min="5" max="50" step="5" value="20"><span class="vd" id="pdpNv">20</span></div>
     </div>
   </div>
