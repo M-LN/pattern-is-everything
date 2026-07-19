@@ -579,27 +579,41 @@ window.drawReg = function(type) {
   const lambda = +(document.getElementById('regLambda')?.value || 1);
   document.getElementById('regLVal').textContent = lambda.toFixed(1);
   ctx.clearRect(0, 0, w, h);
-  const cx = w / 2, cy = h / 2, r = Math.min(w, h) * 0.3 * lambda / 2;
+  // Lay the scene out symmetrically around the canvas centre so it reads the
+  // same on a narrow phone and a wide desktop: constraint region (weight-space
+  // origin) on the left, unregularised loss optimum on the right, both on one
+  // horizontal line. Everything scales from the canvas size — nothing fixed.
+  const cy = h / 2 + 6;
+  const unit = Math.min(h, w) * 0.5;                 // scene scale
+  const sep = unit * 0.7;                             // half-gap origin↔optimum
+  const ox = w / 2 - sep;                             // constraint centre (origin)
+  const lx = w / 2 + sep;                             // loss-contour centre
+  const r = Math.min(unit * 0.62, sep * 1.15) * (0.55 + lambda * 0.15); // grows with λ, capped
+  // faint weight-space axes through the origin
+  ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 1; ctx.setLineDash([2, 4]);
+  ctx.beginPath(); ctx.moveTo(ox, 30); ctx.lineTo(ox, h - 20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(20, cy); ctx.lineTo(w - 20, cy); ctx.stroke(); ctx.setLineDash([]);
+  // loss contours (concentric ellipses around the unregularised optimum)
+  const step = unit * 0.16;
+  ctx.strokeStyle = getCSS('--muted'); ctx.globalAlpha = 0.45; ctx.lineWidth = 1;
+  for (let i = 1; i <= 5; i++) {
+    ctx.beginPath(); ctx.ellipse(lx, cy, i * step * 1.3, i * step, 0.25, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
   // constraint region
   ctx.fillStyle = type === 'l2' ? 'rgba(41,85,160,0.12)' : 'rgba(42,125,95,0.12)';
   ctx.strokeStyle = type === 'l2' ? getCSS('--accent3') : getCSS('--accent2');
   ctx.lineWidth = 2;
   if (type === 'l2') {
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(ox, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
   } else {
     ctx.beginPath();
-    ctx.moveTo(cx, cy - r); ctx.lineTo(cx + r, cy); ctx.lineTo(cx, cy + r); ctx.lineTo(cx - r, cy);
+    ctx.moveTo(ox, cy - r); ctx.lineTo(ox + r, cy); ctx.lineTo(ox, cy + r); ctx.lineTo(ox - r, cy);
     ctx.closePath(); ctx.fill(); ctx.stroke();
   }
-  // loss contours (ellipses offset)
-  const lcx = cx + 60, lcy = cy - 40;
-  for (let i = 1; i <= 5; i++) {
-    ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.ellipse(lcx, lcy, i * 25, i * 18, 0.3, 0, Math.PI * 2); ctx.stroke();
-  }
-  // optimal point (intersection)
+  // solution: where the constraint boundary meets the loss on the origin→optimum line
   ctx.fillStyle = getCSS('--accent');
-  ctx.beginPath(); ctx.arc(cx + r * 0.5, cy - r * 0.3, 6, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(ox + r, cy, 6, 0, Math.PI * 2); ctx.fill();
   // labels
   ctx.font = '12px ' + getCSS('--mono');
   ctx.fillStyle = getCSS('--fg');
