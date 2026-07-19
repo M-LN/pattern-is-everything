@@ -10,14 +10,21 @@ const DPR = window.devicePixelRatio || 1;
 function setupCanvas(id) {
   const c = document.getElementById(id);
   if (!c) return null;
+  // Cache the intended logical height once. Setting c.height writes back to
+  // the height attribute, so re-reading getAttribute('height') on a later
+  // redraw (e.g. after a slider/button) would return the DPR-scaled value and
+  // compound it — doubling the canvas each time and pushing the drawing
+  // off-buffer. Reading the cached base height keeps redraws stable.
+  if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height') || 240));
+  const baseH = parseInt(c.dataset.baseH);
   const rect = c.parentElement.getBoundingClientRect();
   const w = rect.width - 2;
   c.style.width = w + 'px';
   c.width = w * DPR;
-  c.height = parseInt(c.getAttribute('height') || 240) * DPR;
+  c.height = baseH * DPR;
   const ctx = c.getContext('2d');
   ctx.scale(DPR, DPR);
-  return { c, ctx, w, h: parseInt(c.getAttribute('height') || 240) };
+  return { c, ctx, w, h: baseH };
 }
 
 function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
