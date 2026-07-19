@@ -438,6 +438,10 @@ nav::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 main {
   padding: 40px 56px 80px;
   max-width: 900px;
+  /* Grid item: allow the track to shrink below its content's min-content
+     width so wide children (tables, code, canvases) never blow out the
+     column on tablet/mobile. */
+  min-width: 0;
 }
 
 /* ── Home / overview page ── */
@@ -1034,6 +1038,14 @@ input[type=range]:focus-visible {
   .collection-card { padding: 24px; }
   .start-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .portal-stats { gap: 28px; }
+
+  /* Keep interactive content inside the narrower column on tablet/mobile.
+     The canvas rule previously lived only in @media print, so plots
+     overflowed on screens; tables and long formulas now scroll internally
+     instead of stretching the column. */
+  .va canvas { max-width: 100%; height: auto; }
+  .mt { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .fm { overflow-x: auto; }
 }
 
 /* ── Responsive ── */
