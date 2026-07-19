@@ -2084,14 +2084,21 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   font-size: 12px;
   line-height: 1.8;
   color: var(--text);
-  padding: 8px 0;
+  padding: 8px 0 8px 34px;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  gap: 12px;
+  /* Normal block flow (not flex): the step text mixes bare text with
+     inline <code>/<strong>, and display:flex turned every inline run into
+     a separate flex item, breaking the text into ragged columns and
+     letting long code tokens spill out of the box. Block flow lets it wrap
+     as ordinary text; the number sits in the left gutter. */
+  position: relative;
+  overflow-wrap: break-word;
 }
 .howto ol li:last-child { border-bottom: none; }
 .howto ol li::before {
   content: counter(howto-step);
+  position: absolute;
+  left: 0; top: 9px;
   font-size: 10px;
   font-weight: 600;
   color: #fff;
@@ -2100,13 +2107,13 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 2px;
 }
 .howto code {
   background: var(--bg);
   padding: 1px 5px;
   border-radius: 3px;
   font-size: 11px;
+  overflow-wrap: break-word;
 }
 .howto-pitfall {
   margin-top: 16px;
@@ -2147,6 +2154,18 @@ body:has(.portal-header) { padding-top: var(--hdr-h); }
   line-height: 1.7;
   color: var(--text);
   margin: 0;
+  overflow-wrap: break-word;
+}
+
+/* Long inline code tokens and URLs must break rather than spill out of
+   their box on narrow screens (applies to prose, callouts, cards, lists,
+   formula descriptions and inline <code> everywhere in topic content). */
+.prose, .fd, .callout, .howto-pitfall, .why-matters div, .perf-insight,
+.dataset-card, .dataset-card a, .ds-note, .topic .sub {
+  overflow-wrap: break-word;
+}
+.prose code, .callout code, .perf-insight code, .why-matters code {
+  overflow-wrap: break-word;
 }
 .perf-insight ul {
   margin: 8px 0 0;
