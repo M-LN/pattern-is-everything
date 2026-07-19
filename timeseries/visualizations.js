@@ -9,12 +9,18 @@ function lerp(a,b,t){ return a + (b - a) * t; }
 
 function setupCanvas(id){
   const c = document.getElementById(id); if(!c) return null;
+  // Cache the base logical height once — c.height *= DPR writes back to the
+  // height attribute, so a later redraw would re-read the scaled value and
+  // compound it, doubling the canvas each time. Reading the cached value
+  // keeps redraws stable.
+  if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height')) || c.height || 240);
+  const baseH = parseInt(c.dataset.baseH);
   const r = c.parentElement.getBoundingClientRect();
-  c.width = r.width * DPR; c.height = c.height * DPR;
+  c.width = r.width * DPR; c.height = baseH * DPR;
   c.style.width = r.width + 'px';
   const ctx = c.getContext('2d');
   ctx.scale(DPR, DPR);
-  return { c, ctx, w: r.width, h: c.height / DPR };
+  return { c, ctx, w: r.width, h: baseH };
 }
 
 /* Seeded PRNG for reproducible randomness */

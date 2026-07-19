@@ -10,14 +10,21 @@ const DPR = window.devicePixelRatio || 1;
 function setupCanvas(id) {
   const c = document.getElementById(id);
   if (!c) return null;
+  // Cache the intended logical height once. Setting c.height writes back to
+  // the height attribute, so re-reading getAttribute('height') on a later
+  // call (e.g. after clicking a control) would return the DPR-scaled value
+  // and compound it — doubling the canvas each time and pushing the drawing
+  // off-buffer. Reading from the cached base height keeps redraws stable.
+  if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height') || 240));
+  const baseH = parseInt(c.dataset.baseH);
   const rect = c.parentElement.getBoundingClientRect();
   const w = rect.width - 2;
   c.style.width = w + 'px';
   c.width = w * DPR;
-  c.height = parseInt(c.getAttribute('height') || 240) * DPR;
+  c.height = baseH * DPR;
   const ctx = c.getContext('2d');
   ctx.scale(DPR, DPR);
-  return { c, ctx, w, h: parseInt(c.getAttribute('height') || 240) };
+  return { c, ctx, w, h: baseH };
 }
 
 function getCSS(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
@@ -610,25 +617,32 @@ window.drawBN = function(withBN) {
   const s = setupCanvas('bnCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   ctx.clearRect(0, 0, w, h);
-  const layers = 5, barW = w / (layers * 3);
+  const layers = 5;
+  const colW = (w - 40) / layers;
+  const midY = 28 + (h - 52) / 2;      // centre of the plotting band
+  const halfH = (h - 52) / 2;          // vertical room each side of centre
+  // Zero line
+  ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(20, midY); ctx.lineTo(w - 20, midY); ctx.stroke(); ctx.setLineDash([]);
   for (let l = 0; l < layers; l++) {
-    const x = (l / layers) * w + w / (layers * 2) - barW / 2;
-    // Without BN: variance grows
-    const spread = withBN ? 1 : Math.pow(1.5, l);
-    const mean = withBN ? 0 : l * 0.3;
-    // draw distribution bars
-    for (let i = 0; i < 30; i++) {
+    const cx = 20 + colW * (l + 0.5);
+    // Without BN the spread grows layer by layer; with BN it stays ~1.
+    const spread = withBN ? 1 : Math.pow(1.4, l);
+    const mean = withBN ? 0 : l * 0.25;
+    // Scale so a spread of 1 already uses ~40% of the half-height and a
+    // growing spread fills the column instead of collapsing to a sliver.
+    const yScale = halfH / 2.6;
+    for (let i = 0; i < 34; i++) {
       const val = mean + (Math.random() - 0.5) * spread * 2;
-      const barH = Math.abs(val) * 15 + 2;
-      const by = h / 2 - barH / 2 + val * 20;
+      const py = Math.max(30, Math.min(h - 26, midY - val * yScale));
       ctx.fillStyle = val > 0 ? getCSS('--accent3') : getCSS('--accent');
       ctx.globalAlpha = 0.5;
-      ctx.fillRect(x + Math.random() * barW, by, 3, barH);
+      ctx.beginPath(); ctx.arc(cx + (Math.random() - 0.5) * colW * 0.6, py, 2.4, 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1;
     ctx.font = '10px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--muted');
     ctx.textAlign = 'center';
-    ctx.fillText('L' + (l + 1), x + barW / 2, h - 6);
+    ctx.fillText('L' + (l + 1), cx, h - 6);
   }
   ctx.textAlign = 'start';
   ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
@@ -685,8 +699,12 @@ DRAWS['weight-init'] = function() { drawInit('he'); };
 window.drawInit = function(method) {
   const s = setupCanvas('initCanvas'); if (!s) return;
   const { ctx, w, h } = s;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   ctx.clearRect(0, 0, w, h);
   const layers = 10, barW = (w - 60) / layers;
+  const baseY = h - 20;
+  ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(28, baseY); ctx.lineTo(w - 8, baseY); ctx.stroke();
 
   for (let l = 0; l < layers; l++) {
     const fanIn = 256;
@@ -702,12 +720,16 @@ window.drawInit = function(method) {
     else variance = 1.0 + l * 0.01;
 
     variance = Math.min(variance, 50);
-    const barH = Math.min(variance * 15, h - 40);
+    // Anchor bars on a baseline and scale so variance≈1 is clearly visible
+    // (~28% height) while exploding variance fills the box — otherwise the
+    // stable he/xavier bars render as an invisible sliver in the centre.
+    const plotH = h - 44;
+    const barH = clamp(variance * plotH * 0.28, plotH * 0.06, plotH);
     const x = 30 + l * barW;
     const color = method === 'random' ? getCSS('--accent') : method === 'xavier' ? getCSS('--accent3') : getCSS('--accent2');
     ctx.fillStyle = color;
-    ctx.globalAlpha = 0.7;
-    ctx.fillRect(x + 4, h / 2 - barH / 2, barW - 8, barH);
+    ctx.globalAlpha = 0.75;
+    ctx.fillRect(x + 4, baseY - barH, barW - 8, barH);
     ctx.globalAlpha = 1;
     ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--muted');
     ctx.textAlign = 'center';
@@ -914,17 +936,22 @@ window.drawKL = function() {
   // KL between two Gaussians with same variance: (muP-muQ)^2 / (2*sig^2)
   const kl = (muP - muQ) ** 2 / (2 * sig * sig);
   document.getElementById('klVal').textContent = kl.toFixed(3);
-  // draw both
-  [{ mu: muP, color: getCSS('--accent3'), label: 'P' }, { mu: muQ, color: getCSS('--accent'), label: 'Q' }].forEach(d => {
+  const baseY = h - 30;
+  const yOf = (x, mu) => baseY - gauss(x, mu, sig) * (h - 60) * 2.5;
+  // Baseline
+  ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(w, baseY); ctx.stroke();
+  // draw both — filled so they read as grounded densities, not floating outlines
+  [{ mu: muP, color: getCSS('--accent3'), fill: 'rgba(104,208,247,0.13)', label: 'P' },
+   { mu: muQ, color: getCSS('--accent'), fill: 'rgba(200,75,47,0.12)', label: 'Q' }].forEach(d => {
+    ctx.fillStyle = d.fill;
+    ctx.beginPath(); ctx.moveTo(0, baseY);
+    for (let px = 0; px <= w; px++) ctx.lineTo(px, yOf((px / w) * 10 - 3, d.mu));
+    ctx.lineTo(w, baseY); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = d.color; ctx.lineWidth = 2;
     ctx.beginPath();
-    for (let px = 0; px <= w; px++) {
-      const x = (px / w) * 10 - 3;
-      const y = h - 30 - gauss(x, d.mu, sig) * (h - 60) * 2.5;
-      if (px === 0) ctx.moveTo(px, y); else ctx.lineTo(px, y);
-    }
+    for (let px = 0; px <= w; px++) { const y = yOf((px / w) * 10 - 3, d.mu); px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y); }
     ctx.stroke();
-    // label
     const lx = ((d.mu + 3) / 10) * w;
     ctx.font = 'bold 12px ' + getCSS('--mono'); ctx.fillStyle = d.color;
     ctx.fillText(d.label, lx - 4, 20);
