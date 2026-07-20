@@ -118,6 +118,11 @@ function buildHome() {
   <div class="home-hero">
     <h2>Risk &amp; <em>Portfolio</em></h2>
     <p style="margin-top:14px">25 interactive topics &mdash; quantify risk, construct portfolios, size positions, hedge exposure, and measure performance.</p>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
+    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> search

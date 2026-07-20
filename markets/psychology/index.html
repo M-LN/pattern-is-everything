@@ -55,7 +55,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../../css/main.css?v=19">
+  <link rel="stylesheet" href="../../css/main.css?v=21">
   <meta property="og:url" content="https://patterniseverything.com/markets/psychology/">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta property="og:image:width" content="1200">
@@ -71,18 +71,27 @@
 <div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
 <script src="../../js/pattern-loader.js?v=1"></script>
 
-<header>
+<div class="portal-header">
   <a class="logo-ring" href="../../index.html" title="Back to Pattern is Everything"></a>
-  <h1>Market <em>Psychology</em></h1>
-  <span class="topic-counter" id="topicCounter">25 Topics</span>
-  <div class="hdr-meta">Interactive Reference<br>Behavioral Finance & Trading Psychology</div>
-  <div class="hdr-actions">
-    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Markets</a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+    Market <em style="font-style:italic;color:var(--accent2)">Psychology</em>
+  </h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/" class="is-current">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/cases/">Cases</a>
+    <a href="/sandbox/">Sandbox</a>
+    <a href="/start/">Start</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
-    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
+    <a class="back-link" href="../index.html">← Markets</a>
+    <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;">♥</a>
   </div>
-</header>
+</div>
 
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
@@ -99,7 +108,7 @@
 <main id="mainContent"></main>
 </div>
 
-<script src="topics.js?v=5"></script>
+<script src="topics.js?v=6"></script>
 <script src="visualizations.js"></script>
 <script>
 function toggleTheme(){const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('theme',d.getAttribute('data-theme'));}
@@ -111,7 +120,7 @@ document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){
 document.getElementById('searchInput')?.addEventListener('input',function(){const q=this.value.toLowerCase().trim();const res=document.getElementById('searchResults');if(!q){res.innerHTML='';return;}const matches=TOPIC_DATA.filter(t=>t.title.toLowerCase().includes(q)||t.category.toLowerCase().includes(q)||t.keywords.some(k=>k.toLowerCase().includes(q))||t.content.toLowerCase().includes(q)).slice(0,8);res.innerHTML=matches.map(t=>`<div class="search-result" onclick="show('${t.id}');toggleSearch();"><div class="sr-cat">${t.num} — ${t.category}</div><div class="sr-title">${t.title}</div></div>`).join('')||'<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';});
 
 let currentTopic='home';const viewed=new Set();
-function show(id,scrollNav){currentTopic=id;document.querySelectorAll('.topic,.home').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');const ni=document.querySelector(`.ni[data-topic="${id}"]`);if(ni){ni.classList.add('active');if(scrollNav)ni.scrollIntoView({block:'nearest'});}if(id!=='home')viewed.add(id);updateProgress();buildNavButtons(id);setTimeout(()=>{if(DRAWS[id])DRAWS[id]();},60);history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'});}
+function show(id,scrollNav){currentTopic=id;document.querySelectorAll('.topic,.home').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');document.body.classList.toggle('hub-home',id==='home');const ni=document.querySelector(`.ni[data-topic="${id}"]`);if(ni){ni.classList.add('active');if(scrollNav)ni.scrollIntoView({block:'nearest'});}if(id!=='home')viewed.add(id);updateProgress();buildNavButtons(id);setTimeout(()=>{if(DRAWS[id])DRAWS[id]();},60);if(id==='home')history.replaceState(null,'',location.pathname+location.search);else history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'});}
 function showSection(secId,topicId){const sec=document.getElementById(secId);if(sec&&!sec.classList.contains('open'))sec.classList.add('open');show(topicId,true);}
 function toggleSection(id){document.getElementById(id).classList.toggle('open');}
 function updateProgress(){const total=TOPICS.filter(t=>t!=='home').length;const n=viewed.size;const pct=Math.round(n/total*100);const bar=document.getElementById('progressBar');const txt=document.getElementById('progressText');if(bar)bar.style.width=pct+'%';if(txt)txt.textContent=`${n} / ${total} viewed`;}

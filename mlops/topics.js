@@ -128,6 +128,11 @@ function buildHome() {
     <h2>MLOps &amp; <em>Production ML</em></h2>
     <p style="margin-top:14px">A practical reference covering 25 topics &mdash; from model packaging
     and serving patterns to monitoring, pipelines, and governance. What happens after you train the model.</p>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
+    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search

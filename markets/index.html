@@ -310,16 +310,11 @@ else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
 function animateCounters() {
+  // Render the final value immediately — consistent with the Stats/Essays hubs
+  // (static numbers) and avoids a flash of a lower count on load.
   document.querySelectorAll('.portal-stat-num').forEach(el => {
     const target = parseInt(el.textContent, 10);
-    if (isNaN(target)) return;
-    let current = 0;
-    const step = Math.max(1, Math.floor(target / 30));
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) { current = target; clearInterval(timer); }
-      el.textContent = current;
-    }, 25);
+    if (!isNaN(target)) el.textContent = target;
   });
 }
 const statsEl = document.querySelector('.portal-stats');

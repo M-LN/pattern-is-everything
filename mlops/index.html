@@ -55,7 +55,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../css/main.css?v=19">
+  <link rel="stylesheet" href="../css/main.css?v=21">
   <meta property="og:url" content="https://patterniseverything.com/mlops/">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
   <meta property="og:image:width" content="1200">
@@ -71,18 +71,27 @@
 <div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
 <script src="../js/pattern-loader.js?v=1"></script>
 
-<header>
-  <a class="logo-ring" href="../index.html" title="Back to Portal"></a>
-  <h1>MLOps &amp; <em>Production ML</em></h1>
-  <span class="topic-counter" id="topicCounter">25 Topics</span>
-  <div class="hdr-meta">Interactive Visual Reference<br>Serving, Monitoring, Pipelines & Governance</div>
-  <div class="hdr-actions">
-    <a href="../ml/index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">&larr; Machine Learning</a>
-    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">&#x2315;</button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">&#x25D0;</button>
-    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">&hearts;</a>
+<div class="portal-header">
+  <a class="logo-ring" href="../index.html" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+    MLOps &amp; <em style="font-style:italic;color:var(--accent)">Production ML</em>
+  </h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/" class="is-current">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/cases/">Cases</a>
+    <a href="/sandbox/">Sandbox</a>
+    <a href="/start/">Start</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a class="back-link" href="../ml/index.html">← Machine Learning</a>
+    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;">♥</a>
   </div>
-</header>
+</div>
 
 <!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
@@ -101,7 +110,7 @@
 </main>
 </div>
 
-<script src="topics.js?v=2"></script>
+<script src="topics.js?v=3"></script>
 <script src="visualizations.js?v=1"></script>
 <script>
 /* ── Theme ── */
@@ -167,13 +176,15 @@ function show(id, scrollNav) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
+  document.body.classList.toggle('hub-home', id === 'home');
   const ni = document.querySelector(`.ni[data-topic="${id}"]`);
   if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
   if (id !== 'home') viewed.add(id);
   updateProgress();
   buildNavButtons(id);
   setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
-  history.replaceState(null, '', '#' + id);
+  if (id === 'home') history.replaceState(null, '', location.pathname + location.search);
+  else history.replaceState(null, '', '#' + id);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 

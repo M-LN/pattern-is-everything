@@ -117,6 +117,11 @@ function buildHome() {
   <div class="home-hero">
     <h2>Chart <em>Patterns</em></h2>
     <p style="margin-top:14px">An interactive reference to 25 essential chart patterns — from classic reversal formations to candlestick signals and structural analysis. Each entry includes pattern anatomy, psychology, and a visual breakdown.</p>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
+    </div>
     <div class="callout warn" style="margin-top:18px;text-align:left;font-size:12px;">
       <strong>Evidence note:</strong> Chart patterns are <strong>heuristic</strong> — widely used by traders but not mathematically proven. Academic evidence on their predictive power is mixed. Topics are labelled: <span class="evidence-badge proven">✓ Mathematical</span> for statistically grounded concepts and <span class="evidence-badge heuristic">◐ Heuristic</span> for pattern-recognition techniques with debated evidence.
     </div>
