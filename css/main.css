@@ -1611,6 +1611,10 @@ html, body { overflow-x: clip; }
   backdrop-filter: blur(12px);
 }
 body:has(.portal-header) { padding-top: var(--hdr-h); }
+/* Reader pages (Stats/Essays) that adopt the portal-header already offset
+   their content with .layout's margin-top; the body padding-top above now
+   provides that gap, so cancel the margin to avoid double-counting it. */
+body:has(.portal-header) .layout { margin-top: 0; }
 .portal-header + #mainContent {
   max-width: none;
   padding: 0;
