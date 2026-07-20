@@ -33,7 +33,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../css/main.css?v=19">
+  <link rel="stylesheet" href="../css/main.css?v=20">
   <style>
     .viz-ctrl { display:flex; align-items:center; gap:10px; margin:8px auto 2px; max-width:440px; font-family:var(--mono); font-size:11px; color:var(--muted); }
     .viz-ctrl input[type=range] { flex:1; accent-color:#8b4fa8; cursor:pointer; }
@@ -90,7 +90,7 @@
 </main>
 </div>
 
-<script src="topics.js?v=4"></script>
+<script src="topics.js?v=5"></script>
 <script src="visualizations.js?v=4"></script>
 <script>
 /* ── Theme ── */
@@ -156,13 +156,19 @@ function show(id, scrollNav) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
+  // On the overview, render as a dedicated hub (sidebar hidden, centred hero);
+  // any essay switches back to the reader layout.
+  document.body.classList.toggle('hub-home', id === 'home');
   const ni = document.querySelector(`.ni[data-topic="${id}"]`);
   if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
   if (id !== 'home') viewed.add(id);
   updateProgress();
   buildNavButtons(id);
   setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
-  history.replaceState(null, '', '#' + id);
+  // The overview has no anchor, so leave the hash empty; otherwise a "#home"
+  // hash makes the post-render hash-scroll land the hero under the header.
+  if (id === 'home') history.replaceState(null, '', location.pathname + location.search);
+  else history.replaceState(null, '', '#' + id);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
