@@ -33,7 +33,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../css/main.css?v=20">
+  <link rel="stylesheet" href="../css/main.css?v=21">
   <style>
     .viz-ctrl { display:flex; align-items:center; gap:10px; margin:8px auto 2px; max-width:440px; font-family:var(--mono); font-size:11px; color:var(--muted); }
     .viz-ctrl input[type=range] { flex:1; accent-color:#8b4fa8; cursor:pointer; }
@@ -59,19 +59,28 @@
 <div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
 <script src="../js/pattern-loader.js?v=1"></script>
 
-<header>
-  <a class="logo-ring" href="../index.html" title="Back to Portal"></a>
-  <h1>Pattern <em>Essays</em></h1>
-  <span class="topic-counter" id="topicCounter">12 Essays</span>
-  <div class="hdr-meta">Short Reflections on Patterns<br>Calm, Minimalist, Visual</div>
-  <div class="hdr-actions">
-    <a href="../index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;margin-right:8px;">← Portal</a>
+<div class="portal-header">
+  <a class="logo-ring" href="../index.html" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+    Pattern <em style="font-style:italic;color:var(--accent)">Essays</em>
+  </h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/" class="is-current">Essays</a>
+    <a href="/cases/">Cases</a>
+    <a href="/sandbox/">Sandbox</a>
+    <a href="/start/">Start</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <button class="search-toggle" onclick="toggleSearch()" title="Search (Ctrl+K)">⌕</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
-    <a href="feed.xml" title="RSS feed" style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-decoration:none;margin-left:4px;">RSS</a>
-    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
+    <a class="back-link" href="../index.html">← Home</a>
+    <a href="feed.xml" title="RSS feed" style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-decoration:none;">RSS</a>
+    <a href="../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;">♥</a>
   </div>
-</header>
+</div>
 
 <!-- Search overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
