@@ -507,6 +507,56 @@ main {
   margin-top: 6px;
 }
 
+/* ── Dedicated hub landing ──
+   When a collection's overview is the active view, `body.hub-home` renders
+   it like the ML / Markets hub: the topic sidebar is hidden, the content is
+   centred, and the hero + stat bar get the full-width banded treatment.
+   Selecting a topic removes the class and the normal reader layout returns.
+   Scoped to the body class so only pages that opt in are affected. */
+body.hub-home .layout { grid-template-columns: 1fr; }
+body.hub-home #mainNav { display: none; }
+body.hub-home main { max-width: 900px; margin: 0 auto; width: 100%; }
+body.hub-home .home-hero {
+  text-align: center;
+  border-bottom: none;
+  padding: 24px 0 40px;
+  margin-bottom: 0;
+  position: relative;
+}
+body.hub-home .home-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 340px; height: 260px; max-width: 92%;
+  background: radial-gradient(circle, rgba(200,75,47,.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+body.hub-home .home-hero > * { position: relative; z-index: 1; }
+body.hub-home .home-hero h2 {
+  font-size: clamp(36px,6vw,60px);
+  line-height: 1.06;
+  letter-spacing: -.025em;
+}
+body.hub-home .home-hero p { margin-left: auto; margin-right: auto; }
+body.hub-home .home-stats {
+  justify-content: center;
+  gap: 48px;
+  margin: 0 -56px 40px;
+  padding: 40px 56px;
+  position: relative;
+}
+body.hub-home .home-stats::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  z-index: -1;
+}
+body.hub-home .home-stat { text-align: center; }
+body.hub-home .home-stat + .home-stat::before { left: -24px; top: 6px; height: 40px; }
+body.hub-home .home-stat-num { font-size: 40px; }
+
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
@@ -1136,6 +1186,10 @@ input[type=range]:focus-visible {
   main { padding: 20px 16px 60px; }
   .portal-grid { grid-template-columns: 1fr; }
   .search-box { width: 95vw; }
+  /* Hub landing: match the stat band's breakout to the mobile padding (16px). */
+  body.hub-home .home-stats { margin: 0 -16px 32px; padding: 32px 16px; gap: 30px; }
+  body.hub-home .home-stat-num { font-size: 34px; }
+  body.hub-home .home-hero { padding: 12px 0 32px; }
 }
 
 /* ── Focus-visible for accessibility ── */
