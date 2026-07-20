@@ -98,7 +98,11 @@ function buildHome() {
   <div class="home-hero">
     <h2>Pattern <em>Essays</em></h2>
     <p style="margin-top:14px">Short, calm reflections on patterns that appear across the world &mdash; in data, in markets, in everyday life. Each essay is accompanied by a small visualization. No formulas. No code. Just the pattern.</p>
-    <p style="margin-top:10px;font-size:11px;color:var(--muted)">
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">12</div><div class="home-stat-label">Essays</div></div>
+      <div class="home-stat"><div class="home-stat-num">12</div><div class="home-stat-label">Visualizations</div></div>
+    </div>
+    <p style="margin-top:18px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
     </p>
