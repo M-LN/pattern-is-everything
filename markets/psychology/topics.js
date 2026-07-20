@@ -155,6 +155,11 @@ function buildHome() {
   <div class="home-hero">
     <h2>Market <em>Psychology</em></h2>
     <p style="margin-top:14px">25 behavioral patterns across cognitive biases, emotional drivers, herd dynamics, decision traps, and market cycles — the human side of price action.</p>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
+    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> navigate &nbsp;·&nbsp;
       <span class="kbd">Ctrl+K</span> search

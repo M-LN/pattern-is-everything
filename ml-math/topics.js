@@ -152,6 +152,11 @@ function buildHome() {
     <h2>The <em>Mathematics</em><br>of Machine Learning</h2>
     <p style="margin-top:14px">A complete interactive reference covering 38 topics — from linear
     algebra to RLHF. Every topic features the core math, visual intuition, and PyTorch code.</p>
+    <div class="home-stats">
+      <div class="home-stat"><div class="home-stat-num">38</div><div class="home-stat-label">Topics</div></div>
+      <div class="home-stat"><div class="home-stat-num">38</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">7</div><div class="home-stat-label">Sections</div></div>
+    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> arrow keys to navigate &nbsp;·&nbsp;
       <span class="kbd">Ctrl+K</span> to search
