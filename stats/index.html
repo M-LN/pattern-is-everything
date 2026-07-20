@@ -54,7 +54,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../css/main.css?v=19">
+  <link rel="stylesheet" href="../css/main.css?v=20">
   <meta property="og:url" content="https://patterniseverything.com/stats/">
   <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
   <meta property="og:image:width" content="1200">
@@ -187,6 +187,9 @@ function show(id, scrollNav) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
+  // On the overview, render as a dedicated hub (sidebar hidden, centred hero);
+  // any topic switches back to the reader layout.
+  document.body.classList.toggle('hub-home', id === 'home');
   const ni = document.querySelector(`.ni[data-topic="${id}"]`);
   if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
   if (id !== 'home') viewed.add(id);
@@ -194,8 +197,10 @@ function show(id, scrollNav) {
   buildNavButtons(id);
   // Trigger visualization draw
   setTimeout(() => { if (DRAWS[id]) DRAWS[id](); }, 60);
-  // Update URL hash
-  history.replaceState(null, '', '#' + id);
+  // Update URL hash — the overview has no anchor, so leave the hash empty;
+  // otherwise a "#home" hash makes the deep-link scroll land under the header.
+  if (id === 'home') history.replaceState(null, '', location.pathname + location.search);
+  else history.replaceState(null, '', '#' + id);
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
