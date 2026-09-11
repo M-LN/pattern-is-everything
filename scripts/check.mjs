@@ -149,8 +149,11 @@ console.log('5. Pre-rendered topic pages');
   // carries a fingerprint of the topics.js it was built from, so a topics.js
   // edit that was never re-rendered shows up here without needing a browser.
   let checked = 0, bad = 0;
-  for (const c of COLLECTIONS) {
-    const topics = topicsByCol.get(c.col);
+  // Essays sits outside COLLECTIONS (it is not part of the 257-topic count)
+  // but its pages are pre-rendered too, so guard them here as well.
+  const PRERENDERED = [...COLLECTIONS, { col: 'essays', dir: 'essays' }];
+  for (const c of PRERENDERED) {
+    const topics = topicsByCol.get(c.col) || extractTopicData(`${c.dir}/topics.js`);
     const generated = topics.filter(t => existsSync(`${c.dir}/${t.id}/index.html`));
     if (!generated.length) continue;
     checked++;
