@@ -41,8 +41,23 @@ const SITE = 'https://patterniseverything.com';
    collection sits below the site root, which sets the generated page's
    relative asset paths. */
 const COLLECTIONS = {
-  stats: { dir: 'stats', depth: 1, label: 'The Toolkit', accent: '#bd4527' },
+  // `depth` is how many directories the collection sits below the site root,
+  // which sets the generated page's relative asset paths. `nav` is the primary
+  // nav entry to mark current; leaf collections mark their parent world.
+  'stats':              { depth: 1, label: 'The Toolkit',            theme: '#c84b2f', og: 'og-stats.png',        nav: '/stats/' },
+  'essays':             { depth: 1, label: 'Pattern Essays',         theme: '#8b4fa8', og: 'og-essays.png',       nav: '/essays/' },
+  'ml-math':            { depth: 1, label: 'ML Math',                theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
+  'llm':                { depth: 1, label: 'LLM Engineering',        theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
+  'mlops':              { depth: 1, label: 'MLOps & Production ML',  theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
+  'timeseries':         { depth: 1, label: 'Timeseries Engineering', theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
+  'markets/charts':     { depth: 2, label: 'Chart Patterns',         theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
+  'markets/indicators': { depth: 2, label: 'Technical Indicators',   theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
+  'markets/psychology': { depth: 2, label: 'Market Psychology',      theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
+  'markets/risk':       { depth: 2, label: 'Risk & Portfolio',       theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
 };
+/* The key is the directory; `dir` is filled in so the rest of the script can
+   keep using col.dir. */
+for (const [key, c] of Object.entries(COLLECTIONS)) c.dir = key;
 
 const MIME = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css',
                '.json':'application/json', '.svg':'image/svg+xml', '.png':'image/png' };
@@ -73,6 +88,7 @@ function page({ topic, html, prev, next, col, key, fingerprint }) {
   const up = '../'.repeat(col.depth + 1);          // site root from /<col>/<id>/
   const coll = '../';                              // collection root
   const url = `${SITE}/${col.dir}/${topic.id}/`;
+  const ogImage = `${SITE}/assets/${col.og.startsWith('og-') ? 'og/' : ''}${col.og}`;
   const title = `${topic.title} — ${col.label}`;
   const desc = describe(topic.content);
   const nav = [
@@ -93,7 +109,7 @@ function page({ topic, html, prev, next, col, key, fingerprint }) {
        The fingerprint lets scripts/check.mjs spot pages left behind by a
        topics.js edit without needing a browser. -->
   <meta name="prerender-source" content="${fingerprint}">
-  <meta name="theme-color" content="${col.accent}" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="${col.theme}" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
   <link rel="apple-touch-icon" sizes="180x180" href="${up}assets/apple-touch-icon.png">
@@ -102,13 +118,13 @@ function page({ topic, html, prev, next, col, key, fingerprint }) {
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${url}">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="${SITE}/assets/og/og-${col.dir}.png">
+  <meta property="og:image" content="${ogImage}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(desc)}">
-  <meta name="twitter:image" content="${SITE}/assets/og/og-${col.dir}.png">
+  <meta name="twitter:image" content="${ogImage}">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -135,7 +151,7 @@ function page({ topic, html, prev, next, col, key, fingerprint }) {
     ]
   }
   </script>
-  <link rel="stylesheet" href="${up}css/main.css?v=22">
+  <link rel="stylesheet" href="${up}css/main.css?v=23">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -158,13 +174,11 @@ function page({ topic, html, prev, next, col, key, fingerprint }) {
     ${esc(col.label)}
   </h1>
   <nav class="portal-nav" aria-label="Primary">
-    <a href="/ml/">ML</a>
-    <a href="/stats/"${key === 'stats' ? ' class="is-current"' : ''}>Stats</a>
-    <a href="/markets/">Markets</a>
-    <a href="/essays/">Essays</a>
-    <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/start/">Start</a>
+${['/ml/','/stats/','/markets/','/essays/','/cases/','/sandbox/','/start/'].map(href => {
+      const name = { '/ml/':'ML', '/stats/':'Stats', '/markets/':'Markets', '/essays/':'Essays',
+                     '/cases/':'Cases', '/sandbox/':'Sandbox', '/start/':'Start' }[href];
+      return `    <a href="${href}"${href === col.nav ? ' class="is-current"' : ''}>${name}</a>`;
+    }).join('\n')}
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
@@ -221,6 +235,10 @@ async function extract(key) {
   await pg.goto(`http://localhost:${port}/${col.dir}/`, { waitUntil: 'load' });
   await pg.waitForFunction(() => typeof TOPICS !== 'undefined' && document.querySelectorAll('.topic').length > 0);
 
+  const sections = await pg.evaluate(() =>
+    (typeof SECTIONS !== 'undefined' ? SECTIONS : []).map(sec => ({
+      title: sec.title, topics: sec.topics.filter(t => t !== 'home') })));
+
   const data = await pg.evaluate(() => {
     const order = TOPICS.filter(t => t !== 'home');
     return order.map(id => {
@@ -238,7 +256,46 @@ async function extract(key) {
 
   await browser.close();
   server.close();
-  return { col, data };
+  return { col, data, sections };
+}
+
+const I_START = '<!-- topic-index:start -->';
+const I_END = '<!-- topic-index:end -->';
+
+/* Link block written into the collection page's served HTML. Without it
+   nothing on the site links to the pre-rendered pages — the hub's cards are
+   built by topics.js and so never appear in the markup a crawler reads. */
+async function syncTopicIndex(col, data, sections, check, markStale) {
+  const file = join(ROOT, col.dir, 'index.html');
+  const html = await readFile(file, 'utf8');
+  const byId = new Map(data.map(t => [t.id, t]));
+  const groups = (sections.length ? sections : [{ title: 'Topics', topics: data.map(t => t.id) }])
+    .map(sec => {
+      const items = sec.topics.filter(id => byId.has(id)).map(id =>
+        `        <li><a href="${id}/">${esc(byId.get(id).title)}</a></li>`).join('\n');
+      if (!items) return '';
+      return `      <div class="ti-group">\n        <div class="ti-group-title">${esc(sec.title)}</div>\n        <ul>\n${items}\n        </ul>\n      </div>`;
+    }).filter(Boolean).join('\n');
+
+  const block = [I_START,
+    '<div class="topic-index" role="navigation" aria-label="All topics">',
+    `  <div class="topic-index-head">All ${data.length} topics</div>`,
+    groups,
+    '</div>',
+    I_END].join('\n');
+
+  const has = html.includes(I_START) && html.includes(I_END);
+  const next = has
+    ? html.replace(new RegExp(`${I_START}[\\s\\S]*?${I_END}`), block)
+    : html.replace('</main>\n</div>', `</main>\n</div>\n\n${block}`);   // right after the reader layout closes
+
+  if (next === html) {
+    if (!has) console.log(`  ! ${col.dir}/index.html: no insertion point found`);
+    return;
+  }
+  if (check) { markStale(); console.log(`  stale: ${col.dir}/index.html topic index`); return; }
+  await writeFile(file, next);
+  console.log(`${col.dir}/index.html: topic index with ${data.length} links`);
 }
 
 /* The generated entries live between markers so the block can be rewritten on
@@ -275,7 +332,7 @@ async function run() {
   const urls = [];
 
   for (const key of targets) {
-    const { col, data } = await extract(key);
+    const { col, data, sections } = await extract(key);
     const fingerprint = 'topics.js@' + createHash('sha256')
       .update(await readFile(join(ROOT, col.dir, 'topics.js'))).digest('hex').slice(0, 12);
     for (let i = 0; i < data.length; i++) {
@@ -294,6 +351,7 @@ async function run() {
       await writeFile(out, body);
       written++;
     }
+    await syncTopicIndex(col, data, sections, check, () => stale++);
     console.log(`${col.dir}: ${data.length} topics${check ? `, ${stale} stale` : `, ${written} written`}`);
   }
   await syncSitemap(urls, check, () => stale++);
