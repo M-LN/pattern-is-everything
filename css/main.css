@@ -12,7 +12,7 @@
   --surface2: #f2ede4;
   --border:   #e2d9cc;
   --border2:  #c9bead;
-  --accent:   #c84b2f;
+  --accent:   #bd4527;
   --accent2:  #2a7d5f;
   --accent3:  #2955a0;
   --accent4:  #8b4fa8;
@@ -41,6 +41,8 @@
     --border2:  #4a4237;
     --text:     #e8e2d8;
     --muted:    #9a8e80;
+    --accent:    #dc6147;
+    --accent2:   #3d9e78;
     --hi:       rgba(200,75,47,0.1);
   }
 }
@@ -52,6 +54,8 @@
   --border2:  #4a4237;
   --text:     #e8e2d8;
   --muted:    #9a8e80;
+  --accent:    #dc6147;
+  --accent2:   #3d9e78;
   --hi:       rgba(200,75,47,0.1);
 }
 /* Explicit light theme must win over the OS dark-mode media query,
@@ -65,6 +69,8 @@
   --text:     #1a1714;
   --muted:    #6a5e52;
   --hi:       rgba(200,75,47,0.06);
+  --accent:   #bd4527;
+  --accent2:  #2a7d5f;
 }
 
 /* ── Reset ── */
