@@ -67,6 +67,30 @@ document.getElementById('searchInput')?.addEventListener('input', function() {
   ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
+/* ── Visualizations, on demand ──
+   The overview draws nothing: its section cards are plain markup, and the
+   topic canvases sit hidden until one is opened. visualizations.js is
+   29–115 KB depending on the collection, so it is fetched the first time a
+   topic is actually shown rather than on every landing. The page passes its
+   own path (and cache-busting version) in via data-viz.
+
+   Cost of this: the very first topic of a session draws once the script
+   arrives instead of 60 ms in. Every later topic is unaffected — the fetch
+   happens once and the promise is reused. */
+const VIZ_SRC = (document.currentScript && document.currentScript.dataset.viz) || 'visualizations.js';
+let vizLoad = null;
+function loadVisualizations() {
+  if (vizLoad) return vizLoad;
+  vizLoad = new Promise(resolve => {
+    const s = document.createElement('script');
+    s.src = VIZ_SRC;
+    s.onload = () => resolve(true);
+    s.onerror = () => { console.warn('Could not load', VIZ_SRC); resolve(false); };
+    document.head.appendChild(s);
+  });
+  return vizLoad;
+}
+
 /* ── Navigation ── */
 let currentTopic = 'home';
 const viewed = new Set();
@@ -86,12 +110,14 @@ function show(id, scrollNav) {
   updateProgress();
   buildNavButtons(id);
   // Trigger visualization draw
-  setTimeout(() => {
-    // Guarded: a throwing visualization must not take navigation down with
-    // it, and DRAWS is absent until visualizations.js has run.
-    try { if (typeof DRAWS !== 'undefined' && DRAWS[id]) DRAWS[id](); }
-    catch (e) { console.warn('Visualization failed for', id, e); }
-  }, 60);
+  if (id !== 'home') {
+    loadVisualizations().then(() => setTimeout(() => {
+      // Guarded: a throwing visualization must not take navigation down with
+      // it, and DRAWS is absent if the script failed to load.
+      try { if (typeof DRAWS !== 'undefined' && DRAWS[id]) DRAWS[id](); }
+      catch (e) { console.warn('Visualization failed for', id, e); }
+    }, 60));
+  }
   // Update URL hash — the overview has no anchor, so leave the hash empty;
   // otherwise a "#home" hash makes the deep-link scroll land under the header.
   if (id === 'home') history.replaceState(null, '', location.pathname + location.search);
