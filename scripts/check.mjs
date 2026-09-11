@@ -10,7 +10,8 @@
      4. game/game-data.js is in sync with the collections (counts + ids)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname, normalize } from 'node:path';
 
 const COLLECTIONS = [
@@ -140,6 +141,32 @@ console.log('4. game/game-data.js sync');
     }
   }
   if (!bad) ok(`${game.length} game topics match the collections exactly`);
+}
+
+console.log('5. Pre-rendered topic pages');
+{
+  // Collections opt in simply by having generated pages on disk. Each page
+  // carries a fingerprint of the topics.js it was built from, so a topics.js
+  // edit that was never re-rendered shows up here without needing a browser.
+  let checked = 0, bad = 0;
+  for (const c of COLLECTIONS) {
+    const topics = topicsByCol.get(c.col);
+    const generated = topics.filter(t => existsSync(`${c.dir}/${t.id}/index.html`));
+    if (!generated.length) continue;
+    checked++;
+    const want = 'topics.js@' + createHash('sha256')
+      .update(readFileSync(`${c.dir}/topics.js`)).digest('hex').slice(0, 12);
+    const missing = topics.filter(t => !existsSync(`${c.dir}/${t.id}/index.html`));
+    const stale = generated.filter(t =>
+      !readFileSync(`${c.dir}/${t.id}/index.html`, 'utf8').includes(`content="${want}"`));
+    if (missing.length || stale.length) {
+      bad++;
+      fail(`${c.col}: ${missing.length} page(s) missing, ${stale.length} stale (run scripts/prerender.mjs ${c.col})`);
+    } else {
+      ok(`${c.col}: ${generated.length} pre-rendered pages match topics.js`);
+    }
+  }
+  if (!checked) ok('no collections pre-rendered yet');
 }
 
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
