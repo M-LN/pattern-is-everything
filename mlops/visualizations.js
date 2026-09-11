@@ -11,6 +11,12 @@ function setupCanvas(id) {
   const c = document.getElementById(id);
   if (!c) return null;
   const r = c.getBoundingClientRect();
+  // A hidden topic measures 0x0. Writing that back would set the backing
+  // buffer to 0, and since the canvas takes its rendered height from the
+  // buffer's aspect ratio, the box would collapse to zero height and never
+  // recover — leaving the visualization blank for the rest of the session.
+  // Leave the canvas untouched and let the caller retry when it is on screen.
+  if (r.width < 1 || r.height < 1) return null;
   c.width = r.width * DPR;
   c.height = r.height * DPR;
   const ctx = c.getContext('2d');
@@ -27,7 +33,7 @@ const GREEN = '#34d399';
 const RED = '#f87171';
 const MUTED = () => css('--muted') || '#888';
 const BORDER = () => css('--border') || '#333';
-const MONO = () => css('--fg') || '#e5e5e5';
+const MONO = () => css('--text') || '#e5e5e5';
 
 function drawArrow(ctx, x1, y1, x2, y2, color, size) {
   size = size || 6;

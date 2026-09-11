@@ -3,7 +3,9 @@
 const DRAWS={};
 
 /* ── helpers ── */
-function setupCanvas(id){const c=document.getElementById(id);if(!c)return null;const x=c.getContext('2d');const dpr=window.devicePixelRatio||1;const w=c.clientWidth||720,h=c.clientHeight||340;c.width=w*dpr;c.height=h*dpr;x.scale(dpr,dpr);x.clearRect(0,0,w,h);return{c,x,w,h};}
+/* A hidden topic measures 0x0 — bail rather than draw at a size that does
+   not match what the reader will show once the topic is back on screen. */
+function setupCanvas(id){const c=document.getElementById(id);if(!c)return null;const w=c.clientWidth,h=c.clientHeight;if(w<1||h<1)return null;const x=c.getContext('2d');const dpr=window.devicePixelRatio||1;c.width=w*dpr;c.height=h*dpr;x.scale(dpr,dpr);x.clearRect(0,0,w,h);return{c,x,w,h};}
 function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
 function lerp(a,b,t){return a+(b-a)*t;}
 function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}

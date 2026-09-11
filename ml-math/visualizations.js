@@ -18,6 +18,10 @@ function setupCanvas(id) {
   if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height') || 240));
   const baseH = parseInt(c.dataset.baseH);
   const rect = c.parentElement.getBoundingClientRect();
+  // A hidden topic measures 0 wide, which would make w negative — a negative
+  // ellipse radius throws, and the degenerate buffer plus explicit style.width
+  // never recovers. Bail and let the caller retry when it is on screen.
+  if (rect.width < 3) return null;
   const w = rect.width - 2;
   c.style.width = w + 'px';
   c.width = w * DPR;
@@ -240,7 +244,7 @@ function drawGDStatic(ctx, w, h, x) {
   const by = h - (loss(x) / maxL) * h * 0.85 - h * 0.05;
   ctx.fillStyle = getCSS('--accent');
   ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = getCSS('--fg'); ctx.font = '11px ' + getCSS('--mono');
+  ctx.fillStyle = getCSS('--text'); ctx.font = '11px ' + getCSS('--mono');
   ctx.fillText('L=' + loss(x).toFixed(2), bx + 12, by - 4);
 }
 
@@ -361,7 +365,7 @@ window.drawBV = function(val) {
   // marker
   const t = (v - 1) / 9;
   const mx = pad + t * pw;
-  ctx.strokeStyle = getCSS('--fg'); ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+  ctx.strokeStyle = getCSS('--text'); ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
   ctx.beginPath(); ctx.moveTo(mx, pad); ctx.lineTo(mx, pad + ph); ctx.stroke();
   ctx.setLineDash([]);
   // values
@@ -406,7 +410,7 @@ function drawLossCanvas(errVal) {
   // vertical indicator at current error value
   if (errVal !== undefined) {
     const ex = ((errVal + maxX) / (maxX * 2)) * w;
-    ctx.strokeStyle = getCSS('--fg'); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = getCSS('--text'); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
     ctx.beginPath(); ctx.moveTo(ex, pad); ctx.lineTo(ex, h - pad); ctx.stroke();
     ctx.setLineDash([]);
     // dots on each curve
@@ -616,7 +620,7 @@ window.drawReg = function(type) {
   ctx.beginPath(); ctx.arc(ox + r, cy, 6, 0, Math.PI * 2); ctx.fill();
   // labels
   ctx.font = '12px ' + getCSS('--mono');
-  ctx.fillStyle = getCSS('--fg');
+  ctx.fillStyle = getCSS('--text');
   ctx.fillText(type === 'l2' ? 'L2 (Ridge) — circle' : 'L1 (Lasso) — diamond', 10, 20);
   ctx.fillStyle = getCSS('--muted'); ctx.font = '10px ' + getCSS('--mono');
   ctx.fillText('Ellipses = loss contours', 10, 36);
@@ -659,7 +663,7 @@ window.drawBN = function(withBN) {
     ctx.fillText('L' + (l + 1), cx, h - 6);
   }
   ctx.textAlign = 'start';
-  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   ctx.fillText(withBN ? '✓ With Batch Norm — stable' : '✗ Without — distributions shift', 10, 20);
 };
 
@@ -750,7 +754,7 @@ window.drawInit = function(method) {
     ctx.fillText('L' + (l + 1), x + barW / 2, h - 4);
   }
   ctx.textAlign = 'start';
-  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   const descs = { random: 'Random N(0,1) → exploding activations', xavier: 'Xavier → stable (tanh/sigmoid)', he: 'He/Kaiming → stable (ReLU)' };
   ctx.fillText(descs[method], 10, 18);
 };
@@ -843,7 +847,7 @@ function drawSM() {
     ctx.fillStyle = colors[i]; ctx.globalAlpha = 0.8;
     ctx.fillRect(x, h - 20 - barH, barW, barH);
     ctx.globalAlpha = 1;
-    ctx.font = 'bold 12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = 'bold 12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText((p * 100).toFixed(1) + '%', x + barW / 2, h - 24 - barH);
     ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--muted');
@@ -1000,7 +1004,7 @@ window.onBayes = function() {
     ctx.fillStyle = b.color; ctx.globalAlpha = 0.7;
     ctx.fillRect(x, h - 30 - barH, barW, barH);
     ctx.globalAlpha = 1;
-    ctx.font = 'bold 13px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = 'bold 13px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText((b.val * 100).toFixed(1) + '%', x + barW / 2, h - 34 - barH);
     ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--muted');
@@ -1082,7 +1086,7 @@ window.drawMetrics = function() {
     ctx.fillStyle = colors[r * 2 + c]; ctx.globalAlpha = 0.6;
     ctx.fillRect(ox + c * sz, oy + r * sz, sz - 2, sz - 2);
     ctx.globalAlpha = 1;
-    ctx.font = 'bold 14px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = 'bold 14px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText(v, ox + c * sz + sz / 2, oy + r * sz + sz / 2 + 5);
   }));
@@ -1099,7 +1103,7 @@ window.drawMetrics = function() {
     ctx.fillStyle = getCSS('--border'); ctx.fillRect(bx, y, bw, 20);
     ctx.fillStyle = i === 0 ? getCSS('--accent3') : i === 1 ? getCSS('--accent') : getCSS('--accent2');
     ctx.fillRect(bx, y, bw * m.val, 20);
-    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.fillText(m.name + ': ' + (m.val * 100).toFixed(1) + '%', bx + 4, y + 15);
   });
 };
@@ -1273,7 +1277,7 @@ function drawAtt() {
       const alpha = Math.min(v * 2.5, 1);
       ctx.fillStyle = `rgba(200,75,47,${alpha})`;
       ctx.fillRect(ox + c * cellSize, oy + r * cellSize, cellSize - 1, cellSize - 1);
-      ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = alpha > 0.5 ? '#fff' : getCSS('--fg');
+      ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = alpha > 0.5 ? '#fff' : getCSS('--text');
       ctx.textAlign = 'center';
       ctx.fillText(v.toFixed(2), ox + c * cellSize + cellSize / 2, oy + r * cellSize + cellSize / 2 + 3);
     });
@@ -1326,7 +1330,7 @@ DRAWS['transformer'] = function() {
     ctx.globalAlpha = 1;
     ctx.strokeStyle = b.color; ctx.lineWidth = 1.5;
     ctx.strokeRect(cx - bw / 2, y, bw, bh);
-    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText(b.label, cx, y + bh / 2 + 4);
     // arrow
@@ -1397,7 +1401,7 @@ window.drawRNN = function() {
     ctx.fillStyle = i <= rnnStep ? getCSS('--accent') : getCSS('--card');
     ctx.strokeStyle = getCSS('--accent'); ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(x, y, nodeR, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = i <= rnnStep ? '#fff' : getCSS('--fg');
+    ctx.fillStyle = i <= rnnStep ? '#fff' : getCSS('--text');
     ctx.font = '10px ' + getCSS('--mono');
     ctx.fillText('tanh', x, y + 4);
   }
@@ -1491,7 +1495,7 @@ DRAWS['gru'] = function() {
     ctx.fillStyle = d.color; ctx.globalAlpha = 0.7;
     ctx.fillRect(x, h - 30 - barH, barW, barH);
     ctx.globalAlpha = 1;
-    ctx.font = 'bold 12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = 'bold 12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText(d.name, x + barW / 2, h - 10);
     ctx.fillText(d.params + '×', x + barW / 2, h - 36 - barH);
@@ -1610,7 +1614,7 @@ DRAWS['vae'] = function() {
     ctx.fillRect(b.x, y, b.w, b.h);
     ctx.globalAlpha = 1; ctx.strokeStyle = b.color; ctx.lineWidth = 1.5;
     ctx.strokeRect(b.x, y, b.w, b.h);
-    ctx.font = '10px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = '10px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center'; ctx.fillText(b.label, b.x + b.w / 2, y + b.h / 2 + 4);
     if (i < blocks.length - 1) {
       ctx.strokeStyle = getCSS('--muted'); ctx.lineWidth = 1;
@@ -1779,7 +1783,7 @@ function drawBPEState() {
     ctx.strokeStyle = t.length > 1 ? getCSS('--accent') : getCSS('--accent3');
     ctx.lineWidth = 1;
     ctx.strokeRect(x + 1, y, tokW - 2, 30);
-    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+    ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
     ctx.textAlign = 'center';
     ctx.fillText(t === ' ' ? '▁' : t, x + tokW / 2, y + 20);
   });
@@ -1814,14 +1818,14 @@ window.drawLoRA = function() {
   ctx.fillStyle = getCSS('--accent'); ctx.globalAlpha = 0.6;
   ctx.fillRect(40, 40, maxW, barH);
   ctx.globalAlpha = 1;
-  ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   ctx.fillText('Full: ' + (fullParams / 1e6).toFixed(1) + 'M params', 44, 62);
   // LoRA
   const loraW = Math.max((loraParams / fullParams) * maxW, 20);
   ctx.fillStyle = getCSS('--accent2'); ctx.globalAlpha = 0.6;
   ctx.fillRect(40, 100, loraW, barH);
   ctx.globalAlpha = 1;
-  ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '11px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   ctx.fillText('LoRA (r=' + r + '): ' + (loraParams / 1e3).toFixed(0) + 'K params', 44, 122);
   // matrix diagrams
   const my = 160, mSize = 40;
@@ -1829,7 +1833,7 @@ window.drawLoRA = function() {
   ctx.strokeRect(40, my, mSize, mSize);
   ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--accent');
   ctx.fillText('W (d×d)', 40, my + mSize + 14);
-  ctx.font = '14px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '14px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   ctx.fillText('≈', 95, my + mSize / 2 + 4);
   // B matrix
   ctx.strokeStyle = getCSS('--accent2'); ctx.lineWidth = 1.5;
@@ -1837,7 +1841,7 @@ window.drawLoRA = function() {
   ctx.strokeRect(120, my, bW, bH);
   ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--accent2');
   ctx.fillText('B(d×r)', 110, my + mSize + 14);
-  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--fg');
+  ctx.font = '12px ' + getCSS('--mono'); ctx.fillStyle = getCSS('--text');
   ctx.fillText('×', 140, my + mSize / 2 + 4);
   // A matrix
   ctx.strokeRect(155, my + 10, mSize, bW);

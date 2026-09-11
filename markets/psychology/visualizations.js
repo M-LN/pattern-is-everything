@@ -8,6 +8,12 @@ function setupCanvas(id) {
   if (!c) return null;
   const dpr = window.devicePixelRatio || 1;
   const rect = c.getBoundingClientRect();
+  // A hidden topic measures 0x0. Writing that back would set the backing
+  // buffer to 0, and since the canvas takes its rendered height from the
+  // buffer's aspect ratio, the box would collapse to zero height and never
+  // recover — leaving the visualization blank for the rest of the session.
+  // Leave the canvas untouched and let the caller retry when it is on screen.
+  if (rect.width < 1 || rect.height < 1) return null;
   c.width = rect.width * dpr;
   c.height = rect.height * dpr;
   const ctx = c.getContext('2d');
