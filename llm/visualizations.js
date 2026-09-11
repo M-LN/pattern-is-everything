@@ -28,7 +28,7 @@ function randN(){ let u=0,v=0; while(!u) u=rand(); v=rand(); return Math.sqrt(-2
 /* ── Color palette ── */
 function colors(){
   return {
-    bg: getCSS('--bg'), fg: getCSS('--fg'), muted: getCSS('--muted'),
+    bg: getCSS('--bg'), fg: getCSS('--text'), muted: getCSS('--muted'),
     accent: getCSS('--accent'), accent2: getCSS('--accent2'),
     accent3: getCSS('--accent3'), accent4: getCSS('--accent4'),
     surface: getCSS('--surface'), border: getCSS('--border')

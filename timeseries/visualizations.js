@@ -16,6 +16,9 @@ function setupCanvas(id){
   if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height')) || c.height || 240);
   const baseH = parseInt(c.dataset.baseH);
   const r = c.parentElement.getBoundingClientRect();
+  // A hidden topic measures 0 wide; writing that back pins style.width to 0px,
+  // which the canvas never recovers from. Bail and let the caller retry.
+  if (r.width < 1) return null;
   c.width = r.width * DPR; c.height = baseH * DPR;
   c.style.width = r.width + 'px';
   const ctx = c.getContext('2d');
@@ -31,7 +34,7 @@ function randN(){ return (rand() + rand() + rand() - 1.5) * 2; } // approx norma
 
 function colors(){
   return {
-    fg: getCSS('--fg') || '#eeeeee',
+    fg: getCSS('--text') || '#eeeeee',
     mt: getCSS('--muted') || '#888888',
     ac: getCSS('--accent') || '#4fc3f7',
     ac2: getCSS('--accent2') || '#81c784',

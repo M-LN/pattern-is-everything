@@ -93,6 +93,7 @@ function loadVisualizations() {
 
 /* ── Navigation ── */
 let currentTopic = 'home';
+let drawTimer = null;
 const viewed = new Set();
 
 function show(id, scrollNav) {
@@ -109,14 +110,24 @@ function show(id, scrollNav) {
   if (id !== 'home') viewed.add(id);
   updateProgress();
   buildNavButtons(id);
-  // Trigger visualization draw
+  /* Draw only the topic that is still on screen. Navigating away before the
+     draw lands used to leave it pending; it then measured a hidden canvas as
+     0x0 and wrote that back as the buffer size, which collapsed the element's
+     rendered height for the rest of the session. The window is the fetch plus
+     the 60 ms, so on a first visit it is however long visualizations.js takes.
+     Cancel the pending timer and re-check the id before drawing. */
   if (id !== 'home') {
-    loadVisualizations().then(() => setTimeout(() => {
-      // Guarded: a throwing visualization must not take navigation down with
-      // it, and DRAWS is absent if the script failed to load.
-      try { if (typeof DRAWS !== 'undefined' && DRAWS[id]) DRAWS[id](); }
-      catch (e) { console.warn('Visualization failed for', id, e); }
-    }, 60));
+    clearTimeout(drawTimer);
+    loadVisualizations().then(() => {
+      if (id !== currentTopic) return;
+      clearTimeout(drawTimer);
+      drawTimer = setTimeout(() => {
+        // Guarded: a throwing visualization must not take navigation down with
+        // it, and DRAWS is absent if the script failed to load.
+        try { if (id === currentTopic && typeof DRAWS !== 'undefined' && DRAWS[id]) DRAWS[id](); }
+        catch (e) { console.warn('Visualization failed for', id, e); }
+      }, 60);
+    });
   }
   // Update URL hash — the overview has no anchor, so leave the hash empty;
   // otherwise a "#home" hash makes the deep-link scroll land under the header.

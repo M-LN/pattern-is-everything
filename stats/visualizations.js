@@ -18,6 +18,10 @@ function setupCanvas(id) {
   if (c.dataset.baseH === undefined) c.dataset.baseH = String(parseInt(c.getAttribute('height') || 240));
   const baseH = parseInt(c.dataset.baseH);
   const rect = c.parentElement.getBoundingClientRect();
+  // A hidden topic measures 0 wide, which would make w negative and leave a
+  // degenerate buffer plus an explicit style.width the element never recovers
+  // from. Bail and let the caller retry when the topic is on screen.
+  if (rect.width < 3) return null;
   const w = rect.width - 2;
   c.style.width = w + 'px';
   c.width = w * DPR;
