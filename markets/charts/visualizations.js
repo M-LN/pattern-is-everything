@@ -27,7 +27,7 @@ const DRAWS = {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
     [w*0.05,h*0.7],[w*0.15,h*0.4],[w*0.25,h*0.6],[w*0.38,h*0.15],[w*0.5,h*0.55],
@@ -55,7 +55,7 @@ const DRAWS = {
   const s = setupCanvas('inverseHeadAndShouldersCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
     [w*0.05,h*0.3],[w*0.15,h*0.6],[w*0.25,h*0.4],[w*0.38,h*0.85],[w*0.5,h*0.45],
@@ -81,7 +81,7 @@ const DRAWS = {
   const s = setupCanvas('doubleTopCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
     [w*0.05,h*0.7],[w*0.2,h*0.15],[w*0.4,h*0.55],[w*0.6,h*0.15],[w*0.75,h*0.55],[w*0.9,h*0.9]
@@ -105,7 +105,7 @@ const DRAWS = {
   const s = setupCanvas('doubleBottomCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
     [w*0.05,h*0.3],[w*0.2,h*0.85],[w*0.4,h*0.45],[w*0.6,h*0.85],[w*0.75,h*0.45],[w*0.9,h*0.1]
@@ -128,7 +128,7 @@ const DRAWS = {
   const s = setupCanvas('roundingBottomCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // U-shape curve
   ctx.beginPath();
@@ -150,7 +150,7 @@ const DRAWS = {
   const s = setupCanvas('bullFlagCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Pole
   ctx.beginPath(); ctx.moveTo(w*0.08,h*0.85); ctx.lineTo(w*0.25,h*0.15);
@@ -178,7 +178,7 @@ const DRAWS = {
   const s = setupCanvas('bearFlagCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Pole down
   ctx.beginPath(); ctx.moveTo(w*0.08,h*0.15); ctx.lineTo(w*0.25,h*0.85);
@@ -202,7 +202,7 @@ pennant(canvas) {
   const s = setupCanvas('pennantCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Pole
   ctx.beginPath(); ctx.moveTo(w*0.05,h*0.85); ctx.lineTo(w*0.22,h*0.15);
@@ -227,7 +227,7 @@ pennant(canvas) {
   const s = setupCanvas('ascendingTriangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Flat resistance
   ctx.beginPath(); ctx.moveTo(w*0.1,h*0.2); ctx.lineTo(w*0.75,h*0.2);
@@ -252,7 +252,7 @@ pennant(canvas) {
   const s = setupCanvas('descendingTriangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Flat support
   ctx.beginPath(); ctx.moveTo(w*0.1,h*0.8); ctx.lineTo(w*0.75,h*0.8);
@@ -273,7 +273,7 @@ pennant(canvas) {
   const s = setupCanvas('symmetricTriangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const accent = getColor('--accent3') || '#2955a0';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Upper line (falling)
   ctx.beginPath(); ctx.moveTo(w*0.08,h*0.15); ctx.lineTo(w*0.7,h*0.48);
@@ -304,7 +304,7 @@ pennant(canvas) {
   const s = setupCanvas('risingWedgeCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Both lines slope up, converging
   ctx.beginPath(); ctx.moveTo(w*0.08,h*0.8); ctx.lineTo(w*0.7,h*0.2);
@@ -326,7 +326,7 @@ pennant(canvas) {
   const s = setupCanvas('fallingWedgeCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   ctx.beginPath(); ctx.moveTo(w*0.08,h*0.2); ctx.lineTo(w*0.7,h*0.8);
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
@@ -345,7 +345,7 @@ pennant(canvas) {
 'broadening-formation'(canvas) {
   const s = setupCanvas('broadeningFormationCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const accent = getColor('--accent3') || '#2955a0';
   // Diverging lines
@@ -367,7 +367,7 @@ pennant(canvas) {
 rectangle(canvas) {
   const s = setupCanvas('rectangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
   // Support and resistance
@@ -394,7 +394,7 @@ rectangle(canvas) {
 doji(canvas) {
   const s = setupCanvas('dojiCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const accent = getColor('--accent3') || '#2955a0';
   const types = [
@@ -428,7 +428,7 @@ hammer(canvas) {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Hammer (bullish at bottom)
   const hx = w*0.3, hy = h*0.35;
@@ -458,7 +458,7 @@ engulfing(canvas) {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Bullish engulfing (left)
   const bx = w*0.25;
@@ -489,7 +489,7 @@ engulfing(canvas) {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const cx = w*0.5;
   // Candle 1: long red
@@ -521,7 +521,7 @@ engulfing(canvas) {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const cx = w*0.5;
   // Candle 1: long green
@@ -552,7 +552,7 @@ engulfing(canvas) {
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Resistance zone
   ctx.fillStyle = red+'15'; ctx.fillRect(0,h*0.15,w,h*0.12);
@@ -576,7 +576,7 @@ trendlines(canvas) {
   const s = setupCanvas('trendlinesCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Uptrend — connecting swing lows
   const lows = [[w*0.08,h*0.78],[w*0.3,h*0.58],[w*0.55,h*0.38],[w*0.78,h*0.18]];
@@ -603,7 +603,7 @@ channels(canvas) {
   const s = setupCanvas('channelsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Ascending channel
   const offsetY = h*0.25;
@@ -630,7 +630,7 @@ gaps(canvas) {
   const s = setupCanvas('gapsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const accent3 = getColor('--accent3') || '#2955a0';
   const types = [
@@ -664,7 +664,7 @@ gaps(canvas) {
   const s = setupCanvas('cupAndHandleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Cup (U-shape)
   ctx.beginPath();

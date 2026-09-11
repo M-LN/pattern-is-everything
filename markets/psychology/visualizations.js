@@ -26,7 +26,7 @@ DRAWS['confirmation-bias'] = () => {
   const r = setupCanvas('confirmationBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
   const accent2 = getColor('--accent2');
 
@@ -88,7 +88,7 @@ DRAWS['anchoring'] = () => {
   const r = setupCanvas('anchoringCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Anchor shape at bottom
@@ -150,7 +150,7 @@ DRAWS['recency-bias'] = () => {
   const r = setupCanvas('recencyBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Timeline
@@ -207,7 +207,7 @@ DRAWS['availability-heuristic'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
 
   // Two columns
   const lx = w * 0.25, rx = w * 0.75;
@@ -247,7 +247,7 @@ DRAWS['hindsight-bias'] = () => {
   const r = setupCanvas('hindsightBiasCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Price line with crash
@@ -293,7 +293,7 @@ DRAWS['fear-and-greed'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   const cx = w * 0.5, cy = h * 0.75, radius = Math.min(w, h) * 0.45;
@@ -348,7 +348,7 @@ DRAWS['loss-aversion'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   const cx = w * 0.5, cy = h * 0.45;
@@ -406,7 +406,7 @@ DRAWS['regret-aversion'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Person at fork
@@ -464,7 +464,7 @@ DRAWS['overconfidence'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Bar chart: confidence vs actual accuracy
@@ -518,7 +518,7 @@ DRAWS['disposition-effect'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Two stock paths from center
@@ -584,7 +584,7 @@ DRAWS['herd-behavior'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
 
   // Grid of arrows all pointing right (herd)
   ctx.fillStyle = fg;
@@ -636,7 +636,7 @@ DRAWS['fomo'] = () => {
   const r = setupCanvas('fomoCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Spiral path going inward (FOMO trap)
@@ -682,7 +682,7 @@ DRAWS['social-proof'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Central influencer node
@@ -730,7 +730,7 @@ DRAWS['contrarian-thinking'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
 
   // Stream flowing right (multiple parallel arrows)
   ctx.strokeStyle = accent2;
@@ -776,7 +776,7 @@ DRAWS['information-cascades'] = () => {
   const r = setupCanvas('informationCascadesCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   const count = 7;
@@ -827,7 +827,7 @@ DRAWS['sunk-cost-fallacy'] = () => {
   const r = setupCanvas('sunkCostFallacyCanvas'); if (!r) return;
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Person figure at top
@@ -877,7 +877,7 @@ DRAWS['gambler-fallacy'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Sequence of "red" days
@@ -925,7 +925,7 @@ DRAWS['framing-effect'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
 
   // Two identical glasses
   const drawGlass = (x, fillLevel, label, color, frameLabel) => {
@@ -984,7 +984,7 @@ DRAWS['mental-accounting'] = () => {
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
   const accent3 = getColor('--accent3');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   const buckets = [
@@ -1038,7 +1038,7 @@ DRAWS['status-quo-bias'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // "Current Position" box (anchored)
@@ -1088,7 +1088,7 @@ DRAWS['market-sentiment-cycle'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Wave shape representing market cycle
@@ -1151,7 +1151,7 @@ DRAWS['accumulation-distribution'] = () => {
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
   const accent3 = getColor('--accent3');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Four phases as price curve
@@ -1203,7 +1203,7 @@ DRAWS['euphoria-panic'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Price line (bubble → crash)
@@ -1255,7 +1255,7 @@ DRAWS['smart-money-dumb-money'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Timeline across bottom
@@ -1357,7 +1357,7 @@ DRAWS['mean-reversion-psychology'] = () => {
   const { ctx, w, h } = r;
   const accent = getColor('--accent');
   const accent2 = getColor('--accent2');
-  const fg = getColor('--fg');
+  const fg = getColor('--text');
   const muted = getColor('--muted');
 
   // Mean line

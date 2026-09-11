@@ -32,7 +32,7 @@ const DRAWS = {
 sma(canvas) {
   const s = setupCanvas('smaCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
@@ -56,7 +56,7 @@ sma(canvas) {
 ema(canvas) {
   const s = setupCanvas('emaCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
@@ -81,7 +81,7 @@ ema(canvas) {
 wma(canvas) {
   const s = setupCanvas('wmaCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
   // Weight bars diagram
@@ -105,7 +105,7 @@ wma(canvas) {
 dema(canvas) {
   const s = setupCanvas('demaCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const accent = getColor('--accent3') || '#2955a0';
   const red = getColor('--accent') || '#c84b2f';
@@ -144,7 +144,7 @@ dema(canvas) {
 vwap(canvas) {
   const s = setupCanvas('vwapCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -177,7 +177,7 @@ vwap(canvas) {
 rsi(canvas) {
   const s = setupCanvas('rsiCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -209,7 +209,7 @@ rsi(canvas) {
 stochastic(canvas) {
   const s = setupCanvas('stochasticCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -240,7 +240,7 @@ stochastic(canvas) {
 cci(canvas) {
   const s = setupCanvas('cciCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const red = getColor('--accent') || '#c84b2f';
   const green = getColor('--accent2') || '#2a7d5f';
@@ -264,7 +264,7 @@ cci(canvas) {
 'williams-r'(canvas) {
   const s = setupCanvas('williamsRCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const red = getColor('--accent') || '#c84b2f';
   const green = getColor('--accent2') || '#2a7d5f';
@@ -291,7 +291,7 @@ cci(canvas) {
 roc(canvas) {
   const s = setupCanvas('rocCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -320,7 +320,7 @@ roc(canvas) {
 macd(canvas) {
   const s = setupCanvas('macdCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -359,7 +359,7 @@ macd(canvas) {
 adx(canvas) {
   const s = setupCanvas('adxCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -392,7 +392,7 @@ adx(canvas) {
 'parabolic-sar'(canvas) {
   const s = setupCanvas('parabolicSarCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const muted = getColor('--muted') || '#666';
@@ -420,7 +420,7 @@ adx(canvas) {
 ichimoku(canvas) {
   const s = setupCanvas('ichimokuCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -492,7 +492,7 @@ aroon(canvas) {
 'bollinger-bands'(canvas) {
   const s = setupCanvas('bollingerBandsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
   const n = 30;
@@ -528,7 +528,7 @@ aroon(canvas) {
 atr(canvas) {
   const s = setupCanvas('atrCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
@@ -561,7 +561,7 @@ atr(canvas) {
 'keltner-channels'(canvas) {
   const s = setupCanvas('keltnerChannelsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
@@ -590,7 +590,7 @@ atr(canvas) {
 'donchian-channels'(canvas) {
   const s = setupCanvas('donchianChannelsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
@@ -622,7 +622,7 @@ atr(canvas) {
 'standard-deviation'(canvas) {
   const s = setupCanvas('standardDeviationCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
   // Bell curve
@@ -663,7 +663,7 @@ atr(canvas) {
 obv(canvas) {
   const s = setupCanvas('obvCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const muted = getColor('--muted') || '#666';
@@ -693,7 +693,7 @@ obv(canvas) {
 'accumulation-distribution'(canvas) {
   const s = setupCanvas('accumulationDistributionCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const muted = getColor('--muted') || '#666';
@@ -727,7 +727,7 @@ obv(canvas) {
 mfi(canvas) {
   const s = setupCanvas('mfiCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -753,7 +753,7 @@ mfi(canvas) {
 'chaikin-oscillator'(canvas) {
   const s = setupCanvas('chaikinOscillatorCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
   const red = getColor('--accent') || '#c84b2f';
   const accent = getColor('--accent3') || '#2955a0';
@@ -785,7 +785,7 @@ mfi(canvas) {
 'vwap-bands'(canvas) {
   const s = setupCanvas('vwapBandsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const fg = getColor('--fg') || '#c9c9c9';
+  const fg = getColor('--text') || '#c9c9c9';
   const accent = getColor('--accent3') || '#2955a0';
   const muted = getColor('--muted') || '#666';
   const n = 30;

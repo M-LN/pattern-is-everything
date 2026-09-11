@@ -84,7 +84,7 @@ function describe(content) {
   return t;
 }
 
-function page({ topic, html, prev, next, col, key, fingerprint }) {
+function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
   const up = '../'.repeat(col.depth + 1);          // site root from /<col>/<id>/
   const coll = '../';                              // collection root
   const url = `${SITE}/${col.dir}/${topic.id}/`;
@@ -209,7 +209,7 @@ function show(id) { location.href = '${coll}#' + id; }
 function showSection(sec, id) { location.href = '${coll}#' + id; }
 function toggleSection() {}
 </script>
-<script src="${coll}visualizations.js?v=9"></script>
+<script src="${coll}${vizSrc}"></script>
 <script>
 window.addEventListener('load', function () {
   /* visualizations.js declares DRAWS with a top-level const, which is not a
@@ -333,13 +333,20 @@ async function run() {
 
   for (const key of targets) {
     const { col, data, sections } = await extract(key);
+    /* The collection page owns the cache-busting version in data-viz; read it
+       rather than hardcoding one, or the generated pages keep serving a stale
+       visualizations.js forever because their key never changes. */
+    const colHtml = await readFile(join(ROOT, col.dir, 'index.html'), 'utf8');
+    const vizMatch = colHtml.match(/data-viz="([^"]+)"/);
+    const vizSrc = vizMatch ? vizMatch[1] : 'visualizations.js';
+
     const fingerprint = 'topics.js@' + createHash('sha256')
       .update(await readFile(join(ROOT, col.dir, 'topics.js'))).digest('hex').slice(0, 12);
     for (let i = 0; i < data.length; i++) {
       const topic = data[i];
       const out = join(ROOT, col.dir, topic.id, 'index.html');
       const body = page({
-        topic, html: topic.html, col, key, fingerprint,
+        topic, html: topic.html, col, key, fingerprint, vizSrc,
         prev: i > 0 ? data[i - 1] : null,
         next: i < data.length - 1 ? data[i + 1] : null,
       });
