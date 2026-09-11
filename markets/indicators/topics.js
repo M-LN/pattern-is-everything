@@ -140,6 +140,14 @@ print(df[['Close', 'RSI_14', 'signal', 'strategy']].tail())</code></pre></div>`,
   'bollinger-bands': `<div class="perf-insight"><div class="perf-insight-title">Performance in practice</div><ul><li>The <strong>Bollinger Squeeze</strong> (bandwidth < 6-month low) precedes large moves ~75% of the time — but doesn't tell you which direction</li><li>Mean-reversion trades (buy lower band, sell upper) work well in ranging markets. In trends, price "walks the band" — touching the upper band is confirmation, not a sell signal</li><li>Combining Bollinger with Keltner Channels creates the "TTM Squeeze" — a popular volatility breakout system used by active traders</li></ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Measuring current volatility vs historical norms. Mean-reversion strategies in ranging markets. Identifying squeeze setups before breakouts. Setting dynamic stop-loss levels.</div><div class="skip-when">✗ <strong>Skip when:</strong> As a standalone buy/sell at the bands. During news events (bands widen after the move, not before). When you need directional bias — bands are non-directional.</div></div>`
 };
 
+/* Canvas visualizations carry no text of their own, so each one is given an
+   accessible name built from its topic. Titles can contain characters that
+   would break out of the attribute, hence the escape. */
+function ariaAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+                  .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -148,7 +156,7 @@ function buildContent() {
     html += `<div class="topic" id="${t.id}">`;
     html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div><span class="evidence-badge proven" title="Mathematically defined formula — interpretation as trading signal is heuristic">✓ Mathematical</span></div>`;
     html += `<p class="sub">// ${t.content.split('.')[0]}.</p>`;
-    html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas"></canvas></div>`;
+    html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas" role="img" aria-label="${ariaAttr(t.title)} \u2014 visualization"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
     if (PATTERN_BRIDGES[t.id]) html += PATTERN_BRIDGES[t.id];
     if (TOPIC_EXTRAS[t.id]) html += TOPIC_EXTRAS[t.id];

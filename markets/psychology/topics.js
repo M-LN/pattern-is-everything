@@ -132,6 +132,14 @@ const TOPIC_EXTRAS = {
   'herd-behavior': `<div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> You notice everyone around you talking about the same trade. Social media is flooded with one-directional conviction. Volume spikes massively with no fundamental catalyst. A contrarian position has become very painful.</div><div class="skip-when">✗ <strong>Skip when:</strong> The "herd" is responding to genuine fundamental changes (earnings beat, regulatory approval). Early in a trend — herding is most dangerous at extremes, not at the start. In highly efficient markets (large-cap liquid stocks) where herding is arbitraged away quickly.</div></div>`
 };
 
+/* Canvas visualizations carry no text of their own, so each one is given an
+   accessible name built from its topic. Titles can contain characters that
+   would break out of the attribute, hence the escape. */
+function ariaAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+                  .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -140,7 +148,7 @@ function buildContent() {
     html += `<div class="topic" id="${t.id}">`;
     html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div><span class="evidence-badge heuristic" title="Behavioral concept — supported by research in behavioral economics but application to trading is heuristic">◐ Behavioral</span></div>`;
     html += `<p class="sub">// ${t.content.split('.')[0]}.</p>`;
-    html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas"></canvas></div>`;
+    html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas" role="img" aria-label="${ariaAttr(t.title)} \u2014 visualization"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
     if (PATTERN_BRIDGES[t.id]) html += PATTERN_BRIDGES[t.id];
     if (TOPIC_EXTRAS[t.id]) html += TOPIC_EXTRAS[t.id];

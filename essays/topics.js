@@ -188,7 +188,7 @@ function buildEssayBell() {
   <p class="prose">The bell appears in measurement error, in exam scores, in the daily returns of large stock indices. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
   <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more \u2014 and nothing less.</p>
   <div class="va">
-    <canvas id="bellCanvas" height="180"></canvas>
+    <canvas id="bellCanvas" role="img" aria-label="The Bell in Everything — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Dice rolled</span>
       <input type="range" id="bellDiceSlider" min="1" max="12" value="1" oninput="document.getElementById('bellDiceVal').textContent=this.value;DRAWS['essay-bell']()">
@@ -220,7 +220,7 @@ function buildEssayMean() {
   <p class="prose">This is not a biological force pulling everyone to average. It is arithmetic. Any measurement is part signal, part luck. When luck runs extremely high, it is unlikely to run that high again. So the next measurement drifts back toward the centre. A fund manager\u2019s best quarter is followed by a more ordinary one. A student\u2019s worst exam is followed by a better one. Nothing changed except the luck component.</p>
   <p class="prose">The pattern: whenever you select on an extreme, the follow-up will be less extreme. Understanding this prevents you from inventing explanations for what is simply reversion.</p>
   <div class="va">
-    <canvas id="meanCanvas" height="180"></canvas>
+    <canvas id="meanCanvas" role="img" aria-label="Regression to the Mean — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Correlation</span>
       <input type="range" id="meanCorrSlider" min="0" max="100" value="55" oninput="document.getElementById('meanCorrVal').textContent=Math.round(this.value)+'%';DRAWS['essay-mean']()">
@@ -252,7 +252,7 @@ function buildEssayTail() {
   <p class="prose">These are power-law distributions, and they emerge wherever <em>success breeds success</em> \u2014 a city that grows attracts more people, which makes it grow further. A word used often becomes even more familiar, so it gets used again. The rich get richer, not always through merit, but through mechanics.</p>
   <p class="prose">The tail matters more than it looks. In a bell curve, extremes are vanishingly rare. In a power law, the single largest event can dwarf the rest combined. This is why one earthquake, one pandemic, or one black swan trade can reshape everything.</p>
   <div class="va">
-    <canvas id="tailCanvas" height="180"></canvas>
+    <canvas id="tailCanvas" role="img" aria-label="The Long Tail — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Inequality</span>
       <input type="range" id="tailAlphaSlider" min="10" max="50" value="18" oninput="document.getElementById('tailAlphaVal').textContent=(this.value/10).toFixed(1);DRAWS['essay-tail']()">
@@ -284,7 +284,7 @@ function buildEssaySignal() {
   <p class="prose">Every dataset is a blend of true signal and meaningless noise. A model trained too eagerly memorises the noise and calls it knowledge \u2014 the textbook definition of overfitting. The antidote is restraint: hold data back, cross-validate, penalise complexity, and accept that &ldquo;I don\u2019t know&rdquo; is sometimes the most accurate answer.</p>
   <p class="prose">The pattern here is a meta-pattern: <em>the urge to see patterns can itself be the error</em>. The discipline of statistics is, at its core, a set of tools for telling the difference.</p>
   <div class="va">
-    <canvas id="signalCanvas" height="180"></canvas>
+    <canvas id="signalCanvas" role="img" aria-label="Signal in the Noise — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Noise level</span>
       <input type="range" id="signalNoiseSlider" min="0" max="100" value="50" oninput="document.getElementById('signalNoiseVal').textContent=this.value+'%';DRAWS['essay-signal']()">
@@ -316,7 +316,7 @@ function buildEssayMap() {
   <p class="prose">Every model you build is a map. A linear regression draws one straight line through a cloud of points and declares, &ldquo;this is the relationship.&rdquo; The cloud disagrees at every point. That disagreement \u2014 the residuals \u2014 is not a flaw; it is the honest price of simplification. The danger arrives when you forget the residuals exist, when you treat the line as the territory.</p>
   <p class="prose">The best practitioners hold two truths at once: the model is useful <em>and</em> the model is wrong. The gap between the line and the dots is where humility lives.</p>
   <div class="va">
-    <canvas id="mapCanvas" height="180"></canvas>
+    <canvas id="mapCanvas" role="img" aria-label="The Map and the Territory — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Model complexity</span>
       <input type="range" id="mapComplexSlider" min="1" max="5" value="1" oninput="document.getElementById('mapComplexVal').textContent=['Linear','Quadratic','Cubic','Degree 4','Overfit'][this.value-1];DRAWS['essay-map']()">
@@ -348,7 +348,7 @@ function buildEssayFeedback() {
   <p class="prose">But exponential growth always meets a wall — resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption, viral spread — all follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
   <p class="prose">Negative feedback works in reverse: the output damps the system back toward equilibrium. A thermostat. A predator-prey cycle. The price mechanism in a market. Without negative feedback, every small perturbation would spiral forever.</p>
   <div class="va">
-    <canvas id="feedbackCanvas" height="180"></canvas>
+    <canvas id="feedbackCanvas" role="img" aria-label="The Feedback Loop — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Growth rate</span>
       <input type="range" id="feedbackRateSlider" min="102" max="140" value="120" oninput="document.getElementById('feedbackRateVal').textContent=((this.value/100-1)*100).toFixed(0)+'%/yr';DRAWS['essay-feedback']()">
@@ -380,7 +380,7 @@ function buildEssayWalk() {
   <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the expected distance from the start is &radic;<em>n</em>, not <em>n</em>. Doubling your time quadruples your uncertainty, not doubles it. A stock forecast for one year is not twice as reliable as one for four years — it is half as reliable.</p>
   <p class="prose">Random walks also explain why past prices carry almost no information about future prices in efficient markets. Each step erases the memory of the last. The path looks meaningful in hindsight. It was not.</p>
   <div class="va">
-    <canvas id="walkCanvas" height="180"></canvas>
+    <canvas id="walkCanvas" role="img" aria-label="The Random Walk — visualization" height="180"></canvas>
     <button class="viz-regen" onclick="DRAWS['essay-walk']()">&#8635; New walk</button>
     <div class="essay-label">Five simultaneous random walks &mdash; each unique, none predictable</div>
   </div>
@@ -408,7 +408,7 @@ function buildEssayThreshold() {
   <p class="prose">This is threshold behaviour, and it appears everywhere: a rumour that suddenly goes viral, ice that holds firm and then fractures, a neuron that fires only when input crosses a minimum. In each case, input and output are not proportional. Small changes accumulate invisibly until the threshold is crossed, and then the system snaps.</p>
   <p class="prose">The sigmoid function is the mathematician’s version: nearly flat on both sides, steep in the middle. It describes the dose-response curve of a drug, the probability of a binary outcome in logistic regression, and the activation of a neuron. The threshold is not special — it is simply the midpoint of a curve that was always going to be steep somewhere.</p>
   <div class="va">
-    <canvas id="thresholdCanvas" height="180"></canvas>
+    <canvas id="thresholdCanvas" role="img" aria-label="The Threshold — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Input level</span>
       <input type="range" id="thresholdInputSlider" min="0" max="100" value="30" oninput="document.getElementById('thresholdInputVal').textContent=this.value;DRAWS['essay-threshold']()">
@@ -440,7 +440,7 @@ function buildEssaySurvivor() {
   <p class="prose">This is survivorship bias: we draw conclusions from the things that made it through the filter and never see the ones that did not. We study successful founders and copy their habits, ignoring the identical habits of thousands who failed. We admire old buildings and call past craftsmanship superior, forgetting the flimsy ones that already collapsed.</p>
   <p class="prose">The pattern is a hole in the data, not in the analysis. The missing observations are invisible by definition \u2014 which is exactly why they are so easy to forget, and so dangerous to ignore.</p>
   <div class="va">
-    <canvas id="survivorCanvas" height="180"></canvas>
+    <canvas id="survivorCanvas" role="img" aria-label="Survivorship Bias — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Survival cutoff</span>
       <input type="range" id="survivorCutSlider" min="0" max="80" value="40" oninput="document.getElementById('survivorCutVal').textContent=this.value;DRAWS['essay-survivor']()">
@@ -472,7 +472,7 @@ function buildEssayFractal() {
   <p class="prose">Beno\u00eet Mandelbrot called these shapes fractals: objects whose structure repeats across scales. A branch resembles the tree; a tributary resembles the river; a jagged minute of stock prices resembles a jagged year. Self-similarity is not a curiosity \u2014 it is one of the most common signatures of how nature builds, from lungs and blood vessels to lightning and snowflakes.</p>
   <p class="prose">The pattern is recursion made visible: a simple rule applied to itself, over and over, producing endless complexity from almost nothing. The whole is written into every part.</p>
   <div class="va">
-    <canvas id="fractalCanvas" height="180"></canvas>
+    <canvas id="fractalCanvas" role="img" aria-label="The Fractal — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Recursion depth</span>
       <input type="range" id="fractalDepthSlider" min="1" max="10" value="6" oninput="document.getElementById('fractalDepthVal').textContent=this.value;DRAWS['essay-fractal']()">
@@ -504,7 +504,7 @@ function buildEssaySimpson() {
   <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable \u2014 department, severity, the way cases were sorted \u2014 quietly steers the total.</p>
   <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is not better arithmetic \u2014 it is asking what was combined, and why.</p>
   <div class="va">
-    <canvas id="simpsonCanvas" height="180"></canvas>
+    <canvas id="simpsonCanvas" role="img" aria-label="Simpson’s Paradox — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Group separation</span>
       <input type="range" id="simpsonSepSlider" min="0" max="100" value="70" oninput="document.getElementById('simpsonSepVal').textContent=this.value+'%';DRAWS['essay-simpson']()">
@@ -554,7 +554,7 @@ function buildEssayKalman() {
   <p class="prose">Three very different worlds \u2014 a power plant, a battery pack, a hospital ward \u2014 share one structure. Something essential is hidden; the sensors are noisy and indirect; and the way forward is not to trust the model alone, nor the measurement alone, but to weigh them against each other, moment by moment. That weighing <em>is</em> the pattern.</p>
 
   <div class="va">
-    <canvas id="kalmanCanvas" height="180"></canvas>
+    <canvas id="kalmanCanvas" role="img" aria-label="The Deep Kalman Filter — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Trust in sensor</span>
       <input type="range" id="kalmanTrustSlider" min="3" max="95" value="30" oninput="document.getElementById('kalmanTrustVal').textContent=this.value+'%';DRAWS['essay-kalman']()">

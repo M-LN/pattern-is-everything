@@ -556,7 +556,7 @@ function buildContent() {
 /* ── Distribution Explorer ── */
 function buildDistributionExplorer() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="deCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="deCanvas" role="img" aria-label="Distribution Explorer — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Mean (μ)</div><div class="metric-val" id="deMean">0.00</div></div>
       <div class="metric"><div class="metric-label">Std Dev (σ)</div><div class="metric-val" id="deSD">1.00</div></div>
@@ -602,7 +602,7 @@ function buildDistributionExplorer() {
 /* ── Hypothesis Testing ── */
 function buildHypothesisTesting() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="htCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="htCanvas" role="img" aria-label="Hypothesis Testing — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">p-value</div><div class="metric-val" id="htPVal">—</div></div>
       <div class="metric"><div class="metric-label">Test Statistic</div><div class="metric-val" id="htStat">—</div></div>
@@ -639,7 +639,7 @@ function buildHypothesisTesting() {
 /* ── Correlation Playground ── */
 function buildCorrelationPlayground() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="cpCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="cpCanvas" role="img" aria-label="Correlation Playground — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Pearson r</div><div class="metric-val" id="cpR">—</div></div>
       <div class="metric"><div class="metric-label">R²</div><div class="metric-val" id="cpR2">—</div></div>
@@ -671,7 +671,7 @@ function buildCorrelationPlayground() {
 /* ── Central Limit Theorem ── */
 function buildCentralLimitTheorem() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="cltCanvas" height="500"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="cltCanvas" role="img" aria-label="Central Limit Theorem — visualization" height="500"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Samples Drawn</div><div class="metric-val" id="cltCount">0</div></div>
       <div class="metric"><div class="metric-label">Mean of Means</div><div class="metric-val" id="cltMeanMeans">—</div></div>
@@ -708,7 +708,7 @@ function buildCentralLimitTheorem() {
 /* ── Bayesian Updater ── */
 function buildBayesianUpdater() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="bayCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="bayCanvas" role="img" aria-label="Bayesian Updater — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Prior α</div><div class="metric-val" id="bayPriorA">1.00</div></div>
       <div class="metric"><div class="metric-label">Prior β</div><div class="metric-val" id="bayPriorB">1.00</div></div>
@@ -749,7 +749,7 @@ function buildBayesianUpdater() {
 /* ── Regression Diagnostics ── */
 function buildRegressionDiagnostics() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="rdCanvas" height="500"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="rdCanvas" role="img" aria-label="Regression Diagnostics — visualization" height="500"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">R²</div><div class="metric-val" id="rdR2">—</div></div>
       <div class="metric"><div class="metric-label">Adj. R²</div><div class="metric-val" id="rdAdjR2">—</div></div>
@@ -788,7 +788,7 @@ function buildRegressionDiagnostics() {
 /* ── Probability Calculator ── */
 function buildProbabilityCalculator() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="pcCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="pcCanvas" role="img" aria-label="Probability Calculator — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">P(B)</div><div class="metric-val" id="pcPB">—</div></div>
       <div class="metric"><div class="metric-label">P(A|B)</div><div class="metric-val" id="pcPAB">—</div></div>
@@ -824,7 +824,7 @@ function buildProbabilityCalculator() {
 /* ── ANOVA Visualizer ── */
 function buildAnovaVisualizer() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="anovaCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="anovaCanvas" role="img" aria-label="ANOVA Visualizer — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">F-statistic</div><div class="metric-val" id="anovaF">—</div></div>
       <div class="metric"><div class="metric-label">p-value</div><div class="metric-val" id="anovaP">—</div></div>
@@ -866,7 +866,7 @@ function buildAnovaVisualizer() {
 /* ── Confidence Intervals ── */
 function buildConfidenceIntervals() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="ciCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="ciCanvas" role="img" aria-label="Confidence Intervals — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Intervals</div><div class="metric-val" id="ciTotal">0</div></div>
       <div class="metric"><div class="metric-label">Captured μ</div><div class="metric-val" id="ciCaptured">0</div></div>
@@ -912,7 +912,7 @@ function buildConfidenceIntervals() {
 /* ── Chi-Square Test ── */
 function buildChiSquareTest() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="chiCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="chiCanvas" role="img" aria-label="Chi-Square Test — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">χ²</div><div class="metric-val" id="chiSq">—</div></div>
       <div class="metric"><div class="metric-label">p-value</div><div class="metric-val" id="chiP">—</div></div>
@@ -948,7 +948,7 @@ function buildChiSquareTest() {
 /* ── Survival Curves ── */
 function buildSurvivalCurves() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="survCanvas" height="400"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="survCanvas" role="img" aria-label="Survival Curves — visualization" height="400"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Median A</div><div class="metric-val" id="survMedianA">—</div></div>
       <div class="metric"><div class="metric-label">Median B</div><div class="metric-val" id="survMedianB">—</div></div>
@@ -984,7 +984,7 @@ function buildSurvivalCurves() {
 /* ── Bootstrap Resampler ── */
 function buildBootstrapResampler() {
   return `
-    <div class="sandbox-canvas-wrap"><canvas id="bootCanvas" height="450"></canvas></div>
+    <div class="sandbox-canvas-wrap"><canvas id="bootCanvas" role="img" aria-label="Bootstrap Resampler — visualization" height="450"></canvas></div>
     <div class="sandbox-metrics">
       <div class="metric"><div class="metric-label">Resamples</div><div class="metric-val" id="bootCount">0</div></div>
       <div class="metric"><div class="metric-label">Boot SE</div><div class="metric-val" id="bootSE">—</div></div>

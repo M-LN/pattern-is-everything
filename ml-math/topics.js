@@ -220,7 +220,7 @@ function buildVectors() {
   <div class="fb c3"><div class="fm">(AB)ᵀ = BᵀAᵀ &nbsp;&nbsp; (A⁻¹)⁻¹ = A</div><div class="fd"><span>Transpose</span> reverses multiplication order. Only square, full-rank matrices are invertible.</div></div>
   <div class="va">
     <div class="vl">// Interactive 2D vectors — drag to change, see dot product</div>
-    <canvas id="vecCanvas" height="240"></canvas>
+    <canvas id="vecCanvas" role="img" aria-label="Vectors &amp; Matrices: Interactive 2D vectors — drag to change, see dot product" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Vector A angle</span><input type="range" id="vecA" min="0" max="360" step="1" value="30"><span class="vd" id="vecAv">30°</span></div>
       <div class="cg"><span class="cl">Vector B angle</span><input type="range" id="vecB" min="0" max="360" step="1" value="80"><span class="vd" id="vecBv">80°</span></div>
@@ -264,7 +264,7 @@ function buildLinear() {
   <div class="fb c2"><div class="fm">MSE = (1/n) · Σ (yᵢ − ŷᵢ)²</div><div class="fd"><span>MSE</span> = Mean Squared Error loss &nbsp;|&nbsp; minimised by gradient descent</div></div>
   <div class="va">
     <div class="vl">// Interactive — drag sliders to fit the line</div>
-    <canvas id="linCanvas" height="240"></canvas>
+    <canvas id="linCanvas" role="img" aria-label="Linear Regression: Interactive — drag sliders to fit the line" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
       <div class="cg"><span class="cl">Bias b</span><input type="range" id="linB" min="-3" max="3" step="0.05" value="0"><span class="vd" id="linBv">0.00</span></div>
@@ -291,7 +291,7 @@ function buildLogistic() {
   <div class="fb c2"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary Cross-Entropy</span> — penalises confident wrong predictions exponentially</div></div>
   <div class="va">
     <div class="vl">// Decision boundary — adjust weight and bias</div>
-    <canvas id="logCanvas" height="240"></canvas>
+    <canvas id="logCanvas" role="img" aria-label="Logistic Regression: Decision boundary — adjust weight and bias" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" id="logW" min="-5" max="5" step="0.1" value="2"><span class="vd" id="logWv">2.0</span></div>
       <div class="cg"><span class="cl">Bias b</span><input type="range" id="logBias" min="-5" max="5" step="0.1" value="0"><span class="vd" id="logBiasV">0.0</span></div>
@@ -330,7 +330,7 @@ function buildGradient() {
   </table>
   <div class="va">
     <div class="vl">// Animated loss landscape — adjust learning rate and run</div>
-    <canvas id="gdCanvas" height="240"></canvas>
+    <canvas id="gdCanvas" role="img" aria-label="Gradient Descent: Animated loss landscape — adjust learning rate and run" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Learning Rate α</span><input type="range" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
       <div class="cg"><span class="cl">Steps</span><span class="vd" id="gdSteps">0</span></div>
@@ -407,7 +407,7 @@ function buildActivation() {
       <button class="btn b4" onclick="showAct('gelu')">GELU</button>
       <button class="btn" onclick="showAct('silu')">SILU</button>
     </div>
-    <canvas id="actCanvas" height="220"></canvas>
+    <canvas id="actCanvas" role="img" aria-label="Activation Functions: Select function — solid = f(x), dashed = derivative f′(x)" height="220"></canvas>
     <div id="actInfo" style="margin-top:12px"></div>
   </div>
   <table class="mt">
@@ -437,7 +437,7 @@ function buildBiasVariance() {
   <div class="fb"><div class="fm">E[(y−ŷ)²] = Bias² + Variance + Irreducible Noise</div><div class="fd">Total expected error decomposes into these three independent terms</div></div>
   <div class="va">
     <div class="vl">// Model complexity vs. error — the classic U-curve</div>
-    <canvas id="bvCanvas" height="240"></canvas>
+    <canvas id="bvCanvas" role="img" aria-label="Bias-Variance Tradeoff: Model complexity vs. error — the classic U-curve" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model Complexity</span><input type="range" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
       <div class="cg"><span class="cl">Bias²</span><span class="vd" id="bvBias" style="color:var(--accent)">—</span></div>
@@ -494,7 +494,7 @@ function buildLoss() {
   <div class="fb c4"><div class="fm">Huber = { ½(y−ŷ)² if |y−ŷ|≤δ, δ|y−ŷ|−½δ² otherwise }</div><div class="fd"><span>Huber</span> — smooth MSE near zero, MAE for large errors. Best of both.</div></div>
   <div class="va">
     <div class="vl">// MSE vs MAE vs Huber — drag to see how penalty scales with error</div>
-    <canvas id="lossCanvas" height="220"></canvas>
+    <canvas id="lossCanvas" role="img" aria-label="Loss Functions: MSE vs MAE vs Huber — drag to see how penalty scales with error" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Error magnitude</span><input type="range" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
       <div class="cg"><span class="cl">MSE</span><span class="vd" id="mseP">1.000</span></div>
@@ -518,7 +518,7 @@ function buildBackprop() {
   <div class="fb"><div class="fm">∂L/∂w₁ = ∂L/∂ŷ · ∂ŷ/∂h · ∂h/∂w₁</div><div class="fd"><span>Chain Rule:</span> multiply local gradients along the path from loss back to each weight</div></div>
   <div class="va">
     <div class="vl">// Forward pass → loss → backward pass → weight update</div>
-    <canvas id="bpCanvas" height="260"></canvas>
+    <canvas id="bpCanvas" role="img" aria-label="Backpropagation: Forward pass → loss → backward pass → weight update" height="260"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animBP()">▶ ANIMATE</button>
       <button class="btn" onclick="resetBP()">↺ RESET</button>
@@ -545,7 +545,7 @@ function buildOptimizers() {
   <div class="fb c3"><div class="fm">Adam: m̂ = m/(1−β₁ᵗ) &nbsp;&nbsp; v̂ = v/(1−β₂ᵗ) &nbsp;&nbsp; w := w − α·m̂/√(v̂+ε)</div><div class="fd"><span>Adam</span> = momentum + RMSProp + bias correction. Default: β₁=0.9, β₂=0.999, ε=1e-8</div></div>
   <div class="va">
     <div class="vl">// Optimizer comparison on a saddle point surface</div>
-    <canvas id="optCanvas" height="240"></canvas>
+    <canvas id="optCanvas" role="img" aria-label="Optimizers: Optimizer comparison on a saddle point surface" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="runOptAnim('sgd')">SGD</button>
       <button class="btn b2" onclick="runOptAnim('momentum')">MOMENTUM</button>
@@ -577,7 +577,7 @@ function buildRegularization() {
   <div class="fb c3"><div class="fm">Dropout: h̃ = h ⊙ mask/p &nbsp;&nbsp; mask ~ Bernoulli(p)</div><div class="fd">Each neuron zeroed with prob (1−p) during training; scaled by 1/p to preserve expected value</div></div>
   <div class="va">
     <div class="vl">// L1 vs L2 penalty contours — see how they constrain weights differently</div>
-    <canvas id="regCanvas" height="240"></canvas>
+    <canvas id="regCanvas" role="img" aria-label="Regularization: L1 vs L2 penalty contours — see how they constrain weights differently" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawReg('l2')">L2 (RIDGE)</button>
       <button class="btn b2" onclick="drawReg('l1')">L1 (LASSO)</button>
@@ -647,7 +647,7 @@ function buildBatchnorm() {
   <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift — restores representational power</div></div>
   <div class="va">
     <div class="vl">// Effect of batch norm on activation distributions across layers</div>
-    <canvas id="bnCanvas" height="240"></canvas>
+    <canvas id="bnCanvas" role="img" aria-label="Batch Normalization: Effect of batch norm on activation distributions across layers" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawBN(false)">WITHOUT BN</button>
       <button class="btn b2" onclick="drawBN(true)">WITH BN</button>
@@ -672,7 +672,7 @@ function buildLRSchedule() {
   <div class="fb c2"><div class="fm">Warmup: α = αₘₐₓ · (t/t_warmup) &nbsp; for t &lt; t_warmup</div><div class="fd">Linear ramp-up prevents large gradient updates from poorly-initialised weights</div></div>
   <div class="va">
     <div class="vl">// Learning rate schedules — click to compare</div>
-    <canvas id="lrCanvas" height="230"></canvas>
+    <canvas id="lrCanvas" role="img" aria-label="LR Scheduling: Learning rate schedules — click to compare" height="230"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawLR('step')">STEP DECAY</button>
       <button class="btn b2" onclick="drawLR('cosine')">COSINE</button>
@@ -703,7 +703,7 @@ function buildWeightInit() {
   <div class="fb c2"><div class="fm">He/Kaiming: W ~ N(0, 2/fan_in)</div><div class="fd">Designed for <span>ReLU</span> — compensates for ReLU killing half the activations</div></div>
   <div class="va">
     <div class="vl">// Activation variance through 10 layers with different initializations</div>
-    <canvas id="initCanvas" height="240"></canvas>
+    <canvas id="initCanvas" role="img" aria-label="Weight Initialization: Activation variance through 10 layers with different initializations" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawInit('random')">RANDOM N(0,1)</button>
       <button class="btn b2" onclick="drawInit('xavier')">XAVIER</button>
@@ -733,7 +733,7 @@ function buildGradClip() {
   <div class="fb c2"><div class="fm">Clip by value: gᵢ := clamp(gᵢ, −clip_val, +clip_val)</div><div class="fd">Clips each element independently. Faster but can change gradient direction.</div></div>
   <div class="va">
     <div class="vl">// Gradient norm over training — with and without clipping</div>
-    <canvas id="clipCanvas" height="220"></canvas>
+    <canvas id="clipCanvas" role="img" aria-label="Gradient Clipping: Gradient norm over training — with and without clipping" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Max Norm</span><input type="range" id="clipMax" min="0.1" max="5" step="0.1" value="1" oninput="drawClip()"><span class="vd" id="clipMaxV">1.0</span></div>
       <button class="btn" onclick="drawClip()">REDRAW</button>
@@ -761,7 +761,7 @@ function buildSoftmax() {
   <div class="fb"><div class="fm">σ(zᵢ) = e^zᵢ / Σⱼ e^zⱼ</div><div class="fd"><span>zᵢ</span> = logit for class i &nbsp;|&nbsp; numerator = exponentiated score &nbsp;|&nbsp; denominator = normalisation</div></div>
   <div class="va">
     <div class="vl">// Adjust logits — watch probabilities redistribute</div>
-    <canvas id="smCanvas" height="200"></canvas>
+    <canvas id="smCanvas" role="img" aria-label="Softmax: Adjust logits — watch probabilities redistribute" height="200"></canvas>
     <div class="ctrl" id="smCtrl"></div>
   </div>
   <div class="callout"><strong>Temperature scaling:</strong> σ(z/T). T&lt;1 → sharper (more confident). T&gt;1 → softer (more uniform). Used in knowledge distillation and language model sampling.</div>
@@ -783,7 +783,7 @@ function buildMLE() {
   <div class="fb c2"><div class="fm">Gaussian: p(x|μ,σ) = (1/√2πσ²) · exp(−(x−μ)²/2σ²)</div><div class="fd">MLE on Gaussian noise assumption → MSE loss. MLE on Bernoulli → Cross-Entropy loss.</div></div>
   <div class="va">
     <div class="vl">// Gaussian distribution — adjust mean and variance</div>
-    <canvas id="gaussCanvas" height="220"></canvas>
+    <canvas id="gaussCanvas" role="img" aria-label="MLE &amp; Gaussian: Gaussian distribution — adjust mean and variance" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Mean μ</span><input type="range" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
       <div class="cg"><span class="cl">Std σ</span><input type="range" id="gaussSig" min="0.2" max="2.5" step="0.1" value="1" oninput="drawGauss()"><span class="vd" id="gaussSigV">1.0</span></div>
@@ -809,7 +809,7 @@ function buildEntropy() {
   <div class="fb c3"><div class="fm">H(P,Q) = H(P) + KL(P||Q)</div><div class="fd">Cross-entropy = entropy of P + extra bits from approximation error. Minimising CE ≡ minimising KL.</div></div>
   <div class="va">
     <div class="vl">// Binary entropy — adjust probability of heads</div>
-    <canvas id="entropyCanvas" height="220"></canvas>
+    <canvas id="entropyCanvas" role="img" aria-label="Entropy: Binary entropy — adjust probability of heads" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">P(heads)</span><input type="range" id="entP" min="0.01" max="0.99" step="0.01" value="0.5" oninput="drawEntropy()"><span class="vd" id="entPV">0.50</span></div>
       <div class="cg"><span class="cl">Entropy</span><span class="vd" id="entHV" style="color:var(--accent)">1.000 bits</span></div>
@@ -834,7 +834,7 @@ function buildKLDiv() {
   <div class="fb c2"><div class="fm">KL(P||Q) = ∫ p(x) · log(p(x)/q(x)) dx</div><div class="fd">Continuous case &nbsp;|&nbsp; used in VAE loss, RLHF, variational inference</div></div>
   <div class="va">
     <div class="vl">// Visualise KL divergence between two Gaussians</div>
-    <canvas id="klCanvas" height="230"></canvas>
+    <canvas id="klCanvas" role="img" aria-label="KL Divergence: Visualise KL divergence between two Gaussians" height="230"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Q mean offset</span><input type="range" id="klOffset" min="0" max="4" step="0.1" value="1" oninput="drawKL()"><span class="vd" id="klOffV">1.0</span></div>
       <div class="cg"><span class="cl">KL(P||Q)</span><span class="vd" id="klVal" style="color:var(--accent)">—</span></div>
@@ -857,7 +857,7 @@ function buildBayes() {
   <div class="fb"><div class="fm">P(A|B) = P(B|A) · P(A) / P(B)</div><div class="fd"><span>P(A|B)</span> = posterior &nbsp;|&nbsp; <span>P(B|A)</span> = likelihood &nbsp;|&nbsp; <span>P(A)</span> = prior &nbsp;|&nbsp; <span>P(B)</span> = evidence</div></div>
   <div class="va">
     <div class="vl">// Medical test — posterior probability after positive result</div>
-    <canvas id="bayesCanvas" height="220"></canvas>
+    <canvas id="bayesCanvas" role="img" aria-label="Bayes' Theorem: Medical test — posterior probability after positive result" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
       <div class="cg"><span class="cl">Sensitivity %</span><input type="range" id="sensS" min="50" max="99" step="1" value="95" oninput="onBayes()"><span class="vd" id="sensV">95%</span></div>
@@ -882,7 +882,7 @@ function buildCrossval() {
   <div class="fb"><div class="fm">CV Score = (1/k) · Σᵢ score(model_i, fold_i)</div><div class="fd">Train k models, each evaluated on a different held-out fold</div></div>
   <div class="va">
     <div class="vl">// k-fold cross-validation — click to cycle through folds</div>
-    <canvas id="cvCanvas" height="200"></canvas>
+    <canvas id="cvCanvas" role="img" aria-label="Cross-Validation: k-fold cross-validation — click to cycle through folds" height="200"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">k folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
       <button class="btn" onclick="animCV()">▶ CYCLE FOLDS</button>
@@ -912,7 +912,7 @@ function buildMetrics() {
   <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean — punishes models that sacrifice one for the other</div></div>
   <div class="va">
     <div class="vl">// Interactive confusion matrix</div>
-    <canvas id="metricsCanvas" height="260"></canvas>
+    <canvas id="metricsCanvas" role="img" aria-label="Eval Metrics: Interactive confusion matrix" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">True Positives</span><input type="range" id="mTP" min="1" max="100" step="1" value="80" oninput="drawMetrics()"><span class="vd" id="mTPv">80</span></div>
       <div class="cg"><span class="cl">False Positives</span><input type="range" id="mFP" min="0" max="50" step="1" value="10" oninput="drawMetrics()"><span class="vd" id="mFPv">10</span></div>
@@ -937,7 +937,7 @@ function buildCosineSim() {
   <div class="fb c2"><div class="fm">Cosine Distance = 1 − cos(θ)</div><div class="fd">Converts similarity to distance &nbsp;|&nbsp; Range: [0, 2] &nbsp;|&nbsp; 0 = identical direction</div></div>
   <div class="va">
     <div class="vl">// Two vectors — adjust angle to see similarity change</div>
-    <canvas id="cosCanvas" height="220"></canvas>
+    <canvas id="cosCanvas" role="img" aria-label="Cosine Similarity: Two vectors — adjust angle to see similarity change" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Angle between vectors</span><input type="range" id="cosAngle" min="0" max="180" step="1" value="30" oninput="drawCosSim()"><span class="vd" id="cosAngleV">30°</span></div>
       <div class="cg"><span class="cl">Cosine Sim</span><span class="vd" id="cosSimV" style="color:var(--accent)">—</span></div>
@@ -969,7 +969,7 @@ function buildCNN() {
   <div class="fb c2"><div class="fm">Output size = ⌊(W − K + 2P)/S⌋ + 1</div><div class="fd"><span>W</span> = input width &nbsp;|&nbsp; <span>K</span> = kernel size &nbsp;|&nbsp; <span>P</span> = padding &nbsp;|&nbsp; <span>S</span> = stride</div></div>
   <div class="va">
     <div class="vl">// Convolution operation — kernel sliding over input</div>
-    <canvas id="cnnCanvas" height="240"></canvas>
+    <canvas id="cnnCanvas" role="img" aria-label="CNN: Convolution operation — kernel sliding over input" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
       <div class="cg"><span class="cl">Stride</span><input type="range" id="cnnS" min="1" max="3" step="1" value="1" oninput="drawCNN()"><span class="vd" id="cnnSV">1</span></div>
@@ -997,7 +997,7 @@ function buildEmbeddings() {
   <div class="fb c2"><div class="fm">king − man + woman ≈ queen</div><div class="fd">Learned embeddings encode <span>analogical relationships</span> as linear vector arithmetic</div></div>
   <div class="va">
     <div class="vl">// 2D embedding space — semantic clusters</div>
-    <canvas id="embCanvas" height="240"></canvas>
+    <canvas id="embCanvas" role="img" aria-label="Embeddings: 2D embedding space — semantic clusters" height="240"></canvas>
   </div>
   <div class="code-block"><pre>self.embed = nn.Embedding(vocab_size=<span class="st">50000</span>, embedding_dim=<span class="st">256</span>)
 x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)</span></pre></div>
@@ -1019,7 +1019,7 @@ function buildAttention() {
   <div class="fb"><div class="fm">Attention(Q,K,V) = softmax(QKᵀ / √d) · V</div><div class="fd"><span>Q</span> = Query &nbsp;|&nbsp; <span>K</span> = Key &nbsp;|&nbsp; <span>V</span> = Value &nbsp;|&nbsp; <span>√d</span> = scaling to prevent saturation</div></div>
   <div class="va">
     <div class="vl">// Attention heatmap — click cells to boost connections</div>
-    <canvas id="attCanvas" height="240"></canvas>
+    <canvas id="attCanvas" role="img" aria-label="Attention heatmap — click cells to boost connections" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="rndAtt()">↺ RANDOMIZE</button>
       <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">Click cells to strengthen</span>
@@ -1045,7 +1045,7 @@ function buildTransformer() {
   <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span> — applied around every sublayer</div></div>
   <div class="va">
     <div class="vl">// Transformer block diagram</div>
-    <canvas id="transCanvas" height="280"></canvas>
+    <canvas id="transCanvas" role="img" aria-label="Transformer block diagram" height="280"></canvas>
   </div>
   <div class="code-block"><pre>encoder_layer = nn.TransformerEncoderLayer(
     d_model=<span class="st">512</span>, nhead=<span class="st">8</span>, dim_feedforward=<span class="st">2048</span>,
@@ -1106,7 +1106,7 @@ function buildRNN() {
   <div class="fb"><div class="fm">hₜ = tanh(Wₕ·hₜ₋₁ + Wₓ·xₜ + b)</div><div class="fd"><span>hₜ</span> = new hidden state &nbsp;|&nbsp; same weights reused at every timestep</div></div>
   <div class="va">
     <div class="vl">// RNN unrolled through time</div>
-    <canvas id="rnnCanvas" height="250"></canvas>
+    <canvas id="rnnCanvas" role="img" aria-label="RNN unrolled through time" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Seq length</span><input type="range" id="rnnLen" min="3" max="6" step="1" value="4" oninput="document.getElementById('rnnLenV').textContent=this.value;drawRNN()"><span class="vd" id="rnnLenV">4</span></div>
       <button class="btn" onclick="animRNN()">▶ ANIMATE</button>
@@ -1134,7 +1134,7 @@ function buildLSTM() {
   <div class="fb c3"><div class="fm">hₜ = oₜ ⊙ tanh(cₜ)</div><div class="fd">Hidden state = filtered cell state</div></div>
   <div class="va">
     <div class="vl">// LSTM gate diagram</div>
-    <canvas id="lstmCanvas" height="280"></canvas>
+    <canvas id="lstmCanvas" role="img" aria-label="LSTM gate diagram" height="280"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="highlightGate('forget')">FORGET</button>
       <button class="btn b2" onclick="highlightGate('input')">INPUT</button>
@@ -1164,7 +1164,7 @@ function buildGRU() {
   <div class="fb c3"><div class="fm">hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ</div><div class="fd">Interpolate between old and new state via update gate</div></div>
   <div class="va">
     <div class="vl">// RNN vs GRU vs LSTM — parameter count comparison</div>
-    <canvas id="gruCanvas" height="230"></canvas>
+    <canvas id="gruCanvas" role="img" aria-label="GRU: RNN vs GRU vs LSTM — parameter count comparison" height="230"></canvas>
   </div>
   <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline. <strong style="color:var(--accent2)">GRU</strong> — best default for seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range deps. <strong style="color:var(--accent4)">Transformer</strong> — lots of data + GPU.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> GRU merges forget and input into a single update gate — elegant reduction. In markets, <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a> compresses momentum into one number.</div>
@@ -1184,7 +1184,7 @@ function buildPCA() {
   <div class="fb"><div class="fm">C = (1/n)·XᵀX &nbsp;&nbsp;&nbsp; Cv = λv</div><div class="fd"><span>C</span> = covariance matrix &nbsp;|&nbsp; <span>v</span> = eigenvector &nbsp;|&nbsp; <span>λ</span> = eigenvalue (variance explained)</div></div>
   <div class="va">
     <div class="vl">// 2D data with principal components — adjust correlation</div>
-    <canvas id="pcaCanvas" height="240"></canvas>
+    <canvas id="pcaCanvas" role="img" aria-label="PCA: 2D data with principal components — adjust correlation" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Correlation</span><input type="range" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
       <div class="cg"><span class="cl">PC1 explains</span><span class="vd" id="pc1V">—</span></div>
@@ -1209,7 +1209,7 @@ function buildSVD() {
   <div class="fb c2"><div class="fm">A ≈ U_r · Σ_r · V_r^T &nbsp;&nbsp; (rank-r approximation)</div><div class="fd">Keep only top-r singular values → best rank-r approximation (Eckart-Young theorem)</div></div>
   <div class="va">
     <div class="vl">// Low-rank approximation — how many singular values do you need?</div>
-    <canvas id="svdCanvas" height="240"></canvas>
+    <canvas id="svdCanvas" role="img" aria-label="SVD: Low-rank approximation — how many singular values do you need?" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Rank r</span><input type="range" id="svdR" min="1" max="10" step="1" value="3" oninput="drawSVD()"><span class="vd" id="svdRV">3</span></div>
       <div class="cg"><span class="cl">Energy kept</span><span class="vd" id="svdEnergy" style="color:var(--accent)">—</span></div>
@@ -1239,7 +1239,7 @@ function buildVAE() {
   <div class="fb c2"><div class="fm">z = μ + σ·ε &nbsp;&nbsp; ε ~ N(0,1)</div><div class="fd"><span>Reparameterization trick:</span> makes sampling differentiable</div></div>
   <div class="va">
     <div class="vl">// VAE architecture diagram</div>
-    <canvas id="vaeCanvas" height="240"></canvas>
+    <canvas id="vaeCanvas" role="img" aria-label="VAE architecture diagram" height="240"></canvas>
   </div>
   <div class="code-block"><pre><span class="kw">class</span> <span class="cl2">VAE</span>(nn.Module):
     <span class="kw">def</span> <span class="fn">forward</span>(self, x):
@@ -1270,7 +1270,7 @@ function buildDiffusion() {
   <div class="fb c3"><div class="fm">L = E[||ε − εθ(xₜ,t)||²]</div><div class="fd">Training: predict the noise ε that was added.</div></div>
   <div class="va">
     <div class="vl">// Forward diffusion — noise being added over timesteps</div>
-    <canvas id="diffCanvas" height="240"></canvas>
+    <canvas id="diffCanvas" role="img" aria-label="Diffusion Models: Forward diffusion — noise being added over timesteps" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Timestep t</span><input type="range" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
       <button class="btn" onclick="animDiff()">▶ FORWARD PROCESS</button>
@@ -1294,7 +1294,7 @@ function buildGAN() {
   <div class="fb"><div class="fm">min_G max_D V(D,G) = E[log D(x)] + E[log(1−D(G(z)))]</div><div class="fd">Minimax objective: at equilibrium D(x) = 0.5 everywhere.</div></div>
   <div class="va">
     <div class="vl">// GAN training dynamics</div>
-    <canvas id="ganCanvas" height="240"></canvas>
+    <canvas id="ganCanvas" role="img" aria-label="GANs: GAN training dynamics" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animGAN()">▶ SIMULATE TRAINING</button>
       <button class="btn" onclick="resetGAN()">↺ RESET</button>
@@ -1320,7 +1320,7 @@ function buildTokenization() {
   <div class="fb c2"><div class="fm">Vocab size: typically 32k–128k tokens</div><div class="fd">GPT-2: 50,257 &nbsp;|&nbsp; LLaMA: 32,000 &nbsp;|&nbsp; GPT-4: ~100,000</div></div>
   <div class="va">
     <div class="vl">// BPE merge process — watch vocabulary build up</div>
-    <canvas id="bpeCanvas" height="220"></canvas>
+    <canvas id="bpeCanvas" role="img" aria-label="Tokenization (BPE): BPE merge process — watch vocabulary build up" height="220"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animBPE()">▶ RUN MERGES</button>
       <button class="btn" onclick="resetBPE()">↺ RESET</button>
@@ -1361,7 +1361,7 @@ function buildLoRA() {
   <div class="fb c2"><div class="fm">Params: d² → 2·d·r &nbsp;&nbsp; (e.g., 4096² = 16.7M → 2·4096·16 = 131K)</div><div class="fd">A 99.2% reduction in trainable parameters for rank r=16</div></div>
   <div class="va">
     <div class="vl">// Parameter savings — full fine-tuning vs LoRA</div>
-    <canvas id="loraCanvas" height="220"></canvas>
+    <canvas id="loraCanvas" role="img" aria-label="LoRA: Parameter savings — full fine-tuning vs LoRA" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model dim d</span><input type="range" id="loraD" min="256" max="8192" step="256" value="4096" oninput="drawLoRA()"><span class="vd" id="loraDV">4096</span></div>
       <div class="cg"><span class="cl">Rank r</span><input type="range" id="loraR" min="1" max="64" step="1" value="16" oninput="drawLoRA()"><span class="vd" id="loraRV">16</span></div>
@@ -1400,7 +1400,7 @@ function buildRLHF() {
   <div class="fb c4"><div class="fm">DPO: L = −log σ(β(log π(y_w|x)/π_ref(y_w|x) − log π(y_l|x)/π_ref(y_l|x)))</div><div class="fd"><span>DPO</span> = Direct Preference Optimization — no reward model needed. Simpler, more stable.</div></div>
   <div class="va">
     <div class="vl">// RLHF pipeline — three-stage process</div>
-    <canvas id="rlhfCanvas" height="260"></canvas>
+    <canvas id="rlhfCanvas" role="img" aria-label="RLHF pipeline — three-stage process" height="260"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animRLHF()">▶ WALK THROUGH</button>
       <button class="btn" onclick="resetRLHF()">↺ RESET</button>

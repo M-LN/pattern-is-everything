@@ -316,7 +316,7 @@ function buildLinearRegression() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="lrCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="lrCanvas" role="img" aria-label="Linear Regression Playground — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -375,7 +375,7 @@ function buildKMeans() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="kmCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="kmCanvas" role="img" aria-label="K-Means Clustering — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -430,7 +430,7 @@ function buildClassificationBoundary() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="cbCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="cbCanvas" role="img" aria-label="Classification Boundary — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -492,7 +492,7 @@ function buildNeuralNetwork() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="nnCanvas" height="400"></canvas>
+      <canvas id="nnCanvas" role="img" aria-label="Neural Network Builder — visualization" height="400"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -568,7 +568,7 @@ function buildFeatureScaling() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="fsCanvas" height="380"></canvas>
+      <canvas id="fsCanvas" role="img" aria-label="Feature Scaling Demo — visualization" height="380"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -626,7 +626,7 @@ function buildTimeseriesForecast() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="tsCanvas" height="420"></canvas>
+      <canvas id="tsCanvas" role="img" aria-label="Timeseries Forecasting — visualization" height="420"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -753,7 +753,7 @@ function buildPcaVisualizer() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="pcaCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="pcaCanvas" role="img" aria-label="PCA Visualization — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -805,7 +805,7 @@ function buildDecisionTree() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="dtCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="dtCanvas" role="img" aria-label="Decision Tree — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -865,7 +865,7 @@ function buildAnomalyDetection() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="adCanvas" height="400" style="cursor:crosshair;"></canvas>
+      <canvas id="adCanvas" role="img" aria-label="Anomaly Detection — visualization" height="400" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">

@@ -358,16 +358,16 @@ function buildCnnFilter() {
   <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:16px;">
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">INPUT (paint here)</div>
-      <canvas id="cnnInputCanvas" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
+      <canvas id="cnnInputCanvas" role="img" aria-label="CNN Filter Explorer — input visualization" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:28px;">
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);">FILTER</div>
-      <canvas id="cnnFilterCanvas" style="width:80px;height:80px;border-radius:4px;"></canvas>
+      <canvas id="cnnFilterCanvas" role="img" aria-label="CNN Filter Explorer — filter visualization" style="width:80px;height:80px;border-radius:4px;"></canvas>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);">→</div>
     </div>
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">FEATURE MAP</div>
-      <canvas id="cnnOutputCanvas" style="width:100%;border-radius:4px;"></canvas>
+      <canvas id="cnnOutputCanvas" role="img" aria-label="CNN Filter Explorer — output visualization" style="width:100%;border-radius:4px;"></canvas>
     </div>
   </div>
   <div class="sandbox-controls">
@@ -391,7 +391,7 @@ function buildCnnFilter() {
 function buildSelfAttention() {
   return DL_HEAD('D2','<em style="color:#4dd0e1">Self</em>-Attention',
     `Click any token to see its ${T('attention weights','How much this token "looks at" every other token. Computed from the dot product of its Query vector with all other tokens\' Key vectors, then softmaxed.')}.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="attnCanvas" height="360"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="attnCanvas" role="img" aria-label="Self-Attention — visualization" height="360"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Example sentence</label>
@@ -420,16 +420,16 @@ function buildAutoencoder() {
   <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:16px;">
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">INPUT (paint)</div>
-      <canvas id="aeInputCanvas" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
+      <canvas id="aeInputCanvas" role="img" aria-label="Autoencoder — input visualization" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:24px;">
       <div style="font-family:var(--mono);font-size:9px;color:var(--muted);">ENCODE</div>
-      <canvas id="aeCodeCanvas" style="width:24px;height:120px;border-radius:3px;"></canvas>
+      <canvas id="aeCodeCanvas" role="img" aria-label="Autoencoder — code visualization" style="width:24px;height:120px;border-radius:3px;"></canvas>
       <div style="font-family:var(--mono);font-size:9px;color:var(--muted);">DECODE</div>
     </div>
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">RECONSTRUCTION</div>
-      <canvas id="aeOutputCanvas" style="width:100%;border-radius:4px;"></canvas>
+      <canvas id="aeOutputCanvas" role="img" aria-label="Autoencoder — output visualization" style="width:100%;border-radius:4px;"></canvas>
     </div>
   </div>
   <div class="sandbox-controls">
@@ -452,11 +452,11 @@ function buildVae() {
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">LATENT SPACE (click)</div>
-      <canvas id="vaeLatentCanvas" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
+      <canvas id="vaeLatentCanvas" role="img" aria-label="Variational Autoencoder — latent visualization" style="width:100%;cursor:crosshair;border-radius:4px;"></canvas>
     </div>
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">DECODED OUTPUT</div>
-      <canvas id="vaeOutputCanvas" style="width:100%;border-radius:4px;"></canvas>
+      <canvas id="vaeOutputCanvas" role="img" aria-label="Variational Autoencoder — output visualization" style="width:100%;border-radius:4px;"></canvas>
     </div>
   </div>
   <div class="sandbox-controls">
@@ -475,7 +475,7 @@ function buildVae() {
 function buildUnet() {
   return DL_HEAD('D5','<em style="color:#4dd0e1">U-Net</em>',
     `Watch data flow through the encoder (down), cross the ${T('bottleneck','The deepest, smallest feature map — maximum compression, maximum context.')}, and back up through the decoder. The ${T('skip connections','Direct connections from each encoder level to the matching decoder level. They pass high-resolution spatial detail that the encoder would otherwise lose.')} paste spatial detail at every scale.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="unetCanvas" height="380"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="unetCanvas" role="img" aria-label="U-Net — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Animation</label>
@@ -496,7 +496,7 @@ function buildUnet() {
 function buildSeq2Seq() {
   return DL_HEAD('D6','<em style="color:#4dd0e1">Seq2Seq</em> + Attention',
     `The ${T('encoder','Reads the input sequence left to right, building a hidden state at each step. With attention, all hidden states are kept and made available to the decoder.')} reads the input. The ${T('decoder','Generates one output token at a time, attending to the encoder hidden states to decide which input positions to focus on at each step.')} generates the output. The ${T('alignment matrix','Shows which input position (column) the decoder is attending to when generating each output token (row). Bright = strong attention.')}.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="s2sCanvas" height="380"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="s2sCanvas" role="img" aria-label="Seq2Seq + Attention — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Example</label>
@@ -521,7 +521,7 @@ function buildSeq2Seq() {
 function buildGan() {
   return DL_HEAD('D7','<em style="color:#4dd0e1">GAN</em> Training',
     `The ${T('generator','Maps random noise z to a fake sample. Trained to fool the discriminator — it wants D(G(z)) to be close to 1.')} tries to match the real ${T('distribution','The statistical pattern of the real data — in this 1D demo, a Gaussian. The generator starts with a flat uniform distribution and must learn to mimic the bell shape.')}. The ${T('discriminator','Classifies samples as real or fake. Trained to output 1 for real samples and 0 for fakes.')} tries to tell them apart.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="ganCanvas" height="300"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="ganCanvas" role="img" aria-label="GAN Training — visualization" height="300"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Real distribution</label>
@@ -546,7 +546,7 @@ function buildGan() {
 function buildDiffusion() {
   return DL_HEAD('D8','<em style="color:#4dd0e1">Diffusion</em> Process',
     `Drag the timestep slider to add ${T('noise','Gaussian random values added to the data. At each forward step: xₜ = √(1−β)·xₜ₋₁ + √β·ε, where ε ~ N(0,I) and β is the noise schedule.')} forward (→ pure noise) or reverse it backward (→ original structure).`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="diffCanvas" height="300"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="diffCanvas" role="img" aria-label="Diffusion Process — visualization" height="300"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Timestep t','0 = original data, T = pure noise. The forward process adds noise; the reverse process (learned by the model) denoises step by step.')}</label>
@@ -572,7 +572,7 @@ function buildDiffusion() {
 function buildResidual() {
   return DL_HEAD('D9','<em style="color:#4dd0e1">Residual</em> Networks',
     `Toggle ${T('skip connections','A direct addition from the block input to its output: y = F(x) + x. The +x ensures the gradient always has a path back, no matter how many layers deep.')} to see how the ${T('gradient','The signal backpropagated through the network to update weights. Without skip connections, repeated multiplication by small numbers causes it to vanish — early layers receive no update.')} survives or vanishes through a deep network.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="resCanvas" height="380"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="resCanvas" role="img" aria-label="Residual Networks — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label style="font-family:var(--mono);font-size:12px;color:var(--muted);">
@@ -594,7 +594,7 @@ function buildResidual() {
 function buildEmbeddings() {
   return DL_HEAD('D10','<em style="color:#4dd0e1">Embedding</em> Space',
     `A 2D projection of a semantic space. Hover for labels. Click any point to see its ${T('nearest neighbours','The k most similar tokens by cosine similarity in the embedding space. Similar meaning = nearby vector = connected by a line.')}. The clusters that form are not programmed — they emerge from training.`) + `
-  <div class="sandbox-canvas-wrap"><canvas id="embCanvas" height="380" style="cursor:pointer;"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="embCanvas" role="img" aria-label="Embedding Space — visualization" height="380" style="cursor:pointer;"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Neighbours k</label>
@@ -641,7 +641,7 @@ function buildKalman() {
       <div class="exp-formula" style="border-left:3px solid #ff9650;">P = (I − K H) P⁻</div>
     </div>
   </div>
-  <div class="sandbox-canvas-wrap"><canvas id="kalGainCanvas" height="200"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="kalGainCanvas" role="img" aria-label="Theory — the predict/update cycle — visualization" height="200"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Drag the line, or:</label>
@@ -655,10 +655,10 @@ function buildKalman() {
   + partHead('2', 'Univariate sandbox — tune the noise',
       'A 1-D filter (A = 1, H = 1) tracks a drifting signal. Raise R to distrust the sensor, raise Q to expect faster drift. Watch the gain and covariance settle in the sub-graphs.')
   + `
-  <div class="sandbox-canvas-wrap"><canvas id="kalUniCanvas" height="260"></canvas></div>
+  <div class="sandbox-canvas-wrap"><canvas id="kalUniCanvas" role="img" aria-label="Univariate sandbox — tune the noise — uni visualization" height="260"></canvas></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
-    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKCanvas" height="150"></canvas></div>
-    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalPCanvas" height="150"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKCanvas" role="img" aria-label="Univariate sandbox — tune the noise — k visualization" height="150"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalPCanvas" role="img" aria-label="Univariate sandbox — tune the noise — p visualization" height="150"></canvas></div>
   </div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
@@ -684,8 +684,8 @@ function buildKalman() {
       'A 2-state thermal model (core + surface). Thermal coupling fills the off-diagonals of the transition matrix A. The Kalman gain K is the steady-state solution of the Riccati recursion — both heatmaps update live.')
   + `
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 18px;">
-    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalAHeat" height="190"></canvas></div>
-    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKHeat" height="190"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalAHeat" role="img" aria-label="Multivariate sandbox — two coupled temperatures — aheat visualization" height="190"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="kalKHeat" role="img" aria-label="Multivariate sandbox — two coupled temperatures — kheat visualization" height="190"></canvas></div>
   </div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
@@ -728,10 +728,10 @@ function buildMlpDeep() {
       'Hit Train and watch the weights move and the decision boundary bend. The teal/orange lines are positive/negative weights; thickness is magnitude. Tick "show gradients" to overlay the backprop signal.')
   + `
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;align-items:start;margin:14px 0 4px;">
-    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnNetCanvas" height="360"></canvas></div>
+    <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnNetCanvas" role="img" aria-label="The living network — train it — net visualization" height="360"></canvas></div>
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;text-align:center;">DECISION BOUNDARY · click to move the probe ◉</div>
-      <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnBoundaryCanvas" height="300" style="cursor:crosshair;"></canvas></div>
+      <div class="sandbox-canvas-wrap" style="margin:0;"><canvas id="nnBoundaryCanvas" role="img" aria-label="The living network — train it — boundary visualization" height="300" style="cursor:crosshair;"></canvas></div>
     </div>
   </div>
   <div class="sandbox-controls">

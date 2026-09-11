@@ -239,7 +239,7 @@ function buildConfusionMatrix() {
   <div class="fb c3"><div class="fm">F1 = 2 &middot; (P &middot; R) / (P + R)</div><div class="fd"><span>F1</span> = harmonic mean of precision and recall. Balanced score when both matter equally.</div></div>
   <div class="va">
     <div class="vl">// Interactive — adjust threshold, see all metrics update</div>
-    <canvas id="cmCanvas" height="260"></canvas>
+    <canvas id="cmCanvas" role="img" aria-label="Confusion Matrix &amp; Classification Metrics: Interactive — adjust threshold, see all metrics update" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Threshold</span><input type="range" id="cmThresh" min="0" max="100" step="1" value="50"><span class="vd" id="cmThreshV">0.50</span></div>
       <div class="cg"><span class="cl">Precision</span><span class="vd" id="cmPrec" style="color:var(--accent)">—</span></div>
@@ -342,7 +342,7 @@ function buildROCAUC() {
   <div class="fb c2"><div class="fm">AUC = &int; TPR(FPR) dFPR &isin; [0, 1]</div><div class="fd"><span>AUC</span> = probability that the model ranks a random positive higher than a random negative</div></div>
   <div class="va">
     <div class="vl">// Interactive ROC — adjust model separability</div>
-    <canvas id="rocCanvas" height="260"></canvas>
+    <canvas id="rocCanvas" role="img" aria-label="ROC &amp; AUC Curves: Interactive ROC — adjust model separability" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Separability</span><input type="range" id="rocSep" min="0" max="100" step="1" value="65"><span class="vd" id="rocSepV">0.65</span></div>
       <div class="cg"><span class="cl">AUC</span><span class="vd" id="rocAuc" style="color:var(--accent)">—</span></div>
@@ -379,7 +379,7 @@ function buildRegressionMetrics() {
   <div class="fb c3"><div class="fm">R&sup2; = 1 &minus; SS<sub>res</sub> / SS<sub>tot</sub></div><div class="fd"><span>R&sup2;</span> = fraction of variance explained. 1 = perfect, 0 = no better than predicting the mean.</div></div>
   <div class="va">
     <div class="vl">// Interactive — drag points, see metrics update</div>
-    <canvas id="regCanvas" height="260"></canvas>
+    <canvas id="regCanvas" role="img" aria-label="Regression Metrics: Interactive — drag points, see metrics update" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Noise</span><input type="range" id="regNoise" min="0" max="100" step="1" value="30"><span class="vd" id="regNoiseV">0.30</span></div>
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="regMAE" style="color:var(--accent)">—</span></div>
@@ -414,7 +414,7 @@ function buildCrossValidation() {
   <div class="fb"><div class="fm">CV Score = (1/k) &middot; &Sigma; Score(fold&#x1D62;)</div><div class="fd">Average <span>test score</span> across k folds. Standard deviation shows stability.</div></div>
   <div class="va">
     <div class="vl">// Interactive — k folds visualised with train/test splits</div>
-    <canvas id="cvCanvas" height="260"></canvas>
+    <canvas id="cvCanvas" role="img" aria-label="Cross-Validation Done Right: Interactive — k folds visualised with train/test splits" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">K folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5"><span class="vd" id="cvKv">5</span></div>
       <div class="cg"><span class="cl">Mode</span><button class="btn" id="cvMode" onclick="toggleCVMode()">K-Fold</button></div>
@@ -487,7 +487,7 @@ function buildComparingRuns() {
   <div class="fb c2"><div class="fm">McNemar: &chi;&sup2; = (b &minus; c)&sup2; / (b + c)</div><div class="fd"><span>McNemar&rsquo;s test</span> &mdash; compares errors on the same test set. b,c = discordant predictions.</div></div>
   <div class="va">
     <div class="vl">// Interactive — two model score distributions, see p-value</div>
-    <canvas id="compCanvas" height="260"></canvas>
+    <canvas id="compCanvas" role="img" aria-label="Comparing Model Runs: Interactive — two model score distributions, see p-value" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model A mean</span><input type="range" id="compA" min="70" max="95" step="1" value="85"><span class="vd" id="compAv">0.85</span></div>
       <div class="cg"><span class="cl">Model B mean</span><input type="range" id="compB" min="70" max="95" step="1" value="88"><span class="vd" id="compBv">0.88</span></div>
@@ -522,7 +522,7 @@ function buildLearningCurves() {
   <div class="fb"><div class="fm">Gap = Score<sub>train</sub> &minus; Score<sub>val</sub></div><div class="fd"><span>Large gap</span> = overfitting (model memorises) &nbsp;|&nbsp; <span>Both low</span> = underfitting (model too simple)</div></div>
   <div class="va">
     <div class="vl">// Interactive — adjust complexity, see the gap</div>
-    <canvas id="lcCanvas" height="260"></canvas>
+    <canvas id="lcCanvas" role="img" aria-label="Learning Curves &amp; Overfitting: Interactive — adjust complexity, see the gap" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model complexity</span><input type="range" id="lcComp" min="1" max="100" step="1" value="50"><span class="vd" id="lcCompV">50</span></div>
       <div class="cg"><span class="cl">Diagnosis</span><span class="vd" id="lcDiag" style="color:var(--accent)">—</span></div>
@@ -586,7 +586,7 @@ function buildSHAPValues() {
   <div class="fb c2"><div class="fm">f(x) = E[f(X)] + &Sigma; &phi;&#x1D62;</div><div class="fd">Prediction = base value + sum of all SHAP values. <span>Additive:</span> contributions always sum to prediction.</div></div>
   <div class="va">
     <div class="vl">// Interactive — feature contributions to a prediction</div>
-    <canvas id="shapCanvas" height="260"></canvas>
+    <canvas id="shapCanvas" role="img" aria-label="SHAP Values: Interactive — feature contributions to a prediction" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Feature count</span><input type="range" id="shapN" min="3" max="10" step="1" value="6"><span class="vd" id="shapNv">6</span></div>
       <button class="btn" onclick="reshapSHAP()">NEW SAMPLE</button>
@@ -669,7 +669,7 @@ function buildPermutationImportance() {
   <div class="fb"><div class="fm">PI&#x1D62; = Score<sub>original</sub> &minus; Score<sub>shuffled(i)</sub></div><div class="fd"><span>PI</span> = importance of feature i. Higher = more important. Negative = feature hurts the model.</div></div>
   <div class="va">
     <div class="vl">// Interactive — shuffle features, see score drop</div>
-    <canvas id="piCanvas" height="260"></canvas>
+    <canvas id="piCanvas" role="img" aria-label="Permutation Importance: Interactive — shuffle features, see score drop" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Features</span><input type="range" id="piN" min="3" max="8" step="1" value="5"><span class="vd" id="piNv">5</span></div>
       <button class="btn" onclick="reshufflePerm()">SHUFFLE</button>
@@ -704,7 +704,7 @@ function buildPDPICE() {
   <div class="fb"><div class="fm">PD(x<sub>s</sub>) = (1/n) &middot; &Sigma; f(x<sub>s</sub>, x<sub>c</sub><sup>(i)</sup>)</div><div class="fd"><span>PD</span> = average prediction when feature s is fixed at x<sub>s</sub>, averaging over all other features.</div></div>
   <div class="va">
     <div class="vl">// Interactive — PDP line with individual ICE curves</div>
-    <canvas id="pdpCanvas" height="260"></canvas>
+    <canvas id="pdpCanvas" role="img" aria-label="Partial Dependence &amp; ICE: Interactive — PDP line with individual ICE curves" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Show ICE</span><button class="btn" id="pdpIce" onclick="toggleICE()">ICE ON</button></div>
       <div class="cg"><span class="cl">Instances</span><input type="range" id="pdpN" min="5" max="50" step="5" value="20"><span class="vd" id="pdpNv">20</span></div>
@@ -737,7 +737,7 @@ function buildFeatureCorrelation() {
   <div class="fb"><div class="fm">VIF&#x1D62; = 1 / (1 &minus; R&#x1D62;&sup2;)</div><div class="fd"><span>VIF</span> = 1 means no collinearity &nbsp;|&nbsp; &gt;5 is concerning &nbsp;|&nbsp; &gt;10 is severe. R&#x1D62;&sup2; from regressing feature i on all others.</div></div>
   <div class="va">
     <div class="vl">// Interactive correlation heatmap</div>
-    <canvas id="corrCanvas" height="260"></canvas>
+    <canvas id="corrCanvas" role="img" aria-label="Feature Correlation &amp; Multicollinearity: Interactive correlation heatmap" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Features</span><input type="range" id="corrN" min="3" max="8" step="1" value="6"><span class="vd" id="corrNv">6</span></div>
       <button class="btn" onclick="regenCorr()">REGENERATE</button>
@@ -774,7 +774,7 @@ function buildInformationGain() {
   <div class="fb c2"><div class="fm">IG(Y|X) = H(Y) &minus; H(Y|X)</div><div class="fd"><span>Information Gain</span> = entropy before &minus; entropy after splitting. Used in decision trees.</div></div>
   <div class="va">
     <div class="vl">// Interactive — see MI vs correlation for different relationships</div>
-    <canvas id="miCanvas" height="260"></canvas>
+    <canvas id="miCanvas" role="img" aria-label="Information Gain &amp; Mutual Information: Interactive — see MI vs correlation for different relationships" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Relationship</span><button class="btn" id="miType" onclick="cycleRelation()">Linear</button></div>
       <div class="cg"><span class="cl">MI</span><span class="vd" id="miVal" style="color:var(--accent)">—</span></div>
@@ -805,7 +805,7 @@ function buildDistributionShape() {
   <div class="fb c2"><div class="fm">Kurt = E[(X&minus;&mu;)⁴] / &sigma;⁴ &minus; 3</div><div class="fd"><span>Excess kurtosis</span> = 0 is normal &nbsp;|&nbsp; &gt;0 heavy tails &nbsp;|&nbsp; &lt;0 light tails</div></div>
   <div class="va">
     <div class="vl">// Interactive — adjust skew and kurtosis</div>
-    <canvas id="distCanvas" height="230"></canvas>
+    <canvas id="distCanvas" role="img" aria-label="Distribution Shape: Interactive — adjust skew and kurtosis" height="230"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Skewness</span><input type="range" id="distSkew" min="-30" max="30" step="1" value="0"><span class="vd" id="distSkewV">0.0</span></div>
       <div class="cg"><span class="cl">Tail weight</span><input type="range" id="distKurt" min="0" max="100" step="1" value="30"><span class="vd" id="distKurtV">3.0</span></div>
@@ -840,7 +840,7 @@ function buildOutlierDetection() {
   <div class="fb c2"><div class="fm">Z = (x &minus; &mu;) / &sigma; &nbsp;&nbsp; outlier if |Z| &gt; 3</div><div class="fd"><span>Z-score</span> = standard deviations from mean. Assumes roughly normal data.</div></div>
   <div class="va">
     <div class="vl">// Interactive — scattered points with outlier detection zones</div>
-    <canvas id="outCanvas" height="260"></canvas>
+    <canvas id="outCanvas" role="img" aria-label="Outlier Detection: Interactive — scattered points with outlier detection zones" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Method</span><button class="btn" id="outMethod" onclick="cycleOutlier()">IQR</button></div>
       <div class="cg"><span class="cl">Outliers</span><span class="vd" id="outCount" style="color:var(--accent)">—</span></div>
@@ -876,7 +876,7 @@ function buildMissingData() {
   <div class="fb c2"><div class="fm">MAR: P(missing | observed) &ne; P(missing)</div><div class="fd">Missing <span>at random</span> given observed data. Use MICE, KNN imputation.</div></div>
   <div class="va">
     <div class="vl">// Interactive — missing data patterns and imputation</div>
-    <canvas id="missCanvas" height="260"></canvas>
+    <canvas id="missCanvas" role="img" aria-label="Missing Data Strategies: Interactive — missing data patterns and imputation" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">% Missing</span><input type="range" id="missPct" min="5" max="50" step="5" value="20"><span class="vd" id="missPctV">20%</span></div>
       <div class="cg"><span class="cl">Strategy</span><button class="btn" id="missStrat" onclick="cycleImpute()">Mean</button></div>
@@ -914,7 +914,7 @@ function buildDataDrift() {
   <div class="fb c2"><div class="fm">KS = max|F<sub>ref</sub>(x) &minus; F<sub>new</sub>(x)|</div><div class="fd"><span>Kolmogorov-Smirnov</span> = maximum distance between two CDFs. p &lt; 0.05 → distributions differ.</div></div>
   <div class="va">
     <div class="vl">// Interactive — reference vs new distribution with drift</div>
-    <canvas id="driftCanvas" height="260"></canvas>
+    <canvas id="driftCanvas" role="img" aria-label="Data Drift &amp; Distribution Shift: Interactive — reference vs new distribution with drift" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Drift amount</span><input type="range" id="driftAmt" min="0" max="100" step="1" value="0"><span class="vd" id="driftAmtV">0.0</span></div>
       <div class="cg"><span class="cl">PSI</span><span class="vd" id="driftPSI" style="color:var(--accent)">—</span></div>
@@ -997,7 +997,7 @@ function buildClassImbalance() {
   <div class="fb"><div class="fm">SMOTE: x<sub>new</sub> = x&#x1D62; + &lambda; &middot; (x<sub>nn</sub> &minus; x&#x1D62;)</div><div class="fd"><span>SMOTE</span> creates synthetic minority samples by interpolating between a sample and its nearest neighbour.</div></div>
   <div class="va">
     <div class="vl">// Interactive — class ratio and resampling effect</div>
-    <canvas id="imbCanvas" height="260"></canvas>
+    <canvas id="imbCanvas" role="img" aria-label="Sampling &amp; Class Imbalance: Interactive — class ratio and resampling effect" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Imbalance ratio</span><input type="range" id="imbRatio" min="1" max="50" step="1" value="10"><span class="vd" id="imbRatioV">1:10</span></div>
       <div class="cg"><span class="cl">Strategy</span><button class="btn" id="imbStrat" onclick="cycleImbalance()">None</button></div>
@@ -1050,7 +1050,7 @@ function buildSharpeRatio() {
   <div class="fb c3"><div class="fm">Calmar = R<sub>annual</sub> / |MaxDrawdown|</div><div class="fd"><span>Calmar</span> = return divided by worst-case loss. Sensitive to tail risk.</div></div>
   <div class="va">
     <div class="vl">// Interactive — adjust return and volatility, see ratios</div>
-    <canvas id="sharpeCanvas" height="260"></canvas>
+    <canvas id="sharpeCanvas" role="img" aria-label="Sharpe Ratio &amp; Risk-Adjusted Returns: Interactive — adjust return and volatility, see ratios" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Return %</span><input type="range" id="sharpeRet" min="0" max="40" step="1" value="12"><span class="vd" id="sharpeRetV">12%</span></div>
       <div class="cg"><span class="cl">Volatility %</span><input type="range" id="sharpeVol" min="5" max="40" step="1" value="15"><span class="vd" id="sharpeVolV">15%</span></div>
@@ -1091,7 +1091,7 @@ function buildMaxDrawdown() {
   <div class="fb"><div class="fm">DD(t) = (Peak(t) &minus; Value(t)) / Peak(t)</div><div class="fd"><span>Drawdown</span> at time t. <span>Max Drawdown</span> = max over all t. Expressed as percentage.</div></div>
   <div class="va">
     <div class="vl">// Interactive equity curve with drawdown shading</div>
-    <canvas id="ddCanvas" height="260"></canvas>
+    <canvas id="ddCanvas" role="img" aria-label="Maximum Drawdown &amp; Recovery: Interactive equity curve with drawdown shading" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Volatility</span><input type="range" id="ddVol" min="5" max="50" step="1" value="20"><span class="vd" id="ddVolV">20%</span></div>
       <div class="cg"><span class="cl">Max DD</span><span class="vd" id="ddMax" style="color:var(--accent)">—</span></div>
@@ -1129,7 +1129,7 @@ function buildWalkForward() {
   <div class="fb"><div class="fm">Train: [t&minus;W, t] &rarr; Test: [t+1, t+S]</div><div class="fd"><span>W</span> = training window &nbsp;|&nbsp; <span>S</span> = test step &nbsp;|&nbsp; then slide forward by S and repeat.</div></div>
   <div class="va">
     <div class="vl">// Interactive — rolling vs anchored walk-forward</div>
-    <canvas id="wfCanvas" height="260"></canvas>
+    <canvas id="wfCanvas" role="img" aria-label="Walk-Forward Validation: Interactive — rolling vs anchored walk-forward" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Window size</span><input type="range" id="wfWin" min="3" max="15" step="1" value="8"><span class="vd" id="wfWinV">8</span></div>
       <div class="cg"><span class="cl">Mode</span><button class="btn" id="wfMode" onclick="toggleWFMode()">Rolling</button></div>
@@ -1175,7 +1175,7 @@ function buildMonteCarlo() {
   <div class="fb"><div class="fm">Path&#x1D62;(t) = &Pi;<sub>d=1</sub><sup>t</sup> (1 + r<sub>d</sub><sup>(i)</sup>)</div><div class="fd">Each path is a product of randomly sampled daily returns. <span>N paths</span> give a fan of possible outcomes.</div></div>
   <div class="va">
     <div class="vl">// Interactive — simulated equity paths with confidence bands</div>
-    <canvas id="mcCanvas" height="260"></canvas>
+    <canvas id="mcCanvas" role="img" aria-label="Monte Carlo Simulation: Interactive — simulated equity paths with confidence bands" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Paths</span><input type="range" id="mcPaths" min="10" max="500" step="10" value="100"><span class="vd" id="mcPathsV">100</span></div>
       <button class="btn" onclick="regenMC()">SIMULATE</button>
@@ -1215,7 +1215,7 @@ function buildSurvivorshipBias() {
   <div class="fb c2"><div class="fm">Look-ahead: f(t) must use only data from [0, t]</div><div class="fd">Earnings announced on day t+3 can't inform a decision on day t, even if your database has it.</div></div>
   <div class="va">
     <div class="vl">// Interactive — survivorship bias impact on backtest returns</div>
-    <canvas id="survCanvas" height="260"></canvas>
+    <canvas id="survCanvas" role="img" aria-label="Survivorship &amp; Look-Ahead Bias: Interactive — survivorship bias impact on backtest returns" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Delisted %</span><input type="range" id="survDel" min="0" max="40" step="1" value="15"><span class="vd" id="survDelV">15%</span></div>
       <div class="cg"><span class="cl">Biased return</span><span class="vd" id="survBias" style="color:var(--accent)">—</span></div>
@@ -1251,7 +1251,7 @@ function buildConfidenceIntervals() {
   <div class="fb c2"><div class="fm">Bootstrap CI: [&theta;*<sub>2.5%</sub>, &theta;*<sub>97.5%</sub>]</div><div class="fd"><span>Bootstrap CI</span> = percentiles of the resampled distribution. No normality assumption needed.</div></div>
   <div class="va">
     <div class="vl">// Interactive — sample size vs CI width</div>
-    <canvas id="ciCanvas" height="260"></canvas>
+    <canvas id="ciCanvas" role="img" aria-label="Confidence Intervals: Interactive — sample size vs CI width" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Sample size</span><input type="range" id="ciN" min="10" max="500" step="10" value="50"><span class="vd" id="ciNv">50</span></div>
       <div class="cg"><span class="cl">Confidence</span><input type="range" id="ciConf" min="80" max="99" step="1" value="95"><span class="vd" id="ciConfV">95%</span></div>
@@ -1287,7 +1287,7 @@ function buildBootstrapMethods() {
   <div class="fb"><div class="fm">&theta;* = statistic(resample(data))</div><div class="fd">Repeat B times &rarr; distribution of &theta;* &rarr; <span>SE</span> = std(&theta;*) &nbsp;|&nbsp; <span>CI</span> = percentiles</div></div>
   <div class="va">
     <div class="vl">// Interactive — bootstrap distribution of the mean</div>
-    <canvas id="bootCanvas" height="260"></canvas>
+    <canvas id="bootCanvas" role="img" aria-label="Bootstrap Methods: Interactive — bootstrap distribution of the mean" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Resamples</span><input type="range" id="bootB" min="100" max="5000" step="100" value="1000"><span class="vd" id="bootBv">1000</span></div>
       <button class="btn" onclick="regenBoot()">RESAMPLE</button>
@@ -1325,7 +1325,7 @@ function buildBayesianAB() {
   <div class="fb c2"><div class="fm">Beta(a + successes, b + failures)</div><div class="fd">For conversion rates, the <span>Beta-Binomial</span> model gives exact posteriors. a=b=1 is a uniform prior.</div></div>
   <div class="va">
     <div class="vl">// Interactive — two posteriors, see probability of B &gt; A</div>
-    <canvas id="abCanvas" height="260"></canvas>
+    <canvas id="abCanvas" role="img" aria-label="Bayesian A/B Testing: Interactive — two posteriors, see probability of B &gt; A" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">A conversions</span><input type="range" id="abA" min="5" max="200" step="5" value="50"><span class="vd" id="abAv">50</span></div>
       <div class="cg"><span class="cl">B conversions</span><input type="range" id="abB" min="5" max="200" step="5" value="60"><span class="vd" id="abBv">60</span></div>
@@ -1365,7 +1365,7 @@ function buildEffectSize() {
   <div class="fb"><div class="fm">d = (&mu;<sub>1</sub> &minus; &mu;<sub>2</sub>) / s<sub>pooled</sub></div><div class="fd"><span>Cohen's d</span>: 0.2 = small, 0.5 = medium, 0.8 = large. Tells you the <em>magnitude</em> of the effect.</div></div>
   <div class="va">
     <div class="vl">// Interactive — two distributions, see effect size and overlap</div>
-    <canvas id="esCanvas" height="260"></canvas>
+    <canvas id="esCanvas" role="img" aria-label="Effect Size &amp; Practical Significance: Interactive — two distributions, see effect size and overlap" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Mean difference</span><input type="range" id="esDiff" min="0" max="200" step="5" value="50"><span class="vd" id="esDiffV">0.50</span></div>
       <div class="cg"><span class="cl">Cohen's d</span><span class="vd" id="esD" style="color:var(--accent)">—</span></div>
@@ -1400,7 +1400,7 @@ function buildPowerAnalysis() {
   <div class="fb"><div class="fm">Power = 1 &minus; &beta; = P(reject H<sub>0</sub> | H<sub>1</sub> true)</div><div class="fd"><span>Power</span> = 0.80 means 80% chance of detecting a real effect. &beta; = Type II error rate.</div></div>
   <div class="va">
     <div class="vl">// Interactive — sample size vs power curve</div>
-    <canvas id="powCanvas" height="260"></canvas>
+    <canvas id="powCanvas" role="img" aria-label="Power Analysis: Interactive — sample size vs power curve" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Effect size d</span><input type="range" id="powD" min="10" max="100" step="5" value="50"><span class="vd" id="powDv">0.50</span></div>
       <div class="cg"><span class="cl">Alpha</span><input type="range" id="powAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="powAlphaV">0.05</span></div>
@@ -1442,7 +1442,7 @@ function buildHypothesisTesting() {
   <div class="fb c3"><div class="fm">&alpha; = P(Type I) &nbsp;&nbsp; &beta; = P(Type II) &nbsp;&nbsp; Power = 1 &minus; &beta;</div><div class="fd"><span>Type I</span> = false alarm (reject a true null) &nbsp;|&nbsp; <span>Type II</span> = miss (fail to reject a false null)</div></div>
   <div class="va">
     <div class="vl">// Interactive — slide the observed statistic and &alpha;, watch the p-value and the decision flip</div>
-    <canvas id="hypCanvas" height="240"></canvas>
+    <canvas id="hypCanvas" role="img" aria-label="Hypothesis Testing &amp; p-values: Interactive — slide the observed statistic and α, watch the p-value and the decision flip" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Observed z</span><input type="range" id="hypZ" min="-400" max="400" step="5" value="180"><span class="vd" id="hypZV">1.80</span></div>
       <div class="cg"><span class="cl">&alpha;</span><input type="range" id="hypAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="hypAlphaV">0.05</span></div>
@@ -1530,7 +1530,7 @@ function buildStatTests() {
   <div class="fb c2"><div class="fm">&chi;&sup2; = &Sigma; (observed &minus; expected)&sup2; / expected</div><div class="fd"><span>Chi-square</span> = for counts and categories — is the observed table compatible with independence?</div></div>
   <div class="va">
     <div class="vl">// Interactive decision map — set your situation, the recommended test lights up</div>
-    <canvas id="testCanvas" height="250"></canvas>
+    <canvas id="testCanvas" role="img" aria-label="Choosing the Right Statistical Test: Interactive decision map — set your situation, the recommended test lights up" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Groups</span><input type="range" id="testGroups" min="2" max="3" step="1" value="2"><span class="vd" id="testGroupsV">2</span></div>
       <div class="cg"><span class="cl">Paired</span><input type="range" id="testPaired" min="0" max="1" step="1" value="0"><span class="vd" id="testPairedV">No</span></div>
@@ -1617,7 +1617,7 @@ function buildCLTSampling() {
   <div class="fb c2"><div class="fm">SE = &sigma; / &radic;n</div><div class="fd"><span>Standard error</span> = the standard deviation of the sample mean. Quadruple the sample to halve the error.</div></div>
   <div class="va">
     <div class="vl">// Interactive — skew the population, grow n, watch the sample means turn normal</div>
-    <canvas id="cltCanvas" height="260"></canvas>
+    <canvas id="cltCanvas" role="img" aria-label="Central Limit Theorem &amp; Sampling: Interactive — skew the population, grow n, watch the sample means turn normal" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Population skew</span><input type="range" id="cltSkew" min="0" max="100" step="1" value="70"><span class="vd" id="cltSkewV">0.70</span></div>
       <div class="cg"><span class="cl">Sample size n</span><input type="range" id="cltN" min="1" max="64" step="1" value="5"><span class="vd" id="cltNV">5</span></div>
@@ -1688,7 +1688,7 @@ function buildCorrelationCausation() {
   <div class="fb"><div class="fm">r = cov(X, Y) / (&sigma;<sub>X</sub> &middot; &sigma;<sub>Y</sub>) &isin; [&minus;1, 1]</div><div class="fd"><span>Pearson r</span> = linear co-movement only. r = 0 does not mean independent; r = 0.9 does not mean causal.</div></div>
   <div class="va">
     <div class="vl">// Interactive Simpson's paradox — increase the confounder, watch the pooled trend flip against the groups</div>
-    <canvas id="causCanvas" height="260"></canvas>
+    <canvas id="causCanvas" role="img" aria-label="Correlation, Causation &amp; Simpson's Paradox: Interactive Simpson's paradox — increase the confounder, watch the pooled trend flip against the groups" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Confounder strength</span><input type="range" id="causConf" min="0" max="100" step="1" value="70"><span class="vd" id="causConfV">0.70</span></div>
       <div class="cg"><span class="cl">Pooled r</span><span class="vd" id="causPooled" style="color:#e57373">—</span></div>
@@ -1771,7 +1771,7 @@ function buildEDAWorkflow() {
   <div class="fb"><div class="fm">shape &rarr; types &rarr; missing &rarr; distributions &rarr; relationships</div><div class="fd"><span>The EDA loop</span> — always in this order. Each step decides what the next one means.</div></div>
   <div class="va">
     <div class="vl">// Interactive — skew the data and inject outliers, watch mean vs median diverge</div>
-    <canvas id="edaCanvas" height="250"></canvas>
+    <canvas id="edaCanvas" role="img" aria-label="Exploratory Data Analysis (EDA): Interactive — skew the data and inject outliers, watch mean vs median diverge" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Skew</span><input type="range" id="edaSkew" min="0" max="100" step="1" value="40"><span class="vd" id="edaSkewV">0.40</span></div>
       <div class="cg"><span class="cl">Outliers %</span><input type="range" id="edaOut" min="0" max="10" step="1" value="0"><span class="vd" id="edaOutV">0%</span></div>
@@ -1850,7 +1850,7 @@ function buildGroupbyAggregation() {
   <div class="fb"><div class="fm">split(rows, key) &rarr; apply(agg) &rarr; combine</div><div class="fd"><span>Split-apply-combine</span> — group rows by key, reduce each group with mean/sum/count/…, stack the results.</div></div>
   <div class="va">
     <div class="vl">// Interactive — raw rows on the left, one aggregated bar per group on the right</div>
-    <canvas id="gbCanvas" height="240"></canvas>
+    <canvas id="gbCanvas" role="img" aria-label="GroupBy, Pivot &amp; Aggregation: Interactive — raw rows on the left, one aggregated bar per group on the right" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Aggregation</span><input type="range" id="gbAgg" min="0" max="3" step="1" value="2"><span class="vd" id="gbAggV">mean</span></div>
     </div>
@@ -1933,7 +1933,7 @@ function buildCohortRetention() {
   <div class="fb c2"><div class="fm">churn = 1 &minus; retention&nbsp;&nbsp;&middot;&nbsp;&nbsp;LTV &asymp; ARPU / churn</div><div class="fd"><span>Churn</span> is retention's complement — and the denominator of the standard lifetime-value approximation.</div></div>
   <div class="va">
     <div class="vl">// Interactive retention triangle — set churn, then let newer cohorts improve</div>
-    <canvas id="cohortCanvas" height="250"></canvas>
+    <canvas id="cohortCanvas" role="img" aria-label="Cohort &amp; Retention Analysis: Interactive retention triangle — set churn, then let newer cohorts improve" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Monthly churn</span><input type="range" id="cohChurn" min="5" max="50" step="1" value="25"><span class="vd" id="cohChurnV">25%</span></div>
       <div class="cg"><span class="cl">Newer cohorts improve</span><input type="range" id="cohImprove" min="0" max="30" step="1" value="0"><span class="vd" id="cohImproveV">0%</span></div>
@@ -2012,7 +2012,7 @@ function buildFunnelAnalysis() {
   <div class="fb"><div class="fm">overall = &prod; stage&#7522; &nbsp;&nbsp;&nbsp; e.g. 0.40 &times; 0.30 &times; 0.60 &times; 0.75 = 5.4%</div><div class="fd"><span>Overall conversion</span> = product of per-stage rates. A 10% relative lift at any stage lifts the whole funnel 10%.</div></div>
   <div class="va">
     <div class="vl">// Interactive funnel — tune two stages, watch the overall conversion and the biggest leak</div>
-    <canvas id="funnelCanvas" height="250"></canvas>
+    <canvas id="funnelCanvas" role="img" aria-label="Funnel &amp; Conversion Analysis: Interactive funnel — tune two stages, watch the overall conversion and the biggest leak" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">View &rarr; Cart</span><input type="range" id="funMid" min="5" max="80" step="1" value="30"><span class="vd" id="funMidV">30%</span></div>
       <div class="cg"><span class="cl">Checkout &rarr; Purchase</span><input type="range" id="funCheckout" min="10" max="95" step="1" value="60"><span class="vd" id="funCheckoutV">60%</span></div>
@@ -2094,7 +2094,7 @@ function buildSklearnEval() {
   <p class="prose"><strong>scikit-learn</strong> includes everything covered in this toolkit under one roof. The <code>metrics</code> module has every scorer, <code>model_selection</code> has every CV strategy, and <code>inspection</code> has permutation importance and partial dependence.</p>
   <div class="va">
     <div class="vl">// The scikit-learn evaluation workflow</div>
-    <canvas id="skCanvas" height="220"></canvas>
+    <canvas id="skCanvas" role="img" aria-label="scikit-learn Evaluation Suite: The scikit-learn evaluation workflow" height="220"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Complete sklearn evaluation workflow</span>
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
@@ -2147,7 +2147,7 @@ function buildSHAPLibrary() {
   <p class="prose">The <code>shap</code> library implements everything from <a href="#shap-values">SHAP Values</a> in production-ready code. <strong>TreeExplainer</strong> is exact and fast for tree models. The visualisations — waterfall, beeswarm, dependence — are publication-ready out of the box.</p>
   <div class="va">
     <div class="vl">// SHAP plot types overview</div>
-    <canvas id="shapLibCanvas" height="220"></canvas>
+    <canvas id="shapLibCanvas" role="img" aria-label="SHAP Library: SHAP plot types overview" height="220"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># SHAP — complete reference</span>
 <span class="kw">import</span> shap
@@ -2193,7 +2193,7 @@ function buildOptuna() {
   <p class="prose"><strong>Optuna</strong> is a hyperparameter optimisation framework that uses <strong>TPE</strong> (Tree-structured Parzen Estimator) to intelligently search the parameter space. It supports <strong>pruning</strong> (killing bad trials early) and integrates with scikit-learn, XGBoost, PyTorch, and more.</p>
   <div class="va">
     <div class="vl">// Optuna search space exploration</div>
-    <canvas id="optunaCanvas" height="220"></canvas>
+    <canvas id="optunaCanvas" role="img" aria-label="Optuna search space exploration" height="220"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Optuna — hyperparameter optimisation</span>
 <span class="kw">import</span> optuna
@@ -2242,7 +2242,7 @@ function buildPandasTA() {
   <p class="prose"><strong>yfinance</strong> downloads free historical market data from Yahoo Finance. <strong>pandas-ta</strong> computes 130+ technical indicators as DataFrame operations. Together, they're the fastest way to go from idea to analysis for any market strategy.</p>
   <div class="va">
     <div class="vl">// Price data with technical indicators</div>
-    <canvas id="ptaCanvas" height="220"></canvas>
+    <canvas id="ptaCanvas" role="img" aria-label="pandas-ta &amp; yfinance: Price data with technical indicators" height="220"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># pandas-ta + yfinance — quick market analysis</span>
 <span class="kw">import</span> yfinance <span class="kw">as</span> yf
@@ -2288,7 +2288,7 @@ function buildScipyStatsmodels() {
   <p class="prose"><strong>scipy.stats</strong> has every distribution and statistical test. <strong>statsmodels</strong> adds regression diagnostics, time series models (ARIMA, ADF), and proper statistical inference with confidence intervals — what sklearn deliberately leaves out.</p>
   <div class="va">
     <div class="vl">// scipy.stats + statsmodels workflow</div>
-    <canvas id="ssCanvas" height="220"></canvas>
+    <canvas id="ssCanvas" role="img" aria-label="scipy.stats &amp; statsmodels: scipy.stats + statsmodels workflow" height="220"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># scipy.stats — statistical tests</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> (
