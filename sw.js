@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v108';
+const CACHE_NAME = 'pattern-v109';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -21,6 +21,7 @@ const SHELL = [
   '/js/learning-path.js',
   '/js/ui-enhance.js',
   '/js/topic-meta.js',
+  '/js/collection-reader.js',
   '/js/pattern-thread.js',
   '/js/pattern-loader.js',
   '/start/index.html',
