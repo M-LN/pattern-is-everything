@@ -184,7 +184,7 @@ function buildStationarity() {
   <div class="fb"><div class="fm">E[y<sub>t</sub>] = &mu; &nbsp;&nbsp;&amp;&nbsp;&nbsp; Var(y<sub>t</sub>) = &sigma;&sup2; &nbsp;&nbsp;&amp;&nbsp;&nbsp; Cov(y<sub>t</sub>, y<sub>t&minus;k</sub>) = f(k)</div><div class="fd"><span>Stationarity</span> means the joint distribution of any collection of time steps depends only on the gaps between them, not on the absolute position in time.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; stationary vs non-stationary series</div>
-    <canvas id="stationCanvas" height="260"></canvas>
+    <canvas id="stationCanvas" role="img" aria-label="Stationarity: Interactive — stationary vs non-stationary series" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Trend Strength</span><input type="range" id="stationTrend" min="0" max="100" step="1" value="0"><span class="vd" id="stationTrendV">0</span></div>
     </div>
@@ -223,7 +223,7 @@ function buildAutocorrelation() {
   <div class="fb"><div class="fm">ACF(k) = Cov(y<sub>t</sub>, y<sub>t&minus;k</sub>) / Var(y<sub>t</sub>)</div><div class="fd"><span>ACF</span> at lag k is the Pearson correlation between a series and itself shifted by k steps. Values outside the confidence band are significant.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; ACF and PACF plots</div>
-    <canvas id="acfCanvas" height="260"></canvas>
+    <canvas id="acfCanvas" role="img" aria-label="Autocorrelation (ACF/PACF): Interactive — ACF and PACF plots" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">AR Order (p)</span><input type="range" id="acfP" min="0" max="5" step="1" value="1"><span class="vd" id="acfPV">1</span></div>
       <div class="cg"><span class="cl">MA Order (q)</span><input type="range" id="acfQ" min="0" max="5" step="1" value="0"><span class="vd" id="acfQV">0</span></div>
@@ -261,7 +261,7 @@ function buildDecomposition() {
   <div class="fb"><div class="fm">y<sub>t</sub> = T<sub>t</sub> + S<sub>t</sub> + R<sub>t</sub> &nbsp;&nbsp;(additive) &nbsp;&nbsp;|&nbsp;&nbsp; y<sub>t</sub> = T<sub>t</sub> &times; S<sub>t</sub> &times; R<sub>t</sub> &nbsp;&nbsp;(multiplicative)</div><div class="fd"><span>Additive</span> when seasonal amplitude is constant. <span>Multiplicative</span> when it grows with the level.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; STL decomposition</div>
-    <canvas id="decompCanvas" height="320"></canvas>
+    <canvas id="decompCanvas" role="img" aria-label="Decomposition: Interactive — STL decomposition" height="320"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Seasonal Period</span><input type="range" id="decompPeriod" min="4" max="52" step="1" value="12"><span class="vd" id="decompPeriodV">12</span></div>
       <div class="cg"><span class="cl">Trend Strength</span><input type="range" id="decompTrend" min="0" max="100" step="1" value="50"><span class="vd" id="decompTrendV">50</span></div>
@@ -291,7 +291,7 @@ function buildDifferencing() {
   <div class="fb"><div class="fm">&Delta;y<sub>t</sub> = y<sub>t</sub> &minus; y<sub>t&minus;1</sub> &nbsp;&nbsp;|&nbsp;&nbsp; &Delta;<sup>2</sup>y<sub>t</sub> = &Delta;y<sub>t</sub> &minus; &Delta;y<sub>t&minus;1</sub> &nbsp;&nbsp;|&nbsp;&nbsp; &Delta;<sub>m</sub>y<sub>t</sub> = y<sub>t</sub> &minus; y<sub>t&minus;m</sub></div><div class="fd">The <span>d</span> parameter in ARIMA(p,d,q) is the number of regular differences needed for stationarity.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; differencing levels</div>
-    <canvas id="diffCanvas" height="260"></canvas>
+    <canvas id="diffCanvas" role="img" aria-label="Differencing: Interactive — differencing levels" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Differences (d)</span><input type="range" id="diffD" min="0" max="2" step="1" value="0"><span class="vd" id="diffDV">0</span></div>
     </div>
@@ -319,7 +319,7 @@ function buildResampling() {
   <p class="prose"><strong>Downsampling</strong> aggregates high-frequency data (e.g., ticks &rarr; daily). <strong>Upsampling</strong> fills gaps in lower-frequency data (e.g., monthly &rarr; daily with interpolation). Proper frequency alignment prevents lookahead bias and ensures your features match your target.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; resampling effects</div>
-    <canvas id="resampleCanvas" height="260"></canvas>
+    <canvas id="resampleCanvas" role="img" aria-label="Resampling &amp; Frequency: Interactive — resampling effects" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Target Frequency</span><input type="range" id="resampleFreq" min="1" max="5" step="1" value="1"><span class="vd" id="resampleFreqV">1x</span></div>
     </div>
@@ -350,7 +350,7 @@ function buildARModels() {
   <div class="fb"><div class="fm">y<sub>t</sub> = c + &phi;<sub>1</sub>y<sub>t&minus;1</sub> + &phi;<sub>2</sub>y<sub>t&minus;2</sub> + &hellip; + &phi;<sub>p</sub>y<sub>t&minus;p</sub> + &epsilon;<sub>t</sub></div><div class="fd">Each <span>&phi;</span> coefficient tells you how much influence a past value has. Stationarity requires all roots of the characteristic polynomial to lie outside the unit circle.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; AR(p) process simulation</div>
-    <canvas id="arCanvas" height="260"></canvas>
+    <canvas id="arCanvas" role="img" aria-label="AR Models: Interactive — AR(p) process simulation" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">&phi;<sub>1</sub></span><input type="range" id="arPhi1" min="-95" max="95" step="5" value="70"><span class="vd" id="arPhi1V">0.70</span></div>
       <div class="cg"><span class="cl">Order (p)</span><input type="range" id="arOrder" min="1" max="3" step="1" value="1"><span class="vd" id="arOrderV">1</span></div>
@@ -379,7 +379,7 @@ function buildMAModels() {
   <div class="fb"><div class="fm">y<sub>t</sub> = c + &epsilon;<sub>t</sub> + &theta;<sub>1</sub>&epsilon;<sub>t&minus;1</sub> + &theta;<sub>2</sub>&epsilon;<sub>t&minus;2</sub> + &hellip; + &theta;<sub>q</sub>&epsilon;<sub>t&minus;q</sub></div><div class="fd">Each <span>&theta;</span> coefficient controls the impact of a past shock. MA models have finite memory &mdash; the effect of a shock dies out after exactly q steps.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; MA(q) impulse response</div>
-    <canvas id="maCanvas" height="260"></canvas>
+    <canvas id="maCanvas" role="img" aria-label="MA Models: Interactive — MA(q) impulse response" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">&theta;<sub>1</sub></span><input type="range" id="maTheta1" min="-95" max="95" step="5" value="60"><span class="vd" id="maTheta1V">0.60</span></div>
       <div class="cg"><span class="cl">Order (q)</span><input type="range" id="maOrder" min="1" max="3" step="1" value="1"><span class="vd" id="maOrderV">1</span></div>
@@ -407,7 +407,7 @@ function buildARIMA() {
   <div class="fb"><div class="fm">&Delta;<sup>d</sup>y<sub>t</sub> = c + &phi;<sub>1</sub>&Delta;<sup>d</sup>y<sub>t&minus;1</sub> + &hellip; + &theta;<sub>1</sub>&epsilon;<sub>t&minus;1</sub> + &hellip; + &epsilon;<sub>t</sub></div><div class="fd">ARIMA unifies the three operations: <span>differentiate</span> to stationarize, <span>AR</span> for lag dependence, <span>MA</span> for shock dependence.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; ARIMA forecast with confidence intervals</div>
-    <canvas id="arimaCanvas" height="260"></canvas>
+    <canvas id="arimaCanvas" role="img" aria-label="ARIMA: Interactive — ARIMA forecast with confidence intervals" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">p (AR)</span><input type="range" id="arimaP" min="0" max="4" step="1" value="1"><span class="vd" id="arimaPV">1</span></div>
       <div class="cg"><span class="cl">d (diff)</span><input type="range" id="arimaD" min="0" max="2" step="1" value="1"><span class="vd" id="arimaDV">1</span></div>
@@ -475,7 +475,7 @@ function buildSARIMA() {
   <div class="fb"><div class="fm">SARIMA(p,d,q)(P,D,Q)<sub>m</sub></div><div class="fd"><span>Lowercase</span> = non-seasonal orders. <span>Uppercase</span> = seasonal orders at lag m. The model simultaneously captures short-term dynamics and periodic patterns.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; seasonal pattern visualization</div>
-    <canvas id="sarimaCanvas" height="260"></canvas>
+    <canvas id="sarimaCanvas" role="img" aria-label="SARIMA: Interactive — seasonal pattern visualization" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Season (m)</span><input type="range" id="sarimaM" min="4" max="52" step="1" value="12"><span class="vd" id="sarimaMV">12</span></div>
       <div class="cg"><span class="cl">Seasonal Strength</span><input type="range" id="sarimaS" min="0" max="100" step="1" value="60"><span class="vd" id="sarimaSV">60</span></div>
@@ -506,7 +506,7 @@ function buildExponentialSmoothing() {
   <div class="fb"><div class="fm">SES: &nbsp; &#x1D453;&#x302;<sub>t+1</sub> = &alpha;y<sub>t</sub> + (1&minus;&alpha;)&#x1D453;&#x302;<sub>t</sub></div><div class="fd"><span>&alpha;</span> (0&ndash;1) balances responsiveness with stability. Close to 1 = reactive to recent data. Close to 0 = smooth, slow to adapt.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; exponential smoothing</div>
-    <canvas id="etsCanvas" height="260"></canvas>
+    <canvas id="etsCanvas" role="img" aria-label="Exponential Smoothing: Interactive — exponential smoothing" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Alpha (&alpha;)</span><input type="range" id="etsAlpha" min="1" max="99" step="1" value="30"><span class="vd" id="etsAlphaV">0.30</span></div>
     </div>
@@ -536,7 +536,7 @@ function buildProphet() {
   <div class="fb"><div class="fm">y(t) = g(t) + s(t) + h(t) + &epsilon;<sub>t</sub></div><div class="fd"><span>g(t)</span> = trend (linear/logistic), <span>s(t)</span> = seasonality (Fourier), <span>h(t)</span> = holidays/events. All components are interpretable.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; Prophet component decomposition</div>
-    <canvas id="prophetCanvas" height="300"></canvas>
+    <canvas id="prophetCanvas" role="img" aria-label="Prophet: Interactive — Prophet component decomposition" height="300"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; Prophet</span>
 <span class="kw">from</span> prophet <span class="kw">import</span> Prophet
@@ -566,7 +566,7 @@ function buildStateSpace() {
   <div class="fb"><div class="fm">State: &nbsp; x<sub>t</sub> = F&middot;x<sub>t&minus;1</sub> + w<sub>t</sub> &nbsp;&nbsp;|&nbsp;&nbsp; Obs: &nbsp; y<sub>t</sub> = H&middot;x<sub>t</sub> + v<sub>t</sub></div><div class="fd">The <span>Kalman filter</span> recursively estimates x<sub>t</sub> from noisy observations y<sub>t</sub>, balancing model prediction with measurement update.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; Kalman filter tracking</div>
-    <canvas id="kalmanCanvas" height="260"></canvas>
+    <canvas id="kalmanCanvas" role="img" aria-label="State-Space Models: Interactive — Kalman filter tracking" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Process Noise</span><input type="range" id="kalmanQ" min="1" max="100" step="1" value="20"><span class="vd" id="kalmanQV">20</span></div>
       <div class="cg"><span class="cl">Observation Noise</span><input type="range" id="kalmanR" min="1" max="100" step="1" value="50"><span class="vd" id="kalmanRV">50</span></div>
@@ -597,7 +597,7 @@ function buildGARCH() {
   <div class="fb"><div class="fm">&sigma;<sup>2</sup><sub>t</sub> = &omega; + &alpha;&epsilon;<sup>2</sup><sub>t&minus;1</sub> + &beta;&sigma;<sup>2</sup><sub>t&minus;1</sub></div><div class="fd"><span>&alpha;</span> captures the reaction to recent shocks. <span>&beta;</span> captures persistence of volatility. <span>&alpha; + &beta;</span> close to 1 means high persistence.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; GARCH volatility clustering</div>
-    <canvas id="garchCanvas" height="260"></canvas>
+    <canvas id="garchCanvas" role="img" aria-label="GARCH: Interactive — GARCH volatility clustering" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">&alpha; (reaction)</span><input type="range" id="garchA" min="1" max="30" step="1" value="10"><span class="vd" id="garchAV">0.10</span></div>
       <div class="cg"><span class="cl">&beta; (persistence)</span><input type="range" id="garchB" min="50" max="98" step="1" value="85"><span class="vd" id="garchBV">0.85</span></div>
@@ -628,7 +628,7 @@ function buildVARModels() {
   <div class="fb"><div class="fm">Y<sub>t</sub> = c + A<sub>1</sub>Y<sub>t&minus;1</sub> + A<sub>2</sub>Y<sub>t&minus;2</sub> + &hellip; + A<sub>p</sub>Y<sub>t&minus;p</sub> + &epsilon;<sub>t</sub></div><div class="fd"><span>Y</span> is a vector of all variables. Each <span>A</span> is a coefficient matrix capturing cross-series dependencies at that lag.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; VAR impulse response</div>
-    <canvas id="varCanvas" height="260"></canvas>
+    <canvas id="varCanvas" role="img" aria-label="VAR Models: Interactive — VAR impulse response" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; VAR</span>
 <span class="kw">from</span> statsmodels.tsa.api <span class="kw">import</span> VAR
@@ -656,7 +656,7 @@ function buildChangepointDetection() {
   <p class="prose">A <strong>changepoint</strong> is where the statistical properties of a series abruptly shift &mdash; a new mean, variance, or trend slope. <strong>PELT</strong> (Pruned Exact Linear Time) finds optimal changepoints efficiently. <strong>BOCPD</strong> (Bayesian Online Changepoint Detection) detects them in real-time.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; changepoint detection</div>
-    <canvas id="cpCanvas" height="260"></canvas>
+    <canvas id="cpCanvas" role="img" aria-label="Changepoint Detection: Interactive — changepoint detection" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Sensitivity</span><input type="range" id="cpSens" min="1" max="100" step="1" value="50"><span class="vd" id="cpSensV">50</span></div>
     </div>
@@ -684,7 +684,7 @@ function buildRNNForTS() {
   <div class="fb"><div class="fm">h<sub>t</sub> = tanh(W<sub>h</sub>h<sub>t&minus;1</sub> + W<sub>x</sub>x<sub>t</sub> + b)</div><div class="fd">The hidden state <span>h<sub>t</sub></span> is a compressed summary of all inputs seen so far. <span>Vanishing gradients</span> make plain RNNs forget early inputs.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; RNN unrolled through time</div>
-    <canvas id="rnnCanvas" height="260"></canvas>
+    <canvas id="rnnCanvas" role="img" aria-label="RNNs for Time Series: Interactive — RNN unrolled through time" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># PyTorch &mdash; basic RNN for forecasting</span>
 <span class="kw">import</span> torch.nn <span class="kw">as</span> nn
@@ -714,7 +714,7 @@ function buildLSTMForTS() {
   <div class="fb"><div class="fm">LSTM: &nbsp; f<sub>t</sub> = &sigma;(W<sub>f</sub>[h<sub>t&minus;1</sub>,x<sub>t</sub>]) &nbsp;&nbsp;|&nbsp;&nbsp; i<sub>t</sub> = &sigma;(W<sub>i</sub>[h<sub>t&minus;1</sub>,x<sub>t</sub>]) &nbsp;&nbsp;|&nbsp;&nbsp; o<sub>t</sub> = &sigma;(W<sub>o</sub>[h<sub>t&minus;1</sub>,x<sub>t</sub>])</div><div class="fd">The <span>forget gate</span> decides what to discard, the <span>input gate</span> what to write, and the <span>output gate</span> what to expose.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; LSTM gate activations</div>
-    <canvas id="lstmCanvas" height="260"></canvas>
+    <canvas id="lstmCanvas" role="img" aria-label="LSTM &amp; GRU: Interactive — LSTM gate activations" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># PyTorch &mdash; LSTM for multi-step forecasting</span>
 <span class="kw">class</span> LSTMForecaster(nn.Module):
@@ -743,7 +743,7 @@ function buildTemporalCNN() {
   <div class="fb"><div class="fm">Receptive field = 1 + 2 &times; (k&minus;1) &times; &sum; d<sub>i</sub></div><div class="fd"><span>k</span> = kernel size, <span>d<sub>i</sub></span> = dilation at layer i. Doubling dilation each layer (1,2,4,8&hellip;) yields exponential growth.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; dilated causal convolutions</div>
-    <canvas id="tcnCanvas" height="260"></canvas>
+    <canvas id="tcnCanvas" role="img" aria-label="Temporal CNN (TCN): Interactive — dilated causal convolutions" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Layers</span><input type="range" id="tcnLayers" min="2" max="6" step="1" value="4"><span class="vd" id="tcnLayersV">4</span></div>
       <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="tcnKernel" min="2" max="5" step="1" value="3"><span class="vd" id="tcnKernelV">3</span></div>
@@ -774,7 +774,7 @@ function buildTransformersForTS() {
   <p class="prose"><strong>Time-series transformers</strong> adapt the attention mechanism from NLP for temporal data. <strong>Informer</strong> uses ProbSparse attention for long sequences. <strong>Autoformer</strong> integrates decomposition into the architecture. <strong>PatchTST</strong> treats time windows as patches, achieving state-of-the-art results with channel-independent processing.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; patched attention for time series</div>
-    <canvas id="tsfmCanvas" height="260"></canvas>
+    <canvas id="tsfmCanvas" role="img" aria-label="Transformers for Time Series: Interactive — patched attention for time series" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Model</th><th>Key Innovation</th><th>Best For</th></tr></thead>
@@ -810,7 +810,7 @@ function buildNBEATS() {
   <p class="prose"><strong>N-BEATS</strong> uses stacks of fully-connected blocks that produce both a <strong>backward forecast</strong> (reconstructing the input) and a <strong>forward forecast</strong>. Residual connections between blocks let each stack focus on what previous stacks missed. The interpretable variant decomposes into trend and seasonal basis functions. <strong>N-HiTS</strong> adds hierarchical interpolation for efficiency.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; N-BEATS block architecture</div>
-    <canvas id="nbeatsCanvas" height="260"></canvas>
+    <canvas id="nbeatsCanvas" role="img" aria-label="N-BEATS &amp; N-HiTS: Interactive — N-BEATS block architecture" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; N-BEATS with Darts</span>
 <span class="kw">from</span> darts.models <span class="kw">import</span> NBEATSModel
@@ -840,7 +840,7 @@ function buildFeatureEngineering() {
   <p class="prose">Time series features fall into three categories: <strong>lag features</strong> (past values), <strong>rolling statistics</strong> (windowed mean/std/min/max), and <strong>calendar features</strong> (day of week, month, holiday flags). Fourier features encode seasonality as continuous sine/cosine pairs.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; feature construction</div>
-    <canvas id="feCanvas" height="260"></canvas>
+    <canvas id="feCanvas" role="img" aria-label="Feature Engineering: Interactive — feature construction" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Feature Type</th><th>Examples</th><th>Captures</th></tr></thead>
@@ -877,7 +877,7 @@ function buildCrossValidationTS() {
   <p class="prose">Standard k-fold cross-validation breaks temporal ordering and causes <strong>data leakage</strong>. Time series requires <strong>expanding window</strong> (growing training set), <strong>sliding window</strong> (fixed-size window), or <strong>walk-forward</strong> validation. A <strong>purge gap</strong> between train and test prevents contamination from lagged features.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; temporal cross-validation splits</div>
-    <canvas id="tscvCanvas" height="260"></canvas>
+    <canvas id="tscvCanvas" role="img" aria-label="Cross-Validation for TS: Interactive — temporal cross-validation splits" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Folds</span><input type="range" id="tscvFolds" min="3" max="8" step="1" value="5"><span class="vd" id="tscvFoldsV">5</span></div>
       <div class="cg"><span class="cl">Strategy</span><input type="range" id="tscvMode" min="1" max="2" step="1" value="1"><span class="vd" id="tscvModeV">Expanding</span></div>
@@ -933,7 +933,7 @@ function buildBacktestingForecasts() {
   <div class="fb"><div class="fm">MAE = (1/n)&sum;|y<sub>t</sub> &minus; &#x1D453;&#x302;<sub>t</sub>| &nbsp;&nbsp;|&nbsp;&nbsp; MAPE = (100/n)&sum;|y<sub>t</sub> &minus; &#x1D453;&#x302;<sub>t</sub>| / |y<sub>t</sub>|</div><div class="fd">Choose your metric based on your decision context. <span>MAE</span> in original units, <span>MAPE</span> for stakeholder communication, <span>RMSE</span> when large errors are costly.</div></div>
   <div class="va">
     <div class="vl">// Interactive &mdash; forecast accuracy metrics</div>
-    <canvas id="btCanvas" height="260"></canvas>
+    <canvas id="btCanvas" role="img" aria-label="Backtesting Forecasts: Interactive — forecast accuracy metrics" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; backtesting with Darts</span>
 <span class="kw">from</span> darts.metrics <span class="kw">import</span> mae, rmse, mape
@@ -960,7 +960,7 @@ function buildAnomalyDetection() {
   <p class="prose">Temporal anomalies are observations that deviate from expected patterns. <strong>Point anomalies</strong> are individual outliers. <strong>Contextual anomalies</strong> are normal values at the wrong time (e.g., summer demand in winter). Methods range from simple z-score thresholds to autoencoders that learn the normal pattern.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; anomaly detection methods</div>
-    <canvas id="anomCanvas" height="260"></canvas>
+    <canvas id="anomCanvas" role="img" aria-label="Anomaly Detection: Interactive — anomaly detection methods" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Threshold (&sigma;)</span><input type="range" id="anomThresh" min="1" max="5" step="0.5" value="2"><span class="vd" id="anomThreshV">2.0</span></div>
     </div>
@@ -991,7 +991,7 @@ function buildForecastEnsembles() {
   <p class="prose">No single model wins everywhere. <strong>Ensemble forecasting</strong> combines diverse models &mdash; ARIMA, ETS, neural nets &mdash; for more robust predictions. The simplest approach (equal-weight average) is surprisingly hard to beat. More sophisticated methods include <strong>inverse-error weighting</strong> and <strong>stacking</strong> with a meta-learner.</p>
   <div class="va">
     <div class="vl">// Interactive &mdash; ensemble vs individual forecasts</div>
-    <canvas id="ensembleCanvas" height="260"></canvas>
+    <canvas id="ensembleCanvas" role="img" aria-label="Forecast Ensembles: Interactive — ensemble vs individual forecasts" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Method</th><th>Approach</th><th>When</th></tr></thead>

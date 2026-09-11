@@ -2159,7 +2159,7 @@ ENGINE.updateNnInspector = function() {
       <div class="exp-formula" style="border-left-color:#4dd0e1;">a = ${act.label}(z) = <strong>${a.toFixed(3)}</strong></div>`;
   }
   html += `<div class="nn-emit">▶ this neuron <strong>emits ${emit.toFixed(3)}</strong> downstream</div>
-    <canvas id="nnActCanvas" height="120" style="width:100%;margin-top:10px;"></canvas>`;
+    <canvas id="nnActCanvas" role="img" aria-label="Activation function curve for the selected neuron" height="120" style="width:100%;margin-top:10px;"></canvas>`;
   box.innerHTML = html;
   ENGINE.drawNnActCurve(z, a);
 };

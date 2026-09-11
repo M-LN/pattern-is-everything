@@ -170,7 +170,7 @@ function buildValueAtRisk() {
   <div class="fb"><div class="fm">VaR<sub>&alpha;</sub> = &mu; &minus; z<sub>&alpha;</sub> &middot; &sigma;</div><div class="fd"><span>z<sub>&alpha;</sub></span> is the inverse-normal quantile (e.g. 1.645 for 95 %). Historical simulation makes no distributional assumption — it ranks past P&amp;L and reads the quantile directly.</div></div>
   <div class="va">
     <div class="vl">// Interactive — confidence level vs. VaR threshold</div>
-    <canvas id="cvs-value-at-risk" width="720" height="340"></canvas>
+    <canvas id="cvs-value-at-risk" role="img" aria-label="Value at Risk (VaR): Interactive — confidence level vs. VaR threshold" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Confidence %</span><input type="range" min="90" max="99" value="95" data-ctrl="varConf"></div>
     </div>
@@ -245,7 +245,7 @@ function buildExpectedShortfall() {
   <div class="fb"><div class="fm">ES<sub>&alpha;</sub> = E[ L | L &gt; VaR<sub>&alpha;</sub> ]</div><div class="fd"><span>For a normal distribution</span> ES has a closed-form: ES = &mu; + &sigma; &middot; &phi;(z<sub>&alpha;</sub>) / (1 &minus; &alpha;). For fat-tailed distributions Monte Carlo or historical methods are used.</div></div>
   <div class="va">
     <div class="vl">// Interactive — tail threshold and expected shortfall region</div>
-    <canvas id="cvs-expected-shortfall" width="720" height="340"></canvas>
+    <canvas id="cvs-expected-shortfall" role="img" aria-label="Expected Shortfall (CVaR): Interactive — tail threshold and expected shortfall region" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Tail &alpha; %</span><input type="range" min="1" max="10" value="5" data-ctrl="esTail"></div>
     </div>
@@ -264,7 +264,7 @@ function buildVolatilityModeling() {
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>t</sub> = &omega; + &alpha; &middot; r&sup2;<sub>t&minus;1</sub> + &beta; &middot; &sigma;&sup2;<sub>t&minus;1</sub></div><div class="fd"><span>EWMA</span> is a special case with &omega; = 0 and &alpha; + &beta; = 1 (RiskMetrics uses &lambda; = 0.94). Realized volatility sums intraday squared returns for a model-free estimate.</div></div>
   <div class="va">
     <div class="vl">// Interactive — EWMA decay parameter and conditional variance</div>
-    <canvas id="cvs-volatility-modeling" width="720" height="340"></canvas>
+    <canvas id="cvs-volatility-modeling" role="img" aria-label="Volatility Modeling: Interactive — EWMA decay parameter and conditional variance" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">EWMA &lambda;</span><input type="range" min="80" max="99" value="94" data-ctrl="ewmaLambda"></div>
     </div>
@@ -290,7 +290,7 @@ function buildCorrelationRisk() {
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>p</sub> = w&prime; &Sigma; w</div><div class="fd"><span>Copula models</span> separate marginal distributions from the dependence structure, allowing non-linear tail dependence to be modeled explicitly. Regime-switching models capture correlation shifts.</div></div>
   <div class="va">
     <div class="vl">// Interactive — stress level and correlation regime shift</div>
-    <canvas id="cvs-correlation-risk" width="720" height="340"></canvas>
+    <canvas id="cvs-correlation-risk" role="img" aria-label="Correlation Risk: Interactive — stress level and correlation regime shift" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Stress level</span><input type="range" min="0" max="100" value="20" data-ctrl="stressLevel"></div>
     </div>
@@ -309,7 +309,7 @@ function buildTailRisk() {
   <div class="fb"><div class="fm">P(X &gt; x | X &gt; u) &asymp; (1 + &xi; &middot; (x&minus;u)/&beta;)<sup>&minus;1/&xi;</sup></div><div class="fd"><span>A positive &xi; &gt; 0</span> indicates a heavy (Pareto-type) tail. EVT lets us extrapolate loss quantiles beyond sample extremes.</div></div>
   <div class="va">
     <div class="vl">// Interactive — kurtosis and tail weight visualization</div>
-    <canvas id="cvs-tail-risk" width="720" height="340"></canvas>
+    <canvas id="cvs-tail-risk" role="img" aria-label="Tail Risk: Interactive — kurtosis and tail weight visualization" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Kurtosis</span><input type="range" min="3" max="12" value="5" data-ctrl="kurtLevel"></div>
     </div>
@@ -328,7 +328,7 @@ function buildMeanVariance() {
   <div class="fb"><div class="fm">min &frac12; w&prime; &Sigma; w &nbsp; s.t. &nbsp; w&prime; &mu; &ge; r<sub>target</sub>, &nbsp; w&prime; 1 = 1</div><div class="fd"><span>Estimation error</span> in &mu; and &Sigma; makes raw MVO unstable — shrinkage estimators (Ledoit-Wolf) and resampling improve robustness. The tangency portfolio maximizes the Sharpe ratio.</div></div>
   <div class="va">
     <div class="vl">// Interactive — risk aversion and efficient frontier</div>
-    <canvas id="cvs-mean-variance" width="720" height="340"></canvas>
+    <canvas id="cvs-mean-variance" role="img" aria-label="Mean-Variance Optimization: Interactive — risk aversion and efficient frontier" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Risk aversion</span><input type="range" min="1" max="20" value="5" data-ctrl="riskAversion"></div>
     </div>
@@ -354,7 +354,7 @@ function buildRiskParity() {
   <div class="fb"><div class="fm">RC<sub>i</sub> = w<sub>i</sub> &middot; (&Sigma;w)<sub>i</sub> / &sigma;<sub>p</sub> &nbsp; &rarr; &nbsp; RC<sub>i</sub> = RC<sub>j</sub> &nbsp; &forall; i,j</div><div class="fd"><span>Simplest proxy</span> is inverse-volatility weighting: w<sub>i</sub> &prop; 1/&sigma;<sub>i</sub>. True risk parity requires numerical optimization to equalize marginal risk contributions.</div></div>
   <div class="va">
     <div class="vl">// Risk parity — equal contribution allocation</div>
-    <canvas id="cvs-risk-parity" width="720" height="340"></canvas>
+    <canvas id="cvs-risk-parity" role="img" aria-label="Risk parity — equal contribution allocation" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>All-Weather.</strong> Ray Dalio's All-Weather fund popularized risk parity — bonds carry leverage to match equity risk.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Volatility normalization echoes <a href="../indicators/index.html#atr">Indicators — ATR</a>.</div>
@@ -370,7 +370,7 @@ function buildFactorModels() {
   <div class="fb"><div class="fm">r<sub>i</sub> = &alpha;<sub>i</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; + &epsilon;<sub>i</sub></div><div class="fd"><span>Factor tilts</span> explain most of long-only active returns. Pure alpha — returns unexplained by any factor — is exceedingly rare.</div></div>
   <div class="va">
     <div class="vl">// Factor decomposition — beta exposures</div>
-    <canvas id="cvs-factor-models" width="720" height="340"></canvas>
+    <canvas id="cvs-factor-models" role="img" aria-label="Factor Models: Factor decomposition — beta exposures" width="720" height="340"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Factor</th><th>Premium Source</th></tr></thead>
@@ -394,7 +394,7 @@ function buildRebalancing() {
   <div class="fb"><div class="fm">Drift<sub>i</sub> = | w<sub>actual,i</sub> &minus; w<sub>target,i</sub> |</div><div class="fd"><span>Wider bands</span> reduce transaction costs but increase tracking error. The optimal band depends on volatility, expected return differences, and trading costs.</div></div>
   <div class="va">
     <div class="vl">// Interactive — rebalancing bands and drift over time</div>
-    <canvas id="cvs-rebalancing" width="720" height="340"></canvas>
+    <canvas id="cvs-rebalancing" role="img" aria-label="Rebalancing Strategies: Interactive — rebalancing bands and drift over time" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Band width %</span><input type="range" min="1" max="10" value="5" data-ctrl="rebalBand"></div>
     </div>
@@ -413,7 +413,7 @@ function buildDiversification() {
   <div class="fb"><div class="fm">&sigma;<sub>p</sub> = &sigma; / &radic;N &nbsp; (equal weight, zero correlation)</div><div class="fd"><span>True diversification</span> spans asset classes (equity, bonds, commodities, real estate), geographies, strategies, and time horizons. The <strong>diversification ratio</strong> measures how much idiosyncratic risk has been diversified away.</div></div>
   <div class="va">
     <div class="vl">// Interactive — number of assets vs. portfolio volatility</div>
-    <canvas id="cvs-diversification" width="720" height="340"></canvas>
+    <canvas id="cvs-diversification" role="img" aria-label="Diversification: Interactive — number of assets vs. portfolio volatility" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Number of assets</span><input type="range" min="1" max="50" value="10" data-ctrl="numAssets"></div>
     </div>
@@ -432,7 +432,7 @@ function buildKellyCriterion() {
   <div class="fb"><div class="fm">f* = (p &middot; b &minus; q) / b</div><div class="fd"><span>p = win probability,</span> q = 1&minus;p, b = win/loss ratio. In continuous markets, Kelly fraction = expected excess return / variance. Most practitioners use <strong>half-Kelly</strong> or less to reduce volatility.</div></div>
   <div class="va">
     <div class="vl">// Interactive — win rate and Kelly fraction</div>
-    <canvas id="cvs-kelly-criterion" width="720" height="340"></canvas>
+    <canvas id="cvs-kelly-criterion" role="img" aria-label="Kelly Criterion: Interactive — win rate and Kelly fraction" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Win rate %</span><input type="range" min="30" max="80" value="55" data-ctrl="kellyWin"></div>
     </div>
@@ -459,7 +459,7 @@ function buildFixedFractional() {
   <div class="fb"><div class="fm">Position = (Equity &times; f) / (Entry &minus; Stop)</div><div class="fd"><span>Typical f values:</span> 0.5 %&ndash;2 %. This keeps risk proportional to equity — positions shrink after losses and grow after gains, providing natural anti-martingale behavior.</div></div>
   <div class="va">
     <div class="vl">// Interactive — risk fraction and equity curve</div>
-    <canvas id="cvs-fixed-fractional" width="720" height="340"></canvas>
+    <canvas id="cvs-fixed-fractional" role="img" aria-label="Fixed Fractional Sizing: Interactive — risk fraction and equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Risk fraction %</span><input type="range" min="1" max="5" value="2" data-ctrl="ffFrac"></div>
     </div>
@@ -478,7 +478,7 @@ function buildVolatilitySizing() {
   <div class="fb"><div class="fm">Shares = Target $ Risk / (N &times; ATR)</div><div class="fd"><span>N is a multiplier</span> (e.g. 2&times; ATR). The Turtle Traders famously used this approach. Each position contributes roughly equally to portfolio P&amp;L variance.</div></div>
   <div class="va">
     <div class="vl">// Volatility sizing — equal dollar-risk positions</div>
-    <canvas id="cvs-volatility-sizing" width="720" height="340"></canvas>
+    <canvas id="cvs-volatility-sizing" role="img" aria-label="Volatility-Based Sizing: Volatility sizing — equal dollar-risk positions" width="720" height="340"></canvas>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> ATR computation is explained in <a href="../indicators/index.html#atr">Indicators — ATR</a>.</div>
   <div class="topic-nav" id="nav-volatility-sizing"></div>
@@ -493,7 +493,7 @@ function buildPyramiding() {
   <div class="fb"><div class="fm">Risk<sub>total</sub> = &Sigma; tier<sub>i</sub> &times; (entry<sub>i</sub> &minus; stop)</div><div class="fd"><span>Common patterns:</span> 4-3-2-1 units, or three equal tiers at predefined price milestones. The stop is usually tightened with each add so that risk on older entries is locked to breakeven.</div></div>
   <div class="va">
     <div class="vl">// Interactive — pyramid tiers and position build-up</div>
-    <canvas id="cvs-pyramiding" width="720" height="340"></canvas>
+    <canvas id="cvs-pyramiding" role="img" aria-label="Pyramiding: Interactive — pyramid tiers and position build-up" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Tiers</span><input type="range" min="1" max="5" value="3" data-ctrl="pyramidTiers"></div>
     </div>
@@ -521,7 +521,7 @@ function buildMaxPosition() {
   <p class="prose">Regulatory frameworks (UCITS, 40-Act) enforce their own diversification rules. Risk budgeting integrates position limits with volatility and correlation constraints.</p>
   <div class="va">
     <div class="vl">// Position limits — concentration caps</div>
-    <canvas id="cvs-max-position" width="720" height="340"></canvas>
+    <canvas id="cvs-max-position" role="img" aria-label="Maximum Position Limits: Position limits — concentration caps" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Concentration kills.</strong> Archegos lost $20 B+ in days due to massive single-name concentration with leveraged swaps.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> See <a onclick="show('diversification',true)">Diversification</a> for the quantitative benefit of spreading risk.</div>
@@ -537,7 +537,7 @@ function buildOptionsHedging() {
   <div class="fb"><div class="fm">Collar payoff = Stock + Put(K<sub>1</sub>) &minus; Call(K<sub>2</sub>)</div><div class="fd"><span>Delta hedging</span> continuously adjusts the hedge ratio. The cost is realized volatility — if realized vol &lt; implied vol, the hedge is profitable; otherwise it is a drag.</div></div>
   <div class="va">
     <div class="vl">// Interactive — put strike and payoff profile</div>
-    <canvas id="cvs-options-hedging" width="720" height="340"></canvas>
+    <canvas id="cvs-options-hedging" role="img" aria-label="Options Hedging: Interactive — put strike and payoff profile" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Put strike %</span><input type="range" min="80" max="100" value="95" data-ctrl="putStrike"></div>
     </div>
@@ -572,7 +572,7 @@ function buildStopLosses() {
   <p class="prose">A 2&times;ATR trailing stop is a popular default — tight enough to limit loss, wide enough to survive normal noise.</p>
   <div class="va">
     <div class="vl">// Interactive — ATR multiplier and stop placement</div>
-    <canvas id="cvs-stop-losses" width="720" height="340"></canvas>
+    <canvas id="cvs-stop-losses" role="img" aria-label="Stop-Loss Strategies: Interactive — ATR multiplier and stop placement" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">ATR multiplier</span><input type="range" min="10" max="40" value="20" data-ctrl="atrMult"></div>
     </div>
@@ -591,7 +591,7 @@ function buildPairsTrading() {
   <div class="fb"><div class="fm">z<sub>t</sub> = (spread<sub>t</sub> &minus; &mu;) / &sigma; &nbsp; &rarr; &nbsp; enter at |z| &gt; 2, exit at |z| &lt; 0.5</div><div class="fd"><span>Cointegration</span> (Engle-Granger or Johansen test) is stronger than correlation — it means the spread is mean-reverting. The Augmented Dickey-Fuller test checks stationarity.</div></div>
   <div class="va">
     <div class="vl">// Interactive — entry z-score and spread convergence</div>
-    <canvas id="cvs-pairs-trading" width="720" height="340"></canvas>
+    <canvas id="cvs-pairs-trading" role="img" aria-label="Pairs Trading: Interactive — entry z-score and spread convergence" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Entry z-score</span><input type="range" min="10" max="30" value="20" data-ctrl="pairsZ"></div>
     </div>
@@ -610,7 +610,7 @@ function buildPortfolioInsurance() {
   <div class="fb"><div class="fm">Risky allocation = m &times; (Portfolio &minus; Floor)</div><div class="fd"><span>m is the multiplier</span> (typically 3&ndash;5). As the portfolio falls toward the floor, the risky allocation shrinks. OBPI uses a put option to guarantee the floor directly. Gap risk is the main danger.</div></div>
   <div class="va">
     <div class="vl">// Interactive — CPPI multiplier and portfolio path</div>
-    <canvas id="cvs-portfolio-insurance" width="720" height="340"></canvas>
+    <canvas id="cvs-portfolio-insurance" role="img" aria-label="Portfolio Insurance: Interactive — CPPI multiplier and portfolio path" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Multiplier m</span><input type="range" min="2" max="8" value="4" data-ctrl="cppiMult"></div>
     </div>
@@ -629,7 +629,7 @@ function buildCurrencyHedging() {
   <div class="fb"><div class="fm">R<sub>unhedged</sub> &asymp; R<sub>local</sub> + R<sub>FX</sub></div><div class="fd"><span>Forward contracts</span> lock future exchange rates. Full hedging eliminates FX variance but costs the interest-rate differential (covered interest parity). Partial hedging (50 %) is a common compromise.</div></div>
   <div class="va">
     <div class="vl">// Interactive — hedge ratio and FX exposure</div>
-    <canvas id="cvs-currency-hedging" width="720" height="340"></canvas>
+    <canvas id="cvs-currency-hedging" role="img" aria-label="Currency Hedging: Interactive — hedge ratio and FX exposure" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Hedge ratio %</span><input type="range" min="0" max="100" value="50" data-ctrl="hedgeRatio"></div>
     </div>
@@ -655,7 +655,7 @@ function buildReturnAttribution() {
   <div class="fb"><div class="fm">Active Return = Allocation + Selection + Interaction</div><div class="fd"><span>Allocation:</span> over/underweighting sectors that outperform. <strong>Selection:</strong> picking better stocks within sectors. <strong>Interaction:</strong> the cross-term. Multi-period attribution chains single-period results.</div></div>
   <div class="va">
     <div class="vl">// Return attribution — Brinson decomposition</div>
-    <canvas id="cvs-return-attribution" width="720" height="340"></canvas>
+    <canvas id="cvs-return-attribution" role="img" aria-label="Return attribution — Brinson decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Daily practice.</strong> Institutional managers report monthly attribution to explain why they beat (or missed) the benchmark.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing variance is explored in <a href="../../stats/index.html#anova">The Toolkit — ANOVA</a>.</div>
@@ -671,7 +671,7 @@ function buildBenchmarkTracking() {
   <div class="fb"><div class="fm">TE = &sigma;(R<sub>p</sub> &minus; R<sub>b</sub>)</div><div class="fd"><span>Passive index funds</span> target TE &lt; 10 bps. Active managers accept TE of 2&ndash;8 % depending on mandate. <strong>Active share</strong> measures the fraction of holdings that differ from the benchmark — high active share combined with low TE signals closet indexing.</div></div>
   <div class="va">
     <div class="vl">// Interactive — active share and tracking error</div>
-    <canvas id="cvs-benchmark-tracking" width="720" height="340"></canvas>
+    <canvas id="cvs-benchmark-tracking" role="img" aria-label="Benchmark Tracking: Interactive — active share and tracking error" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Active share %</span><input type="range" min="10" max="90" value="50" data-ctrl="activeShare"></div>
     </div>
@@ -690,7 +690,7 @@ function buildAlphaGeneration() {
   <div class="fb"><div class="fm">&alpha; = R<sub>p</sub> &minus; [ R<sub>f</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; ]</div><div class="fd"><span>Sources of alpha:</span> information edges, execution speed, behavioral exploitation, or structural advantages (tax, regulation). Alpha decays — once a signal is widely known, it gets arbitraged away.</div></div>
   <div class="va">
     <div class="vl">// Alpha generation — excess return decomposition</div>
-    <canvas id="cvs-alpha-generation" width="720" height="340"></canvas>
+    <canvas id="cvs-alpha-generation" role="img" aria-label="Alpha generation — excess return decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Alpha decay.</strong> The half-life of a quantitative signal is typically 2-5 years before crowding erodes it.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Feature importance for signal research connects to <a href="../../ml-math/index.html">ML Math</a>.</div>
@@ -716,7 +716,7 @@ function buildRiskAdjustedPerf() {
   <p class="prose">Sharpe &gt; 1 is good, &gt; 2 is excellent, &gt; 3 is suspicious (likely overfitting or illiquidity premium). Sortino is preferred for asymmetric return distributions since it penalizes only downside.</p>
   <div class="va">
     <div class="vl">// Risk-adjusted performance ratios</div>
-    <canvas id="cvs-risk-adjusted-perf" width="720" height="340"></canvas>
+    <canvas id="cvs-risk-adjusted-perf" role="img" aria-label="Risk-adjusted performance ratios" width="720" height="340"></canvas>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and downside deviation connect to <a href="../../stats/index.html#variance">The Toolkit — Variance</a>.</div>
   <div class="topic-nav" id="nav-risk-adjusted-perf"></div>
@@ -731,7 +731,7 @@ function buildDrawdownAnalysis() {
   <div class="fb"><div class="fm">MDD = max<sub>t</sub> [ (Peak<sub>t</sub> &minus; Trough<sub>t</sub>) / Peak<sub>t</sub> ]</div><div class="fd"><span>Recovery time</span> — how long to regain the prior peak — matters as much as depth. A 50 % drawdown requires a 100 % gain to recover. The <strong>underwater curve</strong> plots drawdown depth over time.</div></div>
   <div class="va">
     <div class="vl">// Interactive — volatility and underwater equity curve</div>
-    <canvas id="cvs-drawdown-analysis" width="720" height="340"></canvas>
+    <canvas id="cvs-drawdown-analysis" role="img" aria-label="Drawdown Analysis: Interactive — volatility and underwater equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Volatility</span><input type="range" min="5" max="40" value="15" data-ctrl="ddVol"></div>
     </div>

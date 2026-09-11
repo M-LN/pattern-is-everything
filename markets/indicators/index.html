@@ -68,7 +68,7 @@
   </head>
 <body>
 <script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
-<div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas"></canvas></div>
+<div class="page-loader" id="pageLoader" role="status" aria-label="Loading"><canvas id="loaderCanvas" aria-hidden="true"></canvas></div>
 <script src="../../js/pattern-loader.js?v=1"></script>
 
 <div class="portal-header" role="banner">
@@ -164,7 +164,7 @@
 </div>
 <!-- topic-index:end -->
 
-<script src="topics.js?v=6"></script>
+<script src="topics.js?v=7"></script>
 <script src="visualizations.js"></script>
 <script>
 function toggleTheme(){const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('theme',d.getAttribute('data-theme'));}

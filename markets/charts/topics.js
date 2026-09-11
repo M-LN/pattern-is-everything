@@ -170,7 +170,7 @@ function buildHeadAndShoulders() {
   <p class="sub">// Three peaks — the classic top reversal</p>
   <p class="prose">The <strong>Head & Shoulders</strong> is the most reliable reversal pattern. A left shoulder peak, a higher head peak, then a lower right shoulder. When price breaks below the <strong>neckline</strong> (drawn through the two troughs), the bearish reversal is confirmed.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Head − Neckline)</div><div class="fd"><span>Measured move:</span> the distance from the head to the neckline, projected downward from the breakpoint.</div></div>
-  <div class="va"><div class="vl">// Head & Shoulders anatomy</div><canvas id="headAndShouldersCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Head & Shoulders anatomy</div><canvas id="headAndShouldersCanvas" role="img" aria-label="Head &amp; Shoulders anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume typically decreases from left shoulder → head → right shoulder. Declining volume on the right shoulder confirms weakening buying pressure.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The three-peak reversal is a <a href="../../stats/#normal" target="_blank" rel="noopener">distribution shape</a> — the center peak is the mode. In ML, <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance</a> follows the same arc: performance rises, peaks, then degrades.</div>
   <div class="howto">
@@ -213,7 +213,7 @@ function buildInverseHeadAndShoulders() {
   <p class="sub">// The mirror image — three troughs signaling a bottom</p>
   <p class="prose">The <strong>Inverse Head & Shoulders</strong> is the bullish mirror: left trough, a deeper head trough, then a shallower right trough. Breakout above the neckline confirms the bullish reversal. Often forms at the end of extended downtrends.</p>
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Head)</div><div class="fd"><span>The deeper the head,</span> the larger the potential move. Volume should increase on the breakout.</div></div>
-  <div class="va"><div class="vl">// Inverse Head & Shoulders anatomy</div><canvas id="inverseHeadAndShouldersCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Inverse Head & Shoulders anatomy</div><canvas id="inverseHeadAndShouldersCanvas" role="img" aria-label="Inverse Head &amp; Shoulders anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The neckline doesn't have to be perfectly horizontal — a slightly sloping neckline is normal. What matters is the pattern of three troughs.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A bottoming reversal is the mirror image of head-and-shoulders — the same <a href="../../stats/#normal" target="_blank" rel="noopener">symmetry</a> that statistics reveals in distributions.</div>
   <div class="topic-nav" id="nav-inverse-head-and-shoulders"></div>
@@ -226,7 +226,7 @@ function buildDoubleTop() {
   <p class="sub">// Two peaks at the same level — the "M" formation</p>
   <p class="prose">The <strong>Double Top</strong> forms when price hits resistance twice and fails to break through. The two peaks form an "M" shape. Breakdown below the trough between peaks (the neckline) confirms the bearish reversal.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Peak − Neckline)</div><div class="fd"><span>The two peaks don't need to be identical</span> — a difference of ~3% is acceptable. Time between peaks varies from weeks to months.</div></div>
-  <div class="va"><div class="vl">// Double Top — M formation</div><canvas id="doubleTopCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Double Top — M formation</div><canvas id="doubleTopCanvas" role="img" aria-label="Double Top — M formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The second peak often shows lower volume than the first — a sign that buying enthusiasm is fading even though price reaches the same level.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Two failed attempts at the same level — like a <a href="../../ml-math/#activation" target="_blank" rel="noopener">ReLU-clipped activation</a> hitting a ceiling. In statistics, <a href="../../stats/#hypothesis-testing" target="_blank" rel="noopener">repeated failed tests</a> at the same significance level tell you the effect isn’t there.</div>
   <div class="topic-nav" id="nav-double-top"></div>
@@ -239,7 +239,7 @@ function buildDoubleBottom() {
   <p class="sub">// Two troughs at the same level — the "W" formation</p>
   <p class="prose">The <strong>Double Bottom</strong> is the bullish mirror of the double top — price tests support twice and bounces. The "W" shape forms with a peak between two troughs. Breakout above the neckline (the middle peak) confirms the reversal.</p>
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Trough)</div><div class="fd"><span>A "spring"</span> — where the second bottom slightly undercuts the first before reversing — can be especially powerful.</div></div>
-  <div class="va"><div class="vl">// Double Bottom — W formation</div><canvas id="doubleBottomCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Double Bottom — W formation</div><canvas id="doubleBottomCanvas" role="img" aria-label="Double Bottom — W formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The strongest double bottoms have increasing volume on the second bounce — it shows buyers stepping in more aggressively at the support level.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Two bounces off the same floor mirror <a href="../../ml-math/#activation" target="_blank" rel="noopener">activation floors</a> in neural nets.</div>
   <div class="topic-nav" id="nav-double-bottom"></div>
@@ -252,7 +252,7 @@ function buildRoundingBottom() {
   <p class="sub">// A slow, gradual reversal — the U-shaped bottom</p>
   <p class="prose">The <strong>Rounding Bottom</strong> (saucer) is a gradual transition from selling to buying pressure, forming a U-shape over weeks or months. Volume mirrors the price pattern — high at the start, low at the bottom, rising on the right side.</p>
   <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. The gradual nature makes it reliable but slow to develop.</div></div>
-  <div class="va"><div class="vl">// Rounding Bottom — saucer formation</div><canvas id="roundingBottomCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Rounding Bottom — saucer formation</div><canvas id="roundingBottomCanvas" role="img" aria-label="Rounding Bottom — saucer formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The rounding bottom reflects a gradual change in market sentiment — not a panic reversal but a slow shift from distribution to accumulation.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The slow U-shaped recovery mirrors the <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">cosine learning rate schedule</a> — gradual cooling, then gradual warm-up. In statistics, it’s the shape of a <a href="../../stats/#normal" target="_blank" rel="noopener">cumulative distribution function</a>.</div>
   <div class="topic-nav" id="nav-rounding-bottom"></div>
@@ -265,7 +265,7 @@ function buildBullFlag() {
   <p class="sub">// Sharp rally + downward-sloping channel = continuation</p>
   <p class="prose">The <strong>Bull Flag</strong> starts with a sharp rally (the pole), followed by a gentle downward-sloping consolidation channel (the flag). Breakout above the flag's upper trendline continues the uptrend. One of the most reliable continuation patterns.</p>
   <div class="fb"><div class="fm">Target = Breakout point + Pole length</div><div class="fd"><span>The pole measures the initial move;</span> project that distance from the breakout point for the target.</div></div>
-  <div class="va"><div class="vl">// Bull Flag — pole and flag anatomy</div><canvas id="bullFlagCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Bull Flag — pole and flag anatomy</div><canvas id="bullFlagCanvas" role="img" aria-label="Bull Flag — pole and flag anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The best bull flags have decreasing volume during the flag phase and expanding volume on the breakout — showing sellers exhausting themselves.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A pause in an uptrend before continuation. In ML, <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">learning rate warmup</a> creates the same pattern: a brief consolidation phase before the model accelerates.</div>
   <div class="topic-nav" id="nav-bull-flag"></div>
@@ -278,7 +278,7 @@ function buildBearFlag() {
   <p class="sub">// Sharp decline + upward-sloping channel = continuation down</p>
   <p class="prose">The <strong>Bear Flag</strong> is the bearish mirror: a sharp decline (pole) followed by a gentle upward-sloping consolidation (flag). Breakdown below the lower trendline continues the downtrend.</p>
   <div class="fb"><div class="fm">Target = Breakdown point − Pole length</div><div class="fd"><span>Bear flags in strong downtrends</span> can resolve very quickly — the consolidation may be brief.</div></div>
-  <div class="va"><div class="vl">// Bear Flag — pole and flag anatomy</div><canvas id="bearFlagCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Bear Flag — pole and flag anatomy</div><canvas id="bearFlagCanvas" role="img" aria-label="Bear Flag — pole and flag anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Bear flags tend to resolve faster than bull flags — fear is a stronger emotion than greed, so selling accelerates more quickly.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The mirror of a bull flag. In ML, <a href="../../ml-math/#grad-clip" target="_blank" rel="noopener">gradient clipping</a> creates brief pauses in the descent before loss resumes falling.</div>
   <div class="topic-nav" id="nav-bear-flag"></div>
@@ -291,7 +291,7 @@ function buildPennant() {
   <p class="sub">// Small symmetrical triangle on a pole — brief pause before continuation</p>
   <p class="prose">A <strong>Pennant</strong> is a small symmetrical triangle that forms after a strong move (the pole). Converging trendlines create a brief pause. Breakout continues in the direction of the pole. Typically resolves within 1-3 weeks.</p>
   <div class="fb"><div class="fm">Target = Breakout + Pole length</div><div class="fd"><span>Key difference from flags:</span> pennants have converging trendlines (triangle), flags have parallel trendlines (channel).</div></div>
-  <div class="va"><div class="vl">// Pennant anatomy — pole + triangle</div><canvas id="pennantCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Pennant anatomy — pole + triangle</div><canvas id="pennantCanvas" role="img" aria-label="Pennant anatomy — pole + triangle" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume should contract during the pennant and expand on breakout. A breakout without volume is unreliable.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Converging trendlines compressing volatility before a breakout. In statistics, <a href="../../stats/#variance-std" target="_blank" rel="noopener">decreasing variance</a> signals the same convergence.</div>
   <div class="topic-nav" id="nav-pennant"></div>
@@ -304,7 +304,7 @@ function buildAscendingTriangle() {
   <p class="sub">// Flat resistance + rising lows = buyers pressing higher</p>
   <p class="prose">The <strong>Ascending Triangle</strong> has a flat resistance level and a rising lower trendline. Buyers are willing to pay increasingly higher prices. When resistance finally breaks, the measured move equals the triangle's height at its widest point.</p>
   <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>~75% of the time</span> these break upward, but always wait for confirmation above resistance.</div></div>
-  <div class="va"><div class="vl">// Ascending Triangle — flat top, rising lows</div><canvas id="ascendingTriangleCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Ascending Triangle — flat top, rising lows</div><canvas id="ascendingTriangleCanvas" role="img" aria-label="Ascending Triangle — flat top, rising lows" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Each touch of resistance weakens it — like repeatedly hitting a wall. The rising lows show buyers becoming more aggressive with each dip.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rising lows against a flat ceiling — pressure building. Same dynamic as <a href="../../ml-math/#optimizers" target="_blank" rel="noopener">optimizer momentum</a> accumulating against a loss plateau.</div>
   <div class="topic-nav" id="nav-ascending-triangle"></div>
@@ -317,7 +317,7 @@ function buildDescendingTriangle() {
   <p class="sub">// Flat support + falling highs = sellers pressing lower</p>
   <p class="prose">The <strong>Descending Triangle</strong> has a flat support level and a falling upper trendline. Sellers are accepting lower prices. Breakdown below support triggers the measured move — the triangle's height projected downward.</p>
   <div class="fb"><div class="fm">Target = Breakdown − Height of triangle base</div><div class="fd"><span>The mirror of ascending triangles</span> — sellers weaken support with each touch until it breaks.</div></div>
-  <div class="va"><div class="vl">// Descending Triangle — flat bottom, falling highs</div><canvas id="descendingTriangleCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Descending Triangle — flat bottom, falling highs</div><canvas id="descendingTriangleCanvas" role="img" aria-label="Descending Triangle — flat bottom, falling highs" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> If the prior trend is up, a descending triangle can actually break upward — context matters more than the pattern alone.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Falling highs against a flat floor. In statistics, a <a href="../../stats/#confidence-intervals" target="_blank" rel="noopener">narrowing confidence interval</a> compresses uncertainty the same way.</div>
   <div class="topic-nav" id="nav-descending-triangle"></div>
@@ -330,7 +330,7 @@ function buildSymmetricTriangle() {
   <p class="sub">// Converging trendlines, no bias — the market is deciding</p>
   <p class="prose">The <strong>Symmetric Triangle</strong> has converging trendlines with lower highs and higher lows — the market is compressing, undecided. It can break either way. Most often continues the prior trend direction, but always wait for confirmation.</p>
   <div class="fb"><div class="fm">Target = Breakout point ± Width at base</div><div class="fd"><span>Breakout typically occurs</span> between 50-75% of the way to the apex. Breakouts too close to the apex often fail.</div></div>
-  <div class="va"><div class="vl">// Symmetric Triangle — converging to apex</div><canvas id="symmetricTriangleCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Symmetric Triangle — converging to apex</div><canvas id="symmetricTriangleCanvas" role="img" aria-label="Symmetric Triangle — converging to apex" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume should progressively decrease as the triangle tightens. The breakout direction becomes the prevailing trend — don't try to predict, react.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Both sides converge to a point of maximum compression. In ML, the <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance sweet spot</a> sits at the convergence of two opposing forces.</div>
   <div class="topic-nav" id="nav-symmetric-triangle"></div>
@@ -343,7 +343,7 @@ function buildRisingWedge() {
   <p class="sub">// Both lines slope up but converge — momentum is dying</p>
   <p class="prose">The <strong>Rising Wedge</strong> has both support and resistance sloping upward, but converging. Price is rising but the range is narrowing — momentum is exhausting. Usually resolves with a bearish breakdown.</p>
   <div class="fb"><div class="fm">Target = Breakdown − Height of wedge at widest</div><div class="fd"><span>Key difference from ascending triangle:</span> both lines slope up in a wedge, only one is flat in a triangle.</div></div>
-  <div class="va"><div class="vl">// Rising Wedge — upward but weakening</div><canvas id="risingWedgeCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Rising Wedge — upward but weakening</div><canvas id="risingWedgeCanvas" role="img" aria-label="Rising Wedge — upward but weakening" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The rising wedge is deceptive — price is going up, but the narrowing range and declining volume signal that the advance is running out of steam.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Upward slopes narrowing — momentum fading despite higher prices. In ML, <a href="../../ml-math/#gradient" target="_blank" rel="noopener">vanishing gradients</a> show the same decaying energy.</div>
   <div class="topic-nav" id="nav-rising-wedge"></div>
@@ -356,7 +356,7 @@ function buildFallingWedge() {
   <p class="sub">// Both lines slope down but converge — selling is exhausting</p>
   <p class="prose">The <strong>Falling Wedge</strong> has both lines sloping downward and converging. Price is falling but the range is narrowing — sellers are losing conviction. Usually resolves with a bullish breakout.</p>
   <div class="fb"><div class="fm">Target = Breakout + Height of wedge at widest</div><div class="fd"><span>Falling wedges in downtrends</span> signal reversal; in uptrends, they're continuation patterns (a pullback before resuming).</div></div>
-  <div class="va"><div class="vl">// Falling Wedge — downward but exhausting</div><canvas id="fallingWedgeCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Falling Wedge — downward but exhausting</div><canvas id="fallingWedgeCanvas" role="img" aria-label="Falling Wedge — downward but exhausting" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The bullish resolution of a falling wedge is the mirror of the rising wedge's bearish resolution — both show momentum exhaustion.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Downward slopes narrowing — selling exhaustion. Like <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">learning rate decay</a> approaching convergence: the steps shrink but the model is almost there.</div>
   <div class="topic-nav" id="nav-falling-wedge"></div>
@@ -369,7 +369,7 @@ function buildBroadeningFormation() {
   <p class="sub">// Diverging trendlines — expanding volatility, increasing disagreement</p>
   <p class="prose">The <strong>Broadening Formation</strong> (megaphone) has diverging trendlines — higher highs and lower lows. Volatility and disagreement are increasing. It often appears at major market tops and is one of the most difficult patterns to trade.</p>
   <div class="fb"><div class="fm">No clean measured move — trade the swings or wait for breakout</div><div class="fd"><span>Each swing is larger than the last,</span> swinging buyers and sellers into increasingly extreme positions.</div></div>
-  <div class="va"><div class="vl">// Broadening Formation — diverging trendlines</div><canvas id="broadeningFormationCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Broadening Formation — diverging trendlines</div><canvas id="broadeningFormationCanvas" role="img" aria-label="Broadening Formation — diverging trendlines" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Broadening formations reflect emotional extremes — they often appear during periods of uncertainty (elections, crises). The expanding range shows the market can't find consensus.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Expanding volatility — the market can’t agree on a price. In statistics, <a href="../../stats/#variance-std" target="_blank" rel="noopener">increasing variance</a> signals instability.</div>
   <div class="topic-nav" id="nav-broadening-formation"></div>
@@ -382,7 +382,7 @@ function buildRectangle() {
   <p class="sub">// Horizontal support and resistance — a consolidation box</p>
   <p class="prose">The <strong>Rectangle</strong> is a horizontal consolidation range — price bounces between parallel support and resistance. It's a pause in the trend. Breakout direction usually follows the prior trend. The measured move is the rectangle's height.</p>
   <div class="fb"><div class="fm">Target = Breakout ± Height of rectangle</div><div class="fd"><span>Can be traded internally</span> (buy support, sell resistance) or by waiting for the breakout.</div></div>
-  <div class="va"><div class="vl">// Rectangle — horizontal range</div><canvas id="rectangleCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Rectangle — horizontal range</div><canvas id="rectangleCanvas" role="img" aria-label="Rectangle — horizontal range" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The longer a rectangle persists, the more significant the eventual breakout — energy is building up like a compressed spring.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Price oscillating between two fixed bounds is a <a href="../../stats/#uniform" target="_blank" rel="noopener">uniform distribution</a> in action. In ML, <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> constrains activations to a bounded range.</div>
   <div class="topic-nav" id="nav-rectangle"></div>
@@ -395,7 +395,7 @@ function buildDoji() {
   <p class="sub">// Open ≈ Close — the market is undecided</p>
   <p class="prose">A <strong>Doji</strong> forms when the open and close are nearly equal, creating a cross or plus shape. It signals indecision — neither buyers nor sellers won. Context is everything: at a trend extreme, it suggests reversal; mid-range, it's noise.</p>
   <div class="fb"><div class="fm">Variants: Standard (+), Long-legged, Dragonfly (T), Gravestone (⊥)</div><div class="fd"><span>A doji after a long green candle</span> suggests the uptrend may be stalling — buyers ran out of conviction.</div></div>
-  <div class="va"><div class="vl">// Doji variants</div><canvas id="dojiCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Doji variants</div><canvas id="dojiCanvas" role="img" aria-label="Doji variants" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> A single doji means nothing in isolation — it needs context. After a strong move, it's significant. In a sideways range, it's normal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Open equals close — perfect indecision, a <a href="../../stats/#mean-median" target="_blank" rel="noopener">mean equal to median</a> moment. In ML, a <a href="../../ml-math/#loss" target="_blank" rel="noopener">loss of zero</a> at a saddle point looks the same: no net direction.</div>
   <div class="topic-nav" id="nav-doji"></div>
@@ -408,7 +408,7 @@ function buildHammer() {
   <p class="sub">// Long lower shadow, small body at top — buyers reclaimed</p>
   <p class="prose">The <strong>Hammer</strong> has a small body at the top and a long lower shadow (≥2× body length). Sellers pushed price down during the session, but buyers pulled it back up. At a support level or downtrend base, it signals bullish reversal.</p>
   <div class="fb"><div class="fm">Lower shadow ≥ 2× body length, little or no upper shadow</div><div class="fd"><span>The "Hanging Man"</span> has the same shape but appears at tops — same candle, opposite meaning depending on context.</div></div>
-  <div class="va"><div class="vl">// Hammer vs. Hanging Man</div><canvas id="hammerCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Hammer vs. Hanging Man</div><canvas id="hammerCanvas" role="img" aria-label="Hammer vs. Hanging Man" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Color matters less than shape — a green hammer is slightly more bullish, but a red hammer at support is still a valid reversal signal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A long lower shadow rejected by buyers — the distribution of the session is <a href="../../stats/#skewness" target="_blank" rel="noopener">heavily skewed</a>. In ML, <a href="../../ml-math/#activation" target="_blank" rel="noopener">ReLU</a> similarly rejects negative values, keeping only the upside.</div>
   <div class="topic-nav" id="nav-hammer"></div>
@@ -421,7 +421,7 @@ function buildEngulfing() {
   <p class="sub">// The second candle swallows the first — momentum shift</p>
   <p class="prose">An <strong>Engulfing</strong> pattern is a two-candle reversal. <strong>Bullish:</strong> small red candle followed by a larger green candle that completely covers the red body. <strong>Bearish:</strong> small green followed by a larger red that engulfs it.</p>
   <div class="fb"><div class="fm">Second body completely covers (engulfs) the first body</div><div class="fd"><span>The engulfing candle shows conviction</span> — the larger the second candle relative to the first, the stronger the signal.</div></div>
-  <div class="va"><div class="vl">// Bullish and Bearish Engulfing</div><canvas id="engulfingCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Bullish and Bearish Engulfing</div><canvas id="engulfingCanvas" role="img" aria-label="Engulfing: Bullish and Bearish Engulfing" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Engulfing patterns at key support/resistance levels are far more significant than those in the middle of a range.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> One candle completely contains the prior — a <a href="../../stats/#variance-std" target="_blank" rel="noopener">variance expansion</a> in a single bar.</div>
   <div class="topic-nav" id="nav-engulfing"></div>
@@ -434,7 +434,7 @@ function buildMorningStar() {
   <p class="sub">// Long red → small star → long green — dawn after night</p>
   <p class="prose">The <strong>Morning Star</strong> is a three-candle bullish reversal. First, a long red candle (sellers in control). Then a small-bodied "star" (indecision — sellers exhausting). Finally, a long green candle (buyers take over). Named because it appears before dawn — the trend's darkest point.</p>
   <div class="fb"><div class="fm">Red (long) → Star (small, gapped) → Green (long)</div><div class="fd"><span>The star can be a doji</span> (called a "Morning Doji Star") — this strengthens the signal.</div></div>
-  <div class="va"><div class="vl">// Morning Star formation</div><canvas id="morningStarCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Morning Star formation</div><canvas id="morningStarCanvas" role="img" aria-label="Morning Star formation" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The gap between the first candle and the star, and between the star and the third candle, adds to the signal's power — but the pattern works without gaps too.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A three-candle reversal: despair, indecision, hope. In ML, <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">warmup schedules</a> follow the same cold-start-to-recovery arc.</div>
   <div class="topic-nav" id="nav-morning-star"></div>
@@ -447,7 +447,7 @@ function buildEveningStar() {
   <p class="sub">// Long green → small star → long red — dusk after daylight</p>
   <p class="prose">The <strong>Evening Star</strong> is the bearish mirror. First, a long green candle (buyers confident). Then a small star (indecision at the top). Finally, a long red candle (sellers overwhelm). Named because the evening star appears before nightfall.</p>
   <div class="fb"><div class="fm">Green (long) → Star (small, gapped) → Red (long)</div><div class="fd"><span>The third candle should close</span> below the midpoint of the first candle for a strong signal.</div></div>
-  <div class="va"><div class="vl">// Evening Star formation</div><canvas id="eveningStarCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Evening Star formation</div><canvas id="eveningStarCanvas" role="img" aria-label="Evening Star formation" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are the most reliable — they confirm the level and the exhaustion simultaneously.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The bearish mirror of morning star — hope, indecision, despair. In statistics, <a href="../../stats/#skewness" target="_blank" rel="noopener">negative skew</a> captures this tail of decline.</div>
   <div class="topic-nav" id="nav-evening-star"></div>
@@ -460,7 +460,7 @@ function buildSupportResistance() {
   <p class="sub">// The floor and ceiling of price — where memory lives</p>
   <p class="prose"><strong>Support</strong> is a price level where buying concentrates (floor). <strong>Resistance</strong> is where selling concentrates (ceiling). These levels have "memory" — broken support becomes resistance, and broken resistance becomes support. This polarity principle is fundamental to all chart reading.</p>
   <div class="fb"><div class="fm">More touches = stronger level · Broken support → resistance (and vice versa)</div><div class="fd"><span>S&R levels are zones, not exact prices</span> — think of them as areas where orders cluster, not precise lines.</div></div>
-  <div class="va"><div class="vl">// Support & Resistance — price memory</div><canvas id="supportResistanceCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Support & Resistance — price memory</div><canvas id="supportResistanceCanvas" role="img" aria-label="Support &amp; Resistance — price memory" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Round numbers ($50, $100) and previous highs/lows create natural S&R levels because traders and algorithms place orders there.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Price memory at specific levels is <a href="../../markets/psychology/#anchoring" target="_blank" rel="noopener">anchoring bias</a> made visible. In ML, <a href="../../ml-math/#activation" target="_blank" rel="noopener">activation clamping</a> (ReLU at 0, sigmoid at 0/1) creates the same floor and ceiling.</div>
   <div class="topic-nav" id="nav-support-resistance"></div>
@@ -473,7 +473,7 @@ function buildTrendlines() {
   <p class="sub">// Connecting swing points — the direction of price flow</p>
   <p class="prose"><strong>Trendlines</strong> connect swing lows in an uptrend (ascending support) or swing highs in a downtrend (descending resistance). A valid trendline touches at least 3 points. The more touches and the longer the line, the more significant its break.</p>
   <div class="fb"><div class="fm">≥3 touches = valid · Steeper = less sustainable · Break = signal</div><div class="fd"><span>Draw trendlines from body to body</span> (closes not wicks) for more reliable levels, though both methods have advocates.</div></div>
-  <div class="va"><div class="vl">// Trendline construction — connecting swings</div><canvas id="trendlinesCanvas" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Trendline construction — connecting swings</div><canvas id="trendlinesCanvas" role="img" aria-label="Trendlines: Trendline construction — connecting swings" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Trendlines that are too steep are unsustainable — a sustainable uptrend is typically 30-45°. Steeper trendlines break sooner and are replaced by shallower ones.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawing a line through successive highs or lows is literally <a href="../../ml-math/#linear" target="_blank" rel="noopener">linear regression</a> — the same best fit computed in statistics.</div>
   <div class="topic-nav" id="nav-trendlines"></div>
@@ -486,7 +486,7 @@ function buildChannels() {
   <p class="sub">// Two parallel trendlines containing price</p>
   <p class="prose">A <strong>Channel</strong> consists of two parallel trendlines between which price oscillates. Ascending channels slope up (bullish), descending channels slope down (bearish), and horizontal channels are ranges. Price bouncing off both lines confirms the channel.</p>
   <div class="fb"><div class="fm">Trade the channel interior · Breakout signals new move</div><div class="fd"><span>Draw the primary trendline first</span> (connecting 3+ points), then create a parallel line through the opposite extreme.</div></div>
-  <div class="va"><div class="vl">// Channel types — ascending, descending, horizontal</div><canvas id="channelsCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Channel types — ascending, descending, horizontal</div><canvas id="channelsCanvas" role="img" aria-label="Channels: Channel types — ascending, descending, horizontal" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Channels provide both direction and range — buy the lower line, sell the upper line, and exit when price breaks through either boundary.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Parallel trendlines bounding price is a visual <a href="../../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval</a> — price stays within 2σ most of the time. In ML, <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> keeps activations channeled.</div>
   <div class="topic-nav" id="nav-channels"></div>
@@ -499,7 +499,7 @@ function buildGaps() {
   <p class="sub">// Empty space between candles — where no trading happened</p>
   <p class="prose"><strong>Gaps</strong> occur when price opens above the prior close (gap up) or below it (gap down), leaving a void. Four types: <strong>Common</strong> (noise, often fills), <strong>Breakaway</strong> (starts a new move), <strong>Runaway</strong> (continuation), <strong>Exhaustion</strong> (end of move).</p>
   <div class="fb"><div class="fm">Breakaway → starts move · Runaway → continues · Exhaustion → ends</div><div class="fd"><span>"Gaps always fill"</span> is a myth — breakaway and runaway gaps often don't fill for months or years.</div></div>
-  <div class="va"><div class="vl">// Four types of gaps</div><canvas id="gapsCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Four types of gaps</div><canvas id="gapsCanvas" role="img" aria-label="Gaps: Four types of gaps" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume distinguishes gap types — breakaway gaps have high volume, runaway gaps have moderate volume, and exhaustion gaps have extreme volume followed by a reversal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A discontinuity where price jumps past a range. In statistics, <a href="../../stats/#outliers" target="_blank" rel="noopener">outliers</a> are the same — data points that break the expected distribution.</div>
   <div class="topic-nav" id="nav-gaps"></div>
@@ -512,7 +512,7 @@ function buildCupAndHandle() {
   <p class="sub">// A rounded bottom with a brief consolidation — then breakout</p>
   <p class="prose">The <strong>Cup & Handle</strong>, popularized by William O'Neil, combines a rounded bottom (the cup) with a brief downward drift or consolidation (the handle) before breaking out to new highs. The cup should be a smooth U-shape, not a sharp V.</p>
   <div class="fb"><div class="fm">Target = Breakout + Depth of cup</div><div class="fd"><span>The handle should retrace</span> no more than 1/3 of the cup depth. Handle pullbacks of 8-12% are ideal (O'Neil guidelines).</div></div>
-  <div class="va"><div class="vl">// Cup & Handle — anatomy and target</div><canvas id="cupAndHandleCanvas" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Cup & Handle — anatomy and target</div><canvas id="cupAndHandleCanvas" role="img" aria-label="Cup &amp; Handle — anatomy and target" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The handle represents the last group of sellers getting shaken out before the breakout. Its brevity and shallow depth signal strong underlying demand.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A U-shaped base then a small consolidation — the shape of <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">cosine annealing</a> with a brief plateau before the final push.</div>
   <div class="topic-nav" id="nav-cup-and-handle"></div>

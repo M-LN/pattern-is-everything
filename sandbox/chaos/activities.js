@@ -260,7 +260,7 @@ function buildLogisticMap() {
       A single formula, one parameter. Drag ${T('r','Growth rate — the single parameter that controls the entire system. Below 3: stable. Near 3.45: period doubling. Above 3.57: chaos.')} from left to right and watch order give way to chaos.
     </p>
     <div class="sandbox-canvas-wrap">
-      <canvas id="lmCanvas" height="300"></canvas>
+      <canvas id="lmCanvas" role="img" aria-label="The Logistic Map — visualization" height="300"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row">
@@ -289,7 +289,7 @@ function buildButterflyEffect() {
       Two simulations, almost identical starts. Watch them track together — then diverge completely.
     </p>
     <div class="sandbox-canvas-wrap">
-      <canvas id="beCanvas" height="340"></canvas>
+      <canvas id="beCanvas" role="img" aria-label="The Butterfly Effect — visualization" height="340"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row">
@@ -322,7 +322,7 @@ function buildBifurcation() {
       Every stable state for every ${T('r','Growth rate — x-axis runs from r = 2.5 to r = 4.0. Each vertical slice shows all values the system visits at that r.')} — the complete portrait of the logistic map. The onset of chaos, rendered all at once.
     </p>
     <div class="sandbox-canvas-wrap">
-      <canvas id="bifCanvas" height="340" style="cursor:crosshair;"></canvas>
+      <canvas id="bifCanvas" role="img" aria-label="Bifurcation Diagram — visualization" height="340" style="cursor:crosshair;"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row" id="bifInfo" style="font-family:var(--mono);font-size:12px;color:var(--muted);">
@@ -342,7 +342,7 @@ function buildLorenzAttractor() {
       Deterministic equations, infinite non-repeating path. The butterfly that started chaos theory.
     </p>
     <div class="sandbox-canvas-wrap">
-      <canvas id="lorenzCanvas" height="360"></canvas>
+      <canvas id="lorenzCanvas" role="img" aria-label="The Lorenz Attractor — visualization" height="360"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row">
@@ -372,7 +372,7 @@ function buildWolframRules() {
       256 rules. Each a universe. From uniform grey to universal computation.
     </p>
     <div class="sandbox-canvas-wrap">
-      <canvas id="wolframCanvas" height="340"></canvas>
+      <canvas id="wolframCanvas" role="img" aria-label="Wolfram's Rules — visualization" height="340"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row">
@@ -401,7 +401,7 @@ function buildGameOfLife() {
       Four rules. Click to paint cells, then press Run. No designer — only emergence.
     </p>
     <div class="sandbox-canvas-wrap gol-grid-wrap">
-      <canvas id="golCanvas" height="360" style="cursor:crosshair;display:block;width:100%;"></canvas>
+      <canvas id="golCanvas" role="img" aria-label="Conway's Game of Life — visualization" height="360" style="cursor:crosshair;display:block;width:100%;"></canvas>
     </div>
     <div class="sandbox-controls">
       <div class="ctrl-row">

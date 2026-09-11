@@ -253,7 +253,7 @@ function buildIndicatorPlayground() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="ipCanvas" height="420" style="cursor:crosshair;"></canvas>
+      <canvas id="ipCanvas" role="img" aria-label="Indicator Playground — visualization" height="420" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -307,7 +307,7 @@ function buildCandlestickSpotter() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="csCanvas" height="320" style="cursor:default;"></canvas>
+      <canvas id="csCanvas" role="img" aria-label="Candlestick Pattern Spotter — visualization" height="320" style="cursor:default;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -358,7 +358,7 @@ function buildPaperTrading() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="ptCanvas" height="340" style="cursor:crosshair;"></canvas>
+      <canvas id="ptCanvas" role="img" aria-label="Paper Trading Sim — visualization" height="340" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -411,7 +411,7 @@ function buildMaCrossover() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="macCanvas" height="420" style="cursor:default;"></canvas>
+      <canvas id="macCanvas" role="img" aria-label="Moving Average Crossover — visualization" height="420" style="cursor:default;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -469,7 +469,7 @@ function buildSupportResistance() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="srCanvas" height="420" style="cursor:crosshair;"></canvas>
+      <canvas id="srCanvas" role="img" aria-label="Support &amp; Resistance — visualization" height="420" style="cursor:crosshair;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -522,7 +522,7 @@ function buildVolumeProfile() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="vpCanvas" height="420" style="cursor:default;"></canvas>
+      <canvas id="vpCanvas" role="img" aria-label="Volume Profile — visualization" height="420" style="cursor:default;"></canvas>
     </div>
 
     <div class="sandbox-controls">
@@ -570,7 +570,7 @@ function buildRiskCalculator() {
     </p>
 
     <div class="sandbox-canvas-wrap">
-      <canvas id="rcCanvas" height="320" style="cursor:default;"></canvas>
+      <canvas id="rcCanvas" role="img" aria-label="Risk Calculator — visualization" height="320" style="cursor:default;"></canvas>
     </div>
 
     <div class="sandbox-controls">
