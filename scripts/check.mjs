@@ -8,6 +8,10 @@
      3. Sandbox activity counts on hub/collection cards match each lab's
         actual TOPIC_DATA
      4. game/game-data.js is in sync with the collections (counts + ids)
+     5. Pre-rendered topic pages are present and built from the current
+        topics.js
+     6. Every topic has a visualization — a DRAWS entry keyed by its id,
+        and a canvas on its pre-rendered page
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -172,5 +176,72 @@ console.log('5. Pre-rendered topic pages');
   if (!checked) ok('no collections pre-rendered yet');
 }
 
+console.log('6. Visualization coverage');
+{
+  /* A topic whose DRAWS key stops matching its id — a renamed topic, a
+     renamed key, a draw dropped in a refactor — goes silently blank in the
+     reader: show() looks up DRAWS[id], finds nothing, and draws nothing.
+     Nothing else here would catch that, so check that every topic owns both
+     a draw and a canvas.
+
+     Static on purpose. Whether a draw actually puts pixels on a canvas needs
+     a browser, and this script deliberately stays dependency-free (see the
+     note in section 5); that sweep belongs with scripts/prerender.mjs.
+
+     DRAWS is written five ways across the collections, so look for the id in
+     any of them rather than parsing out a key list:
+       DRAWS['id'] = ...        stats, ml-math, mlops, psychology, risk
+       'id': function(){        llm, timeseries
+       'id'(canvas) {           charts
+       'id'() {                 essays
+       id(canvas) {             indicators  */
+  const NO_VISUALIZATION = {
+    // Table- and formula-driven: no canvas in the topic body, and its draw is
+    // an explicit no-op. Blank here is correct, not a regression.
+    'ml-math': ['normalization'],
+  };
+  // Topic ids are [a-z0-9-], so they need no regex escaping.
+  const BARE = id => new RegExp('^\\s*' + id + '\\s*\\(canvas\\)', 'm');
+  const hasDraw = (src, id) =>
+    src.includes("DRAWS['" + id + "']") || src.includes('DRAWS["' + id + '"]') ||
+    src.includes("'" + id + "':") || src.includes('"' + id + '":') ||
+    src.includes("'" + id + "'(") || src.includes('"' + id + '"(') ||
+    BARE(id).test(src);
+
+  let bad = 0;
+  const WITH_VIZ = [...COLLECTIONS, { col: 'essays', dir: 'essays' }];
+  for (const c of WITH_VIZ) {
+    if (!existsSync(`${c.dir}/visualizations.js`)) continue;
+    const src = readFileSync(`${c.dir}/visualizations.js`, 'utf8');
+    const exempt = new Set(NO_VISUALIZATION[c.col] || []);
+    const topics = topicsByCol.get(c.col) || extractTopicData(`${c.dir}/topics.js`);
+    const noDraw = [], noCanvas = [], staleExempt = [];
+    for (const t of topics) {
+      const page = `${c.dir}/${t.id}/index.html`;
+      const canvas = existsSync(page) && /<canvas[\s>]/.test(readFileSync(page, 'utf8'));
+      if (exempt.has(t.id)) {
+        // An exemption that has grown a visualization is stale — drop it, so
+        // the list cannot quietly start hiding a real regression.
+        if (canvas) staleExempt.push(t.id);
+        continue;
+      }
+      if (!hasDraw(src, t.id)) noDraw.push(t.id);
+      else if (existsSync(page) && !canvas) noCanvas.push(t.id);
+    }
+    if (noDraw.length || noCanvas.length || staleExempt.length) {
+      bad++;
+      const parts = [];
+      if (noDraw.length) parts.push(`no DRAWS entry: ${noDraw.slice(0, 3).join(', ')}`);
+      if (noCanvas.length) parts.push(`no canvas on the pre-rendered page: ${noCanvas.slice(0, 3).join(', ')}`);
+      if (staleExempt.length) parts.push(`exempt but has a canvas, drop from NO_VISUALIZATION: ${staleExempt.join(', ')}`);
+      fail(`${c.col}: ${parts.join('; ')}`);
+    } else {
+      const n = topics.length - exempt.size;
+      ok(`${c.col}: ${n} topics have a visualization` +
+         (exempt.size ? ` (${[...exempt].join(', ')} exempt)` : ''));
+    }
+  }
+  if (!bad) ok('every topic owns a draw keyed by its id');
+}
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);
