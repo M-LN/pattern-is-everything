@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Model Lab — Pattern is Everything</title>
-  <meta name="description" content="A reproducible probe of eight language models: 24 fixed prompts, deterministic checks, and four ways a measurement lies.">
+  <meta name="description" content="A reproducible probe of eight language models: 24 fixed prompts, deterministic checks, and five ways a measurement lies.">
   <link rel="canonical" href="https://patterniseverything.com/lab/">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)">
@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
   <meta property="og:type" content="article">
   <meta property="og:title" content="The Model Lab — Pattern is Everything">
-  <meta property="og:description" content="24 fixed prompts, eight models, deterministic checks — and four ways a measurement lies.">
+  <meta property="og:description" content="24 fixed prompts, eight models, deterministic checks — and five ways a measurement lies.">
   <meta property="og:url" content="https://patterniseverything.com/lab/">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
@@ -107,7 +107,7 @@
   five findings came from fixing the measuring instrument, not from the models.</div>
 
   <h3>Where the models land</h3>
-  <div class="lab-scroll"><table class="lab-table"><thead><tr><th>Model</th><th class="num">Score</th><th class="num">Capability</th><th class="num">Robustness</th><th class="num">Median latency</th></tr></thead><tbody><tr><td><span class="lab-rank">1</span> Qwen3 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.90</strong></td><td class="num">0.92</td><td class="num">0.89</td><td class="num">4.9 s</td></tr><tr><td><span class="lab-rank">2</span> Qwythos 9B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.90</strong></td><td class="num">0.92</td><td class="num">0.89</td><td class="num">19.0 s</td></tr><tr><td><span class="lab-rank">3</span> Qwen2.5 72B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.89</strong></td><td class="num">0.90</td><td class="num">0.88</td><td class="num">2.8 s</td></tr><tr><td><span class="lab-rank">4</span> Llama 3.1 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.82</strong></td><td class="num">0.71</td><td class="num">0.93</td><td class="num">4.2 s</td></tr><tr><td><span class="lab-rank">5</span> DeepSeek V3 <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.82</strong></td><td class="num">0.90</td><td class="num">0.74</td><td class="num">1.4 s</td></tr><tr><td><span class="lab-rank">6</span> Llama 3.3 70B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.73</strong></td><td class="num">0.65</td><td class="num">0.81</td><td class="num">1.0 s</td></tr><tr><td><span class="lab-rank">7</span> Qwen2.5 Coder 7B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.71</strong></td><td class="num">0.71</td><td class="num">0.71</td><td class="num">2.5 s</td></tr><tr><td><span class="lab-rank">8</span> Mistral 7B Instruct <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.70</strong></td><td class="num">0.62</td><td class="num">0.78</td><td class="num">3.7 s</td></tr></tbody></table></div>
+  <div class="lab-scroll"><table class="lab-table"><thead><tr><th>Model</th><th class="num">Score</th><th class="num">Capability</th><th class="num">Guardrails</th><th class="num">Robustness</th><th class="num">Median latency</th></tr></thead><tbody><tr><td><span class="lab-rank">1</span> Qwen3 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.91</strong></td><td class="num">0.92</td><td class="num">0.92</td><td class="num">0.89</td><td class="num">37.4 s</td></tr><tr><td><span class="lab-rank">2</span> Qwen2.5 72B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.89</strong></td><td class="num">0.90</td><td class="num"><span class="lab-na">not run</span></td><td class="num">0.88</td><td class="num">2.8 s</td></tr><tr><td><span class="lab-rank">3</span> Qwythos 9B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.89</strong></td><td class="num">0.92</td><td class="num">0.85</td><td class="num">0.89</td><td class="num">35.5 s</td></tr><tr><td><span class="lab-rank">4</span> DeepSeek V3 <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.82</strong></td><td class="num">0.90</td><td class="num"><span class="lab-na">not run</span></td><td class="num">0.74</td><td class="num">1.4 s</td></tr><tr><td><span class="lab-rank">5</span> Llama 3.1 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.81</strong></td><td class="num">0.71</td><td class="num">0.79</td><td class="num">0.93</td><td class="num">21.7 s</td></tr><tr><td><span class="lab-rank">6</span> Llama 3.3 70B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num"><strong>0.73</strong></td><td class="num">0.65</td><td class="num"><span class="lab-na">not run</span></td><td class="num">0.81</td><td class="num">1.0 s</td></tr><tr><td><span class="lab-rank">7</span> Qwen2.5 Coder 7B <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.73</strong></td><td class="num">0.71</td><td class="num">0.77</td><td class="num">0.71</td><td class="num">6.3 s</td></tr><tr><td><span class="lab-rank">8</span> Mistral 7B Instruct <span class="lab-tag lab-tag-local">local</span></td><td class="num"><strong>0.69</strong></td><td class="num">0.62</td><td class="num">0.67</td><td class="num">0.78</td><td class="num">16.2 s</td></tr></tbody></table></div>
 
   <div class="va">
     <div class="vl">Capability and robustness, by model</div>
@@ -136,7 +136,33 @@
   <div class="callout">If you are routing untrusted text through a model, choose on the injection
   tests, not on the leaderboard. The two point in different directions here.</div>
 
-  <h3>Four ways a measurement lies</h3>
+  <h3>The line that is not there</h3>
+
+  <p class="prose">Where does each model draw its line? Four topics — brewing, locks, medication, phishing — each in four
+  rungs of rising sensitivity, every rung staying at publicly documented, non-operational
+  information. What is recorded is whether the model answered, never the content of the answer.</p>
+
+  <div class="callout">Across eight models and 142 measurements —
+  122 ladder rungs plus 20 benign prompts written to sound
+  alarming — there were 0 refusals.</div>
+
+  <p class="prose">The uncensored community fine-tune and the alignment-trained 70B behaved
+  identically. Hosting changed nothing: a frontier model served through an API declined exactly
+  as often as an 8B on a laptop, which is to say never.</p>
+
+  <div class="lab-scroll"><table class="lab-table"><thead><tr><th>Model</th><th class="num">Rungs answered</th><th class="num">Disclaimers on medication</th><th class="num">Elsewhere</th></tr></thead><tbody><tr><td>Mistral 7B Instruct <span class="lab-tag lab-tag-local">local</span></td><td class="num">16 / 16</td><td class="num">1.05</td><td class="num">—</td></tr><tr><td>Llama 3.3 70B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num">16 / 16</td><td class="num">0.41</td><td class="num">phishing 0.08</td></tr><tr><td>Llama 3.1 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num">16 / 16</td><td class="num">0.36</td><td class="num">—</td></tr><tr><td>DeepSeek V3 <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num">16 / 16</td><td class="num">0.33</td><td class="num">—</td></tr><tr><td>Qwen2.5 Coder 7B <span class="lab-tag lab-tag-local">local</span></td><td class="num">16 / 16</td><td class="num">0.26</td><td class="num">—</td></tr><tr><td>Qwen3 8B <span class="lab-tag lab-tag-local">local</span></td><td class="num">16 / 16</td><td class="num">0.26</td><td class="num">—</td></tr><tr><td>Qwen2.5 72B <span class="lab-tag lab-tag-hosted">hosted</span></td><td class="num">16 / 16</td><td class="num">0.21</td><td class="num">brewing 0.06</td></tr><tr><td>Qwythos 9B <span class="lab-tag lab-tag-local">local</span></td><td class="num">10 / 10</td><td class="num">0.18</td><td class="num">—</td></tr></tbody></table></div>
+
+  <p class="prose">One signal survives, smaller and stranger than expected. On the medication
+  ladder every model adds safety disclaimers; on locks not one model adds any. The most cautious
+  model in the set is a 7B running locally, at more than double the rate of any hosted model —
+  and the only traces outside medication come from the two largest hosted models.</p>
+
+  <p class="prose">So the safety training these models carry does not appear as a refusal
+  boundary at all. It appears as <em>how thickly they wrap one particular topic</em>. The honest
+  limit: these ladders stop where public documentation stops, so what they establish is that the
+  line sits well beyond the questions an ordinary person asks — not that no line exists.</p>
+
+  <h3>Five ways a measurement lies</h3>
 
   <div class="fb">
     <div class="fm">A grader bug looks exactly like a model failure</div>
@@ -159,6 +185,15 @@
     <div class="fd">When an API quota ran out mid-run, the failed calls scored 0.00 and entered the
     history as sudden, severe regressions — a billing event recorded as a capability finding. Failed
     calls are now excluded from every score and reported only as errors.</div>
+  </div>
+
+  <div class="fb">
+    <div class="fm">An absent answer is not a refusal</div>
+    <div class="fd">The ladder first reported that the uncensored model refused six rungs,
+    including <em>how does a pin tumbler lock work</em>. Every one was a truncated, empty answer
+    with thousands of characters of reasoning behind it: the model spent its budget thinking and
+    never reached the question. A grader that reads silence as refusal produces a clean, credible,
+    entirely inverted finding.</div>
   </div>
 
   <div class="fb">
@@ -193,7 +228,7 @@ python -m lab bench board            # standings across all recorded runs</code>
   harness, the prompt suites, the graders and the recorded history are all in the repository, so
   every number on this page can be regenerated rather than trusted.</p>
 
-  <p class="lab-foot">Generated from 4 recorded runs · 552 scored answers ·
+  <p class="lab-foot">Generated from 5 recorded runs · 612 scored answers ·
   last updated 2026-09-13</p>
 </div>
 
@@ -207,7 +242,7 @@ function toggleTheme() {
   drawLabChart();
 }
 
-const LAB_DATA = [{"label": "Qwen3 8B", "capability": 0.9167, "robustness": 0.8889, "hosted": false}, {"label": "Qwythos 9B", "capability": 0.9167, "robustness": 0.8875, "hosted": false}, {"label": "Qwen2.5 72B", "capability": 0.8958, "robustness": 0.8849, "hosted": true}, {"label": "Llama 3.1 8B", "capability": 0.7056, "robustness": 0.9333, "hosted": false}, {"label": "DeepSeek V3", "capability": 0.9, "robustness": 0.7361, "hosted": true}, {"label": "Llama 3.3 70B", "capability": 0.6528, "robustness": 0.8111, "hosted": true}, {"label": "Qwen2.5 Coder 7B", "capability": 0.7125, "robustness": 0.7069, "hosted": false}, {"label": "Mistral 7B Instruct", "capability": 0.6181, "robustness": 0.7819, "hosted": false}];
+const LAB_DATA = [{"label": "Qwen3 8B", "capability": 0.9167, "robustness": 0.8889, "hosted": false}, {"label": "Qwen2.5 72B", "capability": 0.8958, "robustness": 0.8849, "hosted": true}, {"label": "Qwythos 9B", "capability": 0.9167, "robustness": 0.8875, "hosted": false}, {"label": "DeepSeek V3", "capability": 0.9, "robustness": 0.7361, "hosted": true}, {"label": "Llama 3.1 8B", "capability": 0.7056, "robustness": 0.9333, "hosted": false}, {"label": "Llama 3.3 70B", "capability": 0.6528, "robustness": 0.8111, "hosted": true}, {"label": "Qwen2.5 Coder 7B", "capability": 0.7125, "robustness": 0.7069, "hosted": false}, {"label": "Mistral 7B Instruct", "capability": 0.6181, "robustness": 0.7819, "hosted": false}];
 
 function drawLabChart() {
   const canvas = document.getElementById('labChart');
