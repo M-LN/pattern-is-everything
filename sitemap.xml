@@ -3,112 +3,112 @@
   <url>
     <loc>https://patterniseverything.com/</loc>
     <priority>1.0</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/start/</loc>
     <priority>0.9</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml/</loc>
     <priority>0.8</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/</loc>
     <priority>0.8</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/</loc>
     <priority>0.8</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/cases/</loc>
     <priority>0.8</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/</loc>
     <priority>0.8</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/ml/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/markets/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/stats/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/chaos/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/sandbox/dl/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/lite/lab/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-26</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/game/</loc>
@@ -121,1365 +121,1370 @@
     <lastmod>2026-07-18</lastmod>
   </url>
   <url>
+    <loc>https://patterniseverything.com/lab/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://patterniseverything.com/support/</loc>
     <priority>0.5</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/impact/</loc>
     <priority>0.5</priority>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/notebooks/pattern-portal-real-data-lab-browser.ipynb</loc>
     <priority>0.4</priority>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-26</lastmod>
   </url>
   <!-- prerendered:start -->
   <url>
     <loc>https://patterniseverything.com/stats/confusion-matrix/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/roc-auc/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/regression-metrics/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/cross-validation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/comparing-runs/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/learning-curves/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/shap-values/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/permutation-importance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/pdp-ice/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/feature-correlation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/information-gain/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/distribution-shape/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/outlier-detection/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/missing-data/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/data-drift/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/class-imbalance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/sharpe-ratio/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/max-drawdown/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/walk-forward/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/monte-carlo/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/survivorship-bias/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/confidence-intervals/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/bootstrap-methods/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/bayesian-ab/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/effect-size/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/power-analysis/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/hypothesis-testing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/stat-tests/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/clt-sampling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/correlation-causation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/eda-workflow/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/groupby-aggregation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/cohort-retention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/funnel-analysis/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/sklearn-eval/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/shap-library/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/optuna/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/pandas-ta/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/stats/scipy-statsmodels/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-bell/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-mean/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-tail/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-signal/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-map/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-feedback/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-walk/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-threshold/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-survivor/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-fractal/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-simpson/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/essays/essay-kalman/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/vectors/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/linear/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/logistic/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/gradient/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/activation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/bias-variance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/loss/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/backprop/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/optimizers/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/regularization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/batchnorm/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/lr-schedule/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/weight-init/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/grad-clip/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/softmax/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/mle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/entropy/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/kl-div/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/bayes/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/crossval/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/metrics/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/cosine-sim/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/cnn/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/embeddings/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/attention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/transformer/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/normalization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/rnn/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/lstm/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/gru/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/pca/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/svd/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/vae/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/diffusion/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/gan/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/tokenization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/lora/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/ml-math/rlhf/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/tokenization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/embeddings/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/positional-encoding/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/self-attention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/multi-head-attention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/feed-forward/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/transformer-block/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/decoder-only/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/kv-cache/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/context-windows/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/mixture-of-experts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/scaling-laws/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/pre-training/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/fine-tuning/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/lora-qlora/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/rlhf/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/dpo/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/data-curation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/decoding-strategies/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/sampling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/speculative-decoding/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/quantization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/kv-cache-opt/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/batching/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/prompt-engineering/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/rag/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/embedding-search/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/function-calling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/agents/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/evaluation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/model-packaging/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/serving-patterns/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/ab-rollout/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/latency-throughput/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/gpu-inference/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/drift-detection/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/model-monitoring/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/alerting-slos/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/shadow-scoring/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/data-quality/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/ml-pipelines/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/feature-stores/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/experiment-tracking/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/ci-cd-ml/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/orchestration/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/model-compression/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/quantization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/caching-layers/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/auto-scaling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/cost-governance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/model-registry/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/lineage-tracking/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/fairness-audits/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/reproducibility/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/incident-response/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/stationarity/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/autocorrelation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/decomposition/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/differencing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/resampling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/ar-models/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/ma-models/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/arima/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/sarima/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/exponential-smoothing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/prophet/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/state-space/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/garch/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/var-models/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/changepoint-detection/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/rnn-for-ts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/lstm-for-ts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/temporal-cnn/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/transformers-for-ts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/nbeats/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/feature-engineering/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/cross-validation-ts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/backtesting-forecasts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/anomaly-detection/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/timeseries/forecast-ensembles/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/head-and-shoulders/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/inverse-head-and-shoulders/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/double-top/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/double-bottom/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/rounding-bottom/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/bull-flag/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/bear-flag/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/pennant/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/ascending-triangle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/descending-triangle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/symmetric-triangle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/rising-wedge/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/falling-wedge/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/broadening-formation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/rectangle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/doji/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/hammer/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/engulfing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/morning-star/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/evening-star/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/support-resistance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/trendlines/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/channels/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/gaps/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/charts/cup-and-handle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/sma/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/ema/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/wma/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/dema/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/vwap/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/rsi/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/stochastic/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/cci/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/williams-r/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/roc/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/macd/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/adx/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/parabolic-sar/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/ichimoku/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/aroon/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/bollinger-bands/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/atr/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/keltner-channels/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/donchian-channels/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/standard-deviation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/obv/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/accumulation-distribution/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/mfi/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/chaikin-oscillator/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/indicators/vwap-bands/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/confirmation-bias/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/anchoring/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/recency-bias/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/availability-heuristic/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/hindsight-bias/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/fear-and-greed/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/loss-aversion/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/regret-aversion/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/overconfidence/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/disposition-effect/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/herd-behavior/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/fomo/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/social-proof/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/contrarian-thinking/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/information-cascades/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/sunk-cost-fallacy/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/gambler-fallacy/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/framing-effect/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/mental-accounting/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/status-quo-bias/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/market-sentiment-cycle/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/accumulation-distribution/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/euphoria-panic/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/smart-money-dumb-money/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/psychology/mean-reversion-psychology/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/value-at-risk/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/expected-shortfall/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/volatility-modeling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/correlation-risk/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/tail-risk/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/mean-variance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/risk-parity/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/factor-models/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/rebalancing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/diversification/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/kelly-criterion/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/fixed-fractional/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/volatility-sizing/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/pyramiding/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/max-position/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/options-hedging/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/stop-losses/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/pairs-trading/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/portfolio-insurance/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/currency-hedging/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/return-attribution/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/benchmark-tracking/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/alpha-generation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/risk-adjusted-perf/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/markets/risk/drawdown-analysis/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-13</lastmod>
   </url>
   <!-- prerendered:end -->
 </urlset>

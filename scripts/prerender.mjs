@@ -174,9 +174,9 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
     ${esc(col.label)}
   </h1>
   <nav class="portal-nav" aria-label="Primary">
-${['/ml/','/stats/','/markets/','/essays/','/cases/','/sandbox/','/start/'].map(href => {
+${['/ml/','/stats/','/markets/','/essays/','/cases/','/sandbox/','/lab/','/start/'].map(href => {
       const name = { '/ml/':'ML', '/stats/':'Stats', '/markets/':'Markets', '/essays/':'Essays',
-                     '/cases/':'Cases', '/sandbox/':'Sandbox', '/start/':'Start' }[href];
+                     '/cases/':'Cases', '/sandbox/':'Sandbox', '/lab/':'Lab', '/start/':'Start' }[href];
       return `    <a href="${href}"${href === col.nav ? ' class="is-current"' : ''}>${name}</a>`;
     }).join('\n')}
   </nav>
