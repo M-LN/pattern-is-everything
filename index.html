@@ -212,6 +212,18 @@
       </div>
       <div class="cc-meta" style="margin-top:14px;">Fraud · Regression · Forecasting · Backtesting</div>
     </a>
+
+    <a class="collection-card" href="lab/index.html">
+      <canvas class="cc-viz" data-viz="lab" aria-hidden="true"></canvas>
+      <div class="cc-title">The Model <em>Lab</em></div>
+      <div class="cc-desc">Nine language models put through the same fixed prompts and scored by deterministic checks — no model judging another. What they can do, what they will not hold on to, and five ways the measurement itself turned out to be lying.</div>
+      <div class="cc-tags">
+        <span class="tag t1">9 Models</span>
+        <span class="tag t2">4 Suites</span>
+        <span class="tag t3">Reproducible</span>
+      </div>
+      <div class="cc-meta" style="margin-top:14px;">Prompt injection · Refusal ladders · Measurement traps</div>
+    </a>
   </div>
 </div>
 
@@ -348,6 +360,7 @@
     <a href="lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb" target="_blank" rel="noopener">JupyterLite Lab</a>
     <a href="support/index.html">♥ Support</a>
     <a href="cases/index.html">Real-Data Cases</a>
+    <a href="lab/index.html">The Model Lab</a>
     <a href="essays/feed.xml">RSS</a>
   </nav>
 </div>
@@ -547,6 +560,26 @@ fetch('search-index.json')
       ctx.stroke();
     },
     // Scatter + fitted regression line
+    // The Model Lab: what each model can do, against what it will hold on to.
+    // The right-hand dots line up; the left-hand ones do not.
+    lab(ctx, w, h, c) {
+      const rows = [[.78, .42], [.92, .42], [.70, .22], [.86, .42], [.80, .25]];
+      const x = v => w * (.18 + .68 * v);
+      rows.forEach((pair, i) => {
+        const y = h * (.22 + .14 * i);
+        ctx.strokeStyle = c.border;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(x(pair[1]), y); ctx.lineTo(x(pair[0]), y); ctx.stroke();
+        ctx.fillStyle = c.accent;
+        ctx.beginPath(); ctx.arc(x(pair[1]), y, 3.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = c.green;
+        ctx.beginPath(); ctx.arc(x(pair[0]), y, 3.2, 0, Math.PI * 2); ctx.fill();
+      });
+      ctx.strokeStyle = c.border;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(w * .12, h * .12); ctx.lineTo(w * .12, h * .9); ctx.stroke();
+    },
     cases(ctx, w, h, c) {
       const rnd = mulberry32(11);
       const x0 = w * .1, y0 = h * .82, x1 = w * .92, y1 = h * .2;
