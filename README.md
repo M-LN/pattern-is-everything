@@ -82,7 +82,7 @@ Pattern Portal/
 ├── sandbox/                   # Interactive sandbox surfaces
 ├── support/                   # Giving page
 ├── impact/                    # Public donation log
-└── vercel.json                # Deployment headers and cache rules
+└── vercel.json                # Headers, cache rules, and master-only deploys
 ```
 
 ## Run Locally
@@ -103,11 +103,29 @@ You can also use `npx serve .` or another static server if that is your normal w
 
 ## Deployment
 
-The site is deployed on Vercel. Pushes to `master` trigger production deployment.
+The site is deployed on Vercel through its GitHub integration. **Only `master` deploys**:
+pushes to any other branch build nothing, so pull requests do not get preview URLs.
 
 ```bash
 git push origin master
+node scripts/deploy-status.mjs     # confirm it actually went live
 ```
+
+That rule lives in `vercel.json` under `git.deploymentEnabled`. It exists because the account
+is on Vercel's Hobby plan, where every build - production or preview - draws on one shared
+deployment quota. Every commit pushed to a PR branch was building a preview, and once those
+exhausted the quota Vercel refused production builds too, while `git push` kept reporting
+success.
+
+Two things follow from that:
+
+- **A push is not a deploy.** Vercel can refuse a build after the push has succeeded, and it
+  does not retry a refused commit by itself - nothing builds until the next push to `master`.
+  `node scripts/deploy-status.mjs` compares what is committed, what is on GitHub, the last
+  production deployment and the live site, and exits non-zero when they disagree.
+- **Batch changes before pushing to `master`.** Each push is one production build. If a build
+  was refused for the rate limit, `node scripts/push-when-allowed.mjs` waits for the window
+  given in the refusal, pushes, and reports whether Vercel accepted the build.
 
 ## Giving
 
