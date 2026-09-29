@@ -266,8 +266,14 @@ async function extract(key) {
       clone.querySelectorAll('.topic-nav').forEach(n => n.remove());
       // practical-template.js injects this on a 120 ms timer, so whether it
       // made it in depended on timing and the output wasn't reproducible. The
-      // generated pages have never carried it.
-      clone.querySelectorAll('.practical-template').forEach(n => n.remove());
+      // generated pages have never carried it. The template string starts
+      // with a newline and indent, which lands as a text node in front of the
+      // section — take that too, or its presence still varies between runs.
+      clone.querySelectorAll('.practical-template').forEach(n => {
+        const ws = n.previousSibling;
+        if (ws && ws.nodeType === Node.TEXT_NODE && !ws.textContent.trim()) ws.remove();
+        n.remove();
+      });
       clone.classList.remove('active');
       return { id, title: meta.title || id, category: meta.category || '',
                content: meta.content || '', html: clone.outerHTML };
