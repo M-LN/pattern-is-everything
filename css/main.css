@@ -1228,6 +1228,23 @@ input[type=range]:focus-visible {
   body.hub-home .home-hero { padding: 12px 0 32px; }
 }
 
+/* ── Header back-link ("← Markets") ──
+   Only the hub pages styled this, inline, so on the collection readers and
+   the pre-rendered topic pages it fell back to a raw underlined link beside
+   the round header buttons. Hidden on phones (see the 720px block above). */
+.back-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: color .2s;
+}
+.back-link:hover { color: var(--accent); }
+
 /* ── Focus-visible for accessibility ── */
 a:focus-visible, button:focus-visible, .ni:focus-visible, .cat-card:focus-visible, .collection-card:focus-visible {
   outline: 2px solid var(--accent);
@@ -3064,6 +3081,19 @@ html:active-view-transition-type(backward)::view-transition-new(root) { animatio
 .bridge-preview.below { transform: translateY(-4px); }
 .bridge-preview.is-open { opacity: 1; transform: none; }
 .bridge-preview[hidden] { display: none; }
+/* The topic's own visualization (scripts/build-thumbs.mjs), captured in the
+   dark theme and shown on a dark inset in either theme, like a small screen.
+   Fixed height, so the card doesn't move once the image arrives. */
+.bridge-preview .bp-thumb {
+  height: 118px;
+  margin: -12px -14px 11px -14px;
+  border-radius: 7px 9px 0 0;
+  background: #141210;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.bridge-preview .bp-thumb img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
 .bridge-preview .bp-col {
   font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
   text-transform: uppercase; color: var(--accent);

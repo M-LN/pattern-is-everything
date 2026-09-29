@@ -167,7 +167,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
     ]
   }
   </script>
-  <link rel="stylesheet" href="${up}css/main.css?v=26">
+  <link rel="stylesheet" href="${up}css/main.css?v=27">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -236,7 +236,7 @@ window.addEventListener('load', function () {
 </script>
 <script src="${up}js/progress.js?v=1" defer></script>
 <script src="${up}js/return-trail.js?v=1" defer></script>
-<script src="${up}js/connections.js?v=1" defer></script>
+<script src="${up}js/connections.js?v=2" defer></script>
 </body>
 </html>
 `;
@@ -333,15 +333,29 @@ async function syncTopicIndex(col, data, sections, check, markStale) {
 const S_START = '  <!-- prerendered:start -->';
 const S_END = '  <!-- prerendered:end -->';
 
-async function syncSitemap(urls, check, markStale) {
+async function syncSitemap(urls, rendered, check, markStale) {
   const file = join(ROOT, 'sitemap.xml');
   const raw = await readFile(file, 'utf8');
   const eol = eolOf(raw), xml = lf(raw);
   const today = new Date().toISOString().slice(0, 10);
-  const block = [S_START, ...urls.map(u =>
+  const has = xml.includes(S_START) && xml.includes(S_END);
+
+  /* Rendering only some collections must not drop the rest: the block used to
+     be rewritten from this run's URLs alone, so `prerender.mjs markets/charts`
+     left the sitemap with 25 pre-rendered pages instead of 269. Keep every
+     existing entry outside the collections just rendered, in place; for those,
+     keep the URLs that still exist and add any new ones. */
+  const existing = has
+    ? [...xml.slice(xml.indexOf(S_START), xml.indexOf(S_END)).matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1])
+    : [];
+  const redone = rendered.map(dir => `${SITE}/${dir}/`);
+  const fresh = new Set(urls);
+  const kept = existing.filter(u => fresh.has(u) || !redone.some(p => u.startsWith(p)));
+  const all = kept.concat(urls.filter(u => !kept.includes(u)));
+
+  const block = [S_START, ...all.map(u =>
     `  <url>\n    <loc>${u}</loc>\n    <priority>0.6</priority>\n    <lastmod>${today}</lastmod>\n  </url>`), S_END].join('\n');
 
-  const has = xml.includes(S_START) && xml.includes(S_END);
   const next = has
     ? xml.replace(new RegExp(`${S_START}[\\s\\S]*?${S_END}`), block)
     : xml.replace('</urlset>', `${block}\n</urlset>`);
@@ -351,7 +365,7 @@ async function syncSitemap(urls, check, markStale) {
   if (strip(next) === strip(xml)) return;
   if (check) { markStale(); console.log('  stale: sitemap.xml'); return; }
   await writeFile(file, next.replace(/\n/g, eol));
-  console.log(`sitemap.xml: ${urls.length} pre-rendered URLs`);
+  console.log(`sitemap.xml: ${all.length} pre-rendered URLs`);
 }
 
 async function run() {
@@ -392,7 +406,7 @@ async function run() {
     await syncTopicIndex(col, data, sections, check, () => stale++);
     console.log(`${col.dir}: ${data.length} topics${check ? `, ${stale} stale` : `, ${written} written`}`);
   }
-  await syncSitemap(urls, check, () => stale++);
+  await syncSitemap(urls, targets.map(k => COLLECTIONS[k].dir), check, () => stale++);
 
   if (check && stale) {
     console.error(`\n${stale} pre-rendered page(s) out of date — run: node scripts/prerender.mjs`);

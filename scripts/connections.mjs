@@ -11,9 +11,14 @@
    scripts/check.mjs fails when it has drifted from the pages.
 
    Keys are reader URLs, "/ml-math/#activation", which is what the links in
-   topic markup point at. */
+   topic markup point at.
+
+   A topic with a thumbnail (scripts/build-thumbs.mjs) gets `i`, a short hash
+   of it: the card loads assets/thumbs/<col>/<id>.webp?v=<i>, so a rebuilt
+   thumbnail gets past the year-long /assets/ cache. */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const COLLECTIONS = [
   'stats', 'ml-math', 'llm', 'mlops', 'timeseries', 'essays',
@@ -45,6 +50,8 @@ export function buildConnections(root = '.') {
       const [title, collection] = decode(html.match(/<title>([\s\S]*?)<\/title>/)[1]).split(' — ');
       const pattern = html.match(/<span class="pt-text">([\s\S]*?)<\/span>/);
       topics[key] = { t: title, c: collection || '', p: pattern ? decode(pattern[1]) : '' };
+      const thumb = join(root, 'assets', 'thumbs', col, `${d.name}.webp`);
+      if (existsSync(thumb)) topics[key].i = createHash('sha256').update(readFileSync(thumb)).digest('hex').slice(0, 8);
       // Only the topic's own markup: between its opening div and the
       // generated prev/next links, so the header, crumbs and nav don't count.
       const start = html.indexOf('<div class="topic"');

@@ -62,6 +62,15 @@
     card.style.top = top + 'px';
   }
 
+  /* The topic's visualization, captured by scripts/build-thumbs.mjs:
+     "/markets/charts/#doji" → /assets/thumbs/markets/charts/doji.webp,
+     versioned by its hash. Null for a topic without one. */
+  function thumbSrc(key) {
+    var t = data && data.topics[key];
+    if (!t || !t.i) return null;
+    return '/assets/thumbs/' + key.slice(1).replace('/#', '/') + '.webp?v=' + t.i;
+  }
+
   function open(a, key) {
     var t = data && data.topics[key];
     if (!t) return;
@@ -73,7 +82,9 @@
       document.body.appendChild(card);
     }
     var incoming = (data.linkedFrom[key] || []).length;
+    var src = thumbSrc(key);
     card.innerHTML =
+      (src ? '<div class="bp-thumb"><img src="' + esc(src) + '" alt="" decoding="async"></div>' : '') +
       '<div class="bp-col">' + esc(t.c) + '</div>' +
       '<div class="bp-title">' + esc(t.t) + '</div>' +
       (t.p ? '<div class="bp-pattern"><span class="bp-mark" aria-hidden="true">◆</span>' + esc(t.p) + '</div>' : '') +
@@ -109,6 +120,9 @@
     load().then(function () {
       // The pointer may have left while the graph was still loading.
       if (armed !== c.a) return;
+      // Start fetching the thumbnail during the hover delay, not after it.
+      var src = thumbSrc(c.key);
+      if (src) new Image().src = src;
       showTimer = setTimeout(function () { open(c.a, c.key); }, delay);
     });
   }

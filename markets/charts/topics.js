@@ -123,7 +123,7 @@ function buildHome() {
       <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
     </div>
     <div class="callout warn" style="margin-top:18px;text-align:left;font-size:12px;">
-      <strong>Evidence note:</strong> Chart patterns are <strong>heuristic</strong> — widely used by traders but not mathematically proven. Academic evidence on their predictive power is mixed. Topics are labelled: <span class="evidence-badge proven">✓ Mathematical</span> for statistically grounded concepts and <span class="evidence-badge heuristic">◐ Heuristic</span> for pattern-recognition techniques with debated evidence.
+      <strong>Evidence note:</strong> Chart patterns are <strong>heuristic</strong> — widely used by traders but not mathematically proven. Academic evidence on their predictive power is mixed. Topics are labelled: <span class="evidence-badge statistical">Statistical</span> for statistically grounded concepts and <span class="evidence-badge heuristic">◐ Heuristic</span> for pattern-recognition techniques with debated evidence.
     </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> navigate &nbsp;·&nbsp;
