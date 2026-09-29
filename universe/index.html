@@ -89,7 +89,7 @@ canvas.dragging{cursor:grabbing;}
 
 #intro{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;text-align:center;pointer-events:none;opacity:1;transition:opacity 1.5s;}
 #intro.hidden{opacity:0;}
-#intro-title{font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:300;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;}
+#intro-title{font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:300;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin:0 0 .6rem;}
 #intro-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gold-dim);animation:pulse 3s ease-in-out infinite;}
 
 #stats-badge{position:fixed;top:48px;left:50%;transform:translateX(-50%);z-index:100;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(200,169,110,.25);white-space:nowrap;}
@@ -108,15 +108,19 @@ canvas.dragging{cursor:grabbing;}
   <link rel="stylesheet" href="/css/fonts.css?v=1">
   </head>
 <body>
+<header>
 <nav id="nav"><a href="../index.html">&larr; Pattern is Everything</a><div id="nav-title">Pattern Cosmos</div></nav>
+</header>
+<main>
 <canvas id="c" aria-hidden="true"></canvas>
-<div id="intro"><div id="intro-title">Pattern Cosmos</div><div id="intro-sub">257 patterns &middot; 9 collections &middot; scroll to explore</div></div>
+<div id="intro"><h1 id="intro-title">Pattern Cosmos</h1><div id="intro-sub">257 patterns &middot; 9 collections &middot; scroll to explore</div></div>
 <div id="stats-badge">257 TOPICS &middot; 9 COLLECTIONS &middot; 2 DOMAINS<span id="explored-count"></span></div>
 <div id="tip"></div>
 <div id="controls">Drag &middot; pan<br>Scroll &middot; zoom<br>Click &middot; explore<br>Ctrl+K &middot; search</div>
 <div id="legend"><div class="legend-row"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div><div class="legend-row"><span>Markets</span><div class="legend-dot" style="background:#81c784"></div></div><div class="legend-row" id="legend-explored" style="display:none"><span>Explored</span><div class="legend-dot" style="background:transparent;box-shadow:0 0 0 1px rgba(255,255,255,.6)"></div></div></div>
 <div id="search-overlay"><div id="search-box"><input id="search-input" type="text" placeholder="Search 257 topics..." autocomplete="off"><div id="search-results"></div></div></div>
 <div id="panel"><button id="panel-close">&times;</button><div id="panel-inner"><div id="panel-col"></div><div id="panel-title"></div><div id="panel-cat"></div><div class="panel-divider"></div><div id="panel-keywords"></div><div id="panel-connections"><div class="panel-section-title">Connected Patterns</div><div id="panel-conn-list"></div></div><a id="panel-link" href="#" target="_blank" rel="noopener">Explore topic</a></div></div>
+</main>
 
 <script>
 (function(){
