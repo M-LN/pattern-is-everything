@@ -251,7 +251,7 @@ function buildExpectedShortfall() {
     </div>
   </div>
   <div class="callout info"><strong>Basel III.</strong> Banks must now report Expected Shortfall at 97.5 % under the Fundamental Review of the Trading Book (FRTB).</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Expectation and conditioning connect to <a href="../../stats/index.html#probability">Probability Distributions</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Expectation and conditioning connect to <a href="../../stats/index.html#distribution-shape">The Toolkit — Distribution Shape</a>.</div>
   <div class="topic-nav" id="nav-expected-shortfall"></div>
 </div>`;
 }
@@ -277,7 +277,7 @@ function buildVolatilityModeling() {
       <tr><td>Realized Vol</td><td>Sampling freq</td><td>High-frequency data</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Variance estimation underpins <a href="../../stats/index.html#variance">The Toolkit — Variance</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Variance estimation underpins <a href="../../timeseries/index.html#garch">Time Series — GARCH</a>.</div>
   <div class="topic-nav" id="nav-volatility-modeling"></div>
 </div>`;
 }
@@ -296,7 +296,7 @@ function buildCorrelationRisk() {
     </div>
   </div>
   <div class="callout info"><strong>2008 lesson.</strong> Structured-credit losses soared because default correlations jumped far beyond historical norms.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Correlation and covariance matrices are explored in <a href="../../stats/index.html#correlation">The Toolkit — Correlation</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Correlation and covariance matrices are explored in <a href="../../stats/index.html#feature-correlation">The Toolkit — Feature Correlation</a>.</div>
   <div class="topic-nav" id="nav-correlation-risk"></div>
 </div>`;
 }
@@ -315,7 +315,7 @@ function buildTailRisk() {
     </div>
   </div>
   <div class="callout info"><strong>Black-swan readiness.</strong> Stress tests should use EVT-calibrated scenarios, not just historical worst days.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Kurtosis and distribution shapes are covered in <a href="../../stats/index.html#distributions">The Toolkit — Distributions</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Kurtosis and distribution shapes are covered in <a href="../../stats/index.html#distribution-shape">The Toolkit — Distribution Shape</a>.</div>
   <div class="topic-nav" id="nav-tail-risk"></div>
 </div>`;
 }
@@ -341,7 +341,7 @@ function buildMeanVariance() {
       <tr><td>Black-Litterman</td><td>Blend views with equilibrium priors</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Quadratic programming appears in <a href="../../ml-math/index.html#optimization">ML Math — Optimization</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Quadratic programming appears in <a href="../../ml-math/index.html#optimizers">ML Math — Optimizers</a>.</div>
   <div class="topic-nav" id="nav-mean-variance"></div>
 </div>`;
 }
@@ -381,7 +381,7 @@ function buildFactorModels() {
       <tr><td>Momentum</td><td>Under-reaction</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Regression and betas are explored in <a href="../../stats/index.html#regression">The Toolkit — Regression</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Regression and betas are explored in <a href="../../ml-math/index.html#linear">ML Math — Linear Regression</a>.</div>
   <div class="topic-nav" id="nav-factor-models"></div>
 </div>`;
 }
@@ -419,7 +419,7 @@ function buildDiversification() {
     </div>
   </div>
   <div class="callout info"><strong>Diminishing returns.</strong> Most diversification benefit arrives by 15-20 uncorrelated assets — beyond that, marginal reduction is small.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The law of large numbers formalizes this in <a href="../../stats/index.html#central-limit">The Toolkit — CLT</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The law of large numbers formalizes this in <a href="../../stats/index.html#clt-sampling">The Toolkit — CLT</a>.</div>
   <div class="topic-nav" id="nav-diversification"></div>
 </div>`;
 }
@@ -446,7 +446,7 @@ function buildKellyCriterion() {
     </tbody>
   </table>
   <div class="callout info"><strong>Overbet risk.</strong> Betting more than full Kelly guarantees sub-optimal growth and eventual ruin with parameter uncertainty.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Log-normal growth connects to <a href="../../stats/index.html#distributions">The Toolkit — Distributions</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Log-normal growth connects to <a href="../../stats/index.html#distribution-shape">The Toolkit — Distribution Shape</a>.</div>
   <div class="topic-nav" id="nav-kelly-criterion"></div>
 </div>`;
 }
@@ -597,7 +597,7 @@ function buildPairsTrading() {
     </div>
   </div>
   <div class="callout info"><strong>Regime risk.</strong> Structural breaks (e.g. mergers, sector shifts) can permanently break a pair's relationship.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity tests connect to <a href="../../stats/index.html#hypothesis">The Toolkit — Hypothesis Testing</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity tests connect to <a href="../../stats/index.html#hypothesis-testing">The Toolkit — Hypothesis Testing</a>.</div>
   <div class="topic-nav" id="nav-pairs-trading"></div>
 </div>`;
 }
@@ -658,7 +658,7 @@ function buildReturnAttribution() {
     <canvas id="cvs-return-attribution" role="img" aria-label="Return attribution — Brinson decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Daily practice.</strong> Institutional managers report monthly attribution to explain why they beat (or missed) the benchmark.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing variance is explored in <a href="../../stats/index.html#anova">The Toolkit — ANOVA</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing variance is explored in <a href="../../stats/index.html#stat-tests">The Toolkit — Statistical Tests</a>.</div>
   <div class="topic-nav" id="nav-return-attribution"></div>
 </div>`;
 }
@@ -677,7 +677,7 @@ function buildBenchmarkTracking() {
     </div>
   </div>
   <div class="callout info"><strong>Closet indexing.</strong> A fund with high fees but low active share is a bad deal — pay passive fees for passive exposure.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and variance are core in <a href="../../stats/index.html#variance">The Toolkit — Variance</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and variance are core in <a href="../indicators/index.html#standard-deviation">Indicators — Standard Deviation</a>.</div>
   <div class="topic-nav" id="nav-benchmark-tracking"></div>
 </div>`;
 }
@@ -718,7 +718,7 @@ function buildRiskAdjustedPerf() {
     <div class="vl">// Risk-adjusted performance ratios</div>
     <canvas id="cvs-risk-adjusted-perf" role="img" aria-label="Risk-adjusted performance ratios" width="720" height="340"></canvas>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and downside deviation connect to <a href="../../stats/index.html#variance">The Toolkit — Variance</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and downside deviation connect to <a href="../../stats/index.html#sharpe-ratio">The Toolkit — Sharpe Ratio</a>.</div>
   <div class="topic-nav" id="nav-risk-adjusted-perf"></div>
 </div>`;
 }

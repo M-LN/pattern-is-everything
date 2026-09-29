@@ -166,8 +166,10 @@ console.log('5. Pre-rendered topic pages');
     const generated = topics.filter(t => existsSync(`${c.dir}/${t.id}/index.html`));
     if (!generated.length) continue;
     checked++;
+    // Hashed in LF so the fingerprint doesn't depend on the checkout's line
+    // endings (must match scripts/prerender.mjs).
     const want = 'topics.js@' + createHash('sha256')
-      .update(readFileSync(`${c.dir}/topics.js`)).digest('hex').slice(0, 12);
+      .update(readFileSync(`${c.dir}/topics.js`, 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 12);
     const missing = topics.filter(t => !existsSync(`${c.dir}/${t.id}/index.html`));
     const stale = generated.filter(t =>
       !readFileSync(`${c.dir}/${t.id}/index.html`, 'utf8').includes(`content="${want}"`));

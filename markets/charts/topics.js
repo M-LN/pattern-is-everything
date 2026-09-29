@@ -172,7 +172,7 @@ function buildHeadAndShoulders() {
   <div class="fb"><div class="fm">Target = Neckline − (Head − Neckline)</div><div class="fd"><span>Measured move:</span> the distance from the head to the neckline, projected downward from the breakpoint.</div></div>
   <div class="va"><div class="vl">// Head & Shoulders anatomy</div><canvas id="headAndShouldersCanvas" role="img" aria-label="Head &amp; Shoulders anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume typically decreases from left shoulder → head → right shoulder. Declining volume on the right shoulder confirms weakening buying pressure.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The three-peak reversal is a <a href="../../stats/#normal" target="_blank" rel="noopener">distribution shape</a> — the center peak is the mode. In ML, <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance</a> follows the same arc: performance rises, peaks, then degrades.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The three-peak reversal is a <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">distribution shape</a> — the center peak is the mode. In ML, <a href="../../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance</a> follows the same arc: performance rises, peaks, then degrades.</div>
   <div class="howto">
     <div class="howto-title">How traders use this (with caveats)</div>
     <ol>
@@ -215,7 +215,7 @@ function buildInverseHeadAndShoulders() {
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Head)</div><div class="fd"><span>The deeper the head,</span> the larger the potential move. Volume should increase on the breakout.</div></div>
   <div class="va"><div class="vl">// Inverse Head & Shoulders anatomy</div><canvas id="inverseHeadAndShouldersCanvas" role="img" aria-label="Inverse Head &amp; Shoulders anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The neckline doesn't have to be perfectly horizontal — a slightly sloping neckline is normal. What matters is the pattern of three troughs.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A bottoming reversal is the mirror image of head-and-shoulders — the same <a href="../../stats/#normal" target="_blank" rel="noopener">symmetry</a> that statistics reveals in distributions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A bottoming reversal is the mirror image of head-and-shoulders — the same <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">symmetry</a> that statistics reveals in distributions.</div>
   <div class="topic-nav" id="nav-inverse-head-and-shoulders"></div>
 </div>`;
 }
@@ -254,7 +254,7 @@ function buildRoundingBottom() {
   <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. The gradual nature makes it reliable but slow to develop.</div></div>
   <div class="va"><div class="vl">// Rounding Bottom — saucer formation</div><canvas id="roundingBottomCanvas" role="img" aria-label="Rounding Bottom — saucer formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The rounding bottom reflects a gradual change in market sentiment — not a panic reversal but a slow shift from distribution to accumulation.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The slow U-shaped recovery mirrors the <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">cosine learning rate schedule</a> — gradual cooling, then gradual warm-up. In statistics, it’s the shape of a <a href="../../stats/#normal" target="_blank" rel="noopener">cumulative distribution function</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The slow U-shaped recovery mirrors the <a href="../../ml-math/#lr-schedule" target="_blank" rel="noopener">cosine learning rate schedule</a> — gradual cooling, then gradual warm-up. In statistics, it’s the shape of a cumulative distribution function.</div>
   <div class="topic-nav" id="nav-rounding-bottom"></div>
 </div>`;
 }
@@ -293,7 +293,7 @@ function buildPennant() {
   <div class="fb"><div class="fm">Target = Breakout + Pole length</div><div class="fd"><span>Key difference from flags:</span> pennants have converging trendlines (triangle), flags have parallel trendlines (channel).</div></div>
   <div class="va"><div class="vl">// Pennant anatomy — pole + triangle</div><canvas id="pennantCanvas" role="img" aria-label="Pennant anatomy — pole + triangle" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume should contract during the pennant and expand on breakout. A breakout without volume is unreliable.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Converging trendlines compressing volatility before a breakout. In statistics, <a href="../../stats/#variance-std" target="_blank" rel="noopener">decreasing variance</a> signals the same convergence.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Converging trendlines compressing volatility before a breakout. In statistics, <a href="../indicators/#standard-deviation" target="_blank" rel="noopener">decreasing variance</a> signals the same convergence.</div>
   <div class="topic-nav" id="nav-pennant"></div>
 </div>`;
 }
@@ -371,7 +371,7 @@ function buildBroadeningFormation() {
   <div class="fb"><div class="fm">No clean measured move — trade the swings or wait for breakout</div><div class="fd"><span>Each swing is larger than the last,</span> swinging buyers and sellers into increasingly extreme positions.</div></div>
   <div class="va"><div class="vl">// Broadening Formation — diverging trendlines</div><canvas id="broadeningFormationCanvas" role="img" aria-label="Broadening Formation — diverging trendlines" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Broadening formations reflect emotional extremes — they often appear during periods of uncertainty (elections, crises). The expanding range shows the market can't find consensus.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Expanding volatility — the market can’t agree on a price. In statistics, <a href="../../stats/#variance-std" target="_blank" rel="noopener">increasing variance</a> signals instability.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Expanding volatility — the market can’t agree on a price. In statistics, <a href="../indicators/#standard-deviation" target="_blank" rel="noopener">increasing variance</a> signals instability.</div>
   <div class="topic-nav" id="nav-broadening-formation"></div>
 </div>`;
 }
@@ -384,7 +384,7 @@ function buildRectangle() {
   <div class="fb"><div class="fm">Target = Breakout ± Height of rectangle</div><div class="fd"><span>Can be traded internally</span> (buy support, sell resistance) or by waiting for the breakout.</div></div>
   <div class="va"><div class="vl">// Rectangle — horizontal range</div><canvas id="rectangleCanvas" role="img" aria-label="Rectangle — horizontal range" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The longer a rectangle persists, the more significant the eventual breakout — energy is building up like a compressed spring.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Price oscillating between two fixed bounds is a <a href="../../stats/#uniform" target="_blank" rel="noopener">uniform distribution</a> in action. In ML, <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> constrains activations to a bounded range.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Price oscillating between two fixed bounds is a <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">uniform distribution</a> in action. In ML, <a href="../../ml-math/#batchnorm" target="_blank" rel="noopener">batch normalization</a> constrains activations to a bounded range.</div>
   <div class="topic-nav" id="nav-rectangle"></div>
 </div>`;
 }
@@ -397,7 +397,7 @@ function buildDoji() {
   <div class="fb"><div class="fm">Variants: Standard (+), Long-legged, Dragonfly (T), Gravestone (⊥)</div><div class="fd"><span>A doji after a long green candle</span> suggests the uptrend may be stalling — buyers ran out of conviction.</div></div>
   <div class="va"><div class="vl">// Doji variants</div><canvas id="dojiCanvas" role="img" aria-label="Doji variants" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> A single doji means nothing in isolation — it needs context. After a strong move, it's significant. In a sideways range, it's normal.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Open equals close — perfect indecision, a <a href="../../stats/#mean-median" target="_blank" rel="noopener">mean equal to median</a> moment. In ML, a <a href="../../ml-math/#loss" target="_blank" rel="noopener">loss of zero</a> at a saddle point looks the same: no net direction.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Open equals close — perfect indecision, a <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">mean equal to median</a> moment. In ML, a <a href="../../ml-math/#loss" target="_blank" rel="noopener">loss of zero</a> at a saddle point looks the same: no net direction.</div>
   <div class="topic-nav" id="nav-doji"></div>
 </div>`;
 }
@@ -410,7 +410,7 @@ function buildHammer() {
   <div class="fb"><div class="fm">Lower shadow ≥ 2× body length, little or no upper shadow</div><div class="fd"><span>The "Hanging Man"</span> has the same shape but appears at tops — same candle, opposite meaning depending on context.</div></div>
   <div class="va"><div class="vl">// Hammer vs. Hanging Man</div><canvas id="hammerCanvas" role="img" aria-label="Hammer vs. Hanging Man" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Color matters less than shape — a green hammer is slightly more bullish, but a red hammer at support is still a valid reversal signal.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A long lower shadow rejected by buyers — the distribution of the session is <a href="../../stats/#skewness" target="_blank" rel="noopener">heavily skewed</a>. In ML, <a href="../../ml-math/#activation" target="_blank" rel="noopener">ReLU</a> similarly rejects negative values, keeping only the upside.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A long lower shadow rejected by buyers — the distribution of the session is <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">heavily skewed</a>. In ML, <a href="../../ml-math/#activation" target="_blank" rel="noopener">ReLU</a> similarly rejects negative values, keeping only the upside.</div>
   <div class="topic-nav" id="nav-hammer"></div>
 </div>`;
 }
@@ -423,7 +423,7 @@ function buildEngulfing() {
   <div class="fb"><div class="fm">Second body completely covers (engulfs) the first body</div><div class="fd"><span>The engulfing candle shows conviction</span> — the larger the second candle relative to the first, the stronger the signal.</div></div>
   <div class="va"><div class="vl">// Bullish and Bearish Engulfing</div><canvas id="engulfingCanvas" role="img" aria-label="Engulfing: Bullish and Bearish Engulfing" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Engulfing patterns at key support/resistance levels are far more significant than those in the middle of a range.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> One candle completely contains the prior — a <a href="../../stats/#variance-std" target="_blank" rel="noopener">variance expansion</a> in a single bar.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> One candle completely contains the prior — a <a href="../indicators/#standard-deviation" target="_blank" rel="noopener">variance expansion</a> in a single bar.</div>
   <div class="topic-nav" id="nav-engulfing"></div>
 </div>`;
 }
@@ -449,7 +449,7 @@ function buildEveningStar() {
   <div class="fb"><div class="fm">Green (long) → Star (small, gapped) → Red (long)</div><div class="fd"><span>The third candle should close</span> below the midpoint of the first candle for a strong signal.</div></div>
   <div class="va"><div class="vl">// Evening Star formation</div><canvas id="eveningStarCanvas" role="img" aria-label="Evening Star formation" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are the most reliable — they confirm the level and the exhaustion simultaneously.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The bearish mirror of morning star — hope, indecision, despair. In statistics, <a href="../../stats/#skewness" target="_blank" rel="noopener">negative skew</a> captures this tail of decline.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The bearish mirror of morning star — hope, indecision, despair. In statistics, <a href="../../stats/#distribution-shape" target="_blank" rel="noopener">negative skew</a> captures this tail of decline.</div>
   <div class="topic-nav" id="nav-evening-star"></div>
 </div>`;
 }
@@ -501,7 +501,7 @@ function buildGaps() {
   <div class="fb"><div class="fm">Breakaway → starts move · Runaway → continues · Exhaustion → ends</div><div class="fd"><span>"Gaps always fill"</span> is a myth — breakaway and runaway gaps often don't fill for months or years.</div></div>
   <div class="va"><div class="vl">// Four types of gaps</div><canvas id="gapsCanvas" role="img" aria-label="Gaps: Four types of gaps" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume distinguishes gap types — breakaway gaps have high volume, runaway gaps have moderate volume, and exhaustion gaps have extreme volume followed by a reversal.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A discontinuity where price jumps past a range. In statistics, <a href="../../stats/#outliers" target="_blank" rel="noopener">outliers</a> are the same — data points that break the expected distribution.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A discontinuity where price jumps past a range. In statistics, <a href="../../stats/#outlier-detection" target="_blank" rel="noopener">outliers</a> are the same — data points that break the expected distribution.</div>
   <div class="topic-nav" id="nav-gaps"></div>
 </div>`;
 }

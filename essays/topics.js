@@ -363,7 +363,7 @@ function buildEssayFeedback() {
     <div class="essay-ref">[2] Strogatz, S. (2003). <em>Sync: How Order Emerges From Chaos in the Universe, Nature, and Daily Life.</em> Hyperion.</div>
     <div class="essay-ref">[3] Verhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. <em>Correspondance Mathématique et Physique, 10</em>, 113–121.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../sandbox/markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool.</div>
   <div class="topic-nav" id="nav-essay-feedback"></div>
 </div>`;
 }
@@ -391,7 +391,7 @@ function buildEssayWalk() {
     <div class="essay-ref">[2] Malkiel, B. G. (1973). <em>A Random Walk Down Wall Street.</em> W. W. Norton &amp; Company.</div>
     <div class="essay-ref">[3] Fama, E. F. (1965). Random Walks in Stock Market Prices. <em>Financial Analysts Journal, 21</em>(5), 55–59. <a href="https://doi.org/10.2469/faj.v21.n5.55" target="_blank" rel="noopener">doi:10.2469/faj.v21.n5.55</a></div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../stats/index.html#time-series">time-series analysis</a> is the tool for extracting the non-random component.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../timeseries/index.html#decomposition">time-series analysis</a> is the tool for extracting the non-random component.</div>
   <div class="topic-nav" id="nav-essay-walk"></div>
 </div>`;
 }
@@ -423,7 +423,7 @@ function buildEssayThreshold() {
     <div class="essay-ref">[2] Gladwell, M. (2000). <em>The Tipping Point: How Little Things Can Make a Big Difference.</em> Little, Brown and Company.</div>
     <div class="essay-ref">[3] Strogatz, S. H. (1994). <em>Nonlinear Dynamics and Chaos.</em> Addison-Wesley. Ch. 3: Bifurcations.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../ml/index.html#logistic-regression">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../sandbox/ml/index.html#classification-boundary">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief.</div>
   <div class="topic-nav" id="nav-essay-threshold"></div>
 </div>`;
 }
