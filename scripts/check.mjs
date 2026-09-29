@@ -13,11 +13,13 @@
      6. Every topic has a visualization — a DRAWS entry keyed by its id,
         and a canvas on its pre-rendered page
      7. Every relative or root-absolute <a href> points at a file that exists
+     8. connections.json matches the pre-rendered pages it is built from
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname, normalize } from 'node:path';
+import { buildConnections } from './connections.mjs';
 
 const COLLECTIONS = [
   { col: 'stats',      dir: 'stats',               path: '/stats/',               universe: 'stats' },
@@ -273,6 +275,17 @@ console.log('7. Internal links');
   }
   if (broken > 20) fail(`…and ${broken - 20} more dead links`);
   if (!broken) ok(`${checked} internal links all resolve`);
+}
+/* ── 8. connections.json ── */
+console.log('8. connections.json');
+{
+  const built = JSON.stringify(buildConnections());
+  const onDisk = existsSync('connections.json') ? readFileSync('connections.json', 'utf8') : '';
+  if (built !== onDisk) fail('connections.json is out of date — run: node scripts/build.mjs');
+  else {
+    const c = JSON.parse(built);
+    ok(`${Object.keys(c.topics).length} topics, ${Object.keys(c.linkedFrom).length} with incoming links`);
+  }
 }
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);

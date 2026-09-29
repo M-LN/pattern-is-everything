@@ -25,60 +25,31 @@ else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 if (window.PatternLoader) PatternLoader.hide();
 
-/* ── Search ── */
+/* ── Search ──
+   The header's search button and Ctrl+K open the site-wide command palette
+   (js/ui-enhance.js). Each reader used to carry its own search overlay as
+   well, so the same keys led to two different searches depending on the
+   page; the palette now ranks this collection's topics first and matches
+   their descriptions too, which is what the overlay offered. */
 function toggleSearch() {
-  const o = document.getElementById('searchOverlay');
-  o.classList.toggle('active');
-  if (o.classList.contains('active')) {
-    document.getElementById('searchInput').focus();
-    document.getElementById('searchInput').value = '';
-    document.getElementById('searchResults').innerHTML = '';
-  }
+  if (typeof window.__openPalette === 'function') window.__openPalette();
 }
-/* ui-enhance.js adds a site-wide command palette. It leaves Ctrl+K to this
-   page's own search, and this page leaves the keyboard alone while the
-   palette is up — otherwise both searches opened on top of each other. */
 function paletteOpen() {
   const p = document.getElementById('cmdkPalette');
   return !!p && !p.hidden;
 }
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    if (paletteOpen()) return;
-    e.preventDefault(); toggleSearch();
-  }
-  if (e.key === 'Escape') {
-    const o = document.getElementById('searchOverlay');
-    if (o.classList.contains('active')) toggleSearch();
-  }
   // Arrow key navigation. Modified arrows belong to the browser and the OS —
   // Alt+← is Back, and used to also step to the previous topic on the way out.
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
     const a = document.activeElement;
     if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
-    if (document.getElementById('searchOverlay')?.classList.contains('active') || paletteOpen()) return;
+    if (paletteOpen()) return;
     const idx = TOPICS.indexOf(currentTopic);
     if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
     if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
   }
-});
-document.getElementById('searchInput')?.addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  const res = document.getElementById('searchResults');
-  if (!q) { res.innerHTML = ''; return; }
-  const matches = TOPIC_DATA.filter(t =>
-    t.title.toLowerCase().includes(q) ||
-    t.category.toLowerCase().includes(q) ||
-    t.keywords.some(k => k.toLowerCase().includes(q)) ||
-    t.content.toLowerCase().includes(q)
-  ).slice(0, 8);
-  res.innerHTML = matches.map(t =>
-    `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} — ${t.category}</div>
-      <div class="sr-title">${t.title}</div>
-    </div>`
-  ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
 /* ── Visualizations, on demand ──
@@ -109,6 +80,110 @@ function loadVisualizations() {
 let currentTopic = 'home';
 let drawTimer = null;
 const viewed = new Set();
+// "/ml-math/" and "ML Math": this collection's key prefix in the progress and
+// connections data, and its name as the page title carries it.
+const READER_PATH = location.pathname.replace(/index\.html$/, '');
+const READER_NAME = document.title.split(' — ')[0].trim();
+
+/* ── Progress ──
+   The viewed counter and the sidebar marks come from js/progress.js, which
+   keeps them in localStorage — they used to reset on every reload. */
+function topicTitle(id) {
+  const t = TOPIC_DATA.find(x => x.id === id);
+  return t ? t.title : (TOPIC_NAMES[id] || id);
+}
+function markSeen(id) {
+  viewed.add(id);
+  if (window.PatternProgress) PatternProgress.mark(READER_PATH + '#' + id, topicTitle(id), READER_NAME);
+  const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+  if (ni) ni.classList.add('is-seen');
+}
+function restoreProgress() {
+  if (!window.PatternProgress) return;
+  PatternProgress.setTotal(READER_PATH, TOPICS.filter(t => t !== 'home').length);
+  PatternProgress.seenIn(READER_PATH).forEach(k => {
+    const id = k.slice(k.indexOf('#') + 1);
+    if (!TOPICS.includes(id) || id === 'home') return;
+    viewed.add(id);
+    const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+    if (ni) ni.classList.add('is-seen');
+  });
+  updateProgress();
+}
+
+/* ── Phone reading bar ──
+   On a phone the prev/next buttons sit at the very end of a long topic, and
+   the floating back-to-top and outline buttons covered the text beneath
+   them. Below 720px a fixed bar carries all of it: previous, position and
+   title (tap to go back to the top), the outline, next. css/main.css hides
+   the floating buttons while the bar is showing. Swiping sideways on the
+   text steps between topics too. */
+let readerBar = null;
+function neighbour(dir) {
+  const t = TOPICS[TOPICS.indexOf(currentTopic) + dir];
+  return t && t !== 'home' ? t : null;
+}
+function buildReaderBar() {
+  // A div, not <nav>: the stylesheet styles bare nav elements as the sidebar.
+  readerBar = document.createElement('div');
+  readerBar.className = 'reader-bar';
+  readerBar.setAttribute('role', 'navigation');
+  readerBar.setAttribute('aria-label', 'Topic navigation');
+  readerBar.innerHTML =
+    '<button type="button" class="rb-btn rb-prev" aria-label="Previous topic">←</button>' +
+    '<button type="button" class="rb-mid" aria-label="Back to the top of this topic">' +
+      '<span class="rb-pos"></span><span class="rb-title"></span></button>' +
+    '<button type="button" class="rb-btn rb-outline" aria-label="On this page">☰</button>' +
+    '<button type="button" class="rb-btn rb-next" aria-label="Next topic">→</button>';
+  readerBar.querySelector('.rb-prev').onclick = () => { const t = neighbour(-1); if (t) show(t, true); };
+  readerBar.querySelector('.rb-next').onclick = () => { const t = neighbour(1); if (t) show(t, true); };
+  readerBar.querySelector('.rb-mid').onclick = () => window.scrollTo({ top: 0 });
+  // The outline toggle belongs to ui-enhance.js and may not exist yet.
+  readerBar.querySelector('.rb-outline').onclick = () => {
+    const t = document.querySelector('.outline-toggle');
+    if (t) t.click();
+  };
+  document.body.appendChild(readerBar);
+  document.body.classList.add('has-reader-bar');
+}
+function updateReaderBar(id) {
+  if (!readerBar) return;
+  const list = TOPICS.filter(t => t !== 'home');
+  readerBar.querySelector('.rb-pos').textContent = id === 'home' ? '' : `${list.indexOf(id) + 1} / ${list.length}`;
+  readerBar.querySelector('.rb-title').textContent = id === 'home' ? '' : topicTitle(id);
+  readerBar.querySelector('.rb-prev').disabled = !neighbour(-1);
+  readerBar.querySelector('.rb-next').disabled = !neighbour(1);
+}
+
+/* Horizontal swipes on the reading column. Anything that takes a sideways
+   drag itself — a canvas, a form control, a table or formula that scrolls
+   sideways — keeps it. */
+function swipeOwner(el) {
+  for (; el && el !== document.body; el = el.parentElement) {
+    if (/^(CANVAS|INPUT|TEXTAREA|SELECT|PRE)$/.test(el.tagName)) return true;
+    if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true;
+  }
+  return false;
+}
+function initSwipe() {
+  const main = document.getElementById('mainContent');
+  if (!main) return;
+  let x0 = 0, y0 = 0, t0 = 0, tracking = false;
+  main.addEventListener('touchstart', e => {
+    tracking = e.touches.length === 1 && currentTopic !== 'home' && !swipeOwner(e.target);
+    if (!tracking) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, { passive: true });
+  main.addEventListener('touchend', e => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    // Quick, clearly sideways and long enough — not a scroll that drifted.
+    if (Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+    const t = neighbour(dx < 0 ? 1 : -1);
+    if (t) show(t, true);
+  }, { passive: true });
+}
 
 /* ── History ──
    Every topic switch used to replaceState, so the whole reading session was a
@@ -140,6 +215,7 @@ function resolveHash(hash) {
 }
 
 function syncFromLocation(state) {
+  renderTrail();
   const target = resolveHash(location.hash);
   if (!target) return;
   const y = state && typeof state.y === 'number' ? state.y : undefined;
@@ -157,22 +233,79 @@ window.addEventListener('hashchange', () => syncFromLocation(history.state));
 // history writes made while the page unloads. Debounced to the end of a
 // scroll, which keeps well under the browser's history-write throttle.
 let scrollSave = null;
+function saveScroll() {
+  clearTimeout(scrollSave);
+  try { history.replaceState({ ...(history.state || {}), topic: currentTopic, y: window.scrollY }, ''); }
+  catch (e) { /* throttled — the next scroll will try again */ }
+}
 window.addEventListener('scroll', () => {
   clearTimeout(scrollSave);
-  scrollSave = setTimeout(() => {
-    try { history.replaceState({ ...(history.state || {}), topic: currentTopic, y: window.scrollY }, ''); }
-    catch (e) { /* throttled — the next scroll will try again */ }
-  }, 200);
+  scrollSave = setTimeout(saveScroll, 200);
 }, { passive: true });
+// A link that leaves the page can be clicked inside the debounce window.
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (a && a.origin === location.origin && a.pathname !== location.pathname) saveScroll();
+}, true);
 
-/* nav.history: 'push' (default) adds an entry, 'replace' rewrites the current
-   one (first render), 'none' leaves history alone (Back/Forward already moved
-   it). nav.y restores a remembered scroll position; nav.anchor scrolls to an
-   element inside the topic. */
-function show(id, scrollNav, nav = {}) {
-  const leaving = currentTopic;
-  const leavingY = window.scrollY;
-  currentTopic = id;
+/* ── Return trail ──
+   Arriving here over a pattern bridge from another page puts a "← Back to …"
+   chip on screen (js/return-trail.js draws it). The chip belongs to history
+   entries, not to the page: each entry carries trail.depth, how many steps
+   past the arrival it is, so the chip keeps working however many topics the
+   reader goes on to open, disappears once they are back at the origin, and
+   comes back if they go forward again. */
+function renderTrail() {
+  if (!window.ReturnTrail) return;
+  const trail = history.state && history.state.trail;
+  ReturnTrail.render(trail || null, () => history.go(-(trail.depth + 1)));
+}
+
+/* ── Topic transitions ──
+   Switching topics slides the reading column in the direction of travel —
+   left for later topics, right for earlier ones — and carries the title from
+   one topic to the next when it is on screen. The header and sidebar hold
+   still (css/main.css names them for the transition). Chromium's View
+   Transitions only; elsewhere, and with reduced motion, the switch is instant
+   as before. Direction needs transition types (Chromium 125+); older builds
+   get a plain crossfade. */
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const typedTransitions = typeof ViewTransition !== 'undefined' && 'types' in ViewTransition.prototype;
+function titleOf(id) {
+  const el = document.getElementById(id);
+  return el && el.querySelector('.topic-meta h2');
+}
+function swapTopic(update, from, to) {
+  const animate = from !== to && from !== 'home' && to !== 'home' &&
+    document.startViewTransition && !reducedMotion.matches && !document.hidden;
+  if (!animate) { update(); return Promise.resolve(); }
+  const oldTitle = titleOf(from), newTitle = titleOf(to);
+  const r = oldTitle && oldTitle.getBoundingClientRect();
+  // Morphing a title that is scrolled out of view would fly it in from off
+  // screen, so only a visible one is carried over.
+  const morph = r && r.bottom > 0 && r.top < window.innerHeight;
+  if (morph) oldTitle.style.viewTransitionName = 'topic-title';
+  const direction = TOPICS.indexOf(to) > TOPICS.indexOf(from) ? 'forward' : 'backward';
+  const wrapped = () => {
+    if (oldTitle) oldTitle.style.viewTransitionName = '';
+    if (morph && newTitle) newTitle.style.viewTransitionName = 'topic-title';
+    update();
+  };
+  let vt;
+  try {
+    vt = typedTransitions
+      ? document.startViewTransition({ update: wrapped, types: [direction] })
+      : document.startViewTransition(wrapped);
+  } catch (e) { wrapped(); return Promise.resolve(); }
+  // A switch that starts before this one finishes skips it, which rejects
+  // `ready` — expected when stepping quickly through topics, not an error.
+  vt.ready.catch(() => {});
+  vt.finished.catch(() => {}).finally(() => { if (newTitle) newTitle.style.viewTransitionName = ''; });
+  return vt.updateCallbackDone.catch(() => {});
+}
+
+/* Put topic `id` on screen: the visible half of show(). */
+function applyTopic(id, scrollNav, nav) {
   document.querySelectorAll('.topic,.home').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   const el = document.getElementById(id);
@@ -182,18 +315,57 @@ function show(id, scrollNav, nav = {}) {
   document.body.classList.toggle('hub-home', id === 'home');
   const ni = document.querySelector(`.ni[data-topic="${id}"]`);
   if (ni) { ni.classList.add('active'); if (scrollNav) ni.scrollIntoView({ block: 'nearest' }); }
-  if (id !== 'home') viewed.add(id);
+  if (nav.anchor) nav.anchor.scrollIntoView({ block: 'start' });
+  else window.scrollTo({ top: nav.y || 0, behavior: 'instant' });
+}
+
+/* nav.history: 'push' (default) adds an entry, 'replace' rewrites the current
+   one (first render), 'none' leaves history alone (Back/Forward already moved
+   it). nav.y restores a remembered scroll position; nav.anchor scrolls to an
+   element inside the topic.
+
+   State, history and the nav buttons update at once; the visible switch may
+   land a frame later, inside a view transition. */
+function show(id, scrollNav, nav = {}) {
+  const leaving = currentTopic;
+  const leavingY = window.scrollY;
+  const leavingState = history.state || {};
+  currentTopic = id;
+  if (id !== 'home') markSeen(id);
   updateProgress();
   buildNavButtons(id);
+  updateReaderBar(id);
+  // Update URL hash — the overview has no anchor, so leave the hash empty;
+  // otherwise a "#home" hash makes the deep-link scroll land under the header.
+  const mode = nav.history || 'push';
+  if (mode !== 'none') {
+    const url = id === 'home' ? location.pathname + location.search : '#' + id;
+    if (mode === 'replace' || id === leaving) {
+      history.replaceState({ topic: id, trail: leavingState.trail }, '', url);
+    } else {
+      // Stamp the entry being left with its scroll position, then move on —
+      // one step further from where a bridge brought the reader in, if one did.
+      history.replaceState({ ...leavingState, topic: leaving, y: leavingY }, '');
+      const trail = leavingState.trail && { ...leavingState.trail, depth: leavingState.trail.depth + 1 };
+      history.pushState({ topic: id, trail }, '', url);
+    }
+  }
+  renderTrail();
+  // "Linked from" list under the topic (js/connections.js); once per topic.
+  if (window.Connections) Connections.render(id);
+  const swapped = swapTopic(() => {
+    if (id === currentTopic) applyTopic(id, scrollNav, nav);
+  }, mode === 'replace' ? id : leaving, id);
   /* Draw only the topic that is still on screen. Navigating away before the
      draw lands used to leave it pending; it then measured a hidden canvas as
      0x0 and wrote that back as the buffer size, which collapsed the element's
      rendered height for the rest of the session. The window is the fetch plus
      the 60 ms, so on a first visit it is however long visualizations.js takes.
-     Cancel the pending timer and re-check the id before drawing. */
+     Cancel the pending timer, wait for the topic to be swapped in, and
+     re-check the id before drawing. */
   if (id !== 'home') {
     clearTimeout(drawTimer);
-    loadVisualizations().then(() => {
+    Promise.all([loadVisualizations(), swapped]).then(() => {
       if (id !== currentTopic) return;
       clearTimeout(drawTimer);
       drawTimer = setTimeout(() => {
@@ -204,21 +376,6 @@ function show(id, scrollNav, nav = {}) {
       }, 60);
     });
   }
-  // Update URL hash — the overview has no anchor, so leave the hash empty;
-  // otherwise a "#home" hash makes the deep-link scroll land under the header.
-  const mode = nav.history || 'push';
-  if (mode !== 'none') {
-    const url = id === 'home' ? location.pathname + location.search : '#' + id;
-    if (mode === 'replace' || id === leaving) {
-      history.replaceState({ topic: id }, '', url);
-    } else {
-      // Stamp the entry being left with its scroll position, then move on.
-      history.replaceState({ ...(history.state || {}), topic: leaving, y: leavingY }, '');
-      history.pushState({ topic: id }, '', url);
-    }
-  }
-  if (nav.anchor) nav.anchor.scrollIntoView({ block: 'start' });
-  else window.scrollTo({ top: nav.y || 0, behavior: 'instant' });
   /* The remembered position doesn't always stick: before the visualization
      has drawn the page may not be tall enough to reach it, and on a reload the
      browser's own jump to the #fragment lands after this. Apply it once more
@@ -228,7 +385,7 @@ function show(id, scrollNav, nav = {}) {
     const mark = () => { touched = true; };
     const INPUT = ['wheel', 'touchstart', 'keydown', 'mousedown'];
     INPUT.forEach(t => window.addEventListener(t, mark, { passive: true }));
-    loadVisualizations().then(() => setTimeout(() => {
+    Promise.all([loadVisualizations(), swapped]).then(() => setTimeout(() => {
       INPUT.forEach(t => window.removeEventListener(t, mark, { passive: true }));
       if (!touched && id === currentTopic && Math.abs(window.scrollY - nav.y) > 2)
         window.scrollTo({ top: nav.y, behavior: 'instant' });
@@ -287,9 +444,15 @@ window.addEventListener('load', () => {
   buildContent();
   const homeNI = document.querySelector('.ni[data-topic="home"]');
   if (homeNI) homeNI.classList.add('active');
+  restoreProgress();
+  buildReaderBar();
+  initSwipe();
   // Open whatever the URL points at — a topic, or a heading inside one — and
   // restore the scroll position if this entry has one (a reload, or Back into
   // the page from elsewhere). A heading link keeps its own hash.
+  // Arrived over a pattern bridge: this entry becomes the start of the trail.
+  const arrival = window.ReturnTrail && ReturnTrail.take();
+  if (arrival) history.replaceState({ ...(history.state || {}), trail: { ...arrival, depth: 0 } }, '');
   const open = () => {
     const target = resolveHash(location.hash) || { topic: 'home' };
     const y = history.state && typeof history.state.y === 'number' ? history.state.y : undefined;

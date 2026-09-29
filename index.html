@@ -42,7 +42,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
-  <link rel="stylesheet" href="css/main.css?v=23">
+  <link rel="stylesheet" href="css/main.css?v=26">
   </head>
 <body>
 
@@ -76,6 +76,15 @@
   <div class="hero-ctas">
     <a class="hero-btn hero-btn-primary" href="start/index.html">Start learning →</a>
     <a class="hero-btn hero-btn-ghost" href="#universes">Browse all 257 topics</a>
+  </div>
+  <!-- Filled by js/progress.js from what this visitor has already opened. -->
+  <div class="continue-reading" id="continueReading" hidden>
+    <a class="cr-link" href="#">
+      <span class="cr-kicker">Continue where you left off</span>
+      <span class="cr-title"></span>
+      <span class="cr-meta"><span class="cr-col"></span> · <span class="cr-count"></span></span>
+    </a>
+    <div class="cr-foot"><span class="cr-all"></span> · <button type="button" class="cr-forget">Forget progress</button></div>
   </div>
 </div>
 
@@ -936,7 +945,8 @@ if ('serviceWorker' in navigator) {
   obs.observe(canvas);
 })();
 </script>
+<script src="js/progress.js?v=1" defer></script>
 <script src="js/learning-path.js?v=5"></script>
-<script src="js/ui-enhance.js?v=26" defer></script>
+<script src="js/ui-enhance.js?v=27" defer></script>
 </body>
 </html>

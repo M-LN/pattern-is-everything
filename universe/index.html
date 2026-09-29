@@ -27,6 +27,7 @@
 </script>
 <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="../game/game-data.js"></script>
+<script src="../js/progress.js?v=1"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--bg:#050508;--gold:#c8a96e;--gold-dim:#7a6340;--ml:#4fc3f7;--mkt:#81c784;--text:#e8e4dc;}
@@ -110,10 +111,10 @@ canvas.dragging{cursor:grabbing;}
 <nav id="nav"><a href="../index.html">&larr; Pattern is Everything</a><div id="nav-title">Pattern Cosmos</div></nav>
 <canvas id="c" aria-hidden="true"></canvas>
 <div id="intro"><div id="intro-title">Pattern Cosmos</div><div id="intro-sub">257 patterns &middot; 9 collections &middot; scroll to explore</div></div>
-<div id="stats-badge">257 TOPICS &middot; 9 COLLECTIONS &middot; 2 DOMAINS</div>
+<div id="stats-badge">257 TOPICS &middot; 9 COLLECTIONS &middot; 2 DOMAINS<span id="explored-count"></span></div>
 <div id="tip"></div>
 <div id="controls">Drag &middot; pan<br>Scroll &middot; zoom<br>Click &middot; explore<br>Ctrl+K &middot; search</div>
-<div id="legend"><div class="legend-row"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div><div class="legend-row"><span>Markets</span><div class="legend-dot" style="background:#81c784"></div></div></div>
+<div id="legend"><div class="legend-row"><span>Machine Learning</span><div class="legend-dot" style="background:#4fc3f7"></div></div><div class="legend-row"><span>Markets</span><div class="legend-dot" style="background:#81c784"></div></div><div class="legend-row" id="legend-explored" style="display:none"><span>Explored</span><div class="legend-dot" style="background:transparent;box-shadow:0 0 0 1px rgba(255,255,255,.6)"></div></div></div>
 <div id="search-overlay"><div id="search-box"><input id="search-input" type="text" placeholder="Search 257 topics..." autocomplete="off"><div id="search-results"></div></div></div>
 <div id="panel"><button id="panel-close">&times;</button><div id="panel-inner"><div id="panel-col"></div><div id="panel-title"></div><div id="panel-cat"></div><div class="panel-divider"></div><div id="panel-keywords"></div><div id="panel-connections"><div class="panel-section-title">Connected Patterns</div><div id="panel-conn-list"></div></div><a id="panel-link" href="#" target="_blank" rel="noopener">Explore topic</a></div></div>
 
@@ -156,6 +157,15 @@ MKT_COLS.forEach((col,i)=>{
   CLUSTER[col]={x:Math.cos(angle)*dist,y:Math.sin(angle)*dist*0.68};
 });
 
+/* ── Explored topics ──
+   Topics this visitor has opened (js/progress.js, localStorage) get a ring,
+   and the badge counts them. Keys are reader URLs, "/ml-math/#activation". */
+function hasSeen(colPath,id){
+  if(!window.PatternProgress)return false;
+  const base=new URL(colPath,location.href).pathname.replace(/index\.html$/,'');
+  return PatternProgress.seen(base+'#'+id);
+}
+
 /* ── Place topics ── */
 const nodes=[];
 const colGroups={};
@@ -166,9 +176,15 @@ Object.keys(colGroups).forEach(col=>{
   topics.forEach((t,i)=>{
     const r=16+7.5*Math.sqrt(i),theta=i*GA;
     nodes.push({...t,idx:nodes.length,wx:c.x+Math.cos(theta)*r,wy:c.y+Math.sin(theta)*r,
-      color:meta.color,size:1.8+Math.random()*1.4,phase:rand(0,TAU),twSpeed:0.4+rand(0,2)});
+      color:meta.color,size:1.8+Math.random()*1.4,phase:rand(0,TAU),twSpeed:0.4+rand(0,2),
+      seen:hasSeen(meta.path,t.id)});
   });
 });
+
+/* Badge and legend: how many of them this visitor has explored. */
+(()=>{const n=nodes.filter(x=>x.seen).length;if(!n)return;
+  document.getElementById('explored-count').innerHTML=' &middot; '+n+' EXPLORED';
+  document.getElementById('legend-explored').style.display='';})();
 
 /* ── Cross-domain edges ── */
 const crossEdges=[];
@@ -275,6 +291,8 @@ function drawNodes(){
     const cg=ctx.createRadialGradient(s.sx,s.sy,0,s.sx,s.sy,r);
     cg.addColorStop(0,'rgba(255,255,255,.9)');cg.addColorStop(.35,n.color);cg.addColorStop(1,hexA(n.color,.2));
     ctx.fillStyle=cg;ctx.beginPath();ctx.arc(s.sx,s.sy,r,0,TAU);ctx.fill();
+    /* Explored ring */
+    if(n.seen){ctx.beginPath();ctx.arc(s.sx,s.sy,r+2.2+cam.z*.6,0,TAU);ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1;ctx.stroke();}
     /* Selection ring */
     if(isH||isS){ctx.beginPath();ctx.arc(s.sx,s.sy,r*2.8+2*Math.sin(time*3),0,TAU);ctx.strokeStyle=hexA(n.color,.45);ctx.lineWidth=1;ctx.stroke();}
     /* Label */
