@@ -5,9 +5,11 @@
    1. search-index.json   — global topic index for the Ctrl+K palette
    2. essays/feed.xml     — RSS feed for Pattern Essays
    3. sitemap.xml         — refreshed <lastmod> dates from git history
+   4. connections.json    — which topics link to which (scripts/connections.mjs)
 */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { buildConnections } from './connections.mjs';
 
 const SITE = 'https://patterniseverything.com';
 
@@ -111,3 +113,11 @@ sitemap = sitemap.replace(/<url>\s*<loc>([^<]+)<\/loc>[\s\S]*?<\/url>/g, block =
 });
 writeFileSync('sitemap.xml', sitemap, 'utf-8');
 console.log('sitemap.xml: lastmod refreshed');
+
+/* ── 4. connections.json ──
+   Read from the pre-rendered pages, so run scripts/prerender.mjs first when
+   topics.js has changed. */
+const connections = buildConnections();
+writeFileSync('connections.json', JSON.stringify(connections), 'utf-8');
+console.log(`connections.json: ${Object.keys(connections.topics).length} topics, ` +
+  `${Object.keys(connections.linkedFrom).length} with incoming links`);

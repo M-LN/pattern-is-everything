@@ -272,6 +272,8 @@ function show(id, scrollNav, nav = {}) {
     }
   }
   renderTrail();
+  // "Linked from" list under the topic (js/connections.js); once per topic.
+  if (window.Connections) Connections.render(id);
   const swapped = swapTopic(() => {
     if (id === currentTopic) applyTopic(id, scrollNav, nav);
   }, mode === 'replace' ? id : leaving, id);

@@ -3043,6 +3043,79 @@ html:active-view-transition-type(backward)::view-transition-new(root) { animatio
   .return-trail .rt-arrow { transition: none; }
 }
 
+/* ── Bridge preview card ──
+   Hovering or focusing a link to a topic shows where it leads: collection,
+   title and the topic's pattern line (js/connections.js). */
+.bridge-preview {
+  position: fixed;
+  z-index: 240;
+  width: min(320px, calc(100vw - 24px));
+  padding: 12px 14px 13px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.2);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .14s var(--ease), transform .14s var(--ease);
+}
+.bridge-preview.below { transform: translateY(-4px); }
+.bridge-preview.is-open { opacity: 1; transform: none; }
+.bridge-preview[hidden] { display: none; }
+.bridge-preview .bp-col {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--accent);
+}
+.bridge-preview .bp-title {
+  margin-top: 3px; font-family: var(--serif); font-size: 18px; font-weight: 700;
+  line-height: 1.2; color: var(--text);
+}
+.bridge-preview .bp-pattern {
+  margin-top: 8px; font-family: var(--mono); font-size: 12px; font-style: italic;
+  line-height: 1.5; color: var(--muted);
+}
+.bridge-preview .bp-mark { font-style: normal; color: var(--accent); margin-right: 6px; }
+.bridge-preview .bp-meta {
+  margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+}
+
+/* ── Linked from ──
+   Topics elsewhere whose pattern bridges point at this one, above the
+   prev/next buttons (js/connections.js). */
+.topic-connections { margin-top: 40px; }
+.topic-connections .tc-head {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+.topic-connections .tc-head span:first-child { color: var(--accent); margin-right: 4px; }
+.topic-connections .tc-count {
+  display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px;
+  background: var(--hi); color: var(--text);
+}
+.topic-connections ul {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.topic-connections a {
+  display: flex; flex-direction: column; gap: 3px; height: 100%;
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); color: inherit; text-decoration: none;
+  transition: border-color .12s var(--ease), transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.topic-connections a:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.topic-connections .tc-col {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--accent);
+}
+.topic-connections .tc-title { font-family: var(--serif); font-size: 16px; font-weight: 700; line-height: 1.25; }
+.topic-connections .tc-pattern { font-family: var(--mono); font-size: 11px; line-height: 1.5; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) {
+  .bridge-preview, .topic-connections a { transition: none; }
+}
+
 
 /* =================================================================
    What's-new feature discovery toast

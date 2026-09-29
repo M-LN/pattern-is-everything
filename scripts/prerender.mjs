@@ -160,7 +160,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
     ]
   }
   </script>
-  <link rel="stylesheet" href="${up}css/main.css?v=24">
+  <link rel="stylesheet" href="${up}css/main.css?v=25">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -228,6 +228,7 @@ window.addEventListener('load', function () {
 });
 </script>
 <script src="${up}js/return-trail.js?v=1" defer></script>
+<script src="${up}js/connections.js?v=1" defer></script>
 </body>
 </html>
 `;
