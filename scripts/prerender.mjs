@@ -75,6 +75,13 @@ function serve(port) {
   return new Promise(resolve => server.listen(port, () => resolve(server)));
 }
 
+/* With core.autocrlf a Windows checkout is CRLF while everything generated
+   here is LF, so every comparison against a file on disk — and the topics.js
+   fingerprint — works in LF. Files spliced in place are written back in their
+   own line ending. */
+const lf = s => s.replace(/\r\n/g, '\n');
+const eolOf = s => s.includes('\r\n') ? '\r\n' : '\n';
+
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
@@ -257,6 +264,10 @@ async function extract(key) {
       // The reader injects prev/next buttons here at runtime; the generated
       // page supplies real links instead.
       clone.querySelectorAll('.topic-nav').forEach(n => n.remove());
+      // practical-template.js injects this on a 120 ms timer, so whether it
+      // made it in depended on timing and the output wasn't reproducible. The
+      // generated pages have never carried it.
+      clone.querySelectorAll('.practical-template').forEach(n => n.remove());
       clone.classList.remove('active');
       return { id, title: meta.title || id, category: meta.category || '',
                content: meta.content || '', html: clone.outerHTML };
@@ -276,7 +287,8 @@ const I_END = '<!-- topic-index:end -->';
    built by topics.js and so never appear in the markup a crawler reads. */
 async function syncTopicIndex(col, data, sections, check, markStale) {
   const file = join(ROOT, col.dir, 'index.html');
-  const html = await readFile(file, 'utf8');
+  const raw = await readFile(file, 'utf8');
+  const eol = eolOf(raw), html = lf(raw);
   const byId = new Map(data.map(t => [t.id, t]));
   const groups = (sections.length ? sections : [{ title: 'Topics', topics: data.map(t => t.id) }])
     .map(sec => {
@@ -303,7 +315,7 @@ async function syncTopicIndex(col, data, sections, check, markStale) {
     return;
   }
   if (check) { markStale(); console.log(`  stale: ${col.dir}/index.html topic index`); return; }
-  await writeFile(file, next);
+  await writeFile(file, next.replace(/\n/g, eol));
   console.log(`${col.dir}/index.html: topic index with ${data.length} links`);
 }
 
@@ -315,11 +327,7 @@ const S_END = '  <!-- prerendered:end -->';
 async function syncSitemap(urls, check, markStale) {
   const file = join(ROOT, 'sitemap.xml');
   const raw = await readFile(file, 'utf8');
-  // With core.autocrlf the checkout is CRLF while the block below is LF, so
-  // they would never compare equal. Work in LF, write back in the file's own
-  // line ending.
-  const eol = raw.includes('\r\n') ? '\r\n' : '\n';
-  const xml = raw.replace(/\r\n/g, '\n');
+  const eol = eolOf(raw), xml = lf(raw);
   const today = new Date().toISOString().slice(0, 10);
   const block = [S_START, ...urls.map(u =>
     `  <url>\n    <loc>${u}</loc>\n    <priority>0.6</priority>\n    <lastmod>${today}</lastmod>\n  </url>`), S_END].join('\n');
@@ -355,7 +363,7 @@ async function run() {
     const vizSrc = vizMatch ? vizMatch[1] : 'visualizations.js';
 
     const fingerprint = 'topics.js@' + createHash('sha256')
-      .update(await readFile(join(ROOT, col.dir, 'topics.js'))).digest('hex').slice(0, 12);
+      .update(lf(await readFile(join(ROOT, col.dir, 'topics.js'), 'utf8'))).digest('hex').slice(0, 12);
     for (let i = 0; i < data.length; i++) {
       const topic = data[i];
       const out = join(ROOT, col.dir, topic.id, 'index.html');
@@ -365,7 +373,7 @@ async function run() {
         next: i < data.length - 1 ? data[i + 1] : null,
       });
       urls.push(`${SITE}/${col.dir}/${topic.id}/`);
-      const current = existsSync(out) ? await readFile(out, 'utf8') : null;
+      const current = existsSync(out) ? lf(await readFile(out, 'utf8')) : null;
       if (current === body) continue;
       if (check) { stale++; console.log(`  stale: /${col.dir}/${topic.id}/`); continue; }
       await mkdir(dirname(out), { recursive: true });
