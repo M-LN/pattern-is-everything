@@ -314,7 +314,12 @@ const S_END = '  <!-- prerendered:end -->';
 
 async function syncSitemap(urls, check, markStale) {
   const file = join(ROOT, 'sitemap.xml');
-  const xml = await readFile(file, 'utf8');
+  const raw = await readFile(file, 'utf8');
+  // With core.autocrlf the checkout is CRLF while the block below is LF, so
+  // they would never compare equal. Work in LF, write back in the file's own
+  // line ending.
+  const eol = raw.includes('\r\n') ? '\r\n' : '\n';
+  const xml = raw.replace(/\r\n/g, '\n');
   const today = new Date().toISOString().slice(0, 10);
   const block = [S_START, ...urls.map(u =>
     `  <url>\n    <loc>${u}</loc>\n    <priority>0.6</priority>\n    <lastmod>${today}</lastmod>\n  </url>`), S_END].join('\n');
@@ -328,7 +333,7 @@ async function syncSitemap(urls, check, markStale) {
   const strip = t => t.replace(/<lastmod>[^<]*<\/lastmod>/g, '');
   if (strip(next) === strip(xml)) return;
   if (check) { markStale(); console.log('  stale: sitemap.xml'); return; }
-  await writeFile(file, next);
+  await writeFile(file, next.replace(/\n/g, eol));
   console.log(`sitemap.xml: ${urls.length} pre-rendered URLs`);
 }
 
