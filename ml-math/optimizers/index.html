@@ -120,7 +120,7 @@ optim = torch.optim.SGD(model.parameters(), lr=<span class="st">0.01</span>, mom
 optim = torch.optim.Adam(model.parameters(), lr=<span class="st">1e-3</span>, betas=(<span class="st">0.9</span>, <span class="st">0.999</span>))
 optim = torch.optim.AdamW(model.parameters(), lr=<span class="st">1e-3</span>, weight_decay=<span class="st">0.01</span>)  <span class="cm"># default choice</span></pre></div>
   <div class="callout"><strong>AdamW</strong> is the default choice for most modern models. It decouples weight decay from the gradient update, fixing a subtle bug in Adam's L2 regularization.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Momentum in Adam is literally <a href="../markets/indicators/#roc" target="_blank" rel="noopener">momentum</a> in trading — using past velocity to guide the next step. <a href="../markets/indicators/#ema" target="_blank" rel="noopener">Exponential moving averages</a> smooth both gradient updates and price series identically.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Momentum in Adam is literally <a href="../../markets/indicators/#roc" target="_blank" rel="noopener">momentum</a> in trading — using past velocity to guide the next step. <a href="../../markets/indicators/#ema" target="_blank" rel="noopener">Exponential moving averages</a> smooth both gradient updates and price series identically.</div>
   
 </div>
   <div class="topic-nav">

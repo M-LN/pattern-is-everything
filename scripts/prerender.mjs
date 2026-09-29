@@ -78,6 +78,15 @@ function serve(port) {
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+/* Topic markup is authored relative to the collection page (/<col>/), but the
+   generated page sits one directory deeper (/<col>/<id>/). Without this every
+   relative link in the content — the pattern bridges above all — resolved
+   inside the topic's own folder and 404'd: ../markets/charts/ from
+   /ml-math/activation/ became /ml-math/markets/charts/. Root-absolute,
+   in-page (#…) and scheme links are left alone. */
+const rebase = html => html.replace(
+  /(<a\b[^>]*?\shref=")(?![a-z][a-z0-9+.-]*:|\/|#)([^"]+)"/gi, '$1../$2"');
+
 function describe(content) {
   let t = String(content || '').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
   if (t.length > 155) t = t.slice(0,152).replace(/\s+\S*$/,'') + '…';
@@ -346,7 +355,7 @@ async function run() {
       const topic = data[i];
       const out = join(ROOT, col.dir, topic.id, 'index.html');
       const body = page({
-        topic, html: topic.html, col, key, fingerprint, vizSrc,
+        topic, html: rebase(topic.html), col, key, fingerprint, vizSrc,
         prev: i > 0 ? data[i - 1] : null,
         next: i < data.length - 1 ? data[i + 1] : null,
       });

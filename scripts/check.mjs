@@ -12,6 +12,7 @@
         topics.js
      6. Every topic has a visualization — a DRAWS entry keyed by its id,
         and a canvas on its pre-rendered page
+     7. Every relative or root-absolute <a href> points at a file that exists
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -44,7 +45,9 @@ function extractTopicData(file) {
 function htmlFiles(root = '.') {
   const out = [];
   for (const entry of readdirSync(root)) {
-    if (['lite', 'node_modules', '.git'].includes(entry)) continue;
+    // .claude holds agent worktrees (full copies of the site) and .venv holds
+    // third-party templates; neither is part of the published site.
+    if (['lite', 'node_modules', '.git', '.claude', '.venv'].includes(entry)) continue;
     const p = join(root, entry);
     if (statSync(p).isDirectory()) out.push(...htmlFiles(p));
     else if (entry.endsWith('.html') && !entry.startsWith('google')) out.push(p);
@@ -242,6 +245,32 @@ console.log('6. Visualization coverage');
     }
   }
   if (!bad) ok('every topic owns a draw keyed by its id');
+}
+
+/* ── 7. Internal links ──
+   Check 1 only looks at links that land on a collection, so a link that
+   resolved somewhere else entirely was skipped rather than flagged. That hid
+   ~385 dead pattern-bridge links on the pre-rendered pages, which sit one
+   directory deeper than the markup was written for. This checks that every
+   relative or root-absolute href points at a file or directory index that
+   exists. */
+console.log('7. Internal links');
+{
+  let checked = 0, broken = 0;
+  for (const file of htmlFiles()) {
+    const src = readFileSync(file, 'utf8');
+    for (const m of src.matchAll(/<a\b[^>]*?\shref="([^"#?]+)[^"]*"/g)) {
+      const href = m[1];
+      if (/^[a-z][a-z0-9+.-]*:/i.test(href) || href.includes('${')) continue;
+      const target = href.startsWith('/') ? join('.', href) : join(dirname(file), href);
+      checked++;
+      const exists = existsSync(target) &&
+        (statSync(target).isFile() || existsSync(join(target, 'index.html')));
+      if (!exists) { broken++; if (broken <= 20) fail(`${file}: dead link ${href}`); }
+    }
+  }
+  if (broken > 20) fail(`…and ${broken - 20} more dead links`);
+  if (!broken) ok(`${checked} internal links all resolve`);
 }
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);

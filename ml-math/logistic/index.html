@@ -120,7 +120,7 @@ model = nn.Sequential(
 loss_fn = nn.BCELoss()          <span class="cm"># or BCEWithLogitsLoss (more stable)</span>
 loss = loss_fn(model(x), y)</pre></div>
   <div class="callout warn"><strong>Numerical stability:</strong> Never use nn.Sigmoid() + nn.BCELoss(). Use nn.BCEWithLogitsLoss() which combines them with the log-sum-exp trick to avoid overflow/underflow.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The sigmoid that squeezes values into [0,1] reappears as <a href="../stats/#probability-distributions" target="_blank" rel="noopener">probability curves</a> in statistics and mirrors the S-curve of <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market sentiment cycles</a> — gradual build, rapid shift, saturation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The sigmoid that squeezes values into [0,1] reappears as <a href="../../stats/#probability-distributions" target="_blank" rel="noopener">probability curves</a> in statistics and mirrors the S-curve of <a href="../../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market sentiment cycles</a> — gradual build, rapid shift, saturation.</div>
   
 </div>
   <div class="topic-nav">

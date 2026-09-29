@@ -117,7 +117,7 @@ diff1 = series.diff().dropna()         <span class="cm"># first difference</span
 diff2 = series.diff().diff().dropna()   <span class="cm"># second difference</span>
 sdiff = series.diff(<span class="st">12</span>).dropna()        <span class="cm"># seasonal difference (m=12)</span></pre></div>
   <div class="callout info"><strong>Don’t over-difference:</strong> Each difference removes one degree of integration. If the series is already stationary, differencing adds artificial noise. Check with ADF after each step.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Differencing converts levels to returns — exactly what <a href="../markets/charts/#candlesticks" target="_blank" rel="noopener">candlestick charts</a> show. In ML, the concept parallels <a href="../ml-math/#gradient" target="_blank" rel="noopener">gradient computation</a>: the rate of change matters more than the absolute value.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Differencing converts levels to returns — exactly what <a href="../../markets/charts/#candlesticks" target="_blank" rel="noopener">candlestick charts</a> show. In ML, the concept parallels <a href="../../ml-math/#gradient" target="_blank" rel="noopener">gradient computation</a>: the rate of change matters more than the absolute value.</div>
   
 </div>
   <div class="topic-nav">

@@ -118,7 +118,7 @@
     <span class="kw">def</span> forward(self, x):
         out, _ = self.rnn(x)
         <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> RNN hidden states are a temporal version of <a href="../ml-math/#embeddings" target="_blank" rel="noopener">embeddings</a> — compressed representations of input context. The vanishing gradient problem connects to <a href="../ml-math/#gradient" target="_blank" rel="noopener">gradient dynamics</a> in deep networks and the <a href="../llm/#feed-forward" target="_blank" rel="noopener">residual connections</a> that solve it in transformers.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> RNN hidden states are a temporal version of <a href="../../ml-math/#embeddings" target="_blank" rel="noopener">embeddings</a> — compressed representations of input context. The vanishing gradient problem connects to <a href="../../ml-math/#gradient" target="_blank" rel="noopener">gradient dynamics</a> in deep networks and the <a href="../../llm/#feed-forward" target="_blank" rel="noopener">residual connections</a> that solve it in transformers.</div>
   
 </div>
   <div class="topic-nav">

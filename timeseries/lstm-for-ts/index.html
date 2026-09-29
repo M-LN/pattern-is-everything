@@ -117,7 +117,7 @@
     <span class="kw">def</span> forward(self, x):
         out, _ = self.lstm(x)
         <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed — they learn <em>what to remember</em>, connecting to the formal <a href="../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../ml-math/#gru" target="_blank" rel="noopener">the GRU topic</a> in ML Math.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed — they learn <em>what to remember</em>, connecting to the formal <a href="../../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../../ml-math/#gru" target="_blank" rel="noopener">the GRU topic</a> in ML Math.</div>
   
 </div>
   <div class="topic-nav">

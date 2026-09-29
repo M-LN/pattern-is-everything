@@ -35,15 +35,29 @@ function toggleSearch() {
     document.getElementById('searchResults').innerHTML = '';
   }
 }
+/* ui-enhance.js adds a site-wide command palette. It leaves Ctrl+K to this
+   page's own search, and this page leaves the keyboard alone while the
+   palette is up — otherwise both searches opened on top of each other. */
+function paletteOpen() {
+  const p = document.getElementById('cmdkPalette');
+  return !!p && !p.hidden;
+}
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    if (paletteOpen()) return;
+    e.preventDefault(); toggleSearch();
+  }
   if (e.key === 'Escape') {
     const o = document.getElementById('searchOverlay');
     if (o.classList.contains('active')) toggleSearch();
   }
-  // Arrow key navigation
+  // Arrow key navigation. Modified arrows belong to the browser and the OS —
+  // Alt+← is Back, and used to also step to the previous topic on the way out.
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-    if (document.activeElement.tagName === 'INPUT') return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const a = document.activeElement;
+    if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
+    if (document.getElementById('searchOverlay')?.classList.contains('active') || paletteOpen()) return;
     const idx = TOPICS.indexOf(currentTopic);
     if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
     if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
@@ -96,7 +110,68 @@ let currentTopic = 'home';
 let drawTimer = null;
 const viewed = new Set();
 
-function show(id, scrollNav) {
+/* ── History ──
+   Every topic switch used to replaceState, so the whole reading session was a
+   single history entry: Back (or a swipe back on a phone) after reading five
+   topics left the collection instead of returning to the fourth. Switches now
+   push an entry, and popstate/hashchange bring the matching topic back.
+
+   Each entry remembers its scroll position, so Back lands where the reader
+   left off rather than at the top. The browser's own restoration is turned
+   off because it would fight the topic switch, which resets the scroll. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+// Tells ui-enhance.js not to scroll to the hash on load: here the hash names a
+// topic, and show() decides where the page sits.
+window.readerOwnsHash = true;
+
+/* A hash is either a topic id or — after a heading's copy-link or the outline
+   — the id of an element inside a topic. Resolve both to the topic to show,
+   plus the element to scroll to for the second kind. Null when the hash
+   matches nothing on this page. */
+function resolveHash(hash) {
+  let id = hash.replace(/^#/, '');
+  try { id = decodeURIComponent(id); } catch (e) { /* keep the raw id */ }
+  if (!id) return { topic: 'home' };
+  if (TOPICS.includes(id)) return { topic: id };
+  const el = document.getElementById(id);
+  const owner = el && el.closest('.topic');
+  if (owner && TOPICS.includes(owner.id)) return { topic: owner.id, anchor: el };
+  return null;
+}
+
+function syncFromLocation(state) {
+  const target = resolveHash(location.hash);
+  if (!target) return;
+  const y = state && typeof state.y === 'number' ? state.y : undefined;
+  if (target.topic !== currentTopic) show(target.topic, true, { history: 'none', y, anchor: target.anchor });
+  else if (target.anchor) target.anchor.scrollIntoView({ block: 'start' });
+  else if (y !== undefined) window.scrollTo({ top: y, behavior: 'instant' });
+}
+// Back/Forward between topics. A plain hash change (an in-page link, or an
+// edited URL) fires both events; the second finds the topic already shown.
+window.addEventListener('popstate', e => syncFromLocation(e.state));
+window.addEventListener('hashchange', () => syncFromLocation(history.state));
+// Keep the current entry's scroll position up to date as the reader scrolls,
+// so a reload — or coming back from another page without the bfcache — lands
+// in the same place. Writing it on pagehide instead doesn't work: Chrome drops
+// history writes made while the page unloads. Debounced to the end of a
+// scroll, which keeps well under the browser's history-write throttle.
+let scrollSave = null;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollSave);
+  scrollSave = setTimeout(() => {
+    try { history.replaceState({ ...(history.state || {}), topic: currentTopic, y: window.scrollY }, ''); }
+    catch (e) { /* throttled — the next scroll will try again */ }
+  }, 200);
+}, { passive: true });
+
+/* nav.history: 'push' (default) adds an entry, 'replace' rewrites the current
+   one (first render), 'none' leaves history alone (Back/Forward already moved
+   it). nav.y restores a remembered scroll position; nav.anchor scrolls to an
+   element inside the topic. */
+function show(id, scrollNav, nav = {}) {
+  const leaving = currentTopic;
+  const leavingY = window.scrollY;
   currentTopic = id;
   document.querySelectorAll('.topic,.home').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
@@ -131,10 +206,34 @@ function show(id, scrollNav) {
   }
   // Update URL hash — the overview has no anchor, so leave the hash empty;
   // otherwise a "#home" hash makes the deep-link scroll land under the header.
-  if (id === 'home') history.replaceState(null, '', location.pathname + location.search);
-  else history.replaceState(null, '', '#' + id);
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  const mode = nav.history || 'push';
+  if (mode !== 'none') {
+    const url = id === 'home' ? location.pathname + location.search : '#' + id;
+    if (mode === 'replace' || id === leaving) {
+      history.replaceState({ topic: id }, '', url);
+    } else {
+      // Stamp the entry being left with its scroll position, then move on.
+      history.replaceState({ ...(history.state || {}), topic: leaving, y: leavingY }, '');
+      history.pushState({ topic: id }, '', url);
+    }
+  }
+  if (nav.anchor) nav.anchor.scrollIntoView({ block: 'start' });
+  else window.scrollTo({ top: nav.y || 0, behavior: 'instant' });
+  /* The remembered position doesn't always stick: before the visualization
+     has drawn the page may not be tall enough to reach it, and on a reload the
+     browser's own jump to the #fragment lands after this. Apply it once more
+     after the draw — unless the reader has scrolled by hand in the meantime. */
+  if (nav.y) {
+    let touched = false;
+    const mark = () => { touched = true; };
+    const INPUT = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    INPUT.forEach(t => window.addEventListener(t, mark, { passive: true }));
+    loadVisualizations().then(() => setTimeout(() => {
+      INPUT.forEach(t => window.removeEventListener(t, mark, { passive: true }));
+      if (!touched && id === currentTopic && Math.abs(window.scrollY - nav.y) > 2)
+        window.scrollTo({ top: nav.y, behavior: 'instant' });
+    }, 120));
+  }
 }
 
 function showSection(secId, topicId) {
@@ -188,10 +287,16 @@ window.addEventListener('load', () => {
   buildContent();
   const homeNI = document.querySelector('.ni[data-topic="home"]');
   if (homeNI) homeNI.classList.add('active');
-  // Check hash
-  if (location.hash) {
-    const id = location.hash.slice(1);
-    if (TOPICS.includes(id)) { show(id, true); return; }
-  }
-  show('home');
+  // Open whatever the URL points at — a topic, or a heading inside one — and
+  // restore the scroll position if this entry has one (a reload, or Back into
+  // the page from elsewhere). A heading link keeps its own hash.
+  const open = () => {
+    const target = resolveHash(location.hash) || { topic: 'home' };
+    const y = history.state && typeof history.state.y === 'number' ? history.state.y : undefined;
+    show(target.topic, true, { history: target.anchor ? 'none' : 'replace', y, anchor: target.anchor });
+  };
+  // Heading ids are assigned by ui-enhance.js in its own load handler, which
+  // runs after this one — so a hash naming a heading only resolves after it.
+  if (location.hash && !resolveHash(location.hash)) setTimeout(open, 0);
+  else open();
 });

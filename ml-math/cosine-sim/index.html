@@ -120,7 +120,7 @@ sim = torch.dot(a, b) / (a.norm() * b.norm())    <span class="cm"># single pair<
 sims = query @ embeddings.T                       <span class="cm"># all similarities at once</span>
 top_k = sims.topk(<span class="st">10</span>)                             <span class="cm"># top-10 most similar</span></pre></div>
   <div class="callout info"><strong>In practice:</strong> Embeddings are often L2-normalized, making cosine similarity equivalent to a simple dot product. This is why dot-product search (FAISS, HNSW) is so fast.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../../stats/#correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this.</div>
   
 </div>
   <div class="topic-nav">

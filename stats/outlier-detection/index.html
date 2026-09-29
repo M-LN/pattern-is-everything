@@ -124,7 +124,7 @@ mask = (data &lt; Q1 - <span class="st">1.5</span>*IQR) | (data &gt; Q3 + <span 
 <span class="cm"># Isolation Forest — multi-dimensional</span>
 iso = IsolationForest(contamination=<span class="st">0.05</span>)
 labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../markets/psychology/#black-swan" target="_blank" rel="noopener">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../../markets/psychology/#black-swan" target="_blank" rel="noopener">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
   
 </div>
   <div class="topic-nav">

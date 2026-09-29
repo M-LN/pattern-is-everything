@@ -124,7 +124,7 @@ model = PatchTSTForPrediction.from_pretrained(
 <span class="cm"># Or with Darts library</span>
 <span class="kw">from</span> darts.models <span class="kw">import</span> TFTModel
 model = TFTModel(input_chunk_length=<span class="st">96</span>, output_chunk_length=<span class="st">24</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Time-series transformers borrow directly from the <a href="../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> and <a href="../llm/#positional-encoding" target="_blank" rel="noopener">positional encoding</a> in LLMs. The patching strategy in PatchTST is analogous to <a href="../llm/#tokenization" target="_blank" rel="noopener">tokenization</a> — chunking continuous signals into digestible pieces.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Time-series transformers borrow directly from the <a href="../../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> and <a href="../../llm/#positional-encoding" target="_blank" rel="noopener">positional encoding</a> in LLMs. The patching strategy in PatchTST is analogous to <a href="../../llm/#tokenization" target="_blank" rel="noopener">tokenization</a> — chunking continuous signals into digestible pieces.</div>
   
 </div>
   <div class="topic-nav">

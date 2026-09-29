@@ -118,7 +118,7 @@ nn.init.xavier_uniform_(layer.weight)     <span class="cm"># for tanh/sigmoid</s
 nn.init.kaiming_normal_(layer.weight)     <span class="cm"># for ReLU (default)</span>
 nn.init.zeros_(layer.bias)                <span class="cm"># biases → 0</span></pre></div>
   <div class="callout info"><strong>Modern practice:</strong> PyTorch's nn.Linear uses Kaiming uniform by default. Transformers typically use small normal init (std ≈ 0.02) + special scaling for residual paths.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../stats/#variance-std" target="_blank" rel="noopener">variance scaling</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../../stats/#variance-std" target="_blank" rel="noopener">variance scaling</a>.</div>
   
 </div>
   <div class="topic-nav">

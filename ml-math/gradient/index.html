@@ -122,7 +122,7 @@
     </div>
   </div>
   <div class="callout warn"><strong>Learning rate:</strong> Too large → overshoot and diverge. Too small → extremely slow convergence. Learning rate warmup + decay schedulers (topic 12) solve this in practice.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc" target="_blank" rel="noopener">Rate of Change</a> in markets — both measure slope to decide direction.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../../markets/indicators/#roc" target="_blank" rel="noopener">Rate of Change</a> in markets — both measure slope to decide direction.</div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
@@ -130,7 +130,7 @@
       <li>If training loss plateaus, try <strong>reducing lr by 10x</strong> or use a cosine annealing schedule</li>
       <li>If training loss oscillates wildly → lr is too high — halve it until stable</li>
       <li>Use <strong>gradient clipping</strong> (<code>max_norm=1.0</code>) for RNNs and transformers to prevent exploding gradients</li>
-      <li>Monitor both <strong>train loss</strong> and <strong>val loss</strong> — divergence means you're overfitting (see <a href="../stats/#learning-curves">Learning Curves</a>)</li>
+      <li>Monitor both <strong>train loss</strong> and <strong>val loss</strong> — divergence means you're overfitting (see <a href="../../stats/#learning-curves">Learning Curves</a>)</li>
     </ol>
     <div class="howto-pitfall"><strong>When gradient descent fails:</strong> Non-convex loss landscapes have local minima and saddle points. SGD with momentum helps escape saddle points; Adam helps with sparse gradients. For very deep networks, poor initialization can cause vanishing gradients — use He or Xavier init.</div>
   </div>
@@ -150,7 +150,7 @@
   </div>
   <div class="dataset-card">
     <div class="dataset-card-title">Use this pattern on real data</div>
-    <a href="../cases/index.html#housing-regression">Pattern Portal Case: Housing Regression</a>
+    <a href="../../cases/index.html#housing-regression">Pattern Portal Case: Housing Regression</a>
     <div class="ds-note">Train a baseline model, monitor train/validation loss, and compare learning-rate choices against MAE/RMSE.</div>
   </div>
   <div class="dev-export">

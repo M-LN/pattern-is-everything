@@ -117,7 +117,7 @@ loss.backward()
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="st">1.0</span>)  <span class="cm"># clip by norm</span>
 optimizer.step()</pre></div>
   <div class="callout"><strong>When to use:</strong> Almost always for RNNs/LSTMs. Common in transformer training too (GPT uses max_norm=1.0). The max_norm value of 1.0 is a good default.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../markets/indicators/#atr" target="_blank" rel="noopener">ATR-based stops</a> that cap how much a position can move against you.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../../markets/indicators/#atr" target="_blank" rel="noopener">ATR-based stops</a> that cap how much a position can move against you.</div>
   
 </div>
   <div class="topic-nav">

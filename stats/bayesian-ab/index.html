@@ -129,7 +129,7 @@ post_b = beta(b_conv + <span class="st">1</span>, b_total - b_conv + <span class
 samples = <span class="st">100000</span>
 p_b_wins = (post_b.rvs(samples) &gt; post_a.rvs(samples)).mean()
 print(<span class="st">f"P(B &gt; A) = {p_b_wins:.3f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../markets/psychology/#sentiment" target="_blank" rel="noopener">market sentiment</a> — prices update beliefs with every new trade.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../../ml-math/#bayes" target="_blank" rel="noopener">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../../markets/psychology/#sentiment" target="_blank" rel="noopener">market sentiment</a> — prices update beliefs with every new trade.</div>
   
 </div>
   <div class="topic-nav">

@@ -160,6 +160,9 @@
     }
     // Ctrl/Cmd + K opens palette
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      // Collection readers bind Ctrl+K to their own search (their header
+      // button says so). Opening the palette as well stacked two searches.
+      if (document.getElementById('searchOverlay') && typeof window.toggleSearch === 'function') return;
       e.preventDefault();
       openPalette();
       return;
@@ -316,7 +319,8 @@
         if (linkPath === herePath || linkPath === window.location.pathname) {
           var id = href.slice(hashIdx + 1);
           if (typeof window.show === 'function') {
-            history.replaceState(null, '', '#' + id);
+            // show() writes the history entry itself. Rewriting the hash first
+            // overwrote the topic being left, so Back skipped past it.
             window.show(id, true);
             return;
           }
@@ -808,7 +812,9 @@
       h.appendChild(a);
     });
     // If page loaded with a hash, scroll into view (browser default may miss late-assigned ids)
-    if (window.location.hash && window.location.hash.length > 1) {
+    // Collection readers resolve the hash themselves, restoring a remembered
+    // scroll position that this would otherwise override.
+    if (window.location.hash && window.location.hash.length > 1 && !window.readerOwnsHash) {
       var target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
       if (target && !target.dataset._scrolled) {
         target.dataset._scrolled = '1';

@@ -118,7 +118,7 @@
     recon = F.mse_loss(recon_x, x)
     kl    = <span class="st">-0.5</span> * torch.mean(<span class="st">1</span> + log_var - mu**<span class="st">2</span> - log_var.exp())
     <span class="kw">return</span> recon + kl</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../stats/#normal" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../../stats/#normal" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
   
 </div>
   <div class="topic-nav">

@@ -120,7 +120,7 @@
     <span class="kw">def</span> forward(self, x):
         out = self.conv(x)[:, :, :x.size(<span class="st">2</span>)]  <span class="cm"># causal trim</span>
         <span class="kw">return</span> self.relu(out) + x</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Dilated convolutions trade sequential processing for parallelism — the same tradeoff that led from <a href="#lstm-for-ts">LSTMs</a> to <a href="#transformers-for-ts">Transformers</a>. The receptive field concept maps to <a href="../llm/#context-windows" target="_blank" rel="noopener">context windows</a> in LLMs.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Dilated convolutions trade sequential processing for parallelism — the same tradeoff that led from <a href="#lstm-for-ts">LSTMs</a> to <a href="#transformers-for-ts">Transformers</a>. The receptive field concept maps to <a href="../../llm/#context-windows" target="_blank" rel="noopener">context windows</a> in LLMs.</div>
   
 </div>
   <div class="topic-nav">

@@ -121,7 +121,7 @@ def self_attention(x, W_q, W_k, W_v):
     scores = Q @ K.transpose(-2, -1) / d_k**0.5
     weights = F.softmax(scores, dim=-1)
     return weights @ V  # (batch, seq_len, d_v)</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#correlation" target="_blank" rel="noopener">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> weights each price by volume — attention over the session.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../../stats/#correlation" target="_blank" rel="noopener">correlation matrix</a> computed at each layer. In markets, <a href="../../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> weights each price by volume — attention over the session.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>

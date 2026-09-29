@@ -60,8 +60,9 @@
   }
 
   // The page defines show() in an inline script; this file loads after it.
-  // show() navigates with history.replaceState, which fires no hashchange,
-  // so wrapping the function is the only reliable hook.
+  // show() navigates with history.pushState/replaceState, which fire no
+  // hashchange, so wrapping the function is the only reliable hook. Back and
+  // Forward come through show() as well, so they update the metadata too.
   function install() {
     if (typeof window.show !== 'function' || window.show.__metaWrapped) return false;
     var original = window.show;

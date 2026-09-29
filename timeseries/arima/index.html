@@ -119,7 +119,7 @@ model = auto_arima(series, seasonal=<span class="st">False</span>,
                    stepwise=<span class="st">True</span>, trace=<span class="st">True</span>)
 print(model.summary())
 forecast = model.predict(n_periods=<span class="st">30</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ARIMA’s model selection via AIC/BIC is the same bias-variance tradeoff as <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> in ML. In markets, ARIMA forecasts on price returns connect directly to <a href="../markets/indicators/#moving-averages" target="_blank" rel="noopener">moving average</a> signals.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ARIMA’s model selection via AIC/BIC is the same bias-variance tradeoff as <a href="../../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> in ML. In markets, ARIMA forecasts on price returns connect directly to <a href="../../markets/indicators/#moving-averages" target="_blank" rel="noopener">moving average</a> signals.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
