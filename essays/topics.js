@@ -391,7 +391,7 @@ function buildEssayWalk() {
     <div class="essay-ref">[2] Malkiel, B. G. (1973). <em>A Random Walk Down Wall Street.</em> W. W. Norton &amp; Company.</div>
     <div class="essay-ref">[3] Fama, E. F. (1965). Random Walks in Stock Market Prices. <em>Financial Analysts Journal, 21</em>(5), 55–59. <a href="https://doi.org/10.2469/faj.v21.n5.55" target="_blank" rel="noopener">doi:10.2469/faj.v21.n5.55</a></div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../stats/index.html#time-series">time-series analysis</a> is the tool for extracting the non-random component.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../timeseries/index.html#decomposition">time-series analysis</a> is the tool for extracting the non-random component.</div>
   <div class="topic-nav" id="nav-essay-walk"></div>
 </div>`;
 }

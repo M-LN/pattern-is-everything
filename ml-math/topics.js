@@ -246,7 +246,7 @@ C = torch.matmul(A, B)                <span class="cm"># same thing</span>
 D = A * B                             <span class="cm"># element-wise (Hadamard)</span>
 E = torch.outer(a, b)                 <span class="cm"># outer product</span></pre></div>
   <div class="callout info"><strong>Shape debugging:</strong> Most PyTorch errors are shape mismatches. Use <code>tensor.shape</code> liberally. The rule: (…, m, k) @ (…, k, n) → (…, m, n).</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Dot products measure alignment here and in <a href="../stats/#cosine-sim" target="_blank" rel="noopener">cosine similarity</a> for statistics. The same operation that scores <a href="../llm/#self-attention" target="_blank" rel="noopener">attention weights</a> in a transformer also measures how two price series co-move in <a href="../markets/indicators/#correlation" target="_blank" rel="noopener">market correlation</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Dot products measure alignment here and in <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity</a> for statistics. The same operation that scores <a href="../llm/#self-attention" target="_blank" rel="noopener">attention weights</a> in a transformer also measures how two price series co-move in <a href="../markets/risk/#correlation-risk" target="_blank" rel="noopener">market correlation</a>.</div>
   <div class="topic-nav" id="nav-vectors"></div>
 </div>`;
 }
@@ -273,7 +273,7 @@ function buildLinear() {
     </div>
   </div>
   <div class="callout"><strong>OLS Solution:</strong> For simple linear regression, the optimal weights have a closed-form: w = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)². Gradient descent finds the same answer iteratively.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression" target="_blank" rel="noopener">linear regression</a> in statistics, <a href="../markets/indicators/#sma" target="_blank" rel="noopener">simple moving averages</a> in markets.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression-metrics" target="_blank" rel="noopener">linear regression</a> in statistics, <a href="../markets/indicators/#sma" target="_blank" rel="noopener">simple moving averages</a> in markets.</div>
   <div class="topic-nav" id="nav-linear"></div>
 </div>`;
 }
@@ -305,7 +305,7 @@ model = nn.Sequential(
 loss_fn = nn.BCELoss()          <span class="cm"># or BCEWithLogitsLoss (more stable)</span>
 loss = loss_fn(model(x), y)</pre></div>
   <div class="callout warn"><strong>Numerical stability:</strong> Never use nn.Sigmoid() + nn.BCELoss(). Use nn.BCEWithLogitsLoss() which combines them with the log-sum-exp trick to avoid overflow/underflow.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The sigmoid that squeezes values into [0,1] reappears as <a href="../stats/#probability-distributions" target="_blank" rel="noopener">probability curves</a> in statistics and mirrors the S-curve of <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market sentiment cycles</a> — gradual build, rapid shift, saturation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The sigmoid that squeezes values into [0,1] reappears as <a href="../essays/#essay-threshold" target="_blank" rel="noopener">probability curves</a> in statistics and mirrors the S-curve of <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market sentiment cycles</a> — gradual build, rapid shift, saturation.</div>
   <div class="topic-nav" id="nav-logistic"></div>
 </div>`;
 }
@@ -501,7 +501,7 @@ function buildLoss() {
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="maeP" style="color:var(--accent2)">1.000</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth — like <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> measures distance from the mean.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth — like <a href="../markets/indicators/#standard-deviation" target="_blank" rel="noopener">variance</a> measures distance from the mean.</div>
   <div class="topic-nav" id="nav-loss"></div>
 </div>`;
 }
@@ -654,7 +654,7 @@ function buildBatchnorm() {
     </div>
   </div>
   <div class="callout"><strong>Layer Norm vs Batch Norm:</strong> BatchNorm normalises over the batch dimension — problematic for small batches and transformers. LayerNorm normalises over the feature dimension and is the standard in transformers. See topic 27 for all variants.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Normalizing activations to zero mean and unit variance is exactly <a href="../stats/#z-scores" target="_blank" rel="noopener">z-score standardization</a> from statistics. Markets use the same logic: <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> normalize price relative to its rolling mean and standard deviation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Normalizing activations to zero mean and unit variance is exactly <a href="../stats/#outlier-detection" target="_blank" rel="noopener">z-score standardization</a> from statistics. Markets use the same logic: <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> normalize price relative to its rolling mean and standard deviation.</div>
   <div class="topic-nav" id="nav-batchnorm"></div>
 </div>`;
 }
@@ -715,7 +715,7 @@ nn.init.xavier_uniform_(layer.weight)     <span class="cm"># for tanh/sigmoid</s
 nn.init.kaiming_normal_(layer.weight)     <span class="cm"># for ReLU (default)</span>
 nn.init.zeros_(layer.bias)                <span class="cm"># biases → 0</span></pre></div>
   <div class="callout info"><strong>Modern practice:</strong> PyTorch's nn.Linear uses Kaiming uniform by default. Transformers typically use small normal init (std ≈ 0.02) + special scaling for residual paths.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../stats/#variance-std" target="_blank" rel="noopener">variance scaling</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../markets/risk/#volatility-sizing" target="_blank" rel="noopener">variance scaling</a>.</div>
   <div class="topic-nav" id="nav-weight-init"></div>
 </div>`;
 }
@@ -765,7 +765,7 @@ function buildSoftmax() {
     <div class="ctrl" id="smCtrl"></div>
   </div>
   <div class="callout"><strong>Temperature scaling:</strong> σ(z/T). T&lt;1 → sharper (more confident). T&gt;1 → softer (more uniform). Used in knowledge distillation and language model sampling.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../stats/#probability-distributions" target="_blank" rel="noopener">probability distribution</a> in action. Temperature scaling changes the "confidence" — hot = uniform = <a href="../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">uncertain market</a>, cold = peaked = consensus.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../llm/#sampling" target="_blank" rel="noopener">probability distribution</a> in action. Temperature scaling changes the "confidence" — hot = uniform = <a href="../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">uncertain market</a>, cold = peaked = consensus.</div>
   <div class="topic-nav" id="nav-softmax"></div>
 </div>`;
 }
@@ -790,7 +790,7 @@ function buildMLE() {
     </div>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Training with MSE loss = assuming your errors are Gaussian distributed. Training with Cross-Entropy = assuming Bernoulli/Categorical outputs. The loss function encodes your distributional assumption.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Maximum likelihood estimation is the mathematical foundation of <a href="../stats/#normal" target="_blank" rel="noopener">fitting a normal distribution</a> to data. The same principle drives <a href="../markets/indicators/#standard-deviation" target="_blank" rel="noopener">volatility estimation</a> in markets — finding the parameters that best explain observed returns.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Maximum likelihood estimation is the mathematical foundation of <a href="../stats/#distribution-shape" target="_blank" rel="noopener">fitting a normal distribution</a> to data. The same principle drives <a href="../markets/indicators/#standard-deviation" target="_blank" rel="noopener">volatility estimation</a> in markets — finding the parameters that best explain observed returns.</div>
   <div class="topic-nav" id="nav-mle"></div>
 </div>`;
 }
@@ -816,7 +816,7 @@ function buildEntropy() {
     </div>
   </div>
   <div class="callout"><strong>Why CE loss works:</strong> When labels are one-hot, cross-entropy reduces to −log(ŷ_correct). The model only needs to maximise the probability of the correct class.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Shannon entropy measures uncertainty — identical to the <a href="../stats/#probability-distributions" target="_blank" rel="noopener">spread of a distribution</a>. High entropy in <a href="../llm/#sampling" target="_blank" rel="noopener">LLM sampling</a> means many plausible next tokens.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shannon entropy measures uncertainty — identical to the <a href="../stats/#information-gain" target="_blank" rel="noopener">spread of a distribution</a>. High entropy in <a href="../llm/#sampling" target="_blank" rel="noopener">LLM sampling</a> means many plausible next tokens.</div>
   <div class="topic-nav" id="nav-entropy"></div>
 </div>`;
 }
@@ -865,7 +865,7 @@ function buildBayes() {
     </div>
   </div>
   <div class="callout warn"><strong>Base rate fallacy:</strong> 1% disease prevalence + 95% accurate test = only ~16% chance you're actually sick after a positive. Low priors dominate!</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Updating beliefs with evidence is the core of <a href="../stats/#bayes" target="_blank" rel="noopener">Bayesian statistics</a>. Traders do it intuitively: new data shifts the <a href="../markets/psychology/#confirmation-bias" target="_blank" rel="noopener">prior belief</a> — or doesn’t, when confirmation bias blocks the update.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Updating beliefs with evidence is the core of <a href="../stats/#bayesian-ab" target="_blank" rel="noopener">Bayesian statistics</a>. Traders do it intuitively: new data shifts the <a href="../markets/psychology/#confirmation-bias" target="_blank" rel="noopener">prior belief</a> — or doesn’t, when confirmation bias blocks the update.</div>
   <div class="topic-nav" id="nav-bayes"></div>
 </div>`;
 }
@@ -894,7 +894,7 @@ function buildCrossval() {
     <div class="step"><div class="sn">3</div><div><h4>Evaluate on held-out fold</h4><p>Record metric (accuracy, F1, etc.)</p></div></div>
     <div class="step"><div class="sn">4</div><div><h4>Average k scores</h4><p>→ final CV estimate with confidence interval</p></div></div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Rotating train/test splits prevents overfitting to one sample — the statistical version of <a href="../stats/#sampling-distributions" target="_blank" rel="noopener">sampling distributions</a>. In markets, <a href="../markets/psychology/#recency-bias" target="_blank" rel="noopener">recency bias</a> is what happens when you only test on the latest fold.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rotating train/test splits prevents overfitting to one sample — the statistical version of <a href="../stats/#clt-sampling" target="_blank" rel="noopener">sampling distributions</a>. In markets, <a href="../markets/psychology/#recency-bias" target="_blank" rel="noopener">recency bias</a> is what happens when you only test on the latest fold.</div>
   <div class="topic-nav" id="nav-crossval"></div>
 </div>`;
 }
@@ -951,7 +951,7 @@ sim = torch.dot(a, b) / (a.norm() * b.norm())    <span class="cm"># single pair<
 sims = query @ embeddings.T                       <span class="cm"># all similarities at once</span>
 top_k = sims.topk(<span class="st">10</span>)                             <span class="cm"># top-10 most similar</span></pre></div>
   <div class="callout info"><strong>In practice:</strong> Embeddings are often L2-normalized, making cosine similarity equivalent to a simple dot product. This is why dot-product search (FAISS, HNSW) is so fast.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#feature-correlation" target="_blank" rel="noopener">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search" target="_blank" rel="noopener">Vector search in RAG</a> relies on this.</div>
   <div class="topic-nav" id="nav-cosine-sim"></div>
 </div>`;
 }
@@ -1089,7 +1089,7 @@ function buildNormalization() {
         self.eps = eps
     <span class="kw">def</span> <span class="fn">forward</span>(self, x):
         <span class="kw">return</span> x * torch.rsqrt(x.pow(<span class="st">2</span>).mean(-<span class="st">1</span>, keepdim=<span class="st">True</span>) + self.eps) * self.w</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LayerNorm in transformers standardizes activations per sample — the same operation as <a href="../stats/#z-scores" target="_blank" rel="noopener">z-scoring</a>. It’s why <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> work: normalizing price by its own volatility reveals the signal beneath.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LayerNorm in transformers standardizes activations per sample — the same operation as <a href="../stats/#outlier-detection" target="_blank" rel="noopener">z-scoring</a>. It’s why <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> work: normalizing price by its own volatility reveals the signal beneath.</div>
   <div class="topic-nav" id="nav-normalization"></div>
 </div>`;
 }
@@ -1191,7 +1191,7 @@ function buildPCA() {
       <div class="cg"><span class="cl">PC2 explains</span><span class="vd" id="pc2V" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding the axis of maximum variance is the geometric core of <a href="../stats/#variance-std" target="_blank" rel="noopener">variance</a> itself. In markets, <a href="../markets/indicators/#adx" target="_blank" rel="noopener">ADX</a> extracts the principal direction of trend from noisy price data.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding the axis of maximum variance is the geometric core of <a href="../markets/indicators/#standard-deviation" target="_blank" rel="noopener">variance</a> itself. In markets, <a href="../markets/indicators/#adx" target="_blank" rel="noopener">ADX</a> extracts the principal direction of trend from noisy price data.</div>
   <div class="topic-nav" id="nav-pca"></div>
 </div>`;
 }
@@ -1221,7 +1221,7 @@ A_approx = U[:, :r] @ torch.diag(S[:r]) @ Vt[:r, :]  <span class="cm"># rank-r</
 <span class="cm"># NumPy equivalent</span>
 U, s, Vt = np.linalg.svd(A, full_matrices=<span class="st">False</span>)</pre></div>
   <div class="callout info"><strong>SVD → LoRA:</strong> LoRA exploits the fact that weight updates during fine-tuning are often low-rank. Instead of updating a full (d×d) matrix, it learns two small matrices (d×r) and (r×d) where r ≪ d. This is fundamentally SVD thinking.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing a matrix into rank-1 layers is the math behind <a href="../stats/#correlation" target="_blank" rel="noopener">factor analysis</a> in statistics and <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA’s low-rank updates</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing a matrix into rank-1 layers is the math behind <a href="../markets/risk/#factor-models" target="_blank" rel="noopener">factor analysis</a> in statistics and <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA’s low-rank updates</a>.</div>
   <div class="topic-nav" id="nav-svd"></div>
 </div>`;
 }
@@ -1251,7 +1251,7 @@ function buildVAE() {
     recon = F.mse_loss(recon_x, x)
     kl    = <span class="st">-0.5</span> * torch.mean(<span class="st">1</span> + log_var - mu**<span class="st">2</span> - log_var.exp())
     <span class="kw">return</span> recon + kl</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../stats/#normal" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../essays/#essay-bell" target="_blank" rel="noopener">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
   <div class="topic-nav" id="nav-vae"></div>
 </div>`;
 }
@@ -1277,7 +1277,7 @@ function buildDiffusion() {
     </div>
   </div>
   <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in compressed latent space — enabling image generation on consumer GPUs.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Adding noise then learning to reverse it mirrors <a href="../stats/#central-limit" target="_blank" rel="noopener">the central limit theorem</a> in reverse — from Gaussian noise back to structured signal. In markets, <a href="../markets/psychology/#euphoria-panic" target="_blank" rel="noopener">euphoria and panic</a> inject noise that mean-reverts to equilibrium.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Adding noise then learning to reverse it mirrors <a href="../stats/#clt-sampling" target="_blank" rel="noopener">the central limit theorem</a> in reverse — from Gaussian noise back to structured signal. In markets, <a href="../markets/psychology/#euphoria-panic" target="_blank" rel="noopener">euphoria and panic</a> inject noise that mean-reverts to equilibrium.</div>
   <div class="topic-nav" id="nav-diffusion"></div>
 </div>`;
 }
@@ -1343,7 +1343,7 @@ text = enc.decode(tokens)                       <span class="cm"># "Hello, world
 <span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer
 tok = AutoTokenizer.from_pretrained(<span class="st">"meta-llama/Llama-2-7b"</span>)</pre></div>
   <div class="callout"><strong>Why it matters:</strong> Tokenization determines the model's "eyesight". Poor tokenization (e.g., splitting numbers digit-by-digit) directly hurts performance. Modern models train their own tokenizer on their specific data.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Byte Pair Encoding merges frequent pairs into tokens — the same compression principle behind <a href="../llm/#tokenization" target="_blank" rel="noopener">LLM vocabularies</a>. In statistics, <a href="../stats/#percentiles" target="_blank" rel="noopener">binning into percentiles</a> is discretization of continuous data.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Byte Pair Encoding merges frequent pairs into tokens — the same compression principle behind <a href="../llm/#tokenization" target="_blank" rel="noopener">LLM vocabularies</a>. In statistics, binning into percentiles is discretization of continuous data.</div>
   <div class="topic-nav" id="nav-tokenization"></div>
 </div>`;
 }
@@ -1380,7 +1380,7 @@ config = LoraConfig(
 model = get_peft_model(base_model, config)
 model.print_trainable_parameters()  <span class="cm"># "trainable: 0.1% of total"</span></pre></div>
   <div class="callout"><strong>QLoRA</strong> takes this further: quantise the frozen weights to 4-bit, then apply LoRA. This enables fine-tuning a 65B model on a single 48GB GPU.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank adaptation fine-tunes with tiny matrices — the same rank reduction as <a href="../stats/#correlation" target="_blank" rel="noopener">principal components</a>. <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA in LLM engineering</a> is the applied version.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank adaptation fine-tunes with tiny matrices — the same rank reduction as <a href="../ml-math/#pca" target="_blank" rel="noopener">principal components</a>. <a href="../llm/#lora-qlora" target="_blank" rel="noopener">LoRA in LLM engineering</a> is the applied version.</div>
   <div class="topic-nav" id="nav-lora"></div>
 </div>`;
 }

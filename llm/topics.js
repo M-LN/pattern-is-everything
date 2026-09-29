@@ -221,7 +221,7 @@ function buildTokenization() {
                 i += 1
         tokens = new_tokens
     return merges</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Splitting text into subword tokens is <a href="../ml-math/#tokenization" target="_blank" rel="noopener">BPE compression</a> — frequent pairs merge, rare words split. In statistics, <a href="../stats/#percentiles" target="_blank" rel="noopener">binning</a> discretizes continuous data.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Splitting text into subword tokens is <a href="../ml-math/#tokenization" target="_blank" rel="noopener">BPE compression</a> — frequent pairs merge, rare words split. In statistics, binning discretizes continuous data.</div>
   <div class="topic-nav" id="nav-tokenization"></div>
 </div>`;
 }
@@ -324,7 +324,7 @@ def self_attention(x, W_q, W_k, W_v):
     scores = Q @ K.transpose(-2, -1) / d_k**0.5
     weights = F.softmax(scores, dim=-1)
     return weights @ V  # (batch, seq_len, d_v)</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#correlation" target="_blank" rel="noopener">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> weights each price by volume — attention over the session.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#feature-correlation" target="_blank" rel="noopener">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap" target="_blank" rel="noopener">VWAP</a> weights each price by volume — attention over the session.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
@@ -382,7 +382,7 @@ class GQA(nn.Module):
         v = v.repeat_interleave(r, dim=1)
         attn = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         return self.W_o(attn.transpose(1,2).reshape(B, T, -1))</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Multiple attention heads capture different relationship types in parallel — like running several <a href="../stats/#correlation" target="_blank" rel="noopener">correlation analyses</a> simultaneously. In markets, combining <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a>, <a href="../markets/indicators/#macd" target="_blank" rel="noopener">MACD</a>, and volume is multi-headed analysis.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Multiple attention heads capture different relationship types in parallel — like running several <a href="../stats/#feature-correlation" target="_blank" rel="noopener">correlation analyses</a> simultaneously. In markets, combining <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a>, <a href="../markets/indicators/#macd" target="_blank" rel="noopener">MACD</a>, and volume is multi-headed analysis.</div>
   <div class="topic-nav" id="nav-multi-head-attention"></div>
 </div>`;
 }
@@ -547,7 +547,7 @@ function buildContextWindows() {
 
 # Mistral uses window_size=4096: each token attends to
 # the previous 4096 tokens only, regardless of context length</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The finite span of tokens the model can see at once. In statistics, <a href="../stats/#sampling-distributions" target="_blank" rel="noopener">sample size</a> is the context window of inference — more data, better estimates.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The finite span of tokens the model can see at once. In statistics, <a href="../stats/#clt-sampling" target="_blank" rel="noopener">sample size</a> is the context window of inference — more data, better estimates.</div>
   <div class="topic-nav" id="nav-context-windows"></div>
 </div>`;
 }
@@ -592,7 +592,7 @@ class MoELayer(nn.Module):
                     out[mask] += weights[..., k:k+1][mask] * \\
                                  self.experts[e](x[mask])
         return out</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Routing inputs to specialized sub-networks — only a fraction active per token. In markets, <a href="../markets/psychology/#smart-money-dumb-money" target="_blank" rel="noopener">sector rotation</a> activates different expert sectors at different times. In statistics, <a href="../stats/#probability-distributions" target="_blank" rel="noopener">mixture models</a> combine multiple distributions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Routing inputs to specialized sub-networks — only a fraction active per token. In markets, <a href="../markets/psychology/#smart-money-dumb-money" target="_blank" rel="noopener">sector rotation</a> activates different expert sectors at different times. In statistics, mixture models combine multiple distributions.</div>
   <div class="topic-nav" id="nav-mixture-of-experts"></div>
 </div>`;
 }
@@ -628,7 +628,7 @@ popt, _ = curve_fit(power_law, params, losses)
 # Predict loss at 70B
 predicted = power_law(70e9, *popt)
 print(f"Predicted loss at 70B: {predicted:.3f}")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../stats/#regression" target="_blank" rel="noopener">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear" target="_blank" rel="noopener">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse.</div>
   <div class="topic-nav" id="nav-scaling-laws"></div>
 </div>`;
 }
@@ -669,7 +669,7 @@ for batch in dataloader:
     optimizer.step()
     scheduler.step()
     optimizer.zero_grad()</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Learning general patterns from massive data before specialization. Like <a href="../stats/#sampling-distributions" target="_blank" rel="noopener">building a prior distribution</a> from large samples.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Learning general patterns from massive data before specialization. Like <a href="../stats/#bayesian-ab" target="_blank" rel="noopener">building a prior distribution</a> from large samples.</div>
   <div class="topic-nav" id="nav-pre-training"></div>
 </div>`;
 }
@@ -873,7 +873,7 @@ for doc_id, text in documents:
         lsh.insert(doc_id, mh)
     else:
         print(f"Dropping duplicate: {doc_id}")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Quality over quantity in training data — deduplication, filtering, mixing. In statistics, <a href="../stats/#sampling-distributions" target="_blank" rel="noopener">sampling methodology</a> determines everything.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Quality over quantity in training data — deduplication, filtering, mixing. In statistics, <a href="../stats/#class-imbalance" target="_blank" rel="noopener">sampling methodology</a> determines everything.</div>
   <div class="topic-nav" id="nav-data-curation"></div>
 </div>`;
 }
@@ -945,7 +945,7 @@ function buildSampling() {
     logits.scatter_(-1, sorted_idx, sorted_logits)
     probs = logits.softmax(dim=-1)
     return torch.multinomial(probs, 1)</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Temperature, top-k, top-p control the randomness of generation. Temperature is <a href="../ml-math/#softmax" target="_blank" rel="noopener">softmax temperature</a> scaling. In statistics, <a href="../stats/#probability-distributions" target="_blank" rel="noopener">sampling from distributions</a> is the foundation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Temperature, top-k, top-p control the randomness of generation. Temperature is <a href="../ml-math/#softmax" target="_blank" rel="noopener">softmax temperature</a> scaling. In statistics, <a href="../stats/#monte-carlo" target="_blank" rel="noopener">sampling from distributions</a> is the foundation.</div>
   <div class="topic-nav" id="nav-sampling"></div>
 </div>`;
 }
@@ -1030,7 +1030,7 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 )
 # 70B model now fits in ~35GB VRAM</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is <a href="../stats/#percentiles" target="_blank" rel="noopener">binning</a> applied to weights — discrete approximation of continuous values.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
@@ -1198,7 +1198,7 @@ qa = RetrievalQA.from_chain_type(
     retriever=vectorstore.as_retriever(search_kwargs={"k": 5}),
 )
 answer = qa.invoke("What is the refund policy?")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Retrieval-Augmented Generation grounds the model in external knowledge. <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">Cosine similarity</a> retrieves relevant passages. In statistics, <a href="../stats/#bayes" target="_blank" rel="noopener">Bayesian updating</a> brings prior evidence to new questions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Retrieval-Augmented Generation grounds the model in external knowledge. <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">Cosine similarity</a> retrieves relevant passages. In statistics, <a href="../stats/#bayesian-ab" target="_blank" rel="noopener">Bayesian updating</a> brings prior evidence to new questions.</div>
   <div class="topic-nav" id="nav-rag"></div>
 </div>`;
 }
@@ -1239,7 +1239,7 @@ query = model.encode(["How do neural nets work?"],
 scores, indices = index.search(query.astype('float32'), k=5)
 for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
     print(f"{i+1}. [{score:.3f}] {docs[idx]}")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding nearest neighbors in vector space is <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity at scale</a>. In statistics, <a href="../stats/#correlation" target="_blank" rel="noopener">k-nearest-neighbors</a> in feature space is the same idea.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Finding nearest neighbors in vector space is <a href="../ml-math/#cosine-sim" target="_blank" rel="noopener">cosine similarity at scale</a>. In statistics, k-nearest-neighbors in feature space is the same idea.</div>
   <div class="topic-nav" id="nav-embedding-search"></div>
 </div>`;
 }

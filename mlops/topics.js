@@ -211,7 +211,7 @@ torch.onnx.export(model, dummy, <span class="st">"model.onnx"</span>,
 <span class="cm"># RUN pip install -r requirements.txt</span>
 <span class="cm"># CMD ["python", "serve.py"]</span></pre></div>
   <div class="callout info"><strong>Avoid pickle in production:</strong> Pickle files are Python-version-specific, not human-readable, and pose security risks (arbitrary code execution). Use ONNX or framework-native formats for anything beyond prototypes.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> — both enforce separation between what you build and where you test it. In markets, <a href="../markets/indicators/#backtesting-rules" target="_blank" rel="noopener">backtesting discipline</a> enforces the same boundary.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> — both enforce separation between what you build and where you test it. In markets, <a href="../stats/#walk-forward" target="_blank" rel="noopener">backtesting discipline</a> enforces the same boundary.</div>
   <div class="topic-nav" id="nav-model-packaging"></div>
 </div>`;
 }
@@ -254,7 +254,7 @@ session = ort.InferenceSession(<span class="st">"model.onnx"</span>)
     inp = np.array([features], dtype=np.float32)
     result = session.run(<span class="st">None</span>, {<span class="st">"features"</span>: inp})
     <span class="kw">return</span> {<span class="st">"prediction"</span>: result[<span class="st">0</span>].tolist()}</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Online vs batch serving mirrors the <a href="../markets/charts/#timeframes" target="_blank" rel="noopener">timeframe choice</a> in trading — intraday (real-time) vs daily/weekly (batch). Both force you to match your system's response time to the decision frequency.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Online vs batch serving mirrors the <a href="../timeseries/#resampling" target="_blank" rel="noopener">timeframe choice</a> in trading — intraday (real-time) vs daily/weekly (batch). Both force you to match your system's response time to the decision frequency.</div>
   <div class="topic-nav" id="nav-serving-patterns"></div>
 </div>`;
 }
@@ -288,7 +288,7 @@ function buildABRollout() {
 <span class="cm">#         subset: canary</span>
 <span class="cm">#       weight: 5</span></pre></div>
   <div class="callout info"><strong>Rollback triggers:</strong> Define automatic rollback criteria before deploying — e.g., if p99 latency exceeds 200ms or error rate exceeds 1%, revert immediately.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Canary rollouts apply the same risk management as <a href="../markets/psychology/#position-sizing" target="_blank" rel="noopener">position sizing</a> — start small, scale up only when evidence confirms safety. The <a href="../stats/#bayesian-ab" target="_blank" rel="noopener">Bayesian A/B framework</a> from The Toolkit directly applies to evaluating canary metrics.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Canary rollouts apply the same risk management as <a href="../markets/risk/#fixed-fractional" target="_blank" rel="noopener">position sizing</a> — start small, scale up only when evidence confirms safety. The <a href="../stats/#bayesian-ab" target="_blank" rel="noopener">Bayesian A/B framework</a> from The Toolkit directly applies to evaluating canary metrics.</div>
   <div class="topic-nav" id="nav-ab-rollout"></div>
 </div>`;
 }
@@ -312,7 +312,7 @@ function buildLatencyThroughput() {
       <div class="cg"><span class="cl">p99</span><span class="vd" id="latP99" style="color:#e57373">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Latency percentiles work exactly like <a href="../stats/#distribution-shape" target="_blank" rel="noopener">distribution shape analysis</a> — the tail matters more than the mean. In markets, the equivalent is <a href="../markets/indicators/#volatility" target="_blank" rel="noopener">tail risk in volatility</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Latency percentiles work exactly like <a href="../stats/#distribution-shape" target="_blank" rel="noopener">distribution shape analysis</a> — the tail matters more than the mean. In markets, the equivalent is <a href="../markets/risk/#tail-risk" target="_blank" rel="noopener">tail risk in volatility</a>.</div>
   <div class="topic-nav" id="nav-latency-throughput"></div>
 </div>`;
 }
@@ -343,7 +343,7 @@ function buildGPUInference() {
     </tbody>
   </table>
   <div class="callout info"><strong>Cost rule of thumb:</strong> If your model is under 10M parameters and doesn't process images/audio, benchmark CPU first. GPU inference makes sense when you're throughput-bound, not latency-bound.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> GPU vs CPU is a <a href="#cost-governance">cost governance</a> decision — the same risk/reward calculus as <a href="../markets/psychology/#risk-appetite" target="_blank" rel="noopener">risk appetite</a> in portfolio construction. Spend more only when the marginal return justifies it.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> GPU vs CPU is a <a href="#cost-governance">cost governance</a> decision — the same risk/reward calculus as <a href="../markets/risk/#mean-variance" target="_blank" rel="noopener">risk appetite</a> in portfolio construction. Spend more only when the marginal return justifies it.</div>
   <div class="topic-nav" id="nav-gpu-inference"></div>
 </div>`;
 }
@@ -374,7 +374,7 @@ report = Report(metrics=[DataDriftPreset()])
 report.run(reference_data=df_train,
            current_data=df_prod)
 report.save_html(<span class="st">"drift_report.html"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Drift detection in ML is the same problem as <a href="../stats/#data-drift" target="_blank" rel="noopener">data drift analysis</a> in The Toolkit and <a href="../markets/indicators/#regime-detection" target="_blank" rel="noopener">regime detection</a> in markets — the distribution has changed, and your old assumptions no longer hold.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Drift detection in ML is the same problem as <a href="../stats/#data-drift" target="_blank" rel="noopener">data drift analysis</a> in The Toolkit and <a href="../timeseries/#changepoint-detection" target="_blank" rel="noopener">regime detection</a> in markets — the distribution has changed, and your old assumptions no longer hold.</div>
   <div class="topic-nav" id="nav-drift-detection"></div>
 </div>`;
 }
@@ -400,7 +400,7 @@ function buildModelMonitoring() {
       <tr><td>Model</td><td>Prediction distribution, confidence</td><td>Distribution shift or low confidence</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ML monitoring dashboards are structured like <a href="../markets/charts/#dashboard-setup" target="_blank" rel="noopener">trading dashboards</a> — layered views from system health down to individual signal quality. The <a href="../stats/#learning-curves" target="_blank" rel="noopener">learning curve</a> concept extends to tracking model performance over time in production.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ML monitoring dashboards are structured like trading dashboards — layered views from system health down to individual signal quality. The <a href="../stats/#learning-curves" target="_blank" rel="noopener">learning curve</a> concept extends to tracking model performance over time in production.</div>
   <div class="topic-nav" id="nav-model-monitoring"></div>
 </div>`;
 }
@@ -422,7 +422,7 @@ function buildAlertingSLOs() {
       <div class="cg"><span class="cl">SLO Target %</span><input type="range" id="sloTarget" min="90" max="100" step="0.1" value="99.5"><span class="vd" id="sloTargetV">99.5%</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Error budgets work like <a href="../markets/indicators/#drawdown-limits" target="_blank" rel="noopener">drawdown limits</a> in trading — a predefined loss tolerance that triggers defensive action when consumed. The statistical foundation is the same <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval</a> logic.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Error budgets work like <a href="../markets/risk/#drawdown-analysis" target="_blank" rel="noopener">drawdown limits</a> in trading — a predefined loss tolerance that triggers defensive action when consumed. The statistical foundation is the same <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence interval</a> logic.</div>
   <div class="topic-nav" id="nav-alerting-slos"></div>
 </div>`;
 }
@@ -440,7 +440,7 @@ function buildShadowScoring() {
     <div class="vl">// Interactive — champion vs challenger comparison</div>
     <canvas id="shadowCanvas" role="img" aria-label="Shadow Mode &amp; Champion/Challenger: Interactive — champion vs challenger comparison" height="260"></canvas>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Shadow scoring is <a href="../stats/#walk-forward" target="_blank" rel="noopener">walk-forward validation</a> running live. In markets, <a href="../markets/psychology/#paper-trading" target="_blank" rel="noopener">paper trading</a> serves the same purpose — test with real data without real consequences.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shadow scoring is <a href="../stats/#walk-forward" target="_blank" rel="noopener">walk-forward validation</a> running live. In markets, <a href="../sandbox/markets/index.html#paper-trading" target="_blank" rel="noopener">paper trading</a> serves the same purpose — test with real data without real consequences.</div>
   <div class="topic-nav" id="nav-shadow-scoring"></div>
 </div>`;
 }
@@ -470,7 +470,7 @@ expectations = [
     gx.expectations.ExpectColumnValuesToBeBetween(
         column=<span class="st">"price"</span>, min_value=<span class="st">0</span>, max_value=<span class="st">100000</span>),
 ]</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Data quality gates are the production equivalent of <a href="../stats/#missing-data" target="_blank" rel="noopener">missing data strategies</a> — catching the problem before it corrupts your analysis. In markets, <a href="../markets/charts/#data-hygiene" target="_blank" rel="noopener">data hygiene</a> (adjusting for splits, dividends, survivorship) serves the same protective role.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Data quality gates are the production equivalent of <a href="../stats/#missing-data" target="_blank" rel="noopener">missing data strategies</a> — catching the problem before it corrupts your analysis. In markets, <a href="../stats/#survivorship-bias" target="_blank" rel="noopener">data hygiene</a> (adjusting for splits, dividends, survivorship) serves the same protective role.</div>
   <div class="topic-nav" id="nav-data-quality"></div>
 </div>`;
 }
@@ -560,7 +560,7 @@ mlflow.set_experiment(<span class="st">"fraud-detection"</span>)
     mlflow.log_metric(<span class="st">"auc"</span>, <span class="st">0.942</span>)
     mlflow.log_metric(<span class="st">"f1"</span>, <span class="st">0.873</span>)
     mlflow.sklearn.log_model(model, <span class="st">"model"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Experiment tracking is the ML version of a <a href="../markets/psychology/#trading-journal" target="_blank" rel="noopener">trading journal</a> — systematic logging that turns isolated attempts into cumulative learning. The <a href="../stats/#comparing-runs" target="_blank" rel="noopener">comparing runs</a> framework from The Toolkit gives you the statistical tests to compare tracked experiments.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Experiment tracking is the ML version of a <a href="../markets/psychology/#hindsight-bias" target="_blank" rel="noopener">trading journal</a> — systematic logging that turns isolated attempts into cumulative learning. The <a href="../stats/#comparing-runs" target="_blank" rel="noopener">comparing runs</a> framework from The Toolkit gives you the statistical tests to compare tracked experiments.</div>
   <div class="topic-nav" id="nav-experiment-tracking"></div>
 </div>`;
 }
@@ -587,7 +587,7 @@ function buildCICDML() {
       <tr><td>Deployment</td><td>Smoke test, shadow run</td><td>No errors in canary</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> CI/CD gates are automated <a href="../stats/#effect-size" target="_blank" rel="noopener">significance tests</a> — the model must prove it's better before shipping. The same "don't trust your intuition, trust the numbers" principle that <a href="../markets/psychology/#cognitive-bias" target="_blank" rel="noopener">cognitive bias awareness</a> teaches.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> CI/CD gates are automated <a href="../stats/#effect-size" target="_blank" rel="noopener">significance tests</a> — the model must prove it's better before shipping. The same "don't trust your intuition, trust the numbers" principle that <a href="../markets/psychology/#overconfidence" target="_blank" rel="noopener">cognitive bias awareness</a> teaches.</div>
   <div class="topic-nav" id="nav-ci-cd-ml"></div>
 </div>`;
 }
@@ -620,7 +620,7 @@ eval_  = PythonOperator(task_id=<span class="st">"eval"</span>,   python_callabl
 deploy = PythonOperator(task_id=<span class="st">"deploy"</span>, python_callable=deploy_model, dag=dag)
 
 ingest >> train >> eval_ >> deploy</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Orchestration DAGs structure ML workflows the same way <a href="../ml-math/#computation-graphs" target="_blank" rel="noopener">computation graphs</a> structure neural networks — directed, acyclic, and dependency-ordered. In markets, <a href="../markets/indicators/#systematic-rules" target="_blank" rel="noopener">systematic trading rules</a> follow the same sequential logic.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Orchestration DAGs structure ML workflows the same way <a href="../ml-math/#backprop" target="_blank" rel="noopener">computation graphs</a> structure neural networks — directed, acyclic, and dependency-ordered. In markets, systematic trading rules follow the same sequential logic.</div>
   <div class="topic-nav" id="nav-orchestration"></div>
 </div>`;
 }
@@ -643,7 +643,7 @@ function buildModelCompression() {
       <div class="cg"><span class="cl">Accuracy</span><span class="vd" id="compAcc" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model compression is <a href="../stats/#feature-correlation" target="_blank" rel="noopener">feature selection</a> applied to weights — remove what's redundant to keep what matters. In markets, <a href="../markets/indicators/#signal-noise" target="_blank" rel="noopener">signal-to-noise filtering</a> does the same: strip the noise, keep the signal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model compression is <a href="../stats/#feature-correlation" target="_blank" rel="noopener">feature selection</a> applied to weights — remove what's redundant to keep what matters. In markets, <a href="../essays/#essay-signal" target="_blank" rel="noopener">signal-to-noise filtering</a> does the same: strip the noise, keep the signal.</div>
   <div class="topic-nav" id="nav-model-compression"></div>
 </div>`;
 }
@@ -671,7 +671,7 @@ function buildQuantization() {
       <tr><td>INT4 (experimental)</td><td>Variable</td><td>~5×</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Quantization trades precision for speed — the same tradeoff as <a href="../llm/#sampling-temperature" target="_blank" rel="noopener">sampling temperature</a> in LLMs (precision vs diversity) or <a href="../markets/charts/#timeframes" target="_blank" rel="noopener">timeframe compression</a> in charts (detail vs overview).</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Quantization trades precision for speed — the same tradeoff as <a href="../llm/#sampling" target="_blank" rel="noopener">sampling temperature</a> in LLMs (precision vs diversity) or <a href="../timeseries/#resampling" target="_blank" rel="noopener">timeframe compression</a> in charts (detail vs overview).</div>
   <div class="topic-nav" id="nav-quantization"></div>
 </div>`;
 }
@@ -693,7 +693,7 @@ function buildCachingLayers() {
       <div class="cg"><span class="cl">Avg Latency</span><span class="vd" id="cacheLatV" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Prediction caching is <a href="../ml-math/#memoization" target="_blank" rel="noopener">memoization</a> at system scale. In markets, <a href="../markets/indicators/#precomputed-levels" target="_blank" rel="noopener">precomputed support/resistance levels</a> serve the same purpose — calculate once, reference many times.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Prediction caching is memoization at system scale. In markets, <a href="../markets/charts/#support-resistance" target="_blank" rel="noopener">precomputed support/resistance levels</a> serve the same purpose — calculate once, reference many times.</div>
   <div class="topic-nav" id="nav-caching-layers"></div>
 </div>`;
 }
@@ -715,7 +715,7 @@ function buildAutoScaling() {
       <div class="cg"><span class="cl">Replicas</span><span class="vd" id="scaleReps" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Auto-scaling is dynamic <a href="../markets/psychology/#position-sizing" target="_blank" rel="noopener">position sizing</a> for infrastructure — scale up exposure when opportunity (traffic) increases, scale down when it drops. The <a href="../stats/#monte-carlo" target="_blank" rel="noopener">Monte Carlo</a> approach helps simulate traffic scenarios for capacity planning.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Auto-scaling is dynamic <a href="../markets/risk/#volatility-sizing" target="_blank" rel="noopener">position sizing</a> for infrastructure — scale up exposure when opportunity (traffic) increases, scale down when it drops. The <a href="../stats/#monte-carlo" target="_blank" rel="noopener">Monte Carlo</a> approach helps simulate traffic scenarios for capacity planning.</div>
   <div class="topic-nav" id="nav-auto-scaling"></div>
 </div>`;
 }
@@ -742,7 +742,7 @@ function buildCostGovernance() {
       <tr><td>Prediction caching</td><td>50–80%</td><td>Stale results</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Cost governance applies the same <a href="../stats/#sharpe-ratio" target="_blank" rel="noopener">risk-adjusted return</a> thinking to infrastructure — maximise model value per dollar spent, just as <a href="../markets/indicators/#cost-analysis" target="_blank" rel="noopener">transaction cost analysis</a> measures trading efficiency.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Cost governance applies the same <a href="../stats/#sharpe-ratio" target="_blank" rel="noopener">risk-adjusted return</a> thinking to infrastructure — maximise model value per dollar spent, just as transaction cost analysis measures trading efficiency.</div>
   <div class="topic-nav" id="nav-cost-governance"></div>
 </div>`;
 }
@@ -776,7 +776,7 @@ client.transition_model_version_stage(
     version=result.version,
     stage=<span class="st">"Production"</span>
 )</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model registries version models the way <a href="#lineage-tracking">lineage tracking</a> versions data — both create audit trails. In markets, <a href="../markets/psychology/#strategy-journal" target="_blank" rel="noopener">strategy journaling</a> serves the same purpose: versioned records of what you deployed and why.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model registries version models the way <a href="#lineage-tracking">lineage tracking</a> versions data — both create audit trails. In markets, <a href="../markets/psychology/#hindsight-bias" target="_blank" rel="noopener">strategy journaling</a> serves the same purpose: versioned records of what you deployed and why.</div>
   <div class="topic-nav" id="nav-model-registry"></div>
 </div>`;
 }
@@ -794,7 +794,7 @@ function buildLineageTracking() {
     <div class="vl">// Interactive — lineage graph</div>
     <canvas id="lineageCanvas" role="img" aria-label="Lineage Tracking: Interactive — lineage graph" height="260"></canvas>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Lineage tracking is the ML equivalent of <a href="../ml-math/#backpropagation" target="_blank" rel="noopener">backpropagation</a> for accountability — tracing effects back to causes. In markets, <a href="../markets/charts/#attribution-analysis" target="_blank" rel="noopener">performance attribution</a> traces returns back to specific decisions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Lineage tracking is the ML equivalent of <a href="../ml-math/#backprop" target="_blank" rel="noopener">backpropagation</a> for accountability — tracing effects back to causes. In markets, <a href="../markets/risk/#return-attribution" target="_blank" rel="noopener">performance attribution</a> traces returns back to specific decisions.</div>
   <div class="topic-nav" id="nav-lineage-tracking"></div>
 </div>`;
 }
@@ -825,7 +825,7 @@ mf = MetricFrame(
 )
 print(mf.by_group)
 print(<span class="st">"Ratio:"</span>, mf.ratio())</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Fairness audits apply <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence intervals</a> per subgroup — the same statistical rigour, applied to equity. In markets, <a href="../markets/psychology/#behavioral-bias" target="_blank" rel="noopener">behavioral bias</a> recognition teaches the same lesson: your defaults aren't neutral.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fairness audits apply <a href="../stats/#confidence-intervals" target="_blank" rel="noopener">confidence intervals</a> per subgroup — the same statistical rigour, applied to equity. In markets, <a href="../markets/psychology/#status-quo-bias" target="_blank" rel="noopener">behavioral bias</a> recognition teaches the same lesson: your defaults aren't neutral.</div>
   <div class="topic-nav" id="nav-fairness-audits"></div>
 </div>`;
 }
@@ -857,7 +857,7 @@ torch.backends.cudnn.deterministic = <span class="st">True</span>
 <span class="cm"># Pin deps: pip freeze > requirements.txt</span>
 <span class="cm"># Version data: dvc add data/train.csv</span>
 <span class="cm"># Container: docker build -t experiment:v1 .</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Reproducibility in ML is the same discipline as <a href="../stats/#walk-forward" target="_blank" rel="noopener">walk-forward validation</a> — if you can't reproduce it, you can't trust it. In markets, <a href="../markets/charts/#backtest-reproducibility" target="_blank" rel="noopener">backtest reproducibility</a> faces the same challenge with data versioning.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Reproducibility in ML is the same discipline as <a href="../stats/#walk-forward" target="_blank" rel="noopener">walk-forward validation</a> — if you can't reproduce it, you can't trust it. In markets, <a href="../stats/#survivorship-bias" target="_blank" rel="noopener">backtest reproducibility</a> faces the same challenge with data versioning.</div>
   <div class="topic-nav" id="nav-reproducibility"></div>
 </div>`;
 }
@@ -885,7 +885,7 @@ function buildIncidentResponse() {
     </tbody>
   </table>
   <div class="callout info"><strong>Blameless postmortems:</strong> After every incident, document what happened, why detection was delayed, and what systemic fix prevents recurrence. Blame the system, not the person.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ML incident response mirrors <a href="../markets/psychology/#stop-loss" target="_blank" rel="noopener">stop-loss discipline</a> in trading — predefined rules that limit damage when things go wrong. The <a href="../stats/#power-analysis" target="_blank" rel="noopener">power analysis</a> framework helps design monitoring that catches problems early enough to act.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ML incident response mirrors <a href="../markets/risk/#stop-losses" target="_blank" rel="noopener">stop-loss discipline</a> in trading — predefined rules that limit damage when things go wrong. The <a href="../stats/#power-analysis" target="_blank" rel="noopener">power analysis</a> framework helps design monitoring that catches problems early enough to act.</div>
   <div class="topic-nav" id="nav-incident-response"></div>
 </div>`;
 }
