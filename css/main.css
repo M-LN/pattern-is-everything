@@ -3116,6 +3116,103 @@ html:active-view-transition-type(backward)::view-transition-new(root) { animatio
   .bridge-preview, .topic-connections a { transition: none; }
 }
 
+/* ── Reading progress ──
+   Sidebar entries already opened on this device (js/progress.js). */
+.ni.is-seen::after {
+  content: '✓';
+  margin-left: auto;
+  padding-left: 8px;
+  font-size: 11px;
+  color: var(--accent);
+  opacity: .7;
+}
+.ni.active.is-seen::after { opacity: 1; }
+
+/* Homepage: "Continue where you left off", under the hero buttons. */
+.continue-reading {
+  position: relative;
+  margin: 28px auto 0;
+  max-width: 420px;
+  text-align: left;
+}
+.continue-reading[hidden] { display: none; }
+.continue-reading .cr-link {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 14px 18px;
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color .12s var(--ease), transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.continue-reading .cr-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); border-color: var(--accent); }
+.continue-reading .cr-kicker {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent);
+}
+.continue-reading .cr-title { font-family: var(--serif); font-size: 20px; font-weight: 700; line-height: 1.2; }
+.continue-reading .cr-title::after { content: ' →'; color: var(--accent); }
+.continue-reading .cr-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.continue-reading .cr-foot {
+  margin-top: 8px; font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center;
+}
+.continue-reading .cr-forget {
+  background: none; border: 0; padding: 0; font: inherit; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 2px; cursor: pointer;
+}
+.continue-reading .cr-forget:hover { color: var(--accent); }
+
+/* ── Phone reading bar ──
+   Previous · position and title · outline · next, fixed to the bottom of a
+   reader on phones (js/collection-reader.js). It takes over from the
+   floating back-to-top and outline buttons, which covered the text. */
+.reader-bar { display: none; }
+@media (max-width: 720px) {
+  body.has-reader-bar:not(.hub-home) { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  body.has-reader-bar:not(.hub-home) .reader-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 225;
+    display: flex; align-items: stretch; gap: 4px;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+    background: var(--surface);
+    border-top: 1px solid var(--border2);
+    box-shadow: 0 -8px 24px rgba(0,0,0,.12);
+  }
+  .reader-bar .rb-btn {
+    flex: 0 0 48px; height: 48px;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--text);
+    font-size: 18px; cursor: pointer;
+  }
+  .reader-bar .rb-btn:active { background: var(--hi); }
+  .reader-bar .rb-btn:disabled { opacity: .3; cursor: default; }
+  .reader-bar .rb-next { color: var(--accent); border-color: var(--accent); }
+  .reader-bar .rb-mid {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    border: 0; background: none; color: var(--text); cursor: pointer; padding: 0 4px;
+  }
+  .reader-bar .rb-pos { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--muted); }
+  .reader-bar .rb-title {
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-family: var(--serif); font-size: 15px; font-weight: 700;
+  }
+  /* The bar replaces these; the outline panel and the trail chip sit above it. */
+  body.has-reader-bar:not(.hub-home) .back-to-top,
+  body.has-reader-bar:not(.hub-home) .outline-toggle { display: none; }
+  body.has-reader-bar:not(.hub-home) .page-outline { bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  body.has-reader-bar:not(.hub-home) .return-trail { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); max-width: calc(100vw - 32px); }
+
+  /* Topic header: the title takes the full width and the badges wrap under
+     it, instead of squeezing the title and running off the right edge. */
+  .topic-header { flex-wrap: wrap; gap: 8px 10px; }
+  .topic-header .topic-meta { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .continue-reading .cr-link { transition: none; }
+}
+
 
 /* =================================================================
    What's-new feature discovery toast

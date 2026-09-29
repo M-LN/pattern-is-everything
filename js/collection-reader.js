@@ -25,60 +25,31 @@ else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 if (window.PatternLoader) PatternLoader.hide();
 
-/* ── Search ── */
+/* ── Search ──
+   The header's search button and Ctrl+K open the site-wide command palette
+   (js/ui-enhance.js). Each reader used to carry its own search overlay as
+   well, so the same keys led to two different searches depending on the
+   page; the palette now ranks this collection's topics first and matches
+   their descriptions too, which is what the overlay offered. */
 function toggleSearch() {
-  const o = document.getElementById('searchOverlay');
-  o.classList.toggle('active');
-  if (o.classList.contains('active')) {
-    document.getElementById('searchInput').focus();
-    document.getElementById('searchInput').value = '';
-    document.getElementById('searchResults').innerHTML = '';
-  }
+  if (typeof window.__openPalette === 'function') window.__openPalette();
 }
-/* ui-enhance.js adds a site-wide command palette. It leaves Ctrl+K to this
-   page's own search, and this page leaves the keyboard alone while the
-   palette is up — otherwise both searches opened on top of each other. */
 function paletteOpen() {
   const p = document.getElementById('cmdkPalette');
   return !!p && !p.hidden;
 }
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    if (paletteOpen()) return;
-    e.preventDefault(); toggleSearch();
-  }
-  if (e.key === 'Escape') {
-    const o = document.getElementById('searchOverlay');
-    if (o.classList.contains('active')) toggleSearch();
-  }
   // Arrow key navigation. Modified arrows belong to the browser and the OS —
   // Alt+← is Back, and used to also step to the previous topic on the way out.
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
     const a = document.activeElement;
     if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
-    if (document.getElementById('searchOverlay')?.classList.contains('active') || paletteOpen()) return;
+    if (paletteOpen()) return;
     const idx = TOPICS.indexOf(currentTopic);
     if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
     if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
   }
-});
-document.getElementById('searchInput')?.addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  const res = document.getElementById('searchResults');
-  if (!q) { res.innerHTML = ''; return; }
-  const matches = TOPIC_DATA.filter(t =>
-    t.title.toLowerCase().includes(q) ||
-    t.category.toLowerCase().includes(q) ||
-    t.keywords.some(k => k.toLowerCase().includes(q)) ||
-    t.content.toLowerCase().includes(q)
-  ).slice(0, 8);
-  res.innerHTML = matches.map(t =>
-    `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} — ${t.category}</div>
-      <div class="sr-title">${t.title}</div>
-    </div>`
-  ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
 /* ── Visualizations, on demand ──
@@ -109,6 +80,110 @@ function loadVisualizations() {
 let currentTopic = 'home';
 let drawTimer = null;
 const viewed = new Set();
+// "/ml-math/" and "ML Math": this collection's key prefix in the progress and
+// connections data, and its name as the page title carries it.
+const READER_PATH = location.pathname.replace(/index\.html$/, '');
+const READER_NAME = document.title.split(' — ')[0].trim();
+
+/* ── Progress ──
+   The viewed counter and the sidebar marks come from js/progress.js, which
+   keeps them in localStorage — they used to reset on every reload. */
+function topicTitle(id) {
+  const t = TOPIC_DATA.find(x => x.id === id);
+  return t ? t.title : (TOPIC_NAMES[id] || id);
+}
+function markSeen(id) {
+  viewed.add(id);
+  if (window.PatternProgress) PatternProgress.mark(READER_PATH + '#' + id, topicTitle(id), READER_NAME);
+  const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+  if (ni) ni.classList.add('is-seen');
+}
+function restoreProgress() {
+  if (!window.PatternProgress) return;
+  PatternProgress.setTotal(READER_PATH, TOPICS.filter(t => t !== 'home').length);
+  PatternProgress.seenIn(READER_PATH).forEach(k => {
+    const id = k.slice(k.indexOf('#') + 1);
+    if (!TOPICS.includes(id) || id === 'home') return;
+    viewed.add(id);
+    const ni = document.querySelector(`.ni[data-topic="${id}"]`);
+    if (ni) ni.classList.add('is-seen');
+  });
+  updateProgress();
+}
+
+/* ── Phone reading bar ──
+   On a phone the prev/next buttons sit at the very end of a long topic, and
+   the floating back-to-top and outline buttons covered the text beneath
+   them. Below 720px a fixed bar carries all of it: previous, position and
+   title (tap to go back to the top), the outline, next. css/main.css hides
+   the floating buttons while the bar is showing. Swiping sideways on the
+   text steps between topics too. */
+let readerBar = null;
+function neighbour(dir) {
+  const t = TOPICS[TOPICS.indexOf(currentTopic) + dir];
+  return t && t !== 'home' ? t : null;
+}
+function buildReaderBar() {
+  // A div, not <nav>: the stylesheet styles bare nav elements as the sidebar.
+  readerBar = document.createElement('div');
+  readerBar.className = 'reader-bar';
+  readerBar.setAttribute('role', 'navigation');
+  readerBar.setAttribute('aria-label', 'Topic navigation');
+  readerBar.innerHTML =
+    '<button type="button" class="rb-btn rb-prev" aria-label="Previous topic">←</button>' +
+    '<button type="button" class="rb-mid" aria-label="Back to the top of this topic">' +
+      '<span class="rb-pos"></span><span class="rb-title"></span></button>' +
+    '<button type="button" class="rb-btn rb-outline" aria-label="On this page">☰</button>' +
+    '<button type="button" class="rb-btn rb-next" aria-label="Next topic">→</button>';
+  readerBar.querySelector('.rb-prev').onclick = () => { const t = neighbour(-1); if (t) show(t, true); };
+  readerBar.querySelector('.rb-next').onclick = () => { const t = neighbour(1); if (t) show(t, true); };
+  readerBar.querySelector('.rb-mid').onclick = () => window.scrollTo({ top: 0 });
+  // The outline toggle belongs to ui-enhance.js and may not exist yet.
+  readerBar.querySelector('.rb-outline').onclick = () => {
+    const t = document.querySelector('.outline-toggle');
+    if (t) t.click();
+  };
+  document.body.appendChild(readerBar);
+  document.body.classList.add('has-reader-bar');
+}
+function updateReaderBar(id) {
+  if (!readerBar) return;
+  const list = TOPICS.filter(t => t !== 'home');
+  readerBar.querySelector('.rb-pos').textContent = id === 'home' ? '' : `${list.indexOf(id) + 1} / ${list.length}`;
+  readerBar.querySelector('.rb-title').textContent = id === 'home' ? '' : topicTitle(id);
+  readerBar.querySelector('.rb-prev').disabled = !neighbour(-1);
+  readerBar.querySelector('.rb-next').disabled = !neighbour(1);
+}
+
+/* Horizontal swipes on the reading column. Anything that takes a sideways
+   drag itself — a canvas, a form control, a table or formula that scrolls
+   sideways — keeps it. */
+function swipeOwner(el) {
+  for (; el && el !== document.body; el = el.parentElement) {
+    if (/^(CANVAS|INPUT|TEXTAREA|SELECT|PRE)$/.test(el.tagName)) return true;
+    if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true;
+  }
+  return false;
+}
+function initSwipe() {
+  const main = document.getElementById('mainContent');
+  if (!main) return;
+  let x0 = 0, y0 = 0, t0 = 0, tracking = false;
+  main.addEventListener('touchstart', e => {
+    tracking = e.touches.length === 1 && currentTopic !== 'home' && !swipeOwner(e.target);
+    if (!tracking) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, { passive: true });
+  main.addEventListener('touchend', e => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    // Quick, clearly sideways and long enough — not a scroll that drifted.
+    if (Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+    const t = neighbour(dx < 0 ? 1 : -1);
+    if (t) show(t, true);
+  }, { passive: true });
+}
 
 /* ── History ──
    Every topic switch used to replaceState, so the whole reading session was a
@@ -222,7 +297,10 @@ function swapTopic(update, from, to) {
       ? document.startViewTransition({ update: wrapped, types: [direction] })
       : document.startViewTransition(wrapped);
   } catch (e) { wrapped(); return Promise.resolve(); }
-  vt.finished.finally(() => { if (newTitle) newTitle.style.viewTransitionName = ''; });
+  // A switch that starts before this one finishes skips it, which rejects
+  // `ready` — expected when stepping quickly through topics, not an error.
+  vt.ready.catch(() => {});
+  vt.finished.catch(() => {}).finally(() => { if (newTitle) newTitle.style.viewTransitionName = ''; });
   return vt.updateCallbackDone.catch(() => {});
 }
 
@@ -253,9 +331,10 @@ function show(id, scrollNav, nav = {}) {
   const leavingY = window.scrollY;
   const leavingState = history.state || {};
   currentTopic = id;
-  if (id !== 'home') viewed.add(id);
+  if (id !== 'home') markSeen(id);
   updateProgress();
   buildNavButtons(id);
+  updateReaderBar(id);
   // Update URL hash — the overview has no anchor, so leave the hash empty;
   // otherwise a "#home" hash makes the deep-link scroll land under the header.
   const mode = nav.history || 'push';
@@ -365,6 +444,9 @@ window.addEventListener('load', () => {
   buildContent();
   const homeNI = document.querySelector('.ni[data-topic="home"]');
   if (homeNI) homeNI.classList.add('active');
+  restoreProgress();
+  buildReaderBar();
+  initSwipe();
   // Open whatever the URL points at — a topic, or a heading inside one — and
   // restore the scroll position if this entry has one (a reload, or Back into
   // the page from elsewhere). A heading link keeps its own hash.

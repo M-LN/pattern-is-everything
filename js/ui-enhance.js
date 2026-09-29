@@ -160,8 +160,9 @@
     }
     // Ctrl/Cmd + K opens palette
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
-      // Collection readers bind Ctrl+K to their own search (their header
-      // button says so). Opening the palette as well stacked two searches.
+      // The sandboxes bind Ctrl+K to their own search overlay. Opening the
+      // palette as well stacked two searches. (The collection readers dropped
+      // theirs and use the palette.)
       if (document.getElementById('searchOverlay') && typeof window.toggleSearch === 'function') return;
       e.preventDefault();
       openPalette();
@@ -231,6 +232,22 @@
         if (input && p && !p.hidden) renderResults(input.value);
       })
       .catch(function () { topicIndexState = 'failed'; });
+  }
+
+  /* On a collection reader: its topics' descriptions, keyed by palette path
+     ("/ml-math/#activation"). topics.js declares TOPIC_DATA with a top-level
+     const, so test the binding, not window.TOPIC_DATA. */
+  var localTopicsCache = null;
+  function localTopics() {
+    if (localTopicsCache) return localTopicsCache;
+    localTopicsCache = {};
+    if (typeof TOPIC_DATA === 'undefined' || !Array.isArray(TOPIC_DATA)) return localTopicsCache;
+    var here = window.location.pathname.replace(/index\.html$/, '');
+    for (var i = 0; i < TOPIC_DATA.length; i++) {
+      var d = TOPIC_DATA[i];
+      if (d && d.id) localTopicsCache[here + '#' + d.id] = String(d.content || '');
+    }
+    return localTopicsCache;
   }
 
   function fuzzyScore(query, hay) {
@@ -396,10 +413,19 @@
       var hs = fuzzyScore(q, h.t + ' ' + h.cat);
       if (hs >= 0) scored.push({ p: h, s: hs + 50 });
     }
-    // Global topics: individual topics beat generic collection pages
+    // Global topics: individual topics beat generic collection pages. On a
+    // collection reader its own topics rank first, and also match on their
+    // description text, as the reader's own search used to — by substring
+    // only, since a fuzzy subsequence over a paragraph matches nearly anything.
+    var local = localTopics();
     for (var k = 0; k < TOPIC_INDEX.length; k++) {
       var t = TOPIC_INDEX[k];
       var ts = fuzzyScore(q, t.t + ' ' + t.cat + ' ' + t.kw);
+      var desc = local[t.path];
+      if (desc !== undefined) {
+        if (ts < 0 && desc.toLowerCase().indexOf(q.toLowerCase()) !== -1) ts = 200;
+        if (ts >= 0) ts += 40;
+      }
       if (ts >= 0) scored.push({ p: t, s: ts + 25 });
     }
     scored.sort(function (a, b) { return b.s - a.s; });
