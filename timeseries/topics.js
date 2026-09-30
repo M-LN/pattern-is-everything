@@ -206,7 +206,7 @@ print(<span class="st">f"ADF stat: </span>{result[<span class="st">0</span>]:.4f
 result_kpss = kpss(series, regression=<span class="st">'c'</span>, nlags=<span class="st">'auto'</span>)
 print(<span class="st">f"KPSS stat: </span>{result_kpss[<span class="st">0</span>]:.4f}<span class="st">, p-value: </span>{result_kpss[<span class="st">1</span>]:.4f}<span class="st">"</span>)</pre></div>
   <div class="callout info"><strong>Use both tests together:</strong> ADF and KPSS have opposite null hypotheses. If ADF rejects and KPSS does not, the series is likely stationary. If both fail to reject, you may have a trend-stationary process that needs detrending rather than differencing.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity is the time-series version of the <a href="../stats/#distribution-shape" target="_blank" rel="noopener">distribution shape</a> assumption in statistics. In markets, <a href="../timeseries/#changepoint-detection" target="_blank" rel="noopener">regime detection</a> is exactly the question: has the underlying process become non-stationary?</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity is the time-series version of the <a href="../stats/#distribution-shape">distribution shape</a> assumption in statistics. In markets, <a href="../timeseries/#changepoint-detection">regime detection</a> is exactly the question: has the underlying process become non-stationary?</div>
   <div class="topic-nav" id="nav-stationarity"></div>
 </div>`;
 }
@@ -244,7 +244,7 @@ fig, axes = plt.subplots(<span class="st">1</span>, <span class="st">2</span>, f
 plot_acf(series, lags=<span class="st">30</span>, ax=axes[<span class="st">0</span>])
 plot_pacf(series, lags=<span class="st">30</span>, method=<span class="st">'ywm'</span>, ax=axes[<span class="st">1</span>])
 plt.tight_layout()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ACF/PACF diagnoses for time series are like <a href="../stats/#feature-correlation" target="_blank" rel="noopener">correlation analysis</a> in statistics &mdash; but with yourself across time. In markets, <a href="../markets/indicators/#roc" target="_blank" rel="noopener">momentum indicators</a> are practical autocorrelation measurements.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ACF/PACF diagnoses for time series are like <a href="../stats/#feature-correlation">correlation analysis</a> in statistics &mdash; but with yourself across time. In markets, <a href="../markets/indicators/#roc">momentum indicators</a> are practical autocorrelation measurements.</div>
   <div class="topic-nav" id="nav-autocorrelation"></div>
 </div>`;
 }
@@ -274,7 +274,7 @@ stl = STL(series, period=<span class="st">12</span>, robust=<span class="st">Tru
 result = stl.fit()
 result.plot()
 <span class="cm"># result.trend, result.seasonal, result.resid</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposition mirrors <a href="../ml-math/#pca" target="_blank" rel="noopener">eigendecomposition</a> in linear algebra &mdash; both break a complex object into orthogonal components. In markets, separating <a href="../markets/charts/#trendlines" target="_blank" rel="noopener">trend</a> from <a href="../essays/#essay-signal" target="_blank" rel="noopener">noise</a> is the trader&rsquo;s version of the same problem.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposition mirrors <a href="../ml-math/#pca">eigendecomposition</a> in linear algebra &mdash; both break a complex object into orthogonal components. In markets, separating <a href="../markets/charts/#trendlines">trend</a> from <a href="../essays/#essay-signal">noise</a> is the trader&rsquo;s version of the same problem.</div>
   <div class="topic-nav" id="nav-decomposition"></div>
 </div>`;
 }
@@ -303,7 +303,7 @@ diff1 = series.diff().dropna()         <span class="cm"># first difference</span
 diff2 = series.diff().diff().dropna()   <span class="cm"># second difference</span>
 sdiff = series.diff(<span class="st">12</span>).dropna()        <span class="cm"># seasonal difference (m=12)</span></pre></div>
   <div class="callout info"><strong>Don&rsquo;t over-difference:</strong> Each difference removes one degree of integration. If the series is already stationary, differencing adds artificial noise. Check with ADF after each step.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Differencing converts levels to returns &mdash; exactly what <a href="../sandbox/markets/index.html#candlestick-spotter" target="_blank" rel="noopener">candlestick charts</a> show. In ML, the concept parallels <a href="../ml-math/#gradient" target="_blank" rel="noopener">gradient computation</a>: the rate of change matters more than the absolute value.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Differencing converts levels to returns &mdash; exactly what <a href="../sandbox/markets/index.html#candlestick-spotter">candlestick charts</a> show. In ML, the concept parallels <a href="../ml-math/#gradient">gradient computation</a>: the rate of change matters more than the absolute value.</div>
   <div class="topic-nav" id="nav-differencing"></div>
 </div>`;
 }
@@ -333,7 +333,7 @@ weekly = df.resample(<span class="st">'W'</span>).agg({
 })
 <span class="cm"># Upsample: monthly &rarr; daily (forward fill)</span>
 daily = monthly.resample(<span class="st">'D'</span>).ffill()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing the right frequency is the time-series equivalent of <a href="../llm/#context-windows" target="_blank" rel="noopener">context window</a> sizing in LLMs &mdash; too little history and you miss patterns, too much and you drown in noise. In markets, timeframe selection is this exact tradeoff.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing the right frequency is the time-series equivalent of <a href="../llm/#context-windows">context window</a> sizing in LLMs &mdash; too little history and you miss patterns, too much and you drown in noise. In markets, timeframe selection is this exact tradeoff.</div>
   <div class="topic-nav" id="nav-resampling"></div>
 </div>`;
 }
@@ -362,7 +362,7 @@ function buildARModels() {
 model = AutoReg(series, lags=<span class="st">3</span>).fit()
 print(model.summary())
 forecast = model.predict(start=len(series), end=len(series)+<span class="st">10</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> AR models are time-series <a href="../ml-math/#linear" target="_blank" rel="noopener">linear regression</a> where the features are your own lagged values. In markets, the idea that past prices predict future prices is the foundation of <a href="../markets/indicators/#roc" target="_blank" rel="noopener">momentum</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> AR models are time-series <a href="../ml-math/#linear">linear regression</a> where the features are your own lagged values. In markets, the idea that past prices predict future prices is the foundation of <a href="../markets/indicators/#roc">momentum</a>.</div>
   <div class="topic-nav" id="nav-ar-models"></div>
 </div>`;
 }
@@ -390,7 +390,7 @@ function buildMAModels() {
 
 model = ARIMA(series, order=(<span class="st">0</span>, <span class="st">0</span>, <span class="st">2</span>)).fit()  <span class="cm"># MA(2)</span>
 print(model.summary())</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> MA models capture how surprises propagate &mdash; the same mechanism behind <a href="../markets/psychology/#recency-bias" target="_blank" rel="noopener">market overreaction</a>. The finite memory of MA is the opposite of the persistent memory in <a href="#ar-models">AR models</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> MA models capture how surprises propagate &mdash; the same mechanism behind <a href="../markets/psychology/#recency-bias">market overreaction</a>. The finite memory of MA is the opposite of the persistent memory in <a href="#ar-models">AR models</a>.</div>
   <div class="topic-nav" id="nav-ma-models"></div>
 </div>`;
 }
@@ -421,7 +421,7 @@ model = auto_arima(series, seasonal=<span class="st">False</span>,
                    stepwise=<span class="st">True</span>, trace=<span class="st">True</span>)
 print(model.summary())
 forecast = model.predict(n_periods=<span class="st">30</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ARIMA&rsquo;s model selection via AIC/BIC is the same bias-variance tradeoff as <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> in ML. In markets, ARIMA forecasts on price returns connect directly to <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving average</a> signals.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ARIMA&rsquo;s model selection via AIC/BIC is the same bias-variance tradeoff as <a href="../stats/#cross-validation">cross-validation</a> in ML. In markets, ARIMA forecasts on price returns connect directly to <a href="../markets/indicators/#sma">moving average</a> signals.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
@@ -489,7 +489,7 @@ model = SARIMAX(series,
                 seasonal_order=(<span class="st">1</span>, <span class="st">1</span>, <span class="st">1</span>, <span class="st">12</span>)).fit()
 forecast = model.get_forecast(steps=<span class="st">24</span>)
 ci = forecast.conf_int(alpha=<span class="st">0.05</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Seasonal patterns in time series are the same calendar seasonality that drives market cycles. The Fourier terms in SARIMA connect to <a href="../timeseries/#prophet" target="_blank" rel="noopener">Fourier seasonality</a> in Prophet.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Seasonal patterns in time series are the same calendar seasonality that drives market cycles. The Fourier terms in SARIMA connect to <a href="../timeseries/#prophet">Fourier seasonality</a> in Prophet.</div>
   <div class="topic-nav" id="nav-sarima"></div>
 </div>`;
 }
@@ -519,7 +519,7 @@ model = ExponentialSmoothing(
     seasonal_periods=<span class="st">12</span>
 ).fit()
 forecast = model.forecast(steps=<span class="st">12</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Exponential smoothing with &alpha; is exactly how <a href="../markets/indicators/#ema" target="_blank" rel="noopener">Exponential Moving Averages (EMA)</a> work in technical analysis. The same &alpha; parameter appears in <a href="../ml-math/#optimizers" target="_blank" rel="noopener">momentum optimizers</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Exponential smoothing with &alpha; is exactly how <a href="../markets/indicators/#ema">Exponential Moving Averages (EMA)</a> work in technical analysis. The same &alpha; parameter appears in <a href="../ml-math/#optimizers">momentum optimizers</a>.</div>
   <div class="topic-nav" id="nav-exponential-smoothing"></div>
 </div>`;
 }
@@ -549,7 +549,7 @@ model.fit(df[['ds', 'y']])
 future = model.make_future_dataframe(periods=<span class="st">365</span>)
 forecast = model.predict(future)
 model.plot_components(forecast)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Prophet&rsquo;s Fourier seasonality connects to <a href="../llm/#positional-encoding" target="_blank" rel="noopener">sinusoidal positional encodings</a> in LLMs. Its trend changepoints are exactly the <a href="#changepoint-detection">changepoint detection</a> problem &mdash; and in markets, they correspond to <a href="../markets/charts/#support-resistance" target="_blank" rel="noopener">breakout</a> moments.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Prophet&rsquo;s Fourier seasonality connects to <a href="../llm/#positional-encoding">sinusoidal positional encodings</a> in LLMs. Its trend changepoints are exactly the <a href="#changepoint-detection">changepoint detection</a> problem &mdash; and in markets, they correspond to <a href="../markets/charts/#support-resistance">breakout</a> moments.</div>
   <div class="topic-nav" id="nav-prophet"></div>
 </div>`;
 }
@@ -580,7 +580,7 @@ model = UnobservedComponents(
     seasonal=<span class="st">12</span>
 ).fit()
 forecast = model.get_forecast(steps=<span class="st">24</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The Kalman filter is the time-series equivalent of <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayesian updating</a> &mdash; prior &times; likelihood = posterior, applied recursively at each time step. In markets, the hidden state is the true &ldquo;fair value&rdquo; obscured by <a href="../essays/#essay-signal" target="_blank" rel="noopener">market noise</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The Kalman filter is the time-series equivalent of <a href="../ml-math/#bayes">Bayesian updating</a> &mdash; prior &times; likelihood = posterior, applied recursively at each time step. In markets, the hidden state is the true &ldquo;fair value&rdquo; obscured by <a href="../essays/#essay-signal">market noise</a>.</div>
   <div class="topic-nav" id="nav-state-space"></div>
 </div>`;
 }
@@ -611,7 +611,7 @@ result = model.fit(disp=<span class="st">'off'</span>)
 print(result.summary())
 <span class="cm"># Forecast next 5 periods of volatility</span>
 fcast = result.forecast(horizon=<span class="st">5</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> GARCH is the quantitative foundation behind <a href="../markets/risk/#value-at-risk" target="_blank" rel="noopener">Value-at-Risk</a> calculations and <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a>. The same volatility clustering appears in heteroscedastic data across ML problems.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> GARCH is the quantitative foundation behind <a href="../markets/risk/#value-at-risk">Value-at-Risk</a> calculations and <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a>. The same volatility clustering appears in heteroscedastic data across ML problems.</div>
   <div class="topic-nav" id="nav-garch"></div>
 </div>`;
 }
@@ -640,7 +640,7 @@ results.test_causality(<span class="st">'gdp'</span>, [<span class="st">'inflati
 <span class="cm"># Impulse response</span>
 irf = results.irf(<span class="st">20</span>)
 irf.plot()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> VAR captures how variables influence each other &mdash; the same idea as <a href="../stats/#feature-correlation" target="_blank" rel="noopener">correlation matrices</a> but with temporal structure. In markets, <a href="../markets/risk/#correlation-risk" target="_blank" rel="noopener">cross-asset correlations</a> and intermarket analysis are VAR in practice.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> VAR captures how variables influence each other &mdash; the same idea as <a href="../stats/#feature-correlation">correlation matrices</a> but with temporal structure. In markets, <a href="../markets/risk/#correlation-risk">cross-asset correlations</a> and intermarket analysis are VAR in practice.</div>
   <div class="topic-nav" id="nav-var-models"></div>
 </div>`;
 }
@@ -667,7 +667,7 @@ function buildChangepointDetection() {
 algo = rpt.Pelt(model=<span class="st">"rbf"</span>).fit(signal)
 breakpoints = algo.predict(pen=<span class="st">10</span>)
 rpt.display(signal, breakpoints)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Changepoint detection is the formal version of <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">regime detection</a> in markets &mdash; finding when bull turns to bear. In ML production systems, <a href="../mlops/#drift-detection" target="_blank" rel="noopener">drift detection</a> is exactly a changepoint problem on model inputs.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Changepoint detection is the formal version of <a href="../markets/psychology/#market-sentiment-cycle">regime detection</a> in markets &mdash; finding when bull turns to bear. In ML production systems, <a href="../mlops/#drift-detection">drift detection</a> is exactly a changepoint problem on model inputs.</div>
   <div class="topic-nav" id="nav-changepoint-detection"></div>
 </div>`;
 }
@@ -697,7 +697,7 @@ function buildRNNForTS() {
     <span class="kw">def</span> forward(self, x):
         out, _ = self.rnn(x)
         <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> RNN hidden states are a temporal version of <a href="../ml-math/#embeddings" target="_blank" rel="noopener">embeddings</a> &mdash; compressed representations of input context. The vanishing gradient problem connects to <a href="../ml-math/#gradient" target="_blank" rel="noopener">gradient dynamics</a> in deep networks and the <a href="../llm/#feed-forward" target="_blank" rel="noopener">residual connections</a> that solve it in transformers.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> RNN hidden states are a temporal version of <a href="../ml-math/#embeddings">embeddings</a> &mdash; compressed representations of input context. The vanishing gradient problem connects to <a href="../ml-math/#gradient">gradient dynamics</a> in deep networks and the <a href="../llm/#feed-forward">residual connections</a> that solve it in transformers.</div>
   <div class="topic-nav" id="nav-rnn-for-ts"></div>
 </div>`;
 }
@@ -726,7 +726,7 @@ function buildLSTMForTS() {
     <span class="kw">def</span> forward(self, x):
         out, _ = self.lstm(x)
         <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed &mdash; they learn <em>what to remember</em>, connecting to the formal <a href="../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../ml-math/#gru" target="_blank" rel="noopener">the GRU topic</a> in ML Math.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed &mdash; they learn <em>what to remember</em>, connecting to the formal <a href="../llm/#self-attention">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../ml-math/#gru">the GRU topic</a> in ML Math.</div>
   <div class="topic-nav" id="nav-lstm-for-ts"></div>
 </div>`;
 }
@@ -758,7 +758,7 @@ function buildTemporalCNN() {
     <span class="kw">def</span> forward(self, x):
         out = self.conv(x)[:, :, :x.size(<span class="st">2</span>)]  <span class="cm"># causal trim</span>
         <span class="kw">return</span> self.relu(out) + x</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Dilated convolutions trade sequential processing for parallelism &mdash; the same tradeoff that led from <a href="#lstm-for-ts">LSTMs</a> to <a href="#transformers-for-ts">Transformers</a>. The receptive field concept maps to <a href="../llm/#context-windows" target="_blank" rel="noopener">context windows</a> in LLMs.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Dilated convolutions trade sequential processing for parallelism &mdash; the same tradeoff that led from <a href="#lstm-for-ts">LSTMs</a> to <a href="#transformers-for-ts">Transformers</a>. The receptive field concept maps to <a href="../llm/#context-windows">context windows</a> in LLMs.</div>
   <div class="topic-nav" id="nav-temporal-cnn"></div>
 </div>`;
 }
@@ -794,7 +794,7 @@ model = PatchTSTForPrediction.from_pretrained(
 <span class="cm"># Or with Darts library</span>
 <span class="kw">from</span> darts.models <span class="kw">import</span> TFTModel
 model = TFTModel(input_chunk_length=<span class="st">96</span>, output_chunk_length=<span class="st">24</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Time-series transformers borrow directly from the <a href="../llm/#self-attention" target="_blank" rel="noopener">self-attention</a> and <a href="../llm/#positional-encoding" target="_blank" rel="noopener">positional encoding</a> in LLMs. The patching strategy in PatchTST is analogous to <a href="../llm/#tokenization" target="_blank" rel="noopener">tokenization</a> &mdash; chunking continuous signals into digestible pieces.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Time-series transformers borrow directly from the <a href="../llm/#self-attention">self-attention</a> and <a href="../llm/#positional-encoding">positional encoding</a> in LLMs. The patching strategy in PatchTST is analogous to <a href="../llm/#tokenization">tokenization</a> &mdash; chunking continuous signals into digestible pieces.</div>
   <div class="topic-nav" id="nav-transformers-for-ts"></div>
 </div>`;
 }
@@ -824,7 +824,7 @@ model = NBEATSModel(
 )
 model.fit(train_series)
 pred = model.predict(n=<span class="st">24</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> N-BEATS&rsquo; residual stacking works like <a href="../timeseries/#forecast-ensembles" target="_blank" rel="noopener">boosting</a> &mdash; each block fits the residual from the previous one. The backward/forward forecast split mirrors the <a href="../stats/#cross-validation" target="_blank" rel="noopener">train/validation</a> concept built into the architecture itself.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> N-BEATS&rsquo; residual stacking works like <a href="../timeseries/#forecast-ensembles">boosting</a> &mdash; each block fits the residual from the previous one. The backward/forward forecast split mirrors the <a href="../stats/#cross-validation">train/validation</a> concept built into the architecture itself.</div>
   <div class="topic-nav" id="nav-nbeats"></div>
 </div>`;
 }
@@ -861,7 +861,7 @@ df[<span class="st">'month'</span>] = df.index.month
 <span class="cm"># Fourier features for yearly seasonality</span>
 df[<span class="st">'sin_365'</span>] = np.sin(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)
 df[<span class="st">'cos_365'</span>] = np.cos(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../markets/indicators/#sma" target="_blank" rel="noopener">moving averages</a> and <a href="../markets/indicators/#bollinger-bands" target="_blank" rel="noopener">Bollinger Bands</a> from technical analysis.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../markets/indicators/#sma">moving averages</a> and <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a> from technical analysis.</div>
   <div class="topic-nav" id="nav-feature-engineering"></div>
 </div>`;
 }
@@ -891,7 +891,7 @@ tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>, gap=<span class="st">
     X_train, X_test = X[train_idx], X[test_idx]
     y_train, y_test = y[train_idx], y[test_idx]
     <span class="cm"># fit and evaluate</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is the forecasting equivalent of <a href="../stats/#cross-validation" target="_blank" rel="noopener">cross-validation</a> from The Toolkit. In markets, this is exactly how <a href="../stats/#survivorship-bias" target="_blank" rel="noopener">trading strategy backtesting</a> disciplines prevent look-ahead bias.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is the forecasting equivalent of <a href="../stats/#cross-validation">cross-validation</a> from The Toolkit. In markets, this is exactly how <a href="../stats/#survivorship-bias">trading strategy backtesting</a> disciplines prevent look-ahead bias.</div>
   <div class="howto">
     <div class="howto-title">Real-world pipeline: time-series validation</div>
     <ol>
@@ -944,7 +944,7 @@ backtest = model.historical_forecasts(
 )
 print(<span class="st">f"MAE: </span>{mae(series, backtest):.3f}<span class="st">"</span>)
 print(<span class="st">f"RMSE: </span>{rmse(series, backtest):.3f}<span class="st">"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast backtesting is the time-series version of <a href="../stats/#regression-metrics" target="_blank" rel="noopener">loss metrics</a> from statistics. In markets, this directly maps to <a href="../stats/#walk-forward" target="_blank" rel="noopener">strategy backtesting</a> &mdash; both test historical performance without look-ahead bias.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast backtesting is the time-series version of <a href="../stats/#regression-metrics">loss metrics</a> from statistics. In markets, this directly maps to <a href="../stats/#walk-forward">strategy backtesting</a> &mdash; both test historical performance without look-ahead bias.</div>
   <div class="topic-nav" id="nav-backtesting-forecasts"></div>
 </div>`;
 }
@@ -975,7 +975,7 @@ anomalies = series[z.abs() > <span class="st">2.5</span>]
 <span class="cm"># Isolation Forest on features</span>
 clf = IsolationForest(contamination=<span class="st">0.05</span>)
 labels = clf.fit_predict(features)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Anomaly detection in time series uses the same <a href="../stats/#outlier-detection" target="_blank" rel="noopener">z-score</a> logic from statistics. In markets, anomalies are <a href="../markets/charts/#gaps" target="_blank" rel="noopener">price gaps</a> and volume spikes. In MLOps, <a href="../mlops/#data-quality" target="_blank" rel="noopener">data quality gates</a> perform anomaly detection on incoming features.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Anomaly detection in time series uses the same <a href="../stats/#outlier-detection">z-score</a> logic from statistics. In markets, anomalies are <a href="../markets/charts/#gaps">price gaps</a> and volume spikes. In MLOps, <a href="../mlops/#data-quality">data quality gates</a> perform anomaly detection on incoming features.</div>
   <div class="topic-nav" id="nav-anomaly-detection"></div>
 </div>`;
 }
@@ -1014,7 +1014,7 @@ errors = [mae_arima, mae_ets, mae_lstm]
 weights = [<span class="st">1</span>/e <span class="kw">for</span> e <span class="kw">in</span> errors]
 w_sum = sum(weights)
 ensemble_w = sum(f*w/w_sum <span class="kw">for</span> f,w <span class="kw">in</span> zip(forecasts, weights))</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast ensembling is the time-series version of ensemble methods from statistics. In markets, <a href="../markets/risk/#diversification" target="_blank" rel="noopener">portfolio diversification</a> applies exactly the same principle &mdash; combining uncorrelated assets (models) reduces risk (error).</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast ensembling is the time-series version of ensemble methods from statistics. In markets, <a href="../markets/risk/#diversification">portfolio diversification</a> applies exactly the same principle &mdash; combining uncorrelated assets (models) reduces risk (error).</div>
   <div class="topic-nav" id="nav-forecast-ensembles"></div>
 </div>`;
 }

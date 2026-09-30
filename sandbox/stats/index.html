@@ -60,7 +60,7 @@
   }
   </script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../../css/main.css?v=27">
+  <link rel="stylesheet" href="../../css/main.css?v=28">
   <link rel="stylesheet" href="../../css/sandbox.css?v=1">
   </head>
 <body>
@@ -77,14 +77,6 @@
     <a href="../../support/index.html" title="Support" style="font-size:14px;color:var(--accent);text-decoration:none;margin-left:4px;">♥</a>
   </div>
 </header>
-
-<!-- Search overlay -->
-<div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)toggleSearch()">
-  <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search activities…" autocomplete="off">
-    <div class="search-results" id="searchResults"></div>
-  </div>
-</div>
 
 <div class="layout">
 <nav id="mainNav">
@@ -109,45 +101,26 @@ if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-/* ── Search ── */
+/* ── Search ──
+   The search button, Ctrl+K and / open the site-wide command palette
+   (js/ui-enhance.js). It searches this lab's activities — titles, keywords
+   and descriptions — as the lab's own overlay did, and every other page too. */
 function toggleSearch() {
-  const o = document.getElementById('searchOverlay');
-  o.classList.toggle('active');
-  if (o.classList.contains('active')) {
-    document.getElementById('searchInput').focus();
-    document.getElementById('searchInput').value = '';
-    document.getElementById('searchResults').innerHTML = '';
-  }
+  if (typeof window.__openPalette === 'function') window.__openPalette();
 }
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
-  if (e.key === 'Escape') {
-    const o = document.getElementById('searchOverlay');
-    if (o.classList.contains('active')) toggleSearch();
-  }
+  // Previous / next activity. Modified arrows belong to the browser (Alt+← is
+  // Back); a focused control or the open palette keeps its own arrow keys.
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-    if (document.activeElement.tagName === 'INPUT') return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const a = document.activeElement;
+    if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
+    const p = document.getElementById('cmdkPalette');
+    if (p && !p.hidden) return;
     const idx = TOPICS.indexOf(currentTopic);
     if (e.key === 'ArrowLeft' && idx > 0) show(TOPICS[idx - 1]);
     if (e.key === 'ArrowRight' && idx < TOPICS.length - 1) show(TOPICS[idx + 1]);
   }
-});
-document.getElementById('searchInput')?.addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  const res = document.getElementById('searchResults');
-  if (!q) { res.innerHTML = ''; return; }
-  const matches = TOPIC_DATA.filter(t =>
-    t.title.toLowerCase().includes(q) ||
-    t.category.toLowerCase().includes(q) ||
-    t.keywords.some(k => k.toLowerCase().includes(q)) ||
-    t.content.toLowerCase().includes(q)
-  ).slice(0, 8);
-  res.innerHTML = matches.map(t =>
-    `<div class="search-result" onclick="show('${t.id}');toggleSearch();">
-      <div class="sr-cat">${t.num} — ${t.category}</div>
-      <div class="sr-title">${t.title}</div>
-    </div>`
-  ).join('') || '<div style="padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--muted)">No results</div>';
 });
 
 /* ── Navigation ── */
@@ -243,6 +216,6 @@ window.addEventListener('load', () => {
 </script>
 <script src="../../js/pattern-thread.js?v=1"></script>
 <script src="../../js/sandbox-build-mode.js?v=1"></script>
-<script defer src="../../js/ui-enhance.js?v=27"></script>
+<script defer src="../../js/ui-enhance.js?v=28"></script>
 </body>
 </html>

@@ -68,7 +68,8 @@
     { keys: ['Tab'],      desc: 'Move focus forward' },
     { keys: ['Shift', 'Tab'], desc: 'Move focus backward' },
     { keys: ['Home'],     desc: 'Scroll to top of page' },
-    { keys: ['End'],      desc: 'Scroll to bottom of page' }
+    { keys: ['End'],      desc: 'Scroll to bottom of page' },
+    { keys: ['←', '→'],   desc: 'Previous / next topic (collection pages)' }
   ];
 
   function buildShortcutOverlay() {
@@ -160,10 +161,6 @@
     }
     // Ctrl/Cmd + K opens palette
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
-      // The sandboxes bind Ctrl+K to their own search overlay. Opening the
-      // palette as well stacked two searches. (The collection readers dropped
-      // theirs and use the palette.)
-      if (document.getElementById('searchOverlay') && typeof window.toggleSearch === 'function') return;
       e.preventDefault();
       openPalette();
       return;
@@ -234,18 +231,27 @@
       .catch(function () { topicIndexState = 'failed'; });
   }
 
-  /* On a collection reader: its topics' descriptions, keyed by palette path
-     ("/ml-math/#activation"). topics.js declares TOPIC_DATA with a top-level
-     const, so test the binding, not window.TOPIC_DATA. */
+  /* The topics of the page being read — a collection reader's or a sandbox's
+     TOPIC_DATA — keyed by palette path ("/ml-math/#activation"), as palette
+     entries plus their description text. The collections are also in the
+     global index; the sandboxes' activities are only here. The data files
+     declare TOPIC_DATA with a top-level const, so test the binding, not
+     window.TOPIC_DATA. */
   var localTopicsCache = null;
   function localTopics() {
     if (localTopicsCache) return localTopicsCache;
     localTopicsCache = {};
     if (typeof TOPIC_DATA === 'undefined' || !Array.isArray(TOPIC_DATA)) return localTopicsCache;
     var here = window.location.pathname.replace(/index\.html$/, '');
+    var pageName = document.title.split(' — ')[0].trim();
     for (var i = 0; i < TOPIC_DATA.length; i++) {
       var d = TOPIC_DATA[i];
-      if (d && d.id) localTopicsCache[here + '#' + d.id] = String(d.content || '');
+      if (!d || !d.id) continue;
+      localTopicsCache[here + '#' + d.id] = {
+        entry: { t: String(d.title || d.id), cat: pageName, path: here + '#' + d.id,
+                 kw: [d.category].concat(d.keywords || []).filter(Boolean).join(' ') },
+        desc: String(d.content || '')
+      };
     }
     return localTopicsCache;
   }
@@ -413,20 +419,32 @@
       var hs = fuzzyScore(q, h.t + ' ' + h.cat);
       if (hs >= 0) scored.push({ p: h, s: hs + 50 });
     }
-    // Global topics: individual topics beat generic collection pages. On a
-    // collection reader its own topics rank first, and also match on their
-    // description text, as the reader's own search used to — by substring
-    // only, since a fuzzy subsequence over a paragraph matches nearly anything.
+    // Global topics: individual topics beat generic collection pages. The
+    // page's own topics rank first, and also match on their description text,
+    // as the readers' and sandboxes' own searches used to — by substring only,
+    // since a fuzzy subsequence over a paragraph matches nearly anything.
     var local = localTopics();
+    var ql = q.toLowerCase();
+    var scoreLocal = function (entry, own) {
+      var s = fuzzyScore(q, entry.t + ' ' + entry.cat + ' ' + entry.kw);
+      if (own) {
+        if (s < 0 && own.desc.toLowerCase().indexOf(ql) !== -1) s = 200;
+        if (s >= 0) s += 40;
+      }
+      return s;
+    };
+    var indexed = {};
     for (var k = 0; k < TOPIC_INDEX.length; k++) {
       var t = TOPIC_INDEX[k];
-      var ts = fuzzyScore(q, t.t + ' ' + t.cat + ' ' + t.kw);
-      var desc = local[t.path];
-      if (desc !== undefined) {
-        if (ts < 0 && desc.toLowerCase().indexOf(q.toLowerCase()) !== -1) ts = 200;
-        if (ts >= 0) ts += 40;
-      }
+      indexed[t.path] = true;
+      var ts = scoreLocal(t, local[t.path]);
       if (ts >= 0) scored.push({ p: t, s: ts + 25 });
+    }
+    // Page topics the global index doesn't carry (a sandbox's activities).
+    for (var lp in local) {
+      if (indexed[lp]) continue;
+      var ls = scoreLocal(local[lp].entry, local[lp]);
+      if (ls >= 0) scored.push({ p: local[lp].entry, s: ls + 25 });
     }
     scored.sort(function (a, b) { return b.s - a.s; });
     var top = scored.slice(0, 20);

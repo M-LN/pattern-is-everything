@@ -420,22 +420,26 @@ function buildNavButtons(id) {
   const prev = idx > 1 ? TOPICS[idx - 1] : null;
   const next = idx >= 0 && idx < TOPICS.length - 1 ? TOPICS[idx + 1] : null;
   navEl.innerHTML = '';
-  if (prev && prev !== 'home') {
-    const b = document.createElement('div');
-    b.className = 'tnav-btn';
-    b.innerHTML = `<div class="tnav-dir">← Previous</div><div class="tnav-name">${TOPIC_NAMES[prev]}</div>`;
-    b.onclick = () => show(prev, true);
-    navEl.appendChild(b);
-  } else {
-    navEl.appendChild(document.createElement('div'));
-  }
-  if (next) {
-    const b = document.createElement('div');
-    b.className = 'tnav-btn next';
-    b.innerHTML = `<div class="tnav-dir">Next →</div><div class="tnav-name">${TOPIC_NAMES[next]}</div>`;
-    b.onclick = () => show(next, true);
-    navEl.appendChild(b);
-  }
+  if (prev && prev !== 'home') navEl.appendChild(navLink(prev, 'tnav-btn', '← Previous'));
+  else navEl.appendChild(document.createElement('div'));
+  if (next) navEl.appendChild(navLink(next, 'tnav-btn next', 'Next →'));
+}
+
+/* Prev/next are real links to the topic's hash, not clickable divs: they take
+   keyboard focus, show in screen readers' link lists, and Ctrl/Cmd/middle-
+   click opens the topic in a new tab. A plain click goes through show(), which
+   records the scroll position of the topic being left. */
+function navLink(id, className, dir) {
+  const a = document.createElement('a');
+  a.className = className;
+  a.href = '#' + id;
+  a.innerHTML = `<div class="tnav-dir">${dir}</div><div class="tnav-name">${TOPIC_NAMES[id]}</div>`;
+  a.addEventListener('click', e => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    show(id, true);
+  });
+  return a;
 }
 
 /* ── Init ── */

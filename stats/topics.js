@@ -274,7 +274,7 @@ p = precision_score(y_true, y_pred)
 r = recall_score(y_true, y_pred)
 f = f1_score(y_true, y_pred)</pre></div>
   <div class="callout info"><strong>Threshold matters:</strong> Most classifiers output probabilities. Changing the threshold trades precision for recall. Don't just use 0.5 — tune it for your problem.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Precision vs recall is the same trade-off you see in <a href="#roc-auc">ROC curves</a> and in <a href="../markets/psychology/#fear-and-greed" target="_blank" rel="noopener">market fear/greed</a> — cautious vs aggressive, and the cost of being wrong in each direction.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Precision vs recall is the same trade-off you see in <a href="#roc-auc">ROC curves</a> and in <a href="../markets/psychology/#fear-and-greed">market fear/greed</a> — cautious vs aggressive, and the cost of being wrong in each direction.</div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
@@ -360,7 +360,7 @@ plt.plot([<span class="st">0</span>,<span class="st">1</span>],[<span class="st"
 plt.xlabel(<span class="st">'FPR'</span>); plt.ylabel(<span class="st">'TPR'</span>)
 plt.legend(); plt.show()</pre></div>
   <div class="callout info"><strong>Multi-class:</strong> Use <code>roc_auc_score(y, y_prob, multi_class='ovr')</code> with one-vs-rest for multi-class problems.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> AUC measures discrimination — can the model separate classes? In <a href="../markets/indicators/#rsi" target="_blank" rel="noopener">RSI</a>, you're doing the same thing: separating overbought from oversold regimes across different threshold levels.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> AUC measures discrimination — can the model separate classes? In <a href="../markets/indicators/#rsi">RSI</a>, you're doing the same thing: separating overbought from oversold regimes across different threshold levels.</div>
   <div class="topic-nav" id="nav-roc-auc"></div>
 </div>`;
 }
@@ -540,7 +540,7 @@ sizes, train_scores, val_scores = learning_curve(
 plt.plot(sizes, train_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Train'</span>)
 plt.plot(sizes, val_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Val'</span>)
 plt.legend(); plt.show()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance" target="_blank" rel="noopener">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions.</div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
@@ -604,7 +604,7 @@ shap.plots.waterfall(shap_values[<span class="st">0</span>])
 <span class="cm"># Global summary</span>
 shap.plots.beeswarm(shap_values)</pre></div>
   <div class="callout info"><strong>Explainer choice:</strong> Use <code>TreeExplainer</code> for tree models (fast, exact). <code>KernelExplainer</code> for any model (slow, approximate). <code>DeepExplainer</code> for deep learning.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP reveals which features drive a prediction. In markets, <a href="../markets/indicators/#obv" target="_blank" rel="noopener">volume analysis</a> asks the same question — which factors are driving price? Decomposing into contributions is a universal pattern.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP reveals which features drive a prediction. In markets, <a href="../markets/indicators/#obv">volume analysis</a> asks the same question — which factors are driving price? Decomposing into contributions is a universal pattern.</div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
@@ -787,7 +787,7 @@ function buildInformationGain() {
 mi = mutual_info_classif(X, y, random_state=<span class="st">42</span>)
 mi_series = pd.Series(mi, index=X.columns).sort_values(ascending=<span class="st">False</span>)
 print(mi_series)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Information gain is how decision trees choose splits. <a href="../ml-math/#entropy" target="_blank" rel="noopener">Entropy</a> from the ML Math collection is the foundation. In markets, high mutual information between an indicator and future returns would mean that indicator has real predictive value.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Information gain is how decision trees choose splits. <a href="../ml-math/#entropy">Entropy</a> from the ML Math collection is the foundation. In markets, high mutual information between an indicator and future returns would mean that indicator has real predictive value.</div>
   <div class="topic-nav" id="nav-information-gain"></div>
 </div>`;
 }
@@ -858,7 +858,7 @@ mask = (data &lt; Q1 - <span class="st">1.5</span>*IQR) | (data &gt; Q3 + <span 
 <span class="cm"># Isolation Forest — multi-dimensional</span>
 iso = IsolationForest(contamination=<span class="st">0.05</span>)
 labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../markets/risk/#tail-risk" target="_blank" rel="noopener">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../markets/risk/#tail-risk">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
   <div class="topic-nav" id="nav-outlier-detection"></div>
 </div>`;
 }
@@ -933,7 +933,7 @@ function buildDataDrift() {
 <span class="cm"># KS test</span>
 stat, p_val = ks_2samp(ref_data, new_data)
 print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Data drift in ML mirrors <a href="../timeseries/#changepoint-detection" target="_blank" rel="noopener">regime changes</a> in markets. Both signal that the rules have changed — past patterns no longer predict the future.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Data drift in ML mirrors <a href="../timeseries/#changepoint-detection">regime changes</a> in markets. Both signal that the rules have changed — past patterns no longer predict the future.</div>
   <div class="howto">
     <div class="howto-title">Real-world pipeline: monitoring for drift</div>
     <ol>
@@ -1147,7 +1147,7 @@ results = []
     results.append(score)
 
 print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trendlines" target="_blank" rel="noopener">market trend analysis</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trendlines">market trend analysis</a>.</div>
   <div class="howto">
     <div class="howto-title">Real-world pipeline: backtesting a strategy</div>
     <ol>
@@ -1348,7 +1348,7 @@ post_b = beta(b_conv + <span class="st">1</span>, b_total - b_conv + <span class
 samples = <span class="st">100000</span>
 p_b_wins = (post_b.rvs(samples) &gt; post_a.rvs(samples)).mean()
 print(<span class="st">f"P(B > A) = {p_b_wins:.3f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../ml-math/#bayes" target="_blank" rel="noopener">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../markets/psychology/#market-sentiment-cycle" target="_blank" rel="noopener">market sentiment</a> — prices update beliefs with every new trade.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../ml-math/#bayes">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../markets/psychology/#market-sentiment-cycle">market sentiment</a> — prices update beliefs with every new trade.</div>
   <div class="topic-nav" id="nav-bayesian-ab"></div>
 </div>`;
 }
@@ -2272,7 +2272,7 @@ print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <sp
       <tr><td>Volume</td><td>OBV, VWAP, MFI</td><td>ta.obv(), ta.vwap(), ta.mfi()</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/" target="_blank" rel="noopener">Markets &rarr; Indicators</a> collection — but here you can compute them yourself in Python and feed them into ML models as features.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/">Markets &rarr; Indicators</a> collection — but here you can compute them yourself in Python and feed them into ML models as features.</div>
   <div class="topic-nav" id="nav-pandas-ta"></div>
 </div>`;
 }
