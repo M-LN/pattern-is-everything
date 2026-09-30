@@ -20,18 +20,20 @@
   <meta property="og:description" content="Weights recent prices more heavily using an exponential smoothing factor: multiplier = 2/(N+1). More responsive to new data than SMA. The 12/26 EMA…">
   <meta property="og:url" content="https://patterniseverything.com/markets/indicators/ema/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/ema.jpg?v=865d10bd">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Exponential Moving Average — Technical Indicators, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Exponential Moving Average — Technical Indicators">
   <meta name="twitter:description" content="Weights recent prices more heavily using an exponential smoothing factor: multiplier = 2/(N+1). More responsive to new data than SMA. The 12/26 EMA…">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/ema.jpg?v=865d10bd">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Exponential Moving Average",
+    "image": "https://patterniseverything.com/assets/og/topics/markets/indicators/ema.jpg?v=865d10bd",
     "description": "Weights recent prices more heavily using an exponential smoothing factor: multiplier = 2/(N+1). More responsive to new data than SMA. The 12/26 EMA…",
     "url": "https://patterniseverything.com/markets/indicators/ema/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/markets/indicators/ema/" },
@@ -101,6 +103,15 @@
 <p>Because each new EMA is built on the previous, all past prices influence the result — but their weight decays exponentially.</p>
 <div class="callout"><strong>Key pair:</strong> The 12-period and 26-period EMAs form the foundation of the MACD indicator.</div>
 <p>More responsive than SMA to sudden price changes — preferred in faster-moving markets.</p></div><div class="callout bridge"><strong>Pattern bridge:</strong> Exponential weighting of recent data is exactly how <a href="../../../ml-math/#optimizers">Adam’s momentum</a> tracks gradient history.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">4</span></div>
+    <ul>
+    <li><a href="../../../markets/psychology/recency-bias/"><span class="tc-col">Market Psychology</span><span class="tc-title">Recency Bias</span><span class="tc-pattern">Weighting recent events more heavily than historical ones.</span></a></li>
+    <li><a href="../../../ml-math/optimizers/"><span class="tc-col">ML Math</span><span class="tc-title">Optimizers</span><span class="tc-pattern">Beyond vanilla SGD — momentum, adaptive learning rates, Adam</span></a></li>
+    <li><a href="../../../ml-math/rnn/"><span class="tc-col">ML Math</span><span class="tc-title">RNN</span><span class="tc-pattern">Processing sequences by passing hidden state through time</span></a></li>
+    <li><a href="../../../timeseries/exponential-smoothing/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Exponential Smoothing</span><span class="tc-pattern">Weighted averages that fade the past</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../sma/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Simple Moving Average</div></a>
     <a class="tnav-btn next" href="../wma/"><div class="tnav-dir">Next →</div><div class="tnav-name">Weighted Moving Average</div></a>
@@ -131,6 +142,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../../js/progress.js?v=1" defer></script>
 <script src="../../../js/return-trail.js?v=1" defer></script>
-<script src="../../../js/connections.js?v=2" defer></script>
+<script src="../../../js/connections.js?v=3" defer></script>
 </body>
 </html>

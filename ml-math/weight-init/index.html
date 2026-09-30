@@ -20,18 +20,20 @@
   <meta property="og:description" content="How you initialize weights determines if training starts well or collapses immediately.">
   <meta property="og:url" content="https://patterniseverything.com/ml-math/weight-init/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/ml-math/weight-init.jpg?v=b9c7ca1b">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Weight Initialization — ML Math, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Weight Initialization — ML Math">
   <meta name="twitter:description" content="How you initialize weights determines if training starts well or collapses immediately.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/ml-math/weight-init.jpg?v=b9c7ca1b">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Weight Initialization",
+    "image": "https://patterniseverything.com/assets/og/topics/ml-math/weight-init.jpg?v=b9c7ca1b",
     "description": "How you initialize weights determines if training starts well or collapses immediately.",
     "url": "https://patterniseverything.com/ml-math/weight-init/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/ml-math/weight-init/" },
@@ -121,6 +123,12 @@ nn.init.zeros_(layer.bias)                <span class="cm"># biases → 0</span>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Xavier initialization sets variance to 1/fan_in — the same principle behind <a href="../../markets/risk/#volatility-sizing">variance scaling</a>.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../markets/psychology/anchoring/"><span class="tc-col">Market Psychology</span><span class="tc-title">Anchoring</span><span class="tc-pattern">Over-relying on the first piece of information encountered (the &quot;anchor&quot;).</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../lr-schedule/"><div class="tnav-dir">← Previous</div><div class="tnav-name">LR Scheduling</div></a>
     <a class="tnav-btn next" href="../grad-clip/"><div class="tnav-dir">Next →</div><div class="tnav-name">Gradient Clipping</div></a>
@@ -151,6 +159,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

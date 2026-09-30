@@ -20,18 +20,20 @@
   <meta property="og:description" content="MAE, RMSE, R² — which metric for which regression problem and what the numbers actually mean.">
   <meta property="og:url" content="https://patterniseverything.com/stats/regression-metrics/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/regression-metrics.jpg?v=4a7d9f84">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Regression Metrics — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Regression Metrics — The Toolkit">
   <meta name="twitter:description" content="MAE, RMSE, R² — which metric for which regression problem and what the numbers actually mean.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/regression-metrics.jpg?v=4a7d9f84">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Regression Metrics",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/regression-metrics.jpg?v=4a7d9f84",
     "description": "MAE, RMSE, R² — which metric for which regression problem and what the numbers actually mean.",
     "url": "https://patterniseverything.com/stats/regression-metrics/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/regression-metrics/" },
@@ -128,6 +130,13 @@ print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>
   <div class="callout"><strong>Adjusted R²:</strong> R²<sub>adj</sub> = 1 − (1−R²)(n−1)/(n−p−1). Penalises adding features. Always use adjusted R² when comparing models with different feature counts.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">2</span></div>
+    <ul>
+    <li><a href="../../ml-math/linear/"><span class="tc-col">ML Math</span><span class="tc-title">Linear Regression</span><span class="tc-pattern">Fitting a line through data — the simplest predictive model</span></a></li>
+    <li><a href="../../timeseries/backtesting-forecasts/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Backtesting Forecasts</span><span class="tc-pattern">How good are your predictions, really?</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../roc-auc/"><div class="tnav-dir">← Previous</div><div class="tnav-name">ROC &amp; AUC Curves</div></a>
     <a class="tnav-btn next" href="../cross-validation/"><div class="tnav-dir">Next →</div><div class="tnav-name">Cross-Validation Done Right</div></a>
@@ -158,6 +167,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

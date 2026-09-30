@@ -15,7 +15,7 @@
 */
 import { createServer } from 'node:http';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { extname, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -100,11 +100,48 @@ function describe(content) {
   return t;
 }
 
-function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
+/* The topic's own share card (scripts/build-topic-images.mjs), versioned by
+   its hash so social platforms refetch a rebuilt one; the collection's card
+   when there isn't one yet. */
+function ogImageFor(col, topic) {
+  const card = join(ROOT, 'assets', 'og', 'topics', col.dir, `${topic.id}.jpg`);
+  if (existsSync(card)) {
+    const v = createHash('sha256').update(readFileSync(card)).digest('hex').slice(0, 8);
+    return `${SITE}/assets/og/topics/${col.dir}/${topic.id}.jpg?v=${v}`;
+  }
+  return `${SITE}/assets/${col.og.startsWith('og-') ? 'og/' : ''}${col.og}`;
+}
+
+/* "Linked from": the topics whose pattern bridges point here, from
+   connections.json, written into the page rather than added by script so
+   crawlers see the links. They go to the other topics' pre-rendered pages
+   (/llm/kv-cache/), which search engines index — not to reader #hashes,
+   which they fold into the collection page. The same markup
+   js/connections.js renders in the readers. */
+function linkedFromHtml(col, topic, up, connections) {
+  const from = connections && connections.linkedFrom[`/${col.dir}/#${topic.id}`];
+  if (!from || !from.length) return '';
+  const items = from.map(k => {
+    const t = connections.topics[k];
+    const href = up + k.slice(1).replace('/#', '/') + '/';
+    return `    <li><a href="${href}"><span class="tc-col">${esc(t.c)}</span>` +
+      `<span class="tc-title">${esc(t.t)}</span>` +
+      (t.p ? `<span class="tc-pattern">${esc(t.p)}</span>` : '') + `</a></li>`;
+  }).join('\n');
+  return `  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">${from.length}</span></div>
+    <ul>
+${items}
+    </ul>
+  </section>
+`;
+}
+
+function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connections }) {
   const up = '../'.repeat(col.depth + 1);          // site root from /<col>/<id>/
   const coll = '../';                              // collection root
   const url = `${SITE}/${col.dir}/${topic.id}/`;
-  const ogImage = `${SITE}/assets/${col.og.startsWith('og-') ? 'og/' : ''}${col.og}`;
+  const ogImage = ogImageFor(col, topic);
   const title = `${topic.title} — ${col.label}`;
   const desc = describe(topic.content);
   const nav = [
@@ -137,6 +174,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
   <meta property="og:image" content="${ogImage}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${esc(topic.title)} — ${esc(col.label)}, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(desc)}">
@@ -146,6 +184,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc }) {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": ${JSON.stringify(topic.title)},
+    "image": ${JSON.stringify(ogImage)},
     "description": ${JSON.stringify(desc)},
     "url": ${JSON.stringify(url)},
     "mainEntityOfPage": { "@type": "WebPage", "@id": ${JSON.stringify(url)} },
@@ -207,7 +246,7 @@ ${['/ml/','/stats/','/markets/','/essays/','/cases/','/sandbox/','/lab/','/start
     <a href="${up}index.html">Home</a> / <a href="${coll}">${esc(col.label)}</a> / ${esc(topic.title)}
   </div>
 ${html}
-  <div class="topic-nav">
+${linkedFromHtml(col, topic, up, connections)}  <div class="topic-nav">
     ${nav}
   </div>
   <a class="reader-link" href="${coll}#${topic.id}">Open in the full reader, with the topic sidebar →</a>
@@ -236,7 +275,7 @@ window.addEventListener('load', function () {
 </script>
 <script src="${up}js/progress.js?v=1" defer></script>
 <script src="${up}js/return-trail.js?v=1" defer></script>
-<script src="${up}js/connections.js?v=2" defer></script>
+<script src="${up}js/connections.js?v=3" defer></script>
 </body>
 </html>
 `;
@@ -375,6 +414,9 @@ async function run() {
   const targets = keys.length ? keys : ['stats'];
   let stale = 0, written = 0;
   const urls = [];
+  // Built from these pages by scripts/build.mjs; feeds each page's "Linked from".
+  const connPath = join(ROOT, 'connections.json');
+  const connections = existsSync(connPath) ? JSON.parse(await readFile(connPath, 'utf8')) : null;
 
   for (const key of targets) {
     const { col, data, sections } = await extract(key);
@@ -391,7 +433,7 @@ async function run() {
       const topic = data[i];
       const out = join(ROOT, col.dir, topic.id, 'index.html');
       const body = page({
-        topic, html: rebase(topic.html), col, key, fingerprint, vizSrc,
+        topic, html: rebase(topic.html), col, key, fingerprint, vizSrc, connections,
         prev: i > 0 ? data[i - 1] : null,
         next: i < data.length - 1 ? data[i + 1] : null,
       });

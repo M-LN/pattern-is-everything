@@ -27,10 +27,16 @@
     return loading;
   }
 
-  /* "/ml-math/#activation" for any link to a topic, else null. */
+  /* "/ml-math/#activation" for a link to a topic, whether it points at the
+     reader (/ml-math/#activation) or at the pre-rendered page
+     (/ml-math/activation/, as the generated "Linked from" lists do). Null
+     for anything else; a key that names no topic just finds no card. */
   function keyOf(a) {
-    if (!a || a.origin !== location.origin || !a.hash) return null;
-    return a.pathname.replace(/index\.html$/, '') + a.hash;
+    if (!a || a.origin !== location.origin) return null;
+    var path = a.pathname.replace(/index\.html$/, '');
+    if (a.hash) return path + a.hash;
+    var m = path.match(/^(\/.+\/)([^/]+)\/$/);
+    return m ? m[1] + '#' + m[2] : null;
   }
 
   /* This page's key for a topic id: a reader lives at /<col>/, a pre-rendered
@@ -105,7 +111,7 @@
   }
 
   function candidate(e) {
-    var a = e.target.closest && e.target.closest('.topic a[href]');
+    var a = e.target.closest && e.target.closest('.topic a[href], .topic-connections a[href]');
     if (!a || a.closest('.heading-anchor') || a.classList.contains('heading-anchor')) return null;
     var key = keyOf(a);
     // A link to the topic being read isn't going anywhere.
@@ -170,6 +176,7 @@
   window.Connections = { render: render };
 
   // A pre-rendered page holds exactly one topic.
+  // It usually carries its list already, written by scripts/prerender.mjs.
   var only = document.querySelector('.topic-page .topic');
-  if (only) render(only.id);
+  if (only && !document.querySelector('.topic-connections')) render(only.id);
 })();

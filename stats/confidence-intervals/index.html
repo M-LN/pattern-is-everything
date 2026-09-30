@@ -20,18 +20,20 @@
   <meta property="og:description" content="How sure are you? — bootstrap and parametric confidence intervals, and interpreting their width.">
   <meta property="og:url" content="https://patterniseverything.com/stats/confidence-intervals/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/confidence-intervals.jpg?v=22c3cdcd">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Confidence Intervals — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Confidence Intervals — The Toolkit">
   <meta name="twitter:description" content="How sure are you? — bootstrap and parametric confidence intervals, and interpreting their width.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/confidence-intervals.jpg?v=22c3cdcd">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Confidence Intervals",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/confidence-intervals.jpg?v=22c3cdcd",
     "description": "How sure are you? — bootstrap and parametric confidence intervals, and interpreting their width.",
     "url": "https://patterniseverything.com/stats/confidence-intervals/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/confidence-intervals/" },
@@ -128,6 +130,20 @@ ci_boot = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97
   <div class="callout bridge"><strong>Pattern bridge:</strong> CIs quantify uncertainty. In ML, report metric ± CI from <a href="#cross-validation">cross-validation</a>. In markets, <a href="#monte-carlo">Monte Carlo</a> confidence bands are CIs for portfolio outcomes.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">9</span></div>
+    <ul>
+    <li><a href="../../markets/charts/channels/"><span class="tc-col">Chart Patterns</span><span class="tc-title">Channels</span><span class="tc-pattern">Two parallel trendlines containing price</span></a></li>
+    <li><a href="../../markets/charts/descending-triangle/"><span class="tc-col">Chart Patterns</span><span class="tc-title">Descending Triangle</span><span class="tc-pattern">Flat support + falling highs = sellers pressing lower</span></a></li>
+    <li><a href="../../markets/indicators/ichimoku/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Ichimoku Cloud</span><span class="tc-pattern">Five lines: Tenkan-sen (9-period midpoint), Kijun-sen (26-period midpoint), Senkou Span A &amp; B (cloud boundaries), Chikou (lagging close).</span></a></li>
+    <li><a href="../../markets/indicators/keltner-channels/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Keltner Channels</span><span class="tc-pattern">Middle = EMA(20), Upper = EMA + 2×ATR(10), Lower = EMA − 2×ATR(10).</span></a></li>
+    <li><a href="../../markets/psychology/overconfidence/"><span class="tc-col">Market Psychology</span><span class="tc-title">Overconfidence</span><span class="tc-pattern">Believing you know more than you do.</span></a></li>
+    <li><a href="../../markets/risk/value-at-risk/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Value at Risk (VaR)</span><span class="tc-pattern">Maximum expected loss at a chosen confidence level over a given horizon</span></a></li>
+    <li><a href="../../ml-math/bias-variance/"><span class="tc-col">ML Math</span><span class="tc-title">Bias-Variance Tradeoff</span><span class="tc-pattern">The fundamental tension between underfitting and overfitting</span></a></li>
+    <li><a href="../../mlops/alerting-slos/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Alerting &amp; SLOs</span><span class="tc-pattern">Latency budgets, error budgets, and avoiding alert fatigue</span></a></li>
+    <li><a href="../../mlops/fairness-audits/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Fairness Audits</span><span class="tc-pattern">Testing for bias across protected groups</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../survivorship-bias/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Survivorship &amp; Look-Ahead Bias</div></a>
     <a class="tnav-btn next" href="../bootstrap-methods/"><div class="tnav-dir">Next →</div><div class="tnav-name">Bootstrap Methods</div></a>
@@ -158,6 +174,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

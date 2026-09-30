@@ -14,6 +14,7 @@
         and a canvas on its pre-rendered page
      7. Every relative or root-absolute <a href> points at a file that exists
      8. connections.json matches the pre-rendered pages it is built from
+     9. Pre-rendered pages carry the current "Linked from" list and share card
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -286,6 +287,41 @@ console.log('8. connections.json');
     const c = JSON.parse(built);
     ok(`${Object.keys(c.topics).length} topics, ${Object.keys(c.linkedFrom).length} with incoming links`);
   }
+}
+
+/* ── 9. What the pre-rendered pages carry from the builds ──
+   Each page's written-in "Linked from" list must match connections.json,
+   and its og:image must name the current version of its share card. Both
+   drift when the graph or the images are rebuilt without re-rendering. */
+console.log('9. Pre-rendered "Linked from" lists and share cards');
+{
+  const c = JSON.parse(readFileSync('connections.json', 'utf8'));
+  let pages = 0, badLinks = 0, badCards = 0;
+  for (const key of Object.keys(c.topics)) {
+    const [colPath, id] = key.split('#');
+    const file = join('.', colPath, id, 'index.html');
+    if (!existsSync(file)) continue;
+    pages++;
+    const html = readFileSync(file, 'utf8');
+    const sec = html.match(/<section class="topic-connections"[\s\S]*?<\/section>/);
+    const listed = sec ? [...sec[0].matchAll(/href="((?:\.\.\/)+)([^"]+)\/"/g)]
+      .map(m => '/' + m[2].replace(/\/([^/]+)$/, '/#$1')).sort() : [];
+    const expected = (c.linkedFrom[key] || []).slice().sort();
+    if (listed.join() !== expected.join()) {
+      badLinks++;
+      if (badLinks <= 5) fail(`${file}: "Linked from" lists ${listed.length}, connections.json has ${expected.length}`);
+    }
+    const card = join('assets', 'og', 'topics', colPath.slice(1), `${id}.jpg`);
+    if (existsSync(card)) {
+      const v = createHash('sha256').update(readFileSync(card)).digest('hex').slice(0, 8);
+      if (!html.includes(`og:image" content="https://patterniseverything.com/assets/og/topics/${colPath.slice(1)}${id}.jpg?v=${v}"`)) {
+        badCards++;
+        if (badCards <= 5) fail(`${file}: og:image is not the current share card`);
+      }
+    }
+  }
+  if (badLinks + badCards > 5) fail(`…${badLinks} list and ${badCards} card mismatches in all — run: node scripts/prerender.mjs <collections>`);
+  if (!badLinks && !badCards) ok(`${pages} pages match connections.json and their share cards`);
 }
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);

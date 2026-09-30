@@ -20,18 +20,20 @@
   <meta property="og:description" content="The point-wise FFN after attention — SwiGLU activations and the 2/3 expansion trick.">
   <meta property="og:url" content="https://patterniseverything.com/llm/feed-forward/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/llm/feed-forward.jpg?v=1fcca161">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Feed-Forward Networks — LLM Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Feed-Forward Networks — LLM Engineering">
   <meta name="twitter:description" content="The point-wise FFN after attention — SwiGLU activations and the 2/3 expansion trick.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/llm/feed-forward.jpg?v=1fcca161">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Feed-Forward Networks",
+    "image": "https://patterniseverything.com/assets/og/topics/llm/feed-forward.jpg?v=1fcca161",
     "description": "The point-wise FFN after attention — SwiGLU activations and the 2/3 expansion trick.",
     "url": "https://patterniseverything.com/llm/feed-forward/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/llm/feed-forward/" },
@@ -124,6 +126,12 @@ class SwiGLU_FFN(nn.Module):
   <div class="callout bridge"><strong>Pattern bridge:</strong> The MLP after attention stores factual knowledge — the model’s memory bank. Like <a href="../../ml-math/#activation">activation functions</a> that add non-linearity after linear attention.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../timeseries/rnn-for-ts/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">RNNs for Time Series</span><span class="tc-pattern">Sequence processing with recurrent memory</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../multi-head-attention/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Multi-Head Attention</div></a>
     <a class="tnav-btn next" href="../transformer-block/"><div class="tnav-dir">Next →</div><div class="tnav-name">Transformer Block</div></a>
@@ -154,6 +162,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

@@ -20,18 +20,20 @@
   <meta property="og:description" content="Giving transformers a sense of order — sinusoidal, RoPE, and ALiBi positional encodings.">
   <meta property="og:url" content="https://patterniseverything.com/llm/positional-encoding/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/llm/positional-encoding.jpg?v=313e04a6">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Positional Encoding — LLM Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Positional Encoding — LLM Engineering">
   <meta name="twitter:description" content="Giving transformers a sense of order — sinusoidal, RoPE, and ALiBi positional encodings.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/llm/positional-encoding.jpg?v=313e04a6">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Positional Encoding",
+    "image": "https://patterniseverything.com/assets/og/topics/llm/positional-encoding.jpg?v=313e04a6",
     "description": "Giving transformers a sense of order — sinusoidal, RoPE, and ALiBi positional encodings.",
     "url": "https://patterniseverything.com/llm/positional-encoding/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/llm/positional-encoding/" },
@@ -126,6 +128,13 @@ pe = sinusoidal_pe(512, 256)
   <div class="callout bridge"><strong>Pattern bridge:</strong> Injecting position via sinusoids so the model knows word order. In markets, <a href="../../markets/indicators/#aroon">Aroon</a> encodes "time since" as position information.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">2</span></div>
+    <ul>
+    <li><a href="../../timeseries/prophet/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Prophet</span><span class="tc-pattern">Decomposable forecasting at scale</span></a></li>
+    <li><a href="../../timeseries/transformers-for-ts/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Transformers for Time Series</span><span class="tc-pattern">Attention-based forecasting at scale</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../embeddings/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Token Embeddings</div></a>
     <a class="tnav-btn next" href="../self-attention/"><div class="tnav-dir">Next →</div><div class="tnav-name">Self-Attention</div></a>
@@ -156,6 +165,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

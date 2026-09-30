@@ -54,8 +54,11 @@ export function buildConnections(root = '.') {
       if (existsSync(thumb)) topics[key].i = createHash('sha256').update(readFileSync(thumb)).digest('hex').slice(0, 8);
       // Only the topic's own markup: between its opening div and the
       // generated prev/next links, so the header, crumbs and nav don't count.
+      // The generated "Linked from" list sits there too, and is built from
+      // this graph — stop before it, so it never feeds back in.
       const start = html.indexOf('<div class="topic"');
-      const end = html.indexOf('<div class="topic-nav">', start);
+      const conn = html.indexOf('<section class="topic-connections"', start);
+      const end = conn !== -1 ? conn : html.indexOf('<div class="topic-nav">', start);
       const body = html.slice(start, end);
       const out = new Set();
       for (const m of body.matchAll(/<a\b[^>]*?\shref="([^"]+)"/g)) {

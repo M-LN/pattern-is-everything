@@ -20,18 +20,20 @@
   <meta property="og:description" content="Weighted averages of past observations — from simple smoothing to Holt-Winters with trend and seasonality.">
   <meta property="og:url" content="https://patterniseverything.com/timeseries/exponential-smoothing/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/timeseries/exponential-smoothing.jpg?v=a991dc8f">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Exponential Smoothing — Timeseries Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Exponential Smoothing — Timeseries Engineering">
   <meta name="twitter:description" content="Weighted averages of past observations — from simple smoothing to Holt-Winters with trend and seasonality.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/timeseries/exponential-smoothing.jpg?v=a991dc8f">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Exponential Smoothing",
+    "image": "https://patterniseverything.com/assets/og/topics/timeseries/exponential-smoothing.jpg?v=a991dc8f",
     "description": "Weighted averages of past observations — from simple smoothing to Holt-Winters with trend and seasonality.",
     "url": "https://patterniseverything.com/timeseries/exponential-smoothing/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/timeseries/exponential-smoothing/" },
@@ -121,6 +123,12 @@ forecast = model.forecast(steps=<span class="st">12</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Exponential smoothing with α is exactly how <a href="../../markets/indicators/#ema">Exponential Moving Averages (EMA)</a> work in technical analysis. The same α parameter appears in <a href="../../ml-math/#optimizers">momentum optimizers</a>.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../markets/indicators/wma/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Weighted Moving Average</span><span class="tc-pattern">Assigns linearly increasing weights to recent prices — the most recent gets weight N, the previous N−1, etc.</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../sarima/"><div class="tnav-dir">← Previous</div><div class="tnav-name">SARIMA</div></a>
     <a class="tnav-btn next" href="../prophet/"><div class="tnav-dir">Next →</div><div class="tnav-name">Prophet</div></a>
@@ -151,6 +159,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

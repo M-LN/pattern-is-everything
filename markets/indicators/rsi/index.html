@@ -20,18 +20,20 @@
   <meta property="og:description" content="RSI = 100 − 100/(1 + RS), where RS = Avg Gain / Avg Loss over N periods (default 14). Ranges 0–100. Above 70 = overbought, below 30 = oversold.…">
   <meta property="og:url" content="https://patterniseverything.com/markets/indicators/rsi/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/rsi.jpg?v=37aca4be">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Relative Strength Index — Technical Indicators, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Relative Strength Index — Technical Indicators">
   <meta name="twitter:description" content="RSI = 100 − 100/(1 + RS), where RS = Avg Gain / Avg Loss over N periods (default 14). Ranges 0–100. Above 70 = overbought, below 30 = oversold.…">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/rsi.jpg?v=37aca4be">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Relative Strength Index",
+    "image": "https://patterniseverything.com/assets/og/topics/markets/indicators/rsi.jpg?v=37aca4be",
     "description": "RSI = 100 − 100/(1 + RS), where RS = Avg Gain / Avg Loss over N periods (default 14). Ranges 0–100. Above 70 = overbought, below 30 = oversold.…",
     "url": "https://patterniseverything.com/markets/indicators/rsi/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/markets/indicators/rsi/" },
@@ -108,6 +110,15 @@ df['RSI_14'] = ta.rsi(df['Close'], length=14)
 df['signal'] = (df['RSI_14'] &lt; 30).astype(int).shift(1).fillna(0)
 df['strategy'] = df['signal'] * df['Close'].pct_change()
 print(df[['Close', 'RSI_14', 'signal', 'strategy']].tail())</code></pre></div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">4</span></div>
+    <ul>
+    <li><a href="../../../llm/multi-head-attention/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Multi-Head Attention</span><span class="tc-pattern">Running multiple attention computations in parallel</span></a></li>
+    <li><a href="../../../markets/indicators/mfi/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Money Flow Index</span><span class="tc-pattern">MFI is &quot;RSI with volume.</span></a></li>
+    <li><a href="../../../ml-math/gru/"><span class="tc-col">ML Math</span><span class="tc-title">GRU</span><span class="tc-pattern">LSTM's streamlined sibling — two gates, one state vector</span></a></li>
+    <li><a href="../../../stats/roc-auc/"><span class="tc-col">The Toolkit</span><span class="tc-title">ROC &amp; AUC Curves</span><span class="tc-pattern">Visualising model performance across all thresholds</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../vwap/"><div class="tnav-dir">← Previous</div><div class="tnav-name">VWAP</div></a>
     <a class="tnav-btn next" href="../stochastic/"><div class="tnav-dir">Next →</div><div class="tnav-name">Stochastic Oscillator</div></a>
@@ -138,6 +149,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../../js/progress.js?v=1" defer></script>
 <script src="../../../js/return-trail.js?v=1" defer></script>
-<script src="../../../js/connections.js?v=2" defer></script>
+<script src="../../../js/connections.js?v=3" defer></script>
 </body>
 </html>

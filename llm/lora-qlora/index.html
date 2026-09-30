@@ -20,18 +20,20 @@
   <meta property="og:description" content="Parameter-efficient fine-tuning — low-rank adapters that train &lt;1% of weights.">
   <meta property="og:url" content="https://patterniseverything.com/llm/lora-qlora/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/llm/lora-qlora.jpg?v=1d6758b9">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="LoRA &amp; QLoRA — LLM Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="LoRA &amp; QLoRA — LLM Engineering">
   <meta name="twitter:description" content="Parameter-efficient fine-tuning — low-rank adapters that train &lt;1% of weights.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/llm/lora-qlora.jpg?v=1d6758b9">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "LoRA & QLoRA",
+    "image": "https://patterniseverything.com/assets/og/topics/llm/lora-qlora.jpg?v=1d6758b9",
     "description": "Parameter-efficient fine-tuning — low-rank adapters that train <1% of weights.",
     "url": "https://patterniseverything.com/llm/lora-qlora/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/llm/lora-qlora/" },
@@ -126,6 +128,13 @@ model.print_trainable_parameters()
   <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank updates that modify a frozen model with minimal parameters. The <a href="../../ml-math/#lora">ML math behind LoRA</a> is SVD-inspired rank reduction.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">2</span></div>
+    <ul>
+    <li><a href="../../ml-math/lora/"><span class="tc-col">ML Math</span><span class="tc-title">LoRA</span><span class="tc-pattern">Training billion-parameter models by updating only tiny low-rank matrices</span></a></li>
+    <li><a href="../../ml-math/svd/"><span class="tc-col">ML Math</span><span class="tc-title">SVD</span><span class="tc-pattern">Decomposing any matrix into rotation, scaling, and rotation</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../fine-tuning/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Fine-Tuning</div></a>
     <a class="tnav-btn next" href="../rlhf/"><div class="tnav-dir">Next →</div><div class="tnav-name">RLHF</div></a>
@@ -156,6 +165,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

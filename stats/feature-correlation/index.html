@@ -20,18 +20,20 @@
   <meta property="og:description" content="Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop.">
   <meta property="og:url" content="https://patterniseverything.com/stats/feature-correlation/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/feature-correlation.jpg?v=f1d6e805">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Feature Correlation &amp; Multicollinearity — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Feature Correlation &amp; Multicollinearity — The Toolkit">
   <meta name="twitter:description" content="Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/feature-correlation.jpg?v=f1d6e805">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Feature Correlation & Multicollinearity",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/feature-correlation.jpg?v=f1d6e805",
     "description": "Spotting redundant features — correlation heatmaps, VIF, and deciding what to drop.",
     "url": "https://patterniseverything.com/stats/feature-correlation/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/feature-correlation/" },
@@ -127,6 +129,19 @@ vif[<span class="st">'VIF'</span>] = [variance_inflation_factor(X.values, i)
   <div class="callout"><strong>Drop rule:</strong> If two features have |r| &gt; 0.9, drop the one less correlated with the target, or the one with higher VIF.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">8</span></div>
+    <ul>
+    <li><a href="../../llm/multi-head-attention/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Multi-Head Attention</span><span class="tc-pattern">Running multiple attention computations in parallel</span></a></li>
+    <li><a href="../../llm/self-attention/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Self-Attention</span><span class="tc-pattern">The mechanism that lets every token look at every other token</span></a></li>
+    <li><a href="../../markets/indicators/mfi/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Money Flow Index</span><span class="tc-pattern">MFI is &quot;RSI with volume.</span></a></li>
+    <li><a href="../../markets/risk/correlation-risk/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Correlation Risk</span><span class="tc-pattern">Correlations shift in crises — diversification can vanish when you need it most</span></a></li>
+    <li><a href="../../ml-math/cosine-sim/"><span class="tc-col">ML Math</span><span class="tc-title">Cosine Similarity</span><span class="tc-pattern">Measuring angular similarity between vectors — the backbone of retrieval</span></a></li>
+    <li><a href="../../mlops/model-compression/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Model Compression</span><span class="tc-pattern">Pruning, distillation, and the lottery ticket hypothesis</span></a></li>
+    <li><a href="../../timeseries/autocorrelation/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Autocorrelation (ACF/PACF)</span><span class="tc-pattern">Measuring how a series remembers its own past</span></a></li>
+    <li><a href="../../timeseries/var-models/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">VAR Models</span><span class="tc-pattern">Multiple series forecasting each other</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../pdp-ice/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Partial Dependence &amp; ICE</div></a>
     <a class="tnav-btn next" href="../information-gain/"><div class="tnav-dir">Next →</div><div class="tnav-name">Information Gain &amp; Mutual Information</div></a>
@@ -157,6 +172,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

@@ -20,18 +20,20 @@
   <meta property="og:description" content="True Range = max(High−Low, |High−Prev Close|, |Low−Prev Close|). ATR = smoothed average of TR over N periods (default 14). NOT directional — purely…">
   <meta property="og:url" content="https://patterniseverything.com/markets/indicators/atr/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/atr.jpg?v=380af29e">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Average True Range — Technical Indicators, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Average True Range — Technical Indicators">
   <meta name="twitter:description" content="True Range = max(High−Low, |High−Prev Close|, |Low−Prev Close|). ATR = smoothed average of TR over N periods (default 14). NOT directional — purely…">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/markets/indicators/atr.jpg?v=380af29e">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Average True Range",
+    "image": "https://patterniseverything.com/assets/og/topics/markets/indicators/atr.jpg?v=380af29e",
     "description": "True Range = max(High−Low, |High−Prev Close|, |Low−Prev Close|). ATR = smoothed average of TR over N periods (default 14). NOT directional — purely…",
     "url": "https://patterniseverything.com/markets/indicators/atr/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/markets/indicators/atr/" },
@@ -99,6 +101,16 @@
 <p>The <strong>Average True Range</strong> — Wilder's volatility measure (1978). Purely measures volatility, NOT direction.</p>
 <div class="fb">True Range = max(H−L, |H−Prev Close|, |L−Prev Close|)<br>ATR = Smoothed average of TR over N periods (default 14)</div>
 <div class="callout"><strong>Practical uses:</strong><br>• <strong>Position sizing:</strong> Risk 1–2 ATR per trade → adapts to current volatility<br>• <strong>Stop loss:</strong> Place stops 1.5–2× ATR from entry<br>• <strong>Volatility filter:</strong> High ATR = trending market; low ATR = ranging</div></div><div class="callout bridge"><strong>Pattern bridge:</strong> Average True Range measures volatility as mean absolute deviation — a close cousin of <a href="../../../markets/indicators/#standard-deviation">standard deviation</a>. In ML, <a href="../../../ml-math/#grad-clip">gradient clipping</a> uses a similar magnitude threshold.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">5</span></div>
+    <ul>
+    <li><a href="../../../markets/risk/fixed-fractional/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Fixed Fractional Sizing</span><span class="tc-pattern">Risk a constant percentage of equity on each trade</span></a></li>
+    <li><a href="../../../markets/risk/risk-parity/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Risk Parity</span><span class="tc-pattern">Weight assets so each contributes equally to total portfolio risk</span></a></li>
+    <li><a href="../../../markets/risk/stop-losses/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Stop-Loss Strategies</span><span class="tc-pattern">Mechanical exit rules to limit drawdowns</span></a></li>
+    <li><a href="../../../markets/risk/volatility-sizing/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Volatility-Based Sizing</span><span class="tc-pattern">Normalize position size by asset volatility</span></a></li>
+    <li><a href="../../../ml-math/grad-clip/"><span class="tc-col">ML Math</span><span class="tc-title">Gradient Clipping</span><span class="tc-pattern">Preventing exploding gradients by capping their magnitude</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../bollinger-bands/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Bollinger Bands</div></a>
     <a class="tnav-btn next" href="../keltner-channels/"><div class="tnav-dir">Next →</div><div class="tnav-name">Keltner Channels</div></a>
@@ -129,6 +141,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../../js/progress.js?v=1" defer></script>
 <script src="../../../js/return-trail.js?v=1" defer></script>
-<script src="../../../js/connections.js?v=2" defer></script>
+<script src="../../../js/connections.js?v=3" defer></script>
 </body>
 </html>

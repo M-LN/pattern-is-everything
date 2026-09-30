@@ -20,18 +20,20 @@
   <meta property="og:description" content="The silent traps that make your backtest a fantasy — and how to avoid them.">
   <meta property="og:url" content="https://patterniseverything.com/stats/survivorship-bias/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/survivorship-bias.jpg?v=8cc96121">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Survivorship &amp; Look-Ahead Bias — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Survivorship &amp; Look-Ahead Bias — The Toolkit">
   <meta name="twitter:description" content="The silent traps that make your backtest a fantasy — and how to avoid them.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/survivorship-bias.jpg?v=8cc96121">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Survivorship & Look-Ahead Bias",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/survivorship-bias.jpg?v=8cc96121",
     "description": "The silent traps that make your backtest a fantasy — and how to avoid them.",
     "url": "https://patterniseverything.com/stats/survivorship-bias/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/survivorship-bias/" },
@@ -127,6 +129,15 @@ df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'tra
   <div class="callout info"><strong>Data snooping:</strong> If you tested 100 strategies, 5 will look significant at p &lt; 0.05 by pure chance. Adjust for multiple comparisons (Bonferroni) or use a holdout period you never touch.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">4</span></div>
+    <ul>
+    <li><a href="../../mlops/data-quality/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Data Quality Gates</span><span class="tc-pattern">Automated checks that stop bad data before it reaches your model</span></a></li>
+    <li><a href="../../mlops/feature-stores/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Feature Stores</span><span class="tc-pattern">Centralized feature management with online/offline consistency</span></a></li>
+    <li><a href="../../mlops/reproducibility/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Reproducibility</span><span class="tc-pattern">Ensuring any result can be replicated exactly</span></a></li>
+    <li><a href="../../timeseries/cross-validation-ts/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Cross-Validation for TS</span><span class="tc-pattern">Never shuffle time series</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../monte-carlo/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Monte Carlo Simulation</div></a>
     <a class="tnav-btn next" href="../confidence-intervals/"><div class="tnav-dir">Next →</div><div class="tnav-name">Confidence Intervals</div></a>
@@ -157,6 +168,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

@@ -20,18 +20,20 @@
   <meta property="og:description" content="Is version B actually better? Bayesian credible intervals and probability of improvement.">
   <meta property="og:url" content="https://patterniseverything.com/stats/bayesian-ab/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/bayesian-ab.jpg?v=f58f8338">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bayesian A/B Testing — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bayesian A/B Testing — The Toolkit">
   <meta name="twitter:description" content="Is version B actually better? Bayesian credible intervals and probability of improvement.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/bayesian-ab.jpg?v=f58f8338">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Bayesian A/B Testing",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/bayesian-ab.jpg?v=f58f8338",
     "description": "Is version B actually better? Bayesian credible intervals and probability of improvement.",
     "url": "https://patterniseverything.com/stats/bayesian-ab/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/bayesian-ab/" },
@@ -132,6 +134,16 @@ print(<span class="st">f"P(B &gt; A) = {p_b_wins:.3f}"</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../../ml-math/#bayes">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../../markets/psychology/#market-sentiment-cycle">market sentiment</a> — prices update beliefs with every new trade.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">5</span></div>
+    <ul>
+    <li><a href="../../llm/pre-training/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Pre-Training</span><span class="tc-pattern">Learning language from trillions of tokens</span></a></li>
+    <li><a href="../../llm/rag/"><span class="tc-col">LLM Engineering</span><span class="tc-title">RAG</span><span class="tc-pattern">Grounding LLM answers in your own documents</span></a></li>
+    <li><a href="../../markets/psychology/smart-money-dumb-money/"><span class="tc-col">Market Psychology</span><span class="tc-title">Smart Money vs. Dumb Money</span><span class="tc-pattern">&quot;Smart money&quot; (institutions, insiders) tends to buy during fear and sell during euphoria.</span></a></li>
+    <li><a href="../../ml-math/bayes/"><span class="tc-col">ML Math</span><span class="tc-title">Bayes' Theorem</span><span class="tc-pattern">Updating beliefs with evidence — the foundation of probabilistic ML</span></a></li>
+    <li><a href="../../mlops/ab-rollout/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">A/B &amp; Canary Rollouts</span><span class="tc-pattern">Ship models safely with progressive traffic splitting</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../bootstrap-methods/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Bootstrap Methods</div></a>
     <a class="tnav-btn next" href="../effect-size/"><div class="tnav-dir">Next →</div><div class="tnav-name">Effect Size &amp; Practical Significance</div></a>
@@ -162,6 +174,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

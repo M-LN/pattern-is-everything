@@ -20,18 +20,20 @@
   <meta property="og:description" content="Normalizing activations to keep training stable and fast across layers.">
   <meta property="og:url" content="https://patterniseverything.com/ml-math/batchnorm/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/ml-math/batchnorm.jpg?v=19016bb7">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Batch Normalization — ML Math, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Batch Normalization — ML Math">
   <meta name="twitter:description" content="Normalizing activations to keep training stable and fast across layers.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/ml-math/batchnorm.jpg?v=19016bb7">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Batch Normalization",
+    "image": "https://patterniseverything.com/assets/og/topics/ml-math/batchnorm.jpg?v=19016bb7",
     "description": "Normalizing activations to keep training stable and fast across layers.",
     "url": "https://patterniseverything.com/ml-math/batchnorm/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/ml-math/batchnorm/" },
@@ -117,6 +119,19 @@
   <div class="callout bridge"><strong>Pattern bridge:</strong> Normalizing activations to zero mean and unit variance is exactly <a href="../../stats/#outlier-detection">z-score standardization</a> from statistics. Markets use the same logic: <a href="../../markets/indicators/#bollinger-bands">Bollinger Bands</a> normalize price relative to its rolling mean and standard deviation.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">8</span></div>
+    <ul>
+    <li><a href="../../markets/charts/channels/"><span class="tc-col">Chart Patterns</span><span class="tc-title">Channels</span><span class="tc-pattern">Two parallel trendlines containing price</span></a></li>
+    <li><a href="../../markets/charts/rectangle/"><span class="tc-col">Chart Patterns</span><span class="tc-title">Rectangle</span><span class="tc-pattern">Horizontal support and resistance — a consolidation box</span></a></li>
+    <li><a href="../../markets/indicators/bollinger-bands/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Bollinger Bands</span><span class="tc-pattern">Middle = SMA(20), Upper = SMA + 2σ, Lower = SMA − 2σ.</span></a></li>
+    <li><a href="../../markets/indicators/cci/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Commodity Channel Index</span><span class="tc-pattern">CCI = (Typical Price − SMA) / (0.</span></a></li>
+    <li><a href="../../markets/indicators/standard-deviation/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Standard Deviation</span><span class="tc-pattern">σ = √(Σ(x−μ)²/N).</span></a></li>
+    <li><a href="../../markets/indicators/vwap-bands/"><span class="tc-col">Technical Indicators</span><span class="tc-title">VWAP Bands</span><span class="tc-pattern">Standard deviation bands around VWAP: VWAP ± 1σ, 2σ, 3σ.</span></a></li>
+    <li><a href="../../markets/psychology/mean-reversion-psychology/"><span class="tc-col">Market Psychology</span><span class="tc-title">Mean Reversion Psychology</span><span class="tc-pattern">Extremes revert to the mean — in statistics AND in psychology.</span></a></li>
+    <li><a href="../../markets/psychology/mental-accounting/"><span class="tc-col">Market Psychology</span><span class="tc-title">Mental Accounting</span><span class="tc-pattern">Treating money differently based on its source or intended use (Richard Thaler).</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../regularization/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Regularization</div></a>
     <a class="tnav-btn next" href="../lr-schedule/"><div class="tnav-dir">Next →</div><div class="tnav-name">LR Scheduling</div></a>
@@ -147,6 +162,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

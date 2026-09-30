@@ -20,18 +20,20 @@
   <meta property="og:description" content="Removing trends and seasonality by subtracting lagged values — the I in ARIMA.">
   <meta property="og:url" content="https://patterniseverything.com/timeseries/differencing/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/timeseries/differencing.jpg?v=6fceb277">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Differencing — Timeseries Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Differencing — Timeseries Engineering">
   <meta name="twitter:description" content="Removing trends and seasonality by subtracting lagged values — the I in ARIMA.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/timeseries/differencing.jpg?v=6fceb277">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Differencing",
+    "image": "https://patterniseverything.com/assets/og/topics/timeseries/differencing.jpg?v=6fceb277",
     "description": "Removing trends and seasonality by subtracting lagged values — the I in ARIMA.",
     "url": "https://patterniseverything.com/timeseries/differencing/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/timeseries/differencing/" },
@@ -120,6 +122,12 @@ sdiff = series.diff(<span class="st">12</span>).dropna()        <span class="cm"
   <div class="callout bridge"><strong>Pattern bridge:</strong> Differencing converts levels to returns — exactly what <a href="../../sandbox/markets/index.html#candlestick-spotter">candlestick charts</a> show. In ML, the concept parallels <a href="../../ml-math/#gradient">gradient computation</a>: the rate of change matters more than the absolute value.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../markets/indicators/roc/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Rate of Change</span><span class="tc-pattern">ROC = ((Close − Close_N) / Close_N) × 100.</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../decomposition/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Decomposition</div></a>
     <a class="tnav-btn next" href="../resampling/"><div class="tnav-dir">Next →</div><div class="tnav-name">Resampling &amp; Frequency</div></a>
@@ -150,6 +158,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

@@ -20,18 +20,20 @@
   <meta property="og:description" content="Simulating thousands of equity paths — confidence bands on strategy performance.">
   <meta property="og:url" content="https://patterniseverything.com/stats/monte-carlo/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/stats/monte-carlo.jpg?v=11622fd0">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Monte Carlo Simulation — The Toolkit, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Monte Carlo Simulation — The Toolkit">
   <meta name="twitter:description" content="Simulating thousands of equity paths — confidence bands on strategy performance.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-stats.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/stats/monte-carlo.jpg?v=11622fd0">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Monte Carlo Simulation",
+    "image": "https://patterniseverything.com/assets/og/topics/stats/monte-carlo.jpg?v=11622fd0",
     "description": "Simulating thousands of equity paths — confidence bands on strategy performance.",
     "url": "https://patterniseverything.com/stats/monte-carlo/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/stats/monte-carlo/" },
@@ -130,6 +132,13 @@ p95 = np.percentile(paths, <span class="st">95</span>, axis=<span class="st">0</
   <div class="callout"><strong>Limitation:</strong> Monte Carlo assumes returns are i.i.d. Real markets have autocorrelation, volatility clustering, and regime changes. Use block bootstrap to preserve some time structure.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">2</span></div>
+    <ul>
+    <li><a href="../../llm/sampling/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Sampling</span><span class="tc-pattern">Controlling creativity by shaping the probability distribution</span></a></li>
+    <li><a href="../../mlops/auto-scaling/"><span class="tc-col">MLOps &amp; Production ML</span><span class="tc-title">Auto-Scaling Endpoints</span><span class="tc-pattern">Scaling with demand — and scaling back to save money</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../walk-forward/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Walk-Forward Validation</div></a>
     <a class="tnav-btn next" href="../survivorship-bias/"><div class="tnav-dir">Next →</div><div class="tnav-name">Survivorship &amp; Look-Ahead Bias</div></a>
@@ -160,6 +169,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

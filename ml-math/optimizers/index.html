@@ -20,18 +20,20 @@
   <meta property="og:description" content="Beyond vanilla SGD — momentum, adaptive learning rates, Adam, and AdamW.">
   <meta property="og:url" content="https://patterniseverything.com/ml-math/optimizers/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/ml-math/optimizers.jpg?v=48b9c31d">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Optimizers — ML Math, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Optimizers — ML Math">
   <meta name="twitter:description" content="Beyond vanilla SGD — momentum, adaptive learning rates, Adam, and AdamW.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/ml-math/optimizers.jpg?v=48b9c31d">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Optimizers",
+    "image": "https://patterniseverything.com/assets/og/topics/ml-math/optimizers.jpg?v=48b9c31d",
     "description": "Beyond vanilla SGD — momentum, adaptive learning rates, Adam, and AdamW.",
     "url": "https://patterniseverything.com/ml-math/optimizers/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/ml-math/optimizers/" },
@@ -123,6 +125,22 @@ optim = torch.optim.AdamW(model.parameters(), lr=<span class="st">1e-3</span>, w
   <div class="callout bridge"><strong>Pattern bridge:</strong> Momentum in Adam is literally <a href="../../markets/indicators/#roc">momentum</a> in trading — using past velocity to guide the next step. <a href="../../markets/indicators/#ema">Exponential moving averages</a> smooth both gradient updates and price series identically.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">11</span></div>
+    <ul>
+    <li><a href="../../llm/agents/"><span class="tc-col">LLM Engineering</span><span class="tc-title">Agents &amp; Planning</span><span class="tc-pattern">Autonomous multi-step reasoning with tools and memory</span></a></li>
+    <li><a href="../../markets/charts/ascending-triangle/"><span class="tc-col">Chart Patterns</span><span class="tc-title">Ascending Triangle</span><span class="tc-pattern">Flat resistance + rising lows = buyers pressing higher</span></a></li>
+    <li><a href="../../markets/indicators/chaikin-oscillator/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Chaikin Oscillator</span><span class="tc-pattern">Chaikin Osc = EMA(3) of A/D Line − EMA(10) of A/D Line.</span></a></li>
+    <li><a href="../../markets/indicators/dema/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Double Exponential MA</span><span class="tc-pattern">DEMA = 2·EMA(N) − EMA(EMA(N)).</span></a></li>
+    <li><a href="../../markets/indicators/ema/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Exponential Moving Average</span><span class="tc-pattern">Weights recent prices more heavily using an exponential smoothing factor: multiplier = 2/(N+1).</span></a></li>
+    <li><a href="../../markets/indicators/parabolic-sar/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Parabolic SAR</span><span class="tc-pattern">SAR = prior SAR + AF × (EP − prior SAR).</span></a></li>
+    <li><a href="../../markets/indicators/stochastic/"><span class="tc-col">Technical Indicators</span><span class="tc-title">Stochastic Oscillator</span><span class="tc-pattern">%K = (Close − Lowest Low) / (Highest High − Lowest Low) × 100.</span></a></li>
+    <li><a href="../../markets/psychology/accumulation-distribution/"><span class="tc-col">Market Psychology</span><span class="tc-title">Accumulation &amp; Distribution</span><span class="tc-pattern">Richard Wyckoff's four market phases: Accumulation (smart money buys quietly), Markup (trend up, public joins), Distribution (smart money sells to public), Markdown (trend down, public panics).</span></a></li>
+    <li><a href="../../markets/psychology/fomo/"><span class="tc-col">Market Psychology</span><span class="tc-title">FOMO</span><span class="tc-pattern">Fear Of Missing Out — the anxiety that others are profiting while you're not.</span></a></li>
+    <li><a href="../../markets/risk/mean-variance/"><span class="tc-col">Risk &amp; Portfolio</span><span class="tc-title">Mean-Variance Optimization</span><span class="tc-pattern">Markowitz efficient frontier — balance return against portfolio variance</span></a></li>
+    <li><a href="../../timeseries/exponential-smoothing/"><span class="tc-col">Timeseries Engineering</span><span class="tc-title">Exponential Smoothing</span><span class="tc-pattern">Weighted averages that fade the past</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../backprop/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Backpropagation</div></a>
     <a class="tnav-btn next" href="../regularization/"><div class="tnav-dir">Next →</div><div class="tnav-name">Regularization</div></a>
@@ -153,6 +171,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>

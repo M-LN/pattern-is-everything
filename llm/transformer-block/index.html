@@ -20,18 +20,20 @@
   <meta property="og:description" content="The fundamental building block — residual connections, layer normalization, and data flow.">
   <meta property="og:url" content="https://patterniseverything.com/llm/transformer-block/">
   <meta property="og:site_name" content="Pattern is Everything">
-  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/topics/llm/transformer-block.jpg?v=53a143fc">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Transformer Block — LLM Engineering, with its visualization">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Transformer Block — LLM Engineering">
   <meta name="twitter:description" content="The fundamental building block — residual connections, layer normalization, and data flow.">
-  <meta name="twitter:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta name="twitter:image" content="https://patterniseverything.com/assets/og/topics/llm/transformer-block.jpg?v=53a143fc">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Transformer Block",
+    "image": "https://patterniseverything.com/assets/og/topics/llm/transformer-block.jpg?v=53a143fc",
     "description": "The fundamental building block — residual connections, layer normalization, and data flow.",
     "url": "https://patterniseverything.com/llm/transformer-block/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://patterniseverything.com/llm/transformer-block/" },
@@ -126,6 +128,12 @@ class TransformerBlock(nn.Module):
   <div class="callout bridge"><strong>Pattern bridge:</strong> The repeated unit: attention → add+norm → FFN → add+norm. In <a href="../../ml-math/#transformer">ML math</a>, the residual connections prevent gradient vanishing.</div>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../ml-math/transformer/"><span class="tc-col">ML Math</span><span class="tc-title">Transformer</span><span class="tc-pattern">The architecture behind BERT, GPT, and all modern LLMs</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../feed-forward/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Feed-Forward Networks</div></a>
     <a class="tnav-btn next" href="../decoder-only/"><div class="tnav-dir">Next →</div><div class="tnav-name">Decoder-Only Models</div></a>
@@ -156,6 +164,6 @@ window.addEventListener('load', function () {
 </script>
 <script src="../../js/progress.js?v=1" defer></script>
 <script src="../../js/return-trail.js?v=1" defer></script>
-<script src="../../js/connections.js?v=2" defer></script>
+<script src="../../js/connections.js?v=3" defer></script>
 </body>
 </html>
