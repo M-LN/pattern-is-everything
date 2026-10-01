@@ -263,7 +263,12 @@
     var h = hay.toLowerCase();
     // Direct substring boost
     var idx = h.indexOf(q);
-    if (idx !== -1) return 1000 - idx;
+    if (idx !== -1) {
+      // A match at the start of a word ("RSI") beats one inside a word
+      // ("conversion"), which used to rank first for the same query.
+      var wordStart = idx === 0 || !/[a-z0-9]/.test(h.charAt(idx - 1));
+      return 1000 - Math.min(idx, 500) + (wordStart ? 600 : 0);
+    }
     // Subsequence
     var qi = 0, score = 0, lastHit = -1, streak = 0;
     for (var i = 0; i < h.length && qi < q.length; i++) {
@@ -426,7 +431,16 @@
     var local = localTopics();
     var ql = q.toLowerCase();
     var scoreLocal = function (entry, own) {
-      var s = fuzzyScore(q, entry.t + ' ' + entry.cat + ' ' + entry.kw);
+      // The topic id carries abbreviations the title spells out ("rsi" for
+      // Relative Strength Index), so it is searchable too.
+      var id = (entry.path.split('#')[1] || '').replace(/-/g, ' ');
+      var s = fuzzyScore(q, entry.t + ' ' + entry.cat + ' ' + entry.kw + ' ' + id);
+      // A hit in the title or id outranks one in another topic's keywords.
+      var inTitle = fuzzyScore(q, entry.t + ' ' + id);
+      if (inTitle >= 0) s = Math.max(s, inTitle + 300);
+      // Names from the topic's text (search-index.json "x": Kelly, McNemar,
+      // Odean…), matched as a substring only, like the description below.
+      if (entry.x && ql.length >= 3 && entry.x.indexOf(ql) !== -1) s = Math.max(s, 700);
       if (own) {
         if (s < 0 && own.desc.toLowerCase().indexOf(ql) !== -1) s = 200;
         if (s >= 0) s += 40;

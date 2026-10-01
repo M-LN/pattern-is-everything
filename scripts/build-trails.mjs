@@ -147,7 +147,7 @@ function toggleTheme() {
 <script src="/js/progress.js?v=1" defer></script>
 <script src="/js/connections.js?v=3" defer></script>
 <script src="/js/trails.js?v=1" defer></script>
-<script src="/js/ui-enhance.js?v=30" defer></script>
+<script src="/js/ui-enhance.js?v=31" defer></script>
 </body>
 </html>
 `;

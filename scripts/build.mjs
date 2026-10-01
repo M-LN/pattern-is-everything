@@ -63,6 +63,45 @@ for (const c of COLLECTIONS) {
     });
   }
 }
+/* Searchable names. The palette matches titles and keywords; the worked
+   examples, failure modes and sources name people and methods (Kelly,
+   McNemar, Odean, GARCH) that appear in neither. From each pre-rendered
+   page, keep the capitalised words that never occur in lower case anywhere
+   in the corpus — names and acronyms, not sentence-initial "The" — as a
+   short extra field, matched by the palette as a plain substring. */
+{
+  const UI = new Set(['interactive', 'linked', 'essays', 'python', 'copy']);
+  const texts = new Map();
+  for (const e of index) {
+    const [col, id] = e.path.split('#');
+    const f = `.${col}${id}/index.html`;
+    if (!existsSync(f)) continue;
+    const h = readFileSync(f, 'utf-8');
+    const a = h.indexOf('<div class="topic');
+    let b = h.indexOf('<section class="topic-connections', a);
+    if (b === -1) b = h.indexOf('class="topic-nav"', a);
+    if (a === -1 || b === -1) continue;
+    texts.set(e.path, h.slice(a, b).replace(/<pre[\s\S]*?<\/pre>/g, ' ')
+      .replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' '));
+  }
+  const WORD = /[A-Za-z][A-Za-z0-9’'-]*/g;
+  const lower = new Set();
+  for (const t of texts.values())
+    for (const w of t.match(WORD) || []) if (/^[a-z]/.test(w)) lower.add(w.toLowerCase().replace(/[’']s$/, ''));
+  for (const e of index) {
+    const t = texts.get(e.path);
+    if (!t) continue;
+    const have = (e.t + ' ' + e.kw).toLowerCase();
+    const terms = new Set();
+    for (let w of t.match(WORD) || []) {
+      w = w.replace(/[’']s$/, '').replace(/-+$/, '');
+      if (w.length < 3 || !/^[A-Z]/.test(w)) continue;
+      const l = w.toLowerCase();
+      if (!lower.has(l) && !UI.has(l) && !have.includes(l)) terms.add(l);
+    }
+    if (terms.size) e.x = [...terms].join(' ');
+  }
+}
 writeFileSync('search-index.json', JSON.stringify(index), 'utf-8');
 console.log(`search-index.json: ${index.length} topics, ${(JSON.stringify(index).length / 1024).toFixed(1)} KB`);
 
