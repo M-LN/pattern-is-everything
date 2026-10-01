@@ -961,6 +961,9 @@ input[type=range]:focus-visible {
 /* --accent3 blue is too dark to read on dark surfaces */
 [data-theme="dark"] .t3 { color: #6fa8ff; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .t3 { color: #6fa8ff; } }
+/* The purple tag read at 3.1:1 on the dark ground; lifted to clear 4.5:1. */
+[data-theme="dark"] .t4 { color: #c39be0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .t4 { color: #c39be0; } }
 
 /* ── Callouts ── */
 .callout {
@@ -3242,6 +3245,13 @@ html:active-view-transition-type(backward)::view-transition-new(root) { animatio
      it, instead of squeezing the title and running off the right edge. */
   .topic-header { flex-wrap: wrap; gap: 8px 10px; }
   .topic-header .topic-meta { flex: 1 1 100%; }
+
+  /* Nothing a phone has to read below 12px. Tables, visualization labels and
+     the "Linked from" cards ran at 9–11px, which left under half a topic
+     page's text legible by Lighthouse's measure. Desktop keeps the tighter
+     mono sizes. */
+  .mt, .mt th, .mt td, .vl,
+  .topic-connections .tc-head, .topic-connections .tc-col, .topic-connections .tc-pattern { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .continue-reading .cr-link { transition: none; }

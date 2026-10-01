@@ -206,7 +206,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
     ]
   }
   </script>
-  <link rel="stylesheet" href="${up}css/main.css?v=28">
+  <link rel="stylesheet" href="${up}css/main.css?v=29">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -231,7 +231,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <nav class="portal-nav" aria-label="Primary">
 ${['/ml/','/stats/','/markets/','/essays/','/cases/','/sandbox/','/lab/','/start/'].map(href => {
       const name = { '/ml/':'ML', '/stats/':'Stats', '/markets/':'Markets', '/essays/':'Essays',
-                     '/cases/':'Cases', '/sandbox/':'Sandbox', '/lab/':'Lab', '/start/':'Start' }[href];
+                     '/cases/':'Cases', '/sandbox/':'Sandbox', '/lab/':'Lab', '/start/':'Start here' }[href];
       return `    <a href="${href}"${href === col.nav ? ' class="is-current"' : ''}>${name}</a>`;
     }).join('\n')}
   </nav>

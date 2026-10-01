@@ -55,7 +55,7 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="../../css/main.css?v=28">
+  <link rel="stylesheet" href="../../css/main.css?v=29">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -85,7 +85,7 @@
     <a href="/cases/">Cases</a>
     <a href="/sandbox/">Sandbox</a>
     <a href="/lab/">Lab</a>
-    <a href="/start/">Start</a>
+    <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
@@ -101,7 +101,7 @@
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E12 — Pattern Essays</div><h2 id="the-deep-kalman-filter">The Deep <em>Kalman Filter</em><a class="heading-anchor" href="#the-deep-kalman-filter" aria-label="Copy link to this section" title="Copy link to this section">#</a></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
-  <span class="reading-time-badge" aria-label="1 minute read, approximately 299 words" title="~299 words"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg><span>1 min read</span></span><button type="button" class="share-topic-btn" title="Copy link to this topic" aria-label="Copy link to this topic"><svg class="sh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"></path><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"></path></svg><svg class="sh-check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="sh-label">Share</span></button></div><div class="pattern-thread"><span class="pt-label">◆ The Pattern</span><span class="pt-text">Estimating what you cannot measure — predict, then correct, then predict again</span></div>
+  <span class="reading-time-badge" aria-label="1 minute read, approximately 299 words" title="~299 words"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg><span>1 min read</span></span><button type="button" class="share-topic-btn" title="Copy link to this topic" aria-label="Share: copy link to this topic"><svg class="sh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"></path><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"></path></svg><svg class="sh-check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="sh-label">Share</span></button></div><div class="pattern-thread"><span class="pt-label">◆ The Pattern</span><span class="pt-text">Estimating what you cannot measure — predict, then correct, then predict again</span></div>
   <p class="sub" style="display: none;">// Estimating what you cannot measure — predict, then correct, then predict again</p>
   <p class="prose">Some of the most important numbers in the world cannot be measured directly. The temperature deep inside a spinning generator. The exact charge left in a battery. The true health of a patient between hospital visits. In each case the quantity that matters is <em>hidden</em> — wrapped in insulation, sealed in a cell, hidden inside a body — and all we have are noisy, indirect signals from the outside.</p>
   <p class="prose">In 1960, Rudolf Kálmán described a way to estimate such hidden quantities. The idea is a rhythm of two steps. First <strong>predict</strong>: use a model of how the system behaves to guess where the hidden state should be a moment from now. Then <strong>correct</strong>: when a noisy measurement arrives, nudge the guess toward it — but only partway, in proportion to how much you trust the sensor versus the model. Repeat forever. The amount of that nudge is the famous <em>Kalman gain</em>, and it automatically settles on the optimal blend of prediction and measurement.</p>
