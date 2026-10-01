@@ -804,7 +804,7 @@ function buildLinear() {
     </div>
   </div>
   <div class="callout"><strong>OLS Solution:</strong> For simple linear regression, the optimal weights have a closed-form: w = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)². Gradient descent finds the same answer iteratively.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression-metrics">linear regression</a> in statistics, <a href="../markets/indicators/#sma">simple moving averages</a> in markets.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fitting a line is the same act everywhere — <a href="../stats/#regression-metrics">linear regression</a> in statistics, <a href="../markets/indicators/#sma">simple moving averages</a> in markets. Wrap the same linear score in a sigmoid and it becomes a classifier: <a href="#logistic">logistic regression</a>.</div>
   ${depthHtml('linear')}
   <div class="topic-nav" id="nav-linear"></div>
 </div>`;
@@ -1194,7 +1194,7 @@ function buildBatchnorm() {
     </div>
   </div>
   <div class="callout"><strong>Layer Norm vs Batch Norm:</strong> BatchNorm normalises over the batch dimension — problematic for small batches and transformers. LayerNorm normalises over the feature dimension and is the standard in transformers. See topic 27 for all variants.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Normalizing activations to zero mean and unit variance is exactly <a href="../stats/#outlier-detection">z-score standardization</a> from statistics. Markets use the same logic: <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a> normalize price relative to its rolling mean and standard deviation.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Normalizing activations to zero mean and unit variance is exactly <a href="../stats/#outlier-detection">z-score standardization</a> from statistics. Markets use the same logic: <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a> normalize price relative to its rolling mean and standard deviation. For transformers and small batches, see the other <a href="#normalization">normalization variants</a>.</div>
   ${depthHtml('batchnorm')}
   <div class="topic-nav" id="nav-batchnorm"></div>
 </div>`;
@@ -1309,7 +1309,7 @@ function buildSoftmax() {
     <div class="ctrl" id="smCtrl"></div>
   </div>
   <div class="callout"><strong>Temperature scaling:</strong> σ(z/T). T&lt;1 → sharper (more confident). T&gt;1 → softer (more uniform). Used in knowledge distillation and language model sampling.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../llm/#sampling">probability distribution</a> in action. Temperature scaling changes the "confidence" — hot = uniform = <a href="../markets/psychology/#fear-and-greed">uncertain market</a>, cold = peaked = consensus.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../llm/#sampling">probability distribution</a> in action. Temperature scaling changes the "confidence" — hot = uniform = <a href="../markets/psychology/#fear-and-greed">uncertain market</a>, cold = peaked = consensus. Sampling from these probabilities, with temperature, top-k or top-p, is the subject of <a href="../llm/#decoding-strategies">decoding strategies</a>.</div>
   ${depthHtml('softmax')}
   <div class="topic-nav" id="nav-softmax"></div>
 </div>`;
@@ -1387,7 +1387,7 @@ function buildKLDiv() {
       <div class="cg"><span class="cl">KL(P||Q)</span><span class="vd" id="klVal" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> KL divergence measures how one distribution diverges from another — the same logic as comparing <a href="../stats/#hypothesis-testing">observed vs. expected</a> in hypothesis testing. In markets, the gap between <a href="../markets/psychology/#smart-money-dumb-money">smart money and dumb money</a> positioning is a kind of divergence signal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> KL divergence measures how one distribution diverges from another — the same logic as comparing <a href="../stats/#hypothesis-testing">observed vs. expected</a> in hypothesis testing. In markets, the gap between <a href="../markets/psychology/#smart-money-dumb-money">smart money and dumb money</a> positioning is a kind of divergence signal. The KL term that keeps a <a href="#vae">VAE</a>’s latent space smooth is this divergence to a standard normal.</div>
   ${depthHtml('kl-div')}
   <div class="topic-nav" id="nav-kl-div"></div>
 </div>`;
@@ -1502,7 +1502,7 @@ sim = torch.dot(a, b) / (a.norm() * b.norm())    <span class="cm"># single pair<
 sims = query @ embeddings.T                       <span class="cm"># all similarities at once</span>
 top_k = sims.topk(<span class="st">10</span>)                             <span class="cm"># top-10 most similar</span></pre></div>
   <div class="callout info"><strong>In practice:</strong> Embeddings are often L2-normalized, making cosine similarity equivalent to a simple dot product. This is why dot-product search (FAISS, HNSW) is so fast.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#feature-correlation">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search">Vector search in RAG</a> relies on this.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The angle between embeddings measures semantic similarity — the same geometry as <a href="../stats/#feature-correlation">Pearson correlation</a> on centered data. <a href="../llm/#embedding-search">Vector search in RAG</a> relies on this. The dot products and norms it is built from are in <a href="#vectors">Vectors &amp; Matrices</a>.</div>
   ${depthHtml('cosine-sim')}
   <div class="topic-nav" id="nav-cosine-sim"></div>
 </div>`;
@@ -1607,7 +1607,7 @@ function buildTransformer() {
     dropout=<span class="st">0.1</span>, norm_first=<span class="st">True</span>  <span class="cm"># Pre-LN (modern default)</span>
 )
 transformer = nn.TransformerEncoder(encoder_layer, num_layers=<span class="st">6</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block — attention + feed-forward + residual — is now the backbone of <a href="../llm/#transformer-block">every modern LLM</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block — attention + feed-forward + residual — is now the backbone of <a href="../llm/#transformer-block">every modern LLM</a>. GPT-2, counted in the worked example, is a <a href="../llm/#decoder-only">decoder-only</a> model: the original transformer without its encoder.</div>
   ${depthHtml('transformer')}
   <div class="topic-nav" id="nav-transformer"></div>
 </div>`;
@@ -1975,7 +1975,7 @@ function buildRLHF() {
     </div>
   </div>
   <div class="callout info"><strong>DPO vs RLHF:</strong> DPO reformulates RLHF as a simple classification loss on preference pairs — no reward model, no PPO, no RL instability. LLaMA 2, Zephyr, and many modern models use DPO.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Training a reward model from human preferences connects to <a href="../llm/#rlhf">RLHF in LLM alignment</a> and <a href="../stats/#hypothesis-testing">preference testing</a> in statistics. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Training a reward model from human preferences connects to <a href="../llm/#rlhf">RLHF in LLM alignment</a> and <a href="../stats/#hypothesis-testing">preference testing</a> in statistics. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal. The one-step alternative has its own topic: <a href="../llm/#dpo">DPO</a>.</div>
   ${depthHtml('rlhf')}
   <div class="topic-nav" id="nav-rlhf"></div>
 </div>`;

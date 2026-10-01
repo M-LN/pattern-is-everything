@@ -206,7 +206,7 @@ print(<span class="st">f"ADF stat: </span>{result[<span class="st">0</span>]:.4f
 result_kpss = kpss(series, regression=<span class="st">'c'</span>, nlags=<span class="st">'auto'</span>)
 print(<span class="st">f"KPSS stat: </span>{result_kpss[<span class="st">0</span>]:.4f}<span class="st">, p-value: </span>{result_kpss[<span class="st">1</span>]:.4f}<span class="st">"</span>)</pre></div>
   <div class="callout info"><strong>Use both tests together:</strong> ADF and KPSS have opposite null hypotheses. If ADF rejects and KPSS does not, the series is likely stationary. If both fail to reject, you may have a trend-stationary process that needs detrending rather than differencing.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity is the time-series version of the <a href="../stats/#distribution-shape">distribution shape</a> assumption in statistics. In markets, <a href="../timeseries/#changepoint-detection">regime detection</a> is exactly the question: has the underlying process become non-stationary?</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Stationarity is the time-series version of the <a href="../stats/#distribution-shape">distribution shape</a> assumption in statistics. In markets, <a href="../timeseries/#changepoint-detection">regime detection</a> is exactly the question: has the underlying process become non-stationary? A <a href="../markets/risk/#pairs-trading">pairs trade</a> is a bet that the spread between two prices is stationary.</div>
   <div class="topic-nav" id="nav-stationarity"></div>
 </div>`;
 }
@@ -244,7 +244,7 @@ fig, axes = plt.subplots(<span class="st">1</span>, <span class="st">2</span>, f
 plot_acf(series, lags=<span class="st">30</span>, ax=axes[<span class="st">0</span>])
 plot_pacf(series, lags=<span class="st">30</span>, method=<span class="st">'ywm'</span>, ax=axes[<span class="st">1</span>])
 plt.tight_layout()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ACF/PACF diagnoses for time series are like <a href="../stats/#feature-correlation">correlation analysis</a> in statistics &mdash; but with yourself across time. In markets, <a href="../markets/indicators/#roc">momentum indicators</a> are practical autocorrelation measurements.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ACF/PACF diagnoses for time series are like <a href="../stats/#feature-correlation">correlation analysis</a> in statistics &mdash; but with yourself across time. In markets, <a href="../markets/indicators/#roc">momentum indicators</a> are practical autocorrelation measurements. Where autocorrelation is zero, a streak says nothing about the next step — the trap of the <a href="../markets/psychology/#gambler-fallacy">gambler’s fallacy</a>.</div>
   <div class="topic-nav" id="nav-autocorrelation"></div>
 </div>`;
 }
@@ -489,6 +489,7 @@ model = SARIMAX(series,
                 seasonal_order=(<span class="st">1</span>, <span class="st">1</span>, <span class="st">1</span>, <span class="st">12</span>)).fit()
 forecast = model.get_forecast(steps=<span class="st">24</span>)
 ci = forecast.conf_int(alpha=<span class="st">0.05</span>)</pre></div>
+  <div class="callout info"><strong>Where it misleads:</strong> Seasonal differencing assumes a season of fixed length and shape; moving holidays such as Easter, or several seasonalities at once (daily and weekly in hourly data), break it. And searching the many (p,d,q)(P,D,Q) orders for the best AIC is a <a href="../essays/#essay-forking">garden of forking paths</a> of its own: check the chosen model on data it was not selected on.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Seasonal patterns in time series are the same calendar seasonality that drives market cycles. The Fourier terms in SARIMA connect to <a href="../timeseries/#prophet">Fourier seasonality</a> in Prophet.</div>
   <div class="topic-nav" id="nav-sarima"></div>
 </div>`;
@@ -519,6 +520,7 @@ model = ExponentialSmoothing(
     seasonal_periods=<span class="st">12</span>
 ).fit()
 forecast = model.forecast(steps=<span class="st">12</span>)</pre></div>
+  <div class="callout info"><strong>Where it misleads:</strong> Simple exponential smoothing forecasts a flat line, so on trending or seasonal data it lags behind; that is what Holt’s and Holt–Winters’ extensions are for. Over long horizons a damped trend usually forecasts better than a straight one (Gardner &amp; McKenzie 1985), because trends rarely continue unchanged.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Exponential smoothing with &alpha; is exactly how <a href="../markets/indicators/#ema">Exponential Moving Averages (EMA)</a> work in technical analysis. The same &alpha; parameter appears in <a href="../ml-math/#optimizers">momentum optimizers</a>.</div>
   <div class="topic-nav" id="nav-exponential-smoothing"></div>
 </div>`;
@@ -549,6 +551,7 @@ model.fit(df[['ds', 'y']])
 future = model.make_future_dataframe(periods=<span class="st">365</span>)
 forecast = model.predict(future)
 model.plot_components(forecast)</pre></div>
+  <div class="callout info"><strong>Where it misleads:</strong> Prophet fits trend and seasonality as curves, so it extends the most recent trend change with confidence, and its intervals capture trend uncertainty only roughly. Independent comparisons have often found well-tuned exponential smoothing or ARIMA as accurate or better; treat it as one candidate, not a default.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Prophet&rsquo;s Fourier seasonality connects to <a href="../llm/#positional-encoding">sinusoidal positional encodings</a> in LLMs. Its trend changepoints are exactly the <a href="#changepoint-detection">changepoint detection</a> problem &mdash; and in markets, they correspond to <a href="../markets/charts/#support-resistance">breakout</a> moments.</div>
   <div class="topic-nav" id="nav-prophet"></div>
 </div>`;
@@ -667,6 +670,7 @@ function buildChangepointDetection() {
 algo = rpt.Pelt(model=<span class="st">"rbf"</span>).fit(signal)
 breakpoints = algo.predict(pen=<span class="st">10</span>)
 rpt.display(signal, breakpoints)</pre></div>
+  <div class="callout info"><strong>Where it misleads:</strong> A changepoint method will always find changes if you let it: the penalty, or the number of changepoints allowed, decides how many, so tune it on data with known breaks. A detected shift in the mean can also be a change in variance or a single outlier, depending on what the method assumes — and an online detector can only flag a break some steps after it happened, once enough evidence has arrived.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Changepoint detection is the formal version of <a href="../markets/psychology/#market-sentiment-cycle">regime detection</a> in markets &mdash; finding when bull turns to bear. In ML production systems, <a href="../mlops/#drift-detection">drift detection</a> is exactly a changepoint problem on model inputs.</div>
   <div class="topic-nav" id="nav-changepoint-detection"></div>
 </div>`;
@@ -824,6 +828,7 @@ model = NBEATSModel(
 )
 model.fit(train_series)
 pred = model.predict(n=<span class="st">24</span>)</pre></div>
+  <div class="callout info"><strong>Where it misleads:</strong> Its headline results came on the M4 competition’s univariate series and used large ensembles of models. With few series, short histories or important external covariates, simple statistical baselines often hold their own — compare against them before adopting a deep model.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> N-BEATS&rsquo; residual stacking works like <a href="../timeseries/#forecast-ensembles">boosting</a> &mdash; each block fits the residual from the previous one. The backward/forward forecast split mirrors the <a href="../stats/#cross-validation">train/validation</a> concept built into the architecture itself.</div>
   <div class="topic-nav" id="nav-nbeats"></div>
 </div>`;

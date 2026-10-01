@@ -684,7 +684,7 @@ function buildTailRisk() {
     </div>
   </div>
   <div class="callout info"><strong>Black-swan readiness.</strong> Stress tests should use EVT-calibrated scenarios, not just historical worst days.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Kurtosis and distribution shapes are covered in <a href="../../stats/index.html#distribution-shape">The Toolkit — Distribution Shape</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Kurtosis and distribution shapes are covered in <a href="../../stats/index.html#distribution-shape">The Toolkit — Distribution Shape</a>. Why the last crash feels likelier than the record says is the <a href="../psychology/#availability-heuristic">availability heuristic</a>.</div>
   ${depthHtml('tail-risk')}
   <div class="topic-nav" id="nav-tail-risk"></div>
 </div>`;
@@ -793,7 +793,7 @@ function buildDiversification() {
     </div>
   </div>
   <div class="callout info"><strong>Diminishing returns.</strong> Most diversification benefit arrives by 15-20 uncorrelated assets — beyond that, marginal reduction is small.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The law of large numbers formalizes this in <a href="../../stats/index.html#clt-sampling">The Toolkit — CLT</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The law of large numbers formalizes this in <a href="../../stats/index.html#clt-sampling">The Toolkit — CLT</a>. Equalising risk rather than money across assets is <a href="#risk-parity">risk parity</a>.</div>
   ${depthHtml('diversification')}
   <div class="topic-nav" id="nav-diversification"></div>
 </div>`;
@@ -930,7 +930,7 @@ function buildOptionsHedging() {
       <tr><td>Delta hedge</td><td>Slippage</td><td>Vol spread</td><td>Variable</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A protective put pays max(K − S, 0) — the same hinge as the ReLU in <a href="../../ml-math/#activation">activation functions</a>, flat on one side and linear on the other. <a href="../../markets/psychology/#loss-aversion">Loss aversion</a> is why investors pay for that floor.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A protective put pays max(K − S, 0) — the same hinge as the ReLU in <a href="../../ml-math/#activation">activation functions</a>, flat on one side and linear on the other. <a href="../../markets/psychology/#loss-aversion">Loss aversion</a> is why investors pay for that floor. The same idea for exchange-rate exposure, usually with forwards, is <a href="#currency-hedging">currency hedging</a>.</div>
   ${depthHtml('options-hedging')}
   <div class="topic-nav" id="nav-options-hedging"></div>
 </div>`;
@@ -959,7 +959,7 @@ function buildStopLosses() {
     </div>
   </div>
   <div class="callout info"><strong>Mental stops fail.</strong> Paper stops get overridden by emotion — always enter with a hard order.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ATR calculation in <a href="../indicators/index.html#atr">Indicators — ATR</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ATR calculation in <a href="../indicators/index.html#atr">Indicators — ATR</a>. A trailing stop that tightens as a trend matures is the <a href="../indicators/#parabolic-sar">Parabolic SAR</a>.</div>
   ${depthHtml('stop-losses')}
   <div class="topic-nav" id="nav-stop-losses"></div>
 </div>`;
@@ -1080,7 +1080,7 @@ function buildAlphaGeneration() {
     <canvas id="cvs-alpha-generation" role="img" aria-label="Alpha generation — excess return decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Alpha decay.</strong> The half-life of a quantitative signal is typically 2-5 years before crowding erodes it.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Alpha research is feature selection under heavy noise: <a href="../../stats/#permutation-importance">permutation importance</a> tests whether a signal does the work, and <a href="../../stats/#walk-forward">walk-forward validation</a> tests whether it survives out of sample.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Alpha research is feature selection under heavy noise: <a href="../../stats/#permutation-importance">permutation importance</a> tests whether a signal does the work, and <a href="../../stats/#walk-forward">walk-forward validation</a> tests whether it survives out of sample. The tracking error in the information ratio has its own topic: <a href="#benchmark-tracking">benchmark tracking</a>.</div>
   ${depthHtml('alpha-generation')}
   <div class="topic-nav" id="nav-alpha-generation"></div>
 </div>`;

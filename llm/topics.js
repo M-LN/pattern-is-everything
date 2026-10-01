@@ -628,7 +628,7 @@ popt, _ = curve_fit(power_law, params, losses)
 # Predict loss at 70B
 predicted = power_law(70e9, *popt)
 print(f"Predicted loss at 70B: {predicted:.3f}")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse. The laws assume every token is worth training on; <a href="#data-curation">data curation</a> is what makes that true.</div>
   <div class="topic-nav" id="nav-scaling-laws"></div>
 </div>`;
 }
@@ -1198,7 +1198,7 @@ qa = RetrievalQA.from_chain_type(
     retriever=vectorstore.as_retriever(search_kwargs={"k": 5}),
 )
 answer = qa.invoke("What is the refund policy?")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Retrieval-Augmented Generation grounds the model in external knowledge. <a href="../ml-math/#cosine-sim">Cosine similarity</a> retrieves relevant passages. In statistics, <a href="../stats/#bayesian-ab">Bayesian updating</a> brings prior evidence to new questions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Retrieval-Augmented Generation grounds the model in external knowledge. <a href="../ml-math/#cosine-sim">Cosine similarity</a> retrieves relevant passages. In statistics, <a href="../stats/#bayesian-ab">Bayesian updating</a> brings prior evidence to new questions. Add tools and a planning loop and retrieval becomes one step of an <a href="#agents">agent</a>.</div>
   <div class="topic-nav" id="nav-rag"></div>
 </div>`;
 }
@@ -1335,7 +1335,7 @@ function buildAgents() {
         else:
             return msg.content  # final answer
     return "Max steps reached"</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LLMs planning, tool-using, and looping is <a href="../ml-math/#optimizers">optimization</a> made autonomous — each step refines the next. In markets, <a href="../markets/psychology/#market-sentiment-cycle">the sentiment cycle</a> is an agent loop: observe, decide, act, observe again.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LLMs planning, tool-using, and looping is <a href="../ml-math/#optimizers">optimization</a> made autonomous — each step refines the next. In markets, <a href="../markets/psychology/#market-sentiment-cycle">the sentiment cycle</a> is an agent loop: observe, decide, act, observe again. Every tool an agent uses is reached through <a href="#function-calling">function calling</a>.</div>
   <div class="topic-nav" id="nav-agents"></div>
 </div>`;
 }
