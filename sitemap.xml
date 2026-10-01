@@ -1487,4 +1487,36 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <!-- prerendered:end -->
+  <!-- trails:start -->
+  <url>
+    <loc>https://patterniseverything.com/trails/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/bell-curve/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/regression-to-the-mean/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/signal-and-noise/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/feedback-loops/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/survivors/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <!-- trails:end -->
 </urlset>

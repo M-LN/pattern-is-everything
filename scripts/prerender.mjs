@@ -206,8 +206,10 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
     ]
   }
   </script>
+  <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=1">
-  <link rel="stylesheet" href="${up}css/main.css?v=30">
+  <link rel="stylesheet" href="${up}css/main.css?v=31">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -275,8 +277,9 @@ window.addEventListener('load', function () {
 });
 </script>
 <script src="${up}js/progress.js?v=1" defer></script>
-<script src="${up}js/return-trail.js?v=1" defer></script>
+<script src="${up}js/return-trail.js?v=2" defer></script>
 <script src="${up}js/connections.js?v=3" defer></script>
+<script src="${up}js/track.js?v=1" defer></script>
 </body>
 </html>
 `;

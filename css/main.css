@@ -3260,6 +3260,130 @@ html:active-view-transition-type(backward)::view-transition-new(root) { animatio
   .continue-reading .cr-link { transition: none; }
 }
 
+/* ═════════════════════════════════════════════════════════════════
+   Pattern trails — /trails/ pages, cards, and the banner a reader shows
+   on a trail (scripts/build-trails.mjs, js/trails.js)
+   ═════════════════════════════════════════════════════════════════ */
+.trail-page { width: min(920px, calc(100% - 32px)); margin: 0 auto 80px; padding-top: calc(var(--hdr-h) + 8px); }
+.trail-kicker {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent);
+}
+.trail-hero { padding: 48px 0 28px; }
+.trail-hero h2 {
+  margin: 12px 0 14px; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(36px, 6vw, 60px); line-height: 1.04; letter-spacing: -.02em;
+}
+.trail-hero h2 em { font-style: italic; color: var(--accent); }
+.trail-intro { max-width: 640px; font-family: var(--mono); font-size: 13px; line-height: 1.8; color: var(--muted); }
+.trail-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 24px; }
+.trail-start {
+  display: inline-block; padding: 11px 20px; border-radius: 999px;
+  background: var(--accent); color: #fff; text-decoration: none;
+  font: 600 14px var(--sans); transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.trail-start:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.trail-progress, .trail-card-progress { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.trail-progress.is-done, .trail-card-progress.is-done { color: var(--accent); }
+
+/* The route: numbered stops joined by a line. */
+.trail-stops { list-style: none; margin: 8px 0 0; padding: 0; position: relative; }
+.trail-stops::before {
+  content: ''; position: absolute; left: 19px; top: 24px; bottom: 24px;
+  width: 2px; background: var(--border2);
+}
+.trail-stop { position: relative; margin: 0 0 12px; }
+.trail-stop-link {
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 16px 16px 16px 0; color: inherit; text-decoration: none;
+  border-radius: 12px; transition: background .12s var(--ease);
+}
+.trail-stop-link:hover { background: var(--surface); }
+.trail-stop-num {
+  flex: 0 0 40px; height: 40px; border-radius: 50%; position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg); border: 2px solid var(--accent); color: var(--accent);
+  font: 600 14px var(--mono);
+}
+.trail-stop.is-seen .trail-stop-num { background: var(--accent); color: #fff; }
+.trail-stop-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.trail-stop-col { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.trail-stop-title { font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.2; }
+.trail-stop-link:hover .trail-stop-title { color: var(--accent); }
+.trail-stop-note { font-size: 15px; line-height: 1.6; color: var(--text); opacity: .85; }
+.trail-stop-thumb {
+  flex: 0 0 180px; height: 96px; border-radius: 8px; overflow: hidden;
+  background: #141210; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.trail-stop-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.trail-outro {
+  margin: 36px 0 0; padding: 22px 24px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+}
+.trail-outro p { margin: 8px 0 0; font-family: var(--serif); font-size: 20px; line-height: 1.5; }
+.trail-more { margin-top: 56px; }
+.trail-more .trail-grid { margin-top: 16px; }
+
+/* Trail cards: the homepage block, /trails/ and "More trails". */
+.trail-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.trail-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+  color: inherit; text-decoration: none;
+  transition: border-color .12s var(--ease), transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.trail-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.trail-card-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  height: 64px; background: #141210;
+}
+.trail-card-strip img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .9; }
+.trail-card-body { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px 18px; flex: 1; }
+.trail-card-kicker { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.trail-card-title { font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.2; }
+.trail-card-intro {
+  margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.trail-card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding-top: 6px; }
+.trail-card-go { font-family: var(--mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
+.trails-home { margin: 0 auto 64px; max-width: 1080px; padding: 0 16px; }
+.trails-all {
+  display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 12px;
+  color: var(--accent); text-decoration: none;
+}
+.trails-all:hover { text-decoration: underline; }
+
+/* In a reader opened on a trail: where you are, why, and the way on. */
+.trail-banner, .trail-next {
+  margin: 0 0 24px; padding: 14px 16px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--accent);
+}
+.trail-next { margin: 36px 0 0; }
+.tb-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.tb-trail { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--accent); text-decoration: none; }
+.tb-trail:hover { text-decoration: underline; }
+.tb-pos { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.tb-note { margin: 10px 0 0; font-family: var(--serif); font-size: 18px; line-height: 1.5; }
+.tb-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.tb-nav a { font-family: var(--mono); font-size: 12px; text-decoration: none; color: var(--muted); }
+.tb-nav a:hover { color: var(--accent); }
+.tb-nav .tb-next { margin-left: auto; color: var(--accent); font-weight: 500; }
+.trail-banner.is-off { border-left-color: var(--border2); }
+
+@media (max-width: 720px) {
+  .trail-stop-thumb { display: none; }
+  .trail-stop-title { font-size: 19px; }
+  .trail-stops::before { left: 15px; }
+  .trail-stop-num { flex-basis: 32px; height: 32px; font-size: 12px; }
+  .tb-nav { flex-direction: column; }
+  .tb-nav .tb-next { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trail-card, .trail-start, .trail-stop-link { transition: none; }
+}
+
 
 /* =================================================================
    What's-new feature discovery toast

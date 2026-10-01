@@ -353,6 +353,9 @@ function show(id, scrollNav, nav = {}) {
   renderTrail();
   // "Linked from" list under the topic (js/connections.js); once per topic.
   if (window.Connections) Connections.render(id);
+  // For anything that follows the reader from outside — the pattern-trail
+  // banner (js/trails.js). The topic's element exists, even if not yet shown.
+  window.dispatchEvent(new CustomEvent('pp:topic', { detail: { id, path: READER_PATH } }));
   const swapped = swapTopic(() => {
     if (id === currentTopic) applyTopic(id, scrollNav, nav);
   }, mode === 'replace' ? id : leaving, id);

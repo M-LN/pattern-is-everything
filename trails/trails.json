@@ -1,0 +1,79 @@
+{
+  "_about": "Pattern trails: guided routes that follow one pattern across collections. Edit here, then run node scripts/build-trails.mjs to regenerate /trails/, the homepage block and the sitemap entries. Each stop is a topic key from connections.json (\"/<collection>/#<id>\") and a note on why it belongs on the trail.",
+  "trails": [
+    {
+      "id": "bell-curve",
+      "title": "The bell curve, everywhere",
+      "intro": "Add up enough small, independent nudges and the same curve appears — in sample averages, in price bands, in risk models. Follow it across four fields, then see where it quietly stops being true.",
+      "stops": [
+        { "key": "/essays/#essay-bell", "note": "Start with the shape itself: when many small, independent forces add up, the bell appears whatever they are." },
+        { "key": "/stats/#clt-sampling", "note": "The Central Limit Theorem is the reason: averages of almost anything drift toward normal as samples grow." },
+        { "key": "/stats/#distribution-shape", "note": "Before trusting the bell, check it. Skew, kurtosis and QQ plots show where real data departs from it." },
+        { "key": "/markets/indicators/#bollinger-bands", "note": "Traders draw it onto prices: bands two standard deviations around a moving average read volatility the way a bell would." },
+        { "key": "/markets/risk/#value-at-risk", "note": "Risk models lean on it as well — parametric VaR turns volatility into \"the most we expect to lose\" by assuming the bell." },
+        { "key": "/markets/risk/#tail-risk", "note": "Where it fails: market returns have fat tails, and the extreme days arrive far more often than the bell allows." },
+        { "key": "/essays/#essay-tail", "note": "The other shape. When forces multiply instead of add, you get long tails — a few enormous outcomes, not a tidy middle." }
+      ],
+      "outro": "Same arithmetic in every field: sums of small effects make bells. The bell is also a claim about your data, and worth checking before you build on it."
+    },
+    {
+      "id": "regression-to-the-mean",
+      "title": "Regression to the mean",
+      "intro": "Extreme results tend to be followed by less extreme ones. It looks like a force pulling things back; it is arithmetic. Watch the same idea turn into trading signals, portfolio rules and model penalties.",
+      "stops": [
+        { "key": "/essays/#essay-mean", "note": "The core idea: an extreme outcome is partly luck, and luck does not repeat on demand — so the next result lands closer to the middle." },
+        { "key": "/markets/psychology/#mean-reversion-psychology", "note": "Traders feel it as \"what goes up must come down\" — and easily mistake arithmetic for a promise." },
+        { "key": "/markets/indicators/#rsi", "note": "RSI turns the idea into a signal: overbought and oversold readings are bets on a move back toward the middle." },
+        { "key": "/markets/risk/#rebalancing", "note": "Rebalancing leans on it by design, trimming what ran ahead and topping up what fell behind." },
+        { "key": "/timeseries/#stationarity", "note": "It only works if there is a stable mean to return to. Stationarity is the check that one exists." },
+        { "key": "/ml-math/#regularization", "note": "Models get the same pull on purpose: regularization shrinks extreme weights toward zero so noise can't stretch them." }
+      ],
+      "outro": "Regression to the mean is a property of noisy measurement, not a law of markets. Where the mean itself moves, betting on the return is betting on the wrong thing."
+    },
+    {
+      "id": "signal-and-noise",
+      "title": "Signal in the noise",
+      "intro": "Every field has the same problem: real structure mixed with randomness. These stops are the tools for pulling them apart — and for checking you have not invented a pattern that was never there.",
+      "stops": [
+        { "key": "/essays/#essay-signal", "note": "The hard part is rarely finding a pattern. It is resisting the ones that are only noise." },
+        { "key": "/timeseries/#decomposition", "note": "Split a series into trend, season and residual. What is left after the explained parts is your noise." },
+        { "key": "/markets/indicators/#sma", "note": "The simplest filter there is: average the last N points and the random wiggles partly cancel out." },
+        { "key": "/timeseries/#exponential-smoothing", "note": "Fade the past instead of cutting it off — the forecaster's version of the EMA traders use." },
+        { "key": "/essays/#essay-kalman", "note": "Predict, then correct with each new measurement, weighting each by how noisy you know it to be." },
+        { "key": "/ml-math/#bias-variance", "note": "Smooth too much and you miss the signal; too little and you fit the noise. The same tradeoff, in model form." },
+        { "key": "/stats/#walk-forward", "note": "The final test: does the pattern hold on data it has never seen, in the order it arrives?" }
+      ],
+      "outro": "Filtering, smoothing and regularizing are one move: decide how much to trust each new observation. Out-of-sample testing is how you find out whether you decided well."
+    },
+    {
+      "id": "feedback-loops",
+      "title": "Feedback loops",
+      "intro": "When a system's output feeds back into its input, small nudges can snowball. Crowds, prices, volatility and even deployed models run on loops like this — and they tend to stay quiet until they don't.",
+      "stops": [
+        { "key": "/essays/#essay-feedback", "note": "The mechanism: output becomes input, so each change makes the next one larger — or damps it away." },
+        { "key": "/markets/psychology/#herd-behavior", "note": "Buying because others are buying. Rising prices are the reason for the next rise." },
+        { "key": "/markets/psychology/#information-cascades", "note": "Why a crowd can be rational and still wrong: each person follows the ones before, and an early signal tips everyone." },
+        { "key": "/markets/psychology/#market-sentiment-cycle", "note": "The loop running both ways — euphoria feeding on gains, panic feeding on losses." },
+        { "key": "/timeseries/#garch", "note": "Feedback in the noise itself: turbulent days make more turbulent days likely, so volatility clusters." },
+        { "key": "/mlops/#drift-detection", "note": "Deployed models live in a loop too. When the world shifts — sometimes because of the model's own decisions — yesterday's patterns stop holding." },
+        { "key": "/essays/#essay-threshold", "note": "Loops can build quietly for a long time, then cross a threshold and change the system all at once." }
+      ],
+      "outro": "Look for the arrow from output back to input. Where it exists, extrapolating from calm periods understates what can happen next."
+    },
+    {
+      "id": "survivors",
+      "title": "Survivors and false patterns",
+      "intro": "The data you can see is often the data that survived. Patterns found in it can be an artefact of what went missing. These stops show how the trap works, and the habits that keep you out of it.",
+      "stops": [
+        { "key": "/essays/#essay-survivor", "note": "We study what survived and quietly forget everything that did not — and the survivors look smarter than they were." },
+        { "key": "/stats/#survivorship-bias", "note": "The same trap in a backtest: today's index members, or knowledge you would not have had at the time, make a strategy look better than it could have been." },
+        { "key": "/markets/psychology/#hindsight-bias", "note": "After the fact, the outcome looks obvious. That feeling is the memory of what happened, not evidence you could have known." },
+        { "key": "/stats/#cross-validation", "note": "Honest evaluation starts with honest splits — no answers leaking into the data the model learns from." },
+        { "key": "/timeseries/#backtesting-forecasts", "note": "For anything ordered in time, test the way you would have used it: forward, one step at a time." },
+        { "key": "/stats/#learning-curves", "note": "The gap between training and validation performance is overfitting made visible." },
+        { "key": "/essays/#essay-map", "note": "Every model is a simplification. The danger is forgetting what was left out — including everything that did not survive into the data." }
+      ],
+      "outro": "Ask what is missing from the data, and what you know now that you would not have known then. Most false patterns live in one of those two gaps."
+    }
+  ]
+}

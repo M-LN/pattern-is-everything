@@ -36,6 +36,9 @@
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest && e.target.closest('.topic a[href]');
     if (!a || a.origin !== location.origin || samePage(a, location)) return;
+    // A pattern trail has its own way back (js/trails.js); a chip on top of it
+    // would offer a second, different "back".
+    if (a.hasAttribute('data-trail-nav')) return;
     // Topic markup opens its cross-collection links in a new tab, which leaves
     // the Back button with nowhere to go. A plain click now stays in this tab;
     // Ctrl/Cmd/middle-click still open a new one.
@@ -48,6 +51,24 @@
       }));
     } catch (err) { /* storage blocked — the jump still works, just no chip */ }
   }, true);
+
+  /* Count which connections get followed (js/track.js): pattern bridges,
+     other links between topics, and "Linked from" entries. Any click,
+     including Ctrl/middle-clicks into a new tab. */
+  function trackFollow(e) {
+    if (!window.ppTrack) return;
+    var a = e.target.closest && e.target.closest('.topic a[href], .topic-connections a[href]');
+    if (!a || a.origin !== location.origin || a.hasAttribute('data-trail-nav') ||
+        a.classList.contains('heading-anchor')) return;
+    var from = ppTopicSlug(), to = ppTopicSlug(a);
+    if (!to || to === from) return;
+    var kind = a.closest('.topic-connections') ? 'linked-from'
+      : a.closest('.callout.bridge') ? 'bridge' : 'topic-link';
+    ppTrack(kind + ': ' + from + ' → ' + to,
+      { 'linked-from': 'Linked from', bridge: 'Pattern bridge', 'topic-link': 'Link between topics' }[kind]);
+  }
+  document.addEventListener('click', trackFollow, true);
+  document.addEventListener('auxclick', trackFollow, true);
 
   /* The jump recorded for this page load, if it led here. Consumed either way,
      so a later visit to the same page never shows a stale chip. */
@@ -79,7 +100,10 @@
     chip.querySelector('.rt-title').textContent = trail.title;
     chip.querySelector('.rt-col').textContent = trail.collection;
     chip.setAttribute('aria-label', 'Back to ' + trail.title + ' in ' + trail.collection);
-    chip.onclick = onBack;
+    chip.onclick = function () {
+      if (window.ppTrack) ppTrack('back-chip: ' + ppTopicSlug() + ' → ' + trail.collection + ' / ' + trail.title, 'Back to … chip');
+      onBack();
+    };
     chip.hidden = false;
   }
 

@@ -15,12 +15,15 @@
      7. Every relative or root-absolute <a href> points at a file that exists
      8. connections.json matches the pre-rendered pages it is built from
      9. Pre-rendered pages carry the current "Linked from" list and share card
+    10. Pattern trails name real topics, and /trails/, the homepage block and
+        the sitemap entries match trails/trails.json
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname, normalize } from 'node:path';
 import { buildConnections } from './connections.mjs';
+import { execFileSync } from 'node:child_process';
 
 const COLLECTIONS = [
   { col: 'stats',      dir: 'stats',               path: '/stats/',               universe: 'stats' },
@@ -322,6 +325,17 @@ console.log('9. Pre-rendered "Linked from" lists and share cards');
   }
   if (badLinks + badCards > 5) fail(`…${badLinks} list and ${badCards} card mismatches in all — run: node scripts/prerender.mjs <collections>`);
   if (!badLinks && !badCards) ok(`${pages} pages match connections.json and their share cards`);
+}
+
+/* ── 10. Pattern trails ──
+   build-trails.mjs --check validates every stop against connections.json
+   and compares what it would generate with what is on disk. */
+console.log('10. Pattern trails');
+try {
+  const out = execFileSync(process.execPath, ['scripts/build-trails.mjs', '--check'], { encoding: 'utf8', stdio: 'pipe' });
+  ok(out.trim().split(/\r?\n/).pop().replace(/^trails: /, ''));
+} catch (e) {
+  fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-6).join(' | ') || 'build-trails --check failed');
 }
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);
