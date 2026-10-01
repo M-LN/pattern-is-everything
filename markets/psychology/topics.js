@@ -140,6 +140,373 @@ function ariaAttr(s) {
                   .replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+/* depth:start — generated from the scratch scripts psych_snippets.py / psych_depth.py; each
+   worked example is the output of the code shown with it. */
+const TOPIC_DEPTH = {
+ "confirmation-bias": {
+  "example": "You start 60% sure of a bullish thesis and then meet six pieces of evidence: three for it and three just as strong against. Weighed fairly they cancel, and you should end where you began: <strong>60%</strong>. Give the contrary evidence half its weight and the same pile leaves you at <strong>73%</strong>. Five rounds of the same balanced news later you are <strong>97%</strong> sure — certainty built entirely from the filter, not from the evidence.",
+  "fails": [
+   "Not every strong prior is a bias. Discounting a weak or unreliable source is correct; the bias is discounting evidence <em>because</em> it disagrees.",
+   "Searching for confirming cases can be an efficient test when the hypothesis is rare (Klayman &amp; Ha 1987); the trouble is treating the search as proof.",
+   "Knowing about the bias does not remove it. A written “what would make me wrong” before the trade works better than good intentions."
+  ],
+  "code": "prior = 0.60                                    # how sure you are the bullish thesis is right\nlr = [1.5, 1.5, 1.5, 1 / 1.5, 1 / 1.5, 1 / 1.5]  # three pieces of evidence for it, three equally strong against\n\ndef update(p, lrs, w_against=1.0):               # Bayes in log-odds; w_against &lt; 1 discounts contrary evidence\n    logit = np.log(p / (1 - p))\n    for x in lrs:\n        logit += np.log(x) * (w_against if x &lt; 1 else 1)\n    return 1 / (1 + np.exp(-logit))\n\nfair = update(prior, lr)\nbiased = update(prior, lr, w_against=0.5)\nbiased_after_5_rounds = update(prior, lr * 5, w_against=0.5)",
+  "sources": [
+   "R. S. Nickerson, “Confirmation Bias: A Ubiquitous Phenomenon in Many Guises”, <em>Review of General Psychology</em> 2(2), 1998",
+   "P. C. Wason, “On the Failure to Eliminate Hypotheses in a Conceptual Task”, <em>Quarterly Journal of Experimental Psychology</em> 12(3), 1960 — the 2-4-6 task",
+   "J. Klayman &amp; Y.-W. Ha, “Confirmation, Disconfirmation, and Information in Hypothesis Testing”, <em>Psychological Review</em> 94(2), 1987",
+   "J. Park, P. Konana, B. Gu, A. Kumar &amp; R. Raghunathan, “Information Valuation and Confirmation Bias in Virtual Communities: Evidence from Stock Message Boards”, <em>Information Systems Research</em> 24(4), 2013"
+  ]
+ },
+ "anchoring": {
+  "example": "The stock’s 52-week high is 80 and it now trades at 62: <strong>0.775</strong> of the high, or “22.5% off”. To someone who bought at 75 it is also <strong>17.3% below cost</strong>. Both numbers feel like information about value; neither is. The 80 is where other people traded last year, and the 75 is where you did.",
+  "fails": [
+   "Anchors are not always irrational: the 52-week high is watched by so many traders that it can matter for behaviour around it, even though it says nothing about value.",
+   "George &amp; Hwang (2004) found that stocks near their 52-week high go on to <em>outperform</em> — investors anchor and underreact to good news, so “too close to the high” is not a sell signal.",
+   "Replacing one anchor with another (an analyst’s target) is not a cure. A valuation built from expected cash flows is."
+  ],
+  "code": "close = pd.Series([80, 78, 74, 70, 66, 63, 61, 64, 62, 60, 63, 62])   # twelve month-end closes, made up\nhigh52 = close.max()                     # the anchor: the 52-week high\nratio = close.iloc[-1] / high52          # George &amp; Hwang's measure, price over its 52-week high\noff_high = 1 - ratio\ncost = 75                                # where this holder bought: a second anchor\nvs_cost = close.iloc[-1] / cost - 1",
+  "sources": [
+   "A. Tversky &amp; D. Kahneman, “Judgment under Uncertainty: Heuristics and Biases”, <em>Science</em> 185(4157), 1974",
+   "T. J. George &amp; C.-Y. Hwang, “The 52-Week High and Momentum Investing”, <em>Journal of Finance</em> 59(5), 2004",
+   "G. B. Northcraft &amp; M. A. Neale, “Experts, Amateurs, and Real Estate: An Anchoring-and-Adjustment Perspective on Property Pricing Decisions”, <em>Organizational Behavior and Human Decision Processes</em> 39(1), 1987"
+  ]
+ },
+ "recency-bias": {
+  "example": "Ten years of returns average <strong>9.6%</strong>. The last three averaged <strong>22.3%</strong>, and an expectation that halves the weight of each older year lands at <strong>18.4%</strong> — nearly double the long-run figure, just after the best stretch in the sample.",
+  "fails": [
+   "Recent data is not worthless: volatility really does cluster, so recent volatility is a better guide to next month’s than a ten-year average is. The bias is extrapolating <em>returns</em>.",
+   "Surveys show investors expect high returns after high returns (Greenwood &amp; Shleifer 2014) — and those are the periods followed by lower returns on average.",
+   "A long-run mean is itself an estimate; ten years is a short sample, and the “base rate” can be just as wrong in a different way."
+  ],
+  "code": "r = pd.Series([0.12, 0.08, -0.05, 0.15, 0.10, 0.07, -0.18, 0.22, 0.25, 0.20])   # ten years of returns, made up\nlong_run = r.mean()\nlast_three = r.tail(3).mean()\nfelt = r.ewm(alpha=0.5).mean().iloc[-1]  # each year counts half as much as the one after it",
+  "sources": [
+   "R. Greenwood &amp; A. Shleifer, “Expectations of Returns and Expected Returns”, <em>Review of Financial Studies</em> 27(3), 2014",
+   "U. Malmendier &amp; S. Nagel, “Depression Babies: Do Macroeconomic Experiences Affect Risk Taking?”, <em>Quarterly Journal of Economics</em> 126(1), 2011",
+   "W. F. M. De Bondt &amp; R. Thaler, “Does the Stock Market Overreact?”, <em>Journal of Finance</em> 40(3), 1985"
+  ]
+ },
+ "availability-heuristic": {
+  "example": "Thirty years with two crash years: a base rate of <strong>6.7%</strong>. Now let a crash year come to mind five times as easily as a quiet one, and let memories fade by 10% a year. The latest crash is three years old and still vivid, so the probability that <em>feels</em> right is <strong>34.7%</strong> — five times the record. The weights are made up; the shape is the point.",
+  "fails": [
+   "Ease of recall is a decent cue when what you remember is a fair sample; it fails when media and memory over-select the dramatic.",
+   "Barber &amp; Odean (2008) found individual investors are net buyers of attention-grabbing stocks — those in the news, with high volume or extreme returns. Attention drives the trade, not the odds.",
+   "The cure is not “ignore crashes”: tail risk is real (see Risk &amp; Portfolio). The cure is to count them."
+  ],
+  "code": "years = 30\ncrash = np.zeros(years); crash[[8, 27]] = 1       # two crash years in thirty, the latest three years ago\nbase_rate = crash.mean()\n\nvivid = np.where(crash == 1, 5.0, 1.0)            # a crash year comes to mind five times as easily\nfresh = 0.9 ** np.arange(years)[::-1]             # and memories fade by 10% a year\nw = vivid * fresh\nfelt = (w * crash).sum() / w.sum()                # the probability that \"feels\" right",
+  "sources": [
+   "A. Tversky &amp; D. Kahneman, “Availability: A Heuristic for Judging Frequency and Probability”, <em>Cognitive Psychology</em> 5(2), 1973",
+   "S. Lichtenstein, P. Slovic, B. Fischhoff, M. Layman &amp; B. Combs, “Judged Frequency of Lethal Events”, <em>Journal of Experimental Psychology: Human Learning and Memory</em> 4(6), 1978",
+   "B. M. Barber &amp; T. Odean, “All That Glitters: The Effect of Attention and News on the Buying Behavior of Individual and Institutional Investors”, <em>Review of Financial Studies</em> 21(2), 2008"
+  ]
+ },
+ "hindsight-bias": {
+  "example": "Five forecasts written down beforehand, then recalled after the outcome. On average the remembered forecast moved <strong>22 points</strong> toward what happened. Scored honestly the forecasts have a Brier score of <strong>0.35</strong> (0 is perfect, 0.25 is a coin); the remembered ones score <strong>0.14</strong>. Memory turned a below-coin forecaster into a good one.",
+  "fails": [
+   "It is invisible from the inside. Only a record made <em>before</em> the outcome can show it, which is why a decision journal works and reflection alone does not.",
+   "The opposite mistake exists too: judging a good decision by a bad outcome. Some bets are right and still lose.",
+   "Biais &amp; Weber (2009) found investment bankers with more hindsight bias earned less — it blocks learning, not just pride."
+  ],
+  "code": "log = pd.DataFrame({\n    'event':      ['rate cut', 'earnings beat', 'recession', 'oil above 100', 'index new high'],\n    'said':       [0.30, 0.55, 0.20, 0.40, 0.60],      # written down beforehand\n    'happened':   [1, 0, 1, 0, 1],\n    'remembered': [0.60, 0.35, 0.45, 0.25, 0.80]})     # what you later recall having said\ntoward_outcome = np.where(log.happened == 1, log.remembered - log.said, log.said - log.remembered)\nbrier_said = ((log.said - log.happened) ** 2).mean()   # lower is better\nbrier_remembered = ((log.remembered - log.happened) ** 2).mean()",
+  "sources": [
+   "B. Fischhoff, “Hindsight ≠ Foresight: The Effect of Outcome Knowledge on Judgment under Uncertainty”, <em>Journal of Experimental Psychology: Human Perception and Performance</em> 1(3), 1975",
+   "N. J. Roese &amp; K. D. Vohs, “Hindsight Bias”, <em>Perspectives on Psychological Science</em> 7(5), 2012",
+   "B. Biais &amp; M. Weber, “Hindsight Bias, Risk Perception, and Investment Performance”, <em>Management Science</em> 55(6), 2009"
+  ]
+ },
+ "fear-and-greed": {
+  "example": "Three readings — the VIX, the put/call ratio and the share of stocks above their 200-day average — turned into z-scores and averaged, with the last one flipped. Week 2 scores <strong>−1.10</strong> (extreme greed); weeks 5 and 6 score <strong>1.31</strong> and <strong>1.74</strong> (extreme fear). Everything else is neutral. That is all a fear-and-greed index is: a few market measures scaled and added up.",
+  "fails": [
+   "The scale is relative to the window: “extreme” here means extreme for these ten weeks. In 2008 fear readings that looked extreme were followed by more extreme ones.",
+   "The ingredients are partly the price itself, so the index often just restates what the market already did.",
+   "Sentiment predicts returns best for hard-to-value stocks, and the effect is modest (Baker &amp; Wurgler 2006). As a stand-alone timing signal it is weak."
+  ],
+  "code": "s = pd.DataFrame({                               # ten weekly readings, made up\n    'vix':      [14, 13, 15, 22, 35, 41, 30, 24, 18, 16],\n    'put_call': [0.80, 0.75, 0.85, 1.00, 1.25, 1.30, 1.10, 0.95, 0.85, 0.80],\n    'above_200d': [72, 75, 68, 50, 28, 20, 33, 45, 60, 66]})   # % of stocks above their 200-day average\nz = (s - s.mean()) / s.std()\nfear = (z.vix + z.put_call - z.above_200d) / 3    # high = fear, low = greed\nlabel = np.select([fear &gt; 1, fear &lt; -1], ['extreme fear', 'extreme greed'], 'neutral')",
+  "sources": [
+   "R. E. Whaley, “The Investor Fear Gauge”, <em>Journal of Portfolio Management</em> 26(3), 2000",
+   "M. Baker &amp; J. Wurgler, “Investor Sentiment and the Cross-Section of Stock Returns”, <em>Journal of Finance</em> 61(4), 2006",
+   "M. Baker &amp; J. Wurgler, “Investor Sentiment in the Stock Market”, <em>Journal of Economic Perspectives</em> 21(2), 2007",
+   "W. E. Buffett, letter to Berkshire Hathaway shareholders, 1986 — “fearful when others are greedy”"
+  ]
+ },
+ "loss-aversion": {
+  "example": "A fair coin: win 110 or lose 100. The expected value is <strong>+5</strong>, yet with Tversky &amp; Kahneman’s estimates (curvature 0.88, losses weighted 2.25×) it <em>feels</em> like <strong>−33</strong>. To make losing 100 feel even, the win would have to be about <strong>251</strong>. Repeated small bets like this one are where loss aversion costs most: refused one at a time, a profitable series is never played (Benartzi &amp; Thaler’s “myopic loss aversion”).",
+  "fails": [
+   "“Losses hurt twice as much” is a median from lab gambles, not a constant. Estimates vary widely by person, stakes and method, and some find little loss aversion for small, routine amounts (Gal &amp; Rucker 2018).",
+   "Being careful with losses is not a bias when a loss would ruin you; with real survival constraints, refusing a positive bet can be correct.",
+   "Holding losers and selling winners is a related but separate effect (see Disposition Effect)."
+  ],
+  "code": "def v(x, a=0.88, lam=2.25):                      # Tversky &amp; Kahneman's (1992) median estimates\n    return np.where(x &gt;= 0, np.abs(x) ** a, -lam * np.abs(x) ** a)\n\nev = 0.5 * 110 + 0.5 * -100                      # a fair coin: win 110 or lose 100\nfelt = 0.5 * v(110) + 0.5 * v(-100)\nwin_needed = 100 * 2.25 ** (1 / 0.88)            # the win that makes losing 100 feel even",
+  "sources": [
+   "D. Kahneman &amp; A. Tversky, “Prospect Theory: An Analysis of Decision under Risk”, <em>Econometrica</em> 47(2), 1979",
+   "A. Tversky &amp; D. Kahneman, “Advances in Prospect Theory: Cumulative Representation of Uncertainty”, <em>Journal of Risk and Uncertainty</em> 5(4), 1992 — the 0.88 and 2.25 used here",
+   "S. Benartzi &amp; R. H. Thaler, “Myopic Loss Aversion and the Equity Premium Puzzle”, <em>Quarterly Journal of Economics</em> 110(1), 1995",
+   "D. Gal &amp; D. D. Rucker, “The Loss of Loss Aversion: Will It Loom Larger Than Its Gain?”, <em>Journal of Consumer Psychology</em> 28(3), 2018"
+  ]
+ },
+ "regret-aversion": {
+  "example": "Three choices for a position you are up on, scored in a rally, a flat market and a drop. By expected profit, holding wins: <strong>6.25</strong>, against 3.13 for selling half and 0 for selling now. Now score each by its worst regret — how far it falls short of the best choice in hindsight. Selling now can miss 30, holding can miss 20, selling half at most <strong>15</strong>. The regret-minimiser sells half, giving up half the expected profit to never feel too foolish.",
+  "fails": [
+   "Splitting a decision is not always regret-dodging; it can be sensible sizing when you are unsure. The question is whether the split is chosen for the odds or for the feelings.",
+   "People regret actions more in the short run and inactions more in the long run (Gilovich &amp; Medvec 1995), so the same rule pushes in different directions over time.",
+   "Rules set in advance — when to sell, how much — remove most of the room regret has to work in."
+  ],
+  "code": "pay = pd.DataFrame({'sell now': [0, 0, 0], 'sell half': [15, 2.5, -10], 'hold': [30, 5, -20]},\n                   index=['rally', 'flat', 'drop'])      # profit from here in each outcome\np = np.array([0.35, 0.35, 0.30])                         # your odds for the three outcomes\nev = pay.T @ p\nregret = pay.max(axis=1).values[:, None] - pay.values    # best choice in hindsight minus yours\nworst_regret = pd.Series(regret.max(axis=0), index=pay.columns)",
+  "sources": [
+   "G. Loomes &amp; R. Sugden, “Regret Theory: An Alternative Theory of Rational Choice Under Uncertainty”, <em>Economic Journal</em> 92(368), 1982",
+   "D. E. Bell, “Regret in Decision Making under Uncertainty”, <em>Operations Research</em> 30(5), 1982",
+   "T. Gilovich &amp; V. H. Medvec, “The Experience of Regret: What, When, and Why”, <em>Psychological Review</em> 102(2), 1995"
+  ]
+ },
+ "overconfidence": {
+  "example": "Ten price ranges, each one given with “90% confidence”. Only <strong>5 of 10</strong> contained the actual value. A calibrated forecaster would hit about nine; hitting half means the ranges should have been much wider. This is overprecision, the most robust form of overconfidence, and you only see it by scoring a batch of forecasts.",
+  "fails": [
+   "Barber &amp; Odean (2000) found the 20% of households that traded most earned 11.4% a year net, against 17.9% for the market — but trading costs, not bad picks alone, did much of the damage.",
+   "“93% think they are above-average drivers” comes from a small U.S. student sample (Svenson 1981); the Swedish sample was 69%. The effect is real, the number is not universal.",
+   "Confidence is useful when it is earned and calibrated; the fix is scoring, not self-doubt."
+  ],
+  "code": "fc = pd.DataFrame({                              # ten ranges you were \"90% sure\" of, made up\n    'low':    [95, 40, 1.8, 210, 70, 12, 3.1, 150, 88, 25],\n    'high':   [105, 48, 2.2, 240, 80, 15, 3.5, 170, 96, 30],\n    'actual': [108, 44, 2.5, 236, 64, 13, 3.4, 181, 90, 31]})\nhit_rate = fc.actual.between(fc.low, fc.high).mean()",
+  "sources": [
+   "B. M. Barber &amp; T. Odean, “Trading Is Hazardous to Your Wealth: The Common Stock Investment Performance of Individual Investors”, <em>Journal of Finance</em> 55(2), 2000",
+   "B. M. Barber &amp; T. Odean, “Boys Will Be Boys: Gender, Overconfidence, and Common Stock Investment”, <em>Quarterly Journal of Economics</em> 116(1), 2001",
+   "O. Svenson, “Are We All Less Risky and More Skillful Than Our Fellow Drivers?”, <em>Acta Psychologica</em> 47(2), 1981",
+   "D. A. Moore &amp; P. J. Healy, “The Trouble with Overconfidence”, <em>Psychological Review</em> 115(2), 2008"
+  ]
+ },
+ "disposition-effect": {
+  "example": "Odean’s measure: on each day something was sold, look at every position held. Here 4 of 8 positions in profit were sold — a proportion of gains realized of <strong>0.50</strong>. Only 1 of 9 in loss was sold: <strong>0.11</strong>. Gains were realized <strong>4.5 times</strong> as readily as losses. In 10,000 real brokerage accounts Odean (1998) found 0.148 against 0.098.",
+  "fails": [
+   "Taxes push the other way: in most countries a realized loss lowers your tax, which makes holding losers more costly still.",
+   "Some selling of winners is rebalancing, which is a good habit; the test is whether the sell would happen with the gain removed.",
+   "Ben-David &amp; Hirshleifer (2012) found people sell after large moves either way; the pattern may come from beliefs about the stock more than from the pain of a realized loss."
+  ],
+  "code": "book = pd.DataFrame({                            # every position held on the days something was sold\n    'gain': [1, 1, 1, 0, 0, 0, 0,  1, 1, 0, 0, 0,  1, 1, 1, 0, 0],\n    'sold': [1, 0, 1, 0, 0, 0, 0,  1, 0, 0, 1, 0,  1, 0, 0, 0, 0]})\ng, s = book.gain == 1, book.sold == 1\nPGR = (g &amp; s).sum() / g.sum()                    # proportion of gains realized (Odean 1998)\nPLR = (~g &amp; s).sum() / (~g).sum()                # proportion of losses realized",
+  "sources": [
+   "H. Shefrin &amp; M. Statman, “The Disposition to Sell Winners Too Early and Ride Losers Too Long: Theory and Evidence”, <em>Journal of Finance</em> 40(3), 1985",
+   "T. Odean, “Are Investors Reluctant to Realize Their Losses?”, <em>Journal of Finance</em> 53(5), 1998",
+   "I. Ben-David &amp; D. Hirshleifer, “Are Investors Really Reluctant to Realize Their Losses? Trading Responses to Past Returns and the Disposition Effect”, <em>Review of Financial Studies</em> 25(8), 2012"
+  ]
+ },
+ "herd-behavior": {
+  "example": "Five stocks, with the funds buying and selling each in one quarter. Across all of them 57% of trades were buys. Lakonishok, Shleifer and Vishny measure herding as how far each stock’s buy share sits from 57%, minus how far it would sit by chance. Stock A (18 buyers, 2 sellers) scores <strong>0.24</strong>, stock D (5 and 15) <strong>0.23</strong>; E scores <strong>−0.07</strong>, no more lopsided than chance. The average is <strong>0.09</strong>.",
+  "fails": [
+   "Trading together is not proof of copying: funds reacting to the same news will look like a herd.",
+   "Using the same measure, LSV (1992) found only a little herding among U.S. pension fund managers — far less than the stories suggest.",
+   "Herding can be rational for each person (see Information Cascades); it is the collective result that goes wrong."
+  ],
+  "code": "from math import comb\nq = pd.DataFrame({'buyers': [18, 9, 14, 5, 11], 'sellers': [2, 11, 6, 15, 9]},\n                 index=list('ABCDE'))            # funds buying and selling five stocks in one quarter, made up\nn = q.buyers + q.sellers\np = q.buyers / n\np_all = q.buyers.sum() / n.sum()                 # share of all trades that are buys\n\ndef af(n, p):                                    # |p_i - p_all| expected by chance alone\n    return sum(comb(n, k) * p**k * (1 - p)**(n - k) * abs(k / n - p) for k in range(n + 1))\n\nH = (p - p_all).abs() - n.apply(af, p=p_all)     # Lakonishok, Shleifer &amp; Vishny's herding measure",
+  "sources": [
+   "J. Lakonishok, A. Shleifer &amp; R. W. Vishny, “The Impact of Institutional Trading on Stock Prices”, <em>Journal of Financial Economics</em> 32(1), 1992",
+   "D. S. Scharfstein &amp; J. C. Stein, “Herd Behavior and Investment”, <em>American Economic Review</em> 80(3), 1990",
+   "A. V. Banerjee, “A Simple Model of Herd Behavior”, <em>Quarterly Journal of Economics</em> 107(3), 1992"
+  ]
+ },
+ "fomo": {
+  "example": "A stock runs from 10 to 21 in seven months and then unwinds to 13. The buyer who waits until it has doubled gets in at <strong>21</strong>, the top, and ends <strong>−38%</strong>. Someone who bought at the start and did nothing ends <strong>+30%</strong> on the same stock. The fear was of missing a gain that had already happened.",
+  "fails": [
+   "Strong past performance is not in itself a reason to stay out: momentum over 3–12 months is one of the better-documented patterns. FOMO is about how you enter, not whether.",
+   "The danger is in what FOMO does to process — skipping sizing and stops — more than in the entry price alone.",
+   "Barber, Huang, Odean &amp; Schwarz (2022) found that stocks heavily bought by attention-driven retail traders had negative returns afterwards on average."
+  ],
+  "code": "close = pd.Series([10, 10.5, 11, 12, 13.5, 15.5, 18, 21, 19, 16, 14, 13])   # a run-up and its unwind, made up\nentry = close[close &gt;= 2 * close.iloc[0]].index[0]   # the FOMO buyer waits until it has doubled\nfomo = close.iloc[-1] / close[entry] - 1\nearly = close.iloc[-1] / close.iloc[0] - 1",
+  "sources": [
+   "A. K. Przybylski, K. Murayama, C. R. DeHaan &amp; V. Gladwell, “Motivational, Emotional, and Behavioral Correlates of Fear of Missing Out”, <em>Computers in Human Behavior</em> 29(4), 2013",
+   "B. M. Barber, X. Huang, T. Odean &amp; C. Schwarz, “Attention-Induced Trading and Returns: Evidence from Robinhood Users”, <em>Journal of Finance</em> 77(6), 2022",
+   "B. M. Barber &amp; T. Odean, “All That Glitters: The Effect of Attention and News on the Buying Behavior of Individual and Institutional Investors”, <em>Review of Financial Studies</em> 21(2), 2008"
+  ]
+ },
+ "social-proof": {
+  "example": "Ten songs of equal quality and 2,000 listeners, run five times. When each listener picks at random, the top song gets <strong>11–12%</strong> of plays every time. When each picks in proportion to plays so far, the top song gets <strong>18–46%</strong> — and a different song wins in every run. Popularity says more about who went first than about quality. Salganik, Dodds &amp; Watts (2006) found the same in a real music market.",
+  "fails": [
+   "Copying others is often a good shortcut: when they know more than you and decide independently, the crowd is informative.",
+   "It breaks when the crowd is copying itself, as in the simulation; then the signal is mostly noise amplified.",
+   "Asch’s conformity experiments (1956) are often cited for markets, but they were about visible group pressure on simple judgments, not about prices."
+  ],
+  "code": "rng = np.random.default_rng(1)\n\ndef market(social, songs=10, listeners=2000):    # ten songs of equal quality\n    plays = np.ones(songs)\n    for _ in range(listeners):\n        p = plays / plays.sum() if social else np.full(songs, 1 / songs)   # social: pick in proportion to plays so far\n        plays[rng.choice(songs, p=p)] += 1\n    return plays\n\ntop_share = lambda w: w.max() / w.sum()\nalone = [top_share(market(False)) for _ in range(5)]\nseen = [market(True) for _ in range(5)]\ntogether = [top_share(w) for w in seen]\nwinners = [int(w.argmax()) for w in seen]",
+  "sources": [
+   "<em>Influence: The Psychology of Persuasion</em>, R. B. Cialdini, 1984",
+   "M. J. Salganik, P. S. Dodds &amp; D. J. Watts, “Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market”, <em>Science</em> 311(5762), 2006",
+   "S. E. Asch, “Studies of Independence and Conformity: I. A Minority of One Against a Unanimous Majority”, <em>Psychological Monographs</em> 70(9), 1956"
+  ]
+ },
+ "contrarian-thinking": {
+  "example": "A stock falls from 100 and the contrarian buys into the panic at <strong>70</strong>, 30% off the high. The bottom is still ahead: from the entry the position falls a further <strong>29%</strong> before it turns, and only then ends <strong>+17%</strong>. Right in the end, with a stop at −15% you would have been out before it worked. Being early is the contrarian’s usual condition.",
+  "fails": [
+   "Over 3–12 months the crowd’s direction tends to persist (momentum, Jegadeesh &amp; Titman 1993). Contrarian returns show up over years: De Bondt &amp; Thaler (1985) found past losers beat past winners by about 25% over the following three years.",
+   "Disagreeing is not an edge. The edge is a view on value that turns out right; going against a correct crowd just loses.",
+   "Sentiment extremes are clearest afterwards (see Hindsight Bias)."
+  ],
+  "code": "close = pd.Series([100, 92, 85, 70, 72, 60, 55, 50, 58, 66, 75, 82])   # a sell-off and recovery, made up\nentry = close[close &lt;= 0.7 * close.iloc[0]].index[0]   # buy into the panic, 30% below the high\nworst = close[entry:].min() / close[entry] - 1        # what you sit through first\nfinal = close.iloc[-1] / close[entry] - 1",
+  "sources": [
+   "W. F. M. De Bondt &amp; R. Thaler, “Does the Stock Market Overreact?”, <em>Journal of Finance</em> 40(3), 1985",
+   "J. Lakonishok, A. Shleifer &amp; R. W. Vishny, “Contrarian Investment, Extrapolation, and Risk”, <em>Journal of Finance</em> 49(5), 1994",
+   "N. Jegadeesh &amp; S. Titman, “Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency”, <em>Journal of Finance</em> 48(1), 1993"
+  ]
+ },
+ "information-cascades": {
+  "example": "Twenty people choose in turn. Each has a private signal that is right 60% of the time and sees everyone before them. Once one choice leads by two, the rest copy it and ignore their own signal. In 10,000 runs the queue ends in the <strong>wrong</strong> choice <strong>31%</strong> of the time. Had all twenty signals been pooled and counted, the majority would be right <strong>76%</strong> of the time (ties counting as wrong). Everyone acted sensibly; the information was lost because only actions were seen.",
+  "fails": [
+   "Cascades are fragile: a public piece of news can break one at once, which is why herds reverse so sharply.",
+   "In the lab people follow their own signal more than the theory predicts, so real cascades form less often (Anderson &amp; Holt 1997).",
+   "In markets prices move as people trade, which weakens pure cascades; the model is a lens, not a description."
+  ],
+  "code": "rng = np.random.default_rng(7)\n\ndef queue(n=20, q=0.6):                           # the right choice is 1; each private signal is right 60% of the time\n    acts, lead = [], 0                            # lead = adopters minus rejecters seen so far\n    for _ in range(n):\n        signal = 1 if rng.random() &lt; q else 0\n        act = (1 if lead &gt; 0 else 0) if abs(lead) &gt;= 2 else signal   # two ahead: copy the crowd, ignore the signal\n        acts.append(act); lead += 1 if act else -1\n    return acts\n\nwrong_cascade = np.mean([queue()[-1] == 0 for _ in range(10_000)])\npooled_right = np.mean(rng.binomial(20, 0.6, 10_000) &gt; 10)   # if all 20 signals were shared and counted",
+  "sources": [
+   "S. Bikhchandani, D. Hirshleifer &amp; I. Welch, “A Theory of Fads, Fashion, Custom, and Cultural Change as Informational Cascades”, <em>Journal of Political Economy</em> 100(5), 1992",
+   "A. V. Banerjee, “A Simple Model of Herd Behavior”, <em>Quarterly Journal of Economics</em> 107(3), 1992",
+   "L. R. Anderson &amp; C. A. Holt, “Information Cascades in the Laboratory”, <em>American Economic Review</em> 87(5), 1997"
+  ]
+ },
+ "sunk-cost-fallacy": {
+  "example": "100 shares bought at 50, now at 35: <strong>1,500</strong> is gone whether you sell or not. The only live question is where the 3,500 should sit. If your honest expectation for the stock is 4% a year and an index fund’s is 7%, holding costs about <strong>105</strong> a year in expected return. “Waiting to get back to even” needs a <strong>43%</strong> rise — a target set by the past, not by the stock.",
+  "fails": [
+   "Past costs can still carry information: why you bought, and whether that reason still holds, is relevant; what you paid is not.",
+   "Taxes can make the price paid matter: a realized loss may be deductible, which favours selling.",
+   "Sticking with a plan through a drawdown is not the fallacy if the plan was right; the test is whether you would buy it today."
+  ],
+  "code": "shares, paid, now = 100, 50.0, 35.0\nsunk = (paid - now) * shares                     # lost whether you sell or not\nhold_view = 0.04                                 # your honest expected return from here\nbest_other = 0.07                                # e.g. an index fund\ncost_of_holding = (best_other - hold_view) * now * shares   # a year's expected shortfall\nback_to_even = paid / now - 1                    # the rise \"getting out at even\" needs",
+  "sources": [
+   "H. R. Arkes &amp; C. Blumer, “The Psychology of Sunk Cost”, <em>Organizational Behavior and Human Decision Processes</em> 35(1), 1985",
+   "B. M. Staw, “Knee-Deep in the Big Muddy: A Study of Escalating Commitment to a Chosen Course of Action”, <em>Organizational Behavior and Human Performance</em> 16(1), 1976",
+   "R. Thaler, “Toward a Positive Theory of Consumer Choice”, <em>Journal of Economic Behavior &amp; Organization</em> 1(1), 1980"
+  ]
+ },
+ "gambler-fallacy": {
+  "example": "100,000 independent up/down days, each a coin flip. After five down days in a row (3,153 cases) the next day is up <strong>50.5%</strong> of the time — no bounce is due. A twist: flip a coin four times and record the share of heads right after a head. Averaged over many four-flip samples it is <strong>0.41</strong>, not 0.5 (Miller &amp; Sanjurjo 2018). In short samples even a fair coin looks as if it avoids streaks.",
+  "fails": [
+   "Markets are not coins. Daily returns show weak short-term reversal and medium-term momentum, so “independent” is an approximation.",
+   "The famous hot-hand “fallacy” study (Gilovich, Vallone &amp; Tversky 1985) used the very statistic Miller &amp; Sanjurjo showed is biased; corrected, some hot-hand effect reappears.",
+   "A strategy losing several times in a row is information about the strategy, not about the next trade’s odds."
+  ],
+  "code": "rng = np.random.default_rng(0)\nup = rng.random(100_000) &lt; 0.5                   # independent up and down days\nafter_5_down = [up[i] for i in range(5, len(up)) if not up[i - 5:i].any()]\nbounce = np.mean(after_5_down)                   # P(up | five down days in a row)\n\n# Miller &amp; Sanjurjo: in short samples, the average share of heads right after a head is below 1/2\nflips = rng.random((100_000, 4)) &lt; 0.5\nafter_h = flips[:, :-1]\nshares_hh = (flips[:, 1:] &amp; after_h).sum(1)[after_h.any(1)] / after_h.sum(1)[after_h.any(1)]",
+  "sources": [
+   "A. Tversky &amp; D. Kahneman, “Belief in the Law of Small Numbers”, <em>Psychological Bulletin</em> 76(2), 1971",
+   "T. Gilovich, R. Vallone &amp; A. Tversky, “The Hot Hand in Basketball: On the Misperception of Random Sequences”, <em>Cognitive Psychology</em> 17(3), 1985",
+   "J. B. Miller &amp; A. Sanjurjo, “Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers”, <em>Econometrica</em> 86(6), 2018"
+  ]
+ },
+ "framing-effect": {
+  "example": "Tversky &amp; Kahneman’s 600 lives: both programmes save 200 in expectation. Framed as lives saved, the sure option values at <strong>105.9</strong> against <strong>92.8</strong> for the gamble, so the sure thing wins — 72% chose it in the study. Framed as deaths, the sure loss values at <strong>−438.5</strong> against <strong>−417.7</strong> for the gamble, so the gamble wins — 78% chose it. Same facts; the reference point moved.",
+  "fails": [
+   "A frame can carry real information: what a seller chooses to emphasise tells you something about them.",
+   "Effects are strongest in one-off hypothetical choices; experience and incentives shrink them.",
+   "Reframing your own position (“would I buy it at today’s price?”) is a deliberate use of the effect, and a useful one."
+  ],
+  "code": "def v(x, a=0.88, lam=2.25):                      # prospect theory's value function\n    return np.where(x &gt;= 0, np.abs(x) ** a, -lam * np.abs(x) ** a)\n\n# Tversky &amp; Kahneman (1981): 600 lives at stake, the same two programmes described two ways\nsaved_sure, saved_gamble = v(200), (1 / 3) * v(600)        # \"200 will be saved\" vs \"1/3 chance all 600 are saved\"\ndie_sure, die_gamble = v(-400), (2 / 3) * v(-600)          # \"400 will die\" vs \"2/3 chance all 600 die\"\nexpected_saved = (200, 600 / 3)",
+  "sources": [
+   "A. Tversky &amp; D. Kahneman, “The Framing of Decisions and the Psychology of Choice”, <em>Science</em> 211(4481), 1981",
+   "B. J. McNeil, S. G. Pauker, H. C. Sox &amp; A. Tversky, “On the Elicitation of Preferences for Alternative Therapies”, <em>New England Journal of Medicine</em> 306(21), 1982 — survival versus mortality",
+   "D. Kahneman &amp; A. Tversky, “Prospect Theory: An Analysis of Decision under Risk”, <em>Econometrica</em> 47(2), 1979"
+  ]
+ },
+ "mental-accounting": {
+  "example": "14,000 in one account, thought of as 10,000 of “my money” and 4,000 of profit. Risking 1% of the first and 25% of the “house money” puts <strong>1,100</strong> at risk, <strong>7.9%</strong> of the account. The same 1% rule on all of it would risk <strong>140</strong>. Where the money came from changed nothing about what losing it would cost.",
+  "fails": [
+   "Separate buckets can be useful self-control: an emergency fund you do not trade with is a sensible account, even if money is fungible.",
+   "Thaler &amp; Johnson (1990) found the house-money effect alongside a “break-even effect”: after losses, people take risks that offer a chance to get back to even.",
+   "Measuring each trade on its own also hides correlation: five “separate” bets on the same theme are one bet."
+  ],
+  "code": "capital, profit = 10_000, 4_000                  # the same 14,000, in two mental accounts\nrisk = 0.01 * capital + 0.25 * profit            # 1% of \"my money\", 25% of \"house money\"\nshare_at_risk = risk / (capital + profit)\none_account = 0.01 * (capital + profit)          # the same 1% rule on all of it",
+  "sources": [
+   "R. Thaler, “Mental Accounting and Consumer Choice”, <em>Marketing Science</em> 4(3), 1985",
+   "R. H. Thaler, “Mental Accounting Matters”, <em>Journal of Behavioral Decision Making</em> 12(3), 1999",
+   "R. H. Thaler &amp; E. J. Johnson, “Gambling with the House Money and Trying to Break Even: The Effects of Prior Outcomes on Risky Choice”, <em>Management Science</em> 36(6), 1990"
+  ]
+ },
+ "status-quo-bias": {
+  "example": "A 60/40 portfolio left alone through five good years for stocks ends at <strong>75% stocks, 25% bonds</strong>. Nobody chose 75/25; it is what doing nothing produced. In retirement plans the effect is large: when Madrian &amp; Shea (2001) studied a firm that switched to automatic enrolment, participation among new hires went from 37% to 86%, and most kept the default contribution.",
+  "fails": [
+   "Inaction is sometimes optimal: trading costs and taxes make small adjustments not worth it (see Rebalancing in Risk &amp; Portfolio).",
+   "A default can be a quiet recommendation; following it is not always bias.",
+   "The same force can be used for good — automatic escalation of savings works because people stay put (Thaler &amp; Benartzi 2004)."
+  ],
+  "code": "w0 = np.array([0.60, 0.40])                       # target: 60% stocks, 40% bonds\nr = np.array([[0.20, 0.02], [0.15, 0.03], [0.25, -0.01], [0.10, 0.04], [0.18, 0.02]])   # five years, made up\ngrown = w0 * np.prod(1 + r, axis=0)\nw_now = grown / grown.sum()                      # what you hold after five years of doing nothing",
+  "sources": [
+   "W. Samuelson &amp; R. Zeckhauser, “Status Quo Bias in Decision Making”, <em>Journal of Risk and Uncertainty</em> 1(1), 1988",
+   "B. C. Madrian &amp; D. F. Shea, “The Power of Suggestion: Inertia in 401(k) Participation and Savings Behavior”, <em>Quarterly Journal of Economics</em> 116(4), 2001",
+   "R. H. Thaler &amp; S. Benartzi, “Save More Tomorrow: Using Behavioral Economics to Increase Employee Saving”, <em>Journal of Political Economy</em> 112(S1), 2004"
+  ]
+ },
+ "market-sentiment-cycle": {
+  "example": "A mechanical version of the cycle: price above or below its six-month average, and rising or falling. On 22 made-up months it reads optimism from the 6th month (130), anxiety for one month at 132, panic from the 10th month (129) all the way down, hope for one month at 85, and optimism again from 88. The eleven-phase chart collapses to four, and the in-between phases last a single month — which is why they are so hard to spot live.",
+  "fails": [
+   "The popular cycle chart is an illustration, not a finding; no study fixes the phases, their order or their length.",
+   "Real cycles skip phases, repeat them, and stall for years. Labelling the present is far harder than labelling the past.",
+   "Survey-based sentiment does carry some information about returns (Baker &amp; Wurgler 2007), but as a tilt, not as a clock."
+  ],
+  "code": "close = pd.Series([100, 104, 109, 115, 123, 130, 133, 134, 132, 129, 124, 116,\n                   106, 96, 88, 84, 83, 85, 88, 93, 99, 106])   # 22 months, made up\ntrend = close.rolling(6).mean()\nrising = close.diff() &gt; 0\nphase = np.select([(close &gt; trend) &amp; rising, (close &gt; trend) &amp; ~rising,\n                   (close &lt;= trend) &amp; ~rising, (close &lt;= trend) &amp; rising],\n                  ['optimism-euphoria', 'anxiety-denial', 'panic-capitulation', 'hope-relief'], '')\nstarts = [(i, ph) for i, ph in enumerate(phase) if ph and phase[i - 1] != ph]   # month each phase begins",
+  "sources": [
+   "<em>Irrational Exuberance</em>, R. J. Shiller, Princeton University Press, 2000",
+   "<em>Manias, Panics, and Crashes: A History of Financial Crises</em>, C. P. Kindleberger (later editions with R. Z. Aliber), 1978",
+   "M. Baker &amp; J. Wurgler, “Investor Sentiment in the Stock Market”, <em>Journal of Economic Perspectives</em> 21(2), 2007"
+  ]
+ },
+ "accumulation-distribution": {
+  "example": "After a fall from 60, the last ten days trade in a box <strong>7.3%</strong> wide. Inside it, average volume on up days is <strong>1.5 times</strong> volume on down days. A Wyckoff reader calls that accumulation: someone buying on rallies while sellers dry up. The code finds the pattern; the story about who is behind it is an interpretation.",
+  "fails": [
+   "The “Composite Man” is a narrative device. The same volume can be read as accumulation or distribution, and no peer-reviewed test has validated Wyckoff’s schematics.",
+   "Volume does carry information about prices (Blume, Easley &amp; O’Hara 1994), which is the part worth keeping.",
+   "A range can resolve either way; the label is only confirmed by the breakout."
+  ],
+  "code": "df = pd.DataFrame({                              # a fall, then a sideways range, made up\n    'close':  [60, 56, 52, 49, 47, 48, 46, 47.5, 47, 48.5, 47.5, 49, 48, 49.5],\n    'volume': [30, 35, 40, 45, 50, 38, 22, 36, 20, 40, 21, 42, 19, 44]})\nbox = df.tail(10)                                    # the last ten days\nwidth = (box.close.max() - box.close.min()) / box.close.mean()\nup = box.close.diff() &gt; 0\nup_down_volume = box.volume[up].mean() / box.volume[~up].mean()   # &gt; 1 is read as quiet buying",
+  "sources": [
+   "R. D. Wyckoff, <em>The Richard D. Wyckoff Method of Trading and Investing in Stocks</em>, course, 1931",
+   "L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994",
+   "<em>The Three Skills of Top Trading</em>, H. O. Pruden, Wiley, 2007"
+  ]
+ },
+ "euphoria-panic": {
+  "example": "The Nasdaq Composite closed at 5,048.62 on 10 March 2000 and at 1,114.11 on 9 October 2002: a fall of <strong>78%</strong>. Getting back needed a rise of <strong>353%</strong>; it did not close above the 2000 peak again until 2015. The asymmetry is the whole lesson: a +150% run followed by a −60% fall leaves you at exactly <strong>0%</strong>.",
+  "fails": [
+   "Big run-ups do not reliably predict lower average returns, but they do predict a higher chance of a crash (Greenwood, Shleifer &amp; You 2019).",
+   "“This time is different” is sometimes true; the internet did change the economy. Euphoria is about price relative to plausible outcomes, not about the story being false.",
+   "Panic bottoms are only clear afterwards; buying the first panic is often early."
+  ],
+  "code": "peak, trough = 5048.62, 1114.11                  # Nasdaq Composite closes, 10 Mar 2000 and 9 Oct 2002\nfall = trough / peak - 1\nneeded = peak / trough - 1                       # the rise needed just to get back\nup, down = 1.50, -0.60\nround_trip = (1 + up) * (1 + down) - 1           # +150% then -60%",
+  "sources": [
+   "R. Greenwood, A. Shleifer &amp; Y. You, “Bubbles for Fama”, <em>Journal of Financial Economics</em> 131(1), 2019",
+   "<em>Manias, Panics, and Crashes: A History of Financial Crises</em>, C. P. Kindleberger (later editions with R. Z. Aliber), 1978",
+   "<em>Irrational Exuberance</em>, R. J. Shiller, Princeton University Press, 2000"
+  ]
+ },
+ "smart-money-dumb-money": {
+  "example": "A fund returns +30%, +25%, −20%, −10% and +15%: <strong>6.1%</strong> a year. Its investors put in 100, then 200 and 400 after the two good years, and take out 300 and 100 after the bad ones. Their money-weighted return is <strong>−3.1%</strong> a year, and they end with 247 for a net 300 put in. Same fund, opposite results; the difference is timing the flows. Dichev (2007) found this gap in market-wide data.",
+  "fails": [
+   "“Smart” and “dumb” are labels for after the fact. Institutions herd and chase too; retail flows are not always wrong.",
+   "Insider purchases are informative on average (Lakonishok &amp; Lee 2001), insider sales much less so — many sales are for diversification or tax.",
+   "Commercials in the COT report are mostly hedgers; their positions reflect hedging needs as well as views."
+  ],
+  "code": "r = np.array([0.30, 0.25, -0.20, -0.10, 0.15])   # a fund's return each year, made up\nflow = np.array([100, 200, 400, -300, -100])     # money investors put in (+) or take out (-) at each year's start\n\nvalue = 0.0\nfor f, x in zip(flow, r):\n    value = (value + f) * (1 + x)\nfund = np.prod(1 + r) ** (1 / len(r)) - 1        # time-weighted: what the fund earned\n\ncash = np.append(-flow, value)                   # the investors' own cash flows\nroots = np.roots(cash[::-1])                     # money-weighted: the IRR of those flows\nirr = [z.real - 1 for z in 1 / roots if abs(z.imag) &lt; 1e-9 and z.real &gt; 0]   # per-year rate",
+  "sources": [
+   "I. D. Dichev, “What Are Stock Investors’ Actual Historical Returns? Evidence from Dollar-Weighted Returns”, <em>American Economic Review</em> 97(1), 2007",
+   "A. Frazzini &amp; O. A. Lamont, “Dumb Money: Mutual Fund Flows and the Cross-Section of Stock Returns”, <em>Journal of Financial Economics</em> 88(2), 2008",
+   "J. Lakonishok &amp; I. Lee, “Are Insider Trades Informative?”, <em>Review of Financial Studies</em> 14(1), 2001"
+  ]
+ },
+ "mean-reversion-psychology": {
+  "example": "10,000 managers whose results are a little skill and a lot of luck. Last year’s top 10% averaged <strong>3.93</strong>; the same managers average <strong>0.83</strong> this year. They kept <strong>21%</strong> of their lead, close to the theoretical one in five — the share of the variation that is skill. Nobody lost their touch; most of the lead was luck, and luck does not repeat.",
+  "fails": [
+   "Regression to the mean is about noisy measurements, not a force pulling prices back. A price has no fixed mean to return to.",
+   "Evidence for mean reversion in stock prices is weak over short horizons and debated over long ones (Poterba &amp; Summers 1988; Fama &amp; French 1988).",
+   "Waiting for “the extreme” assumes you know where the mean is. If it has moved, what looks extreme is the new normal."
+  ],
+  "code": "rng = np.random.default_rng(3)\nskill = rng.normal(0, 1, 10_000)                 # 10,000 managers: a little skill,\nyear1 = skill + rng.normal(0, 2, 10_000)         # a lot of luck\nyear2 = skill + rng.normal(0, 2, 10_000)\ntop = year1 &gt;= np.quantile(year1, 0.9)           # last year's top 10%\nkept = year2[top].mean() / year1[top].mean()     # theory: var(skill) / var(total) = 1 / 5",
+  "sources": [
+   "D. Kahneman &amp; A. Tversky, “On the Psychology of Prediction”, <em>Psychological Review</em> 80(4), 1973",
+   "J. M. Poterba &amp; L. H. Summers, “Mean Reversion in Stock Prices: Evidence and Implications”, <em>Journal of Financial Economics</em> 22(1), 1988",
+   "E. F. Fama &amp; K. R. French, “Permanent and Temporary Components of Stock Prices”, <em>Journal of Political Economy</em> 96(2), 1988",
+   "M. M. Carhart, “On Persistence in Mutual Fund Performance”, <em>Journal of Finance</em> 52(1), 1997"
+  ]
+ }
+};
+/* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+function depthHtml(id) {
+  const d = TOPIC_DEPTH[id];
+  if (!d || typeof renderDepth !== 'function') return '';
+  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.' });
+}
+/* depth:end */
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -153,6 +520,7 @@ function buildContent() {
     html += `<p class="sub">// ${t.pattern || t.content.split('.')[0] + '.'}</p>`;
     html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas" role="img" aria-label="${ariaAttr(t.title)} \u2014 visualization"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
+    html += depthHtml(t.id);
     if (PATTERN_BRIDGES[t.id]) html += PATTERN_BRIDGES[t.id];
     if (TOPIC_EXTRAS[t.id]) html += TOPIC_EXTRAS[t.id];
     html += `<div class="topic-nav" id="nav-${t.id}"></div>`;
