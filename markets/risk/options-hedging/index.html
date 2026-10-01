@@ -128,6 +128,12 @@ protective = stock + np.maximum(put_k - ST, 0) - put_cost
 collar = protective - np.maximum(ST - call_k, 0) + call_premium</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Options, Futures, and Other Derivatives</em>, J. C. Hull, Pearson (any recent edition)</li><li>F. Black &amp; M. Scholes, “The Pricing of Options and Corporate Liabilities”, <em>Journal of Political Economy</em> 81(3), 1973</li><li>R. Israelov, “Pathetic Protection: The Elusive Benefits of Protective Puts”, <em>Journal of Alternative Investments</em>, 2019</li></ul></div></section>
   
 </div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../../essays/essay-reversible/"><span class="tc-col">Pattern Essays</span><span class="tc-title">Small, Reversible Bets</span><span class="tc-pattern">Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../max-position/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Maximum Position Limits</div></a>
     <a class="tnav-btn next" href="../stop-losses/"><div class="tnav-dir">Next →</div><div class="tnav-name">Stop-Loss Strategies</div></a>

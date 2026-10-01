@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════
    Pattern Essays — Topics Data & Content Builder
-   16 short reflections on patterns in the world
+   17 short reflections on patterns in the world
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson','essay-kalman','essay-spring','essay-forking','essay-memory','essay-bottleneck'] },
+  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson','essay-kalman','essay-spring','essay-forking','essay-memory','essay-bottleneck','essay-reversible'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -27,6 +27,7 @@ const TOPIC_NAMES = {
   'essay-forking':'The Garden of Forking Paths',
   'essay-memory':'How Long Is Memory?',
   'essay-bottleneck':'The Bottleneck',
+  'essay-reversible':'Small, Reversible Bets',
 };
 
 /* ── Full topic data for search ── */
@@ -47,6 +48,7 @@ const TOPIC_DATA = [
   { id:'essay-forking', num:'E14', title:'The Garden of Forking Paths', category:'Pattern Essays', keywords:['multiple testing','data snooping','p-hacking','backtest overfitting','forking paths','Gelman','Borges','false discovery','hyperparameter search'], content:'Every choice in an analysis is a fork. Try enough rules and one will pass by luck; the best result of a search is always flattered.' },
   { id:'essay-memory', num:'E15', title:'How Long Is Memory?', category:'Pattern Essays', keywords:['memory','autocorrelation','forgetting curve','Ebbinghaus','Hurst','long memory','moving average','LSTM','attention','retention'], content:'Every model of a sequence decides how far back the past matters and how fast it fades, usually with a parameter nobody looks at.' },
   { id:'essay-bottleneck', num:'E16', title:'The Bottleneck', category:'Pattern Essays', keywords:['bottleneck','queueing','Little\'s law','throughput','latency','utilisation','theory of constraints','Goldratt','funnel'], content:'A system goes no faster than its slowest step, and as it nears full capacity, waiting time grows far faster than the load.' },
+  { id:'essay-reversible', num:'E17', title:'Small, Reversible Bets', category:'Pattern Essays', keywords:['reversibility','two-way door','ruin','Kelly','ergodicity','rollback','shadow mode','position sizing','sunk cost','optionality'], content:'Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -99,7 +101,8 @@ function buildContent() {
     + buildEssaySpring()
     + buildEssayForking()
     + buildEssayMemory()
-    + buildEssayBottleneck();
+    + buildEssayBottleneck()
+    + buildEssayReversible();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -111,8 +114,8 @@ function buildHome() {
     <h2>Pattern <em>Essays</em></h2>
     <p style="margin-top:14px">Short, calm reflections on patterns that appear across the world &mdash; in data, in markets, in everyday life. Each essay is accompanied by a small visualization. No formulas. No code. Just the pattern.</p>
     <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">16</div><div class="home-stat-label">Essays</div></div>
-      <div class="home-stat"><div class="home-stat-num">16</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">17</div><div class="home-stat-label">Essays</div></div>
+      <div class="home-stat"><div class="home-stat-num">17</div><div class="home-stat-label">Visualizations</div></div>
     </div>
     <p style="margin-top:18px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
@@ -199,6 +202,11 @@ function buildHome() {
       <div class="cat-card-icon">\u29d7</div>
       <div class="cat-card-name">The Bottleneck</div>
       <div class="cat-card-count">The slowest step sets the pace &mdash; and waiting explodes near capacity</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-reversible',true)">
+      <div class="cat-card-icon">⇄</div>
+      <div class="cat-card-name">Small, Reversible Bets</div>
+      <div class="cat-card-count">Make mistakes cheap to undo &mdash; and survivable when you cannot</div>
     </div>
   </div>
 </div>`;
@@ -331,7 +339,7 @@ function buildEssaySignal() {
     <div class="essay-ref">[2] Foster, K. R. &amp; Kokko, H. (2009). The evolution of superstitious and superstition-like behaviour. <em>Proceedings of the Royal Society B, 276</em>(1654), 31\u201337. <a href="https://doi.org/10.1098/rspb.2008.0981" target="_blank" rel="noopener">doi:10.1098/rspb.2008.0981</a></div>
     <div class="essay-ref">[3] Hastie, T., Tibshirani, R. &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning</em>, Ch. 7: Model Assessment and Selection. Springer. <a href="https://doi.org/10.1007/978-0-387-84858-7" target="_blank" rel="noopener">doi:10.1007/978-0-387-84858-7</a></div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#cross-validation">Cross-validation</a> is the practical guard against this, and <a href="../stats/index.html#learning-curves">learning curves</a> let you see overfitting happen in real time.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#cross-validation">Cross-validation</a> is the practical guard against this, and <a href="../stats/index.html#learning-curves">learning curves</a> let you see overfitting happen in real time. Searching many rules until one works is the trap of <a href="index.html#essay-forking">The Garden of Forking Paths</a>.</div>
   <div class="topic-nav" id="nav-essay-signal"></div>
 </div>`;
 }
@@ -395,7 +403,7 @@ function buildEssayFeedback() {
     <div class="essay-ref">[2] Strogatz, S. (2003). <em>Sync: How Order Emerges From Chaos in the Universe, Nature, and Daily Life.</em> Hyperion.</div>
     <div class="essay-ref">[3] Verhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. <em>Correspondance Mathématique et Physique, 10</em>, 113–121.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../sandbox/markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../sandbox/markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool. Where a loop runs into the slowest step in a system, see <a href="index.html#essay-bottleneck">The Bottleneck</a>.</div>
   <div class="topic-nav" id="nav-essay-feedback"></div>
 </div>`;
 }
@@ -423,7 +431,7 @@ function buildEssayWalk() {
     <div class="essay-ref">[2] Malkiel, B. G. (1973). <em>A Random Walk Down Wall Street.</em> W. W. Norton &amp; Company.</div>
     <div class="essay-ref">[3] Fama, E. F. (1965). Random Walks in Stock Market Prices. <em>Financial Analysts Journal, 21</em>(5), 55–59. <a href="https://doi.org/10.2469/faj.v21.n5.55" target="_blank" rel="noopener">doi:10.2469/faj.v21.n5.55</a></div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../timeseries/index.html#decomposition">time-series analysis</a> is the tool for extracting the non-random component.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../timeseries/index.html#decomposition">time-series analysis</a> is the tool for extracting the non-random component. Why the size of each step decides whether a walker survives at all is the subject of <a href="index.html#essay-reversible">Small, Reversible Bets</a>.</div>
   <div class="topic-nav" id="nav-essay-walk"></div>
 </div>`;
 }
@@ -455,7 +463,7 @@ function buildEssayThreshold() {
     <div class="essay-ref">[2] Gladwell, M. (2000). <em>The Tipping Point: How Little Things Can Make a Big Difference.</em> Little, Brown and Company.</div>
     <div class="essay-ref">[3] Strogatz, S. H. (1994). <em>Nonlinear Dynamics and Chaos.</em> Addison-Wesley. Ch. 3: Bifurcations.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../sandbox/ml/index.html#classification-boundary">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../sandbox/ml/index.html#classification-boundary">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief. The quiet build-up before a market breaks is the theme of <a href="index.html#essay-spring">The Coiled Spring</a>.</div>
   <div class="topic-nav" id="nav-essay-threshold"></div>
 </div>`;
 }
@@ -602,7 +610,7 @@ function buildEssayKalman() {
     <div class="essay-ref">[3] Krishnan, R. G., Shalit, U. &amp; Sontag, D. (2017). Structured Inference Networks for Nonlinear State Space Models. <em>Proceedings of the AAAI Conference on Artificial Intelligence, 31</em>(1). <a href="https://doi.org/10.1609/aaai.v31i1.10779" target="_blank" rel="noopener">doi:10.1609/aaai.v31i1.10779</a></div>
     <div class="essay-ref">[4] IEC 60076-7 (2018). <em>Power transformers \u2014 Part 7: Loading guide for mineral-oil-immersed power transformers.</em> International Electrotechnical Commission.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> This essay is the applied face of <a href="../timeseries/index.html#state-space">state-space models</a> in The Toolkit, where the Kalman filter lives, and the \u201cdeep\u201d half borrows the learned dynamics of <a href="../timeseries/index.html#lstm-for-ts">recurrent networks</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> This essay is the applied face of <a href="../timeseries/index.html#state-space">state-space models</a> in The Toolkit, where the Kalman filter lives, and the \u201cdeep\u201d half borrows the learned dynamics of <a href="../timeseries/index.html#lstm-for-ts">recurrent networks</a>. How much of the past any model should keep is the question of <a href="index.html#essay-memory">How Long Is Memory?</a></div>
   <div class="topic-nav" id="nav-essay-kalman"></div>
 </div>`;
 }
@@ -814,5 +822,62 @@ function buildEssayBottleneck() {
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Queues are what <a href="../mlops/index.html#alerting-slos">latency SLOs</a> watch for, and the same arithmetic of narrow steps decides the drop-off in a <a href="../stats/index.html#cohort-retention">retention curve</a>.</div>
   <div class="topic-nav" id="nav-essay-bottleneck"></div>
+</div>`;
+}
+
+/* E17 — Small, Reversible Bets */
+function buildEssayReversible() {
+  return `<div class="topic pattern-essay" id="essay-reversible">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E17 — Pattern Essays</div><h2>Small, Reversible <em>Bets</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</p>
+  <p class="prose">In his 2015 letter to shareholders, Jeff Bezos split decisions into two kinds. Some are one-way doors: once through, you cannot come back, and they deserve slow, careful thought. Most are two-way doors: if the room on the other side is wrong, you walk back out. The common mistake, he argued, is treating the second kind like the first — deliberating for weeks over choices that could have been tried, measured and reversed in days.</p>
+  <p class="prose">The same idea has a harder, mathematical edge. When gains and losses compound, the order of events matters and a large enough loss ends the game. A bet can have a positive expected value and still ruin almost everyone who takes it too often at too large a size. The physicist Ole Peters calls this the ergodicity problem: the average over many people is not what any one person experiences over time. Survival is not one goal among others; it is the condition for having any others.</p>
+
+  <div class="essay-case">
+    <h4>Shipping a model — build the way back first</h4>
+    <p>Mature ML teams spend a surprising share of their effort on undo. <a href="../mlops/index.html#shadow-scoring">Shadow mode</a> lets a new model score live traffic without acting on it, and a champion/challenger setup gives it a small slice before the whole. <a href="../mlops/index.html#ci-cd-ml">CI/CD for ML</a> stops a bad model before it ships; a <a href="../mlops/index.html#model-registry">model registry</a> makes going back to yesterday’s version a one-line change; <a href="../mlops/index.html#model-packaging">packaging in containers</a> makes sure the old version still runs; <a href="../mlops/index.html#reproducibility">reproducibility</a> means it can be rebuilt at all. When something does break, good <a href="../mlops/index.html#incident-response">incident response</a> rolls back first and investigates second.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Sizing a position — stay in the game</h4>
+    <p>The <a href="../markets/risk/index.html#kelly-criterion">Kelly criterion</a> gives the bet size that grows capital fastest, and shows that betting much more than that turns a winning edge into a losing strategy. <a href="../markets/risk/index.html#max-position">Position limits</a> cap what any one mistake can cost. <a href="../markets/risk/index.html#pyramiding">Pyramiding</a> starts small and adds only once the market has said yes. A protective put from <a href="../markets/risk/index.html#options-hedging">options hedging</a> buys a floor, paying a premium so that one outcome is ruled out in advance. <a href="../markets/risk/index.html#portfolio-insurance">Portfolio insurance</a> tried to make the floor dynamic — and in October 1987 showed that an exit everyone plans to use at once is not reversible at all.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Training a language model — small runs before the big one</h4>
+    <p>Large models are expensive one-way doors, so the field has learned to climb a ladder of cost. <a href="../llm/index.html#prompt-engineering">Prompt engineering</a> is the cheapest change and the easiest to undo; <a href="../llm/index.html#fine-tuning">fine-tuning</a> costs more and changes the weights; <a href="../llm/index.html#pre-training">pre-training</a> is the one-way door. Before walking through it, labs fit <a href="../llm/index.html#scaling-laws">scaling laws</a> to a series of small, cheap runs and extrapolate — many small bets used to size the one big one.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>The mind — why reversing is hard</h4>
+    <p>The obstacles are mostly psychological. The <a href="../markets/psychology/index.html#sunk-cost-fallacy">sunk cost fallacy</a> keeps people walking through a door they should back out of; the <a href="../markets/psychology/index.html#disposition-effect">disposition effect</a> reverses the wrong positions, selling winners and keeping losers; <a href="../markets/psychology/index.html#mental-accounting">mental accounting</a> treats recent gains as house money to bet bigger with; and <a href="../markets/psychology/index.html#fomo">FOMO</a> turns many small entries into one large, late one. Each turns a two-way door into a one-way door from the inside.</p>
+  </div>
+
+  <p class="prose">Cheap reversals are also what makes it safe to try many things — and trying many things brings back the warning of <a href="index.html#essay-forking">The Garden of Forking Paths</a>: the more you try, the more carefully you have to judge what seems to work. Small bets are for learning fast, not for believing the first lucky one.</p>
+
+  <div class="va">
+    <canvas id="reversibleCanvas" role="img" aria-label="Small, Reversible Bets — visualization" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Bet size</span>
+      <input type="range" id="reversibleSlider" min="2" max="50" value="10" oninput="document.getElementById('reversibleVal').textContent=this.value+'%';DRAWS['essay-reversible']()">
+      <span class="viz-ctrl-val" id="reversibleVal">10%</span>
+    </div>
+    <div class="essay-label">40 players, the same favourable coin (55% to win, even money), 300 rounds &mdash; drag the bet size and watch survival</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Prefer decisions you can undo, and size the ones you cannot so that being wrong is survivable. Speed comes from cheap reversals, not from being right the first time.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Bezos, J. P. (2016). <em>2015 Letter to Shareholders.</em> Amazon.com, Inc. — Type 1 and Type 2 decisions.</div>
+    <div class="essay-ref">[2] Kelly, J. L. (1956). A New Interpretation of Information Rate. <em>Bell System Technical Journal, 35</em>(4), 917–926. <a href="https://doi.org/10.1002/j.1538-7305.1956.tb03809.x" target="_blank" rel="noopener">doi:10.1002/j.1538-7305.1956.tb03809.x</a></div>
+    <div class="essay-ref">[3] Peters, O. (2019). The Ergodicity Problem in Economics. <em>Nature Physics, 15</em>, 1216–1221. <a href="https://doi.org/10.1038/s41567-019-0732-0" target="_blank" rel="noopener">doi:10.1038/s41567-019-0732-0</a></div>
+    <div class="essay-ref">[4] Sculley, D. et al. (2015). Hidden Technical Debt in Machine Learning Systems. <em>Advances in Neural Information Processing Systems 28.</em></div>
+    <div class="essay-ref">[5] Kaplan, J. et al. (2020). Scaling Laws for Neural Language Models. <a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener">arXiv:2001.08361</a></div>
+    <div class="essay-ref">[6] Arkes, H. R. &amp; Blumer, C. (1985). The Psychology of Sunk Cost. <em>Organizational Behavior and Human Decision Processes, 35</em>(1), 124–140. <a href="https://doi.org/10.1016/0749-5978(85)90049-4" target="_blank" rel="noopener">doi:10.1016/0749-5978(85)90049-4</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The arithmetic of ruin is in <a href="../markets/risk/index.html#drawdown-analysis">drawdown analysis</a> — a 50% loss needs a 100% gain to recover — and the cost of waiting too long to reverse is in <a href="../markets/risk/index.html#stop-losses">stop-loss strategies</a>.</div>
+  <div class="topic-nav" id="nav-essay-reversible"></div>
 </div>`;
 }

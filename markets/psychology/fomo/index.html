@@ -107,6 +107,12 @@
 entry = close[close &gt;= 2 * close.iloc[0]].index[0]   # the FOMO buyer waits until it has doubled
 fomo = close.iloc[-1] / close[entry] - 1
 early = close.iloc[-1] / close.iloc[0] - 1</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. K. Przybylski, K. Murayama, C. R. DeHaan &amp; V. Gladwell, “Motivational, Emotional, and Behavioral Correlates of Fear of Missing Out”, <em>Computers in Human Behavior</em> 29(4), 2013</li><li>B. M. Barber, X. Huang, T. Odean &amp; C. Schwarz, “Attention-Induced Trading and Returns: Evidence from Robinhood Users”, <em>Journal of Finance</em> 77(6), 2022</li><li>B. M. Barber &amp; T. Odean, “All That Glitters: The Effect of Attention and News on the Buying Behavior of Individual and Institutional Investors”, <em>Review of Financial Studies</em> 21(2), 2008</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Fear of missing out drives late entries at peaks. In ML, <a href="../../../ml-math/#optimizers">momentum overshoot</a> is the same — too much velocity past the optimum.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../../essays/essay-reversible/"><span class="tc-col">Pattern Essays</span><span class="tc-title">Small, Reversible Bets</span><span class="tc-pattern">Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../herd-behavior/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Herd Behavior</div></a>
     <a class="tnav-btn next" href="../social-proof/"><div class="tnav-dir">Next →</div><div class="tnav-name">Social Proof</div></a>

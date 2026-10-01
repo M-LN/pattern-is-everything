@@ -1120,4 +1120,49 @@ const DRAWS = {
     ctx.textAlign = 'left'; ctx.fillStyle = ink.muted;
     ctx.fillText('time in system', pad + 4, pad - 10);
   },
+  /* E17 — Small, Reversible Bets
+     40 seeded players bet a fixed fraction of their wealth on the same
+     favourable coin (55% to win, even money) for 300 rounds. Wealth is drawn
+     on a log scale. Kelly is 10%; past about 20% the typical player loses
+     money, and the label counts how many end below a tenth of their start. */
+  'essay-reversible'() {
+    const s = setupCanvas('reversibleCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const f = (parseInt(document.getElementById('reversibleSlider')?.value || 10)) / 100;
+    const ink = essayInk();
+    const pad = 32, P = 40, T = 300;
+    ctx.clearRect(0, 0, w, h);
+
+    const rnd = seededRandom(2015);
+    const wins = [];                               // the same coin flips whatever the bet size
+    for (let k = 0; k < P; k++) { const r = []; for (let t = 0; t < T; t++) r.push(rnd.next() < 0.55); wins.push(r); }
+    const lo = -4, hi = 3;                         // log10 wealth from 1/10,000 to 1,000x
+    const x = t => pad + (t / T) * (w - pad * 2);
+    const y = v => h - pad - ((Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo)) * (h - pad * 2);
+
+    const finals = [];
+    ctx.lineWidth = 0.8;
+    wins.forEach(r => {
+      let lw = 0;
+      ctx.beginPath(); ctx.moveTo(x(0), y(0));
+      r.forEach((won, t) => { lw += Math.log10(won ? 1 + f : 1 - f); ctx.lineTo(x(t + 1), y(lw)); });
+      finals.push(lw);
+      ctx.strokeStyle = lw < -1 ? '#c0392b' : ACCENT4; ctx.globalAlpha = 0.35; ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+
+    ctx.beginPath(); ctx.moveTo(pad, y(0)); ctx.lineTo(w - pad, y(0));
+    ctx.strokeStyle = ink.border; ctx.lineWidth = 0.8; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+
+    finals.sort((a, b) => a - b);
+    const median = Math.pow(10, (finals[P / 2 - 1] + finals[P / 2]) / 2);
+    const ruined = finals.filter(v => v < -1).length;
+    const fmt = m => m >= 10 ? Math.round(m) + '×' : m >= 1 ? m.toFixed(1) + '×' : m >= 0.01 ? m.toFixed(2) + '×' : '<0.01×';
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'left'; ctx.fillStyle = ink.muted;
+    ctx.fillText('wealth (log scale) · start = 1×', pad + 4, pad - 12);
+    ctx.textAlign = 'right'; ctx.fillStyle = ink.text;
+    ctx.fillText('median ' + fmt(median) + '   below 0.1×: ' + ruined + ' of ' + P + (Math.abs(f - 0.10) < 0.005 ? '   (Kelly)' : ''), w - pad, pad - 12);
+  },
 };

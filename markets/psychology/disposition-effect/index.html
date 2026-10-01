@@ -109,6 +109,12 @@
 g, s = book.gain == 1, book.sold == 1
 PGR = (g &amp; s).sum() / g.sum()                    # proportion of gains realized (Odean 1998)
 PLR = (~g &amp; s).sum() / (~g).sum()                # proportion of losses realized</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Shefrin &amp; M. Statman, “The Disposition to Sell Winners Too Early and Ride Losers Too Long: Theory and Evidence”, <em>Journal of Finance</em> 40(3), 1985</li><li>T. Odean, “Are Investors Reluctant to Realize Their Losses?”, <em>Journal of Finance</em> 53(5), 1998</li><li>I. Ben-David &amp; D. Hirshleifer, “Are Investors Really Reluctant to Realize Their Losses? Trading Responses to Past Returns and the Disposition Effect”, <em>Review of Financial Studies</em> 25(8), 2012</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Selling winners too early, holding losers too long. In ML, <a href="../../../ml-math/#lr-schedule">learning rate scheduling</a> fights the same instinct: slow down on gains, keep going through losses.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../../essays/essay-reversible/"><span class="tc-col">Pattern Essays</span><span class="tc-title">Small, Reversible Bets</span><span class="tc-pattern">Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../overconfidence/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Overconfidence</div></a>
     <a class="tnav-btn next" href="../herd-behavior/"><div class="tnav-dir">Next →</div><div class="tnav-name">Herd Behavior</div></a>
