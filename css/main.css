@@ -28,9 +28,9 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
   --shadow-md: 0 4px 20px rgba(0,0,0,.08);
   --shadow-lg: 0 12px 40px rgba(0,0,0,.12);
-  --mono:     'IBM Plex Mono', monospace;
-  --serif:    'Playfair Display', Georgia, serif;
-  --sans:     'Inter', -apple-system, sans-serif;
+  --mono:     'IBM Plex Mono', 'IBM Plex Mono Fallback', monospace;
+  --serif:    'Playfair Display', 'Playfair Display Fallback', Georgia, serif;
+  --sans:     'Inter', 'Inter Fallback', -apple-system, sans-serif;
   --ease:     cubic-bezier(.4,0,.2,1);
 }
 

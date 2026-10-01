@@ -103,8 +103,8 @@ function shell({ title, desc, canonical, ogImage, h1, body, extraHead = '' }) {
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(desc)}">
   <meta name="twitter:image" content="${ogImage}">
-${extraHead}  <link rel="stylesheet" href="/css/fonts.css?v=1">
-  <link rel="stylesheet" href="/css/main.css?v=32">
+${extraHead}  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=33">
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
