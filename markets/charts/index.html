@@ -97,6 +97,21 @@
 </div>
 
 
+<!-- Rendered here rather than injected by js/market-evidence-warning.js after
+     load, which pushed the whole page down ~280px (layout shift). The script
+     still runs and leaves an existing panel alone. -->
+<section class="market-evidence-panel">
+  <div class="market-evidence-copy">
+    <div class="market-evidence-kicker">Evidence Check</div>
+    <div class="market-evidence-title">Market patterns are hypotheses, not guarantees</div>
+    <p>Risk and portfolio math can be statistical. Chart patterns, indicators, and psychology signals are usually heuristic or debated until validated with out-of-sample data, costs, slippage, and regime checks.</p>
+  </div>
+  <div class="market-evidence-legend" aria-label="Evidence label legend">
+    <span class="evidence-badge statistical">Statistical</span>
+    <span class="evidence-badge heuristic">Heuristic</span>
+    <span class="evidence-badge debated">Debated</span>
+  </div>
+</section>
 <div class="layout">
 <nav id="mainNav">
   <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
