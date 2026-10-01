@@ -134,6 +134,174 @@ function buildNav() {
 /* ═══════════════════════════════════════════════════════════════
    CONTENT BUILDER
    ═══════════════════════════════════════════════════════════════ */
+/* selfcheck:start — "Check yourself" pilot; js/self-check.js renders it. */
+const SELF_CHECK = {
+ "hypothesis-testing": [
+  {
+   "q": "A test gives p = 0.03. Which statement is correct?",
+   "options": [
+    "There is a 3% chance that the null hypothesis is true.",
+    "If the null hypothesis were true, data at least this extreme would turn up about 3% of the time.",
+    "The effect is large enough to matter in practice."
+   ],
+   "answer": 1,
+   "why": "A p-value is computed <em>assuming</em> the null is true, so it cannot be the probability that the null is true. It also says nothing about size: a tiny effect in a huge sample can give a tiny p-value."
+  },
+  {
+   "q": "You test 20 independent metrics at α = 0.05, and none of them is really affected. How likely is at least one “significant” result?",
+   "options": [
+    "About 64%",
+    "About 5%",
+    "Certain — exactly one will be"
+   ],
+   "answer": 0,
+   "why": "Each test has a 95% chance of staying quiet, so all twenty stay quiet with probability 0.95<sup>20</sup> ≈ 0.36. The other 64% of the time something crosses the line by chance — the garden of forking paths."
+  },
+  {
+   "q": "A study reports p = 0.20 for a new treatment. What can you conclude?",
+   "options": [
+    "The treatment has been shown to have no effect.",
+    "The null hypothesis is true.",
+    "The data are not strong enough to rule out chance; an effect may still exist."
+   ],
+   "answer": 2,
+   "why": "Failing to reject is not proof of the null. With a small sample (low power) a real effect often gives p &gt; 0.05; report the effect size and its confidence interval instead."
+  }
+ ],
+ "confidence-intervals": [
+  {
+   "q": "A 95% confidence interval for a mean is [4.1, 5.3]. What does the “95%” describe?",
+   "options": [
+    "95% of the data lie between 4.1 and 5.3.",
+    "The method: intervals built this way contain the true mean in 95% of repeated samples.",
+    "There is a 95% probability that the true mean is in this particular interval."
+   ],
+   "answer": 1,
+   "why": "The 95% belongs to the procedure, not to one interval: this one either contains the true mean or it does not. The probability reading in C is what a Bayesian credible interval gives. A describes the spread of the data, which is a different, much wider thing."
+  },
+  {
+   "q": "You collect four times as much data. Roughly what happens to the width of the interval?",
+   "options": [
+    "It shrinks to a quarter.",
+    "It halves.",
+    "It stays the same; only the centre moves."
+   ],
+   "answer": 1,
+   "why": "The width scales with 1/√n, so four times the data halves it. Halving it again takes four times as much data again — precision gets expensive."
+  },
+  {
+   "q": "The 95% intervals for two groups overlap a little. Is the difference between them therefore not significant?",
+   "options": [
+    "Not necessarily — the difference can still be significant at the 5% level.",
+    "Yes — any overlap means p &gt; 0.05.",
+    "Yes — overlapping intervals mean the groups are the same."
+   ],
+   "answer": 0,
+   "why": "Checking whether two intervals overlap is a much stricter test than p &lt; 0.05; intervals can overlap by a fair amount while the difference is significant. Build an interval for the <em>difference</em> instead."
+  }
+ ],
+ "correlation-causation": [
+  {
+   "q": "Across a year, ice-cream sales and drownings rise and fall together. What is the best explanation?",
+   "options": [
+    "Eating ice cream makes swimming more dangerous.",
+    "A third factor — hot weather — drives both.",
+    "It is a coincidence; correlations like this mean nothing."
+   ],
+   "answer": 1,
+   "why": "Warm days bring both ice cream and swimming. The correlation is real and even useful for forecasting; it just runs through a confounder rather than from one to the other."
+  },
+  {
+   "q": "Two variables have a correlation of r = 0. What does that tell you?",
+   "options": [
+    "They are independent.",
+    "Neither can be used to predict the other.",
+    "There is no <em>linear</em> relationship — a strong curved one may still exist."
+   ],
+   "answer": 2,
+   "why": "Pearson’s r only measures straight-line association. If x is symmetric around zero, y = x² is completely determined by x and still has r ≈ 0. Plot the data."
+  },
+  {
+   "q": "Which evidence best supports a causal claim?",
+   "options": [
+    "A randomized experiment in which only the treatment differs between groups.",
+    "A very large observational dataset with a strong correlation.",
+    "The same correlation found in many different countries."
+   ],
+   "answer": 0,
+   "why": "Randomization makes the groups alike in everything except the treatment, confounders included. More observational data makes a biased estimate more precise, not less biased."
+  }
+ ],
+ "cross-validation": [
+  {
+   "q": "You standardize all features with the mean and standard deviation of the whole dataset, then run 5-fold cross-validation. What is wrong?",
+   "options": [
+    "Nothing; scaling does not affect cross-validation.",
+    "Statistics from the validation folds leaked into training, so the score is optimistic.",
+    "Cross-validation needs at least 10 folds."
+   ],
+   "answer": 1,
+   "why": "Every preprocessing step that learns from data has to be fitted inside each training fold. In scikit-learn, put the scaler and the model in one <code>Pipeline</code> and cross-validate the pipeline."
+  },
+  {
+   "q": "Why is shuffled k-fold a poor choice for a daily price series?",
+   "options": [
+    "It is too slow for long series.",
+    "It leaves too little data for training.",
+    "It trains on the future and tests on the past, leaking information across time."
+   ],
+   "answer": 2,
+   "why": "Neighbouring days are related, and shuffling puts tomorrow in the training set while testing on today. Use walk-forward validation or <code>TimeSeriesSplit</code>, ideally with a gap between training and test."
+  },
+  {
+   "q": "You try 200 hyperparameter settings and report the best cross-validated score. That score is…",
+   "options": [
+    "optimistically biased — the best of 200 was partly chosen for luck.",
+    "an unbiased estimate of performance on new data.",
+    "pessimistic, because each fold trains on less data."
+   ],
+   "answer": 0,
+   "why": "Selecting the maximum of many noisy scores flatters it. Nested cross-validation, or a test set touched only once at the end, gives an honest estimate."
+  }
+ ],
+ "class-imbalance": [
+  {
+   "q": "1% of transactions are fraud. What accuracy does a model get by predicting “not fraud” every time?",
+   "options": [
+    "50%",
+    "99%",
+    "1%"
+   ],
+   "answer": 1,
+   "why": "It is right on all 99% of normal transactions and catches no fraud at all. With rare classes, look at precision and recall for the class you care about."
+  },
+  {
+   "q": "You oversample the fraud cases to 50/50 for training. The model’s predicted probabilities are now…",
+   "options": [
+    "too high for fraud, and need recalibrating to the real 1% rate.",
+    "calibrated to the real 1% rate.",
+    "unchanged by the resampling."
+   ],
+   "answer": 0,
+   "why": "The model learned that fraud is common because that is what it saw. Rankings may be fine, but if you use the probabilities — for thresholds, costs or reporting — recalibrate them to the true base rate."
+  },
+  {
+   "q": "Which is usually most informative when the positive class is rare?",
+   "options": [
+    "Accuracy",
+    "ROC-AUC on its own",
+    "Precision and recall, e.g. the area under the precision–recall curve"
+   ],
+   "answer": 2,
+   "why": "ROC-AUC counts true negatives, which are plentiful, so it can look good while most alarms are false. Precision–recall focuses on the rare class (Saito &amp; Rehmsmeier 2015)."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('stats/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -471,6 +639,7 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
     <div class="use-when">✓ <strong>Use when:</strong> Small-to-medium datasets where every sample matters. Model comparison and selection. Hyperparameter tuning (inside nested CV). Reporting final model performance for publication.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Very large datasets (>500K samples) where a single 80/20 split gives stable estimates. Real-time/streaming data where temporal order matters — use walk-forward instead. Quick prototyping where a holdout split is sufficient.</div>
   </div>
+  ${selfCheck('cross-validation')}
   <div class="topic-nav" id="nav-cross-validation"></div>
 </div>`;
 }
@@ -1040,6 +1209,7 @@ model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)<
     <div class="skip-when">✗ <strong>Skip when:</strong> Classes are roughly balanced (30-70% split). You have enough minority samples (>5K). You're using models that handle imbalance natively (like focal loss in neural nets).</div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rare events are the usual case in practice — fraud, failures and crashes are all minority classes. The same imbalance shapes <a href="../timeseries/#anomaly-detection">anomaly detection</a> and is why <a href="../markets/risk/#tail-risk">tail risk</a> is so hard to estimate from history.</div>
+  ${selfCheck('class-imbalance')}
   <div class="topic-nav" id="nav-class-imbalance"></div>
 </div>`;
 }
@@ -1282,6 +1452,7 @@ boots = [np.mean(np.random.choice(data, size=n, replace=<span class="st">True</s
          <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="st">10000</span>)]
 ci_boot = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</span>])</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> CIs quantify uncertainty. In ML, report metric &plusmn; CI from <a href="#cross-validation">cross-validation</a>. In markets, <a href="#monte-carlo">Monte Carlo</a> confidence bands are CIs for portfolio outcomes.</div>
+  ${selfCheck('confidence-intervals')}
   <div class="topic-nav" id="nav-confidence-intervals"></div>
 </div>`;
 }
@@ -1527,6 +1698,7 @@ d = (variant.mean() - control.mean()) / np.sqrt(
     (control.var() + variant.var()) / 2)
 print(f"t = {t:.2f}, p = {p:.4f}, Cohen's d = {d:.2f}")</code></pre>
   </div>
+  ${selfCheck('hypothesis-testing')}
   <div class="topic-nav" id="nav-hypothesis-testing"></div>
 </div>`;
 }
@@ -1770,6 +1942,7 @@ within = df.groupby('species').apply(
 print(f"pooled r = {pooled:.2f}")   # negative!
 print(within.round(2))              # all positive</code></pre>
   </div>
+  ${selfCheck('correlation-causation')}
   <div class="topic-nav" id="nav-correlation-causation"></div>
 </div>`;
 }
