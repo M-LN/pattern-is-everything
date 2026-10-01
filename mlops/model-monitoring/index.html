@@ -55,7 +55,8 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="../../css/main.css?v=29">
+  <link rel="stylesheet" href="../../css/fonts.css?v=1">
+  <link rel="stylesheet" href="../../css/main.css?v=30">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -100,7 +101,7 @@
 <div class="topic" id="model-monitoring" data-_rt-added="1" data-_share-added="1">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">07 — Monitor &amp; Observe</div><h2 id="model-monitoring-dashboards">Model Monitoring <em>Dashboards</em><a class="heading-anchor" href="#model-monitoring-dashboards" aria-label="Copy link to this section" title="Copy link to this section">#</a></h2></div>
-    <span class="topic-badge">Observability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
+    <span class="topic-badge">Observability</span><span class="evidence-badge statistical" title="Grounded in statistical estimation, validation, or empirical model evaluation. Use with uncertainty and assumptions in mind." data-evidence="statistical">Statistical</span>
   <button type="button" class="share-topic-btn" title="Copy link to this topic" aria-label="Share: copy link to this topic"><svg class="sh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"></path><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"></path></svg><svg class="sh-check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="sh-label">Share</span></button></div><div class="pattern-thread"><span class="pt-label">◆ The Pattern</span><span class="pt-text">Prediction health, feature drift, and system metrics in one view</span></div>
   <p class="sub" style="display: none;">// Prediction health, feature drift, and system metrics in one view</p>
   <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana + Prometheus is the standard stack.</p>

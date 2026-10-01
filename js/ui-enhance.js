@@ -1046,6 +1046,10 @@
       var nodes = topic.querySelectorAll('.prose, li, blockquote, td, th');
       var words = 0;
       nodes.forEach(function (n) {
+        // The practical-template block is added after load, so counting it
+        // made the estimate depend on which ran first — and the pre-rendered
+        // pages flip between renders. Count only the topic's own text.
+        if (n.closest('.practical-template')) return;
         var t = (n.innerText || n.textContent || '').trim();
         if (!t) return;
         words += t.split(/\s+/).length;

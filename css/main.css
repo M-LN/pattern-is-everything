@@ -3,7 +3,10 @@
    A shared style foundation for all portal collections.
    ═══════════════════════════════════════════════════════════════ */
 
-@import url('fonts.css?v=1');
+/* fonts.css is linked by each page next to this file rather than @import-ed
+   from it: an @import is only discovered once this whole file has arrived,
+   which put a second render-blocking round trip in front of every first
+   paint. Linked, the two download side by side. */
 
 /* ── Tokens ── */
 :root {

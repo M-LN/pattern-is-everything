@@ -442,8 +442,15 @@ function navLink(id, className, dir) {
   return a;
 }
 
-/* ── Init ── */
-window.addEventListener('load', () => {
+/* ── Init ──
+   On DOMContentLoaded, not load. The page's text is all built here, and load
+   waits for every font, the analytics script and anything else in flight, so
+   the reader painted its first words well after the document was ready —
+   most of a phone's Largest Contentful Paint. The scripts that work on the
+   built content (pattern-thread, evidence-taxonomy, learning-path, the
+   deferred ui-enhance) register their DOMContentLoaded handlers after this
+   one, so they still run after it, and before the first paint. */
+function initReader() {
   buildNav();
   buildContent();
   const homeNI = document.querySelector('.ni[data-topic="home"]');
@@ -462,8 +469,11 @@ window.addEventListener('load', () => {
     const y = history.state && typeof history.state.y === 'number' ? history.state.y : undefined;
     show(target.topic, true, { history: target.anchor ? 'none' : 'replace', y, anchor: target.anchor });
   };
-  // Heading ids are assigned by ui-enhance.js in its own load handler, which
-  // runs after this one — so a hash naming a heading only resolves after it.
+  // Heading ids are assigned by ui-enhance.js in its own DOMContentLoaded
+  // handler, which runs after this one — so a hash naming a heading only
+  // resolves after it.
   if (location.hash && !resolveHash(location.hash)) setTimeout(open, 0);
   else open();
-});
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initReader);
+else initReader();

@@ -206,7 +206,8 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
     ]
   }
   </script>
-  <link rel="stylesheet" href="${up}css/main.css?v=29">
+  <link rel="stylesheet" href="${up}css/fonts.css?v=1">
+  <link rel="stylesheet" href="${up}css/main.css?v=30">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }

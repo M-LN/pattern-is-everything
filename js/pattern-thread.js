@@ -21,11 +21,21 @@
       text.textContent = raw;
       pt.appendChild(label);
       pt.appendChild(text);
+      // Topics without a header — the sandbox labs, whose subtitle is an
+      // instruction rather than a pattern — keep their subtitle as written.
+      // The thread used to be skipped there but the subtitle hidden anyway,
+      // so the labs lost the line altogether.
       var header = t.querySelector('.topic-header');
-      if (header) header.after(pt);
+      if (!header) return;
+      header.after(pt);
       sub.style.display = 'none';
     });
   }
-  /* Run after all load handlers (including buildContent) */
+  /* The collection readers build their topics on DOMContentLoaded, in a
+     handler registered before this one, so injecting here lands in the same
+     task — before the first paint, with no shift of the text beneath. Pages
+     that build on load (the sandboxes) are caught by the second pass; inject
+     skips topics that already have a thread. */
+  document.addEventListener('DOMContentLoaded', inject);
   window.addEventListener('load', function () { setTimeout(inject, 0); });
 })();
