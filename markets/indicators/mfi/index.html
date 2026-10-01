@@ -109,6 +109,12 @@ flow = tp * df['volume']
 pos = flow.where(tp &gt; tp.shift(), 0).rolling(5).sum()
 neg = flow.where(tp &lt; tp.shift(), 0).rolling(5).sum()
 df['mfi5'] = 100 - 100 / (1 + pos / neg)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns high, low, close and volume — the 15 days above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>G. Quong &amp; A. Soudack, “Volume-Weighted RSI: Money Flow”, <em>Technical Analysis of Stocks &amp; Commodities</em> 7(3), 1989</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Money Flow Index is <a href="../../../markets/indicators/#rsi">RSI</a> weighted by volume — the same normalization to [0,100]. In statistics, weighting by a second variable is a <a href="../../../stats/#feature-correlation">covariance-aware</a> approach.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../../essays/essay-forking/"><span class="tc-col">Pattern Essays</span><span class="tc-title">The Garden of Forking Paths</span><span class="tc-pattern">Try enough paths and one of them will lead somewhere — by luck alone</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../accumulation-distribution/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Accumulation/Distribution</div></a>
     <a class="tnav-btn next" href="../chaikin-oscillator/"><div class="tnav-dir">Next →</div><div class="tnav-name">Chaikin Oscillator</div></a>

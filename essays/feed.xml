@@ -5,8 +5,36 @@
   <link>https://patterniseverything.com/essays/</link>
   <description>Short visual essays on patterns in machine learning, markets, and the world.</description>
   <language>en</language>
-  <lastBuildDate>Sun, 13 Sep 2026 17:50:48 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 01 Oct 2026 14:21:40 GMT</lastBuildDate>
   <atom:link href="https://patterniseverything.com/essays/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>The Bottleneck</title>
+    <link>https://patterniseverything.com/essays/#essay-bottleneck</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-bottleneck</guid>
+    <pubDate>Thu, 01 Oct 2026 14:21:40 GMT</pubDate>
+    <description>A system goes no faster than its slowest step, and as it nears full capacity, waiting time grows far faster than the load.</description>
+  </item>
+  <item>
+    <title>How Long Is Memory?</title>
+    <link>https://patterniseverything.com/essays/#essay-memory</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-memory</guid>
+    <pubDate>Thu, 01 Oct 2026 14:21:39 GMT</pubDate>
+    <description>Every model of a sequence decides how far back the past matters and how fast it fades, usually with a parameter nobody looks at.</description>
+  </item>
+  <item>
+    <title>The Garden of Forking Paths</title>
+    <link>https://patterniseverything.com/essays/#essay-forking</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-forking</guid>
+    <pubDate>Thu, 01 Oct 2026 14:21:39 GMT</pubDate>
+    <description>Every choice in an analysis is a fork. Try enough rules and one will pass by luck; the best result of a search is always flattered.</description>
+  </item>
+  <item>
+    <title>The Coiled Spring</title>
+    <link>https://patterniseverything.com/essays/#essay-spring</link>
+    <guid isPermaLink="true">https://patterniseverything.com/essays/#essay-spring</guid>
+    <pubDate>Thu, 01 Oct 2026 14:21:39 GMT</pubDate>
+    <description>Volatility clusters: a narrowing range stores up a move. Compression warns about the size of what comes next, not its direction.</description>
+  </item>
   <item>
     <title>The Deep Kalman Filter</title>
     <link>https://patterniseverything.com/essays/#essay-kalman</link>

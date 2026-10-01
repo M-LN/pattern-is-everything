@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════
    Pattern Essays — Topics Data & Content Builder
-   5 short reflections on patterns in the world
+   16 short reflections on patterns in the world
    ═══════════════════════════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson','essay-kalman'] },
+  { id:'sec-essays', title:'Pattern Essays', topics:['home','essay-bell','essay-mean','essay-tail','essay-signal','essay-map','essay-feedback','essay-walk','essay-threshold','essay-survivor','essay-fractal','essay-simpson','essay-kalman','essay-spring','essay-forking','essay-memory','essay-bottleneck'] },
 ];
 
 const TOPICS = SECTIONS.flatMap(s => s.topics);
@@ -23,6 +23,10 @@ const TOPIC_NAMES = {
   'essay-fractal':'The Fractal',
   'essay-simpson':'Simpson\u2019s Paradox',
   'essay-kalman':'The Deep Kalman Filter',
+  'essay-spring':'The Coiled Spring',
+  'essay-forking':'The Garden of Forking Paths',
+  'essay-memory':'How Long Is Memory?',
+  'essay-bottleneck':'The Bottleneck',
 };
 
 /* ── Full topic data for search ── */
@@ -39,6 +43,10 @@ const TOPIC_DATA = [
   { id:'essay-fractal', num:'E10', title:'The Fractal', category:'Pattern Essays', keywords:['fractal','self-similarity','scale invariance','Mandelbrot','recursion','coastline','dimension','branching'], content:'Zoom in and the pattern repeats. Self-similarity across scales is one of nature\u2019s most common signatures.' },
   { id:'essay-simpson', num:'E11', title:'Simpson\u2019s Paradox', category:'Pattern Essays', keywords:['Simpson paradox','confounding','aggregation','lurking variable','reversal','subgroups','causation','statistics'], content:'A trend can point one way in every group and the opposite way when the groups are combined. Aggregation can lie.' },
   { id:'essay-kalman', num:'E12', title:'The Deep Kalman Filter', category:'Pattern Essays', keywords:['Kalman filter','deep Kalman filter','state estimation','hidden state','sensor fusion','hotspot temperature','generator','transformer winding','state of charge','battery','EHR','health monitoring','filtering','prediction','measurement','process noise','Kalman gain','neural network','latent state'], content:'You cannot measure everything directly. The Kalman filter estimates a hidden state by blending what it predicts with what it noisily measures \u2014 and the deep version learns the model from data.' },
+  { id:'essay-spring', num:'E13', title:'The Coiled Spring', category:'Pattern Essays', keywords:['volatility clustering','compression','squeeze','triangle','breakout','range','GARCH','Mandelbrot','elastic rebound'], content:'Volatility clusters: a narrowing range stores up a move. Compression warns about the size of what comes next, not its direction.' },
+  { id:'essay-forking', num:'E14', title:'The Garden of Forking Paths', category:'Pattern Essays', keywords:['multiple testing','data snooping','p-hacking','backtest overfitting','forking paths','Gelman','Borges','false discovery','hyperparameter search'], content:'Every choice in an analysis is a fork. Try enough rules and one will pass by luck; the best result of a search is always flattered.' },
+  { id:'essay-memory', num:'E15', title:'How Long Is Memory?', category:'Pattern Essays', keywords:['memory','autocorrelation','forgetting curve','Ebbinghaus','Hurst','long memory','moving average','LSTM','attention','retention'], content:'Every model of a sequence decides how far back the past matters and how fast it fades, usually with a parameter nobody looks at.' },
+  { id:'essay-bottleneck', num:'E16', title:'The Bottleneck', category:'Pattern Essays', keywords:['bottleneck','queueing','Little\'s law','throughput','latency','utilisation','theory of constraints','Goldratt','funnel'], content:'A system goes no faster than its slowest step, and as it nears full capacity, waiting time grows far faster than the load.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -87,7 +95,11 @@ function buildContent() {
     + buildEssaySurvivor()
     + buildEssayFractal()
     + buildEssaySimpson()
-    + buildEssayKalman();
+    + buildEssayKalman()
+    + buildEssaySpring()
+    + buildEssayForking()
+    + buildEssayMemory()
+    + buildEssayBottleneck();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -99,8 +111,8 @@ function buildHome() {
     <h2>Pattern <em>Essays</em></h2>
     <p style="margin-top:14px">Short, calm reflections on patterns that appear across the world &mdash; in data, in markets, in everyday life. Each essay is accompanied by a small visualization. No formulas. No code. Just the pattern.</p>
     <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">12</div><div class="home-stat-label">Essays</div></div>
-      <div class="home-stat"><div class="home-stat-num">12</div><div class="home-stat-label">Visualizations</div></div>
+      <div class="home-stat"><div class="home-stat-num">16</div><div class="home-stat-label">Essays</div></div>
+      <div class="home-stat"><div class="home-stat-num">16</div><div class="home-stat-label">Visualizations</div></div>
     </div>
     <p style="margin-top:18px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
@@ -167,6 +179,26 @@ function buildHome() {
       <div class="cat-card-icon">\u29bf</div>
       <div class="cat-card-name">The Deep Kalman Filter</div>
       <div class="cat-card-count">Estimating what you cannot measure &mdash; predict, then correct</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-spring',true)">
+      <div class="cat-card-icon">\u2307</div>
+      <div class="cat-card-name">The Coiled Spring</div>
+      <div class="cat-card-count">Quiet gathers before loud &mdash; a squeeze warns about size, not direction</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-forking',true)">
+      <div class="cat-card-icon">\u2442</div>
+      <div class="cat-card-name">The Garden of Forking Paths</div>
+      <div class="cat-card-count">Try enough paths and one will work &mdash; by luck alone</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-memory',true)">
+      <div class="cat-card-icon">\u21a9</div>
+      <div class="cat-card-name">How Long Is Memory?</div>
+      <div class="cat-card-count">Every model decides how much the past matters</div>
+    </div>
+    <div class="cat-card" onclick="show('essay-bottleneck',true)">
+      <div class="cat-card-icon">\u29d7</div>
+      <div class="cat-card-name">The Bottleneck</div>
+      <div class="cat-card-count">The slowest step sets the pace &mdash; and waiting explodes near capacity</div>
     </div>
   </div>
 </div>`;
@@ -572,5 +604,215 @@ function buildEssayKalman() {
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> This essay is the applied face of <a href="../timeseries/index.html#state-space">state-space models</a> in The Toolkit, where the Kalman filter lives, and the \u201cdeep\u201d half borrows the learned dynamics of <a href="../timeseries/index.html#lstm-for-ts">recurrent networks</a>.</div>
   <div class="topic-nav" id="nav-essay-kalman"></div>
+</div>`;
+}
+
+/* E13 — The Coiled Spring */
+function buildEssaySpring() {
+  return `<div class="topic pattern-essay" id="essay-spring">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E13 — Pattern Essays</div><h2>The Coiled <em>Spring</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// Quiet gathers before loud — a narrowing range warns about size, not direction</p>
+  <p class="prose">In 1963 Benoît Mandelbrot noticed something about cotton prices that every trader already felt: large changes tend to be followed by large changes, of either sign, and small changes by small ones. Calm comes in stretches, and so do storms. Volatility has a memory even when direction does not.</p>
+  <p class="prose">That memory gives markets a rhythm. A range narrows day by day as buyers and sellers drift towards agreement, positions pile up on both sides of a level, and the news everyone is waiting for has not yet arrived. Then something resolves, and the stored-up disagreement is released at once. The quiet was not the absence of risk. It was risk being wound up.</p>
+
+  <div class="essay-case">
+    <h4>On the chart — the shapes of compression</h4>
+    <p>Most of the classic continuation patterns are drawings of a narrowing range. The <a href="../markets/charts/index.html#symmetric-triangle">symmetric triangle</a> squeezes from both sides; the <a href="../markets/charts/index.html#ascending-triangle">ascending</a> and <a href="../markets/charts/index.html#descending-triangle">descending</a> triangles hold one side flat while the other closes in. <a href="../markets/charts/index.html#bull-flag">Bull flags</a>, <a href="../markets/charts/index.html#bear-flag">bear flags</a> and <a href="../markets/charts/index.html#pennant">pennants</a> are short pauses after a sharp move; <a href="../markets/charts/index.html#rising-wedge">rising</a> and <a href="../markets/charts/index.html#falling-wedge">falling wedges</a> narrow while they drift; the <a href="../markets/charts/index.html#rectangle">rectangle</a> and the <a href="../markets/charts/index.html#channels">channel</a> keep the range steady. The <a href="../markets/charts/index.html#broadening-formation">broadening formation</a> is the same idea run backwards: a range that keeps widening is uncertainty growing, not settling.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Around the price — measuring the squeeze</h4>
+    <p>Envelopes turn the eye’s judgement into a number. <a href="../markets/indicators/index.html#keltner-channels">Keltner channels</a> scale with the average true range, <a href="../markets/indicators/index.html#donchian-channels">Donchian channels</a> with the highest high and lowest low, <a href="../markets/indicators/index.html#vwap-bands">VWAP bands</a> with dispersion around the volume-weighted price, and <a href="../markets/indicators/index.html#bollinger-bands">Bollinger Bands</a> with the standard deviation. When the bands pinch together, traders call it a squeeze: the market is unusually quiet compared with its own recent past.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>In the model — calm that does not last</h4>
+    <p><a href="../markets/risk/index.html#volatility-modeling">Volatility models</a> such as <a href="../timeseries/index.html#garch">GARCH</a> write the rhythm down. Today’s variance is built from yesterday’s variance and yesterday’s shock, so calm predicts calm — but only for a while, because the model also pulls volatility back towards its long-run level. An unusually quiet market is, in this view, a market that is likely to get louder.</p>
+  </div>
+
+  <p class="prose">The same shape turns up far from markets. In 1910 the geologist Harry Fielding Reid explained earthquakes as elastic rebound: the ground on either side of a fault creeps past slowly for years while the fault stays locked, strain builds silently, and then it is released in one slip. Stillness on the surface was storage underneath. And like Mandelbrot’s prices, the pattern looks the same whether you watch minutes or months — a cousin of <a href="index.html#essay-fractal">the fractal</a> and of <a href="index.html#essay-threshold">the threshold</a>.</p>
+  <p class="prose">What compression does not tell you is which way the spring will jump. A tight triangle says a large move is more likely than usual; it says much less about its sign, and plenty of squeezes simply fizzle out into another quiet range.</p>
+
+  <div class="va">
+    <canvas id="springCanvas" role="img" aria-label="The Coiled Spring — visualization" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Compression</span>
+      <input type="range" id="springSlider" min="0" max="90" value="60" oninput="document.getElementById('springVal').textContent=this.value+'%';DRAWS['essay-spring']()">
+      <span class="viz-ctrl-val" id="springVal">60%</span>
+    </div>
+    <div class="essay-label">Price and its 10-day range &mdash; drag to squeeze the quiet phase harder and watch the release grow</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>A narrowing range is a warning about size, not a forecast of direction. Size a position for the release, not for the calm that came before it.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Mandelbrot, B. (1963). The Variation of Certain Speculative Prices. <em>Journal of Business, 36</em>(4), 394–419. <a href="https://doi.org/10.1086/294632" target="_blank" rel="noopener">doi:10.1086/294632</a></div>
+    <div class="essay-ref">[2] Engle, R. F. (1982). Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation. <em>Econometrica, 50</em>(4), 987–1007. <a href="https://doi.org/10.2307/1912773" target="_blank" rel="noopener">doi:10.2307/1912773</a></div>
+    <div class="essay-ref">[3] Bollerslev, T. (1986). Generalized Autoregressive Conditional Heteroskedasticity. <em>Journal of Econometrics, 31</em>(3), 307–327. <a href="https://doi.org/10.1016/0304-4076(86)90063-1" target="_blank" rel="noopener">doi:10.1016/0304-4076(86)90063-1</a></div>
+    <div class="essay-ref">[4] Reid, H. F. (1910). <em>The Mechanics of the Earthquake.</em> The California Earthquake of April 18, 1906: Report of the State Earthquake Investigation Commission, Vol. 2. Carnegie Institution of Washington.</div>
+    <div class="essay-ref">[5] Bulkowski, T. N. (2005). <em>Encyclopedia of Chart Patterns</em> (2nd ed.). Wiley.</div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The squeeze is measured with the <a href="../markets/indicators/index.html#atr">average true range</a> and sized for with <a href="../markets/risk/index.html#volatility-sizing">volatility-based position sizing</a> — the calm tells you how small the next stop would be, and how wrong that could prove.</div>
+  <div class="topic-nav" id="nav-essay-spring"></div>
+</div>`;
+}
+
+/* E14 — The Garden of Forking Paths */
+function buildEssayForking() {
+  return `<div class="topic pattern-essay" id="essay-forking">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E14 — Pattern Essays</div><h2>The Garden of <em>Forking Paths</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// Try enough paths and one of them will lead somewhere — by luck alone</p>
+  <p class="prose">In a 1941 story by Jorge Luis Borges, a labyrinth is not a building but a novel in which every choice is taken: at each fork the story splits, and all the branches go on. Seventy years later the statisticians Andrew Gelman and Eric Loken borrowed the title for a quieter problem. A researcher rarely runs twenty tests and reports the best. More often they run one — but which one depends on the data: which outliers to drop, which window to use, which subgroup looked interesting. Each choice is a fork, and the path actually taken was chosen by the noise.</p>
+  <p class="prose">The arithmetic is unforgiving. A rule with no edge at all passes a test at the 5% level one time in twenty. Try twenty such rules and the chance that at least one passes is about 64%. Try two hundred and it is a near certainty. The best result of a search is not a typical result; it is the luckiest one, and luck does not repeat.</p>
+
+  <div class="essay-case">
+    <h4>The chart reader</h4>
+    <p>A <a href="../markets/charts/index.html#head-and-shoulders">head and shoulders</a>, an <a href="../markets/charts/index.html#inverse-head-and-shoulders">inverse one</a>, a <a href="../markets/charts/index.html#double-top">double top</a> or <a href="../markets/charts/index.html#double-bottom">bottom</a>, a <a href="../markets/charts/index.html#cup-and-handle">cup and handle</a>, a <a href="../markets/charts/index.html#rounding-bottom">rounding bottom</a>: each comes with choices — how equal is equal, how deep is deep, when the neckline counts as broken. Candlesticks multiply them. The <a href="../markets/charts/index.html#doji">doji</a>, the <a href="../markets/charts/index.html#hammer">hammer</a>, the <a href="../markets/charts/index.html#engulfing">engulfing</a> pair, the <a href="../markets/charts/index.html#morning-star">morning</a> and <a href="../markets/charts/index.html#evening-star">evening star</a> are a few of dozens of named shapes, and a chart of any length contains some of them. When the patterns were written as code and tested on Dow Jones stocks, they added no value (Marshall, Young &amp; Rose 2006). Writing the rule down before looking is what closes the forks.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>The oscillator tinkerer</h4>
+    <p>The <a href="../markets/indicators/index.html#stochastic">stochastic oscillator</a>, <a href="../markets/indicators/index.html#williams-r">Williams %R</a>, the <a href="../markets/indicators/index.html#cci">CCI</a> and the <a href="../markets/indicators/index.html#mfi">money flow index</a> all ask much the same question — where is the price within its recent range? — each with a lookback and two thresholds to choose. Change 14 days to 9 and 80/20 to 70/30 until the backtest shines, and you have walked a dozen paths. Sullivan, Timmermann and White tested thousands of simple trading rules together and showed how much of the best rule’s performance disappears once the size of the search is taken into account.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>The model tuner</h4>
+    <p>Machine learning automates the garden. <a href="../stats/index.html#optuna">Optuna</a> can try hundreds of hyperparameter settings in an afternoon, and the best validation score among them is flattered for the same reason the best trading rule is. The <a href="../stats/index.html#sklearn-eval">scikit-learn evaluation suite</a> answers with nested cross-validation and a test set that is touched once; <a href="../stats/index.html#scipy-statsmodels">statsmodels</a> answers with corrections for multiple testing, such as Benjamini and Hochberg’s. Public leaderboards are the same garden walked by a whole field: every team tunes against the same test set, which is why <a href="../llm/index.html#evaluation">LLM evaluation</a> keeps needing fresh benchmarks.</p>
+  </div>
+
+  <p class="prose">None of this means patterns are illusions. It means a result has to be judged together with the search that found it. A model is a map drawn from one territory, and a map redrawn until it fits every bump of the old ground is the one most likely to mislead on the new — the warning of <a href="index.html#essay-map">The Map and the Territory</a> and of <a href="index.html#essay-signal">Signal in the Noise</a>.</p>
+
+  <div class="va">
+    <canvas id="forkingCanvas" role="img" aria-label="The Garden of Forking Paths — visualization" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Rules tried</span>
+      <input type="range" id="forkingSlider" min="1" max="200" value="20" oninput="document.getElementById('forkingVal').textContent=this.value;DRAWS['essay-forking']()">
+      <span class="viz-ctrl-val" id="forkingVal">20</span>
+    </div>
+    <div class="essay-label">Every rule is a coin flip with no edge &mdash; drag to try more of them and watch the best one look brilliant</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Count the paths you walked, not just the one you report. The best of many tries is always flattered; judge it on data it has never seen.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Borges, J. L. (1941). <em>El jardín de senderos que se bifurcan</em> (The Garden of Forking Paths). Buenos Aires: Sur.</div>
+    <div class="essay-ref">[2] Gelman, A. &amp; Loken, E. (2014). The Statistical Crisis in Science. <em>American Scientist, 102</em>(6), 460–465. <a href="https://doi.org/10.1511/2014.111.460" target="_blank" rel="noopener">doi:10.1511/2014.111.460</a></div>
+    <div class="essay-ref">[3] Sullivan, R., Timmermann, A. &amp; White, H. (1999). Data-Snooping, Technical Trading Rule Performance, and the Bootstrap. <em>Journal of Finance, 54</em>(5), 1647–1691. <a href="https://doi.org/10.1111/0022-1082.00163" target="_blank" rel="noopener">doi:10.1111/0022-1082.00163</a></div>
+    <div class="essay-ref">[4] Marshall, B. R., Young, M. R. &amp; Rose, L. C. (2006). Candlestick Technical Trading Strategies: Can They Create Value for Investors? <em>Journal of Banking &amp; Finance, 30</em>(8), 2303–2323. <a href="https://doi.org/10.1016/j.jbankfin.2005.08.001" target="_blank" rel="noopener">doi:10.1016/j.jbankfin.2005.08.001</a></div>
+    <div class="essay-ref">[5] Benjamini, Y. &amp; Hochberg, Y. (1995). Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing. <em>Journal of the Royal Statistical Society: Series B, 57</em>(1), 289–300. <a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">doi:10.1111/j.2517-6161.1995.tb02031.x</a></div>
+    <div class="essay-ref">[6] Bailey, D. H., Borwein, J. M., López de Prado, M. &amp; Zhu, Q. J. (2014). Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance. <em>Notices of the AMS, 61</em>(5), 458–471. <a href="https://doi.org/10.1090/noti1105" target="_blank" rel="noopener">doi:10.1090/noti1105</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The defences are in The Toolkit: <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> says what a p-value means for a single test, and <a href="../stats/index.html#walk-forward">walk-forward validation</a> keeps the future out of the search.</div>
+  <div class="topic-nav" id="nav-essay-forking"></div>
+</div>`;
+}
+
+/* E15 — How Long Is Memory? */
+function buildEssayMemory() {
+  return `<div class="topic pattern-essay" id="essay-memory">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E15 — Pattern Essays</div><h2>How Long Is <em>Memory?</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// Every model decides how much the past matters — usually with a number nobody looks at</p>
+  <p class="prose">In 1885 Hermann Ebbinghaus learned lists of nonsense syllables and tested himself at intervals afterwards. What he retained fell quickly at first and then more slowly: a forgetting curve. Some sixty-five years later the hydrologist Harold Edwin Hurst, planning dams on the Nile, found the opposite surprise. Wet years clustered with wet years and dry with dry over spans far longer than anyone expected; the river remembered.</p>
+  <p class="prose">Between those two lies a question every model of a sequence has to answer: how far back does the past still matter, and how quickly should it fade? The answer is rarely argued for. It hides in a window length, a decay rate, a lag order or a context size — and it shapes everything the model can see.</p>
+
+  <div class="essay-case">
+    <h4>Averages — memory as a window</h4>
+    <p>A moving average is a memory with a fixed shape. The simple average remembers N days equally and then forgets at once; the <a href="../markets/indicators/index.html#wma">weighted moving average</a> lets the weights fall in a straight line; the <a href="../markets/indicators/index.html#ema">exponential average</a> lets them fade without ever quite reaching zero; the <a href="../markets/indicators/index.html#dema">double exponential average</a> leans even harder on the present to cut the lag. Choosing between them is choosing how fast to forget. People make the same choice without noticing — <a href="../markets/psychology/index.html#recency-bias">recency bias</a> is a memory that is too short, and <a href="../markets/psychology/index.html#mean-reversion-psychology">waiting for mean reversion</a> assumes one long enough to know where the mean is.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Statistics — memory as a correlation</h4>
+    <p><a href="../timeseries/index.html#autocorrelation">Autocorrelation</a> measures how much a series remembers itself at each lag. The classical models are shapes of that memory: <a href="../timeseries/index.html#ma-models">moving-average models</a> remember each shock for exactly q steps and then drop it; autoregressive models remember forever but ever more faintly; <a href="../timeseries/index.html#sarima">SARIMA</a> adds a second memory one season back; <a href="../timeseries/index.html#var-models">VAR models</a> remember the pasts of other series too. <a href="../timeseries/index.html#feature-engineering">Feature engineering</a> for forecasting is largely the craft of choosing which lags to hand a model.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Networks — memory as a state, or as a search</h4>
+    <p>A <a href="../timeseries/index.html#rnn-for-ts">recurrent network</a> carries a summary of the past forward step by step, and in its plain form the summary fades fast — gradients over long spans vanish. The <a href="../ml-math/index.html#lstm">LSTM</a> added gates that learn what to keep and what to erase. A <a href="../timeseries/index.html#temporal-cnn">temporal CNN</a> sees a fixed horizon set by how its dilations stack; <a href="../timeseries/index.html#nbeats">N-BEATS</a> simply takes a fixed window of history. Transformers changed the question: with <a href="../llm/index.html#multi-head-attention">attention</a>, every position in the context can look at every other, so memory becomes a search rather than a fading trace. The <a href="../llm/index.html#kv-cache">KV-cache</a> keeps that past so it need not be recomputed, <a href="../llm/index.html#kv-cache-opt">KV-cache optimisation</a> decides what to drop when it fills, and <a href="../llm/index.html#rag">retrieval</a> moves memory outside the model altogether.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>People and products — memory as retention</h4>
+    <p>A <a href="../stats/index.html#cohort-retention">retention curve</a> is Ebbinghaus’s curve for a product: how many of the people who joined in a given month are still around one, three, twelve months later. It drops steeply and then flattens, and where it flattens is how long the product is remembered. The <a href="index.html#essay-kalman">Kalman filter</a> takes yet another route, keeping no history at all — only a running estimate and its uncertainty, which together carry everything the past has to say.</p>
+  </div>
+
+  <div class="va">
+    <canvas id="memoryCanvas" role="img" aria-label="How Long Is Memory? — visualization" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Half-life</span>
+      <input type="range" id="memorySlider" min="1" max="40" value="6" oninput="document.getElementById('memoryVal').textContent=this.value+' steps';DRAWS['essay-memory']()">
+      <span class="viz-ctrl-val" id="memoryVal">6 steps</span>
+    </div>
+    <div class="essay-label">A noisy series and an average with fading memory &mdash; the bars show how much each past step still counts</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Every model answers “how much does the past matter?” Make that answer on purpose, and match it to how fast the world you are modelling forgets.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Ebbinghaus, H. (1885). <em>Über das Gedächtnis: Untersuchungen zur experimentellen Psychologie.</em> Leipzig: Duncker &amp; Humblot.</div>
+    <div class="essay-ref">[2] Hurst, H. E. (1951). Long-Term Storage Capacity of Reservoirs. <em>Transactions of the American Society of Civil Engineers, 116</em>, 770–799.</div>
+    <div class="essay-ref">[3] Box, G. E. P. &amp; Jenkins, G. M. (1970). <em>Time Series Analysis: Forecasting and Control.</em> San Francisco: Holden-Day.</div>
+    <div class="essay-ref">[4] Bengio, Y., Simard, P. &amp; Frasconi, P. (1994). Learning Long-Term Dependencies with Gradient Descent Is Difficult. <em>IEEE Transactions on Neural Networks, 5</em>(2), 157–166. <a href="https://doi.org/10.1109/72.279181" target="_blank" rel="noopener">doi:10.1109/72.279181</a></div>
+    <div class="essay-ref">[5] Hochreiter, S. &amp; Schmidhuber, J. (1997). Long Short-Term Memory. <em>Neural Computation, 9</em>(8), 1735–1780. <a href="https://doi.org/10.1162/neco.1997.9.8.1735" target="_blank" rel="noopener">doi:10.1162/neco.1997.9.8.1735</a></div>
+    <div class="essay-ref">[6] Vaswani, A. et al. (2017). Attention Is All You Need. <em>Advances in Neural Information Processing Systems 30.</em> <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Where memory comes from in a price series is the subject of <a href="../timeseries/index.html#stationarity">stationarity</a>; how a network keeps it is the subject of <a href="../ml-math/index.html#attention">attention</a> in ML Math.</div>
+  <div class="topic-nav" id="nav-essay-memory"></div>
+</div>`;
+}
+
+/* E16 — The Bottleneck */
+function buildEssayBottleneck() {
+  return `<div class="topic pattern-essay" id="essay-bottleneck">
+  <div class="topic-header">
+    <div class="topic-meta"><div class="topic-num">E16 — Pattern Essays</div><h2>The <em>Bottleneck</em></h2></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
+  </div>
+  <p class="sub">// A system goes no faster than its slowest step — and near full capacity, waiting explodes</p>
+  <p class="prose">In <em>The Goal</em>, a 1984 novel about a failing factory, Eliyahu Goldratt has his plant manager learn the lesson on a scout hike. The column of boys can only move as fast as the slowest one; hurrying the others just stretches the line. In the factory it is a single machine, and every improvement made anywhere else only grows the pile of parts waiting in front of it.</p>
+  <p class="prose">Two facts from queueing theory make this sharper. John Little showed in 1961 that, in any stable system, the number of things inside it equals the rate at which they arrive times how long each one stays — so queues and waiting times rise and fall together. And waiting does not grow evenly with load. In the simplest queue, a server busy 50% of the time keeps each job waiting about as long as it takes to serve it; at 90% busy the time in the system is ten times the service time, at 95% twenty. The last few percent of utilisation are paid for in waiting.</p>
+
+  <div class="essay-case">
+    <h4>Serving a model</h4>
+    <p>The tension between <a href="../mlops/index.html#latency-throughput">latency and throughput</a> is the bottleneck in miniature. <a href="../llm/index.html#batching">Batching</a> raises throughput by making requests wait for company; <a href="../mlops/index.html#auto-scaling">auto-scaling</a> adds capacity at the constraint before the queue explodes; <a href="../mlops/index.html#caching-layers">caching</a> skips the slow step entirely for answers already known. Which <a href="../mlops/index.html#serving-patterns">serving pattern</a> fits — online, batch or streaming — depends on where the slow step sits and who is waiting for it, and <a href="../mlops/index.html#gpu-inference">GPU inference</a> is mostly the art of finding out whether the chip is waiting on arithmetic or on memory.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Generating text</h4>
+    <p>For a large language model producing one token at a time, the bottleneck is usually not computation but moving the weights from memory for every token. That is why the fixes all target bytes and steps. <a href="../llm/index.html#quantization">Quantization</a> and <a href="../mlops/index.html#model-compression">model compression</a> shrink what has to be read; a <a href="../llm/index.html#mixture-of-experts">mixture of experts</a> reads only a few of the experts for each token; <a href="../llm/index.html#speculative-decoding">speculative decoding</a> lets a small model draft several tokens that the large one checks in a single pass, so the slow step runs fewer times.</p>
+  </div>
+
+  <div class="essay-case">
+    <h4>Pipelines and funnels</h4>
+    <p>An <a href="../mlops/index.html#ml-pipelines">ML pipeline</a> finishes when its slowest chain of dependent steps finishes; <a href="../mlops/index.html#orchestration">orchestration</a> can run everything else in parallel, but not shorten that chain. A <a href="../mlops/index.html#feature-stores">feature store</a> exists largely so the same expensive features are not recomputed by every model that needs them. Outside engineering the shape is identical: in a <a href="../stats/index.html#funnel-analysis">conversion funnel</a> the narrowest step caps everything after it, and doubling the traffic at the top only doubles the crowd that drops out there.</p>
+  </div>
+
+  <p class="prose">Bottlenecks also move. Widen the slowest step and the second slowest becomes the constraint, often somewhere nobody was watching. That is the quiet logic behind <a href="index.html#essay-threshold">thresholds</a> and <a href="index.html#essay-feedback">feedback loops</a> in systems that seem to run smoothly right up until they do not.</p>
+
+  <div class="va">
+    <canvas id="bottleneckCanvas" role="img" aria-label="The Bottleneck — visualization" height="180"></canvas>
+    <div class="viz-ctrl">
+      <span>Utilisation</span>
+      <input type="range" id="bottleneckSlider" min="10" max="97" value="70" oninput="document.getElementById('bottleneckVal').textContent=this.value+'%';DRAWS['essay-bottleneck']()">
+      <span class="viz-ctrl-val" id="bottleneckVal">70%</span>
+    </div>
+    <div class="essay-label">Time in a simple queue, in multiples of the service time &mdash; drag towards full capacity and watch the curve turn upward</div>
+  </div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Find the slowest step before optimising anything. Everywhere else, extra speed only lengthens the queue in front of it — and close to full capacity, the waiting grows far faster than the load.</div>
+  <div class="essay-refs">
+    <div class="essay-refs-title">References</div>
+    <div class="essay-ref">[1] Goldratt, E. M. &amp; Cox, J. (1984). <em>The Goal: A Process of Ongoing Improvement.</em> Great Barrington, MA: North River Press.</div>
+    <div class="essay-ref">[2] Little, J. D. C. (1961). A Proof for the Queuing Formula: L = λW. <em>Operations Research, 9</em>(3), 383–387. <a href="https://doi.org/10.1287/opre.9.3.383" target="_blank" rel="noopener">doi:10.1287/opre.9.3.383</a></div>
+    <div class="essay-ref">[3] Kingman, J. F. C. (1961). The Single Server Queue in Heavy Traffic. <em>Mathematical Proceedings of the Cambridge Philosophical Society, 57</em>(4), 902–904. <a href="https://doi.org/10.1017/S0305004100036094" target="_blank" rel="noopener">doi:10.1017/S0305004100036094</a></div>
+    <div class="essay-ref">[4] Williams, S., Waterman, A. &amp; Patterson, D. (2009). Roofline: An Insightful Visual Performance Model for Multicore Architectures. <em>Communications of the ACM, 52</em>(4), 65–76. <a href="https://doi.org/10.1145/1498765.1498785" target="_blank" rel="noopener">doi:10.1145/1498765.1498785</a></div>
+    <div class="essay-ref">[5] Leviathan, Y., Kalman, M. &amp; Matias, Y. (2023). Fast Inference from Transformers via Speculative Decoding. <em>Proceedings of the 40th International Conference on Machine Learning.</em> <a href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener">arXiv:2211.17192</a></div>
+  </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Queues are what <a href="../mlops/index.html#alerting-slos">latency SLOs</a> watch for, and the same arithmetic of narrow steps decides the drop-off in a <a href="../stats/index.html#cohort-retention">retention curve</a>.</div>
+  <div class="topic-nav" id="nav-essay-bottleneck"></div>
 </div>`;
 }

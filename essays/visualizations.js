@@ -25,6 +25,21 @@ function setupCanvas(id) {
   return { c, ctx, w: rect.width, h: rect.height };
 }
 
+/* Canvas cannot read CSS variables, so resolve the theme's colours once per draw. */
+function essayInk() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
+  return { muted: v('--muted', '#8a8278'), border: v('--border', '#d8d0c4'), text: v('--text', '#1c1a16') };
+}
+
+/* A small seeded generator, so a drawing stays put while its slider moves. */
+function seededRandom(seed) {
+  let x = seed >>> 0;
+  const next = () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 4294967296; };
+  const gauss = () => { let u = 0, v = 0; while (u === 0) u = next(); while (v === 0) v = next(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  return { next, gauss };
+}
+
 function gaussRandom(mu, sigma) {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
@@ -919,5 +934,190 @@ const DRAWS = {
     ctx.fillStyle = 'var(--muted)';
     const hint = trust < 0.25 ? 'trusts model \u2192 smooth, slow' : trust > 0.7 ? 'trusts sensor \u2192 jumpy' : 'balanced blend';
     ctx.fillText(hint, w - pad - 2, pad + 10);
+  },
+
+  /* E13 — The Coiled Spring
+     A seeded random walk whose volatility is squeezed in the middle third
+     and released after it. The slider sets how hard the quiet phase is
+     squeezed; the release is scaled up by the same amount. The shaded band
+     is the rolling 10-step high/low range. */
+  'essay-spring'() {
+    const s = setupCanvas('springCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const squeeze = (parseInt(document.getElementById('springSlider')?.value || 60)) / 100;
+    const ink = essayInk();
+    const pad = 30, N = 150;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = ACCENT4_10; ctx.globalAlpha = 0.4; ctx.fillRect(0, 0, w, h); ctx.globalAlpha = 1;
+
+    const rnd = seededRandom(31);
+    const q0 = 55, q1 = 100;                       // the quiet phase
+    const p = [100];
+    for (let i = 1; i < N; i++) {
+      const release = i >= q1 && i < q1 + 16;
+      let vol = 1;
+      if (i >= q0 && i < q1) vol = 1 - squeeze * 0.95;
+      else if (release) vol = 1 + squeeze * 7;
+      p.push(p[i - 1] + vol * rnd.gauss() * 0.5 + (release ? squeeze * 1.4 : 0));
+    }
+    const lo = Math.min(...p) - 2, hi = Math.max(...p) + 2;
+    const x = i => pad + (i / (N - 1)) * (w - pad * 2);
+    const y = v => h - pad - ((v - lo) / (hi - lo)) * (h - pad * 2);
+
+    /* rolling range band */
+    const top = [], bot = [];
+    for (let i = 0; i < N; i++) {
+      const win = p.slice(Math.max(0, i - 9), i + 1);
+      top.push(Math.max(...win)); bot.push(Math.min(...win));
+    }
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) (i ? ctx.lineTo : ctx.moveTo).call(ctx, x(i), y(top[i]));
+    for (let i = N - 1; i >= 0; i--) ctx.lineTo(x(i), y(bot[i]));
+    ctx.closePath();
+    ctx.fillStyle = ACCENT4_25; ctx.fill();
+
+    /* quiet phase marker */
+    ctx.fillStyle = ink.muted; ctx.globalAlpha = 0.08;
+    ctx.fillRect(x(q0), pad - 6, x(q1) - x(q0), h - pad * 2 + 12);
+    ctx.globalAlpha = 1;
+
+    /* price */
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) (i ? ctx.lineTo : ctx.moveTo).call(ctx, x(i), y(p[i]));
+    ctx.strokeStyle = ACCENT4; ctx.lineWidth = 1.6; ctx.stroke();
+
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = ink.muted; ctx.textAlign = 'center';
+    ctx.fillText('quiet', (x(q0) + x(q1)) / 2, pad - 10);
+    ctx.textAlign = 'left';
+    ctx.fillText('— price   █ 10-step range', pad + 4, h - 10);
+  },
+
+  /* E14 — The Garden of Forking Paths
+     N trading "rules", each a seeded coin flip with no edge. All equity
+     curves are drawn faintly; the one with the best final result is drawn
+     in the accent colour. The label gives the chance that at least one of
+     N useless rules passes a 5% test: 1 - 0.95^N. */
+  'essay-forking'() {
+    const s = setupCanvas('forkingCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const n = parseInt(document.getElementById('forkingSlider')?.value || 20);
+    const ink = essayInk();
+    const pad = 30, T = 120;
+    ctx.clearRect(0, 0, w, h);
+
+    const rnd = seededRandom(9001);
+    const curves = [];
+    for (let k = 0; k < 200; k++) {               // always generate 200 so curves stay put as N changes
+      const c = [0];
+      for (let t = 1; t < T; t++) c.push(c[t - 1] + (rnd.next() < 0.5 ? 1 : -1));
+      curves.push(c);
+    }
+    const shown = curves.slice(0, n);
+    let best = 0;
+    shown.forEach((c, k) => { if (c[T - 1] > shown[best][T - 1]) best = k; });
+    const lim = 40;
+    const x = t => pad + (t / (T - 1)) * (w - pad * 2);
+    const y = v => h / 2 - (v / lim) * (h / 2 - pad);
+
+    ctx.strokeStyle = ink.muted; ctx.lineWidth = 0.8; ctx.globalAlpha = Math.min(0.6, Math.max(0.15, 1 / Math.sqrt(n)));
+    shown.forEach(c => { ctx.beginPath(); c.forEach((v, t) => (t ? ctx.lineTo(x(t), y(v)) : ctx.moveTo(x(t), y(v)))); ctx.stroke(); });
+    ctx.globalAlpha = 1;
+    ctx.beginPath(); shown[best].forEach((v, t) => (t ? ctx.lineTo(x(t), y(v)) : ctx.moveTo(x(t), y(v))));
+    ctx.strokeStyle = ACCENT4; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad, y(0)); ctx.lineTo(w - pad, y(0));
+    ctx.strokeStyle = ink.border; ctx.lineWidth = 0.6; ctx.stroke();
+
+    const pAny = 1 - Math.pow(0.95, n);
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = ACCENT4; ctx.fillText('— best of ' + n + ': ' + (shown[best][T - 1] > 0 ? '+' : '') + shown[best][T - 1], pad + 4, pad - 8);
+    ctx.textAlign = 'right'; ctx.fillStyle = ink.muted;
+    ctx.fillText('P(at least one passes a 5% test) = ' + Math.round(pAny * 100) + '%', w - pad, pad - 8);
+  },
+
+  /* E15 — How Long Is Memory?
+     A seeded noisy series with a level shift, and an exponential average
+     whose half-life comes from the slider. Bars along the bottom show the
+     weight the average gives to each of the last 40 steps. */
+  'essay-memory'() {
+    const s = setupCanvas('memoryCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const half = parseInt(document.getElementById('memorySlider')?.value || 6);
+    const ink = essayInk();
+    const pad = 30, N = 120, barsH = 34;
+    const alpha = 1 - Math.pow(0.5, 1 / half);
+    ctx.clearRect(0, 0, w, h);
+
+    const rnd = seededRandom(777);
+    const truth = t => (t < 60 ? 0 : 3) + Math.sin(t / 9) * 0.6;
+    const obs = [];
+    for (let t = 0; t < N; t++) obs.push(truth(t) + rnd.gauss() * 0.9);
+    const est = [obs[0]];
+    for (let t = 1; t < N; t++) est.push(est[t - 1] + alpha * (obs[t] - est[t - 1]));
+
+    const top = pad - 6, bottom = h - pad - barsH;
+    const x = t => pad + (t / (N - 1)) * (w - pad * 2);
+    const y = v => bottom - ((v + 2.5) / 8) * (bottom - top);
+
+    ctx.fillStyle = ink.muted; ctx.globalAlpha = 0.35;
+    obs.forEach((v, t) => { ctx.beginPath(); ctx.arc(x(t), y(v), 1.6, 0, Math.PI * 2); ctx.fill(); });
+    ctx.globalAlpha = 1;
+    ctx.beginPath(); est.forEach((v, t) => (t ? ctx.lineTo(x(t), y(v)) : ctx.moveTo(x(t), y(v))));
+    ctx.strokeStyle = ACCENT4; ctx.lineWidth = 2; ctx.stroke();
+
+    /* weights on the last 40 steps, newest on the right */
+    const K = 40, bw = (w - pad * 2) / K;
+    for (let k = 0; k < K; k++) {
+      const wt = alpha * Math.pow(1 - alpha, k);
+      const bh = (wt / alpha) * barsH;            // the newest step's weight is full height
+      ctx.fillStyle = ACCENT4; ctx.globalAlpha = 0.55;
+      ctx.fillRect(w - pad - (k + 1) * bw + 1, h - pad + 4 - bh, bw - 2, bh);
+    }
+    ctx.globalAlpha = 1;
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = ink.muted; ctx.textAlign = 'left';
+    ctx.fillText('· observations   — average', pad + 4, pad - 10);
+    ctx.textAlign = 'right';
+    ctx.fillText('weight on each past step → now', w - pad, h - 8);
+  },
+
+  /* E16 — The Bottleneck
+     Time in an M/M/1 queue in multiples of the service time, 1/(1 - rho),
+     for utilisation rho from 0 to 97%. The slider marks one point on it. */
+  'essay-bottleneck'() {
+    const s = setupCanvas('bottleneckCanvas');
+    if (!s) return;
+    const { ctx, w, h } = s;
+    const rho = (parseInt(document.getElementById('bottleneckSlider')?.value || 70)) / 100;
+    const ink = essayInk();
+    const pad = 34, maxT = 34;
+    ctx.clearRect(0, 0, w, h);
+    const x = r => pad + (r / 1) * (w - pad * 2);
+    const y = t => h - pad - (Math.min(t, maxT) / maxT) * (h - pad * 2);
+
+    ctx.beginPath();
+    for (let i = 0; i <= 97; i++) { const r = i / 100; (i ? ctx.lineTo : ctx.moveTo).call(ctx, x(r), y(1 / (1 - r))); }
+    ctx.strokeStyle = ACCENT4; ctx.lineWidth = 2; ctx.stroke();
+
+    ctx.beginPath(); ctx.moveTo(pad, h - pad); ctx.lineTo(w - pad, h - pad);
+    ctx.strokeStyle = ink.border; ctx.lineWidth = 0.6; ctx.stroke();
+    ctx.font = '9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = ink.muted;
+    [0, 0.25, 0.5, 0.75, 1].forEach(r => { ctx.textAlign = 'center'; ctx.fillText(Math.round(r * 100) + '%', x(r), h - pad + 13); });
+
+    const t = 1 / (1 - rho);
+    ctx.beginPath(); ctx.arc(x(rho), y(t), 5, 0, Math.PI * 2);
+    ctx.fillStyle = ACCENT4; ctx.fill();
+    ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(x(rho), y(t)); ctx.lineTo(x(rho), h - pad);
+    ctx.strokeStyle = ACCENT4; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = rho > 0.7 ? 'right' : 'left';
+    ctx.fillStyle = ink.text;
+    ctx.fillText((t < 10 ? t.toFixed(1) : Math.round(t)) + '× the service time', x(rho) + (rho > 0.7 ? -10 : 10), y(t) - 6);
+    ctx.textAlign = 'left'; ctx.fillStyle = ink.muted;
+    ctx.fillText('time in system', pad + 4, pad - 10);
   },
 };

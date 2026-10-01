@@ -109,6 +109,12 @@ year1 = skill + rng.normal(0, 2, 10_000)         # a lot of luck
 year2 = skill + rng.normal(0, 2, 10_000)
 top = year1 &gt;= np.quantile(year1, 0.9)           # last year's top 10%
 kept = year2[top].mean() / year1[top].mean()     # theory: var(skill) / var(total) = 1 / 5</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. Kahneman &amp; A. Tversky, “On the Psychology of Prediction”, <em>Psychological Review</em> 80(4), 1973</li><li>J. M. Poterba &amp; L. H. Summers, “Mean Reversion in Stock Prices: Evidence and Implications”, <em>Journal of Financial Economics</em> 22(1), 1988</li><li>E. F. Fama &amp; K. R. French, “Permanent and Temporary Components of Stock Prices”, <em>Journal of Political Economy</em> 96(2), 1988</li><li>M. M. Carhart, “On Persistence in Mutual Fund Performance”, <em>Journal of Finance</em> 52(1), 1997</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> The belief that extremes return to average — a psychological trust in the <a href="../../../stats/#clt-sampling">central limit theorem</a>. In ML, <a href="../../../ml-math/#batchnorm">normalization layers</a> enforce mean reversion on activations.</div></div>
+  <section class="topic-connections" aria-label="Topics that link here">
+    <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
+    <ul>
+    <li><a href="../../../essays/essay-memory/"><span class="tc-col">Pattern Essays</span><span class="tc-title">How Long Is Memory?</span><span class="tc-pattern">Every model decides how much the past matters — usually with a number nobody looks at</span></a></li>
+    </ul>
+  </section>
   <div class="topic-nav">
     <a class="tnav-btn" href="../smart-money-dumb-money/"><div class="tnav-dir">← Previous</div><div class="tnav-name">Smart Money vs. Dumb Money</div></a>
     <div></div>
