@@ -56,7 +56,10 @@ export function buildConnections(root = '.') {
       // generated prev/next links, so the header, crumbs and nav don't count.
       // The generated "Linked from" list sits there too, and is built from
       // this graph — stop before it, so it never feeds back in.
-      const start = html.indexOf('<div class="topic"');
+      // class="topic", or with more classes — the essays are
+      // class="topic pattern-essay", and an exact match skipped every link
+      // in them.
+      const start = html.search(/<div class="topic[ "]/);
       const conn = html.indexOf('<section class="topic-connections"', start);
       const end = conn !== -1 ? conn : html.indexOf('<div class="topic-nav">', start);
       const body = html.slice(start, end);
