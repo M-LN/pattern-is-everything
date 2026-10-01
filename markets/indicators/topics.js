@@ -192,7 +192,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "e1 = df['close'].ewm(span=5, adjust=False).mean()\ne2 = e1.ewm(span=5, adjust=False).mean()     # the EMA of the EMA\ndf['dema5'] = 2 * e1 - e2",
   "sources": [
-   "P. Mulloy, “Smoothing Data with Faster Moving Averages”, <em>Technical Analysis of Stocks &amp; Commodities</em> 12(1), 1994"
+   "P. Mulloy, “Smoothing Data with Faster Moving Averages”, <em>Technical Analysis of Stocks &amp; Commodities</em> 12(1), 1994",
+   "W. Brock, J. Lakonishok &amp; B. LeBaron, “Simple Technical Trading Rules and the Stochastic Properties of Stock Returns”, <em>Journal of Finance</em> 47(5), 1992 — moving-average rules on the Dow, 1897–1986"
   ]
  },
  "vwap": {
@@ -204,7 +205,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "tp = (df['high'] + df['low'] + df['close']) / 3\ndf['vwap'] = (tp * df['volume']).cumsum() / df['volume'].cumsum()\n# intraday: group by session date and take the cumulative sums per day",
   "sources": [
-   "S. Berkowitz, D. Logue &amp; E. Noser, “The Total Cost of Transactions on the NYSE”, <em>Journal of Finance</em> 43(1), 1988 — VWAP as an execution benchmark"
+   "S. Berkowitz, D. Logue &amp; E. Noser, “The Total Cost of Transactions on the NYSE”, <em>Journal of Finance</em> 43(1), 1988 — VWAP as an execution benchmark",
+   "R. Kissell, <em>The Science of Algorithmic Trading and Portfolio Management</em>, Academic Press, 2013 — VWAP execution in practice"
   ]
  },
  "rsi": {
@@ -242,7 +244,9 @@ const TOPIC_DEPTH = {
   ],
   "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nma = tp.rolling(5).mean()\nmd = tp.rolling(5).apply(lambda x: np.abs(x - x.mean()).mean(), raw=True)\ndf['cci5'] = (tp - ma) / (0.015 * md)",
   "sources": [
-   "D. R. Lambert, “Commodity Channel Index: Tools for Trading Cyclic Trends”, <em>Commodities</em> magazine, 1980"
+   "D. R. Lambert, “Commodity Channel Index: Tools for Trading Cyclic Trends”, <em>Commodities</em> magazine, 1980",
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000",
+   "C.-H. Park &amp; S. H. Irwin, “What Do We Know About the Profitability of Technical Analysis?”, <em>Journal of Economic Surveys</em> 21(4), 2007 — a review of the evidence across studies"
   ]
  },
  "williams-r": {
@@ -293,7 +297,9 @@ const TOPIC_DEPTH = {
   ],
   "code": "up, down = df['high'].diff(), -df['low'].diff()\nplus_dm = np.where((up &gt; down) &amp; (up &gt; 0), up, 0.0)\nminus_dm = np.where((down &gt; up) &amp; (down &gt; 0), down, 0.0)\npc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\nw = lambda s: pd.Series(s, index=df.index).ewm(alpha=1/5, adjust=False).mean()   # Wilder\natr = w(tr)\ndf['+di'] = 100 * w(plus_dm) / atr\ndf['-di'] = 100 * w(minus_dm) / atr\ndx = 100 * (df['+di'] - df['-di']).abs() / (df['+di'] + df['-di'])\ndf['adx5'] = w(dx)",
   "sources": [
-   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999",
+   "C.-H. Park &amp; S. H. Irwin, “What Do We Know About the Profitability of Technical Analysis?”, <em>Journal of Economic Surveys</em> 21(4), 2007 — a review of the evidence across studies"
   ]
  },
  "parabolic-sar": {
@@ -305,7 +311,9 @@ const TOPIC_DEPTH = {
   ],
   "code": "af0, step, af_max = 0.02, 0.02, 0.20\nhigh, low = df['high'].values, df['low'].values\nsar = np.zeros(len(df)); up = True; af = af0\nep, sar[0] = high[0], low[0]\nfor i in range(1, len(df)):\n    sar[i] = sar[i-1] + af * (ep - sar[i-1])\n    if up:\n        sar[i] = min(sar[i], low[i-1], low[max(i-2, 0)])   # never above the last two lows\n        if low[i] &lt; sar[i]:                                 # stop hit: flip short\n            up, sar[i], ep, af = False, ep, low[i], af0\n        elif high[i] &gt; ep:\n            ep, af = high[i], min(af + step, af_max)\n    else:\n        sar[i] = max(sar[i], high[i-1], high[max(i-2, 0)])\n        if high[i] &gt; sar[i]:                                # stop hit: flip long\n            up, sar[i], ep, af = True, ep, high[i], af0\n        elif low[i] &lt; ep:\n            ep, af = low[i], min(af + step, af_max)\ndf['sar'] = sar",
   "sources": [
-   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978",
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000",
+   "C.-H. Park &amp; S. H. Irwin, “What Do We Know About the Profitability of Technical Analysis?”, <em>Journal of Economic Surveys</em> 21(4), 2007 — a review of the evidence across studies"
   ]
  },
  "ichimoku": {
@@ -356,7 +364,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "pc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\ndf['atr5'] = tr.ewm(alpha=1/5, adjust=False).mean()   # Wilder smoothing",
   "sources": [
-   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978",
+   "C. Faith, <em>Way of the Turtle</em>, McGraw-Hill, 2007 — ATR (“N”) for stops and position size"
   ]
  },
  "keltner-channels": {
@@ -407,7 +416,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "direction = np.sign(df['close'].diff()).fillna(0)\ndf['obv'] = (direction * df['volume']).cumsum()",
   "sources": [
-   "J. Granville, <em>Granville’s New Key to Stock Market Profits</em>, Prentice-Hall, 1963"
+   "J. Granville, <em>Granville’s New Key to Stock Market Profits</em>, Prentice-Hall, 1963",
+   "L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994 — why volume can carry information"
   ]
  },
  "accumulation-distribution": {
@@ -419,7 +429,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\ndf['ad'] = (clv * df['volume']).cumsum()",
   "sources": [
-   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000 — Chaikin’s accumulation/distribution line"
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000 — Chaikin’s accumulation/distribution line",
+   "L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994 — why volume can carry information"
   ]
  },
  "mfi": {
@@ -431,7 +442,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nflow = tp * df['volume']\npos = flow.where(tp &gt; tp.shift(), 0).rolling(5).sum()\nneg = flow.where(tp &lt; tp.shift(), 0).rolling(5).sum()\ndf['mfi5'] = 100 - 100 / (1 + pos / neg)",
   "sources": [
-   "G. Quong &amp; A. Soudack, “Volume-Weighted RSI: Money Flow”, <em>Technical Analysis of Stocks &amp; Commodities</em> 7(3), 1989"
+   "G. Quong &amp; A. Soudack, “Volume-Weighted RSI: Money Flow”, <em>Technical Analysis of Stocks &amp; Commodities</em> 7(3), 1989",
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000"
   ]
  },
  "chaikin-oscillator": {
@@ -443,7 +455,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\nad = (clv * df['volume']).cumsum()\ndf['chaikin'] = ad.ewm(span=3, adjust=False).mean() - ad.ewm(span=10, adjust=False).mean()",
   "sources": [
-   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000"
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000",
+   "L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994 — why volume can carry information"
   ]
  },
  "vwap-bands": {
