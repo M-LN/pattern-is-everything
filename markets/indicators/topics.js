@@ -467,13 +467,9 @@ const TOPIC_DEPTH = {
    and sources. Empty for a topic without an entry. */
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
-  if (!d) return '';
-  return `<section class="depth">
-  <div class="depth-block"><div class="depth-title">Worked example</div><p>${d.example}</p>${EXAMPLE_DATA_HTML}</div>
-  <div class="depth-block"><div class="depth-title">Where it misleads</div><ul>${d.fails.map(f => `<li>${f}</li>`).join('')}</ul></div>
-  <div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>${d.code}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns high, low, close and volume — the 15 days above.</p></div>
-  <div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul>${d.sources.map(s => `<li>${s}</li>`).join('')}</ul></div>
-</section>`;
+  if (!d || typeof renderDepth !== 'function') return '';
+  return renderDepth({ ...d, dataHtml: EXAMPLE_DATA_HTML,
+    codeNote: 'Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns high, low, close and volume — the 15 days above.' });
 }
 
 /* Canvas visualizations carry no text of their own, so each one is given an
