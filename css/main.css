@@ -4015,3 +4015,27 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 .inside-preview { margin-bottom: 72px; }
 .learning-paths { margin-bottom: 96px; }
 #universes { padding-top: 56px; padding-bottom: 96px; }
+
+/* ═════════════════════════════════════════════════════════════════
+   Topic depth — worked example, where it misleads, code, sources
+   (the content standard; markets/indicators/topics.js renders it)
+   ═════════════════════════════════════════════════════════════════ */
+.depth { margin: 32px 0 0; display: grid; gap: 22px; }
+.depth-block { min-width: 0; }
+.depth-title {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.depth-block p { margin: 0; line-height: 1.7; }
+.depth-block ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; line-height: 1.6; }
+.depth-note { margin-top: 6px !important; font-size: 12px; color: var(--muted); }
+.depth-note code { font-family: var(--mono); font-size: 11px; }
+.depth-data { margin-top: 10px; }
+.depth-data summary { cursor: pointer; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.depth-data summary:hover { color: var(--accent); }
+.depth-table { overflow-x: auto; margin-top: 8px; }
+.depth-table table { border-collapse: collapse; font-family: var(--mono); font-size: 12px; min-width: 320px; }
+.depth-table th, .depth-table td { padding: 4px 12px; text-align: right; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+.depth-table th { font-weight: 500; color: var(--muted); }
+.depth-sources ul { font-size: 13px; color: var(--muted); }
+.depth-sources em { color: var(--text); }

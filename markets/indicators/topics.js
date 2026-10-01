@@ -140,6 +140,342 @@ print(df[['Close', 'RSI_14', 'signal', 'strategy']].tail())</code></pre></div>`,
   'bollinger-bands': `<div class="perf-insight"><div class="perf-insight-title">Performance in practice</div><ul><li>The <strong>Bollinger Squeeze</strong> (bandwidth < 6-month low) precedes large moves ~75% of the time — but doesn't tell you which direction</li><li>Mean-reversion trades (buy lower band, sell upper) work well in ranging markets. In trends, price "walks the band" — touching the upper band is confirmation, not a sell signal</li><li>Combining Bollinger with Keltner Channels creates the "TTM Squeeze" — a popular volatility breakout system used by active traders</li></ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Measuring current volatility vs historical norms. Mean-reversion strategies in ranging markets. Identifying squeeze setups before breakouts. Setting dynamic stop-loss levels.</div><div class="skip-when">✗ <strong>Skip when:</strong> As a standalone buy/sell at the bands. During news events (bands widen after the move, not before). When you need directional bias — bands are non-directional.</div></div>`
 };
 
+/* depth:start — generated from the scratch scripts ind_snippets.py / ind_depth.py; the worked
+   examples are the output of the code shown, run on EXAMPLE_DATA. */
+const EXAMPLE_DATA_HTML = "<details class=\"depth-data\"><summary>The example data: 15 days, used in every indicator here</summary><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th></tr></thead><tbody><tr><td>1</td><td>101</td><td>99</td><td>100</td><td>50,000</td></tr><tr><td>2</td><td>103</td><td>100</td><td>102</td><td>62,000</td></tr><tr><td>3</td><td>103</td><td>100</td><td>101</td><td>48,000</td></tr><tr><td>4</td><td>105</td><td>101</td><td>104</td><td>70,000</td></tr><tr><td>5</td><td>108</td><td>104</td><td>107</td><td>85,000</td></tr><tr><td>6</td><td>108</td><td>105</td><td>106</td><td>60,000</td></tr><tr><td>7</td><td>110</td><td>106</td><td>109</td><td>90,000</td></tr><tr><td>8</td><td>110</td><td>107</td><td>108</td><td>72,000</td></tr><tr><td>9</td><td>108</td><td>104</td><td>105</td><td>80,000</td></tr><tr><td>10</td><td>105</td><td>102</td><td>103</td><td>66,000</td></tr><tr><td>11</td><td>105</td><td>102</td><td>104</td><td>55,000</td></tr><tr><td>12</td><td>104</td><td>101</td><td>102</td><td>75,000</td></tr><tr><td>13</td><td>102</td><td>98</td><td>99</td><td>95,000</td></tr><tr><td>14</td><td>102</td><td>99</td><td>101</td><td>64,000</td></tr><tr><td>15</td><td>105</td><td>101</td><td>104</td><td>71,000</td></tr></tbody></table></div></details>";
+const TOPIC_DEPTH = {
+ "sma": {
+  "example": "Five-day SMA on day 15: the last five closes are 104, 102, 99, 101 and 104, so (104 + 102 + 99 + 101 + 104) / 5 = <strong>102.0</strong>. The average peaked at 107.0 on day 9, two days after the highest close (109 on day 7) — the lag the averaging pays for its smoothness.",
+  "fails": [
+   "Lag: the average turns only after enough of the window has turned, so crossover signals arrive late and give back part of the move.",
+   "Whipsaw in sideways markets: price crosses the average back and forth, and each cross is a losing trade.",
+   "An old price leaving the window moves the average as much as a new one entering it, so the line can jump on a day when nothing happened."
+  ],
+  "code": "df['sma5'] = df['close'].rolling(5).mean()",
+  "sources": [
+   "W. Brock, J. Lakonishok &amp; B. LeBaron, “Simple Technical Trading Rules and the Stochastic Properties of Stock Returns”, <em>Journal of Finance</em> 47(5), 1992 — moving-average rules on the Dow, 1897–1986",
+   "R. Sullivan, A. Timmermann &amp; H. White, “Data-Snooping, Technical Trading Rule Performance, and the Bootstrap”, <em>Journal of Finance</em> 54(5), 1999 — the same rules after correcting for testing many of them; the edge does not hold out of sample"
+  ]
+ },
+ "ema": {
+  "example": "Five-day EMA, so k = 2 / (5 + 1) = 1/3. On day 14 the EMA is 101.80; day 15 closes at 104, so EMA = 101.80 + (104 − 101.80) × 1/3 = <strong>102.53</strong>. That is already above the five-day SMA (102.0): today’s close carries a third of the weight.",
+  "fails": [
+   "It still lags, only less: it reacts faster than the SMA but still turns after the price has.",
+   "Faster also means noisier — more crossovers, and more false ones, in a choppy market.",
+   "The starting value matters. Seeded from the first close (as here) or from a simple average, the first values differ until the old weight has faded."
+  ],
+  "code": "df['ema5'] = df['close'].ewm(span=5, adjust=False).mean()   # k = 2/(5+1)",
+  "sources": [
+   "J. S. Hunter, “The Exponentially Weighted Moving Average”, <em>Journal of Quality Technology</em> 18(4), 1986 — the same smoother in industrial process control",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
+  ]
+ },
+ "wma": {
+  "example": "Weights 1 to 5, newest heaviest. Day 15: (1×104 + 2×102 + 3×99 + 4×101 + 5×104) / 15 = 1529 / 15 = <strong>101.93</strong>. On day 8, at the end of the rally, it led the SMA by 0.67 (107.47 against 106.80): the heavy weights sit on the latest prices.",
+  "fails": [
+   "The weights drop to zero at the edge of the window, so a price leaving it still makes the line jump a little.",
+   "Linear weights are a choice, not a finding — there is no evidence they beat exponential ones. Pick by how quickly you want old data to fade.",
+   "Like every average, it confirms a turn rather than predicting it."
+  ],
+  "code": "w = np.arange(1, 6)                      # weights 1..5, newest heaviest\ndf['wma5'] = df['close'].rolling(5).apply(lambda x: (x * w).sum() / w.sum(), raw=True)",
+  "sources": [
+   "<em>Trading Systems and Methods</em> (5th ed.), P. J. Kaufman, Wiley, 2013 — the moving-average family compared",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
+  ]
+ },
+ "dema": {
+  "example": "Day 8, the end of the rally: EMA(5) = 106.61 and the EMA of that EMA = 104.69, so DEMA = 2 × 106.61 − 104.69 = <strong>108.53</strong> — about half a point from that day’s close of 108, where the plain EMA is 1.4 behind. On day 13, after the fall, DEMA is 100.61 against a close of 99 and an EMA of 102.20.",
+  "fails": [
+   "It overshoots: cancelling the lag amplifies the latest moves, so after a sharp bar the line can run past the price.",
+   "Less smoothing means more false signals in a range — the noise the plain EMA was absorbing comes back.",
+   "The name misleads: it is not an EMA applied twice but a lag-correcting combination of two."
+  ],
+  "code": "e1 = df['close'].ewm(span=5, adjust=False).mean()\ne2 = e1.ewm(span=5, adjust=False).mean()     # the EMA of the EMA\ndf['dema5'] = 2 * e1 - e2",
+  "sources": [
+   "P. Mulloy, “Smoothing Data with Faster Moving Averages”, <em>Technical Analysis of Stocks &amp; Commodities</em> 12(1), 1994"
+  ]
+ },
+ "vwap": {
+  "example": "Each day’s typical price (high + low + close) / 3, weighted by its volume, from day 1. Over the 15 days 1,043,000 shares traded with a typical-price value of 108,266,700, so VWAP = 108,266,700 / 1,043,000 = <strong>103.80</strong>; day 15 closes just above it, at 104. Day 13’s heavy volume (95,000 shares near 99.67) pulled VWAP down more than any day before it. On real intraday data VWAP restarts every session; here the 15 days stand in for 15 bars.",
+  "fails": [
+   "It is a benchmark, not a forecast. Trading desks use it to judge execution; its pull as support or resistance is a heuristic.",
+   "It goes stale through the day: late in the session it barely moves, because so much volume is already behind it.",
+   "It assumes each bar traded at its typical price; on wide-range bars that can be far from where the volume actually went through."
+  ],
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\ndf['vwap'] = (tp * df['volume']).cumsum() / df['volume'].cumsum()\n# intraday: group by session date and take the cumulative sums per day",
+  "sources": [
+   "S. Berkowitz, D. Logue &amp; E. Noser, “The Total Cost of Transactions on the NYSE”, <em>Journal of Finance</em> 43(1), 1988 — VWAP as an execution benchmark"
+  ]
+ },
+ "rsi": {
+  "example": "Five-day RSI with Wilder’s smoothing (seeded here from the first change; the textbook seeds with a simple average, which only changes the first values). After the run-up it read <strong>94.3</strong> on day 5 — “overbought” — yet the price kept rising to 109 on day 7. On day 13, after four down days in five, it reached <strong>29.9</strong>, below 30; by day 15 the close had climbed from 99 to 104.",
+  "fails": [
+   "Overbought is not a sell signal in a trend: in a strong rise RSI can stay above 70 for weeks while the price keeps climbing.",
+   "The 70 and 30 lines are convention, not calibration; the useful levels depend on the asset and the period.",
+   "Divergences (a new price high without a new RSI high) look clear in hindsight; in real time they are frequent, and most do not lead to a reversal."
+  ],
+  "code": "d = df['close'].diff()\ngain = d.clip(lower=0).ewm(alpha=1/5, adjust=False).mean()    # Wilder smoothing\nloss = (-d.clip(upper=0)).ewm(alpha=1/5, adjust=False).mean()\ndf['rsi5'] = 100 - 100 / (1 + gain / loss)",
+  "sources": [
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978",
+   "C.-H. Park &amp; S. H. Irwin, “What Do We Know About the Profitability of Technical Analysis?”, <em>Journal of Economic Surveys</em> 21(4), 2007 — a review of the evidence across studies"
+  ]
+ },
+ "stochastic": {
+  "example": "Day 15, five-day window: lowest low 98 (day 13), highest high 105, close 104. %K = 100 × (104 − 98) / (105 − 98) = <strong>85.7</strong> — after the rebound the close sits near the top of its range. %D, the three-day average of %K, is only 46.2, because days 13 and 14 were low (10.0 and 42.9).",
+  "fails": [
+   "In a strong trend %K stays near 100 (or 0) for long stretches, so overbought and oversold readings fight the trend.",
+   "A narrow range makes it jumpy: when the window’s high and low are close, a small move swings %K across the whole scale.",
+   "%K and %D cross often; without a trend filter most crossings are noise."
+  ],
+  "code": "ll = df['low'].rolling(5).min()\nhh = df['high'].rolling(5).max()\ndf['k'] = 100 * (df['close'] - ll) / (hh - ll)\ndf['d'] = df['k'].rolling(3).mean()",
+  "sources": [
+   "G. C. Lane, “Lane’s Stochastics”, <em>Technical Analysis of Stocks &amp; Commodities</em> 2(3), 1984",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
+  ]
+ },
+ "cci": {
+  "example": "Day 15: the typical prices of days 11–15 are 103.67, 102.33, 99.67, 100.67 and 103.33. Their mean is 101.93 and their mean absolute deviation 1.41, so CCI = (103.33 − 101.93) / (0.015 × 1.41) = <strong>66</strong>. Two days earlier, at the low, it read <strong>−141</strong>, below Lambert’s −100 line. The 0.015 was chosen so that most readings land between −100 and +100.",
+  "fails": [
+   "It has no bound: readings of ±200 or ±300 happen in strong moves, and fading them means fading a trend.",
+   "The mean deviation shrinks in quiet periods, so a modest move after a calm stretch gives an extreme reading.",
+   "Lambert built it to catch cycles in commodities; where there is no regular cycle the ±100 lines have no special meaning."
+  ],
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nma = tp.rolling(5).mean()\nmd = tp.rolling(5).apply(lambda x: np.abs(x - x.mean()).mean(), raw=True)\ndf['cci5'] = (tp - ma) / (0.015 * md)",
+  "sources": [
+   "D. R. Lambert, “Commodity Channel Index: Tools for Trading Cyclic Trends”, <em>Commodities</em> magazine, 1980"
+  ]
+ },
+ "williams-r": {
+  "example": "Day 15: highest high 105, lowest low 98, close 104, so %R = −100 × (105 − 104) / (105 − 98) = <strong>−14.3</strong>, inside the “overbought” zone above −20. It is the stochastic’s %K seen from the top: 85.7 − 100 = −14.3.",
+  "fails": [
+   "It shares the stochastic’s weakness: it stays at an extreme for as long as a trend lasts.",
+   "Unsmoothed, it is the noisiest of the range oscillators — one wide bar can move it across the scale.",
+   "The negative scale carries no information beyond %K; it mostly causes confusion."
+  ],
+  "code": "hh = df['high'].rolling(5).max()\nll = df['low'].rolling(5).min()\ndf['wr5'] = -100 * (hh - df['close']) / (hh - ll)",
+  "sources": [
+   "L. Williams, <em>How I Made One Million Dollars Last Year Trading Commodities</em>, Windsor Books, 1973",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
+  ]
+ },
+ "roc": {
+  "example": "Five-day ROC on day 13: the close of 99 against 108 five days earlier (day 8) gives 100 × (99 / 108 − 1) = <strong>−8.3%</strong>. On day 15 it is +0.97% (104 against 103 on day 10): the fall has stopped, not reversed.",
+  "fails": [
+   "It rests on a single price N bars back, so one unusual day enters the reading and later drops out of it.",
+   "Zero-line crossings come late in a reversal and often in a range.",
+   "Percent changes are not comparable across volatility: −8% means something different for a utility than for a crypto asset."
+  ],
+  "code": "df['roc5'] = 100 * (df['close'] / df['close'].shift(5) - 1)",
+  "sources": [
+   "N. Jegadeesh &amp; S. Titman, “Returns to Buying Winners and Selling Losers”, <em>Journal of Finance</em> 48(1), 1993 — momentum measured as past returns",
+   "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
+  ]
+ },
+ "macd": {
+  "example": "With fast 3, slow 6 and signal 3 (the standard 12/26/9 needs more than 15 days). MACD peaked at <strong>1.77</strong> on day 7 with the rally. The histogram turned negative on day 8 (−0.03), the first down day after the peak, and back to positive on day 15 (+0.44), one day into the rebound.",
+  "fails": [
+   "Both lines come from lagging averages, so crossovers confirm turns rather than anticipate them.",
+   "In a sideways market MACD hovers around zero and produces a crossover every few bars.",
+   "Values are in price units, so readings cannot be compared across assets, or across very different price levels, without scaling."
+  ],
+  "code": "fast = df['close'].ewm(span=3, adjust=False).mean()\nslow = df['close'].ewm(span=6, adjust=False).mean()\ndf['macd'] = fast - slow\ndf['signal'] = df['macd'].ewm(span=3, adjust=False).mean()\ndf['hist'] = df['macd'] - df['signal']",
+  "sources": [
+   "G. Appel, <em>Technical Analysis: Power Tools for Active Investors</em>, FT Prentice Hall, 2005",
+   "C.-H. Park &amp; S. H. Irwin, “What Do We Know About the Profitability of Technical Analysis?”, <em>Journal of Economic Surveys</em> 21(4), 2007 — a review of the evidence across studies"
+  ]
+ },
+ "adx": {
+  "example": "Five-day ADX with Wilder’s smoothing. Through the rally there are no down-moves, so −DI is 0 and ADX is pinned at 100 — a start-up effect of such a short series. By day 13 −DI (36.4) is far above +DI (8.8): a downtrend, with ADX at 56. On day 15 the two cross (+DI 23.1, −DI 22.7) while ADX is still <strong>46</strong>: it reports how strong the move was, and is slow to notice that it has ended.",
+  "fails": [
+   "It says nothing about direction: a high ADX fits a crash as well as a rally.",
+   "It lags badly, rising after a trend has peaked and staying high into the reversal.",
+   "The 25 line for “trending” comes from Wilder’s commodity work; it is a convention, not a calibrated level."
+  ],
+  "code": "up, down = df['high'].diff(), -df['low'].diff()\nplus_dm = np.where((up &gt; down) &amp; (up &gt; 0), up, 0.0)\nminus_dm = np.where((down &gt; up) &amp; (down &gt; 0), down, 0.0)\npc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\nw = lambda s: pd.Series(s, index=df.index).ewm(alpha=1/5, adjust=False).mean()   # Wilder\natr = w(tr)\ndf['+di'] = 100 * w(plus_dm) / atr\ndf['-di'] = 100 * w(minus_dm) / atr\ndx = 100 * (df['+di'] - df['-di']).abs() / (df['+di'] + df['-di'])\ndf['adx5'] = w(dx)",
+  "sources": [
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+  ]
+ },
+ "parabolic-sar": {
+  "example": "The acceleration factor starts at 0.02 and rises by 0.02 with each new high, up to 0.20. During the rally the SAR climbs from 99 to <strong>102.56</strong> by day 9. On day 10 the low of 102 breaks below it: the position flips short and the SAR jumps to the rally’s extreme, <strong>110</strong>, then trails down to 108.02 by day 15.",
+  "fails": [
+   "It is always in the market, long or short, so in a range it flips back and forth and loses on each flip.",
+   "Late in a long trend the acceleration factor is at its cap and the stop hugs the price; an ordinary pullback stops you out.",
+   "At a flip the stop jumps to the last extreme, which can be far from the price just after a reversal."
+  ],
+  "code": "af0, step, af_max = 0.02, 0.02, 0.20\nhigh, low = df['high'].values, df['low'].values\nsar = np.zeros(len(df)); up = True; af = af0\nep, sar[0] = high[0], low[0]\nfor i in range(1, len(df)):\n    sar[i] = sar[i-1] + af * (ep - sar[i-1])\n    if up:\n        sar[i] = min(sar[i], low[i-1], low[max(i-2, 0)])   # never above the last two lows\n        if low[i] &lt; sar[i]:                                 # stop hit: flip short\n            up, sar[i], ep, af = False, ep, low[i], af0\n        elif high[i] &gt; ep:\n            ep, af = high[i], min(af + step, af_max)\n    else:\n        sar[i] = max(sar[i], high[i-1], high[max(i-2, 0)])\n        if high[i] &gt; sar[i]:                                # stop hit: flip long\n            up, sar[i], ep, af = True, ep, high[i], af0\n        elif low[i] &lt; ep:\n            ep, af = low[i], min(af + step, af_max)\ndf['sar'] = sar",
+  "sources": [
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+  ]
+ },
+ "ichimoku": {
+  "example": "With periods 3, 6 and 12 instead of the standard 9, 26 and 52. On day 15 the conversion line (3-day midpoint) and the base line (6-day midpoint) are both <strong>101.5</strong>, below leading span A (106.25), which was projected from six days earlier. The close of 104 sits below that edge of the cloud. Span B needs 12 + 6 = 18 days, more than the example has: the long look-back is part of the method.",
+  "fails": [
+   "The standard periods (9, 26, 52) date from a six-day trading week in Japan; on today’s calendar they are convention.",
+   "Five lines and a cloud invite reading something into every configuration; more signals mean more chances to find one after the fact.",
+   "The cloud is shifted forward, but it is drawn from past prices: it shows old support and resistance, not a forecast."
+  ],
+  "code": "mid = lambda n: (df['high'].rolling(n).max() + df['low'].rolling(n).min()) / 2\ndf['tenkan'] = mid(3)                     # 9 in the standard settings\ndf['kijun'] = mid(6)                      # 26\ndf['span_a'] = ((df['tenkan'] + df['kijun']) / 2).shift(6)\ndf['span_b'] = mid(12).shift(6)           # 52, shifted 26 ahead",
+  "sources": [
+   "G. Hosoda (“Ichimoku Sanjin”), <em>Ichimoku Kinko Hyo</em>, published in Japanese from 1969",
+   "M. Patel, <em>Trading with Ichimoku Clouds</em>, Wiley, 2010"
+  ]
+ },
+ "aroon": {
+  "example": "Five-period Aroon looks back over six bars. On day 7 the high of 110 is today, so Aroon Up = <strong>100</strong>; it stays there on day 8 (another 110), then loses 20 points a bar as that high ages, reaching 0 on day 13. The new lows of days 10–13 keep Aroon Down at 100 through the fall. On day 15 the high of 105 equals day 11’s and is today, so Aroon Up jumps back to 100 while Aroon Down is still 60: both high at once means no clear trend.",
+  "fails": [
+   "It only knows when the extremes happened, not how far price moved, so a tiny new high counts as fully as a large one.",
+   "Ties and short windows make it jumpy: one bar can swing a line from 0 to 100.",
+   "Crossovers of the two lines lag the turn by roughly the look-back period."
+  ],
+  "code": "last = lambda f: (lambda x: len(x) - 1 - f(x[::-1]))     # position of the latest extreme\npos_hi = df['high'].rolling(6).apply(last(np.argmax), raw=True)   # 0 = oldest of 6 bars, 5 = today\npos_lo = df['low'].rolling(6).apply(last(np.argmin), raw=True)\ndf['aroon_up'] = 100 * pos_hi / 5           # 100 = the high is today\ndf['aroon_down'] = 100 * pos_lo / 5",
+  "sources": [
+   "T. Chande introduced Aroon in <em>Technical Analysis of Stocks &amp; Commodities</em>, 1995",
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000"
+  ]
+ },
+ "bollinger-bands": {
+  "example": "The standard 20-day bands need 20 days, so this uses 5. On day 15 the last five closes average 102.0 with a standard deviation of 1.90, so the bands are 102.0 ± 3.79: <strong>98.21 to 105.79</strong>. They were widest on day 7 (110.86 − 99.94 = 10.92), when the rally was fastest. On day 13 the close of 99 sat just above the lower band (98.48).",
+  "fails": [
+   "A touch of a band is not a signal on its own: in a trend the price “walks the band” for weeks.",
+   "Two standard deviations would hold about 95% of closes only if they were normal and independent; prices are neither, so breaks are more frequent than that.",
+   "A squeeze (narrow bands) says volatility is low and a move may follow — not which way."
+  ],
+  "code": "mid = df['close'].rolling(5).mean()\nsd = df['close'].rolling(5).std(ddof=0)       # population SD, as Bollinger uses\ndf['bb_up'], df['bb_mid'], df['bb_lo'] = mid + 2 * sd, mid, mid - 2 * sd",
+  "sources": [
+   "J. Bollinger, <em>Bollinger on Bollinger Bands</em>, McGraw-Hill, 2001",
+   "J. Lento, N. Gradojevic &amp; C. Wright, “Investment information content in Bollinger Bands?”, <em>Applied Financial Economics Letters</em> 3(4), 2007"
+  ]
+ },
+ "atr": {
+  "example": "True range looks at yesterday’s close as well as today’s high and low, so gaps count. Day 13: high 102, low 98, previous close 102, so TR = max(4, 0, 4) = 4. Five-day ATR with Wilder’s smoothing is <strong>3.41</strong> on day 15: the typical bar is about 3.4 points, 3.3% of the price.",
+  "fails": [
+   "It measures size, not direction; a high ATR comes with rallies and crashes alike.",
+   "It is in price units. Compare it as a percentage of price across assets or long periods.",
+   "Wilder’s smoothing is slow: after a shock ATR takes several bars to reflect the new volatility, and as long to forget it."
+  ],
+  "code": "pc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\ndf['atr5'] = tr.ewm(alpha=1/5, adjust=False).mean()   # Wilder smoothing",
+  "sources": [
+   "<em>New Concepts in Technical Trading Systems</em>, J. W. Wilder, Trend Research, 1978"
+  ]
+ },
+ "keltner-channels": {
+  "example": "Middle line EMA(5), bands two ATR(5) away. Day 15: 102.53 ± 2 × 3.41, so <strong>95.72 to 109.35</strong>. On the same day Bollinger’s bands are 98.21 to 105.79: the ATR bands are wider, and moved less on day 13’s drop (lower band 95.55, against Bollinger’s 98.48).",
+  "fails": [
+   "Band breaks are rarer than with Bollinger: fewer signals, and later ones.",
+   "Band width comes from ATR, so one gap day widens the channel for several bars.",
+   "Settings vary (an EMA of 20 with 2 × ATR of 10 is common; Keltner’s original used a 10-day average of the daily range), and results depend on which you pick."
+  ],
+  "code": "pc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\natr = tr.ewm(alpha=1/5, adjust=False).mean()\nmid = df['close'].ewm(span=5, adjust=False).mean()\ndf['kc_up'], df['kc_mid'], df['kc_lo'] = mid + 2 * atr, mid, mid - 2 * atr",
+  "sources": [
+   "C. W. Keltner, <em>How to Make Money in Commodities</em>, Keltner Statistical Service, 1960",
+   "<em>Trading Systems and Methods</em> (5th ed.), P. J. Kaufman, Wiley, 2013"
+  ]
+ },
+ "donchian-channels": {
+  "example": "Five-day channel. On day 7 the close of 109 tops the previous five days’ highest high of 108: a <strong>breakout</strong>. On day 15 the channel runs from 98 to 105, and the close of 104 sits just inside the top.",
+  "fails": [
+   "Most breakouts in a range fail. The system lives on a few long trends and loses small amounts often in between.",
+   "Exits are slow: when a trend ends, the opposite edge of the channel can be far away.",
+   "The look-back is the whole strategy — 20 days and 55 days give very different trades — and tuning it on history overfits."
+  ],
+  "code": "df['dc_up'] = df['high'].rolling(5).max()\ndf['dc_lo'] = df['low'].rolling(5).min()\ndf['dc_mid'] = (df['dc_up'] + df['dc_lo']) / 2\ndf['breakout'] = df['close'] &gt; df['dc_up'].shift()   # close above the prior range",
+  "sources": [
+   "C. Faith, <em>Way of the Turtle</em>, McGraw-Hill, 2007 — the Turtle traders’ Donchian breakout rules",
+   "<em>Trading Systems and Methods</em> (5th ed.), P. J. Kaufman, Wiley, 2013"
+  ]
+ },
+ "standard-deviation": {
+  "example": "Day 15: the last five closes (104, 102, 99, 101, 104) average 102.0. The deviations are 2, 0, −3, −1 and 2; squared, 4, 0, 9, 1 and 4; their mean is 3.6, and its square root <strong>1.90</strong>. Measured on daily returns instead of prices it is about 2.6% a day — returns are what risk models use.",
+  "fails": [
+   "It treats moves up and down alike, so a sharp rally counts as “risk” the same as a fall.",
+   "It assumes the spread is stable. Volatility clusters, so after a calm spell yesterday’s figure understates tomorrow’s.",
+   "Returns have fat tails: extreme days come far more often than a bell curve with this standard deviation predicts."
+  ],
+  "code": "df['sd5'] = df['close'].rolling(5).std(ddof=0)\ndf['ret_sd5'] = df['close'].pct_change().rolling(5).std()   # the same idea on returns",
+  "sources": [
+   "B. Mandelbrot, “The Variation of Certain Speculative Prices”, <em>Journal of Business</em> 36(4), 1963 — fat tails in prices",
+   "J. C. Hull, <em>Options, Futures, and Other Derivatives</em>, Pearson — estimating volatility from returns"
+  ]
+ },
+ "obv": {
+  "example": "Add the day’s volume on an up close, subtract it on a down close. Days 13–15 add −95,000, +64,000 and +71,000, taking OBV from −39,000 to <strong>+1,000</strong>. Days 11 and 15 both close at 104, but OBV was 36,000 then and 1,000 now: the same price, with less volume behind the way back.",
+  "fails": [
+   "A day’s whole volume is counted as buying or selling from the sign of the close, so a day up one cent counts as much as a day up 5%.",
+   "The level is arbitrary — it depends on where you start counting. Only its direction and divergences carry information.",
+   "Divergences between OBV and price are common, and most resolve without a reversal."
+  ],
+  "code": "direction = np.sign(df['close'].diff()).fillna(0)\ndf['obv'] = (direction * df['volume']).cumsum()",
+  "sources": [
+   "J. Granville, <em>Granville’s New Key to Stock Market Profits</em>, Prentice-Hall, 1963"
+  ]
+ },
+ "accumulation-distribution": {
+  "example": "The close location value says where the close sits in the day’s range: +1 at the high, −1 at the low. Day 15: high 105, low 101, close 104, so CLV = ((104 − 101) − (105 − 104)) / 4 = 0.5, and 0.5 × 71,000 shares = +35,500. A/D ends at <strong>23,833</strong>, against OBV’s 1,000: it credits the closes near the highs of days 14 and 15 more than the falls before them.",
+  "fails": [
+   "It ignores gaps: a stock that gaps down 5% and closes at the day’s high counts as accumulation.",
+   "Like OBV, its level depends on the start date; only the direction means anything.",
+   "On a day when the high equals the low, CLV is 0 / 0 and has to be set to zero by convention."
+  ],
+  "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\ndf['ad'] = (clv * df['volume']).cumsum()",
+  "sources": [
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000 — Chaikin’s accumulation/distribution line"
+  ]
+ },
+ "mfi": {
+  "example": "Money flow is typical price × volume, counted as positive on days the typical price rose and negative when it fell. Over days 11–15 the falls (days 12 and 13) slightly outweigh the rises (days 11, 14 and 15) in volume, and MFI = <strong>53.2</strong>. Two days earlier, at the low, it read 15.0, below the 20 line for “oversold”.",
+  "fails": [
+   "Volume spikes dominate it: one heavy day can move it more than a week of price changes.",
+   "Like RSI, it can stay “overbought” for as long as a trend lasts.",
+   "The split into positive and negative ignores how far the price moved; a tiny rise on huge volume counts as heavy buying."
+  ],
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nflow = tp * df['volume']\npos = flow.where(tp &gt; tp.shift(), 0).rolling(5).sum()\nneg = flow.where(tp &lt; tp.shift(), 0).rolling(5).sum()\ndf['mfi5'] = 100 - 100 / (1 + pos / neg)",
+  "sources": [
+   "G. Quong &amp; A. Soudack, “Volume-Weighted RSI: Money Flow”, <em>Technical Analysis of Stocks &amp; Commodities</em> 7(3), 1989"
+  ]
+ },
+ "chaikin-oscillator": {
+  "example": "EMA(3) minus EMA(10) of the accumulation/distribution line — MACD’s idea applied to volume flow. It peaked at <strong>+37,902</strong> on day 7 with the rally, turned negative on day 10, and on day 15 is still −11,315 but rising: money flow has turned up before the oscillator has crossed zero.",
+  "fails": [
+   "It is a difference of two averages of a running total, so noise in the A/D line is amplified.",
+   "It is measured in shares, so readings cannot be compared across stocks with different volume.",
+   "It inherits the A/D line’s blindness to gaps."
+  ],
+  "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\nad = (clv * df['volume']).cumsum()\ndf['chaikin'] = ad.ewm(span=3, adjust=False).mean() - ad.ewm(span=10, adjust=False).mean()",
+  "sources": [
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000"
+  ]
+ },
+ "vwap-bands": {
+  "example": "Bands two volume-weighted standard deviations of the typical price either side of VWAP. Day 15: VWAP 103.80, bands <strong>98.64 to 108.97</strong>. On day 13 the low of 98 dipped below the lower band (98.80), on the heaviest volume of the period.",
+  "fails": [
+   "The “68% within one band, 95% within two” rule assumes a bell curve; intraday prices rarely follow one.",
+   "Early in a session there is too little volume behind the bands, and they swing widely in the first bars.",
+   "Like VWAP itself, they are a reference for execution and context, not a signal with a tested edge."
+  ],
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nv = df['volume']\nvwap = (tp * v).cumsum() / v.cumsum()\nsd = np.sqrt((v * (tp - vwap) ** 2).cumsum() / v.cumsum())   # volume-weighted SD\ndf['vwap'], df['vb_up'], df['vb_lo'] = vwap, vwap + 2 * sd, vwap - 2 * sd",
+  "sources": [
+   "S. Berkowitz, D. Logue &amp; E. Noser, “The Total Cost of Transactions on the NYSE”, <em>Journal of Finance</em> 43(1), 1988 — VWAP as an execution benchmark",
+   "The bands are a practitioner construction; there is no canonical paper for them."
+  ]
+ }
+};
+/* depth:end */
+
+/* The content standard's depth for a topic: a worked example on the shared
+   15-day data, where the indicator misleads, the pandas that computes it,
+   and sources. Empty for a topic without an entry. */
+function depthHtml(id) {
+  const d = TOPIC_DEPTH[id];
+  if (!d) return '';
+  return `<section class="depth">
+  <div class="depth-block"><div class="depth-title">Worked example</div><p>${d.example}</p>${EXAMPLE_DATA_HTML}</div>
+  <div class="depth-block"><div class="depth-title">Where it misleads</div><ul>${d.fails.map(f => `<li>${f}</li>`).join('')}</ul></div>
+  <div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>${d.code}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns high, low, close and volume — the 15 days above.</p></div>
+  <div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul>${d.sources.map(s => `<li>${s}</li>`).join('')}</ul></div>
+</section>`;
+}
+
 /* Canvas visualizations carry no text of their own, so each one is given an
    accessible name built from its topic. Titles can contain characters that
    would break out of the attribute, hence the escape. */
@@ -161,6 +497,7 @@ function buildContent() {
     html += `<p class="sub">// ${t.pattern || t.content.split('.')[0] + '.'}</p>`;
     html += `<div class="va"><canvas id="${t.id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())}Canvas" role="img" aria-label="${ariaAttr(t.title)} \u2014 visualization"></canvas></div>`;
     html += `<div class="topic-body">${builders[t.id] ? builders[t.id]() : `<p>${t.content}</p>`}</div>`;
+    html += depthHtml(t.id);
     if (PATTERN_BRIDGES[t.id]) html += PATTERN_BRIDGES[t.id];
     if (TOPIC_EXTRAS[t.id]) html += TOPIC_EXTRAS[t.id];
     html += `<div class="topic-nav" id="nav-${t.id}"></div>`;
