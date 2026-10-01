@@ -130,7 +130,7 @@ df[<span class="st">'month'</span>] = df.index.month
 <span class="cm"># Fourier features for yearly seasonality</span>
 df[<span class="st">'sin_365'</span>] = np.sin(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)
 df[<span class="st">'cos_365'</span>] = np.cos(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../../markets/indicators/#sma">moving averages</a> and <a href="../../markets/indicators/#bollinger-bands">Bollinger Bands</a> from technical analysis.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="../#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../../markets/indicators/#sma">moving averages</a> and <a href="../../markets/indicators/#bollinger-bands">Bollinger Bands</a> from technical analysis.</div>
   
 </div>
   <div class="topic-nav">

@@ -1518,5 +1518,15 @@
     <priority>0.7</priority>
     <lastmod>2026-10-01</lastmod>
   </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/momentum/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/trails/thresholds/</loc>
+    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
   <!-- trails:end -->
 </urlset>

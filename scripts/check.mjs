@@ -17,6 +17,8 @@
      9. Pre-rendered pages carry the current "Linked from" list and share card
     10. Pattern trails name real topics, and /trails/, the homepage block and
         the sitemap entries match trails/trails.json
+    11. Content standard — warnings only: short topics, formula pattern lines,
+        topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
    derived files; count mismatches in page copy are fixed by hand. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -24,6 +26,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname, normalize } from 'node:path';
 import { buildConnections } from './connections.mjs';
 import { execFileSync } from 'node:child_process';
+import { contentInventory, MIN_WORDS } from './content-report.mjs';
 
 const COLLECTIONS = [
   { col: 'stats',      dir: 'stats',               path: '/stats/',               universe: 'stats' },
@@ -336,6 +339,21 @@ try {
   ok(out.trim().split(/\r?\n/).pop().replace(/^trails: /, ''));
 } catch (e) {
   fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-6).join(' | ') || 'build-trails --check failed');
+}
+/* ── 11. Content standard (warnings) ──
+   Not failures: content is fixed by writing it, and a build should not stop
+   because a topic is still short. The counts show where the content plan
+   stands; node scripts/content-report.mjs has the per-collection table, and
+   /content/ (written by build.mjs) lists every topic. */
+console.log('11. Content standard (warnings only)');
+{
+  const rows = contentInventory();
+  const warn = msg => console.log('  ⚠ ' + msg);
+  const n = f => rows.filter(f).length;
+  const formula = rows.filter(r => r.formulaLine);
+  if (formula.length) warn(`${formula.length} formula pattern line(s): ${formula.slice(0, 5).map(r => r.key).join(', ')}${formula.length > 5 ? ', …' : ''}`);
+  warn(`${n(r => !r.out)} topic(s) with no links out, ${n(r => !r.in)} with no links in`);
+  warn(`${n(r => r.words < MIN_WORDS)} topic(s) under ${MIN_WORDS} words`);
 }
 console.log(failures ? `\n${failures} problem(s) found` : '\nAll checks passed');
 process.exit(failures ? 1 : 0);

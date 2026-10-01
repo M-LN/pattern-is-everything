@@ -1030,7 +1030,7 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 )
 # 70B model now fits in ~35GB VRAM</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values. The production side — calibration, accuracy checks and serving — is in <a href="../mlops/#quantization">quantization for MLOps</a>.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>

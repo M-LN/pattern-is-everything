@@ -74,6 +74,36 @@
         { "key": "/essays/#essay-map", "note": "Every model is a simplification. The danger is forgetting what was left out — including everything that did not survive into the data." }
       ],
       "outro": "Ask what is missing from the data, and what you know now that you would not have known then. Most false patterns live in one of those two gaps."
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum",
+      "intro": "Recent direction tends to carry on, for a while. The same idea speeds up neural-network training, drives a family of trading indicators, shapes how traders add to winners and fuels the crowd. Follow it, and see where it stops paying.",
+      "stops": [
+        { "key": "/ml-math/#optimizers", "note": "Momentum in training: keep part of the last step's direction, so the optimiser rolls through small bumps instead of stalling at each one." },
+        { "key": "/markets/indicators/#ema", "note": "The same running memory applied to prices: an exponential average weights recent moves most, so it turns with the trend sooner than a simple average." },
+        { "key": "/markets/indicators/#macd", "note": "The gap between a fast and a slow average measures momentum directly. It widens when a move accelerates and narrows as it fades." },
+        { "key": "/markets/indicators/#roc", "note": "Momentum at its plainest: the percentage change over N bars. A rising rate of change says the move is speeding up." },
+        { "key": "/markets/risk/#pyramiding", "note": "Traders act on momentum by adding to positions that are working, in smaller tiers as the trend gets older." },
+        { "key": "/markets/psychology/#fomo", "note": "The crowd's version: rising prices pull in buyers who fear missing out, and their buying carries the move further, until it stops." },
+        { "key": "/essays/#essay-walk", "note": "The sceptic's stop. If prices were a pure random walk, past direction would say nothing about the next step. Momentum strategies bet that they are not, and the evidence is mixed." }
+      ],
+      "outro": "Momentum is memory: of the gradient, of the price, of the crowd. It helps while the direction holds and hurts at the turn, which is why every version comes with a way to let go."
+    },
+    {
+      "id": "thresholds",
+      "title": "Thresholds and tipping points",
+      "intro": "Many systems change all at once when a line is crossed. A neuron fires, a classifier says yes, a language model drops its unlikely words, a price breaks out, a stop-loss sells. Each stop is a threshold, and each has to answer the same question: where to draw the line.",
+      "stops": [
+        { "key": "/essays/#essay-threshold", "note": "The pattern itself: a system stays quiet for a long time, then changes all at once when a level is crossed." },
+        { "key": "/ml-math/#activation", "note": "ReLU is a threshold. Below zero nothing passes, above it everything does, and stacking these switches is what lets a network bend." },
+        { "key": "/stats/#roc-auc", "note": "A classifier outputs a score and a threshold turns it into a decision. The ROC curve shows every possible line at once, and what each one costs." },
+        { "key": "/llm/#sampling", "note": "Language models draw lines too: top-k and top-p sampling drop every candidate word below a cutoff before choosing the next one." },
+        { "key": "/markets/charts/#support-resistance", "note": "In prices, thresholds are levels traders remember: places where buying or selling has stepped in before." },
+        { "key": "/markets/indicators/#donchian-channels", "note": "A breakout system makes the line explicit: the highest high and lowest low of the last N bars, and a trade when price leaves that range." },
+        { "key": "/markets/risk/#stop-losses", "note": "Risk control uses the same switch on purpose: past a set loss the position is closed, without debate." }
+      ],
+      "outro": "A threshold turns a continuous signal into a decision. Where you set it decides which mistakes you make, so every field ends up drawing its own ROC curve, whatever it calls it."
     }
   ]
 }

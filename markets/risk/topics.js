@@ -400,7 +400,7 @@ function buildRebalancing() {
     </div>
   </div>
   <div class="callout info"><strong>Tax efficiency.</strong> Threshold-based rebalancing with tax-loss harvesting can add 20-50 bps annually.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Mean-reversion logic appears in <a href="../psychology/index.html">Market Psychology</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rebalancing sells what ran ahead and buys what fell behind — a standing bet that <a href="../../essays/#essay-mean">regression to the mean</a> holds, and the disciplined opposite of <a href="../../markets/psychology/#herd-behavior">herd behaviour</a>.</div>
   <div class="topic-nav" id="nav-rebalancing"></div>
 </div>`;
 }
@@ -499,7 +499,7 @@ function buildPyramiding() {
     </div>
   </div>
   <div class="callout info"><strong>Trend following.</strong> Pyramiding is a hallmark of trend-following systems — it maximizes exposure to strong moves.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Trend identification links to <a href="../indicators/index.html">Indicators</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Adding to winners is a bet that the trend continues, so it needs a trend gauge such as <a href="../../markets/indicators/#adx">ADX</a> and a volatility yardstick such as <a href="../../markets/indicators/#atr">ATR</a> to size each new tier.</div>
   <div class="topic-nav" id="nav-pyramiding"></div>
 </div>`;
 }
@@ -524,7 +524,7 @@ function buildMaxPosition() {
     <canvas id="cvs-max-position" role="img" aria-label="Maximum Position Limits: Position limits — concentration caps" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Concentration kills.</strong> Archegos lost $20 B+ in days due to massive single-name concentration with leveraged swaps.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> See <a onclick="show('diversification',true)">Diversification</a> for the quantitative benefit of spreading risk.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Position caps exist because of <a href="../../markets/psychology/#overconfidence">overconfidence</a>: the bigger the conviction, the bigger the bet. Models get the same guard rail from <a href="../../ml-math/#regularization">regularization</a>, which caps how much any one weight can matter.</div>
   <div class="topic-nav" id="nav-max-position"></div>
 </div>`;
 }
@@ -550,7 +550,7 @@ function buildOptionsHedging() {
       <tr><td>Delta hedge</td><td>Slippage</td><td>Vol spread</td><td>Variable</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Option Greeks appear in <a href="../charts/index.html">Chart Patterns</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A protective put pays max(K − S, 0) — the same hinge as the ReLU in <a href="../../ml-math/#activation">activation functions</a>, flat on one side and linear on the other. <a href="../../markets/psychology/#loss-aversion">Loss aversion</a> is why investors pay for that floor.</div>
   <div class="topic-nav" id="nav-options-hedging"></div>
 </div>`;
 }
@@ -616,7 +616,7 @@ function buildPortfolioInsurance() {
     </div>
   </div>
   <div class="callout info"><strong>1987 crash.</strong> Program-trading-driven CPPI selling amplified Black Monday — a cautionary tale about mechanical hedging.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Dynamic allocation connects to <a href="../psychology/index.html">Market Psychology</a> on behavioral biases.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> CPPI buys as prices rise and sells as they fall, a mechanical <a href="../../essays/#essay-feedback">feedback loop</a>. In October 1987 portfolio-insurance selling fed the crash it was meant to protect against — an <a href="../../markets/psychology/#information-cascades">information cascade</a> run by rules.</div>
   <div class="topic-nav" id="nav-portfolio-insurance"></div>
 </div>`;
 }
@@ -642,7 +642,7 @@ function buildCurrencyHedging() {
       <tr><td>Fully hedged</td><td>Interest diff</td><td>Near zero</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Interest-rate fundamentals connect to <a href="../indicators/index.html">Indicators</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hedging strips out a risk you did not choose to take. How much it matters depends on how volatile the currency is, and that volatility clusters — see <a href="../../timeseries/#garch">GARCH</a> and <a href="../../markets/indicators/#standard-deviation">standard deviation</a>.</div>
   <div class="topic-nav" id="nav-currency-hedging"></div>
 </div>`;
 }
@@ -693,7 +693,7 @@ function buildAlphaGeneration() {
     <canvas id="cvs-alpha-generation" role="img" aria-label="Alpha generation — excess return decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Alpha decay.</strong> The half-life of a quantitative signal is typically 2-5 years before crowding erodes it.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Feature importance for signal research connects to <a href="../../ml-math/index.html">ML Math</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Alpha research is feature selection under heavy noise: <a href="../../stats/#permutation-importance">permutation importance</a> tests whether a signal does the work, and <a href="../../stats/#walk-forward">walk-forward validation</a> tests whether it survives out of sample.</div>
   <div class="topic-nav" id="nav-alpha-generation"></div>
 </div>`;
 }
@@ -746,7 +746,7 @@ function buildDrawdownAnalysis() {
     </tbody>
   </table>
   <div class="callout info"><strong>Behavioral impact.</strong> Drawdowns are the #1 reason investors abandon strategies — even profitable ones.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Psychological aspects of drawdowns appear in <a href="../psychology/index.html">Market Psychology</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Drawdowns test behaviour as much as capital: <a href="../../markets/psychology/#loss-aversion">loss aversion</a> and <a href="../../markets/psychology/#regret-aversion">regret aversion</a> are why investors sell near the bottom. The measurement itself is in <a href="../../stats/#max-drawdown">maximum drawdown</a>.</div>
   <div class="topic-nav" id="nav-drawdown-analysis"></div>
 </div>`;
 }

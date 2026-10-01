@@ -398,6 +398,7 @@ r2   = r2_score(y_true, y_pred)
 
 print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div>
   <div class="callout"><strong>Adjusted R&sup2;:</strong> R&sup2;<sub>adj</sub> = 1 &minus; (1&minus;R&sup2;)(n&minus;1)/(n&minus;p&minus;1). Penalises adding features. Always use adjusted R&sup2; when comparing models with different feature counts.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../timeseries/#backtesting-forecasts">backtesting forecasts</a>.</div>
   <div class="topic-nav" id="nav-regression-metrics"></div>
 </div>`;
 }
@@ -506,6 +507,7 @@ t_stat, p_val = ttest_rel(scores_a, scores_b)
 w_stat, p_val = wilcoxon(scores_a, scores_b)
 print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
   <div class="callout"><strong>Rule of thumb:</strong> If p &lt; 0.05, the difference is statistically significant — but also check <a href="#effect-size">effect size</a>. A significant p-value with tiny effect size means the improvement is real but may not matter.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two runs differ by 0.4 points: signal or seed? <a href="../mlops/#experiment-tracking">Experiment tracking</a> keeps the runs to compare, and traders ask the same of two strategies through <a href="../markets/risk/#risk-adjusted-perf">risk-adjusted performance</a>.</div>
   <div class="topic-nav" id="nav-comparing-runs"></div>
 </div>`;
 }
@@ -688,6 +690,7 @@ result = permutation_importance(
 <span class="kw">for</span> i <span class="kw">in</span> result.importances_mean.argsort()[::-<span class="st">1</span>]:
     print(<span class="st">f"{features[i]}: {result.importances_mean[i]:.3f}"</span>)</pre></div>
   <div class="callout"><strong>Correlated features trap:</strong> If two features are correlated, shuffling one leaves the other intact — importance is split between them. Consider using SHAP or drop-column importance for correlated features.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shuffle an input and see if anything breaks — a controlled experiment that also tests a trading signal in <a href="../markets/risk/#alpha-generation">alpha research</a>. Importances that shift over time are an early warning in <a href="../mlops/#model-monitoring">model monitoring</a>.</div>
   <div class="topic-nav" id="nav-permutation-importance"></div>
 </div>`;
 }
@@ -721,6 +724,7 @@ PartialDependenceDisplay.from_estimator(
     ice_lines_kw={<span class="st">'alpha'</span>: <span class="st">0.1</span>}
 )</pre></div>
   <div class="callout info"><strong>Interactions:</strong> If ICE lines cross each other, there's a feature interaction — the effect of this feature depends on other features' values. A flat PDP with scattered ICE means the average is misleading.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A partial-dependence average can hide individual curves pointing the other way — the same trap as <a href="../essays/#essay-simpson">Simpson’s paradox</a>. A signal that works on average can likewise fail in exactly the regimes that matter, as <a href="../markets/risk/#correlation-risk">correlation risk</a> shows.</div>
   <div class="topic-nav" id="nav-pdp-ice"></div>
 </div>`;
 }
@@ -757,6 +761,7 @@ vif[<span class="st">'Feature'</span>] = X.columns
 vif[<span class="st">'VIF'</span>] = [variance_inflation_factor(X.values, i)
             <span class="kw">for</span> i <span class="kw">in</span> range(X.shape[<span class="st">1</span>])]</pre></div>
   <div class="callout"><strong>Drop rule:</strong> If two features have |r| &gt; 0.9, drop the one less correlated with the target, or the one with higher VIF.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Correlated features split the credit, so neither looks important alone. Portfolios have the same problem: assets that move together give less <a href="../markets/risk/#diversification">diversification</a> than their count suggests, and <a href="../markets/risk/#correlation-risk">correlations rise in a crisis</a>.</div>
   <div class="topic-nav" id="nav-feature-correlation"></div>
 </div>`;
 }
@@ -823,6 +828,7 @@ fig, ax = plt.subplots()
 probplot(data, plot=ax)
 plt.show()</pre></div>
   <div class="callout"><strong>When it matters:</strong> Linear regression assumes normal residuals. Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fat tails are why risk models that assume a bell curve underestimate the bad days — see <a href="../markets/risk/#tail-risk">tail risk</a> and <a href="../markets/risk/#expected-shortfall">expected shortfall</a>, which looks at how bad the worst cases are rather than just where they start.</div>
   <div class="topic-nav" id="nav-distribution-shape"></div>
 </div>`;
 }
@@ -897,6 +903,7 @@ imp = KNNImputer(n_neighbors=<span class="st">5</span>)
 imp = IterativeImputer(max_iter=<span class="st">10</span>)
 X_filled = imp.fit_transform(X)</pre></div>
   <div class="callout info"><strong>Never impute the target.</strong> And always impute <em>inside</em> cross-validation folds to prevent data leakage.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Gaps are rarely random: a missing price can mean a halted stock, a missing reading a failed sensor. Handling them is part of <a href="../mlops/#data-quality">data quality</a> in production and of <a href="../timeseries/#resampling">resampling</a> irregular time series.</div>
   <div class="topic-nav" id="nav-missing-data"></div>
 </div>`;
 }
@@ -1032,6 +1039,7 @@ model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)<
     <div class="use-when">✓ <strong>Use when:</strong> Your minority class is < 10% of data. Your model's recall on the minority class is poor. You're working in fraud, disease detection, churn prediction, or any domain with naturally rare events.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Classes are roughly balanced (30-70% split). You have enough minority samples (>5K). You're using models that handle imbalance natively (like focal loss in neural nets).</div>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rare events are the usual case in practice — fraud, failures and crashes are all minority classes. The same imbalance shapes <a href="../timeseries/#anomaly-detection">anomaly detection</a> and is why <a href="../markets/risk/#tail-risk">tail risk</a> is so hard to estimate from history.</div>
   <div class="topic-nav" id="nav-class-imbalance"></div>
 </div>`;
 }
@@ -1113,6 +1121,7 @@ recovery_periods = underwater.astype(int).groupby(
     (~underwater).cumsum()
 ).sum()</pre></div>
   <div class="callout"><strong>Psychology:</strong> A 50% drawdown requires a 100% gain to recover. A 33% drawdown needs 50%. The math is against you — managing drawdown is as important as maximising return.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Drawdown measures the path, not just the endpoint, and recovery is harder than the fall: a 50% loss needs a 100% gain. That arithmetic drives <a href="../markets/risk/#drawdown-analysis">drawdown analysis</a> and <a href="../markets/risk/#stop-losses">stop-loss rules</a>.</div>
   <div class="topic-nav" id="nav-max-drawdown"></div>
 </div>`;
 }
@@ -1198,6 +1207,7 @@ paths = np.zeros((n_sims, n_days))
 p5  = np.percentile(paths, <span class="st">5</span>, axis=<span class="st">0</span>)
 p95 = np.percentile(paths, <span class="st">95</span>, axis=<span class="st">0</span>)</pre></div>
   <div class="callout"><strong>Limitation:</strong> Monte Carlo assumes returns are i.i.d. Real markets have autocorrelation, volatility clustering, and regime changes. Use block bootstrap to preserve some time structure.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Each simulated path is a <a href="../essays/#essay-walk">random walk</a>; thousands of them turn one backtest into a distribution of outcomes. The same simulation gives <a href="../markets/risk/#value-at-risk">value at risk</a> its Monte Carlo variant.</div>
   <div class="topic-nav" id="nav-monte-carlo"></div>
 </div>`;
 }
@@ -1234,6 +1244,7 @@ function buildSurvivorshipBias() {
 <span class="cm"># Use 'as_of' date columns, not 'period_end'</span>
 df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'trade_date'</span>]]</pre></div>
   <div class="callout info"><strong>Data snooping:</strong> If you tested 100 strategies, 5 will look significant at p &lt; 0.05 by pure chance. Adjust for multiple comparisons (Bonferroni) or use a holdout period you never touch.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Backtests are one case of a general pattern — <a href="../essays/#essay-survivor">we study what survived</a> and forget the rest. Its psychological twin is <a href="../markets/psychology/#hindsight-bias">hindsight bias</a>: after the fact, the winners look obvious.</div>
   <div class="topic-nav" id="nav-survivorship-bias"></div>
 </div>`;
 }
@@ -1308,6 +1319,7 @@ boots = bootstrap(data, np.median)
 ci = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</span>])
 se = boots.std()</pre></div>
   <div class="callout"><strong>BCa (bias-corrected and accelerated):</strong> The basic percentile method works but BCa is more accurate for skewed distributions. <code>scipy.stats.bootstrap</code> offers this.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Resampling with replacement is also how bagging builds varied models — see <a href="../timeseries/#forecast-ensembles">forecast ensembles</a> — and resampling past returns is how historical <a href="../markets/risk/#value-at-risk">value at risk</a> estimates a bad day without assuming a bell curve.</div>
   <div class="topic-nav" id="nav-bootstrap-methods"></div>
 </div>`;
 }
@@ -1384,6 +1396,7 @@ function buildEffectSize() {
 d = cohens_d(model_a_scores, model_b_scores)
 print(<span class="st">f"Cohen's d = {d:.3f}"</span>)</pre></div>
   <div class="callout info"><strong>Always report both:</strong> "The improvement was statistically significant (p = 0.02) with a medium effect size (d = 0.55)." p-value alone is meaningless.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A significant result can still be too small to matter. A model in an <a href="../mlops/#ab-rollout">A/B rollout</a> can win by a margin that does not pay for itself, and a trading edge can be real yet vanish in <a href="../markets/risk/#risk-adjusted-perf">risk-adjusted terms</a>.</div>
   <div class="topic-nav" id="nav-effect-size"></div>
 </div>`;
 }
@@ -1424,6 +1437,7 @@ ns = range(<span class="st">10</span>, <span class="st">200</span>)
 powers = [analysis.power(effect_size=<span class="st">0.5</span>, nobs1=n, alpha=<span class="st">0.05</span>) <span class="kw">for</span> n <span class="kw">in</span> ns]
 plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="st">'--'</span>); plt.show()</pre></div>
   <div class="callout"><strong>Before you experiment:</strong> Do the power analysis first. If you need 500 samples per group and can only get 50, the experiment is doomed before it starts.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Too little data and a real effect stays invisible. The same arithmetic decides how long an <a href="../mlops/#ab-rollout">A/B rollout</a> has to run, and how much history you need before <a href="../timeseries/#backtesting-forecasts">a backtest</a> can tell skill from luck.</div>
   <div class="topic-nav" id="nav-power-analysis"></div>
 </div>`;
 }
@@ -1600,6 +1614,7 @@ chi2, p, dof, _ = stats.chi2_contingency(
     pd.crosstab(df['species'], df['island']))
 print(f"chi2 = {chi2:.1f}, p = {p:.4g}")</code></pre>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing a test is choosing your assumptions. <a href="../mlops/#drift-detection">Drift detection</a> uses the same tests — KS, chi-square — to ask whether production data still looks like training data, and <a href="../timeseries/#stationarity">stationarity tests</a> ask whether a series keeps its statistics over time.</div>
   <div class="topic-nav" id="nav-stat-tests"></div>
 </div>`;
 }
@@ -1834,6 +1849,7 @@ df.hist(bins=40, figsize=(12, 6))
 sns.heatmap(df.isna(), cbar=False)   # missingness at a glance
 plt.show()</code></pre>
   </div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The first hour with a dataset is where you catch what <a href="../mlops/#data-quality">data-quality checks</a> later automate, and where a time series first shows its trend and seasons — the starting point for <a href="../timeseries/#decomposition">decomposition</a>.</div>
   <div class="topic-nav" id="nav-eda-workflow"></div>
 </div>`;
 }
@@ -2132,6 +2148,7 @@ grid.fit(X_train, y_train)</pre></div>
     </tbody>
   </table>
   <div class="callout"><strong>Tip:</strong> Always use <code>Pipeline</code> to chain preprocessing + model. This prevents data leakage in CV and makes deployment trivial.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The same metrics follow a model into production, where <a href="../mlops/#model-monitoring">model monitoring</a> tracks them over time. For ordered data, <a href="../timeseries/#cross-validation-ts">time-series cross-validation</a> replaces the shuffled folds.</div>
   <div class="topic-nav" id="nav-sklearn-eval"></div>
 </div>`;
 }
@@ -2178,6 +2195,7 @@ inter = explainer.shap_interaction_values(X_test)</pre></div>
     </tbody>
   </table>
   <div class="callout"><strong>Performance tip:</strong> For KernelExplainer, use a small background dataset (e.g., <code>shap.kmeans(X_train, 50)</code>) to speed things up dramatically.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP splits a prediction into each feature’s share, as <a href="../markets/risk/#return-attribution">return attribution</a> splits a portfolio’s result into its sources. In production, <a href="../mlops/#fairness-audits">fairness audits</a> use the same attributions to check what a model relies on.</div>
   <div class="topic-nav" id="nav-shap-library"></div>
 </div>`;
 }
@@ -2227,6 +2245,7 @@ optuna.visualization.plot_optimization_history(study)</pre></div>
     </tbody>
   </table>
   <div class="callout"><strong>vs GridSearch:</strong> GridSearch tests every combination (exponential). Optuna uses Bayesian optimization — it learns which regions are promising and explores them more.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hyperparameter search is the outer loop around <a href="../ml-math/#gradient">gradient descent</a>: optimising the settings rather than the weights. Tune too hard on one validation set and you fit its noise — the trap described in <a href="../essays/#essay-signal">signal in the noise</a>.</div>
   <div class="topic-nav" id="nav-optuna"></div>
 </div>`;
 }
@@ -2272,7 +2291,7 @@ print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <sp
       <tr><td>Volume</td><td>OBV, VWAP, MFI</td><td>ta.obv(), ta.vwap(), ta.mfi()</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/">Markets &rarr; Indicators</a> collection — but here you can compute them yourself in Python and feed them into ML models as features.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/">Markets &rarr; Indicators</a> collection — <a href="../markets/indicators/#rsi">RSI</a>, <a href="../markets/indicators/#macd">MACD</a>, <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a> and the rest — but here you can compute them yourself in Python and feed them into ML models as features.</div>
   <div class="topic-nav" id="nav-pandas-ta"></div>
 </div>`;
 }
@@ -2324,6 +2343,7 @@ print(<span class="st">f"ADF Stat: {result[0]:.3f}, p: {result[1]:.4f}"</span>)<
     </tbody>
   </table>
   <div class="callout"><strong>sklearn vs statsmodels:</strong> sklearn is for prediction (fit/predict). statsmodels is for inference (coefficients, p-values, diagnostics). Use both — they complement each other.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> statsmodels fits the <a href="../timeseries/#arima">ARIMA</a> and <a href="../timeseries/#garch">GARCH</a> models used across the Timeseries collection, so the diagnostics here are the ones you run on every forecast model there.</div>
   <div class="topic-nav" id="nav-scipy-statsmodels"></div>
 </div>`;
 }

@@ -267,6 +267,19 @@ async function sync(file, next, label = file, compare = s => s) {
   written++;
 }
 
+/* A synced folder (OneDrive) can briefly lock a file it is uploading, and
+   rewriting it then fails with EBUSY/EPERM/UNKNOWN. A short retry rides that out. */
+async function put(file, data) {
+  await mkdir(dirname(file), { recursive: true });
+  for (let attempt = 1; ; attempt++) {
+    try { return await writeFile(file, data); }
+    catch (e) {
+      if (attempt >= 6 || !['EBUSY', 'EPERM', 'EACCES', 'UNKNOWN'].includes(e.code)) throw e;
+      await new Promise(r => setTimeout(r, 500 * attempt));
+    }
+  }
+}
+
 async function buildCards(only) {
   const { serve, launch, connect } = await import('./chrome.mjs');
   const server = await serve(ROOT);
@@ -302,8 +315,7 @@ async function buildCards(only) {
         return true;
       })()`);
       const shot = Buffer.from((await card.send('Page.captureScreenshot', { format: 'jpeg', quality: 86 })).data, 'base64');
-      await mkdir(dirname(cardPath(trail)), { recursive: true });
-      await writeFile(cardPath(trail), shot);
+      await put(cardPath(trail), shot);
       console.log(`assets/og/trails/${trail.id}.jpg`);
     }
     card.close();

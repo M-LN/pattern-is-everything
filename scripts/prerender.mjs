@@ -89,10 +89,17 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
    generated page sits one directory deeper (/<col>/<id>/). Without this every
    relative link in the content — the pattern bridges above all — resolved
    inside the topic's own folder and 404'd: ../markets/charts/ from
-   /ml-math/activation/ became /ml-math/markets/charts/. Root-absolute,
-   in-page (#…) and scheme links are left alone. */
-const rebase = html => html.replace(
-  /(<a\b[^>]*?\shref=")(?![a-z][a-z0-9+.-]*:|\/|#)([^"]+)"/gi, '$1../$2"');
+   /ml-math/activation/ became /ml-math/markets/charts/. Root-absolute and
+   scheme links are left alone.
+
+   A bare #id naming another topic of the same collection (href="#walk-forward")
+   works in the reader, where every topic is on the page, but pointed at
+   nothing on a page holding one topic; it goes to the reader, ../#id. Other
+   #fragments (a heading's own anchor) stay as they are. */
+const rebase = (html, topicIds) => html
+  .replace(/(<a\b[^>]*?\shref=")(?![a-z][a-z0-9+.-]*:|\/|#)([^"]+)"/gi, '$1../$2"')
+  .replace(/(<a\b[^>]*?\shref=")#([A-Za-z0-9_-]+)"/g,
+    (m, pre, id) => topicIds && topicIds.has(id) ? `${pre}../#${id}"` : m);
 
 function describe(content) {
   let t = String(content || '').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
@@ -431,13 +438,14 @@ async function run() {
     const vizMatch = colHtml.match(/data-viz="([^"]+)"/);
     const vizSrc = vizMatch ? vizMatch[1] : 'visualizations.js';
 
+    const topicIds = new Set(data.map(t => t.id));
     const fingerprint = 'topics.js@' + createHash('sha256')
       .update(lf(await readFile(join(ROOT, col.dir, 'topics.js'), 'utf8'))).digest('hex').slice(0, 12);
     for (let i = 0; i < data.length; i++) {
       const topic = data[i];
       const out = join(ROOT, col.dir, topic.id, 'index.html');
       const body = page({
-        topic, html: rebase(topic.html), col, key, fingerprint, vizSrc, connections,
+        topic, html: rebase(topic.html, topicIds), col, key, fingerprint, vizSrc, connections,
         prev: i > 0 ? data[i - 1] : null,
         next: i < data.length - 1 ? data[i + 1] : null,
       });

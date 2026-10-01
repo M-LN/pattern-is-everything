@@ -6,10 +6,13 @@
    2. essays/feed.xml     — RSS feed for Pattern Essays
    3. sitemap.xml         — refreshed <lastmod> dates from git history
    4. connections.json    — which topics link to which (scripts/connections.mjs)
+   5. content/index.html  — the content report (scripts/content-report.mjs)
 */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { buildConnections } from './connections.mjs';
+import { contentInventory, reportHtml } from './content-report.mjs';
+import { mkdirSync } from 'node:fs';
 
 const SITE = 'https://patterniseverything.com';
 
@@ -121,3 +124,10 @@ const connections = buildConnections();
 writeFileSync('connections.json', JSON.stringify(connections), 'utf-8');
 console.log(`connections.json: ${Object.keys(connections.topics).length} topics, ` +
   `${Object.keys(connections.linkedFrom).length} with incoming links`);
+
+/* ── 5. content/index.html ──
+   Where each topic stands against the content standard; not indexed and not
+   linked from the site. */
+mkdirSync('content', { recursive: true });
+writeFileSync('content/index.html', reportHtml(contentInventory()), 'utf-8');
+console.log('content/index.html: content report');
