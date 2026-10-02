@@ -1687,9 +1687,9 @@ print(<span class="st">f"KS stat: {stat:.3f}, p: {p_val:.4f}"</span>)</pre></div
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li>Uber's Michelangelo platform monitors 10K+ models — PSI is the primary drift signal. They retrain automatically when PSI > 0.2 on any top-10 feature</li>
-      <li>COVID-19 caused massive covariate shift in credit scoring models — income, spending, employment features all drifted simultaneously. Models that flagged drift early saved banks millions in bad decisions</li>
-      <li>Gradual drift (seasonal) is normal — build it into your retraining schedule. Sudden drift (COVID, regulatory change) requires immediate response</li>
+      <li>Platforms such as Uber’s Michelangelo track feature and prediction distributions for every deployed model, and alert or retrain when they shift</li>
+      <li>COVID-19 shifted income, spending and employment features at once, and many credit and demand models degraded within weeks — drift can be sudden and hit every feature together</li>
+      <li>Gradual (seasonal) drift is normal — build it into the retraining schedule. Sudden drift (a pandemic, a regulatory change) needs an immediate response</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1761,10 +1761,10 @@ model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)<
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>class_weight='balanced'</strong> is often enough — it's free, no extra data, and works with any sklearn model. Try this first</li>
-      <li>SMOTE improves recall by 5-15% on average but can hurt precision. Best combined with undersampling the majority</li>
-      <li>At extreme ratios (1:10000+, e.g. click fraud), even SMOTE struggles. Consider anomaly detection (Isolation Forest) instead of classification</li>
-      <li>In Kaggle competitions, the top fraud/anomaly solutions almost always use ensemble + threshold tuning rather than heavy resampling</li>
+      <li><code>class_weight='balanced'</code> is a cheap first try: no extra data, and supported by most scikit-learn models</li>
+      <li>Oversampling (SMOTE and kin) usually trades precision for recall and distorts predicted probabilities; for risk scores it can do more harm than good (van den Goorbergh et al. 2022)</li>
+      <li>At extreme ratios (1:10,000 and beyond) consider treating the problem as anomaly detection rather than classification</li>
+      <li>Often the simplest fix is to choose the decision threshold from the cost of each error (see the worked example)</li>
     </ul>
   </div>
   <div class="why-matters">

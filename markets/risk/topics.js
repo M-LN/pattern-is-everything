@@ -564,9 +564,9 @@ function buildValueAtRisk() {
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li>Basel III requires banks to report <strong>99% 10-day VaR</strong> daily. Capital reserves must cover 3× this number — a $10M VaR means $30M in regulatory capital</li>
-      <li>Parametric VaR underestimated tail risk in 2008 by ~50% because returns were far from normal. Historical VaR caught the fat tails but missed unprecedented correlations</li>
-      <li>JPMorgan's RiskMetrics (1994) popularized VaR. Their original assumption of i.i.d. normal returns is still the baseline, despite known limitations</li>
+      <li>Under the 1996 Basel Market Risk Amendment, market-risk capital was based on 99% 10-day VaR times a multiplier of at least 3. Basel III’s FRTB replaces it with 97.5% Expected Shortfall</li>
+      <li>In 2008 many banks saw far more days with losses beyond VaR than their models allowed — normal assumptions and calm-period data understated the tails</li>
+      <li>J.P. Morgan’s RiskMetrics (1994) popularised VaR, modelling returns as conditionally normal with EWMA volatility (λ = 0.94)</li>
       <li>Modern practice: run all three methods and report the worst case. If they disagree significantly, your risk model has a blind spot</li>
     </ul>
   </div>
@@ -607,7 +607,7 @@ function buildExpectedShortfall() {
   return `<div class="topic" id="expected-shortfall">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Risk Measures</div><h2>Expected <em>Shortfall</em> (CVaR)</h2></div><span class="topic-badge">Tail Average</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Average loss in the worst &alpha; % of scenarios</p>
-  <p class="prose">Expected Shortfall (ES), also called Conditional VaR, is the <em>mean</em> of all losses exceeding the VaR cutoff. It is <strong>sub-additive</strong> — combining portfolios never makes ES worse — so regulators prefer it to VaR.</p>
+  <p class="prose">Expected Shortfall (ES), also called Conditional VaR, is the <em>mean</em> of all losses exceeding the VaR cutoff. It is <strong>sub-additive</strong> — the ES of a combined portfolio is never more than the sum of the parts’ ES — so regulators prefer it to VaR.</p>
   <div class="fb"><div class="fm">ES<sub>&alpha;</sub> = E[ L | L &gt; VaR<sub>&alpha;</sub> ]</div><div class="fd"><span>For a normal distribution</span> ES has a closed-form: ES = &mu; + &sigma; &middot; &phi;(z<sub>&alpha;</sub>) / (1 &minus; &alpha;). For fat-tailed distributions Monte Carlo or historical methods are used.</div></div>
   <div class="va">
     <div class="vl">// Interactive — tail threshold and expected shortfall region</div>
@@ -772,7 +772,7 @@ function buildRebalancing() {
       <div class="cg"><span class="cl">Band width %</span><input type="range" min="1" max="10" value="5" data-ctrl="rebalBand"></div>
     </div>
   </div>
-  <div class="callout info"><strong>Tax efficiency.</strong> Threshold-based rebalancing with tax-loss harvesting can add 20-50 bps annually.</div>
+  <div class="callout info"><strong>Tax efficiency.</strong> Threshold-based rebalancing combined with tax-loss harvesting can add value after tax, but the size depends on the tax regime and market path.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rebalancing sells what ran ahead and buys what fell behind — a standing bet that <a href="../../essays/#essay-mean">regression to the mean</a> holds, and the disciplined opposite of <a href="../../markets/psychology/#herd-behavior">herd behaviour</a>.</div>
   ${depthHtml('rebalancing')}
   <div class="topic-nav" id="nav-rebalancing"></div>
@@ -817,7 +817,7 @@ function buildKellyCriterion() {
     <tbody>
       <tr><td>Full Kelly</td><td>Max geometric</td><td>Severe</td></tr>
       <tr><td>Half Kelly</td><td>75 % of max</td><td>Much lower</td></tr>
-      <tr><td>Quarter Kelly</td><td>~50 % of max</td><td>Mild</td></tr>
+      <tr><td>Quarter Kelly</td><td>~44 % of max</td><td>Mild</td></tr>
     </tbody>
   </table>
   <div class="callout info"><strong>Overbet risk.</strong> Betting more than full Kelly guarantees sub-optimal growth and eventual ruin with parameter uncertainty.</div>
@@ -998,7 +998,7 @@ function buildPortfolioInsurance() {
       <div class="cg"><span class="cl">Multiplier m</span><input type="range" min="2" max="8" value="4" data-ctrl="cppiMult"></div>
     </div>
   </div>
-  <div class="callout info"><strong>1987 crash.</strong> Program-trading-driven CPPI selling amplified Black Monday — a cautionary tale about mechanical hedging.</div>
+  <div class="callout info"><strong>1987 crash.</strong> Portfolio-insurance selling through index futures amplified Black Monday, according to the Brady Report — a cautionary tale about mechanical hedging.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> CPPI buys as prices rise and sells as they fall, a mechanical <a href="../../essays/#essay-feedback">feedback loop</a>. In October 1987 portfolio-insurance selling fed the crash it was meant to protect against — an <a href="../../markets/psychology/#information-cascades">information cascade</a> run by rules.</div>
   ${depthHtml('portfolio-insurance')}
   <div class="topic-nav" id="nav-portfolio-insurance"></div>
@@ -1079,7 +1079,7 @@ function buildAlphaGeneration() {
     <div class="vl">// Alpha generation — excess return decomposition</div>
     <canvas id="cvs-alpha-generation" role="img" aria-label="Alpha generation — excess return decomposition" width="720" height="340"></canvas>
   </div>
-  <div class="callout info"><strong>Alpha decay.</strong> The half-life of a quantitative signal is typically 2-5 years before crowding erodes it.</div>
+  <div class="callout info"><strong>Alpha decay.</strong> Published anomalies lose much of their return once known: on average more than half after publication (McLean &amp; Pontiff 2016).</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Alpha research is feature selection under heavy noise: <a href="../../stats/#permutation-importance">permutation importance</a> tests whether a signal does the work, and <a href="../../stats/#walk-forward">walk-forward validation</a> tests whether it survives out of sample. The tracking error in the information ratio has its own topic: <a href="#benchmark-tracking">benchmark tracking</a>.</div>
   ${depthHtml('alpha-generation')}
   <div class="topic-nav" id="nav-alpha-generation"></div>
@@ -1134,7 +1134,7 @@ function buildDrawdownAnalysis() {
       <tr><td>75 %</td><td>300 %</td></tr>
     </tbody>
   </table>
-  <div class="callout info"><strong>Behavioral impact.</strong> Drawdowns are the #1 reason investors abandon strategies — even profitable ones.</div>
+  <div class="callout info"><strong>Behavioral impact.</strong> Drawdowns are a leading reason investors abandon strategies — even profitable ones.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawdowns test behaviour as much as capital: <a href="../../markets/psychology/#loss-aversion">loss aversion</a> and <a href="../../markets/psychology/#regret-aversion">regret aversion</a> are why investors sell near the bottom. The measurement itself is in <a href="../../stats/#max-drawdown">maximum drawdown</a>.</div>
   ${depthHtml('drawdown-analysis')}
   <div class="topic-nav" id="nav-drawdown-analysis"></div>

@@ -787,10 +787,10 @@ forecast = model.predict(n_periods=<span class="st">30</span>)</pre></div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li>The M4 competition (100K time series) showed ARIMA-based methods still competitive for short horizons (1-6 steps) — within 5% of neural methods, at 100x less compute</li>
-      <li><strong>Auto-ARIMA</strong> (pmdarima) fits most univariate series in <1 second. Manual Box-Jenkins is educational but rarely needed in practice</li>
-      <li>For financial returns: ARIMA captures linear dependencies but misses volatility clustering. Pair with GARCH for the variance equation</li>
-      <li>ARIMA fails on non-stationary series with structural breaks — always test stationarity first (ADF test) and watch for regime changes</li>
+      <li>In the M4 competition (100,000 series), most pure machine-learning methods were less accurate than simple statistical benchmarks; the winner combined exponential smoothing with a neural network (Makridakis et al. 2020)</li>
+      <li>Automatic order selection (auto.arima, pmdarima) fits a typical univariate series in seconds; manual Box-Jenkins is mainly useful for understanding</li>
+      <li>For financial returns, ARIMA captures linear dependence but misses volatility clustering — pair it with GARCH for the variance</li>
+      <li>ARIMA struggles with structural breaks — test for stationarity (ADF, KPSS) and watch for regime changes</li>
     </ul>
   </div>
   <div class="why-matters">

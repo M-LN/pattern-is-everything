@@ -887,10 +887,10 @@ function buildGradient() {
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>Adam</strong> converges 2-5x faster than plain SGD on most tasks, but SGD+momentum often finds flatter minima → better generalization</li>
-      <li>GPT-3 training used Adam with β1=0.9, β2=0.95, lr warmup over 375M tokens then cosine decay</li>
-      <li><strong>Batch size matters:</strong> larger batches = more stable gradients but worse generalization. Most papers use 32-256 for CV, 8-64 for NLP</li>
-      <li>Mixed-precision training (FP16) cuts memory 2x and speeds up training 30-50% on modern GPUs with negligible accuracy loss</li>
+      <li>Adam usually converges faster and with less tuning than plain SGD; well-tuned SGD with momentum often generalises as well or better on vision tasks (Wilson et al. 2017)</li>
+      <li>GPT-3 was trained with Adam (β₁ = 0.9, β₂ = 0.95), a linear warmup over the first 375M tokens, then cosine decay (Brown et al. 2020)</li>
+      <li>Very large batches can generalise worse unless the learning rate and warmup are scaled with them (Keskar et al. 2017; Goyal et al. 2017)</li>
+      <li>Mixed-precision training (FP16/BF16) roughly halves activation memory and speeds training considerably on GPUs with tensor cores, usually without loss of accuracy (Micikevicius et al. 2018)</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1146,10 +1146,10 @@ model.train()  <span class="cm"># re-enables dropout</span></pre></div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>Dropout 0.1-0.3</strong> is standard for transformers. BERT uses 0.1; higher values hurt for large pre-trained models that already have strong representations</li>
-      <li><strong>Weight decay 1e-2</strong> (AdamW) is the default for most LLM fine-tuning. Higher values (0.1) for small datasets, lower (1e-4) for large</li>
-      <li>L1 creates sparse models that are 2-10x faster at inference — great for mobile/edge deployment</li>
-      <li><strong>Data augmentation</strong> is the most powerful regularizer for vision (flips, crops, color jitter add 2-5% accuracy). Mixup and CutMix push it further</li>
+      <li>Dropout of 0.1 is common in transformers (BERT uses 0.1); many recent large language models use little or none</li>
+      <li>PyTorch’s AdamW defaults to a weight decay of 0.01; large pre-training runs often use 0.1 (GPT-3, LLaMA)</li>
+      <li>L1 gives sparse linear models, which helps feature selection and interpretation; in neural networks, unstructured sparsity rarely speeds up inference on standard hardware</li>
+      <li>Data augmentation is among the most effective regularisers for vision (flips, crops, colour jitter); Mixup and CutMix extend it (Zhang et al. 2018; Yun et al. 2019)</li>
     </ul>
   </div>
   <div class="why-matters">

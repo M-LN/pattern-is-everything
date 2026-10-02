@@ -533,7 +533,7 @@ function buildHeadAndShoulders() {
   return `<div class="topic" id="head-and-shoulders">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Reversal Patterns</div><h2>Head & <em>Shoulders</em></h2></div><span class="topic-badge">Bearish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Three peaks — the classic top reversal</p>
-  <p class="prose">The <strong>Head & Shoulders</strong> is the most reliable reversal pattern. A left shoulder peak, a higher head peak, then a lower right shoulder. When price breaks below the <strong>neckline</strong> (drawn through the two troughs), the bearish reversal is confirmed.</p>
+  <p class="prose">The <strong>Head & Shoulders</strong> is the best-known reversal pattern. A left shoulder peak, a higher head peak, then a lower right shoulder. When price breaks below the <strong>neckline</strong> (drawn through the two troughs), the bearish reversal is confirmed.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Head − Neckline)</div><div class="fd"><span>Measured move:</span> the distance from the head to the neckline, projected downward from the breakpoint.</div></div>
   <div class="va"><div class="vl">// Head & Shoulders anatomy</div><canvas id="headAndShouldersCanvas" role="img" aria-label="Head &amp; Shoulders anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume typically decreases from left shoulder → head → right shoulder. Declining volume on the right shoulder confirms weakening buying pressure.</div>
@@ -552,15 +552,15 @@ function buildHeadAndShoulders() {
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>Bulkowski's backtests</strong> (10K+ patterns): H&S top reaches the measured target ~55% of the time. Inverse H&S (bottom) hits target ~74% — bottoms are more reliable than tops</li>
-      <li>Win rate improves with <strong>volume confirmation</strong> — patterns with declining volume on the right shoulder outperform by ~8%</li>
-      <li>Failure rate increases in strong trends — a clear H&S in a raging bull market often results in a "failed breakdown" and continuation higher</li>
-      <li>Most systematic hedge funds don't trade chart patterns in isolation. They combine with momentum, volatility, and fundamental signals</li>
+      <li>Large hand-counted samples (Bulkowski 2005) report that many patterns never reach their measured target; treat the target as an optimistic estimate and published success rates as rough guides</li>
+      <li>Volume confirmation — falling volume into the right shoulder, rising volume on the break — is the classic filter (Edwards &amp; Magee)</li>
+      <li>Failure rate rises in strong trends — a clear H&amp;S in a strong bull market often ends in a failed breakdown and continuation higher</li>
+      <li>Tested by algorithm, the pattern carries some information but rarely a trading edge on its own after costs (Lo, Mamaysky &amp; Wang 2000)</li>
     </ul>
   </div>
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
-    <div class="use-when">✓ <strong>Use when:</strong> You see three clear peaks after an extended uptrend. Volume declines on each successive peak. The pattern is forming on a daily or weekly timeframe (higher timeframes are more reliable). You have other confirming signals (RSI divergence, declining momentum).</div>
+    <div class="use-when">✓ <strong>Use when:</strong> You see three clear peaks after an extended uptrend. Volume declines on each successive peak. The pattern is forming on a daily or weekly timeframe (longer timeframes are less noisy). You have other confirming signals (RSI divergence, declining momentum).</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> The pattern is on an intraday chart (noise dominates). The broader trend is strongly bullish with no momentum divergence. You're relying solely on the pattern without risk management. The "head" is barely higher than the "shoulders" — ambiguous patterns have low reliability.</div>
   </div>
   <div class="dataset-card">
@@ -620,7 +620,7 @@ function buildRoundingBottom() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Reversal Patterns</div><h2>Rounding <em>Bottom</em></h2></div><span class="topic-badge">Saucer</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// A slow, gradual reversal — the U-shaped bottom</p>
   <p class="prose">The <strong>Rounding Bottom</strong> (saucer) is a gradual transition from selling to buying pressure, forming a U-shape over weeks or months. Volume mirrors the price pattern — high at the start, low at the bottom, rising on the right side.</p>
-  <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. The gradual nature makes it reliable but slow to develop.</div></div>
+  <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. It forms slowly, and is only confirmed by the breakout.</div></div>
   <div class="va"><div class="vl">// Rounding Bottom — saucer formation</div><canvas id="roundingBottomCanvas" role="img" aria-label="Rounding Bottom — saucer formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The rounding bottom reflects a gradual change in market sentiment — not a panic reversal but a slow shift from distribution to accumulation.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The slow U-shaped recovery mirrors the <a href="../../ml-math/#lr-schedule">cosine learning rate schedule</a> — gradual cooling, then gradual warm-up. In statistics, it’s the shape of a cumulative distribution function.</div>
@@ -633,7 +633,7 @@ function buildBullFlag() {
   return `<div class="topic" id="bull-flag">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 — Continuation Patterns</div><h2>Bull <em>Flag</em></h2></div><span class="topic-badge">Bullish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Sharp rally + downward-sloping channel = continuation</p>
-  <p class="prose">The <strong>Bull Flag</strong> starts with a sharp rally (the pole), followed by a gentle downward-sloping consolidation channel (the flag). Breakout above the flag's upper trendline continues the uptrend. One of the most reliable continuation patterns.</p>
+  <p class="prose">The <strong>Bull Flag</strong> starts with a sharp rally (the pole), followed by a gentle downward-sloping consolidation channel (the flag). Breakout above the flag's upper trendline continues the uptrend. A widely used continuation pattern.</p>
   <div class="fb"><div class="fm">Target = Breakout point + Pole length</div><div class="fd"><span>The pole measures the initial move;</span> project that distance from the breakout point for the target.</div></div>
   <div class="va"><div class="vl">// Bull Flag — pole and flag anatomy</div><canvas id="bullFlagCanvas" role="img" aria-label="Bull Flag — pole and flag anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The best bull flags have decreasing volume during the flag phase and expanding volume on the breakout — showing sellers exhausting themselves.</div>
@@ -676,7 +676,7 @@ function buildAscendingTriangle() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Continuation Patterns</div><h2>Ascending <em>Triangle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Flat resistance + rising lows = buyers pressing higher</p>
   <p class="prose">The <strong>Ascending Triangle</strong> has a flat resistance level and a rising lower trendline. Buyers are willing to pay increasingly higher prices. When resistance finally breaks, the measured move equals the triangle's height at its widest point.</p>
-  <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>~75% of the time</span> these break upward, but always wait for confirmation above resistance.</div></div>
+  <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>Usually read as bullish</span> — but published success rates vary, so wait for a close above resistance.</div></div>
   <div class="va"><div class="vl">// Ascending Triangle — flat top, rising lows</div><canvas id="ascendingTriangleCanvas" role="img" aria-label="Ascending Triangle — flat top, rising lows" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Each touch of resistance weakens it — like repeatedly hitting a wall. The rising lows show buyers becoming more aggressive with each dip.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rising lows against a flat ceiling — pressure building. Same dynamic as <a href="../../ml-math/#optimizers">optimizer momentum</a> accumulating against a loss plateau.</div>
@@ -832,7 +832,7 @@ function buildEveningStar() {
   <p class="prose">The <strong>Evening Star</strong> is the bearish mirror. First, a long green candle (buyers confident). Then a small star (indecision at the top). Finally, a long red candle (sellers overwhelm). Named because the evening star appears before nightfall.</p>
   <div class="fb"><div class="fm">Green (long) → Star (small, gapped) → Red (long)</div><div class="fd"><span>The third candle should close</span> below the midpoint of the first candle for a strong signal.</div></div>
   <div class="va"><div class="vl">// Evening Star formation</div><canvas id="eveningStarCanvas" role="img" aria-label="Evening Star formation" height="220"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are the most reliable — they confirm the level and the exhaustion simultaneously.</div>
+  <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are usually read as the stronger signals — they confirm the level and the exhaustion simultaneously.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The bearish mirror of morning star — hope, indecision, despair. In statistics, <a href="../../stats/#distribution-shape">negative skew</a> captures this tail of decline.</div>
   ${depthHtml('evening-star')}
   <div class="topic-nav" id="nav-evening-star"></div>
@@ -860,7 +860,7 @@ function buildTrendlines() {
   <p class="prose"><strong>Trendlines</strong> connect swing lows in an uptrend (ascending support) or swing highs in a downtrend (descending resistance). A valid trendline touches at least 3 points. The more touches and the longer the line, the more significant its break.</p>
   <div class="fb"><div class="fm">≥3 touches = valid · Steeper = less sustainable · Break = signal</div><div class="fd"><span>Draw trendlines from body to body</span> (closes not wicks) for more reliable levels, though both methods have advocates.</div></div>
   <div class="va"><div class="vl">// Trendline construction — connecting swings</div><canvas id="trendlinesCanvas" role="img" aria-label="Trendlines: Trendline construction — connecting swings" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Trendlines that are too steep are unsustainable — a sustainable uptrend is typically 30-45°. Steeper trendlines break sooner and are replaced by shallower ones.</div>
+  <div class="callout info"><strong>Key insight:</strong> Trendlines that are too steep are unsustainable — an angle depends on how the chart is scaled, so there is no “right” slope — but steeper trendlines do break sooner and are replaced by shallower ones.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawing a line through successive highs or lows is literally <a href="../../ml-math/#linear">linear regression</a> — the same best fit computed in statistics.</div>
   ${depthHtml('trendlines')}
   <div class="topic-nav" id="nav-trendlines"></div>

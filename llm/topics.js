@@ -762,10 +762,9 @@ def self_attention(x, W_q, W_k, W_v):
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>O(n²) is the bottleneck:</strong> For a 128K context window, the attention matrix has 16 billion entries. Flash Attention reduces memory from O(n²) to O(n) by tiling and fusing CUDA kernels</li>
-      <li><strong>Flash Attention 2</strong> gives 2-4x speedup over standard attention on A100 GPUs. It's now default in PyTorch 2.0+ via <code>torch.nn.functional.scaled_dot_product_attention</code></li>
-      <li>GPT-4 likely uses mixture-of-experts with grouped-query attention (GQA) to handle 128K context at reasonable cost</li>
-      <li>For inference: KV-cache means attention cost is O(n) per new token, not O(n²). Cache size = 2 × n_layers × n_heads × d_head × seq_len × dtype_bytes</li>
+      <li><strong>O(n²) is the bottleneck:</strong> at 128K tokens one attention matrix has 16 billion entries. FlashAttention avoids storing it by computing attention in tiles, so memory grows linearly with length (Dao et al. 2022)</li>
+      <li><strong>FlashAttention-2</strong> roughly doubles FlashAttention’s speed (Dao 2023); PyTorch 2 exposes fused attention kernels through <code>torch.nn.functional.scaled_dot_product_attention</code></li>
+      <li>For inference: the KV-cache makes attention O(n) per new token, not O(n²). Cache size = 2 × n_layers × n_kv_heads × d_head × seq_len × bytes per value</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1152,10 +1151,10 @@ def sft_loss(model, input_ids, response_start_idx):
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>LoRA</strong> reduces trainable parameters by 99%+ — fine-tune a 7B model on a single GPU (16GB) in hours. Full fine-tuning of 7B needs 4× A100 80GB</li>
-      <li>OpenAI's fine-tuning API: ~$8/million tokens for GPT-4o-mini. Cost-effective for domain-specific tasks, but you lose control over the base model</li>
-      <li><strong>10K high-quality examples</strong> often outperform 1M noisy examples. Alpaca (52K examples) made LLaMA competitive with ChatGPT on many tasks</li>
-      <li>For production: fine-tune on your domain, then eval on held-out examples. If perplexity improves but task metrics don't, your data quality is the bottleneck</li>
+      <li>LoRA trains well under 1% of the parameters. Full fine-tuning of a 7B model with Adam needs about 112 GB for weights, gradients and optimizer state alone (16 bytes per parameter); QLoRA fits it on a single GPU</li>
+      <li>Hosted fine-tuning APIs are cheap per token but tie you to the provider’s base model, pricing and deprecation schedule</li>
+      <li>Quality beats quantity in instruction data: LIMA reached strong results with 1,000 curated examples (Zhou et al. 2023)</li>
+      <li>For production: fine-tune on your domain, then evaluate on held-out examples. If perplexity improves but task metrics don’t, data quality is the bottleneck</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1486,10 +1485,10 @@ model = AutoModelForCausalLM.from_pretrained(
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
-      <li><strong>GPTQ 4-bit</strong> loses <1% accuracy on most benchmarks vs FP16. GGUF format (llama.cpp) runs 70B models on a MacBook with 64GB RAM</li>
-      <li>Memory savings: FP32→FP16 = 2x, FP16→INT8 = 2x, INT8→INT4 = 2x. A 70B model goes from 280GB → 35GB</li>
-      <li><strong>Inference speed</strong>: INT4 on GPU is 2-3x faster than FP16 because memory bandwidth is the bottleneck, not compute</li>
-      <li>AWQ (Activation-aware Weight Quantization) preserves salient weights at higher precision — better quality than naive rounding</li>
+      <li>Good 4-bit methods (GPTQ, AWQ) usually lose little on standard benchmarks; maths, code and long-context tasks tend to degrade first. llama.cpp’s GGUF format runs 4-bit 70B models on machines with 64 GB of memory</li>
+      <li>Memory: FP32→FP16 = 2×, FP16→INT8 = 2×, INT8→INT4 = 2×. A 70B model goes from 280 GB → 35 GB</li>
+      <li>Speed: weight-only INT4 can be several times faster than FP16 at small batch sizes, where memory bandwidth is the bottleneck (AWQ reports over 3×; Lin et al. 2024)</li>
+      <li>AWQ protects the most important weights using activation statistics — better quality than naive rounding</li>
     </ul>
   </div>
   <div class="why-matters">
