@@ -1,0 +1,65 @@
+{
+ "step-1": {
+  "code": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('credit.csv')\ndefault_rate = df['default'].mean()\nprint(len(df), 'clients | default rate:', round(default_rate, 4))\nprint('accuracy of always predicting \"no default\":', round(1 - default_rate, 4))",
+  "setup": "",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/credit.csv"
+  ]
+ },
+ "step-2": {
+  "code": "pay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']\nprint('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())\nundocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()\nodd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()\nodd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()\nprint('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))\nprint('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)\nprint('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('credit.csv')\ndefault_rate = df['default'].mean()\nprint(len(df), 'clients | default rate:', round(default_rate, 4))\nprint('accuracy of always predicting \"no default\":', round(1 - default_rate, 4))",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/credit.csv"
+  ]
+ },
+ "step-3": {
+  "code": "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.ensemble import HistGradientBoostingClassifier\nfrom sklearn.metrics import accuracy_score, roc_auc_score, recall_score, precision_score\n\nX, y = df.drop(columns='default'), df['default']\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, stratify=y, random_state=0)\n\nlogit = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)).fit(X_tr, y_tr)\nboost = HistGradientBoostingClassifier(random_state=0).fit(X_tr, y_tr)\nfor name, m in [('logistic', logit), ('boosted trees', boost)]:\n    p = m.predict_proba(X_te)[:, 1]\n    flag = p >= 0.5\n    print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '\n          f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')\np = boost.predict_proba(X_te)[:, 1]",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('credit.csv')\ndefault_rate = df['default'].mean()\nprint(len(df), 'clients | default rate:', round(default_rate, 4))\nprint('accuracy of always predicting \"no default\":', round(1 - default_rate, 4))\n\npay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']\nprint('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())\nundocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()\nodd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()\nodd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()\nprint('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))\nprint('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)\nprint('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/credit.csv"
+  ]
+ },
+ "step-4": {
+  "code": "late = X_te.PAY_0 >= 1\nprint('rule PAY_0 >= 1: flags', round(late.mean(), 3), 'of clients',\n      '| recall', round(recall_score(y_te, late), 3),\n      '| precision', round(precision_score(y_te, late), 3))\nprint('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('credit.csv')\ndefault_rate = df['default'].mean()\nprint(len(df), 'clients | default rate:', round(default_rate, 4))\nprint('accuracy of always predicting \"no default\":', round(1 - default_rate, 4))\n\npay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']\nprint('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())\nundocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()\nodd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()\nodd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()\nprint('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))\nprint('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)\nprint('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())\n\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.ensemble import HistGradientBoostingClassifier\nfrom sklearn.metrics import accuracy_score, roc_auc_score, recall_score, precision_score\n\nX, y = df.drop(columns='default'), df['default']\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, stratify=y, random_state=0)\n\nlogit = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)).fit(X_tr, y_tr)\nboost = HistGradientBoostingClassifier(random_state=0).fit(X_tr, y_tr)\nfor name, m in [('logistic', logit), ('boosted trees', boost)]:\n    p = m.predict_proba(X_te)[:, 1]\n    flag = p >= 0.5\n    print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '\n          f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')\np = boost.predict_proba(X_te)[:, 1]",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/credit.csv"
+  ]
+ },
+ "step-5": {
+  "code": "bins = pd.qcut(p, 10, labels=False)                # ten groups by predicted probability\ncalib = pd.DataFrame({'predicted': p, 'actual': y_te.values}).groupby(bins).mean().round(3)\nprint(calib.T.to_string())\n\ncosts = {}\nfor th in (0.5, 0.3, 0.2, 1 / 6, 0.1):\n    flag = p >= th\n    missed = (~flag & (y_te == 1)).sum()\n    false_alarm = (flag & (y_te == 0)).sum()\n    cost = 5 * missed + false_alarm\n    costs[round(th, 3)] = cost\n    print(f'threshold {th:.3f}: flags {flag.mean():.3f}  recall {recall_score(y_te, flag):.3f}  cost {cost}')",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('credit.csv')\ndefault_rate = df['default'].mean()\nprint(len(df), 'clients | default rate:', round(default_rate, 4))\nprint('accuracy of always predicting \"no default\":', round(1 - default_rate, 4))\n\npay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']\nprint('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())\nundocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()\nodd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()\nodd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()\nprint('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))\nprint('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)\nprint('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())\n\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.ensemble import HistGradientBoostingClassifier\nfrom sklearn.metrics import accuracy_score, roc_auc_score, recall_score, precision_score\n\nX, y = df.drop(columns='default'), df['default']\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, stratify=y, random_state=0)\n\nlogit = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)).fit(X_tr, y_tr)\nboost = HistGradientBoostingClassifier(random_state=0).fit(X_tr, y_tr)\nfor name, m in [('logistic', logit), ('boosted trees', boost)]:\n    p = m.predict_proba(X_te)[:, 1]\n    flag = p >= 0.5\n    print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '\n          f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')\np = boost.predict_proba(X_te)[:, 1]\n\nlate = X_te.PAY_0 >= 1\nprint('rule PAY_0 >= 1: flags', round(late.mean(), 3), 'of clients',\n      '| recall', round(recall_score(y_te, late), 3),\n      '| precision', round(precision_score(y_te, late), 3))\nprint('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/credit.csv"
+  ]
+ }
+}

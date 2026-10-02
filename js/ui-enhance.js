@@ -185,7 +185,11 @@
     { t: 'MLOps',                     cat: 'Topic',   path: '/mlops/',              kw: 'deployment pipeline ci cd monitoring drift' },
     { t: 'Time Series',               cat: 'Topic',   path: '/timeseries/',         kw: 'forecasting arima trend seasonality' },
     { t: 'Markets',                   cat: 'Topic',   path: '/markets/',            kw: 'finance trading stocks indicators' },
-    { t: 'Cases',                     cat: 'Topic',   path: '/cases/',              kw: 'real world projects fraud housing energy' },
+    { t: 'Cases',                     cat: 'Topic',   path: '/cases/',              kw: 'real world projects case studies data housing credit energy market' },
+    { t: 'California housing (case)', cat: 'Case',    path: '/cases/housing-regression/', kw: 'real data regression spatial cross-validation leakage top-coded census' },
+    { t: 'Credit card default (case)', cat: 'Case',   path: '/cases/credit-default/', kw: 'real data classification imbalance threshold calibration cost' },
+    { t: 'Household electricity (case)', cat: 'Case', path: '/cases/energy-forecast/', kw: 'real data forecast baseline naive moving average missing data' },
+    { t: 'The 200-day rule (case)',   cat: 'Case',    path: '/cases/market-backtest/', kw: 'real data backtest moving average trend look-ahead bias fama french' },
     { t: 'Essays',                    cat: 'Topic',   path: '/essays/',             kw: 'reading writing ideas' },
     // Markets sub-pages
     { t: 'Markets · Charts',          cat: 'Markets', path: '/markets/charts/',     kw: 'candlestick ohlcv plotting' },

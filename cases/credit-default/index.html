@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit card default — case study — Pattern is Everything</title>
+  <meta name="description" content="A default model on 30,000 real credit card clients is 82% accurate and still misses most defaults. Undocumented codes, a 4-point gain over guessing, and a threshold set by cost instead of 0.5.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/cases/credit-default/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Credit card default \u2014 case study", "description": "A default model on 30,000 real credit card clients is 82% accurate and still misses most defaults. Undocumented codes, a 4-point gain over guessing, and a threshold set by cost instead of 0.5.",
+    "url": "https://patterniseverything.com/cases/credit-default/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/cases/credit-default/">
+  <meta property="og:title" content="Credit card default — case study">
+  <meta property="og:description" content="A default model on 30,000 real credit card clients is 82% accurate and still misses most defaults. Undocumented codes, a 4-point gain over guessing, and a threshold set by cost instead of 0.5.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=35">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
+    .case-hero { padding: 48px 0 6px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
+    .case-hero h2 em { color: var(--accent); }
+    .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
+    .case a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .case a { color: #6fa8ff; } }
+    [data-theme="dark"] .case a { color: #6fa8ff; }
+    .case-data { margin: 26px 0 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.65; }
+    .case-data b { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+    .case h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; margin: 44px 0 10px; }
+    .case h3 .n { font: 500 13px var(--mono); color: var(--accent); margin-right: 8px; vertical-align: 3px; }
+    .case p { line-height: 1.8; margin: 0 0 14px; }
+    .case .code-block { margin: 12px 0 10px; }
+    .run-static { margin: 0 0 14px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); font-family: var(--mono); font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-x: auto; }
+    .run-static::before { content: 'Output'; display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .case-fig { margin: 18px 0 20px; }
+    .case-chart { width: 100%; height: auto; display: block; color: var(--text); font-family: var(--mono); }
+    .case-chart .cl { font-size: 12px; fill: currentColor; }
+    .case-chart .cv { font-size: 11px; fill: var(--muted); }
+    .case-chart .cg { stroke: var(--border); stroke-width: 1; }
+    .case-chart .cz { stroke: var(--muted); stroke-width: 1; }
+    .case-chart .cs1 { fill: var(--accent); } .case-chart .cs2 { fill: var(--accent3); } .case-chart .cs3 { fill: var(--accent2); } .case-chart .cs4 { fill: var(--accent4); }
+    .case-chart polyline { fill: none; stroke-width: 1.6; }
+    .case-chart .cp1 { stroke: var(--accent); } .case-chart .cp2 { stroke: var(--accent3); } .case-chart .cp3 { stroke: var(--accent2); } .case-chart .cp4 { stroke: var(--accent4); }
+    .case-fig figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+    .case-box { margin: 36px 0 0; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; background: var(--surface); }
+    .case-box h4 { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+    .case-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.7; }
+    .case-box.src ul { font-size: 13px; color: var(--muted); }
+    .case-box .t { color: var(--muted); }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    .case-cards { display: grid; gap: 12px; margin: 22px 0; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .case-q { font-size: 16px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Case <em style="font-style:italic;color:var(--accent)">studies</em></h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/cases/">All cases</a>
+  </div>
+</header>
+<main class="case case-page">
+<section class="case-hero">
+<div class="crumb"><a href="/cases/">Cases</a> · Classification · 30,000 clients · Taiwan, 2005</div>
+<h2>Credit card default: <em>82% accurate, most defaults missed</em></h2>
+<p class="case-q">Which credit card clients will miss next month’s payment? A model that is right four times in five sounds useful — this case asks what it actually catches, and what the data dictionary did not say.</p>
+</section>
+<div class="case-data"><div><b>Data</b>Default of Credit Card Clients — One row per client of a Taiwanese bank, April–September 2005: credit limit, sex, education, marital status, age, six months of repayment status, bill amounts and payments — and whether the client defaulted the following month.</div><div><b>Source</b><a href="https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients">UCI Machine Learning Repository</a>, donated by I-Cheng Yeh</div><div><b>Licence</b><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; here as CSV, with the ID column dropped and the target renamed <code>default</code></div><div><b>File</b><a href="/cases/data/credit.csv" download>credit.csv</a> (2664 KB), as used below</div></div>
+<h3 id="step-1"><span class="n">01</span>The number to beat</h3>
+<p>Before any model: how often do clients default, and how accurate is a model that never predicts a default?</p>
+<div class="code-block" data-run="cases-credit-default/step-1"><pre>import numpy as np
+import pandas as pd
+
+df = pd.read_csv('credit.csv')
+default_rate = df['default'].mean()
+print(len(df), 'clients | default rate:', round(default_rate, 4))
+print('accuracy of always predicting "no default":', round(1 - default_rate, 4))</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div>
+<pre class="run-static">30000 clients | default rate: 0.2212
+accuracy of always predicting "no default": 0.7788</pre>
+<p>About one client in 4.5 defaults. Predicting “no default” for everyone is right <strong>77.9%</strong> of the time and catches nobody. Any accuracy figure for this data has to be read against that.</p>
+<h3 id="step-2"><span class="n">02</span>The data dictionary and the data disagree</h3>
+<p>The documentation says repayment status is −1 for “paid duly” and 1–9 for months of delay, education is 1–4 and marital status 1–3. Count what is actually there.</p>
+<div class="code-block" data-run="cases-credit-default/step-2"><pre>pay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
+print('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())
+undocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()
+odd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()
+odd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()
+print('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))
+print('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)
+print('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs step 1 first — edit the code and run it again</span></div>
+<pre class="run-static">PAY_0 values: {-2: 2759, -1: 5686, 0: 14737, 1: 3688, 2: 2667, 3: 322, 4: 76, 5: 26, 6: 11, 7: 9, 8: 19}
+clients with a -2 or 0 status in some month: 0.865
+education codes outside 1-4: 345 | marriage outside 1-3: 54
+a status of 1 in PAY_0 vs PAY_2: 3688 28</pre>
+<p>The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; 86% of clients have one of them in some month. (Discussions of the data commonly read 0 as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1 — one month late — appears 3,688 times in the latest month and only 28 times in the month before, which suggests the months were not coded the same way. A model will use these columns either way; the question is whether you can explain what it learned.</p>
+<h3 id="step-3"><span class="n">03</span>Two models, and what 0.5 hides</h3>
+<p>Hold out 30% of the clients (stratified, so both parts have the same default rate). Fit a logistic regression and gradient-boosted trees, and score them at the default threshold of 0.5.</p>
+<div class="code-block" data-run="cases-credit-default/step-3"><pre>from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import accuracy_score, roc_auc_score, recall_score, precision_score
+
+X, y = df.drop(columns='default'), df['default']
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, stratify=y, random_state=0)
+
+logit = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)).fit(X_tr, y_tr)
+boost = HistGradientBoostingClassifier(random_state=0).fit(X_tr, y_tr)
+for name, m in [('logistic', logit), ('boosted trees', boost)]:
+    p = m.predict_proba(X_te)[:, 1]
+    flag = p &gt;= 0.5
+    print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '
+          f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')
+p = boost.predict_proba(X_te)[:, 1]</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–2 first — edit the code and run it again</span></div>
+<pre class="run-static">logistic       accuracy 0.811  AUC 0.715  recall 0.237  precision 0.724
+boosted trees  accuracy 0.823  AUC 0.775  recall 0.364  precision 0.687</pre>
+<p>The boosted model is <strong>82.3%</strong> accurate — 4.4 points better than never predicting a default — and at a threshold of 0.5 it catches <strong>36%</strong> of the clients who default. Most defaults go unflagged. The AUC of 0.77 says the ranking is reasonable; the threshold is what throws the catches away.</p>
+<h3 id="step-4"><span class="n">04</span>One column against the model</h3>
+<p>A rule anyone could write: flag every client who is at least a month late right now.</p>
+<div class="code-block" data-run="cases-credit-default/step-4"><pre>late = X_te.PAY_0 &gt;= 1
+print('rule PAY_0 &gt;= 1: flags', round(late.mean(), 3), 'of clients',
+      '| recall', round(recall_score(y_te, late), 3),
+      '| precision', round(precision_score(y_te, late), 3))
+print('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–3 first — edit the code and run it again</span></div>
+<pre class="run-static">rule PAY_0 &gt;= 1: flags 0.222 of clients | recall 0.51 | precision 0.507
+AUC of PAY_0 alone, as a score: 0.688</pre>
+<p>The one-line rule catches <strong>51%</strong> of the defaults — more than the model at 0.5 — with precision 0.51. Last month’s repayment status carries most of the signal; the other 22 columns lift the AUC from 0.69 (that column alone) to 0.77. A baseline like this belongs in every model report, because it tells you what the model adds.</p>
+<h3 id="step-5"><span class="n">05</span>Choose the threshold from the costs</h3>
+<p>Suppose a missed default costs five times as much as flagging a client who would have paid. If the probabilities are calibrated, the cost-minimising rule is to flag when the probability exceeds 1 / (1 + 5) ≈ 0.17. Check the calibration, then compare thresholds.</p>
+<div class="code-block" data-run="cases-credit-default/step-5"><pre>bins = pd.qcut(p, 10, labels=False)                # ten groups by predicted probability
+calib = pd.DataFrame({'predicted': p, 'actual': y_te.values}).groupby(bins).mean().round(3)
+print(calib.T.to_string())
+
+costs = {}
+for th in (0.5, 0.3, 0.2, 1 / 6, 0.1):
+    flag = p &gt;= th
+    missed = (~flag &amp; (y_te == 1)).sum()
+    false_alarm = (flag &amp; (y_te == 0)).sum()
+    cost = 5 * missed + false_alarm
+    costs[round(th, 3)] = cost
+    print(f'threshold {th:.3f}: flags {flag.mean():.3f}  recall {recall_score(y_te, flag):.3f}  cost {cost}')</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–4 first — edit the code and run it again</span></div>
+<pre class="run-static">               0      1      2      3      4      5      6      7      8      9
+predicted  0.051  0.072  0.094  0.117  0.139  0.161  0.200  0.270  0.409  0.694
+actual     0.049  0.079  0.083  0.120  0.151  0.176  0.172  0.263  0.412  0.707
+threshold 0.500: flags 0.117  recall 0.364  cost 6665
+threshold 0.300: flags 0.220  recall 0.536  cost 5532
+threshold 0.200: flags 0.348  recall 0.662  cost 5170
+threshold 0.167: flags 0.429  recall 0.722  cost 5193
+threshold 0.100: flags 0.725  recall 0.914  cost 5564</pre>
+<p>Predicted and actual default rates agree within a few points in every decile, so the probabilities can be taken at face value. At the cost-based threshold the model flags 43% of clients and catches <strong>72%</strong> of the defaults, and the total cost falls by <strong>22%</strong> against 0.5. Nothing about the model changed — only the decision drawn from it. The cost curve is flat near its minimum: 0.2 does about as well as 1/6, while 0.5 and 0.1 are clearly worse.</p>
+<figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 168" role="img" aria-label="Total cost by threshold"><text x="180" y="24" class="cl" text-anchor="end">threshold 0.5</text><rect class="cs1" x="190.0" y="13" width="420.0" height="13" rx="2"/><text x="615.0" y="24" class="cv">6,665</text><text x="180" y="54" class="cl" text-anchor="end">threshold 0.3</text><rect class="cs1" x="190.0" y="43" width="348.6" height="13" rx="2"/><text x="543.6" y="54" class="cv">5,532</text><text x="180" y="84" class="cl" text-anchor="end">threshold 0.2</text><rect class="cs1" x="190.0" y="73" width="325.8" height="13" rx="2"/><text x="520.8" y="84" class="cv">5,170</text><text x="180" y="114" class="cl" text-anchor="end">threshold 1/6</text><rect class="cs1" x="190.0" y="103" width="327.2" height="13" rx="2"/><text x="522.2" y="114" class="cv">5,193</text><text x="180" y="144" class="cl" text-anchor="end">threshold 0.1</text><rect class="cs1" x="190.0" y="133" width="350.6" height="13" rx="2"/><text x="545.6" y="144" class="cv">5,564</text></svg><figcaption>Total cost on the 9,000 test clients: 5 per missed default plus 1 per false alarm.</figcaption></figure>
+<div class="case-box"><h4>What this case shows</h4><ul><li>Report accuracy next to the accuracy of the majority class. On imbalanced data, recall and precision at the threshold you will use say more than accuracy or AUC.</li><li>0.5 is a convention, not a decision. With calibrated probabilities, the threshold that minimises cost is cost of a false alarm ÷ (cost of a false alarm + cost of a miss).</li><li>Compare the model with the simplest rule a domain expert would write. If one column does most of the work, say so — and check what that column really encodes.</li><li>Read the data, not only the documentation: count the values that occur and look for codes no one explained.</li></ul></div>
+<div class="case-box"><h4>The patterns behind it</h4><ul><li><a href="/stats/class-imbalance/">Sampling &amp; Class Imbalance</a> <span class="t">— why the majority class sets the bar</span></li><li><a href="/stats/confusion-matrix/">Confusion Matrix &amp; Classification Metrics</a> <span class="t">— recall, precision and the threshold</span></li><li><a href="/stats/roc-auc/">ROC &amp; AUC Curves</a> <span class="t">— ranking quality, independent of the threshold</span></li><li><a href="/essays/essay-threshold/">The Threshold</a> <span class="t">— a threshold is a decision about costs</span></li><li><a href="/stats/missing-data/">Missing Data Strategies</a> <span class="t">— codes that stand in for “unknown”</span></li></ul></div>
+<div class="case-box"><h4>Run it yourself</h4><ul><li>Each step above has a <b>Run</b> button: Python runs in this page, on the data file above.</li><li><a href="/notebooks/case-credit-default.ipynb" download>Download the notebook</a> — the same steps, for Jupyter on your own machine</li><li><a href="/lite/lab/?path=case-credit-default.ipynb" target="_blank" rel="noopener">Open it in JupyterLite</a> — Jupyter in the browser, nothing to install</li></ul></div>
+<div class="case-box src"><h4>Sources</h4><ul><li>I-C. Yeh &amp; C-H. Lien, “The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients”, <em>Expert Systems with Applications</em> 36(2), 2009 — the data set</li><li>C. Elkan, “The Foundations of Cost-Sensitive Learning”, <em>Proceedings of IJCAI</em>, 2001 — the cost-based threshold</li><li>A. Niculescu-Mizil &amp; R. Caruana, “Predicting Good Probabilities with Supervised Learning”, <em>ICML</em>, 2005 — calibration</li></ul></div>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/code-run.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=33" defer></script>
+</body>
+</html>

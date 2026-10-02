@@ -19,7 +19,8 @@
         the sitemap entries match trails/trails.json
    10b. The guide pages are current (scripts/build-guides.mjs --check)
    10c. Every Run button's code matches its entry in run/*.json, and those
-        files match scripts/snippets/ (scripts/build-run.py --check)
+        files match scripts/snippets/ (scripts/build-run.py --check); the case
+        studies re-run and match their pages (scripts/build-cases.py --check)
     11. Content standard — warnings only: short topics, formula pattern lines,
         topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
@@ -364,19 +365,19 @@ console.log('10c. Runnable code');
     .replace(/&quot;/g, '"').replace(/&#0?39;|&#x27;/g, "'").replace(/&amp;/g, '&').replace(/\r/g, '').trim();
   const runs = {}, seen = new Set();
   let n = 0, bad = [];
-  for (const { dir } of COLLECTIONS) {
+  for (const dir of [...COLLECTIONS.map(c => c.dir), 'cases']) {     // topic pages, and the case studies
     for (const id of readdirSync(dir)) {
       const f = join(dir, id, 'index.html');
       if (!existsSync(f)) continue;
-      const m = readFileSync(f, 'utf8').match(/<div class="code-block" data-run="([^"]+)\/([^"\/]+)"><pre>([\s\S]*?)<\/pre>/);
-      if (!m) continue;
-      const [, file, topic, code] = m;
-      runs[file] ||= existsSync(`run/${file}.json`) ? JSON.parse(readFileSync(`run/${file}.json`, 'utf8')) : {};
-      seen.add(`${file}/${topic}`);
-      n++;
-      const r = runs[file][topic];
-      if (!r) bad.push(`${file}/${topic}: no entry in run/${file}.json`);
-      else if (r.code.replace(/\r/g, '').trim() !== unesc(code)) bad.push(`${file}/${topic}: code differs from the page`);
+      for (const m of readFileSync(f, 'utf8').matchAll(/<div class="code-block" data-run="([^"]+)\/([^"\/]+)"><pre>([\s\S]*?)<\/pre>/g)) {
+        const [, file, topic, code] = m;
+        runs[file] ||= existsSync(`run/${file}.json`) ? JSON.parse(readFileSync(`run/${file}.json`, 'utf8')) : {};
+        seen.add(`${file}/${topic}`);
+        n++;
+        const r = runs[file][topic];
+        if (!r) bad.push(`${file}/${topic}: no entry in run/${file}.json`);
+        else if (r.code.replace(/\r/g, '').trim() !== unesc(code)) bad.push(`${file}/${topic}: code differs from the page`);
+      }
     }
   }
   for (const f of readdirSync('run')) {
@@ -390,6 +391,14 @@ console.log('10c. Runnable code');
     ok(out.trim().replace(/^run: /, ''));
   } catch (e) {
     if (e.code === 'ENOENT') console.log('  ⚠ python not found — run/*.json not compared with scripts/snippets/');
+    else fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-3).join(' | '));
+  }
+  // The case studies: re-run every step and compare pages, outputs, notebooks and the hub.
+  try {
+    const out = execFileSync('python', ['scripts/build-cases.py', '--check'], { encoding: 'utf8', stdio: 'pipe' });
+    for (const line of out.trim().split(/\r?\n/)) if (/^cases: /.test(line)) (/skipped/.test(line) ? console.log('  ⚠ ' + line) : ok(line.replace(/^cases: /, '')));
+  } catch (e) {
+    if (e.code === 'ENOENT') console.log('  ⚠ python not found — case studies not re-run');
     else fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-3).join(' | '));
   }
 }

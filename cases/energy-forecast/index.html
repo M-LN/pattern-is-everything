@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Household electricity — case study — Pattern is Everything</title>
+  <meta name="description" content="Forecasting tomorrow’s electricity use for one real household: missing minutes that look like low demand, seasonal patterns, six naive baselines, and a regression that beats a 7-day average by 1%.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/cases/energy-forecast/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Household electricity \u2014 case study", "description": "Forecasting tomorrow\u2019s electricity use for one real household: missing minutes that look like low demand, seasonal patterns, six naive baselines, and a regression that beats a 7-day average by 1%.",
+    "url": "https://patterniseverything.com/cases/energy-forecast/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/cases/energy-forecast/">
+  <meta property="og:title" content="Household electricity — case study">
+  <meta property="og:description" content="Forecasting tomorrow’s electricity use for one real household: missing minutes that look like low demand, seasonal patterns, six naive baselines, and a regression that beats a 7-day average by 1%.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=35">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
+    .case-hero { padding: 48px 0 6px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
+    .case-hero h2 em { color: var(--accent); }
+    .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
+    .case a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .case a { color: #6fa8ff; } }
+    [data-theme="dark"] .case a { color: #6fa8ff; }
+    .case-data { margin: 26px 0 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.65; }
+    .case-data b { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+    .case h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; margin: 44px 0 10px; }
+    .case h3 .n { font: 500 13px var(--mono); color: var(--accent); margin-right: 8px; vertical-align: 3px; }
+    .case p { line-height: 1.8; margin: 0 0 14px; }
+    .case .code-block { margin: 12px 0 10px; }
+    .run-static { margin: 0 0 14px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); font-family: var(--mono); font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-x: auto; }
+    .run-static::before { content: 'Output'; display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .case-fig { margin: 18px 0 20px; }
+    .case-chart { width: 100%; height: auto; display: block; color: var(--text); font-family: var(--mono); }
+    .case-chart .cl { font-size: 12px; fill: currentColor; }
+    .case-chart .cv { font-size: 11px; fill: var(--muted); }
+    .case-chart .cg { stroke: var(--border); stroke-width: 1; }
+    .case-chart .cz { stroke: var(--muted); stroke-width: 1; }
+    .case-chart .cs1 { fill: var(--accent); } .case-chart .cs2 { fill: var(--accent3); } .case-chart .cs3 { fill: var(--accent2); } .case-chart .cs4 { fill: var(--accent4); }
+    .case-chart polyline { fill: none; stroke-width: 1.6; }
+    .case-chart .cp1 { stroke: var(--accent); } .case-chart .cp2 { stroke: var(--accent3); } .case-chart .cp3 { stroke: var(--accent2); } .case-chart .cp4 { stroke: var(--accent4); }
+    .case-fig figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+    .case-box { margin: 36px 0 0; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; background: var(--surface); }
+    .case-box h4 { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+    .case-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.7; }
+    .case-box.src ul { font-size: 13px; color: var(--muted); }
+    .case-box .t { color: var(--muted); }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    .case-cards { display: grid; gap: 12px; margin: 22px 0; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .case-q { font-size: 16px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Case <em style="font-style:italic;color:var(--accent)">studies</em></h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/cases/">All cases</a>
+  </div>
+</header>
+<main class="case case-page">
+<section class="case-hero">
+<div class="crumb"><a href="/cases/">Cases</a> · Forecasting · 4 years of minute readings · one house near Paris</div>
+<h2>One household’s electricity: <em>the average that is hard to beat</em></h2>
+<p class="case-q">How much electricity will this household use tomorrow? Four years of minute-by-minute readings — and the question of how much any model adds to simply averaging the last week.</p>
+</section>
+<div class="case-data"><div><b>Data</b>Individual Household Electric Power Consumption — One house in Sceaux, near Paris, December 2006 to November 2010: active power every minute, about 2 million readings. Here summed to kilowatt-hours per day, with the number of minutes that actually had a reading.</div><div><b>Source</b><a href="https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption">UCI Machine Learning Repository</a>, donated by Georges Hébrail and Alice Bérard (EDF R&amp;D)</div><div><b>Licence</b><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; the daily file is derived from it by <code>scripts/cases/prepare-data.py</code></div><div><b>File</b><a href="/cases/data/power-daily.csv" download>power-daily.csv</a> (34 KB), as used below</div></div>
+<h3 id="step-1"><span class="n">01</span>Missing minutes look like low demand</h3>
+<p>A day has 1,440 minutes. Count the days where some are missing, and look at the days with the lowest consumption.</p>
+<div class="code-block" data-run="cases-energy-forecast/step-1"><pre>import numpy as np
+import pandas as pd
+
+d = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)
+partial = d.minutes &lt; 1440
+print(len(d), 'days |', partial.sum(), 'with missing minutes |',
+      (d.minutes == 0).sum(), 'with none at all')
+complete = d[~partial]
+floor = complete.kwh.min()
+print('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())
+below = d[(d.minutes &gt; 0) &amp; (d.kwh &lt; floor)]
+print('part-days below that:', below.kwh.round(1).tolist(),
+      '| minutes recorded:', below.minutes.tolist())</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div>
+<pre class="run-static">1442 days | 84 with missing minutes | 9 with none at all
+lowest complete day: 4.2 kWh, on 2008-08-25
+part-days below that: [0.4, 0.2, 2.2, 1.6, 1.8] | minutes recorded: [21, 30, 232, 152, 236]</pre>
+<p>No complete day used less than <strong>4.2 kWh</strong> — the lowest was in August 2008, when the house was evidently empty: about 174 W around the clock, the appliances that never switch off. Yet 5 part-days fall below that, down to 0.2 kWh, and the 9 days without a single reading sum to exactly 0. They look like the household switching everything off; in fact the meter was not recording. Train on them and the model learns collapses that never happened; test on them and it is blamed for missing them.</p>
+<h3 id="step-2"><span class="n">02</span>Repair the days, and keep track of which ones</h3>
+<p>Days with at least 90% of their minutes are scaled up to a full day. The rest are treated as missing and filled by linear interpolation between the days around them — but marked, so that no forecast is scored against an invented value.</p>
+<div class="code-block" data-run="cases-energy-forecast/step-2"><pre>mostly_there = d.minutes &gt;= 0.9 * 1440
+kwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h
+observed = kwh.notna()
+kwh = kwh.interpolate()                                # fill the gaps (model input only)
+print('scaled days:', (mostly_there &amp; partial).sum(), '| filled days:', (~observed).sum())
+print('mean kWh per day:', round(kwh[observed].mean(), 1),
+      '| std:', round(kwh[observed].std(), 1))</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs step 1 first — edit the code and run it again</span></div>
+<pre class="run-static">scaled days: 60 | filled days: 24
+mean kWh per day: 26.2 | std: 10.0</pre>
+<p>60 days are scaled up and 24 filled. A typical day uses about 26 kWh, give or take 10 — a lot of day-to-day noise for one household.</p>
+<h3 id="step-3"><span class="n">03</span>Season and weekday</h3>
+<p>Average consumption by month and by day of the week, over the observed days.</p>
+<div class="code-block" data-run="cases-energy-forecast/step-3"><pre>by_month = kwh[observed].groupby(kwh[observed].index.month).mean().round(1)
+by_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)
+print('by month (Jan-Dec):', by_month.tolist())
+print('by weekday (Mon-Sun):', by_weekday.tolist())</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–2 first — edit the code and run it again</span></div>
+<pre class="run-static">by month (Jan-Dec): [35.1, 31.2, 29.6, 25.2, 24.7, 21.8, 16.8, 13.7, 23.4, 27.3, 31.0, 35.7]
+by weekday (Mon-Sun): [24.0, 25.7, 26.0, 23.5, 25.0, 29.9, 29.3]</pre>
+<p>Winter days use more than twice as much as August days (35 against 14 kWh) — probably heating and lighting in winter, and most likely the long French summer holiday in August. Weekends are about 19% higher than weekdays, presumably because people are at home.</p>
+<figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 378" role="img" aria-label="Average daily consumption by month"><text x="180" y="24" class="cl" text-anchor="end">Jan</text><rect class="cs1" x="190.0" y="13" width="412.9" height="13" rx="2"/><text x="607.9" y="24" class="cv">35.1</text><text x="180" y="54" class="cl" text-anchor="end">Feb</text><rect class="cs1" x="190.0" y="43" width="367.1" height="13" rx="2"/><text x="562.1" y="54" class="cv">31.2</text><text x="180" y="84" class="cl" text-anchor="end">Mar</text><rect class="cs1" x="190.0" y="73" width="348.2" height="13" rx="2"/><text x="543.2" y="84" class="cv">29.6</text><text x="180" y="114" class="cl" text-anchor="end">Apr</text><rect class="cs1" x="190.0" y="103" width="296.5" height="13" rx="2"/><text x="491.5" y="114" class="cv">25.2</text><text x="180" y="144" class="cl" text-anchor="end">May</text><rect class="cs1" x="190.0" y="133" width="290.6" height="13" rx="2"/><text x="485.6" y="144" class="cv">24.7</text><text x="180" y="174" class="cl" text-anchor="end">Jun</text><rect class="cs1" x="190.0" y="163" width="256.5" height="13" rx="2"/><text x="451.5" y="174" class="cv">21.8</text><text x="180" y="204" class="cl" text-anchor="end">Jul</text><rect class="cs1" x="190.0" y="193" width="197.6" height="13" rx="2"/><text x="392.6" y="204" class="cv">16.8</text><text x="180" y="234" class="cl" text-anchor="end">Aug</text><rect class="cs1" x="190.0" y="223" width="161.2" height="13" rx="2"/><text x="356.2" y="234" class="cv">13.7</text><text x="180" y="264" class="cl" text-anchor="end">Sep</text><rect class="cs1" x="190.0" y="253" width="275.3" height="13" rx="2"/><text x="470.3" y="264" class="cv">23.4</text><text x="180" y="294" class="cl" text-anchor="end">Oct</text><rect class="cs1" x="190.0" y="283" width="321.2" height="13" rx="2"/><text x="516.2" y="294" class="cv">27.3</text><text x="180" y="324" class="cl" text-anchor="end">Nov</text><rect class="cs1" x="190.0" y="313" width="364.7" height="13" rx="2"/><text x="559.7" y="324" class="cv">31.0</text><text x="180" y="354" class="cl" text-anchor="end">Dec</text><rect class="cs1" x="190.0" y="343" width="420.0" height="13" rx="2"/><text x="615.0" y="354" class="cv">35.7</text></svg><figcaption>Mean kWh per day over the observed days, December 2006 – November 2010.</figcaption></figure>
+<h3 id="step-4"><span class="n">04</span>Six naive forecasts, tested on the last year</h3>
+<p>Forecast each day of the final twelve months (December 2009 – November 2010) using only the days before it — a walk-forward test — and score each forecast with the mean absolute error on the days that were actually observed.</p>
+<div class="code-block" data-run="cases-energy-forecast/step-4"><pre>forecasts = pd.DataFrame({
+    'yesterday': kwh.shift(1),
+    'same day last week': kwh.shift(7),
+    'same weekday, last 4 weeks': sum(kwh.shift(7 * k) for k in range(1, 5)) / 4,
+    'mean of last 7 days': kwh.shift(1).rolling(7).mean(),
+    'mean of last 28 days': kwh.shift(1).rolling(28).mean(),
+    'same day last year': kwh.shift(364),
+})
+test = (kwh.index &gt;= '2009-12-01') &amp; observed
+mae = forecasts[test].sub(kwh[test], axis=0).abs().mean().round(2).sort_values()
+print(mae.to_string())
+print('test days:', test.sum())</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–3 first — edit the code and run it again</span></div>
+<pre class="run-static">mean of last 7 days           4.36
+mean of last 28 days          4.99
+yesterday                     5.19
+same weekday, last 4 weeks    5.48
+same day last week            5.98
+same day last year            6.18
+test days: 345</pre>
+<p>The best of them is the plain <strong>mean of the last 7 days</strong>, 4.36 kWh off on an average day of 26. Yesterday alone is noisier (5.19); the weekday-matched forecasts are worse still, because one Tuesday says little about the next. Same day last year is the worst of all, despite the strong seasonal pattern: one day a year ago is too noisy a guide.</p>
+<figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 198" role="img" aria-label="Mean absolute error of naive forecasts"><text x="180" y="24" class="cl" text-anchor="end">mean of last 7 days</text><rect class="cs1" x="190.0" y="13" width="296.3" height="13" rx="2"/><text x="491.3" y="24" class="cv">4.36</text><text x="180" y="54" class="cl" text-anchor="end">mean of last 28 days</text><rect class="cs1" x="190.0" y="43" width="339.1" height="13" rx="2"/><text x="534.1" y="54" class="cv">4.99</text><text x="180" y="84" class="cl" text-anchor="end">yesterday</text><rect class="cs1" x="190.0" y="73" width="352.7" height="13" rx="2"/><text x="547.7" y="84" class="cv">5.19</text><text x="180" y="114" class="cl" text-anchor="end">same weekday, last 4 weeks</text><rect class="cs1" x="190.0" y="103" width="372.4" height="13" rx="2"/><text x="567.4" y="114" class="cv">5.48</text><text x="180" y="144" class="cl" text-anchor="end">same day last week</text><rect class="cs1" x="190.0" y="133" width="406.4" height="13" rx="2"/><text x="601.4" y="144" class="cv">5.98</text><text x="180" y="174" class="cl" text-anchor="end">same day last year</text><rect class="cs1" x="190.0" y="163" width="420.0" height="13" rx="2"/><text x="615.0" y="174" class="cv">6.18</text></svg><figcaption>Mean absolute error in kWh per day, walk-forward over December 2009 – November 2010, observed days only.</figcaption></figure>
+<h3 id="step-5"><span class="n">05</span>A model against the average</h3>
+<p>A ridge regression on the recent level (yesterday, last week, the 7- and 28-day means), the day of the week and the time of year, refitted at the start of each month on everything before it.</p>
+<div class="code-block" data-run="cases-energy-forecast/step-5"><pre>from sklearn.linear_model import Ridge
+
+doy = 2 * np.pi * kwh.index.dayofyear / 365.25
+X = pd.DataFrame({
+    'yesterday': kwh.shift(1), 'last_week': kwh.shift(7),
+    'mean7': kwh.shift(1).rolling(7).mean(), 'mean28': kwh.shift(1).rolling(28).mean(),
+    'season_sin': np.sin(doy), 'season_cos': np.cos(doy)}, index=kwh.index)
+X = X.join(pd.get_dummies(kwh.index.dayofweek, prefix='wd', dtype=float).set_index(kwh.index))
+usable = X.notna().all(axis=1)
+
+pred = pd.Series(np.nan, index=kwh.index)
+for month in pd.date_range('2009-12-01', '2010-11-01', freq='MS'):
+    train = usable &amp; (kwh.index &lt; month)
+    now = usable &amp; (kwh.index &gt;= month) &amp; (kwh.index &lt; month + pd.offsets.MonthBegin(1))
+    model = Ridge(alpha=1.0).fit(X[train], kwh[train])
+    pred[now] = model.predict(X[now])
+ridge_mae = (pred[test] - kwh[test]).abs().mean()
+print('ridge MAE:', round(ridge_mae, 2), '| mean of last 7 days:', mae['mean of last 7 days'])</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–4 first — edit the code and run it again</span></div>
+<pre class="run-static">ridge MAE: 4.29 | mean of last 7 days: 4.36</pre>
+<p>13 features, refitted every month: <strong>4.29 kWh</strong> against 4.36 for the 7-day mean, a 2% improvement. That is the honest result for this household: most of tomorrow is unpredictable from the meter alone, and the little that is predictable a moving average already captures. The obvious next input is the weather, which drives heating, rather than a more complex model of the same meter readings.</p>
+<div class="case-box"><h4>What this case shows</h4><ul><li>Before forecasting, find out what a low value means. Missing readings that are summed as zeros look exactly like low demand.</li><li>Fill gaps for model input if you must, but never score a forecast against a filled value.</li><li>Test forecasts walk-forward — each prediction made only from the past — and always against several naive baselines. The best naive forecast is the bar a model has to clear.</li><li>When a model barely beats a moving average, the limit is usually information, not the model. New inputs (here: weather) move the error more than new algorithms.</li></ul></div>
+<div class="case-box"><h4>The patterns behind it</h4><ul><li><a href="/timeseries/backtesting-forecasts/">Backtesting Forecasts</a> <span class="t">— walk-forward testing</span></li><li><a href="/timeseries/decomposition/">Decomposition</a> <span class="t">— trend, season and the rest</span></li><li><a href="/timeseries/exponential-smoothing/">Exponential Smoothing</a> <span class="t">— averaging the recent past, weighted</span></li><li><a href="/stats/missing-data/">Missing Data Strategies</a> <span class="t">— gaps that pretend to be values</span></li><li><a href="/timeseries/resampling/">Resampling &amp; Frequency</a> <span class="t">— from minutes to days</span></li></ul></div>
+<div class="case-box"><h4>Run it yourself</h4><ul><li>Each step above has a <b>Run</b> button: Python runs in this page, on the data file above.</li><li><a href="/notebooks/case-energy-forecast.ipynb" download>Download the notebook</a> — the same steps, for Jupyter on your own machine</li><li><a href="/lite/lab/?path=case-energy-forecast.ipynb" target="_blank" rel="noopener">Open it in JupyterLite</a> — Jupyter in the browser, nothing to install</li></ul></div>
+<div class="case-box src"><h4>Sources</h4><ul><li>G. Hébrail &amp; A. Bérard, “Individual Household Electric Power Consumption”, UCI Machine Learning Repository, 2012 — the data set</li><li>R. J. Hyndman &amp; G. Athanasopoulos, <em>Forecasting: Principles and Practice</em>, 3rd ed., OTexts, 2021 — simple benchmark methods and time series cross-validation</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning forecasting methods: Concerns and ways forward”, <em>PLOS ONE</em> 13(3), 2018</li></ul></div>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/code-run.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=33" defer></script>
+</body>
+</html>

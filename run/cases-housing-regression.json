@@ -1,0 +1,53 @@
+{
+ "step-1": {
+  "code": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('housing.csv')\ndf['value'] = df.median_house_value / 100_000            # in $100,000s\nrooms = df.total_rooms / df.households\n\nn_rows = len(df)\nat_value_cap = (df.median_house_value >= 500_001).sum()   # top-coded at $500,001\nat_age_cap = (df.housing_median_age == 52).sum()          # top-coded at 52 years\nat_income_cap = (df.median_income >= 15).sum()            # top-coded at 15 ($150,000)\nprint(n_rows, 'districts')\nprint('at the value cap:', at_value_cap, f'({at_value_cap / n_rows:.1%})')\nprint('at the age cap:', at_age_cap, '| at the income cap:', at_income_cap)\nprint('rooms per household: median', round(rooms.median(), 1), '| max', round(rooms.max(), 1))",
+  "setup": "",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/housing.csv"
+  ]
+ },
+ "step-2": {
+  "code": "from sklearn.model_selection import KFold, PredefinedSplit, cross_val_score\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.neighbors import KNeighborsRegressor\n\nX = pd.DataFrame({\n    'income': df.median_income, 'age': df.housing_median_age, 'rooms': rooms,\n    'bedroom_share': df.total_bedrooms / df.total_rooms,\n    'people_per_household': df.population / df.households,\n    'lat': df.latitude, 'lon': df.longitude})\njitter = np.random.default_rng(0).normal(0, 1e-6, (len(X), 2))\nX[['lat', 'lon']] += jitter      # districts that share coordinates: makes \"nearest\" unique\ny = df.value\nbaseline_mae = (y - y.mean()).abs().mean()\n\nblock = np.floor(df.latitude).astype(int) * 1000 + np.floor(df.longitude).astype(int)\nsizes = block.value_counts().sort_index().sort_values(ascending=False, kind='stable')\nn_blocks = len(sizes)\nload, fold = np.zeros(5), {}\nfor b, n in sizes.items():       # largest region first, each to the emptiest fold\n    k = int(load.argmin()); fold[b] = k; load[k] += n\nrandom_cv = KFold(5, shuffle=True, random_state=0)\nregion_cv = PredefinedSplit(block.map(fold))\n\ndef r2(model, cols):\n    a = cross_val_score(model, X[cols], y, cv=random_cv, scoring='r2').mean()\n    b = cross_val_score(model, X[cols], y, cv=region_cv, scoring='r2').mean()\n    return round(a, 3), round(b, 3)\n\nfeatures = ['income', 'age', 'rooms', 'bedroom_share', 'people_per_household']\nlinear = r2(LinearRegression(), features)\nknn = r2(KNeighborsRegressor(10), ['lat', 'lon'])\nprint('baseline MAE:', round(baseline_mae, 3))\nprint('R² (random folds, new regions)')\nprint('  linear, no location:', linear)\nprint('  10 nearest districts:', knn)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('housing.csv')\ndf['value'] = df.median_house_value / 100_000            # in $100,000s\nrooms = df.total_rooms / df.households\n\nn_rows = len(df)\nat_value_cap = (df.median_house_value >= 500_001).sum()   # top-coded at $500,001\nat_age_cap = (df.housing_median_age == 52).sum()          # top-coded at 52 years\nat_income_cap = (df.median_income >= 15).sum()            # top-coded at 15 ($150,000)\nprint(n_rows, 'districts')\nprint('at the value cap:', at_value_cap, f'({at_value_cap / n_rows:.1%})')\nprint('at the age cap:', at_age_cap, '| at the income cap:', at_income_cap)\nprint('rooms per household: median', round(rooms.median(), 1), '| max', round(rooms.max(), 1))",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/housing.csv"
+  ]
+ },
+ "step-3": {
+  "code": "from sklearn.ensemble import HistGradientBoostingRegressor\n\nboost = r2(HistGradientBoostingRegressor(random_state=0), list(X.columns))\nprint('gradient boosting, all features:', boost)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('housing.csv')\ndf['value'] = df.median_house_value / 100_000            # in $100,000s\nrooms = df.total_rooms / df.households\n\nn_rows = len(df)\nat_value_cap = (df.median_house_value >= 500_001).sum()   # top-coded at $500,001\nat_age_cap = (df.housing_median_age == 52).sum()          # top-coded at 52 years\nat_income_cap = (df.median_income >= 15).sum()            # top-coded at 15 ($150,000)\nprint(n_rows, 'districts')\nprint('at the value cap:', at_value_cap, f'({at_value_cap / n_rows:.1%})')\nprint('at the age cap:', at_age_cap, '| at the income cap:', at_income_cap)\nprint('rooms per household: median', round(rooms.median(), 1), '| max', round(rooms.max(), 1))\n\nfrom sklearn.model_selection import KFold, PredefinedSplit, cross_val_score\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.neighbors import KNeighborsRegressor\n\nX = pd.DataFrame({\n    'income': df.median_income, 'age': df.housing_median_age, 'rooms': rooms,\n    'bedroom_share': df.total_bedrooms / df.total_rooms,\n    'people_per_household': df.population / df.households,\n    'lat': df.latitude, 'lon': df.longitude})\njitter = np.random.default_rng(0).normal(0, 1e-6, (len(X), 2))\nX[['lat', 'lon']] += jitter      # districts that share coordinates: makes \"nearest\" unique\ny = df.value\nbaseline_mae = (y - y.mean()).abs().mean()\n\nblock = np.floor(df.latitude).astype(int) * 1000 + np.floor(df.longitude).astype(int)\nsizes = block.value_counts().sort_index().sort_values(ascending=False, kind='stable')\nn_blocks = len(sizes)\nload, fold = np.zeros(5), {}\nfor b, n in sizes.items():       # largest region first, each to the emptiest fold\n    k = int(load.argmin()); fold[b] = k; load[k] += n\nrandom_cv = KFold(5, shuffle=True, random_state=0)\nregion_cv = PredefinedSplit(block.map(fold))\n\ndef r2(model, cols):\n    a = cross_val_score(model, X[cols], y, cv=random_cv, scoring='r2').mean()\n    b = cross_val_score(model, X[cols], y, cv=region_cv, scoring='r2').mean()\n    return round(a, 3), round(b, 3)\n\nfeatures = ['income', 'age', 'rooms', 'bedroom_share', 'people_per_household']\nlinear = r2(LinearRegression(), features)\nknn = r2(KNeighborsRegressor(10), ['lat', 'lon'])\nprint('baseline MAE:', round(baseline_mae, 3))\nprint('R² (random folds, new regions)')\nprint('  linear, no location:', linear)\nprint('  10 nearest districts:', knn)",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/housing.csv"
+  ]
+ },
+ "step-4": {
+  "code": "from sklearn.model_selection import train_test_split\n\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=0)\nmodel = HistGradientBoostingRegressor(random_state=0).fit(X_tr, y_tr)\npred = pd.Series(model.predict(X_te), index=y_te.index)\nerr = (pred - y_te).abs()\n\ncapped = y_te >= 5.00001\nworst = err >= err.quantile(0.95)                         # the 5% largest errors\nprint('test MAE:', round(err.mean(), 3), '| capped districts in test:', capped.sum())\nprint('mean prediction for capped districts:', round(pred[capped].mean(), 2))\nprint('share of capped districts among the worst 5%:',\n      round((capped & worst).sum() / worst.sum(), 3))\nprint('highest prediction:', round(pred.max(), 2))",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.read_csv('housing.csv')\ndf['value'] = df.median_house_value / 100_000            # in $100,000s\nrooms = df.total_rooms / df.households\n\nn_rows = len(df)\nat_value_cap = (df.median_house_value >= 500_001).sum()   # top-coded at $500,001\nat_age_cap = (df.housing_median_age == 52).sum()          # top-coded at 52 years\nat_income_cap = (df.median_income >= 15).sum()            # top-coded at 15 ($150,000)\nprint(n_rows, 'districts')\nprint('at the value cap:', at_value_cap, f'({at_value_cap / n_rows:.1%})')\nprint('at the age cap:', at_age_cap, '| at the income cap:', at_income_cap)\nprint('rooms per household: median', round(rooms.median(), 1), '| max', round(rooms.max(), 1))\n\nfrom sklearn.model_selection import KFold, PredefinedSplit, cross_val_score\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.neighbors import KNeighborsRegressor\n\nX = pd.DataFrame({\n    'income': df.median_income, 'age': df.housing_median_age, 'rooms': rooms,\n    'bedroom_share': df.total_bedrooms / df.total_rooms,\n    'people_per_household': df.population / df.households,\n    'lat': df.latitude, 'lon': df.longitude})\njitter = np.random.default_rng(0).normal(0, 1e-6, (len(X), 2))\nX[['lat', 'lon']] += jitter      # districts that share coordinates: makes \"nearest\" unique\ny = df.value\nbaseline_mae = (y - y.mean()).abs().mean()\n\nblock = np.floor(df.latitude).astype(int) * 1000 + np.floor(df.longitude).astype(int)\nsizes = block.value_counts().sort_index().sort_values(ascending=False, kind='stable')\nn_blocks = len(sizes)\nload, fold = np.zeros(5), {}\nfor b, n in sizes.items():       # largest region first, each to the emptiest fold\n    k = int(load.argmin()); fold[b] = k; load[k] += n\nrandom_cv = KFold(5, shuffle=True, random_state=0)\nregion_cv = PredefinedSplit(block.map(fold))\n\ndef r2(model, cols):\n    a = cross_val_score(model, X[cols], y, cv=random_cv, scoring='r2').mean()\n    b = cross_val_score(model, X[cols], y, cv=region_cv, scoring='r2').mean()\n    return round(a, 3), round(b, 3)\n\nfeatures = ['income', 'age', 'rooms', 'bedroom_share', 'people_per_household']\nlinear = r2(LinearRegression(), features)\nknn = r2(KNeighborsRegressor(10), ['lat', 'lon'])\nprint('baseline MAE:', round(baseline_mae, 3))\nprint('R² (random folds, new regions)')\nprint('  linear, no location:', linear)\nprint('  10 nearest districts:', knn)\n\nfrom sklearn.ensemble import HistGradientBoostingRegressor\n\nboost = r2(HistGradientBoostingRegressor(random_state=0), list(X.columns))\nprint('gradient boosting, all features:', boost)",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/housing.csv"
+  ]
+ }
+}

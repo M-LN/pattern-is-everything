@@ -291,7 +291,7 @@ window.addEventListener('load', function () {
 <script src="${up}js/connections.js?v=3" defer></script>
 <script src="${up}js/track.js?v=1" defer></script>
 ${html.includes('class="selfcheck"') ? `<script src="${up}js/self-check.js?v=1" defer></script>
-` : ''}${html.includes('data-run="') ? `<script src="${up}js/code-run.js?v=1" defer></script>
+` : ''}${html.includes('data-run="') ? `<script src="${up}js/code-run.js?v=2" defer></script>
 ` : ''}</body>
 </html>
 `;

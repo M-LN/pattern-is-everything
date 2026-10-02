@@ -39,7 +39,7 @@
 
   function getWorker() {
     if (!worker) {
-      worker = new Worker('/js/py-worker.js?v=1');
+      worker = new Worker('/js/py-worker.js?v=2');
       worker.onmessage = onMessage;
       worker.onerror = function (e) {
         if (!active) return;
@@ -93,7 +93,7 @@
     s.t0 = performance.now();
     s.runId = ++seq;
     setStatus(s, worker ? 'Starting…' : 'Loading Python — the first run downloads 10–40 MB, then the browser keeps it…');
-    getWorker().postMessage({ id: s.runId, pkgs: s.r.pkgs, setup: s.r.setup, code: s.ed.value });
+    getWorker().postMessage({ id: s.runId, pkgs: s.r.pkgs, setup: s.r.setup, code: s.ed.value, files: s.r.files || [] });
     if (!tracked[s.id] && typeof window.ppTrack === 'function') {
       tracked[s.id] = 1;
       window.ppTrack('run: ' + s.id, 'Run code');
@@ -119,10 +119,13 @@
       var bar = btn.parentNode;
       var s = { id: id, r: r, btn: btn };
 
-      var setup = el('details', 'run-setup');
-      setup.appendChild(el('summary', null, 'Setup — imports and data, run first'));
-      setup.appendChild(el('pre', null, r.setup));
-      block.parentNode.insertBefore(setup, block);
+      if (r.setup) {   // on a case page, the steps before this one
+        var setup = el('details', 'run-setup');
+        setup.appendChild(el('summary', null, r.files ? 'Earlier steps, run first' : 'Setup — imports and data, run first'));
+        setup.appendChild(el('pre', null, r.setup));
+        block.parentNode.insertBefore(setup, block);
+      }
+      var initial = r.show ? r.code + '\n\n' + r.show : r.code;
 
       var pre = block.querySelector('pre');
       var ed = el('textarea', 'run-editor');
@@ -130,7 +133,7 @@
       ed.setAttribute('autocapitalize', 'off');
       ed.setAttribute('autocomplete', 'off');
       ed.setAttribute('aria-label', 'Python code — edit and run');
-      ed.value = r.code + '\n\n' + r.show;
+      ed.value = initial;
       pre.replaceWith(ed);
       block.classList.add('is-editing');
       fit(ed);
@@ -147,7 +150,7 @@
       stopBtn.addEventListener('click', function () { stop(s); });
       var reset = el('button', 'run-reset', 'Reset code');
       reset.type = 'button';
-      reset.addEventListener('click', function () { ed.value = r.code + '\n\n' + r.show; fit(ed); });
+      reset.addEventListener('click', function () { ed.value = initial; fit(ed); });
       var status = el('span', 'run-status');
       status.setAttribute('role', 'status');
       bar.querySelector('.run-hint').replaceWith(status);
@@ -159,6 +162,8 @@
       var out = el('pre', 'run-out');
       out.hidden = true;
       out.setAttribute('aria-label', 'Output');
+      var stat = bar.nextElementSibling;   // a case page's pre-computed output gives way to the live one
+      if (stat && stat.classList.contains('run-static')) stat.hidden = true;
       bar.parentNode.insertBefore(out, bar.nextSibling);
       s.out = out;
 

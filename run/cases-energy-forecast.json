@@ -1,0 +1,63 @@
+{
+ "step-1": {
+  "code": "import numpy as np\nimport pandas as pd\n\nd = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)\npartial = d.minutes < 1440\nprint(len(d), 'days |', partial.sum(), 'with missing minutes |',\n      (d.minutes == 0).sum(), 'with none at all')\ncomplete = d[~partial]\nfloor = complete.kwh.min()\nprint('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())\nbelow = d[(d.minutes > 0) & (d.kwh < floor)]\nprint('part-days below that:', below.kwh.round(1).tolist(),\n      '| minutes recorded:', below.minutes.tolist())",
+  "setup": "",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/power-daily.csv"
+  ]
+ },
+ "step-2": {
+  "code": "mostly_there = d.minutes >= 0.9 * 1440\nkwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h\nobserved = kwh.notna()\nkwh = kwh.interpolate()                                # fill the gaps (model input only)\nprint('scaled days:', (mostly_there & partial).sum(), '| filled days:', (~observed).sum())\nprint('mean kWh per day:', round(kwh[observed].mean(), 1),\n      '| std:', round(kwh[observed].std(), 1))",
+  "setup": "import numpy as np\nimport pandas as pd\n\nd = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)\npartial = d.minutes < 1440\nprint(len(d), 'days |', partial.sum(), 'with missing minutes |',\n      (d.minutes == 0).sum(), 'with none at all')\ncomplete = d[~partial]\nfloor = complete.kwh.min()\nprint('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())\nbelow = d[(d.minutes > 0) & (d.kwh < floor)]\nprint('part-days below that:', below.kwh.round(1).tolist(),\n      '| minutes recorded:', below.minutes.tolist())",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/power-daily.csv"
+  ]
+ },
+ "step-3": {
+  "code": "by_month = kwh[observed].groupby(kwh[observed].index.month).mean().round(1)\nby_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)\nprint('by month (Jan-Dec):', by_month.tolist())\nprint('by weekday (Mon-Sun):', by_weekday.tolist())",
+  "setup": "import numpy as np\nimport pandas as pd\n\nd = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)\npartial = d.minutes < 1440\nprint(len(d), 'days |', partial.sum(), 'with missing minutes |',\n      (d.minutes == 0).sum(), 'with none at all')\ncomplete = d[~partial]\nfloor = complete.kwh.min()\nprint('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())\nbelow = d[(d.minutes > 0) & (d.kwh < floor)]\nprint('part-days below that:', below.kwh.round(1).tolist(),\n      '| minutes recorded:', below.minutes.tolist())\n\nmostly_there = d.minutes >= 0.9 * 1440\nkwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h\nobserved = kwh.notna()\nkwh = kwh.interpolate()                                # fill the gaps (model input only)\nprint('scaled days:', (mostly_there & partial).sum(), '| filled days:', (~observed).sum())\nprint('mean kWh per day:', round(kwh[observed].mean(), 1),\n      '| std:', round(kwh[observed].std(), 1))",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/power-daily.csv"
+  ]
+ },
+ "step-4": {
+  "code": "forecasts = pd.DataFrame({\n    'yesterday': kwh.shift(1),\n    'same day last week': kwh.shift(7),\n    'same weekday, last 4 weeks': sum(kwh.shift(7 * k) for k in range(1, 5)) / 4,\n    'mean of last 7 days': kwh.shift(1).rolling(7).mean(),\n    'mean of last 28 days': kwh.shift(1).rolling(28).mean(),\n    'same day last year': kwh.shift(364),\n})\ntest = (kwh.index >= '2009-12-01') & observed\nmae = forecasts[test].sub(kwh[test], axis=0).abs().mean().round(2).sort_values()\nprint(mae.to_string())\nprint('test days:', test.sum())",
+  "setup": "import numpy as np\nimport pandas as pd\n\nd = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)\npartial = d.minutes < 1440\nprint(len(d), 'days |', partial.sum(), 'with missing minutes |',\n      (d.minutes == 0).sum(), 'with none at all')\ncomplete = d[~partial]\nfloor = complete.kwh.min()\nprint('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())\nbelow = d[(d.minutes > 0) & (d.kwh < floor)]\nprint('part-days below that:', below.kwh.round(1).tolist(),\n      '| minutes recorded:', below.minutes.tolist())\n\nmostly_there = d.minutes >= 0.9 * 1440\nkwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h\nobserved = kwh.notna()\nkwh = kwh.interpolate()                                # fill the gaps (model input only)\nprint('scaled days:', (mostly_there & partial).sum(), '| filled days:', (~observed).sum())\nprint('mean kWh per day:', round(kwh[observed].mean(), 1),\n      '| std:', round(kwh[observed].std(), 1))\n\nby_month = kwh[observed].groupby(kwh[observed].index.month).mean().round(1)\nby_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)\nprint('by month (Jan-Dec):', by_month.tolist())\nprint('by weekday (Mon-Sun):', by_weekday.tolist())",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ],
+  "files": [
+   "/cases/data/power-daily.csv"
+  ]
+ },
+ "step-5": {
+  "code": "from sklearn.linear_model import Ridge\n\ndoy = 2 * np.pi * kwh.index.dayofyear / 365.25\nX = pd.DataFrame({\n    'yesterday': kwh.shift(1), 'last_week': kwh.shift(7),\n    'mean7': kwh.shift(1).rolling(7).mean(), 'mean28': kwh.shift(1).rolling(28).mean(),\n    'season_sin': np.sin(doy), 'season_cos': np.cos(doy)}, index=kwh.index)\nX = X.join(pd.get_dummies(kwh.index.dayofweek, prefix='wd', dtype=float).set_index(kwh.index))\nusable = X.notna().all(axis=1)\n\npred = pd.Series(np.nan, index=kwh.index)\nfor month in pd.date_range('2009-12-01', '2010-11-01', freq='MS'):\n    train = usable & (kwh.index < month)\n    now = usable & (kwh.index >= month) & (kwh.index < month + pd.offsets.MonthBegin(1))\n    model = Ridge(alpha=1.0).fit(X[train], kwh[train])\n    pred[now] = model.predict(X[now])\nridge_mae = (pred[test] - kwh[test]).abs().mean()\nprint('ridge MAE:', round(ridge_mae, 2), '| mean of last 7 days:', mae['mean of last 7 days'])",
+  "setup": "import numpy as np\nimport pandas as pd\n\nd = pd.read_csv('power-daily.csv', index_col='date', parse_dates=True)\npartial = d.minutes < 1440\nprint(len(d), 'days |', partial.sum(), 'with missing minutes |',\n      (d.minutes == 0).sum(), 'with none at all')\ncomplete = d[~partial]\nfloor = complete.kwh.min()\nprint('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().date())\nbelow = d[(d.minutes > 0) & (d.kwh < floor)]\nprint('part-days below that:', below.kwh.round(1).tolist(),\n      '| minutes recorded:', below.minutes.tolist())\n\nmostly_there = d.minutes >= 0.9 * 1440\nkwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h\nobserved = kwh.notna()\nkwh = kwh.interpolate()                                # fill the gaps (model input only)\nprint('scaled days:', (mostly_there & partial).sum(), '| filled days:', (~observed).sum())\nprint('mean kWh per day:', round(kwh[observed].mean(), 1),\n      '| std:', round(kwh[observed].std(), 1))\n\nby_month = kwh[observed].groupby(kwh[observed].index.month).mean().round(1)\nby_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)\nprint('by month (Jan-Dec):', by_month.tolist())\nprint('by weekday (Mon-Sun):', by_weekday.tolist())\n\nforecasts = pd.DataFrame({\n    'yesterday': kwh.shift(1),\n    'same day last week': kwh.shift(7),\n    'same weekday, last 4 weeks': sum(kwh.shift(7 * k) for k in range(1, 5)) / 4,\n    'mean of last 7 days': kwh.shift(1).rolling(7).mean(),\n    'mean of last 28 days': kwh.shift(1).rolling(28).mean(),\n    'same day last year': kwh.shift(364),\n})\ntest = (kwh.index >= '2009-12-01') & observed\nmae = forecasts[test].sub(kwh[test], axis=0).abs().mean().round(2).sort_values()\nprint(mae.to_string())\nprint('test days:', test.sum())",
+  "show": "",
+  "pkgs": [
+   "numpy",
+   "pandas",
+   "scikit-learn"
+  ],
+  "files": [
+   "/cases/data/power-daily.csv"
+  ]
+ }
+}

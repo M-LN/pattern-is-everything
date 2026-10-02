@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>California housing — case study — Pattern is Everything</title>
+  <meta name="description" content="A house-price model on the California Housing data scores R² 0.84 with random cross-validation and 0.68 on regions it has not seen. What the test measures, and the price cap hidden in the target.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/cases/housing-regression/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "California housing \u2014 case study", "description": "A house-price model on the California Housing data scores R\u00b2 0.84 with random cross-validation and 0.68 on regions it has not seen. What the test measures, and the price cap hidden in the target.",
+    "url": "https://patterniseverything.com/cases/housing-regression/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/cases/housing-regression/">
+  <meta property="og:title" content="California housing — case study">
+  <meta property="og:description" content="A house-price model on the California Housing data scores R² 0.84 with random cross-validation and 0.68 on regions it has not seen. What the test measures, and the price cap hidden in the target.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=35">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
+    .case-hero { padding: 48px 0 6px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
+    .case-hero h2 em { color: var(--accent); }
+    .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
+    .case a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .case a { color: #6fa8ff; } }
+    [data-theme="dark"] .case a { color: #6fa8ff; }
+    .case-data { margin: 26px 0 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.65; }
+    .case-data b { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+    .case h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; margin: 44px 0 10px; }
+    .case h3 .n { font: 500 13px var(--mono); color: var(--accent); margin-right: 8px; vertical-align: 3px; }
+    .case p { line-height: 1.8; margin: 0 0 14px; }
+    .case .code-block { margin: 12px 0 10px; }
+    .run-static { margin: 0 0 14px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); font-family: var(--mono); font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-x: auto; }
+    .run-static::before { content: 'Output'; display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .case-fig { margin: 18px 0 20px; }
+    .case-chart { width: 100%; height: auto; display: block; color: var(--text); font-family: var(--mono); }
+    .case-chart .cl { font-size: 12px; fill: currentColor; }
+    .case-chart .cv { font-size: 11px; fill: var(--muted); }
+    .case-chart .cg { stroke: var(--border); stroke-width: 1; }
+    .case-chart .cz { stroke: var(--muted); stroke-width: 1; }
+    .case-chart .cs1 { fill: var(--accent); } .case-chart .cs2 { fill: var(--accent3); } .case-chart .cs3 { fill: var(--accent2); } .case-chart .cs4 { fill: var(--accent4); }
+    .case-chart polyline { fill: none; stroke-width: 1.6; }
+    .case-chart .cp1 { stroke: var(--accent); } .case-chart .cp2 { stroke: var(--accent3); } .case-chart .cp3 { stroke: var(--accent2); } .case-chart .cp4 { stroke: var(--accent4); }
+    .case-fig figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+    .case-box { margin: 36px 0 0; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; background: var(--surface); }
+    .case-box h4 { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+    .case-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.7; }
+    .case-box.src ul { font-size: 13px; color: var(--muted); }
+    .case-box .t { color: var(--muted); }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    .case-cards { display: grid; gap: 12px; margin: 22px 0; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .case-q { font-size: 16px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Case <em style="font-style:italic;color:var(--accent)">studies</em></h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/cases/">All cases</a>
+  </div>
+</header>
+<main class="case case-page">
+<section class="case-hero">
+<div class="crumb"><a href="/cases/">Cases</a> · Regression · 20,640 districts · 1990 census</div>
+<h2>California housing: <em>where the score comes from</em></h2>
+<p class="case-q">How well can a model predict the median house value of a California district from census data — and how much of the score belongs to the model, and how much to the way it is tested?</p>
+</section>
+<div class="case-data"><div><b>Data</b>California Housing — One row per census block group (a district of typically 600–3,000 people) from the 1990 US census: location, median age of the houses, rooms, bedrooms, population, households, median income, and the median house value.</div><div><b>Source</b><a href="https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html">StatLib, via Luís Torgo</a>; the same data as scikit-learn’s <code>fetch_california_housing</code></div><div><b>Licence</b>Public data from the US census, distributed by StatLib for research and teaching</div><div><b>File</b><a href="/cases/data/housing.csv" download>housing.csv</a> (987 KB), as used below</div></div>
+<h3 id="step-1"><span class="n">01</span>Look before modelling</h3>
+<p>Load the data and check the ranges. Three columns stop dead at a limit, the sign of values cut off (top-coded) when the data were published.</p>
+<div class="code-block" data-run="cases-housing-regression/step-1"><pre>import numpy as np
+import pandas as pd
+
+df = pd.read_csv('housing.csv')
+df['value'] = df.median_house_value / 100_000            # in $100,000s
+rooms = df.total_rooms / df.households
+
+n_rows = len(df)
+at_value_cap = (df.median_house_value &gt;= 500_001).sum()   # top-coded at $500,001
+at_age_cap = (df.housing_median_age == 52).sum()          # top-coded at 52 years
+at_income_cap = (df.median_income &gt;= 15).sum()            # top-coded at 15 ($150,000)
+print(n_rows, 'districts')
+print('at the value cap:', at_value_cap, f'({at_value_cap / n_rows:.1%})')
+print('at the age cap:', at_age_cap, '| at the income cap:', at_income_cap)
+print('rooms per household: median', round(rooms.median(), 1), '| max', round(rooms.max(), 1))</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div>
+<pre class="run-static">20640 districts
+at the value cap: 965 (4.7%)
+at the age cap: 1273 | at the income cap: 51
+rooms per household: median 5.2 | max 141.9</pre>
+<p><strong>965</strong> districts (4.7%) sit exactly at $500,001. Their true median value is somewhere above it, and no model trained on this column can learn by how much. The age and income columns are capped too, and a few districts average over 100 rooms per household — resort towns, where most houses are holiday homes with few permanent households.</p>
+<h3 id="step-2"><span class="n">02</span>A baseline, then a test that matches the question</h3>
+<p>Predicting the average value for every district misses by about $91k on average. Two quick models: a linear regression on income and housing features, and k-nearest neighbours that sees nothing but the location — it predicts the average value of the ten nearest districts. Each is scored twice: with random 5-fold cross-validation, and with folds made of whole regions (1°×1° squares of latitude and longitude, 55 of them), so the test districts lie in areas the model has not seen.</p>
+<div class="code-block" data-run="cases-housing-regression/step-2"><pre>from sklearn.model_selection import KFold, PredefinedSplit, cross_val_score
+from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
+
+X = pd.DataFrame({
+    'income': df.median_income, 'age': df.housing_median_age, 'rooms': rooms,
+    'bedroom_share': df.total_bedrooms / df.total_rooms,
+    'people_per_household': df.population / df.households,
+    'lat': df.latitude, 'lon': df.longitude})
+jitter = np.random.default_rng(0).normal(0, 1e-6, (len(X), 2))
+X[['lat', 'lon']] += jitter      # districts that share coordinates: makes "nearest" unique
+y = df.value
+baseline_mae = (y - y.mean()).abs().mean()
+
+block = np.floor(df.latitude).astype(int) * 1000 + np.floor(df.longitude).astype(int)
+sizes = block.value_counts().sort_index().sort_values(ascending=False, kind='stable')
+n_blocks = len(sizes)
+load, fold = np.zeros(5), {}
+for b, n in sizes.items():       # largest region first, each to the emptiest fold
+    k = int(load.argmin()); fold[b] = k; load[k] += n
+random_cv = KFold(5, shuffle=True, random_state=0)
+region_cv = PredefinedSplit(block.map(fold))
+
+def r2(model, cols):
+    a = cross_val_score(model, X[cols], y, cv=random_cv, scoring='r2').mean()
+    b = cross_val_score(model, X[cols], y, cv=region_cv, scoring='r2').mean()
+    return round(a, 3), round(b, 3)
+
+features = ['income', 'age', 'rooms', 'bedroom_share', 'people_per_household']
+linear = r2(LinearRegression(), features)
+knn = r2(KNeighborsRegressor(10), ['lat', 'lon'])
+print('baseline MAE:', round(baseline_mae, 3))
+print('R² (random folds, new regions)')
+print('  linear, no location:', linear)
+print('  10 nearest districts:', knn)</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs step 1 first — edit the code and run it again</span></div>
+<pre class="run-static">baseline MAE: 0.912
+R² (random folds, new regions)
+  linear, no location: (0.549, 0.494)
+  10 nearest districts: (0.79, 0.168)</pre>
+<p>The linear model scores about the same either way (R² 0.55 and 0.49). The location-only model looks better than it — <strong>R² 0.79</strong> with random folds — and collapses to <strong>0.17</strong> on new regions. With random folds, the nearest neighbours of a test district are its own neighbours in the training data; the model is not predicting, it is looking up the street. Nearby districts have similar prices (spatial autocorrelation), so random folds leak information whenever location is a feature.</p>
+<h3 id="step-3"><span class="n">03</span>A stronger model, the same gap</h3>
+<p>Gradient-boosted trees on all the features, location included — the kind of model that wins tabular benchmarks. It is fitted ten times, once per fold of each test.</p>
+<div class="code-block" data-run="cases-housing-regression/step-3"><pre>from sklearn.ensemble import HistGradientBoostingRegressor
+
+boost = r2(HistGradientBoostingRegressor(random_state=0), list(X.columns))
+print('gradient boosting, all features:', boost)</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–2 first — edit the code and run it again</span></div>
+<pre class="run-static">gradient boosting, all features: (0.837, 0.679)</pre>
+<p>R² <strong>0.84</strong> with random folds, <strong>0.68</strong> on new regions. Both numbers are correct; they answer different questions. If the model will value houses in districts like the ones it was trained on — filling gaps on a map it already covers — the random score is the right one. If it will be used somewhere new, only the regional score says what to expect, and it is 19% lower.</p>
+<figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 178" role="img" aria-label="R² by model and test"><rect class="cs1" x="190" y="8" width="12" height="12" rx="2"/><text x="208" y="18" class="cl">random folds</text><rect class="cs2" x="312" y="8" width="12" height="12" rx="2"/><text x="330" y="18" class="cl">new regions</text><text x="180" y="54" class="cl" text-anchor="end">Linear, no location</text><rect class="cs1" x="190.0" y="35" width="275.5" height="13" rx="2"/><text x="470.5" y="46" class="cv">0.55</text><rect class="cs2" x="190.0" y="51" width="247.9" height="13" rx="2"/><text x="442.9" y="62" class="cv">0.49</text><text x="180" y="100" class="cl" text-anchor="end">10 nearest districts</text><rect class="cs1" x="190.0" y="81" width="396.4" height="13" rx="2"/><text x="591.4" y="92" class="cv">0.79</text><rect class="cs2" x="190.0" y="97" width="84.3" height="13" rx="2"/><text x="279.3" y="108" class="cv">0.17</text><text x="180" y="146" class="cl" text-anchor="end">Gradient boosting, all</text><rect class="cs1" x="190.0" y="127" width="420.0" height="13" rx="2"/><text x="615.0" y="138" class="cv">0.84</text><rect class="cs2" x="190.0" y="143" width="340.7" height="13" rx="2"/><text x="535.7" y="154" class="cv">0.68</text></svg><figcaption>R², 5-fold cross-validation. “New regions”: folds of whole 1°×1° squares, so no test district has training data from its own area.</figcaption></figure>
+<h3 id="step-4"><span class="n">04</span>What the cap does to the errors</h3>
+<p>Hold out a random fifth of the districts, fit the boosted model on the rest, and look at the districts whose value is capped.</p>
+<div class="code-block" data-run="cases-housing-regression/step-4"><pre>from sklearn.model_selection import train_test_split
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=0)
+model = HistGradientBoostingRegressor(random_state=0).fit(X_tr, y_tr)
+pred = pd.Series(model.predict(X_te), index=y_te.index)
+err = (pred - y_te).abs()
+
+capped = y_te &gt;= 5.00001
+worst = err &gt;= err.quantile(0.95)                         # the 5% largest errors
+print('test MAE:', round(err.mean(), 3), '| capped districts in test:', capped.sum())
+print('mean prediction for capped districts:', round(pred[capped].mean(), 2))
+print('share of capped districts among the worst 5%:',
+      round((capped &amp; worst).sum() / worst.sum(), 3))
+print('highest prediction:', round(pred.max(), 2))</pre></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–3 first — edit the code and run it again</span></div>
+<pre class="run-static">test MAE: 0.308 | capped districts in test: 181
+mean prediction for capped districts: 4.45
+share of capped districts among the worst 5%: 0.174
+highest prediction: 5.43</pre>
+<p>The capped districts are 4% of the test set but <strong>17%</strong> of the worst 5% of errors. For them the model predicts $445k on average, against a recorded $500,001 that is itself an underestimate. A metric averaged over all districts hides this: the error is concentrated at the expensive end, where a valuation mistake costs the most.</p>
+<div class="case-box"><h4>What this case shows</h4><ul><li>Choose the cross-validation split to match how the model will be used. Random folds measure interpolation; grouped folds (by region, customer, time) measure generalisation to new groups.</li><li>A feature that identifies neighbours — location, user ID, a timestamp — turns random folds into a lookup. The bigger the gap between random and grouped scores, the more the model leans on it.</li><li>Check every column’s maximum before modelling. A top-coded target puts a ceiling on what the model can learn and concentrates the error where values are highest.</li></ul></div>
+<div class="case-box"><h4>The patterns behind it</h4><ul><li><a href="/stats/cross-validation/">Cross-Validation Done Right</a> <span class="t">— how folds are formed decides what the score means</span></li><li><a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a> <span class="t">— the same leak, in time instead of space</span></li><li><a href="/stats/regression-metrics/">Regression Metrics</a> <span class="t">— R² and MAE, and what an average hides</span></li><li><a href="/stats/outlier-detection/">Outlier Detection</a> <span class="t">— capped and extreme values</span></li><li><a href="/ml-math/bias-variance/">Bias-Variance Tradeoff</a> <span class="t">— why a flexible model can memorise neighbours</span></li></ul></div>
+<div class="case-box"><h4>Run it yourself</h4><ul><li>Each step above has a <b>Run</b> button: Python runs in this page, on the data file above.</li><li><a href="/notebooks/case-housing-regression.ipynb" download>Download the notebook</a> — the same steps, for Jupyter on your own machine</li><li><a href="/lite/lab/?path=case-housing-regression.ipynb" target="_blank" rel="noopener">Open it in JupyterLite</a> — Jupyter in the browser, nothing to install</li></ul></div>
+<div class="case-box src"><h4>Sources</h4><ul><li>R. K. Pace &amp; R. Barry, “Sparse Spatial Autoregressions”, <em>Statistics &amp; Probability Letters</em> 33(3), 1997 — the data set</li><li>D. R. Roberts et al., “Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure”, <em>Ecography</em> 40(8), 2017</li><li>scikit-learn documentation, “Cross-validation: evaluating estimator performance” (group-wise splits)</li></ul></div>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/code-run.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=33" defer></script>
+</body>
+</html>

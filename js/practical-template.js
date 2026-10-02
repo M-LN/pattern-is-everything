@@ -10,13 +10,13 @@
       pipeline: ['Fit a simple baseline.', 'Compare train vs validation error.', 'Increase capacity only if both errors are high.', 'Regularize or simplify if validation lags behind training.', 'Confirm with cross-validation before using the test set.'],
       pitfall: 'A single split can make variance look smaller than it is.',
       metrics: ['Train error', 'Validation error', 'Cross-validation spread', 'Learning curve slope'],
-      build: ['Open housing case', '../cases/index.html#housing-regression']
+      build: ['Open housing case', '/cases/housing-regression/']
     },
     regularization: {
       pipeline: ['Start from an unregularized baseline.', 'Tune L2 or weight decay on validation data.', 'Use L1 when sparse features matter.', 'Re-check calibration and important features.', 'Freeze settings before final test evaluation.'],
       pitfall: 'Regularization cannot fix bad labels, leakage, or an underfit baseline.',
       metrics: ['Validation gap', 'Coefficient size', 'Calibration error', 'Final holdout metric'],
-      build: ['Open housing case', '../cases/index.html#housing-regression']
+      build: ['Open housing case', '/cases/housing-regression/']
     },
     'cross-validation': {
       pipeline: ['Define the target and leakage boundaries.', 'Build preprocessing inside the pipeline.', 'Choose folds that match the data process.', 'Tune on validation folds only.', 'Keep one final holdout untouched.'],
@@ -28,7 +28,7 @@
       pipeline: ['Train and validate the model first.', 'Choose a background sample that represents production data.', 'Explain validation examples, not just training rows.', 'Compare global and local explanations.', 'Check explanations against known leakage features.'],
       pitfall: 'SHAP explains model behavior, not causality in the real world.',
       metrics: ['Model score first', 'Feature attribution stability', 'Background sample sensitivity', 'Error-slice explanations'],
-      build: ['Open housing case', '../cases/index.html#housing-regression']
+      build: ['Open housing case', '/cases/housing-regression/']
     },
     'data-drift': {
       pipeline: ['Save reference feature distributions from training data.', 'Compute PSI/KS on new batches.', 'Prioritize drift on important features.', 'Compare drift alerts against model performance.', 'Retrain only when drift affects decisions.'],
@@ -40,13 +40,13 @@
       pipeline: ['Sort by timestamp.', 'Create lag features using past values only.', 'Use expanding or sliding windows.', 'Add a purge gap when labels overlap.', 'Report metrics by forecast horizon.'],
       pitfall: 'Random folds usually leak future information.',
       metrics: ['MAE by horizon', 'Naive baseline lift', 'Window stability', 'Worst-period error'],
-      build: ['Open energy case', '../cases/index.html#energy-forecast']
+      build: ['Open energy case', '/cases/energy-forecast/']
     },
     rsi: {
       pipeline: ['Define the rule before looking at results.', 'Shift signals by one bar.', 'Include transaction costs.', 'Walk forward across regimes.', 'Compare against buy-and-hold and cash.'],
       pitfall: 'The RSI formula is mathematical; the trading edge is heuristic until validated out of sample.',
       metrics: ['Sharpe', 'Max drawdown', 'Turnover', 'Cost sensitivity'],
-      build: ['Open market case', '../../cases/index.html#market-backtest'],
+      build: ['Open market case', '/cases/market-backtest/'],
       market: true
     },
     macd: {
@@ -60,7 +60,7 @@
       pipeline: ['Compute rolling mean and volatility with past values.', 'Choose mean-reversion or breakout logic explicitly.', 'Shift signals before returns.', 'Test cost sensitivity.', 'Review tail losses during volatility shocks.'],
       pitfall: 'Bands show relative volatility, not guaranteed reversal levels.',
       metrics: ['Return distribution', 'Max drawdown', 'Tail loss', 'Turnover'],
-      build: ['Open market case', '../../cases/index.html#market-backtest'],
+      build: ['Open market case', '/cases/market-backtest/'],
       market: true
     },
     'head-and-shoulders': {

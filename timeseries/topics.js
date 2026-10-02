@@ -1290,7 +1290,7 @@ tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>, gap=<span class="st">
   </div>
   <div class="dataset-card">
     <div class="dataset-card-title">Use this pattern on real data</div>
-    <a href="../cases/index.html#energy-forecast">Pattern Portal Case: Energy Demand Forecast</a>
+    <a href="/cases/energy-forecast/">Case study: household electricity</a>
     <div class="ds-note">Use the case workflow to test lag features, rolling windows, naive baselines, and walk-forward validation.</div>
   </div>
   ${depthHtml('cross-validation-ts')}

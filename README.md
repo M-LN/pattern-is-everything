@@ -51,7 +51,7 @@ Long-form visual essays that connect pattern thinking across machine learning, m
 
 - **Visual first** - diagrams and animations make abstract ideas easier to inspect.
 - **Practical by default** - formulas, examples, pitfalls, and code-oriented notes sit beside the visuals.
-- **Real-data cases** - small workflows for classification, regression, forecasting, fraud detection, and market backtesting.
+- **Real-data case studies** - four cases on public data (California housing, credit card default, household electricity, a century of US stock returns), every step runnable in the browser; built by `scripts/build-cases.py` from `scripts/cases/`.
 - **Notebook companions** - Jupyter notebooks under `notebooks/` for executable case walkthroughs.
 - **Guided learning path** - the Start Here flow helps visitors move from beginner concepts to applied workflows.
 - **Sandbox areas** - focused playgrounds for ML, stats, deep learning, markets, and chaos concepts.

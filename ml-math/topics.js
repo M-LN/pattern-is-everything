@@ -900,7 +900,7 @@ function buildGradient() {
   </div>
   <div class="dataset-card">
     <div class="dataset-card-title">Use this pattern on real data</div>
-    <a href="../cases/index.html#housing-regression">Pattern Portal Case: Housing Regression</a>
+    <a href="/cases/housing-regression/">Case study: California housing</a>
     <div class="ds-note">Train a baseline model, monitor train/validation loss, and compare learning-rate choices against MAE/RMSE.</div>
   </div>
   <div class="dev-export">

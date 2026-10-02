@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Real-Data Cases - Pattern is Everything</title>
-  <meta name="description" content="Four practical mini-cases that connect Pattern Portal topics to real datasets, metrics, pitfalls, and notebook-ready workflows.">
+  <meta name="description" content="Four case studies on real public data — California housing, credit card default, household electricity and a century of US stock returns — with code that runs in the browser and the results it gave.">
   <meta property="og:title" content="Real-Data Cases - Pattern is Everything">
-  <meta property="og:description" content="Practical mini-cases for classification, regression, time series, and market backtesting.">
+  <meta property="og:description" content="Four case studies on real public data — California housing, credit card default, household electricity and a century of US stock returns — with code that runs in the browser and the results it gave.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
@@ -20,7 +20,7 @@
     "@type": "CollectionPage",
     "name": "Real-Data Cases - Pattern is Everything",
     "url": "https://patterniseverything.com/cases/",
-    "description": "Practical mini-cases that connect visual topics to real datasets, metrics, pitfalls, and notebook-ready workflows.",
+    "description": "Four case studies on real public data — California housing, credit card default, household electricity and a century of US stock returns — with code that runs in the browser and the results it gave.",
     "isPartOf": { "@type": "WebSite", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -224,6 +224,9 @@
       margin-bottom: 10px;
     }
     .case-title em { color: var(--accent); font-style: italic; }
+    .case-title a { color: inherit; text-decoration: none; }
+    .case-title a:hover { color: var(--accent); }
+    .case-finding { margin: 0 0 16px; }
     .case-summary {
       font-size: 13px;
       line-height: 1.75;
@@ -340,7 +343,7 @@
 <div role="main">
 <div class="portal-hero">
   <h2>Build from <br><em>Real Data</em></h2>
-  <p>Mini-cases that connect the visual topics to working machine-learning workflows: dataset, pipeline, metric, common failure mode, and a notebook-ready starting point.</p>
+  <p>Four case studies on real, public data. Each starts from a question, works through it in code you can read — and run in your browser — and reports what the data actually showed, including what went wrong on the way.</p>
 </div>
 
 <div class="portal-content">
@@ -349,18 +352,18 @@
     <h2>Four cases, <em>real datasets</em></h2>
   </div>
   <div class="case-toolbar">
-    <p>Each case is intentionally small: enough structure to move from intuition to implementation, with a full JupyterLite notebook available when you want to run the workflow in the browser.</p>
+    <p>Every number on a case page is printed by the code above it, run on the data named at the top. Each case is also a notebook, for JupyterLite or your own machine.</p>
     <div class="cc-tags" aria-label="Case count and scope">
       <span class="tag t1">4 Cases</span>
       <span class="tag t2">Real Data</span>
       <span class="tag t3">Metrics</span>
-      <span class="tag t4">Notebook Ready</span>
+      <span class="tag t4">Runs in the browser</span>
     </div>
   </div>
   <div class="callout info"><strong>Evidence note:</strong> Model-evaluation cases use established statistical methods. Market backtests are educational and heuristic until validated with point-in-time data, costs, slippage, and out-of-sample testing.</div>
   <div class="dev-export">
-    <div class="dev-export-title">Notebook companion</div>
-    <p class="dep-note">Use the full notebook when you want the cases as executable Python workflows instead of copy snippets.</p>
+    <div class="dev-export-title">More to practise on</div>
+    <p class="dep-note">The real-data lab notebook has smaller exercises on sample files, for practising the workflow before a full case.</p>
     <div class="case-links">
       <a href="../lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb" target="_blank" rel="noopener">Open JupyterLite Lab</a>
       <a href="../notebooks/pattern-portal-real-data-lab-browser.ipynb" target="_blank" rel="noopener">Open real-data lab notebook</a>
@@ -385,10 +388,10 @@
   </nav>
 </div>
 
-<script src="cases.js?v=3"></script>
+<script src="cases.js?v=4"></script>
 <script src="../js/evidence-taxonomy.js?v=1"></script>
 <script src="../js/learning-path.js?v=5"></script>
-<script src="../js/ui-enhance.js?v=32" defer></script>
+<script src="../js/ui-enhance.js?v=33" defer></script>
 <script>
 function toggleTheme() {
   const d = document.documentElement;

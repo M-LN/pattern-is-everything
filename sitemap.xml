@@ -1594,4 +1594,24 @@
     <priority>0.8</priority>
     <lastmod>2026-10-02</lastmod>
   </url>
+  <url>
+    <loc>https://patterniseverything.com/cases/housing-regression/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/cases/credit-default/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/cases/energy-forecast/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/cases/market-backtest/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
 </urlset>
