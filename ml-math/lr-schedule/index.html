@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ def lr(t):
     progress = (t - warmup) / (total - warmup)
     return lr_min + 0.5 * (lr_max - lr_min) * (1 + np.cos(np.pi * progress))   # cosine decay
 
-schedule = {t: float(f'{lr(t):.2e}') for t in (0, 500, 1_000, 5_500, 10_000)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>I. Loshchilov &amp; F. Hutter, “SGDR: Stochastic Gradient Descent with Warm Restarts”, <em>ICLR</em>, 2017</li><li>P. Goyal et al., “Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour”, arXiv:1706.02677, 2017 — linear warmup</li><li>L. N. Smith, “Cyclical Learning Rates for Training Neural Networks”, <em>WACV</em>, 2017</li></ul></div></section>
+schedule = {t: float(f'{lr(t):.2e}') for t in (0, 500, 1_000, 5_500, 10_000)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>I. Loshchilov &amp; F. Hutter, “SGDR: Stochastic Gradient Descent with Warm Restarts”, <em>ICLR</em>, 2017</li><li>P. Goyal et al., “Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour”, arXiv:1706.02677, 2017 — linear warmup</li><li>L. N. Smith, “Cyclical Learning Rates for Training Neural Networks”, <em>WACV</em>, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -81,7 +81,7 @@ for (const c of COLLECTIONS) {
     let b = h.indexOf('<section class="topic-connections', a);
     if (b === -1) b = h.indexOf('class="topic-nav"', a);
     if (a === -1 || b === -1) continue;
-    texts.set(e.path, h.slice(a, b).replace(/<pre[\s\S]*?<\/pre>/g, ' ')
+    texts.set(e.path, h.slice(a, b).replace(/<pre[\s\S]*?<\/pre>/g, ' ').replace(/<p[^>]*>Last reviewed[\s\S]*?<\/p>/g, ' ')
       .replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' '));
   }
   const WORD = /[A-Za-z][A-Za-z0-9’'-]*/g;

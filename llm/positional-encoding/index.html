@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -137,7 +138,7 @@ pe = sinusoidal_pe(512, 256)
 near = (pe(10) @ pe(15), pe(500) @ pe(505))          # same distance, different places
 rot = lambda v, m, th=0.1: np.array([[np.cos(m*th), -np.sin(m*th)], [np.sin(m*th), np.cos(m*th)]]) @ v
 q, k = np.array([1.0, 0.5]), np.array([0.3, 0.8])
-rope = (rot(q, 7) @ rot(k, 3), rot(q, 104) @ rot(k, 100))   # RoPE: score depends on m - n = 4 only</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>J. Su, Y. Lu, S. Pan, A. Murtadha, B. Wen &amp; Y. Liu, “RoFormer: Enhanced Transformer with Rotary Position Embedding”, <em>Neurocomputing</em> 568, 2024</li><li>O. Press, N. A. Smith &amp; M. Lewis, “Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation”, <em>ICLR</em>, 2022</li><li>B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024</li></ul></div></section>
+rope = (rot(q, 7) @ rot(k, 3), rot(q, 104) @ rot(k, 100))   # RoPE: score depends on m - n = 4 only</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>J. Su, Y. Lu, S. Pan, A. Murtadha, B. Wen &amp; Y. Liu, “RoFormer: Enhanced Transformer with Rotary Position Embedding”, <em>Neurocomputing</em> 568, 2024</li><li>O. Press, N. A. Smith &amp; M. Lewis, “Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation”, <em>ICLR</em>, 2022</li><li>B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -136,7 +137,7 @@ reward = np.array([1.0, 2.0, 4.0])              # the reward model's scores (the
 kl = lambda p: np.sum(p * np.log(p / ref))
 objective = lambda p, beta: p @ reward - beta * kl(p)
 modest, hacked = np.array([0.3, 0.45, 0.25]), np.array([0.01, 0.01, 0.98])
-result = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>N. Stiennon et al., “Learning to Summarize from Human Feedback”, <em>NeurIPS</em>, 2020</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul></div></section>
+result = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>N. Stiennon et al., “Learning to Summarize from Human Feedback”, <em>NeurIPS</em>, 2020</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

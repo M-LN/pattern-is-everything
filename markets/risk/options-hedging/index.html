@@ -40,6 +40,7 @@
     "articleSection": "Hedging & Protection",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -125,7 +126,7 @@
 ST = np.array([70, 90, 100, 115, 130])                     # where the stock ends
 stock = ST - S0
 protective = stock + np.maximum(put_k - ST, 0) - put_cost
-collar = protective - np.maximum(ST - call_k, 0) + call_premium</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Options, Futures, and Other Derivatives</em>, J. C. Hull, Pearson (any recent edition)</li><li>F. Black &amp; M. Scholes, “The Pricing of Options and Corporate Liabilities”, <em>Journal of Political Economy</em> 81(3), 1973</li><li>R. Israelov, “Pathetic Protection: The Elusive Benefits of Protective Puts”, <em>Journal of Alternative Investments</em>, 2019</li></ul></div></section>
+collar = protective - np.maximum(ST - call_k, 0) + call_premium</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Options, Futures, and Other Derivatives</em>, J. C. Hull, Pearson (any recent edition)</li><li>F. Black &amp; M. Scholes, “The Pricing of Options and Corporate Liabilities”, <em>Journal of Political Economy</em> 81(3), 1973</li><li>R. Israelov, “Pathetic Protection: The Elusive Benefits of Protective Puts”, <em>Journal of Alternative Investments</em>, 2019</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ dL_dy = y - t
 grad_w2 = dL_dy * h                                # chain rule, backwards
 grad_w1 = dL_dy * w2 * (1 if w1 * x &gt; 0 else 0) * x
 eps = 1e-6                                         # check against finite differences
-num_w1 = (loss(w1 + eps, w2) - loss(w1 - eps, w2)) / (2 * eps)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. E. Rumelhart, G. E. Hinton &amp; R. J. Williams, “Learning Representations by Back-Propagating Errors”, <em>Nature</em> 323, 1986</li><li>A. G. Baydin, B. A. Pearlmutter, A. A. Radul &amp; J. M. Siskind, “Automatic Differentiation in Machine Learning: A Survey”, <em>Journal of Machine Learning Research</em> 18(153), 2018</li></ul></div></section>
+num_w1 = (loss(w1 + eps, w2) - loss(w1 - eps, w2)) / (2 * eps)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. E. Rumelhart, G. E. Hinton &amp; R. J. Williams, “Learning Representations by Back-Propagating Errors”, <em>Nature</em> 323, 1986</li><li>A. G. Baydin, B. A. Pearlmutter, A. A. Radul &amp; J. M. Siskind, “Automatic Differentiation in Machine Learning: A Survey”, <em>Journal of Machine Learning Research</em> 18(153), 2018</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -129,7 +130,7 @@ prices = 100 + rng.normal(0, 5, 1_000)            # raw prices around 100
 w = rng.normal(0, 0.1, 1_000)                      # small random input weights
 saturated_raw = np.mean(np.abs(np.tanh(w * prices)) &gt; 0.99)
 z = (prices - prices.mean()) / prices.std()        # standardized
-saturated_std = np.mean(np.abs(np.tanh(w * z)) &gt; 0.99)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li><li>D. Salinas, V. Flunkert, J. Gasthaus &amp; T. Januschowski, “DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks”, <em>International Journal of Forecasting</em> 36(3), 2020</li></ul></div></section>
+saturated_std = np.mean(np.abs(np.tanh(w * z)) &gt; 0.99)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li><li>D. Salinas, V. Flunkert, J. Gasthaus &amp; T. Januschowski, “DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks”, <em>International Journal of Forecasting</em> 36(3), 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

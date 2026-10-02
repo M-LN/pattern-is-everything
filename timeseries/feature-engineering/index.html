@@ -40,6 +40,7 @@
     "articleSection": "Practice & Tooling",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ df[<span class="st">'cos_365'</span>] = np.cos(<span class="st">2</span> * np.pi
 y = pd.Series(rng.normal(0, 1, 2_000).cumsum()).diff().dropna()   # daily changes: unpredictable
 leaky = y.rolling(3).mean()                        # includes today's value
 honest = y.shift(1).rolling(3).mean()              # only yesterday and before
-corr_leaky, corr_honest = y.corr(leaky), y.corr(honest)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>M. Christ, N. Braun, J. Neuffer &amp; A. W. Kempa-Liehr, “Time Series FeatuRe Extraction on Basis of Scalable Hypothesis Tests (tsfresh)”, <em>Neurocomputing</em> 307, 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+corr_leaky, corr_honest = y.corr(leaky), y.corr(honest)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>M. Christ, N. Braun, J. Neuffer &amp; A. W. Kempa-Liehr, “Time Series FeatuRe Extraction on Basis of Scalable Hypothesis Tests (tsfresh)”, <em>Neurocomputing</em> 307, 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Architecture",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ output = weights @ V</code><button type="button" class="code-copy-btn" aria-labe
 logp = np.log(p).sum()
 seq_prob = np.exp(logp)
 n = 1_000
-pairs_causal, pairs_full = n * (n + 1) // 2, n * n   # attention pairs with and without the causal mask</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Radford, K. Narasimhan, T. Salimans &amp; I. Sutskever, “Improving Language Understanding by Generative Pre-Training”, OpenAI, 2018</li><li>T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020</li><li>T. Wang et al., “What Language Model Architecture and Pretraining Objective Work Best for Zero-Shot Generalization?”, <em>ICML</em>, 2022</li></ul></div></section>
+pairs_causal, pairs_full = n * (n + 1) // 2, n * n   # attention pairs with and without the causal mask</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Radford, K. Narasimhan, T. Salimans &amp; I. Sutskever, “Improving Language Understanding by Generative Pre-Training”, OpenAI, 2018</li><li>T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020</li><li>T. Wang et al., “What Language Model Architecture and Pretraining Objective Work Best for Zero-Shot Generalization?”, <em>ICML</em>, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

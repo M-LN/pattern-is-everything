@@ -40,6 +40,7 @@
     "articleSection": "Backtest & Validate",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -141,7 +142,7 @@ calmar = returns.mean() * <span class="st">252</span> / abs(dd)</pre></div>
 sr_m = sr_annual / np.sqrt(12)
 se_m = np.sqrt((1 + 0.5 * sr_m ** 2) / months)       # Lo (2002), i.i.d. returns
 se_annual = se_m * np.sqrt(12)
-ci = (sr_annual - 1.96 * se_annual, sr_annual + 1.96 * se_annual)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li><li>W. F. Sharpe, “The Sharpe Ratio”, <em>Journal of Portfolio Management</em> 21(1), 1994</li><li>D. H. Bailey &amp; M. López de Prado, “The Sharpe Ratio Efficient Frontier”, <em>Journal of Risk</em> 15(2), 2012</li></ul></div></section>
+ci = (sr_annual - 1.96 * se_annual, sr_annual + 1.96 * se_annual)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li><li>W. F. Sharpe, “The Sharpe Ratio”, <em>Journal of Portfolio Management</em> 21(1), 1994</li><li>D. H. Bailey &amp; M. López de Prado, “The Sharpe Ratio Efficient Frontier”, <em>Journal of Risk</em> 15(2), 2012</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

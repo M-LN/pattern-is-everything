@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -140,7 +141,7 @@ for _ in range(1_000):                          # pairs of independent random wa
     corr_levels.append(abs(np.corrcoef(a, b)[0, 1]))
     corr_diffs.append(abs(np.corrcoef(np.diff(a), np.diff(b))[0, 1]))
 levels, diffs = np.mean(corr_levels), np.mean(corr_diffs)
-share_big = np.mean(np.array(corr_levels) &gt; 0.5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger &amp; P. Newbold, “Spurious Regressions in Econometrics”, <em>Journal of Econometrics</em> 2(2), 1974</li><li>D. A. Dickey &amp; W. A. Fuller, “Distribution of the Estimators for Autoregressive Time Series with a Unit Root”, <em>Journal of the American Statistical Association</em> 74(366), 1979</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+share_big = np.mean(np.array(corr_levels) &gt; 0.5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger &amp; P. Newbold, “Spurious Regressions in Econometrics”, <em>Journal of Econometrics</em> 2(2), 1974</li><li>D. A. Dickey &amp; W. A. Fuller, “Distribution of the Estimators for Autoregressive Time Series with a Unit Root”, <em>Journal of the American Statistical Association</em> 74(366), 1979</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

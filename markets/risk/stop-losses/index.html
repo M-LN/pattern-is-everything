@@ -40,6 +40,7 @@
     "articleSection": "Hedging & Protection",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ atr = 1.5
 trail = (close.cummax() - 2 * atr)                         # 2 x ATR under the highest close so far
 exit_trail = close[close &lt; trail].index[0]
 fixed = 50 * 0.90                                          # a fixed 10% stop from the entry
-fixed_hit = (close &lt; fixed).any()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. M. Kaminski &amp; A. W. Lo, “When Do Stop-Loss Rules Stop Losses?”, <em>Journal of Financial Markets</em> 18, 2014</li><li><em>New Concepts in Technical Trading Systems</em>, J. W. Wilder Jr., 1978 — ATR</li><li><em>Way of the Turtle</em>, C. Faith, McGraw-Hill, 2007</li></ul></div></section>
+fixed_hit = (close &lt; fixed).any()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. M. Kaminski &amp; A. W. Lo, “When Do Stop-Loss Rules Stop Losses?”, <em>Journal of Financial Markets</em> 18, 2014</li><li><em>New Concepts in Technical Trading Systems</em>, J. W. Wilder Jr., 1978 — ATR</li><li><em>Way of the Turtle</em>, C. Faith, McGraw-Hill, 2007</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

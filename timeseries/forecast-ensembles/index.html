@@ -40,6 +40,7 @@
     "articleSection": "Practice & Tooling",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -139,7 +140,7 @@ cov = [[1, rho], [rho, 1]]
 e = rng.multivariate_normal([0, 0], cov, 100_000)     # errors of two unbiased forecasts
 mse_single = (e[:, 0] ** 2).mean()
 mse_avg = (e.mean(axis=1) ** 2).mean()
-theory = (1 + rho) / 2</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. M. Bates &amp; C. W. J. Granger, “The Combination of Forecasts”, <em>Operational Research Quarterly</em> 20(4), 1969</li><li>R. T. Clemen, “Combining Forecasts: A Review and Annotated Bibliography”, <em>International Journal of Forecasting</em> 5(4), 1989</li><li>J. Smith &amp; K. F. Wallis, “A Simple Explanation of the Forecast Combination Puzzle”, <em>Oxford Bulletin of Economics and Statistics</em> 71(3), 2009</li></ul></div></section>
+theory = (1 + rho) / 2</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. M. Bates &amp; C. W. J. Granger, “The Combination of Forecasts”, <em>Operational Research Quarterly</em> 20(4), 1969</li><li>R. T. Clemen, “Combining Forecasts: A Review and Annotated Bibliography”, <em>International Journal of Forecasting</em> 5(4), 1989</li><li>J. Smith &amp; K. F. Wallis, “A Simple Explanation of the Forecast Combination Puzzle”, <em>Oxford Bulletin of Economics and Statistics</em> 71(3), 2009</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

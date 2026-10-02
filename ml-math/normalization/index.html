@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -136,7 +137,7 @@ layer = (x - x.mean()) / np.sqrt(x.var() + 1e-5)     # LayerNorm, before gamma a
 rms = x / np.sqrt((x ** 2).mean() + 1e-5)             # RMSNorm: no mean subtraction
 shifted = x + 100                                     # add the same constant to every feature
 layer_shift = (shifted - shifted.mean()) / np.sqrt(shifted.var() + 1e-5)
-rms_shift = shifted / np.sqrt((shifted ** 2).mean() + 1e-5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. L. Ba, J. R. Kiros &amp; G. E. Hinton, “Layer Normalization”, arXiv:1607.06450, 2016</li><li>B. Zhang &amp; R. Sennrich, “Root Mean Square Layer Normalization”, <em>NeurIPS</em>, 2019</li><li>Y. Wu &amp; K. He, “Group Normalization”, <em>ECCV</em>, 2018</li></ul></div></section>
+rms_shift = shifted / np.sqrt((shifted ** 2).mean() + 1e-5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. L. Ba, J. R. Kiros &amp; G. E. Hinton, “Layer Normalization”, arXiv:1607.06450, 2016</li><li>B. Zhang &amp; R. Sennrich, “Root Mean Square Layer Normalization”, <em>NeurIPS</em>, 2019</li><li>Y. Wu &amp; K. He, “Group Normalization”, <em>ECCV</em>, 2018</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Understand Your Features",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -184,7 +185,7 @@ x = np.array([3.0, 1.0, 0.0])
 phi = w * (x - X.mean(axis=0))                    # exact SHAP values for a linear model
 base = w @ X.mean(axis=0) + b
 check = (base + phi.sum(), w @ x + b)             # additivity
-dup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>E. Štrumbelj &amp; I. Kononenko, “Explaining Prediction Models and Individual Predictions with Feature Contributions”, <em>Knowledge and Information Systems</em> 41(3), 2014</li><li>K. Aas, M. Jullum &amp; A. Løland, “Explaining Individual Predictions When Features Are Dependent”, <em>Artificial Intelligence</em> 298, 2021</li></ul></div></section>
+dup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>E. Štrumbelj &amp; I. Kononenko, “Explaining Prediction Models and Individual Predictions with Feature Contributions”, <em>Knowledge and Information Systems</em> 41(3), 2014</li><li>K. Aas, M. Jullum &amp; A. Løland, “Explaining Individual Predictions When Features Are Dependent”, <em>Artificial Intelligence</em> 298, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

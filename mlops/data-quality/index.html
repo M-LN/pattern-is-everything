@@ -40,6 +40,7 @@
     "articleSection": "Monitor & Observe",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ checks = {
     'income nulls &lt;= 5%': batch.income.isna().mean() &lt;= 0.05,
     'fresh within 24 h': (now - batch.ts.max()) &lt;= pd.Timedelta('24h'),
 }
-failed = [name for name, ok in checks.items() if not ok]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. Breck, N. Polyzotis, S. Roy, S. E. Whang &amp; M. Zinkevich, “Data Validation for Machine Learning”, <em>Proceedings of Machine Learning and Systems</em> 1, 2019</li><li>S. Schelter et al., “Automating Large-Scale Data Quality Verification”, <em>Proceedings of the VLDB Endowment</em> 11(12), 2018</li><li>D. Sculley et al., “Hidden Technical Debt in Machine Learning Systems”, <em>Advances in Neural Information Processing Systems</em> 28, 2015</li></ul></div></section>
+failed = [name for name, ok in checks.items() if not ok]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. Breck, N. Polyzotis, S. Roy, S. E. Whang &amp; M. Zinkevich, “Data Validation for Machine Learning”, <em>Proceedings of Machine Learning and Systems</em> 1, 2019</li><li>S. Schelter et al., “Automating Large-Scale Data Quality Verification”, <em>Proceedings of the VLDB Endowment</em> 11(12), 2018</li><li>D. Sculley et al., “Hidden Technical Debt in Machine Learning Systems”, <em>Advances in Neural Information Processing Systems</em> 28, 2015</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

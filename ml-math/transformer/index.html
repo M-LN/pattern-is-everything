@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -126,7 +127,7 @@ mlp = 2 * d * ff + ff + d
 norms = 2 * 2 * d
 per_layer = attn + mlp + norms
 embeddings = vocab * d + 1024 * d                    # tokens + 1,024 learned positions
-total = layers * per_layer + embeddings + 2 * d       # + final LayerNorm</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019</li><li>R. Xiong et al., “On Layer Normalization in the Transformer Architecture”, <em>ICML</em>, 2020</li></ul></div></section>
+total = layers * per_layer + embeddings + 2 * d       # + final LayerNorm</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019</li><li>R. Xiong et al., “On Layer Normalization in the Transformer Architecture”, <em>ICML</em>, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

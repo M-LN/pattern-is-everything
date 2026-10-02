@@ -40,6 +40,7 @@
     "articleSection": "Analyze Your Data",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -139,7 +140,7 @@ p_missing = np.clip((income - 30_000) / 100_000, 0, 0.8)     # higher earners sk
 observed = np.where(rng.random(10_000) &lt; p_missing, np.nan, income)
 true_mean = income.mean()
 complete_case = np.nanmean(observed)                          # what mean imputation also centres on
-share_missing = np.isnan(observed).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. B. Rubin, “Inference and Missing Data”, <em>Biometrika</em> 63(3), 1976</li><li><em>Statistical Analysis with Missing Data</em> (3rd ed.), R. J. A. Little &amp; D. B. Rubin, Wiley, 2019</li><li>S. van Buuren &amp; K. Groothuis-Oudshoorn, “mice: Multivariate Imputation by Chained Equations in R”, <em>Journal of Statistical Software</em> 45(3), 2011</li></ul></div></section>
+share_missing = np.isnan(observed).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. B. Rubin, “Inference and Missing Data”, <em>Biometrika</em> 63(3), 1976</li><li><em>Statistical Analysis with Missing Data</em> (3rd ed.), R. J. A. Little &amp; D. B. Rubin, Wiley, 2019</li><li>S. van Buuren &amp; K. Groothuis-Oudshoorn, “mice: Multivariate Imputation by Chained Equations in R”, <em>Journal of Statistical Software</em> 45(3), 2011</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

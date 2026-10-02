@@ -40,6 +40,7 @@
     "articleSection": "Pipeline & Automation",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -127,7 +128,7 @@ mlflow.set_experiment(<span class="st">"fraud-detection"</span>)
                      'auc': [0.842, 0.851, 0.838, 0.847, 0.845,      # five seeds of each config, made up
                              0.849, 0.836, 0.853, 0.841, 0.846]})
 best = runs.loc[runs.auc.idxmax()]
-by_config = runs.groupby('config').auc.agg(['mean', 'std'])</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Zaharia et al., “Accelerating the Machine Learning Lifecycle with MLflow”, <em>IEEE Data Engineering Bulletin</em> 41(4), 2018</li><li>X. Bouthillier et al., “Accounting for Variance in Machine Learning Benchmarks”, <em>Proceedings of Machine Learning and Systems</em> 3, 2021</li><li>P. Henderson et al., “Deep Reinforcement Learning That Matters”, <em>AAAI</em>, 2018</li></ul></div></section>
+by_config = runs.groupby('config').auc.agg(['mean', 'std'])</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Zaharia et al., “Accelerating the Machine Learning Lifecycle with MLflow”, <em>IEEE Data Engineering Bulletin</em> 41(4), 2018</li><li>X. Bouthillier et al., “Accounting for Variance in Machine Learning Benchmarks”, <em>Proceedings of Machine Learning and Systems</em> 3, 2021</li><li>P. Henderson et al., “Deep Reinforcement Learning That Matters”, <em>AAAI</em>, 2018</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

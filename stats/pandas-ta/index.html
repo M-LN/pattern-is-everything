@@ -40,6 +40,7 @@
     "articleSection": "Python Power Tools",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -146,7 +147,7 @@ d = close.diff()
 up, down = d.clip(lower=0), -d.clip(upper=0)
 def rsi(u, v): return (100 - 100 / (1 + u / v)).iloc[-1]
 wilder = rsi(up.ewm(alpha=1 / 14, adjust=False).mean(), down.ewm(alpha=1 / 14, adjust=False).mean())
-simple = rsi(up.rolling(14).mean(), down.rolling(14).mean())   # "RSI" with a plain average</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. W. Wilder Jr., <em>New Concepts in Technical Trading Systems</em>, Trend Research, 1978</li><li>pandas-ta documentation, github.com/twopirllc/pandas-ta</li><li><em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000</li></ul></div></section>
+simple = rsi(up.rolling(14).mean(), down.rolling(14).mean())   # "RSI" with a plain average</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. W. Wilder Jr., <em>New Concepts in Technical Trading Systems</em>, Trend Research, 1978</li><li>pandas-ta documentation, github.com/twopirllc/pandas-ta</li><li><em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

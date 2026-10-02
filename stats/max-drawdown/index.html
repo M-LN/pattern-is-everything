@@ -40,6 +40,7 @@
     "articleSection": "Backtest & Validate",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -138,7 +139,7 @@ def median_mdd(years, paths=2_000, mu=0.07, sigma=0.16):
     r = rng.normal(mu / 252, sigma / np.sqrt(252), (paths, 252 * years))
     wealth = np.exp(np.cumsum(r, axis=1))
     return np.median((1 - wealth / np.maximum.accumulate(wealth, axis=1)).max(axis=1))
-table = {y: round(median_mdd(y), 3) for y in (1, 5, 20)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Magdon-Ismail, A. F. Atiya, A. Pratap &amp; Y. S. Abu-Mostafa, “On the Maximum Drawdown of a Brownian Motion”, <em>Journal of Applied Probability</em> 41(1), 2004</li><li>M. Magdon-Ismail &amp; A. F. Atiya, “Maximum Drawdown”, <em>Risk</em> 17(10), 2004</li></ul></div></section>
+table = {y: round(median_mdd(y), 3) for y in (1, 5, 20)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Magdon-Ismail, A. F. Atiya, A. Pratap &amp; Y. S. Abu-Mostafa, “On the Maximum Drawdown of a Brownian Motion”, <em>Journal of Applied Probability</em> 41(1), 2004</li><li>M. Magdon-Ismail &amp; A. F. Atiya, “Maximum Drawdown”, <em>Risk</em> 17(10), 2004</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

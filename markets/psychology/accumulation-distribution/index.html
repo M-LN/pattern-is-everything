@@ -40,6 +40,7 @@
     "articleSection": "Market Cycles",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -109,7 +110,7 @@
 box = df.tail(10)                                    # the last ten days
 width = (box.close.max() - box.close.min()) / box.close.mean()
 up = box.close.diff() &gt; 0
-up_down_volume = box.volume[up].mean() / box.volume[~up].mean()   # &gt; 1 is read as quiet buying</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. D. Wyckoff, <em>The Richard D. Wyckoff Method of Trading and Investing in Stocks</em>, course, 1931</li><li>L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994</li><li><em>The Three Skills of Top Trading</em>, H. O. Pruden, Wiley, 2007</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Smart money quietly building positions before the crowd notices. In ML, <a href="../../../ml-math/#optimizers">gradient accumulation</a> before an optimizer step is the same: gather signals silently, then act.</div></div>
+up_down_volume = box.volume[up].mean() / box.volume[~up].mean()   # &gt; 1 is read as quiet buying</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. D. Wyckoff, <em>The Richard D. Wyckoff Method of Trading and Investing in Stocks</em>, course, 1931</li><li>L. Blume, D. Easley &amp; M. O’Hara, “Market Statistics and Technical Analysis: The Role of Volume”, <em>Journal of Finance</em> 49(1), 1994</li><li><em>The Three Skills of Top Trading</em>, H. O. Pruden, Wiley, 2007</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Smart money quietly building positions before the crowd notices. In ML, <a href="../../../ml-math/#optimizers">gradient accumulation</a> before an optimizer step is the same: gather signals silently, then act.</div></div>
   <section class="topic-connections" aria-label="Topics that link here">
     <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
     <ul>

@@ -40,6 +40,7 @@
     "articleSection": "Reversal Patterns",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -117,7 +118,7 @@ t1, t2 = highs.iloc[-2:]
 valley = lows[(lows.index &gt; highs.index[-2]) &amp; (lows.index &lt; highs.index[-1])].min()
 is_dt = abs(t1 - t2) / max(t1, t2) &lt; 0.02            # tops within 2%
 target = valley - (max(t1, t2) - valley)
-confirmed = c.iloc[-1] &lt; valley</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li></ul></div></section>
+confirmed = c.iloc[-1] &lt; valley</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

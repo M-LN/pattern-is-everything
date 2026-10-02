@@ -40,6 +40,7 @@
     "articleSection": "Modern / LLM",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -136,7 +137,7 @@ full = d * d
 lora = 2 * d * r                                   # B (d x r) and A (r x d)
 rng = np.random.default_rng(10)
 B, A = rng.normal(size=(64, 4)), rng.normal(size=(4, 64))
-rank = np.linalg.matrix_rank(B @ A)                # an update of rank at most r</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. J. Hu et al., “LoRA: Low-Rank Adaptation of Large Language Models”, <em>ICLR</em>, 2022</li><li>A. Aghajanyan, S. Gupta &amp; L. Zettlemoyer, “Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning”, <em>ACL</em>, 2021</li><li>T. Dettmers, A. Pagnoni, A. Holtzman &amp; L. Zettlemoyer, “QLoRA: Efficient Finetuning of Quantized LLMs”, <em>NeurIPS</em>, 2023</li></ul></div></section>
+rank = np.linalg.matrix_rank(B @ A)                # an update of rank at most r</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. J. Hu et al., “LoRA: Low-Rank Adaptation of Large Language Models”, <em>ICLR</em>, 2022</li><li>A. Aghajanyan, S. Gupta &amp; L. Zettlemoyer, “Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning”, <em>ACL</em>, 2021</li><li>T. Dettmers, A. Pagnoni, A. Holtzman &amp; L. Zettlemoyer, “QLoRA: Efficient Finetuning of Quantized LLMs”, <em>NeurIPS</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

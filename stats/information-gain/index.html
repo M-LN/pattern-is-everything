@@ -40,6 +40,7 @@
     "articleSection": "Understand Your Features",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ r = np.corrcoef(x, y)[0, 1]
 joint, _, _ = np.histogram2d(x, y, bins=10)
 pxy = joint / joint.sum(); px = pxy.sum(1, keepdims=True); py = pxy.sum(0, keepdims=True)
 nz = pxy &gt; 0
-mi_bits = (pxy[nz] * np.log2(pxy[nz] / (px @ py)[nz])).sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Elements of Information Theory</em> (2nd ed.), T. M. Cover &amp; J. A. Thomas, Wiley, 2006</li><li>A. Kraskov, H. Stögbauer &amp; P. Grassberger, “Estimating Mutual Information”, <em>Physical Review E</em> 69, 2004</li><li>D. N. Reshef et al., “Detecting Novel Associations in Large Data Sets”, <em>Science</em> 334(6062), 2011</li></ul></div></section>
+mi_bits = (pxy[nz] * np.log2(pxy[nz] / (px @ py)[nz])).sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Elements of Information Theory</em> (2nd ed.), T. M. Cover &amp; J. A. Thomas, Wiley, 2006</li><li>A. Kraskov, H. Stögbauer &amp; P. Grassberger, “Estimating Mutual Information”, <em>Physical Review E</em> 69, 2004</li><li>D. N. Reshef et al., “Detecting Novel Associations in Large Data Sets”, <em>Science</em> 334(6062), 2011</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

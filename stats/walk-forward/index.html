@@ -40,6 +40,7 @@
     "articleSection": "Backtest & Validate",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -145,7 +146,7 @@ r = rng.normal(0, 0.01, (200, 1_000))               # 200 strategies with no edg
 ins, outs = r[:, :500], r[:, 500:]
 sharpe = lambda x: x.mean(axis=-1) / x.std(axis=-1) * np.sqrt(252)
 best = np.argmax(sharpe(ins))
-result = (round(sharpe(ins)[best], 2), round(sharpe(outs)[best], 2), round(sharpe(outs).mean(), 2))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. H. Bailey, J. M. Borwein, M. López de Prado &amp; Q. J. Zhu, “Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance”, <em>Notices of the AMS</em> 61(5), 2014</li><li>R. Pardo, <em>The Evaluation and Optimization of Trading Strategies</em> (2nd ed.), Wiley, 2008</li><li>H. White, “A Reality Check for Data Snooping”, <em>Econometrica</em> 68(5), 2000</li></ul></div></section>
+result = (round(sharpe(ins)[best], 2), round(sharpe(outs)[best], 2), round(sharpe(outs).mean(), 2))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. H. Bailey, J. M. Borwein, M. López de Prado &amp; Q. J. Zhu, “Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance”, <em>Notices of the AMS</em> 61(5), 2014</li><li>R. Pardo, <em>The Evaluation and Optimization of Trading Strategies</em> (2nd ed.), Wiley, 2008</li><li>H. White, “A Reality Check for Data Snooping”, <em>Econometrica</em> 68(5), 2000</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

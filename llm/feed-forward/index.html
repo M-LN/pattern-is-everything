@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ class SwiGLU_FFN(nn.Module):
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>With d = 4,096, a classic feed-forward layer with a 4d hidden size has <strong>134,217,728</strong> parameters. SwiGLU uses three matrices instead of two, so it shrinks the hidden size to two thirds of 4d to keep the count equal: <strong>134,221,824</strong>. LLaMA rounds that hidden size to 11,008 for hardware efficiency, giving <strong>135,266,304</strong>.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Gated variants win in experiments, but the explanation is thin; Shazeer (2020) attributes the success to “divine benevolence”.</li><li>Most of a dense model’s parameters sit here, and so does much of its factual recall (Geva et al. 2021) — which is why editing a fact can have side-effects.</li><li>Feed-forward size and depth trade off; parameter count alone does not say which shape is better.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>d = 4_096
 classic = 2 * d * (4 * d)                       # W1 and W2 with a 4d hidden layer
 swiglu_ideal = 3 * d * round(2 / 3 * 4 * d)     # three matrices at 2/3 of 4d keep the count equal
-swiglu_llama = 3 * d * 11_008                   # LLaMA-7B rounds the hidden size to 11,008</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. Shazeer, “GLU Variants Improve Transformer”, arXiv:2002.05202, 2020</li><li>M. Geva, R. Schuster, J. Berant &amp; O. Levy, “Transformer Feed-Forward Layers Are Key-Value Memories”, <em>EMNLP</em>, 2021</li><li>H. Touvron et al., “LLaMA: Open and Efficient Foundation Language Models”, arXiv:2302.13971, 2023</li></ul></div></section>
+swiglu_llama = 3 * d * 11_008                   # LLaMA-7B rounds the hidden size to 11,008</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. Shazeer, “GLU Variants Improve Transformer”, arXiv:2002.05202, 2020</li><li>M. Geva, R. Schuster, J. Berant &amp; O. Levy, “Transformer Feed-Forward Layers Are Key-Value Memories”, <em>EMNLP</em>, 2021</li><li>H. Touvron et al., “LLaMA: Open and Efficient Foundation Language Models”, arXiv:2302.13971, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

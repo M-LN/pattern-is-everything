@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ y = 100 + rng.normal(0, 1, 2_000).cumsum()       # a random walk, like many pric
 test = y[1_000:]
 naive = np.abs(test[1:] - test[:-1]).mean()       # tomorrow = today
 mean_fc = np.abs(test[1:] - y[:1_000].mean()).mean()   # tomorrow = the training average
-drift = np.abs(test[1:] - (test[:-1] + np.diff(y[:1_000]).mean())).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Hochreiter &amp; J. Schmidhuber, “Long Short-Term Memory”, <em>Neural Computation</em> 9(8), 1997</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning Forecasting Methods: Concerns and Ways Forward”, <em>PLoS ONE</em> 13(3), 2018</li><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li></ul></div></section>
+drift = np.abs(test[1:] - (test[:-1] + np.diff(y[:1_000]).mean())).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Hochreiter &amp; J. Schmidhuber, “Long Short-Term Memory”, <em>Neural Computation</em> 9(8), 1997</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning Forecasting Methods: Concerns and Ways Forward”, <em>PLoS ONE</em> 13(3), 2018</li><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

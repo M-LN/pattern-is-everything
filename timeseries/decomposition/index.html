@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ trend = y.rolling(12, center=True).mean().rolling(2, center=True).mean()   # cen
 detr = y - trend
 seasonal = detr.groupby(t % 12).transform('mean')
 resid = y - trend - seasonal
-amp = (seasonal.max() - seasonal.min()) / 2       # true amplitude is 10</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. B. Cleveland, W. S. Cleveland, J. E. McRae &amp; I. Terpenning, “STL: A Seasonal-Trend Decomposition Procedure Based on Loess”, <em>Journal of Official Statistics</em> 6(1), 1990</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+amp = (seasonal.max() - seasonal.min()) / 2       # true amplitude is 10</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. B. Cleveland, W. S. Cleveland, J. E. McRae &amp; I. Terpenning, “STL: A Seasonal-Trend Decomposition Procedure Based on Loess”, <em>Journal of Official Statistics</em> 6(1), 1990</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

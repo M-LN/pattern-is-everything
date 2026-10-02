@@ -40,6 +40,7 @@
     "articleSection": "Data Analytics",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -178,7 +179,7 @@ print((counts.div(counts[0], axis=0) * 100).round(1))</code></pre>
                         'users': [800, 200, 300, 700], 'retained': [400, 60, 160, 224]})
 cohorts['rate'] = cohorts.retained / cohorts.users
 overall = cohorts.groupby('month')[['users', 'retained']].sum()
-overall['rate'] = overall.retained / overall.users</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. S. Fader &amp; B. G. S. Hardie, “How to Project Customer Retention”, <em>Journal of Interactive Marketing</em> 21(1), 2007</li><li>E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951</li><li>P. J. Bickel, E. A. Hammel &amp; J. W. O’Connell, “Sex Bias in Graduate Admissions: Data from Berkeley”, <em>Science</em> 187(4175), 1975</li></ul></div></section>
+overall['rate'] = overall.retained / overall.users</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. S. Fader &amp; B. G. S. Hardie, “How to Project Customer Retention”, <em>Journal of Interactive Marketing</em> 21(1), 2007</li><li>E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951</li><li>P. J. Bickel, E. A. Hammel &amp; J. W. O’Connell, “Sex Bias in Graduate Admissions: Data from Berkeley”, <em>Science</em> 187(4175), 1975</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Pipeline & Automation",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -134,7 +135,7 @@ feats = pd.DataFrame({'user': [1, 1, 2, 2], 'ts': pd.to_datetime(['2026-02-20', 
                       'orders_30d': [2, 5, 1, 4]})
 latest = events.merge(feats.sort_values('ts').groupby('user').tail(1)[['user', 'orders_30d']], on='user')
 as_of = pd.merge_asof(events.sort_values('ts'), feats.sort_values('ts'), on='ts', by='user')   # point-in-time
-leaked = (latest.sort_values(['user', 'ts']).orders_30d.values != as_of.sort_values(['user', 'ts']).orders_30d.values).sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>Feast documentation, “Point-in-time joins”, feast.dev</li><li><em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022</li></ul></div></section>
+leaked = (latest.sort_values(['user', 'ts']).orders_30d.values != as_of.sort_values(['user', 'ts']).orders_30d.values).sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>Feast documentation, “Point-in-time joins”, feast.dev</li><li><em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Deploy & Serve",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ bytes_per = 2                          # fp16
 weights_gb = params * bytes_per / 1e9
 bandwidth_gb_s = 2000                  # memory bandwidth of a modern data-centre GPU, ~2 TB/s
 tokens_s_batch1 = bandwidth_gb_s / weights_gb      # each new token reads every weight once
-tokens_s_batch16 = 16 * tokens_s_batch1            # one read serves 16 sequences (until compute-bound)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Williams, A. Waterman &amp; D. Patterson, “Roofline: An Insightful Visual Performance Model for Multicore Architectures”, <em>Communications of the ACM</em> 52(4), 2009</li><li>R. Pope et al., “Efficiently Scaling Transformer Inference”, <em>Proceedings of Machine Learning and Systems</em> 5, 2023</li></ul></div></section>
+tokens_s_batch16 = 16 * tokens_s_batch1            # one read serves 16 sequences (until compute-bound)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Williams, A. Waterman &amp; D. Patterson, “Roofline: An Insightful Visual Performance Model for Multicore Architectures”, <em>Communications of the ACM</em> 52(4), 2009</li><li>R. Pope et al., “Efficiently Scaling Transformer Inference”, <em>Proceedings of Machine Learning and Systems</em> 5, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

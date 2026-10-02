@@ -40,6 +40,7 @@
     "articleSection": "Classical Models",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ def acf(x, k):
     x = x - x.mean(); return (x[:-k] * x[k:]).sum() / (x * x).sum()
 
 theory1 = theta / (1 + theta ** 2)
-sample = [round(acf(y, k), 3) for k in (1, 2, 3)]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li><em>Time Series Analysis</em>, J. D. Hamilton, Princeton University Press, 1994</li></ul></div></section>
+sample = [round(acf(y, k), 3) for k in (1, 2, 3)]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li><em>Time Series Analysis</em>, J. D. Hamilton, Princeton University Press, 1994</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

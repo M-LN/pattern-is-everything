@@ -40,6 +40,7 @@
     "articleSection": "Scale & Optimize",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ def int8_error(w):                                 # symmetric per-tensor INT8
 err = int8_error(w)
 w_out = w.copy(); w_out[0] = 1.0                   # one outlier weight, 50 standard deviations out
 err_outlier = int8_error(w_out)
-memory_saving = 32 / 8</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Jacob et al., “Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference”, <em>CVPR</em>, 2018</li><li>T. Dettmers, M. Lewis, Y. Belkada &amp; L. Zettlemoyer, “LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale”, <em>NeurIPS</em>, 2022</li></ul></div></section>
+memory_saving = 32 / 8</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Jacob et al., “Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference”, <em>CVPR</em>, 2018</li><li>T. Dettmers, M. Lewis, Y. Belkada &amp; L. Zettlemoyer, “LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale”, <em>NeurIPS</em>, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

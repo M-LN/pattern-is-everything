@@ -40,6 +40,7 @@
     "articleSection": "Generative & Prob.",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ k = 5
 A_k = U[:, :k] @ np.diag(s[:k]) @ V[:, :k].T     # best rank-5 approximation
 energy = (s[:k] ** 2).sum() / (s ** 2).sum()
 rel_err = np.linalg.norm(A - A_k) / np.linalg.norm(A)
-numbers = (50 * 50, k * (50 + 50 + 1))           # entries stored: full vs rank-5</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Eckart &amp; G. Young, “The Approximation of One Matrix by Another of Lower Rank”, <em>Psychometrika</em> 1(3), 1936</li><li><em>Matrix Computations</em> (4th ed.), G. H. Golub &amp; C. F. Van Loan, Johns Hopkins University Press, 2013</li><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li></ul></div></section>
+numbers = (50 * 50, k * (50 + 50 + 1))           # entries stored: full vs rank-5</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Eckart &amp; G. Young, “The Approximation of One Matrix by Another of Lower Rank”, <em>Psychometrika</em> 1(3), 1936</li><li><em>Matrix Computations</em> (4th ed.), G. H. Golub &amp; C. F. Van Loan, Johns Hopkins University Press, 2013</li><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

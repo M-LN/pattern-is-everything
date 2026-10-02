@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -129,7 +130,7 @@ beta = 0.1
 chosen = (-10.0) - (-12.0)                      # log pi(y_w) - log pi_ref(y_w): the chosen answer gained 2 nats
 rejected = (-14.0) - (-11.0)                    # the rejected answer lost 3
 loss = -np.log(sigmoid(beta * (chosen - rejected)))
-both_down = -np.log(sigmoid(beta * ((-2.0) - (-6.0))))   # chosen also falls, by 2; rejected by 6</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Rafailov et al., “Direct Preference Optimization: Your Language Model Is Secretly a Reward Model”, <em>NeurIPS</em>, 2023</li><li>M. G. Azar et al., “A General Theoretical Paradigm to Understand Learning from Human Preferences”, <em>AISTATS</em>, 2024</li><li>A. Pal et al., “Smaug: Fixing Failure Modes of Preference Optimisation with DPO-Positive”, arXiv:2402.13228, 2024</li></ul></div></section>
+both_down = -np.log(sigmoid(beta * ((-2.0) - (-6.0))))   # chosen also falls, by 2; rejected by 6</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Rafailov et al., “Direct Preference Optimization: Your Language Model Is Secretly a Reward Model”, <em>NeurIPS</em>, 2023</li><li>M. G. Azar et al., “A General Theoretical Paradigm to Understand Learning from Human Preferences”, <em>AISTATS</em>, 2024</li><li>A. Pal et al., “Smaug: Fixing Failure Modes of Preference Optimisation with DPO-Positive”, arXiv:2402.13228, 2024</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

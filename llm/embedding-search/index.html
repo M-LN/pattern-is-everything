@@ -40,6 +40,7 @@
     "articleSection": "Applications",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -141,7 +142,7 @@ flops_per_query = n * d                          # brute force: one dot product 
 pq_bytes = n * 64                                # product quantization to 64 one-byte codes
 rng = np.random.default_rng(5)
 X = rng.normal(size=(1_000, d)); X /= np.linalg.norm(X, axis=1, keepdims=True)
-typical_cos = np.abs(X[:500] @ X[500:].T).mean()   # unrelated random vectors in 768-d</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. A. Malkov &amp; D. A. Yashunin, “Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs”, <em>IEEE TPAMI</em> 42(4), 2020</li><li>H. Jégou, M. Douze &amp; C. Schmid, “Product Quantization for Nearest Neighbor Search”, <em>IEEE TPAMI</em> 33(1), 2011</li><li>J. Johnson, M. Douze &amp; H. Jégou, “Billion-Scale Similarity Search with GPUs”, <em>IEEE Transactions on Big Data</em> 7(3), 2021</li></ul></div></section>
+typical_cos = np.abs(X[:500] @ X[500:].T).mean()   # unrelated random vectors in 768-d</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. A. Malkov &amp; D. A. Yashunin, “Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs”, <em>IEEE TPAMI</em> 42(4), 2020</li><li>H. Jégou, M. Douze &amp; C. Schmid, “Product Quantization for Nearest Neighbor Search”, <em>IEEE TPAMI</em> 33(1), 2011</li><li>J. Johnson, M. Douze &amp; H. Jégou, “Billion-Scale Similarity Search with GPUs”, <em>IEEE Transactions on Big Data</em> 7(3), 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

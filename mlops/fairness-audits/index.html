@@ -40,6 +40,7 @@
     "articleSection": "Governance & Trust",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ print(<span class="st">"Ratio:"</span>, mf.ratio())</pre></div>
 g['selection'] = (g.tp + g.fp) / (g.tp + g.fn + g.fp + g.tn)
 g['tpr'] = g.tp / (g.tp + g.fn)
 g['fpr'] = g.fp / (g.fp + g.tn)
-disparate_impact = g.selection[1] / g.selection[0]        # four-fifths rule: worry below 0.8</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Hardt, E. Price &amp; N. Srebro, “Equality of Opportunity in Supervised Learning”, <em>NeurIPS</em>, 2016</li><li>J. Kleinberg, S. Mullainathan &amp; M. Raghavan, “Inherent Trade-Offs in the Fair Determination of Risk Scores”, <em>ITCS</em>, 2017</li><li>Uniform Guidelines on Employee Selection Procedures, 29 CFR § 1607.4(D), 1978 — the four-fifths rule</li></ul></div></section>
+disparate_impact = g.selection[1] / g.selection[0]        # four-fifths rule: worry below 0.8</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Hardt, E. Price &amp; N. Srebro, “Equality of Opportunity in Supervised Learning”, <em>NeurIPS</em>, 2016</li><li>J. Kleinberg, S. Mullainathan &amp; M. Raghavan, “Inherent Trade-Offs in the Fair Determination of Risk Scores”, <em>ITCS</em>, 2017</li><li>Uniform Guidelines on Employee Selection Procedures, 29 CFR § 1607.4(D), 1978 — the four-fifths rule</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -123,7 +124,7 @@ E = {w: np.array(v) for w, v in E.items()}
 target = E['king'] - E['man'] + E['woman']
 cos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))
 ranked = sorted(E, key=lambda w: -cos(E[w], target))
-best_excluding_inputs = [w for w in ranked if w not in ('king', 'man', 'woman')][0]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. Mikolov, K. Chen, G. Corrado &amp; J. Dean, “Efficient Estimation of Word Representations in Vector Space”, arXiv:1301.3781, 2013</li><li>M. Nissim, R. van Noord &amp; R. van der Goot, “Fair Is Better than Sensational: Man Is to Doctor as Woman Is to Doctor”, <em>Computational Linguistics</em> 46(2), 2020</li></ul></div></section>
+best_excluding_inputs = [w for w in ranked if w not in ('king', 'man', 'woman')][0]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. Mikolov, K. Chen, G. Corrado &amp; J. Dean, “Efficient Estimation of Word Representations in Vector Space”, arXiv:1301.3781, 2013</li><li>M. Nissim, R. van Noord &amp; R. van der Goot, “Fair Is Better than Sensational: Man Is to Doctor as Woman Is to Doctor”, <em>Computational Linguistics</em> 46(2), 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

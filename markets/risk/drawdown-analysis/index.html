@@ -40,6 +40,7 @@
     "articleSection": "Performance & Attribution",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ mdd = dd.min()
 trough = dd.idxmin()
 start = equity[:trough].idxmax()
 recovered = equity[(equity.index &gt; trough) &amp; (equity &gt;= peak[trough])].index.min()
-to_recover = 1 / (1 + mdd) - 1                             # gain needed from the bottom</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Magdon-Ismail &amp; A. F. Atiya, “Maximum Drawdown”, <em>Risk</em> 17(10), 2004</li><li>A. Chekhlov, S. Uryasev &amp; M. Zabarankin, “Drawdown Measure in Portfolio Optimization”, <em>International Journal of Theoretical and Applied Finance</em> 8(1), 2005</li><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li></ul></div></section>
+to_recover = 1 / (1 + mdd) - 1                             # gain needed from the bottom</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>M. Magdon-Ismail &amp; A. F. Atiya, “Maximum Drawdown”, <em>Risk</em> 17(10), 2004</li><li>A. Chekhlov, S. Uryasev &amp; M. Zabarankin, “Drawdown Measure in Portfolio Optimization”, <em>International Journal of Theoretical and Applied Finance</em> 8(1), 2005</li><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Generative & Prob.",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -123,7 +124,7 @@ X = rng.multivariate_normal([0, 0], [[3, 2], [2, 2]], size=5_000)
 X = X - X.mean(0)
 vals, vecs = np.linalg.eigh(np.cov(X.T))
 vals = vals[::-1]
-explained = vals / vals.sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. Pearson, “On Lines and Planes of Closest Fit to Systems of Points in Space”, <em>Philosophical Magazine</em> 2(11), 1901</li><li>H. Hotelling, “Analysis of a Complex of Statistical Variables into Principal Components”, <em>Journal of Educational Psychology</em> 24(6), 1933</li><li>I. T. Jolliffe &amp; J. Cadima, “Principal Component Analysis: A Review and Recent Developments”, <em>Philosophical Transactions of the Royal Society A</em> 374, 2016</li></ul></div></section>
+explained = vals / vals.sum()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. Pearson, “On Lines and Planes of Closest Fit to Systems of Points in Space”, <em>Philosophical Magazine</em> 2(11), 1901</li><li>H. Hotelling, “Analysis of a Complex of Statistical Variables into Principal Components”, <em>Journal of Educational Psychology</em> 24(6), 1933</li><li>I. T. Jolliffe &amp; J. Cadima, “Principal Component Analysis: A Review and Recent Developments”, <em>Philosophical Transactions of the Royal Society A</em> 374, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

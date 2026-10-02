@@ -40,6 +40,7 @@
     "articleSection": "Statistical Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -189,7 +190,7 @@ for _ in range(2_000):                               # heavy-tailed data with a 
     a, b = rng.standard_t(2, 40), rng.standard_t(2, 40) + 0.5
     hits_t += ttest_ind(a, b).pvalue &lt; 0.05
     hits_u += mannwhitneyu(a, b).pvalue &lt; 0.05
-power = (hits_t / 2_000, hits_u / 2_000)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. B. Mann &amp; D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <em>Annals of Mathematical Statistics</em> 18(1), 1947</li><li>M. W. Fagerland, “t-Tests, Non-Parametric Tests, and Large Studies — a Paradox of Statistical Practice?”, <em>BMC Medical Research Methodology</em> 12, 2012</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul></div></section>
+power = (hits_t / 2_000, hits_u / 2_000)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. B. Mann &amp; D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <em>Annals of Mathematical Statistics</em> 18(1), 1947</li><li>M. W. Fagerland, “t-Tests, Non-Parametric Tests, and Large Studies — a Paradox of Statistical Practice?”, <em>BMC Medical Research Methodology</em> 12, 2012</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

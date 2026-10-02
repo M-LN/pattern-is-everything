@@ -40,6 +40,7 @@
     "articleSection": "Risk Measures",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -118,7 +119,7 @@
 r = rng.standard_t(3, 10_000) * 0.01 / np.sqrt(3)          # fat-tailed daily returns, 1% volatility
 var = -np.quantile(r, 0.025)                               # VaR at 97.5%
 es = -r[r &lt;= -var].mean()                                  # the average loss beyond it
-es_normal = 0.01 * np.exp(-1.96**2 / 2) / np.sqrt(2 * np.pi) / 0.025   # ES of a normal with the same volatility</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. Artzner, F. Delbaen, J.-M. Eber &amp; D. Heath, “Coherent Measures of Risk”, <em>Mathematical Finance</em> 9(3), 1999</li><li>C. Acerbi &amp; D. Tasche, “On the Coherence of Expected Shortfall”, <em>Journal of Banking &amp; Finance</em> 26(7), 2002</li><li>Basel Committee on Banking Supervision, <em>Minimum Capital Requirements for Market Risk</em>, 2019 — ES at 97.5% for the trading book</li></ul></div></section>
+es_normal = 0.01 * np.exp(-1.96**2 / 2) / np.sqrt(2 * np.pi) / 0.025   # ES of a normal with the same volatility</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. Artzner, F. Delbaen, J.-M. Eber &amp; D. Heath, “Coherent Measures of Risk”, <em>Mathematical Finance</em> 9(3), 1999</li><li>C. Acerbi &amp; D. Tasche, “On the Coherence of Expected Shortfall”, <em>Journal of Banking &amp; Finance</em> 26(7), 2002</li><li>Basel Committee on Banking Supervision, <em>Minimum Capital Requirements for Market Risk</em>, 2019 — ES at 97.5% for the trading book</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Performance & Attribution",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ downside = np.sqrt((np.minimum(ex, 0) ** 2).mean()) * np.sqrt(12)
 sortino = ex.mean() * 12 / downside
 wealth = np.cumprod(1 + r)
 mdd = (1 - wealth / np.maximum.accumulate(wealth)).max()
-calmar = (wealth[-1] - 1) / mdd                            # one year, so the total return is the annual one</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>W. F. Sharpe, “Mutual Fund Performance”, <em>Journal of Business</em> 39(1), 1966</li><li>W. F. Sharpe, “The Sharpe Ratio”, <em>Journal of Portfolio Management</em> 21(1), 1994</li><li>F. A. Sortino &amp; L. N. Price, “Performance Measurement in a Downside Risk Framework”, <em>Journal of Investing</em> 3(3), 1994</li><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li><li>D. H. Bailey &amp; M. López de Prado, “The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality”, <em>Journal of Portfolio Management</em> 40(5), 2014</li></ul></div></section>
+calmar = (wealth[-1] - 1) / mdd                            # one year, so the total return is the annual one</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>W. F. Sharpe, “Mutual Fund Performance”, <em>Journal of Business</em> 39(1), 1966</li><li>W. F. Sharpe, “The Sharpe Ratio”, <em>Journal of Portfolio Management</em> 21(1), 1994</li><li>F. A. Sortino &amp; L. N. Price, “Performance Measurement in a Downside Risk Framework”, <em>Journal of Investing</em> 3(3), 1994</li><li>A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002</li><li>D. H. Bailey &amp; M. López de Prado, “The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality”, <em>Journal of Portfolio Management</em> 40(5), 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

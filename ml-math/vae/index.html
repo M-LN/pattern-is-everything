@@ -40,6 +40,7 @@
     "articleSection": "Generative & Prob.",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -127,7 +128,7 @@
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>For one input the encoder outputs μ = 1 and σ = 0.5. Sampling z = μ + σ·ε moves the randomness into ε, so gradients can flow through μ and σ; five samples land at 0.60, 1.12, 0.17, 1.33 and 1.57. The KL penalty that pulls this towards a standard normal is <strong>0.818</strong> nats: the price of a smooth latent space.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>With a powerful decoder the KL term can drive the encoder to ignore the input (“posterior collapse”, Bowman et al. 2016).</li><li>VAE samples tend to be blurrier than GAN or diffusion samples, partly because of the Gaussian likelihood.</li><li>The ELBO is a lower bound; a better bound does not always mean better samples.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>rng = np.random.default_rng(9)
 mu, sigma = 1.0, 0.5                             # what the encoder outputs for one input
 z = mu + sigma * rng.normal(size=5)              # reparameterization: randomness moved into eps
-kl = 0.5 * (sigma ** 2 + mu ** 2 - 1 - np.log(sigma ** 2))   # KL(N(mu, sigma^2) || N(0, 1))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. P. Kingma &amp; M. Welling, “Auto-Encoding Variational Bayes”, <em>ICLR</em>, 2014</li><li>D. J. Rezende, S. Mohamed &amp; D. Wierstra, “Stochastic Backpropagation and Approximate Inference in Deep Generative Models”, <em>ICML</em>, 2014</li><li>S. R. Bowman et al., “Generating Sentences from a Continuous Space”, <em>CoNLL</em>, 2016</li></ul></div></section>
+kl = 0.5 * (sigma ** 2 + mu ** 2 - 1 - np.log(sigma ** 2))   # KL(N(mu, sigma^2) || N(0, 1))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. P. Kingma &amp; M. Welling, “Auto-Encoding Variational Bayes”, <em>ICLR</em>, 2014</li><li>D. J. Rezende, S. Mohamed &amp; D. Wierstra, “Stochastic Backpropagation and Approximate Inference in Deep Generative Models”, <em>ICML</em>, 2014</li><li>S. R. Bowman et al., “Generating Sentences from a Continuous Space”, <em>CoNLL</em>, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

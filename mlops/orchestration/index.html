@@ -40,6 +40,7 @@
     "articleSection": "Pipeline & Automation",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ ingest &gt;&gt; train &gt;&gt; eval_ &gt;&gt; deploy</pre></div>
 retries = 3
 p_success = 1 - p_fail ** (retries + 1)
 backoff = [30 * 2 ** k for k in range(retries)]           # seconds between attempts: exponential
-backfill_runs = 90                                         # a daily DAG re-run for the last 90 days</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Apache Airflow documentation, airflow.apache.org — retries, scheduling and backfill</li><li>M. Brooker, “Exponential Backoff and Jitter”, AWS Architecture Blog, 2015</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul></div></section>
+backfill_runs = 90                                         # a daily DAG re-run for the last 90 days</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Apache Airflow documentation, airflow.apache.org — retries, scheduling and backfill</li><li>M. Brooker, “Exponential Backoff and Jitter”, AWS Architecture Blog, 2015</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

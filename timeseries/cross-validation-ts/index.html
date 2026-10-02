@@ -40,6 +40,7 @@
     "articleSection": "Practice & Tooling",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -153,7 +154,7 @@ tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>, gap=<span class="st">
 splits = []
 for i in range(folds):                             # expanding window
     test_start = n - (folds - i) * test_size
-    splits.append(((0, test_start - gap), (test_start, test_start + test_size)))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Bergmeir &amp; J. M. Benítez, “On the Use of Cross-Validation for Time Series Predictor Evaluation”, <em>Information Sciences</em> 191, 2012</li><li>C. Bergmeir, R. J. Hyndman &amp; B. Koo, “A Note on the Validity of Cross-Validation for Evaluating Autoregressive Time Series Prediction”, <em>Computational Statistics &amp; Data Analysis</em> 120, 2018</li><li>L. J. Tashman, “Out-of-Sample Tests of Forecasting Accuracy: An Analysis and Review”, <em>International Journal of Forecasting</em> 16(4), 2000</li></ul></div></section>
+    splits.append(((0, test_start - gap), (test_start, test_start + test_size)))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Bergmeir &amp; J. M. Benítez, “On the Use of Cross-Validation for Time Series Predictor Evaluation”, <em>Information Sciences</em> 191, 2012</li><li>C. Bergmeir, R. J. Hyndman &amp; B. Koo, “A Note on the Validity of Cross-Validation for Evaluating Autoregressive Time Series Prediction”, <em>Computational Statistics &amp; Data Analysis</em> 120, 2018</li><li>L. J. Tashman, “Out-of-Sample Tests of Forecasting Accuracy: An Analysis and Review”, <em>International Journal of Forecasting</em> 16(4), 2000</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -162,7 +163,7 @@ trainer.train()</code></pre>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>50,000 instruction examples of about 500 tokens are <strong>25M</strong> tokens — <strong>0.0002%</strong> of a 15T-token pre-training run. LIMA got a strong assistant from just <strong>1,000</strong> carefully chosen examples. Fine-tuning mostly teaches format and behaviour; the knowledge comes from pre-training.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Fine-tuning on facts the model does not already know can increase hallucination rather than teach the facts.</li><li>Aggressive fine-tuning erodes general abilities (catastrophic forgetting); low learning rates and mixing in general data help.</li><li>Small, curated datasets outperform large, noisy ones; quality matters more than count.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>sft_tokens = 50_000 * 500                       # 50k examples of ~500 tokens
 pretrain_tokens = 15e12
 share = sft_tokens / pretrain_tokens
-lima_examples = 1_000                           # the LIMA paper's whole SFT set</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>C. Zhou et al., “LIMA: Less Is More for Alignment”, <em>NeurIPS</em>, 2023</li><li>Y. Luo et al., “An Empirical Study of Catastrophic Forgetting in Large Language Models During Continual Fine-tuning”, arXiv:2308.08747, 2023</li></ul></div></section>
+lima_examples = 1_000                           # the LIMA paper's whole SFT set</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>C. Zhou et al., “LIMA: Less Is More for Alignment”, <em>NeurIPS</em>, 2023</li><li>Y. Luo et al., “An Empirical Study of Catastrophic Forgetting in Large Language Models During Continual Fine-tuning”, arXiv:2308.08747, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

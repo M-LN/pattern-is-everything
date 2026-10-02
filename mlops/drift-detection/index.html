@@ -40,6 +40,7 @@
     "articleSection": "Monitor & Observe",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ psi = np.sum((actual - expected) * np.log(actual / expected))
 
 rng = np.random.default_rng(1)                           # a shift too small to matter...
 train, live = rng.normal(0, 1, 200_000), rng.normal(0.02, 1, 200_000)
-ks_p = ks_2samp(train, live).pvalue                      # ...is still "significant" with this much data</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. Siddiqi, <em>Credit Risk Scorecards</em>, Wiley, 2006 — the PSI thresholds used in credit scoring</li><li>J. Gama, I. Žliobaitė, A. Bifet, M. Pechenizkiy &amp; A. Bouchachia, “A Survey on Concept Drift Adaptation”, <em>ACM Computing Surveys</em> 46(4), 2014</li><li>S. Rabanser, S. Günnemann &amp; Z. Lipton, “Failing Loudly: An Empirical Study of Methods for Detecting Dataset Shift”, <em>NeurIPS</em>, 2019</li></ul></div></section>
+ks_p = ks_2samp(train, live).pvalue                      # ...is still "significant" with this much data</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. Siddiqi, <em>Credit Risk Scorecards</em>, Wiley, 2006 — the PSI thresholds used in credit scoring</li><li>J. Gama, I. Žliobaitė, A. Bifet, M. Pechenizkiy &amp; A. Bouchachia, “A Survey on Concept Drift Adaptation”, <em>ACM Computing Surveys</em> 46(4), 2014</li><li>S. Rabanser, S. Günnemann &amp; Z. Lipton, “Failing Loudly: An Empirical Study of Methods for Detecting Dataset Shift”, <em>NeurIPS</em>, 2019</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

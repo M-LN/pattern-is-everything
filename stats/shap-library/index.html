@@ -40,6 +40,7 @@
     "articleSection": "Python Power Tools",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -145,7 +146,7 @@ inter = explainer.shap_interaction_values(X_test)</pre></div>
 base_logodds = np.log(0.2 / 0.8)                      # TreeExplainer's base value for a 20% base rate
 contrib = np.array([1.2, 0.9])                        # two features' SHAP values, in log-odds
 p = sigmoid(base_logodds + contrib.sum())
-naive = 0.2 + contrib.sum()                           # treating them as probability points</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg et al., “From Local Explanations to Global Understanding with Explainable AI for Trees”, <em>Nature Machine Intelligence</em> 2, 2020</li><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>I. E. Kumar, S. Venkatasubramanian, C. Scheidegger &amp; S. Friedler, “Problems with Shapley-Value-Based Explanations as Feature Importance Measures”, <em>ICML</em>, 2020</li></ul></div></section>
+naive = 0.2 + contrib.sum()                           # treating them as probability points</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg et al., “From Local Explanations to Global Understanding with Explainable AI for Trees”, <em>Nature Machine Intelligence</em> 2, 2020</li><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>I. E. Kumar, S. Venkatasubramanian, C. Scheidegger &amp; S. Friedler, “Problems with Shapley-Value-Based Explanations as Feature Importance Measures”, <em>ICML</em>, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

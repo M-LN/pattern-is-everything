@@ -40,6 +40,7 @@
     "articleSection": "Core Math",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -124,7 +125,7 @@ p = softmax([2.0, 1.0, 0.1])
 cold, hot = softmax([2.0, 1.0, 0.1], T=0.5), softmax([2.0, 1.0, 0.1], T=2.0)
 with np.errstate(over='ignore', invalid='ignore'):
     naive = np.exp([1000.0, 1001.0]) / np.exp([1000.0, 1001.0]).sum()   # overflows
-stable = softmax([1000.0, 1001.0])</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 6</li><li>C. Guo, G. Pleiss, Y. Sun &amp; K. Q. Weinberger, “On Calibration of Modern Neural Networks”, <em>ICML</em>, 2017</li></ul></div></section>
+stable = softmax([1000.0, 1001.0])</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 6</li><li>C. Guo, G. Pleiss, Y. Sun &amp; K. Q. Weinberger, “On Calibration of Modern Neural Networks”, <em>ICML</em>, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

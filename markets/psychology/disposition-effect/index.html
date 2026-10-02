@@ -40,6 +40,7 @@
     "articleSection": "Emotional Drivers",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -108,7 +109,7 @@
     'sold': [1, 0, 1, 0, 0, 0, 0,  1, 0, 0, 1, 0,  1, 0, 0, 0, 0]})
 g, s = book.gain == 1, book.sold == 1
 PGR = (g &amp; s).sum() / g.sum()                    # proportion of gains realized (Odean 1998)
-PLR = (~g &amp; s).sum() / (~g).sum()                # proportion of losses realized</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Shefrin &amp; M. Statman, “The Disposition to Sell Winners Too Early and Ride Losers Too Long: Theory and Evidence”, <em>Journal of Finance</em> 40(3), 1985</li><li>T. Odean, “Are Investors Reluctant to Realize Their Losses?”, <em>Journal of Finance</em> 53(5), 1998</li><li>I. Ben-David &amp; D. Hirshleifer, “Are Investors Really Reluctant to Realize Their Losses? Trading Responses to Past Returns and the Disposition Effect”, <em>Review of Financial Studies</em> 25(8), 2012</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Selling winners too early, holding losers too long. In ML, <a href="../../../ml-math/#lr-schedule">learning rate scheduling</a> fights the same instinct: slow down on gains, keep going through losses.</div></div>
+PLR = (~g &amp; s).sum() / (~g).sum()                # proportion of losses realized</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Shefrin &amp; M. Statman, “The Disposition to Sell Winners Too Early and Ride Losers Too Long: Theory and Evidence”, <em>Journal of Finance</em> 40(3), 1985</li><li>T. Odean, “Are Investors Reluctant to Realize Their Losses?”, <em>Journal of Finance</em> 53(5), 1998</li><li>I. Ben-David &amp; D. Hirshleifer, “Are Investors Really Reluctant to Realize Their Losses? Trading Responses to Past Returns and the Disposition Effect”, <em>Review of Financial Studies</em> 25(8), 2012</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Selling winners too early, holding losers too long. In ML, <a href="../../../ml-math/#lr-schedule">learning rate scheduling</a> fights the same instinct: slow down on gains, keep going through losses.</div></div>
   <section class="topic-connections" aria-label="Topics that link here">
     <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
     <ul>

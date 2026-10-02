@@ -40,6 +40,7 @@
     "articleSection": "Advanced Models",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ h = 24
 last_slope = (y[-1] - y[-9]) / 8                  # the most recent trend segment
 overall = np.polyfit(t, y, 1)[0]
 f_last = y[-1] + last_slope * h
-f_overall = y[-1] + overall * h</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. J. Taylor &amp; B. Letham, “Forecasting at Scale”, <em>The American Statistician</em> 72(1), 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+f_overall = y[-1] + overall * h</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. J. Taylor &amp; B. Letham, “Forecasting at Scale”, <em>The American Statistician</em> 72(1), 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

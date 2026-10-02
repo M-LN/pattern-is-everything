@@ -40,6 +40,7 @@
     "articleSection": "Herd & Social",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -116,7 +117,7 @@ top_share = lambda w: w.max() / w.sum()
 alone = [top_share(market(False)) for _ in range(5)]
 seen = [market(True) for _ in range(5)]
 together = [top_share(w) for w in seen]
-winners = [int(w.argmax()) for w in seen]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Influence: The Psychology of Persuasion</em>, R. B. Cialdini, 1984</li><li>M. J. Salganik, P. S. Dodds &amp; D. J. Watts, “Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market”, <em>Science</em> 311(5762), 2006</li><li>S. E. Asch, “Studies of Independence and Conformity: I. A Minority of One Against a Unanimous Majority”, <em>Psychological Monographs</em> 70(9), 1956</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Copying others as a decision shortcut is an <a href="../../../ml-math/#embeddings">embedding heuristic</a> — if nearby vectors do it, so should I. In statistics, it’s the <a href="../../../stats/#clt-sampling">law of large numbers</a> misapplied: consensus ≠ correctness.</div></div>
+winners = [int(w.argmax()) for w in seen]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Influence: The Psychology of Persuasion</em>, R. B. Cialdini, 1984</li><li>M. J. Salganik, P. S. Dodds &amp; D. J. Watts, “Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market”, <em>Science</em> 311(5762), 2006</li><li>S. E. Asch, “Studies of Independence and Conformity: I. A Minority of One Against a Unanimous Majority”, <em>Psychological Monographs</em> 70(9), 1956</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Copying others as a decision shortcut is an <a href="../../../ml-math/#embeddings">embedding heuristic</a> — if nearby vectors do it, so should I. In statistics, it’s the <a href="../../../stats/#clt-sampling">law of large numbers</a> misapplied: consensus ≠ correctness.</div></div>
   <section class="topic-connections" aria-label="Topics that link here">
     <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
     <ul>

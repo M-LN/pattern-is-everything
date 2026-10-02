@@ -40,6 +40,7 @@
     "articleSection": "Hedging & Protection",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -126,7 +127,7 @@ local = 0.08                                               # the stocks return 8
 fwd = s0 * 1.05 / 1.03                                     # 1-year forward from USD and EUR rates of 5% and 3%
 cost = eur * s0
 unhedged = eur * (1 + local) * s1 / cost - 1
-hedged = (eur * (1 + local) * s1 + eur * (fwd - s1)) / cost - 1   # sell the starting 100 EUR forward</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. F. Perold &amp; E. C. Schulman, “The Free Lunch in Currency Hedging: Implications for Investment Policy and Performance Standards”, <em>Financial Analysts Journal</em> 44(3), 1988</li><li>J. Y. Campbell, K. Serfaty-de Medeiros &amp; L. M. Viceira, “Global Currency Hedging”, <em>Journal of Finance</em> 65(1), 2010</li><li><em>Options, Futures, and Other Derivatives</em>, J. C. Hull, Pearson (any recent edition)</li></ul></div></section>
+hedged = (eur * (1 + local) * s1 + eur * (fwd - s1)) / cost - 1   # sell the starting 100 EUR forward</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. F. Perold &amp; E. C. Schulman, “The Free Lunch in Currency Hedging: Implications for Investment Policy and Performance Standards”, <em>Financial Analysts Journal</em> 44(3), 1988</li><li>J. Y. Campbell, K. Serfaty-de Medeiros &amp; L. M. Viceira, “Global Currency Hedging”, <em>Journal of Finance</em> 65(1), 2010</li><li><em>Options, Futures, and Other Derivatives</em>, J. C. Hull, Pearson (any recent edition)</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

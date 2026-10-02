@@ -40,6 +40,7 @@
     "articleSection": "Continuation Patterns",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -114,7 +115,7 @@ flag = c.iloc[-12:-1]                                 # the 11 bars after it
 slope = np.polyfit(np.arange(len(flag)), flag.values, 1)[0]
 is_flag = pole / c.iloc[-17] &gt; 0.08 and slope &lt; 0     # sharp rise, then a drift down
 breakout = c.iloc[-1] &gt; flag.max()
-target = flag.max() + pole</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li></ul></div></section>
+target = flag.max() + pole</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

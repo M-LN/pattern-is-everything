@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -129,7 +130,7 @@ summed = daily.sum()
 compounded = np.prod(1 + daily) - 1
 log_sum = np.expm1(np.log1p(daily).sum())        # log returns add up correctly
 prices = pd.Series([100, 102, 101, 108, 95], index=pd.date_range('2026-03-02', periods=5))
-week = dict(last=prices.iloc[-1], mean=prices.mean())   # a weekly 'close' vs a weekly average</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. S. Tsay, <em>Analysis of Financial Time Series</em> (3rd ed.), Wiley, 2010 — simple versus log returns</li><li>pandas documentation, “Time series / date functionality: resampling”, pandas.pydata.org</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+week = dict(last=prices.iloc[-1], mean=prices.mean())   # a weekly 'close' vs a weekly average</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. S. Tsay, <em>Analysis of Financial Time Series</em> (3rd ed.), Wiley, 2010 — simple versus log returns</li><li>pandas documentation, “Time series / date functionality: resampling”, pandas.pydata.org</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

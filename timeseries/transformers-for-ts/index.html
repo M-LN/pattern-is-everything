@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -138,7 +139,7 @@ X = np.array([y[i:i + L] for i in range(len(y) - L)]); target = y[L:]
 split = 400
 w = np.linalg.lstsq(np.c_[X[:split], np.ones(split)], target[:split], rcond=None)[0]   # one linear layer
 linear = np.abs(np.c_[X[split:], np.ones(len(X) - split)] @ w - target[split:]).mean()
-seasonal_naive = np.abs(X[split:, -24] - target[split:]).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Zhou et al., “Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting”, <em>AAAI</em>, 2021</li><li>A. Zeng, M. Chen, L. Zhang &amp; Q. Xu, “Are Transformers Effective for Time Series Forecasting?”, <em>AAAI</em>, 2023</li><li>Y. Nie, N. H. Nguyen, P. Sinthong &amp; J. Kalagnanam, “A Time Series Is Worth 64 Words: Long-term Forecasting with Transformers”, <em>ICLR</em>, 2023</li></ul></div></section>
+seasonal_naive = np.abs(X[split:, -24] - target[split:]).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Zhou et al., “Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting”, <em>AAAI</em>, 2021</li><li>A. Zeng, M. Chen, L. Zhang &amp; Q. Xu, “Are Transformers Effective for Time Series Forecasting?”, <em>AAAI</em>, 2023</li><li>Y. Nie, N. H. Nguyen, P. Sinthong &amp; J. Kalagnanam, “A Time Series Is Worth 64 Words: Long-term Forecasting with Transformers”, <em>ICLR</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

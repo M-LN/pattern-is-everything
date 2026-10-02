@@ -40,6 +40,7 @@
     "articleSection": "Inference",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ step2 = {'A': {'x': 0.4, 'y': 0.35, 'z': 0.25}, 'B': {'x': 0.9, 'y': 0.05, 'z': 
 greedy_first = max(step1, key=step1.get)
 greedy_best = max(step2[greedy_first].values())
 greedy = (greedy_first, step1[greedy_first] * greedy_best)
-beam = max((((a, b), step1[a] * pb) for a in step1 for b, pb in step2[a].items()), key=lambda c: c[1])   # width 2 keeps both first steps</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Holtzman, J. Buys, L. Du, M. Forbes &amp; Y. Choi, “The Curious Case of Neural Text Degeneration”, <em>ICLR</em>, 2020</li><li>C. Meister, R. Cotterell &amp; T. Vieira, “If Beam Search Is the Answer, What Was the Question?”, <em>EMNLP</em>, 2020</li><li>M. Freitag &amp; Y. Al-Onaizan, “Beam Search Strategies for Neural Machine Translation”, <em>Workshop on Neural Machine Translation</em>, 2017</li></ul></div></section>
+beam = max((((a, b), step1[a] * pb) for a in step1 for b, pb in step2[a].items()), key=lambda c: c[1])   # width 2 keeps both first steps</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Holtzman, J. Buys, L. Du, M. Forbes &amp; Y. Choi, “The Curious Case of Neural Text Degeneration”, <em>ICLR</em>, 2020</li><li>C. Meister, R. Cotterell &amp; T. Vieira, “If Beam Search Is the Answer, What Was the Question?”, <em>EMNLP</em>, 2020</li><li>M. Freitag &amp; Y. Al-Onaizan, “Beam Search Strategies for Neural Machine Translation”, <em>Workshop on Neural Machine Translation</em>, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

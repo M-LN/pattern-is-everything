@@ -40,6 +40,7 @@
     "articleSection": "Position Sizing",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ while (w &gt; cap + 1e-12).any():                             # trim to the cap,
     room = w &lt; cap
     w[room] += excess * w[room] / w[room].sum()
 hit_before = 0.30 * 0.5                                    # the top name halves
-hit_after = w.max() * 0.5</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Directive 2009/65/EC (UCITS), Article 52 — the 5/10/40 rule</li><li>Investment Company Act of 1940, Section 5(b)(1) — the 75-5-10 test for a diversified fund</li><li>Paul, Weiss, <em>Credit Suisse Group Special Committee of the Board of Directors Report on Archegos Capital Management</em>, 2021</li></ul></div></section>
+hit_after = w.max() * 0.5</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Directive 2009/65/EC (UCITS), Article 52 — the 5/10/40 rule</li><li>Investment Company Act of 1940, Section 5(b)(1) — the 75-5-10 test for a diversified fund</li><li>Paul, Weiss, <em>Credit Suisse Group Special Committee of the Board of Directors Report on Archegos Capital Management</em>, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

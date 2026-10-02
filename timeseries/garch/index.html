@@ -40,6 +40,7 @@
     "articleSection": "Advanced Models",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ r, s2 = np.zeros(n), np.full(n, long_run)
 for t in range(1, n):
     s2[t] = omega + alpha * r[t - 1] ** 2 + beta * s2[t - 1]
     r[t] = np.sqrt(s2[t]) * rng.normal()
-kurt = ((r - r.mean()) ** 4).mean() / r.var() ** 2   # normal = 3</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. F. Engle, “Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation”, <em>Econometrica</em> 50(4), 1982</li><li>T. Bollerslev, “Generalized Autoregressive Conditional Heteroskedasticity”, <em>Journal of Econometrics</em> 31(3), 1986</li><li>P. R. Hansen &amp; A. Lunde, “A Forecast Comparison of Volatility Models: Does Anything Beat a GARCH(1,1)?”, <em>Journal of Applied Econometrics</em> 20(7), 2005</li></ul></div></section>
+kurt = ((r - r.mean()) ** 4).mean() / r.var() ** 2   # normal = 3</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. F. Engle, “Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation”, <em>Econometrica</em> 50(4), 1982</li><li>T. Bollerslev, “Generalized Autoregressive Conditional Heteroskedasticity”, <em>Journal of Econometrics</em> 31(3), 1986</li><li>P. R. Hansen &amp; A. Lunde, “A Forecast Comparison of Volatility Models: Does Anything Beat a GARCH(1,1)?”, <em>Journal of Applied Econometrics</em> 20(7), 2005</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

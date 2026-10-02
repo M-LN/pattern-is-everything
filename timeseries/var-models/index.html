@@ -40,6 +40,7 @@
     "articleSection": "Advanced Models",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ for t in range(1, n):
     x[t] = 0.5 * x[t - 1] + rng.normal()
     y[t] = 0.3 * y[t - 1] + 0.6 * x[t - 1] + rng.normal()   # x leads y by one step
 Z = np.column_stack([x[:-1], y[:-1]])
-A = np.linalg.lstsq(Z, np.column_stack([x[1:], y[1:]]), rcond=None)[0].T   # rows: equations for x and y</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger, “Investigating Causal Relations by Econometric Models and Cross-Spectral Methods”, <em>Econometrica</em> 37(3), 1969</li><li>C. A. Sims, “Macroeconomics and Reality”, <em>Econometrica</em> 48(1), 1980</li><li><em>New Introduction to Multiple Time Series Analysis</em>, H. Lütkepohl, Springer, 2005</li></ul></div></section>
+A = np.linalg.lstsq(Z, np.column_stack([x[1:], y[1:]]), rcond=None)[0].T   # rows: equations for x and y</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger, “Investigating Causal Relations by Econometric Models and Cross-Spectral Methods”, <em>Econometrica</em> 37(3), 1969</li><li>C. A. Sims, “Macroeconomics and Reality”, <em>Econometrica</em> 48(1), 1980</li><li><em>New Introduction to Multiple Time Series Analysis</em>, H. Lütkepohl, Springer, 2005</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ pred = model.predict(n=<span class="st">24</span>)</pre></div>
 test = np.array([29, 31, 28.0])
 forecast = np.array([28, 29, 30.0])
 scale = np.abs(np.diff(train)).mean()              # in-sample error of the naive forecast
-mase = np.abs(test - forecast).mean() / scale       # &lt; 1 beats naive on the scale of the training data</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. N. Oreshkin, D. Carpov, N. Chapados &amp; Y. Bengio, “N-BEATS: Neural Basis Expansion Analysis for Interpretable Time Series Forecasting”, <em>ICLR</em>, 2020</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “The M4 Competition: 100,000 Time Series and 61 Forecasting Methods”, <em>International Journal of Forecasting</em> 36(1), 2020</li><li>C. Challu et al., “N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting”, <em>AAAI</em>, 2023</li></ul></div></section>
+mase = np.abs(test - forecast).mean() / scale       # &lt; 1 beats naive on the scale of the training data</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. N. Oreshkin, D. Carpov, N. Chapados &amp; Y. Bengio, “N-BEATS: Neural Basis Expansion Analysis for Interpretable Time Series Forecasting”, <em>ICLR</em>, 2020</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “The M4 Competition: 100,000 Time Series and 61 Forecasting Methods”, <em>International Journal of Forecasting</em> 36(1), 2020</li><li>C. Challu et al., “N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting”, <em>AAAI</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -170,7 +171,7 @@ x2 = x1 + rng.normal(0, 0.01, 50)                  # almost a copy of x1
 X = np.column_stack([x1, x2])
 y = x1 + x2 + rng.normal(0, 0.5, 50)               # the truth: weights 1 and 1
 ols = np.linalg.solve(X.T @ X, X.T @ y)
-ridge = np.linalg.solve(X.T @ X + 1.0 * np.eye(2), X.T @ y)   # L2 penalty, lambda = 1</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. E. Hoerl &amp; R. W. Kennard, “Ridge Regression: Biased Estimation for Nonorthogonal Problems”, <em>Technometrics</em> 12(1), 1970</li><li>R. Tibshirani, “Regression Shrinkage and Selection via the Lasso”, <em>Journal of the Royal Statistical Society B</em> 58(1), 1996</li><li>N. Srivastava et al., “Dropout: A Simple Way to Prevent Neural Networks from Overfitting”, <em>Journal of Machine Learning Research</em> 15, 2014</li></ul></div></section>
+ridge = np.linalg.solve(X.T @ X + 1.0 * np.eye(2), X.T @ y)   # L2 penalty, lambda = 1</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. E. Hoerl &amp; R. W. Kennard, “Ridge Regression: Biased Estimation for Nonorthogonal Problems”, <em>Technometrics</em> 12(1), 1970</li><li>R. Tibshirani, “Regression Shrinkage and Selection via the Lasso”, <em>Journal of the Royal Statistical Society B</em> 58(1), 1996</li><li>N. Srivastava et al., “Dropout: A Simple Way to Prevent Neural Networks from Overfitting”, <em>Journal of Machine Learning Research</em> 15, 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

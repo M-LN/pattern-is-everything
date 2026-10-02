@@ -40,6 +40,7 @@
     "articleSection": "Scale & Optimize",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -121,7 +122,7 @@ rps, latency_s, per_replica = 1_200, 0.080, 8       # traffic, time per request,
 in_flight = rps * latency_s                         # Little's law
 replicas = math.ceil(in_flight / (per_replica * 0.70))   # target 70% utilisation
 current, cpu, target = 10, 0.92, 0.70
-hpa = math.ceil(current * cpu / target)             # Kubernetes HPA rule</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Kubernetes documentation, “Horizontal Pod Autoscaling”, kubernetes.io — the replica formula</li><li>J. D. C. Little, “A Proof for the Queuing Formula: L = λW”, <em>Operations Research</em> 9(3), 1961</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul></div></section>
+hpa = math.ceil(current * cpu / target)             # Kubernetes HPA rule</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Kubernetes documentation, “Horizontal Pod Autoscaling”, kubernetes.io — the replica formula</li><li>J. D. C. Little, “A Proof for the Queuing Formula: L = λW”, <em>Operations Research</em> 9(3), 1961</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

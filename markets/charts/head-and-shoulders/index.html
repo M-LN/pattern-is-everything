@@ -40,6 +40,7 @@
     "articleSection": "Reversal Patterns",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -148,7 +149,7 @@ between = lows[(lows.index &gt; highs.index[-3]) &amp; (lows.index &lt; highs.in
 neck = between.mean()                                # neckline (flat here)
 is_hs = head &gt; max(ls, rs) and abs(ls - rs) / head &lt; 0.05
 target = neck - (head - neck)                        # measured move
-confirmed = c.iloc[-1] &lt; neck</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li>G. Savin, P. Weller &amp; J. Zvingelis, “The Predictive Power of ‘Head-and-Shoulders’ Price Patterns in the U.S. Stock Market”, <em>Journal of Financial Econometrics</em> 5(2), 2007</li><li>C. L. Osler &amp; P. H. K. Chang, “Head and Shoulders: Not Just a Flaky Pattern”, Federal Reserve Bank of New York Staff Report 4, 1995</li></ul></div></section>
+confirmed = c.iloc[-1] &lt; neck</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)</li><li><em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns</li><li>G. Savin, P. Weller &amp; J. Zvingelis, “The Predictive Power of ‘Head-and-Shoulders’ Price Patterns in the U.S. Stock Market”, <em>Journal of Financial Econometrics</em> 5(2), 2007</li><li>C. L. Osler &amp; P. H. K. Chang, “Head and Shoulders: Not Just a Flaky Pattern”, Federal Reserve Bank of New York Staff Report 4, 1995</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

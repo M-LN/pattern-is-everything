@@ -40,6 +40,7 @@
     "articleSection": "Python Power Tools",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -151,7 +152,7 @@ m = len(p)
 bonferroni = (p &lt; 0.05 / m).sum()
 order = np.sort(p)
 passed = order &lt;= 0.05 * np.arange(1, m + 1) / m    # Benjamini-Hochberg step-up
-bh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. Benjamini &amp; Y. Hochberg, “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing”, <em>Journal of the Royal Statistical Society B</em> 57(1), 1995</li><li>S. Holm, “A Simple Sequentially Rejective Multiple Test Procedure”, <em>Scandinavian Journal of Statistics</em> 6(2), 1979</li><li>S. Seabold &amp; J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <em>Proceedings of the 9th Python in Science Conference</em>, 2010</li><li>P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <em>Nature Methods</em> 17, 2020</li></ul></div></section>
+bh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. Benjamini &amp; Y. Hochberg, “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing”, <em>Journal of the Royal Statistical Society B</em> 57(1), 1995</li><li>S. Holm, “A Simple Sequentially Rejective Multiple Test Procedure”, <em>Scandinavian Journal of Statistics</em> 6(2), 1979</li><li>S. Seabold &amp; J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <em>Proceedings of the 9th Python in Science Conference</em>, 2010</li><li>P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <em>Nature Methods</em> 17, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

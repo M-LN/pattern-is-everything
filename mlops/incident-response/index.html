@@ -40,6 +40,7 @@
     "articleSection": "Governance & Trust",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ detect_manual = 45 * 60                    # someone notices after 45 minutes
 detect_breaker = 2 * 60                    # error rate &gt; 5% over a 2-minute window trips the breaker
 rollback = 5 * 60                          # manual rollback takes 5 minutes
 hit_manual = rps * (detect_manual + rollback)
-hit_breaker = rps * detect_breaker          # the breaker switches to the fallback at once</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016 — “Postmortem Culture”</li><li><em>Release It! Design and Deploy Production-Ready Software</em>, M. T. Nygard, Pragmatic Bookshelf, 2007 — the circuit breaker</li><li>S. Shankar, R. Garcia, J. M. Hellerstein &amp; A. G. Parameswaran, “Operationalizing Machine Learning: An Interview Study”, arXiv:2209.09125, 2022</li></ul></div></section>
+hit_breaker = rps * detect_breaker          # the breaker switches to the fallback at once</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016 — “Postmortem Culture”</li><li><em>Release It! Design and Deploy Production-Ready Software</em>, M. T. Nygard, Pragmatic Bookshelf, 2007 — the circuit breaker</li><li>S. Shankar, R. Garcia, J. M. Hellerstein &amp; A. G. Parameswaran, “Operationalizing Machine Learning: An Interview Study”, arXiv:2209.09125, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

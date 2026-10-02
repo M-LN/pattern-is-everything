@@ -40,6 +40,7 @@
     "articleSection": "Monitor & Observe",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -121,7 +122,7 @@ requests = 10_000_000
 budget = (1 - slo) * requests          # failures you are allowed in the window
 error_rate = 0.02                      # what is happening right now
 burn = error_rate / (1 - slo)          # how many times faster than allowed
-days_left = 30 / burn                  # budget gone at this pace</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li><li><em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018 — “Alerting on SLOs”</li></ul></div></section>
+days_left = 30 / burn                  # budget gone at this pace</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li><li><em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018 — “Alerting on SLOs”</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -139,7 +140,7 @@ for batch in dataloader:
 perplexity = np.exp(loss)
 flops = 6 * 8e9 * 15e12                         # 8B parameters, 15T tokens
 gpu_flops = 989e12 * 0.40                       # an H100's dense bf16 peak at 40% utilisation
-gpu_hours = flops / gpu_flops / 3600</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019</li><li>T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020</li><li>A. Chowdhery et al., “PaLM: Scaling Language Modeling with Pathways”, <em>Journal of Machine Learning Research</em> 24(240), 2023 — model FLOPs utilisation</li></ul></div></section>
+gpu_hours = flops / gpu_flops / 3600</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019</li><li>T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020</li><li>A. Chowdhery et al., “PaLM: Scaling Language Modeling with Pathways”, <em>Journal of Machine Learning Research</em> 24(240), 2023 — model FLOPs utilisation</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

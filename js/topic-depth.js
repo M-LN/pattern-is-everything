@@ -10,6 +10,9 @@
    markup written in the repo, not user input. */
 (function () {
   'use strict';
+  /* When the content was last checked against its sources (see /method/). */
+  var REVIEWED = 'October 2026';
+
   window.renderDepth = function (d) {
     if (!d) return '';
     var list = function (items) {
@@ -20,7 +23,8 @@
       '<div class="depth-block"><div class="depth-title">Where it misleads</div>' + list(d.fails) + '</div>' +
       '<div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>' + d.code + '</pre></div>' +
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
-      '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) + '</div>' +
+      '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
+        '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/method/">How this site checks its content</a></p></div>' +
     '</section>';
   };
 })();

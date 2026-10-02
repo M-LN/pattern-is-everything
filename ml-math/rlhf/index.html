@@ -40,6 +40,7 @@
     "articleSection": "Modern / LLM",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -126,7 +127,7 @@
 p_prefer = sigmoid(1.0)                             # Bradley-Terry: reward gap of 1 -&gt; P(chosen beats rejected)
 beta = 0.1
 dpo_loss = lambda margin: -np.log(sigmoid(beta * margin))   # margin = difference of log-ratios vs the reference
-losses = {m: round(float(dpo_loss(m)), 3) for m in (0, 10, 30)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>R. Rafailov et al., “Direct Preference Optimization: Your Language Model Is Secretly a Reward Model”, <em>NeurIPS</em>, 2023</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul></div></section>
+losses = {m: round(float(dpo_loss(m)), 3) for m in (0, 10, 30)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>R. Rafailov et al., “Direct Preference Optimization: Your Language Model Is Secretly a Reward Model”, <em>NeurIPS</em>, 2023</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

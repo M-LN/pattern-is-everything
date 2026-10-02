@@ -40,6 +40,7 @@
     "articleSection": "Make Decisions",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ rng = np.random.default_rng(17)
 a = rng.normal(100, 15, 100_000)
 b = rng.normal(100.75, 15, 100_000)                  # a 0.75-point difference on an SD of 15
 p = ttest_ind(a, b).pvalue
-d = (b.mean() - a.mean()) / np.sqrt((a.var(ddof=1) + b.var(ddof=1)) / 2)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.), J. Cohen, Lawrence Erlbaum, 1988</li><li>G. M. Sullivan &amp; R. Feinn, “Using Effect Size — or Why the P Value Is Not Enough”, <em>Journal of Graduate Medical Education</em> 4(3), 2012</li><li>R. L. Wasserstein &amp; N. A. Lazar, “The ASA Statement on p-Values: Context, Process, and Purpose”, <em>The American Statistician</em> 70(2), 2016</li></ul></div></section>
+d = (b.mean() - a.mean()) / np.sqrt((a.var(ddof=1) + b.var(ddof=1)) / 2)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.), J. Cohen, Lawrence Erlbaum, 1988</li><li>G. M. Sullivan &amp; R. Feinn, “Using Effect Size — or Why the P Value Is Not Enough”, <em>Journal of Graduate Medical Education</em> 4(3), 2012</li><li>R. L. Wasserstein &amp; N. A. Lazar, “The ASA Statement on p-Values: Context, Process, and Purpose”, <em>The American Statistician</em> 70(2), 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

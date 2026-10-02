@@ -40,6 +40,7 @@
     "articleSection": "Analyze Your Data",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ z = (x - x.mean()) / x.std()
 mad = np.median(np.abs(x - np.median(x)))
 robust = 0.6745 * (x - np.median(x)) / mad          # modified z-score
 flag_z = x[np.abs(z) &gt; 3].tolist()
-flag_robust = x[np.abs(robust) &gt; 3.5].tolist()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Iglewicz &amp; D. C. Hoaglin, <em>How to Detect and Handle Outliers</em>, ASQC Quality Press, 1993 — the modified z-score</li><li>C. Leys, C. Ley, O. Klein, P. Bernard &amp; L. Licata, “Detecting Outliers: Do Not Use Standard Deviation around the Mean, Use Absolute Deviation around the Median”, <em>Journal of Experimental Social Psychology</em> 49(4), 2013</li><li>F. T. Liu, K. M. Ting &amp; Z.-H. Zhou, “Isolation Forest”, <em>IEEE ICDM</em>, 2008</li></ul></div></section>
+flag_robust = x[np.abs(robust) &gt; 3.5].tolist()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Iglewicz &amp; D. C. Hoaglin, <em>How to Detect and Handle Outliers</em>, ASQC Quality Press, 1993 — the modified z-score</li><li>C. Leys, C. Ley, O. Klein, P. Bernard &amp; L. Licata, “Detecting Outliers: Do Not Use Standard Deviation around the Mean, Use Absolute Deviation around the Median”, <em>Journal of Experimental Social Psychology</em> 49(4), 2013</li><li>F. T. Liu, K. M. Ting &amp; Z.-H. Zhou, “Isolation Forest”, <em>IEEE ICDM</em>, 2008</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

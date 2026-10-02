@@ -40,6 +40,7 @@
     "articleSection": "Statistical Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -171,7 +172,7 @@ rng = np.random.default_rng(20)
 skew_of_mean = {n: round(skew(rng.exponential(1, (20_000, n)).mean(axis=1)), 2) for n in (1, 5, 30)}
 cauchy = rng.standard_cauchy((2_000, 1_000))
 spread = (round(np.subtract(*np.percentile(cauchy[:, 0], [75, 25])), 2),          # one draw
-          round(np.subtract(*np.percentile(cauchy.mean(axis=1), [75, 25])), 2))   # mean of 1,000</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>An Introduction to Probability Theory and Its Applications</em>, Vol. 2 (2nd ed.), W. Feller, Wiley, 1971</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul></div></section>
+          round(np.subtract(*np.percentile(cauchy.mean(axis=1), [75, 25])), 2))   # mean of 1,000</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>An Introduction to Probability Theory and Its Applications</em>, Vol. 2 (2nd ed.), W. Feller, Wiley, 1971</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

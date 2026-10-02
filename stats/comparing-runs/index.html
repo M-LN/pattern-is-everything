@@ -40,6 +40,7 @@
     "articleSection": "Evaluate Your Model",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
 a = np.array([0.81, 0.86, 0.78, 0.90, 0.84])        # model A, five CV folds
 b = a + np.array([0.012, 0.009, 0.011, 0.008, 0.010])   # B is a little better on every fold
 p_unpaired = ttest_ind(b, a).pvalue
-p_paired = ttest_rel(b, a).pvalue</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998</li><li>C. Nadeau &amp; Y. Bengio, “Inference for the Generalization Error”, <em>Machine Learning</em> 52(3), 2003</li><li>J. Demšar, “Statistical Comparisons of Classifiers over Multiple Data Sets”, <em>Journal of Machine Learning Research</em> 7, 2006</li></ul></div></section>
+p_paired = ttest_rel(b, a).pvalue</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998</li><li>C. Nadeau &amp; Y. Bengio, “Inference for the Generalization Error”, <em>Machine Learning</em> 52(3), 2003</li><li>J. Demšar, “Statistical Comparisons of Classifiers over Multiple Data Sets”, <em>Journal of Machine Learning Research</em> 7, 2006</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

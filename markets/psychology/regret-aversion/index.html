@@ -40,6 +40,7 @@
     "articleSection": "Emotional Drivers",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -108,7 +109,7 @@
 p = np.array([0.35, 0.35, 0.30])                         # your odds for the three outcomes
 ev = pay.T @ p
 regret = pay.max(axis=1).values[:, None] - pay.values    # best choice in hindsight minus yours
-worst_regret = pd.Series(regret.max(axis=0), index=pay.columns)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>G. Loomes &amp; R. Sugden, “Regret Theory: An Alternative Theory of Rational Choice Under Uncertainty”, <em>Economic Journal</em> 92(368), 1982</li><li>D. E. Bell, “Regret in Decision Making under Uncertainty”, <em>Operations Research</em> 30(5), 1982</li><li>T. Gilovich &amp; V. H. Medvec, “The Experience of Regret: What, When, and Why”, <em>Psychological Review</em> 102(2), 1995</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Avoiding regret over avoiding loss is a second-order bias. In ML, <a href="../../../ml-math/#regularization">regularization</a> trades some training error for less regret on unseen data.</div></div>
+worst_regret = pd.Series(regret.max(axis=0), index=pay.columns)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>G. Loomes &amp; R. Sugden, “Regret Theory: An Alternative Theory of Rational Choice Under Uncertainty”, <em>Economic Journal</em> 92(368), 1982</li><li>D. E. Bell, “Regret in Decision Making under Uncertainty”, <em>Operations Research</em> 30(5), 1982</li><li>T. Gilovich &amp; V. H. Medvec, “The Experience of Regret: What, When, and Why”, <em>Psychological Review</em> 102(2), 1995</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Avoiding regret over avoiding loss is a second-order bias. In ML, <a href="../../../ml-math/#regularization">regularization</a> trades some training error for less regret on unseen data.</div></div>
   <section class="topic-connections" aria-label="Topics that link here">
     <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
     <ul>

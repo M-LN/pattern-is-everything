@@ -40,6 +40,7 @@
     "articleSection": "Classical Models",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -131,7 +132,7 @@ y = 100 + 0.2 * t + 15 * np.sin(2 * np.pi * t / 12) + rng.normal(0, 2, 96)   # e
 train, test = y[:84], y[84:]
 naive = np.full(12, train[-1])                    # repeat the last month
 seasonal_naive = train[-12:]                      # repeat the same month last year
-mae = lambda f: np.abs(test - f).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li>R. J. Hyndman &amp; Y. Khandakar, “Automatic Time Series Forecasting: The forecast Package for R”, <em>Journal of Statistical Software</em> 27(3), 2008</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul></div></section>
+mae = lambda f: np.abs(test - f).mean()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li>R. J. Hyndman &amp; Y. Khandakar, “Automatic Time Series Forecasting: The forecast Package for R”, <em>Journal of Statistical Software</em> 27(3), 2008</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

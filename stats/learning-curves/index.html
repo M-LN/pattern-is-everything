@@ -40,6 +40,7 @@
     "articleSection": "Evaluate Your Model",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -165,7 +166,7 @@ for n in (20, 80, 320):
     x = rng.uniform(-1, 1, n); y = f(x) + rng.normal(0, 0.3, n)
     c = np.polyfit(x, y, 7)
     train = ((np.polyval(c, x) - y) ** 2).mean(); val = ((np.polyval(c, x_val) - y_val) ** 2).mean()
-    gaps[n] = (round(train, 3), round(val, 3))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Perlich, F. Provost &amp; J. S. Simonoff, “Tree Induction vs. Logistic Regression: A Learning-Curve Analysis”, <em>Journal of Machine Learning Research</em> 4, 2003</li><li>P. Domingos, “A Few Useful Things to Know about Machine Learning”, <em>Communications of the ACM</em> 55(10), 2012</li></ul></div></section>
+    gaps[n] = (round(train, 3), round(val, 3))</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Perlich, F. Provost &amp; J. S. Simonoff, “Tree Induction vs. Logistic Regression: A Learning-Curve Analysis”, <em>Journal of Machine Learning Research</em> 4, 2003</li><li>P. Domingos, “A Few Useful Things to Know about Machine Learning”, <em>Communications of the ACM</em> 55(10), 2012</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

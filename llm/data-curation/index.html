@@ -40,6 +40,7 @@
     "articleSection": "Training",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -145,7 +146,7 @@ rng = np.random.default_rng(0)
 coef = rng.integers(1, 2**31 - 1, size=(256, 2))       # 256 random hash functions
 h = lambda s: np.array([zlib.crc32(x.encode()) for x in s], dtype=np.int64)
 minhash = lambda s: ((coef[:, :1] * h(s) + coef[:, 1:]) % (2**31 - 1)).min(axis=1)
-estimate = (minhash(A) == minhash(B)).mean()            # the share of equal minima estimates Jaccard</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Z. Broder, “On the Resemblance and Containment of Documents”, <em>Compression and Complexity of Sequences</em>, 1997</li><li>K. Lee et al., “Deduplicating Training Data Makes Language Models Better”, <em>ACL</em>, 2022</li><li>G. Penedo et al., “The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale”, <em>NeurIPS Datasets and Benchmarks</em>, 2024</li></ul></div></section>
+estimate = (minhash(A) == minhash(B)).mean()            # the share of equal minima estimates Jaccard</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Z. Broder, “On the Resemblance and Containment of Documents”, <em>Compression and Complexity of Sequences</em>, 1997</li><li>K. Lee et al., “Deduplicating Training Data Makes Language Models Better”, <em>ACL</em>, 2022</li><li>G. Penedo et al., “The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale”, <em>NeurIPS Datasets and Benchmarks</em>, 2024</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

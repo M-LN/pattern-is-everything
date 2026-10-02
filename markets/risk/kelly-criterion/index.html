@@ -40,6 +40,7 @@
     "articleSection": "Position Sizing",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -128,7 +129,7 @@ kelly = (p * b - (1 - p)) / b
 def growth(f):                                             # expected log growth per bet
     return p * np.log(1 + b * f) + (1 - p) * np.log(1 - f)
 
-rates = {m: growth(m * kelly) for m in (0.5, 1, 2, 2.5)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. L. Kelly Jr., “A New Interpretation of Information Rate”, <em>Bell System Technical Journal</em> 35(4), 1956</li><li>E. O. Thorp, “The Kelly Criterion in Blackjack, Sports Betting and the Stock Market”, in <em>Handbook of Asset and Liability Management</em>, vol. 1, Elsevier, 2006</li><li><em>Fortune’s Formula</em>, W. Poundstone, Hill and Wang, 2005</li></ul></div></section>
+rates = {m: growth(m * kelly) for m in (0.5, 1, 2, 2.5)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. L. Kelly Jr., “A New Interpretation of Information Rate”, <em>Bell System Technical Journal</em> 35(4), 1956</li><li>E. O. Thorp, “The Kelly Criterion in Blackjack, Sports Betting and the Stock Market”, in <em>Handbook of Asset and Liability Management</em>, vol. 1, Elsevier, 2006</li><li><em>Fortune’s Formula</em>, W. Poundstone, Hill and Wang, 2005</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

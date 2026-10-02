@@ -40,6 +40,7 @@
     "articleSection": "Applications",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -135,7 +136,7 @@ response = client.chat.completions.create(
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>If a single answer is right 60% of the time and samples were independent, a majority vote over 5 samples would be right <strong>68.3%</strong> of the time and over 15 samples <strong>78.7%</strong>. That is the idea behind self-consistency. In practice samples share their mistakes, so the real gain is smaller — but the direction holds.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Results are sensitive to small formatting changes — spacing, separators, option order — sometimes by many points (Sclar et al. 2024).</li><li>A prompt tuned on one model version often does not transfer to the next.</li><li>Prompt tweaks evaluated on a handful of examples are a garden of forking paths; test on a held-out set.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>from math import comb
 def majority(p, n):                               # independent samples, binary right/wrong
     return sum(comb(n, k) * p**k * (1 - p)**(n - k) for k in range(n // 2 + 1, n + 1))
-votes = {n: round(majority(0.6, n), 3) for n in (1, 5, 15)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. Wei et al., “Chain-of-Thought Prompting Elicits Reasoning in Large Language Models”, <em>NeurIPS</em>, 2022</li><li>X. Wang et al., “Self-Consistency Improves Chain of Thought Reasoning in Language Models”, <em>ICLR</em>, 2023</li><li>M. Sclar, Y. Choi, Y. Tsvetkov &amp; A. Suhr, “Quantifying Language Models’ Sensitivity to Spurious Features in Prompt Design”, <em>ICLR</em>, 2024</li></ul></div></section>
+votes = {n: round(majority(0.6, n), 3) for n in (1, 5, 15)}</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. Wei et al., “Chain-of-Thought Prompting Elicits Reasoning in Large Language Models”, <em>NeurIPS</em>, 2022</li><li>X. Wang et al., “Self-Consistency Improves Chain of Thought Reasoning in Language Models”, <em>ICLR</em>, 2023</li><li>M. Sclar, Y. Choi, Y. Tsvetkov &amp; A. Suhr, “Quantifying Language Models’ Sensitivity to Spurious Features in Prompt Design”, <em>ICLR</em>, 2024</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

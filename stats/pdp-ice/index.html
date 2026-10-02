@@ -40,6 +40,7 @@
     "articleSection": "Understand Your Features",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ x2 = rng.choice([-1.0, 1.0], 1_000)                 # half the rows have x2 = -1
 predict = lambda x1, x2: x1 * x2                     # a pure interaction
 grid = np.linspace(-2, 2, 5)
 pdp = [predict(g, x2).mean() for g in grid]          # average over the data
-ice_slopes = sorted({float(predict(1, v) - predict(0, v)) for v in x2})</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. H. Friedman, “Greedy Function Approximation: A Gradient Boosting Machine”, <em>Annals of Statistics</em> 29(5), 2001</li><li>A. Goldstein, A. Kapelner, J. Bleich &amp; E. Pitkin, “Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation”, <em>Journal of Computational and Graphical Statistics</em> 24(1), 2015</li><li>D. W. Apley &amp; J. Zhu, “Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models”, <em>Journal of the Royal Statistical Society B</em> 82(4), 2020</li></ul></div></section>
+ice_slopes = sorted({float(predict(1, v) - predict(0, v)) for v in x2})</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. H. Friedman, “Greedy Function Approximation: A Gradient Boosting Machine”, <em>Annals of Statistics</em> 29(5), 2001</li><li>A. Goldstein, A. Kapelner, J. Bleich &amp; E. Pitkin, “Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation”, <em>Journal of Computational and Graphical Statistics</em> 24(1), 2015</li><li>D. W. Apley &amp; J. Zhu, “Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models”, <em>Journal of the Royal Statistical Society B</em> 82(4), 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

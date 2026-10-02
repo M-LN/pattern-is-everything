@@ -40,6 +40,7 @@
     "articleSection": "Risk Measures",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -118,7 +119,7 @@
 k = 5                                                      # a five-standard-deviation down day
 p_normal = stats.norm.cdf(-k)
 p_fat = stats.t.cdf(-k * np.sqrt(3), df=3)                 # Student-t with 3 d.o.f., scaled to the same volatility
-years_normal, years_fat = 1 / (p_normal * 252), 1 / (p_fat * 252)   # how often, in trading years</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Mandelbrot, “The Variation of Certain Speculative Prices”, <em>Journal of Business</em> 36(4), 1963</li><li>R. Cont, “Empirical Properties of Asset Returns: Stylized Facts and Statistical Issues”, <em>Quantitative Finance</em> 1(2), 2001</li><li>A. J. McNeil &amp; R. Frey, “Estimation of Tail-Related Risk Measures for Heteroscedastic Financial Time Series: An Extreme Value Approach”, <em>Journal of Empirical Finance</em> 7(3–4), 2000</li></ul></div></section>
+years_normal, years_fat = 1 / (p_normal * 252), 1 / (p_fat * 252)   # how often, in trading years</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Mandelbrot, “The Variation of Certain Speculative Prices”, <em>Journal of Business</em> 36(4), 1963</li><li>R. Cont, “Empirical Properties of Asset Returns: Stylized Facts and Statistical Issues”, <em>Quantitative Finance</em> 1(2), 2001</li><li>A. J. McNeil &amp; R. Frey, “Estimation of Tail-Related Risk Measures for Heteroscedastic Financial Time Series: An Extreme Value Approach”, <em>Journal of Empirical Finance</em> 7(3–4), 2000</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

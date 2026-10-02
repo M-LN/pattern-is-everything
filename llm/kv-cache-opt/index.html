@@ -40,6 +40,7 @@
     "articleSection": "Inference",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ lengths = np.clip(rng.lognormal(np.log(400), 0.8, 64).astype(int), 16, 4_096)   
 reserved_contiguous = 64 * 4_096                         # a buffer for the maximum length each
 reserved_paged = (np.ceil(lengths / 16) * 16).sum()      # 16-token blocks, allocated as needed
 used = lengths.sum()
-util = (used / reserved_contiguous, used / reserved_paged)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023</li><li>L. Zheng et al., “SGLang: Efficient Execution of Structured Language Model Programs”, arXiv:2312.07104, 2024 — prefix caching</li></ul></div></section>
+util = (used / reserved_contiguous, used / reserved_paged)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023</li><li>L. Zheng et al., “SGLang: Efficient Execution of Structured Language Model Programs”, arXiv:2312.07104, 2024 — prefix caching</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

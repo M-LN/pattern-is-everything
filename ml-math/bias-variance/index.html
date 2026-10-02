@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -160,7 +161,7 @@ def bias_var(degree, sets=200, n=30, noise=0.3):
     preds = np.array(preds)
     return ((preds.mean(0) - f(x_test)) ** 2).mean(), preds.var(0).mean()
 
-result = {d: np.round(bias_var(d), 3).tolist() for d in (1, 3, 9)}   # degree: [bias^2, variance]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Geman, E. Bienenstock &amp; R. Doursat, “Neural Networks and the Bias/Variance Dilemma”, <em>Neural Computation</em> 4(1), 1992</li><li>M. Belkin, D. Hsu, S. Ma &amp; S. Mandal, “Reconciling Modern Machine-Learning Practice and the Classical Bias–Variance Trade-off”, <em>PNAS</em> 116(32), 2019</li><li><em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009</li></ul></div></section>
+result = {d: np.round(bias_var(d), 3).tolist() for d in (1, 3, 9)}   # degree: [bias^2, variance]</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Geman, E. Bienenstock &amp; R. Doursat, “Neural Networks and the Bias/Variance Dilemma”, <em>Neural Computation</em> 4(1), 1992</li><li>M. Belkin, D. Hsu, S. Ma &amp; S. Mandal, “Reconciling Modern Machine-Learning Practice and the Classical Bias–Variance Trade-off”, <em>PNAS</em> 116(32), 2019</li><li><em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

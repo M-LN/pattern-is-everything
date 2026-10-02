@@ -40,6 +40,7 @@
     "articleSection": "Architecture",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -129,7 +130,7 @@
 tokens = long / short
 attention_work = tokens ** 2                   # score matrix grows with n^2
 kv_memory = tokens                             # the cache grows with n
-rope_scale = long / short                      # position interpolation factor</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. F. Liu et al., “Lost in the Middle: How Language Models Use Long Contexts”, <em>Transactions of the ACL</em> 12, 2024</li><li>B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024</li><li>A. Q. Jiang et al., “Mistral 7B”, arXiv:2310.06825, 2023 — sliding-window attention</li></ul></div></section>
+rope_scale = long / short                      # position interpolation factor</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>N. F. Liu et al., “Lost in the Middle: How Language Models Use Long Contexts”, <em>Transactions of the ACL</em> 12, 2024</li><li>B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024</li><li>A. Q. Jiang et al., “Mistral 7B”, arXiv:2310.06825, 2023 — sliding-window attention</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

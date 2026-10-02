@@ -36,6 +36,8 @@ try {
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://patterniseverything.com';
+/* When the content was last checked against its sources (shown on every topic; see /method/). */
+const REVIEWED = '2026-10-02';
 
 /* Collections that can be pre-rendered. `depth` is how many directories the
    collection sits below the site root, which sets the generated page's
@@ -198,6 +200,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
     "articleSection": ${JSON.stringify(topic.category || '')},
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "${REVIEWED}",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "${SITE}/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }

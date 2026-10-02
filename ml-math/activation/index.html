@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -137,7 +138,7 @@ two_linear = W2 @ (W1 @ x)
 one_linear = (W2 @ W1) @ x                  # the same map, one matrix
 collapse_gap = np.abs(two_linear - one_linear).max()
 with_relu = W2 @ np.maximum(W1 @ x, 0)
-relu_gap = np.abs(with_relu - one_linear).max()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>G. Cybenko, “Approximation by Superpositions of a Sigmoidal Function”, <em>Mathematics of Control, Signals and Systems</em> 2(4), 1989</li><li>X. Glorot, A. Bordes &amp; Y. Bengio, “Deep Sparse Rectifier Neural Networks”, <em>AISTATS</em>, 2011</li><li>D. Hendrycks &amp; K. Gimpel, “Gaussian Error Linear Units (GELUs)”, arXiv:1606.08415, 2016</li></ul></div></section>
+relu_gap = np.abs(with_relu - one_linear).max()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>G. Cybenko, “Approximation by Superpositions of a Sigmoidal Function”, <em>Mathematics of Control, Signals and Systems</em> 2(4), 1989</li><li>X. Glorot, A. Bordes &amp; Y. Bengio, “Deep Sparse Rectifier Neural Networks”, <em>AISTATS</em>, 2011</li><li>D. Hendrycks &amp; K. Gimpel, “Gaussian Error Linear Units (GELUs)”, arXiv:1606.08415, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

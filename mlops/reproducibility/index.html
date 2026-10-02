@@ -40,6 +40,7 @@
     "articleSection": "Governance & Trust",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -130,7 +131,7 @@ torch.backends.cudnn.deterministic = <span class="st">True</span>
 s1 = x.sum()
 s2 = x[np.random.default_rng(7).permutation(len(x))].sum()   # same numbers, different order
 order_diff = abs(float(s1) - float(s2))
-same_seed = np.random.default_rng(42).random(3).tolist() == np.random.default_rng(42).random(3).tolist()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. Pineau et al., “Improving Reproducibility in Machine Learning Research”, <em>Journal of Machine Learning Research</em> 22(164), 2021</li><li>O. E. Gundersen &amp; S. Kjensmo, “State of the Art: Reproducibility in Artificial Intelligence”, <em>AAAI</em>, 2018</li><li>D. Goldberg, “What Every Computer Scientist Should Know About Floating-Point Arithmetic”, <em>ACM Computing Surveys</em> 23(1), 1991</li></ul></div></section>
+same_seed = np.random.default_rng(42).random(3).tolist() == np.random.default_rng(42).random(3).tolist()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>J. Pineau et al., “Improving Reproducibility in Machine Learning Research”, <em>Journal of Machine Learning Research</em> 22(164), 2021</li><li>O. E. Gundersen &amp; S. Kjensmo, “State of the Art: Reproducibility in Artificial Intelligence”, <em>AAAI</em>, 2018</li><li>D. Goldberg, “What Every Computer Scientist Should Know About Floating-Point Arithmetic”, <em>ACM Computing Surveys</em> 23(1), 1991</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

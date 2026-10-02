@@ -40,6 +40,7 @@
     "articleSection": "Practice & Tooling",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -133,7 +134,7 @@ z_global = (temp - temp.mean()) / temp.std()
 resid = temp - pd.Series(temp).rolling(15, center=True, min_periods=5).median()
 z_local = resid / resid.std()
 flags = (round(z_global[20], 2), round(z_local[20], 2))
-false_alarms_per_day = 10_000 * 0.0027             # 10,000 metrics checked daily at 3 sigma</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>V. Chandola, A. Banerjee &amp; V. Kumar, “Anomaly Detection: A Survey”, <em>ACM Computing Surveys</em> 41(3), 2009</li><li>J. Hochenbaum, O. S. Vallis &amp; A. Kejariwal, “Automatic Anomaly Detection in the Cloud Via Statistical Learning”, arXiv:1704.07706, 2017</li></ul></div></section>
+false_alarms_per_day = 10_000 * 0.0027             # 10,000 metrics checked daily at 3 sigma</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>V. Chandola, A. Banerjee &amp; V. Kumar, “Anomaly Detection: A Survey”, <em>ACM Computing Surveys</em> 41(3), 2009</li><li>J. Hochenbaum, O. S. Vallis &amp; A. Kejariwal, “Automatic Anomaly Detection in the Cloud Via Statistical Learning”, arXiv:1704.07706, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

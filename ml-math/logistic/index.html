@@ -40,6 +40,7 @@
     "articleSection": "Foundations",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ w, b, x = 1.5, -2.0, 3.0
 p = sigmoid(w * x + b)                      # P(y = 1 | x)
 loss_right = bce(1, 0.9)                    # confident and right
 loss_wrong = bce(1, 0.1)                    # confident and wrong
-grad_w = (p - 1) * x                        # dBCE/dw for a true label y = 1</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. R. Cox, “The Regression Analysis of Binary Sequences”, <em>Journal of the Royal Statistical Society B</em> 20(2), 1958</li><li><em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009 — chapter 4</li></ul></div></section>
+grad_w = (p - 1) * x                        # dBCE/dw for a true label y = 1</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. R. Cox, “The Regression Analysis of Binary Sequences”, <em>Journal of the Royal Statistical Society B</em> 20(2), 1958</li><li><em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009 — chapter 4</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -40,6 +40,7 @@
     "articleSection": "Data Analytics",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -180,7 +181,7 @@ print("fix first:", (funnel / funnel.shift(1)).idxmin())</code></pre>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A funnel converting 40%, 50% and 20% at its three steps: <strong>4.0%</strong> end to end. Ten more points on the weakest step (20 → 30%) lift it to <strong>6.0%</strong>; ten more points on the 50% step only to <strong>4.8%</strong>. Steps multiply, so the same absolute gain is worth most where the rate is lowest — it is the biggest relative change.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Steps are not independent: pushing more people through one step often lowers the quality of those reaching the next.</li><li>Funnels built from sessions double-count users who return; decide whether you are counting people or visits.</li><li>A funnel shows where people leave, not why; pair it with experiments.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>stages = np.array([0.40, 0.50, 0.20])               # visit -&gt; signup -&gt; trial -&gt; paid
 overall = stages.prod()
 fix_small = np.array([0.40, 0.50, 0.30]).prod()      # +10 points on the weakest step
-fix_large = np.array([0.40, 0.60, 0.20]).prod()      # +10 points on a stronger one</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li><li><em>Lean Analytics</em>, A. Croll &amp; B. Yoskovitz, O’Reilly, 2013</li></ul></div></section>
+fix_large = np.array([0.40, 0.60, 0.20]).prod()      # +10 points on a stronger one</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li><li><em>Lean Analytics</em>, A. Croll &amp; B. Yoskovitz, O’Reilly, 2013</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

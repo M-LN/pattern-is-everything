@@ -40,6 +40,7 @@
     "articleSection": "Understand Your Features",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -141,7 +142,7 @@ def importance(X, w, col):
     return ((Xp @ w - y) ** 2).mean() - base
 
 alone = importance(x1[:, None], np.array([2.0]), 0)
-both = importance(np.c_[x1, x2], np.array([1.0, 1.0]), 0)     # a model that split the weight</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>L. Breiman, “Random Forests”, <em>Machine Learning</em> 45(1), 2001</li><li>C. Strobl, A.-L. Boulesteix, T. Kneib, T. Augustin &amp; A. Zeileis, “Conditional Variable Importance for Random Forests”, <em>BMC Bioinformatics</em> 9, 2008</li><li>G. Hooker, L. Mentch &amp; S. Zhou, “Unrestricted Permutation Forces Extrapolation”, <em>Statistics and Computing</em> 31, 2021</li></ul></div></section>
+both = importance(np.c_[x1, x2], np.array([1.0, 1.0]), 0)     # a model that split the weight</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>L. Breiman, “Random Forests”, <em>Machine Learning</em> 45(1), 2001</li><li>C. Strobl, A.-L. Boulesteix, T. Kneib, T. Augustin &amp; A. Zeileis, “Conditional Variable Importance for Random Forests”, <em>BMC Bioinformatics</em> 9, 2008</li><li>G. Hooker, L. Mentch &amp; S. Zhou, “Unrestricted Permutation Forces Extrapolation”, <em>Statistics and Computing</em> 31, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

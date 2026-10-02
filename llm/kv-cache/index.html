@@ -40,6 +40,7 @@
     "articleSection": "Architecture",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -132,7 +133,7 @@ recompute = T * (T + 1) // 2                    # K/V projections without a cach
 cached = T                                      # with a cache: one new token per step
 layers, kv_heads, d_k, bytes_per = 32, 8, 128, 2   # Llama-3-8B shapes, fp16
 per_token_kb = 2 * layers * kv_heads * d_k * bytes_per / 1024
-at_128k_gb = per_token_kb * 131_072 / 1024 ** 2</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Pope et al., “Efficiently Scaling Transformer Inference”, <em>Proceedings of Machine Learning and Systems</em> 5, 2023</li><li>N. Shazeer, “Fast Transformer Decoding: One Write-Head Is All You Need”, arXiv:1911.02150, 2019</li><li>W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023</li></ul></div></section>
+at_128k_gb = per_token_kb * 131_072 / 1024 ** 2</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Pope et al., “Efficiently Scaling Transformer Inference”, <em>Proceedings of Machine Learning and Systems</em> 5, 2023</li><li>N. Shazeer, “Fast Transformer Decoding: One Write-Head Is All You Need”, arXiv:1911.02150, 2019</li><li>W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

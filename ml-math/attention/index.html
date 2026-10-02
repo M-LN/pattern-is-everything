@@ -40,6 +40,7 @@
     "articleSection": "Deep Learning",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -123,7 +124,7 @@ softmax = lambda z: np.exp(z - z.max()) / np.exp(z - z.max()).sum()
 d = 512
 q, K = rng.normal(size=d), rng.normal(size=(10, d))   # one query, ten keys
 raw = softmax(K @ q).max()                             # unscaled scores grow with sqrt(d)
-scaled = softmax(K @ q / np.sqrt(d)).max()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>D. Bahdanau, K. Cho &amp; Y. Bengio, “Neural Machine Translation by Jointly Learning to Align and Translate”, <em>ICLR</em>, 2015</li><li>S. Jain &amp; B. C. Wallace, “Attention Is Not Explanation”, <em>NAACL</em>, 2019</li></ul></div></section>
+scaled = softmax(K @ q / np.sqrt(d)).max()</pre></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>D. Bahdanau, K. Cho &amp; Y. Bengio, “Neural Machine Translation by Jointly Learning to Align and Translate”, <em>ICLR</em>, 2015</li><li>S. Jain &amp; B. C. Wallace, “Attention Is Not Explanation”, <em>NAACL</em>, 2019</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

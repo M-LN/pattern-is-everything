@@ -40,6 +40,7 @@
     "articleSection": "Cognitive Biases",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -114,7 +115,7 @@ def update(p, lrs, w_against=1.0):               # Bayes in log-odds; w_against 
 
 fair = update(prior, lr)
 biased = update(prior, lr, w_against=0.5)
-biased_after_5_rounds = update(prior, lr * 5, w_against=0.5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. S. Nickerson, “Confirmation Bias: A Ubiquitous Phenomenon in Many Guises”, <em>Review of General Psychology</em> 2(2), 1998</li><li>P. C. Wason, “On the Failure to Eliminate Hypotheses in a Conceptual Task”, <em>Quarterly Journal of Experimental Psychology</em> 12(3), 1960 — the 2-4-6 task</li><li>J. Klayman &amp; Y.-W. Ha, “Confirmation, Disconfirmation, and Information in Hypothesis Testing”, <em>Psychological Review</em> 94(2), 1987</li><li>J. Park, P. Konana, B. Gu, A. Kumar &amp; R. Raghunathan, “Information Valuation and Confirmation Bias in Virtual Communities: Evidence from Stock Message Boards”, <em>Information Systems Research</em> 24(4), 2013</li></ul></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Seeing what you expect to see is <a href="../../../ml-math/#bias-variance">high bias</a> in ML — the model only fits its prior assumption.</div></div>
+biased_after_5_rounds = update(prior, lr * 5, w_against=0.5)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. S. Nickerson, “Confirmation Bias: A Ubiquitous Phenomenon in Many Guises”, <em>Review of General Psychology</em> 2(2), 1998</li><li>P. C. Wason, “On the Failure to Eliminate Hypotheses in a Conceptual Task”, <em>Quarterly Journal of Experimental Psychology</em> 12(3), 1960 — the 2-4-6 task</li><li>J. Klayman &amp; Y.-W. Ha, “Confirmation, Disconfirmation, and Information in Hypothesis Testing”, <em>Psychological Review</em> 94(2), 1987</li><li>J. Park, P. Konana, B. Gu, A. Kumar &amp; R. Raghunathan, “Information Valuation and Confirmation Bias in Virtual Communities: Evidence from Stock Message Boards”, <em>Information Systems Research</em> 24(4), 2013</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><div class="callout bridge"><strong>Pattern bridge:</strong> Seeing what you expect to see is <a href="../../../ml-math/#bias-variance">high bias</a> in ML — the model only fits its prior assumption.</div></div>
   <section class="topic-connections" aria-label="Topics that link here">
     <div class="tc-head"><span aria-hidden="true">↔</span> Linked from <span class="tc-count">1</span></div>
     <ul>

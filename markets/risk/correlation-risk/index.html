@@ -40,6 +40,7 @@
     "articleSection": "Risk Measures",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -121,7 +122,7 @@ def port_vol(rho):
     cov = np.outer(vol, vol) * np.array([[1, rho], [rho, 1]])
     return np.sqrt(w @ cov @ w)
 
-calm, stress = port_vol(0.2), port_vol(0.9)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. J. Forbes &amp; R. Rigobon, “No Contagion, Only Interdependence: Measuring Stock Market Comovements”, <em>Journal of Finance</em> 57(5), 2002</li><li>F. Longin &amp; B. Solnik, “Extreme Correlation of International Equity Markets”, <em>Journal of Finance</em> 56(2), 2001</li><li>A. Ang &amp; J. Chen, “Asymmetric Correlations of Equity Portfolios”, <em>Journal of Financial Economics</em> 63(3), 2002</li></ul></div></section>
+calm, stress = port_vol(0.2), port_vol(0.9)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>K. J. Forbes &amp; R. Rigobon, “No Contagion, Only Interdependence: Measuring Stock Market Comovements”, <em>Journal of Finance</em> 57(5), 2002</li><li>F. Longin &amp; B. Solnik, “Extreme Correlation of International Equity Markets”, <em>Journal of Finance</em> 56(2), 2001</li><li>A. Ang &amp; J. Chen, “Asymmetric Correlations of Equity Portfolios”, <em>Journal of Financial Economics</em> 63(3), 2002</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

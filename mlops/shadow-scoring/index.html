@@ -40,6 +40,7 @@
     "articleSection": "Monitor & Observe",
     "isAccessibleForFree": true,
     "inLanguage": "en",
+    "dateModified": "2026-10-02",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -121,7 +122,7 @@ def shadow(n, p_champ=0.90, p_chal=0.91):           # both models score the same
     only_chal, only_champ = (chal &amp; ~champ).sum(), (champ &amp; ~chal).sum()
     return binomtest(only_chal, only_chal + only_champ).pvalue           # McNemar's exact test
 
-p_2k, p_20k = shadow(2_000), shadow(20_000)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998 — McNemar’s test</li><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li><li><em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022</li></ul></div></section>
+p_2k, p_20k = shadow(2_000), shadow(20_000)</pre></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998 — McNemar’s test</li><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li><li><em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">
