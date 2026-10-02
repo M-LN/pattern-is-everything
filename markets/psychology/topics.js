@@ -508,7 +508,209 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "loss-aversion": [
+  {
+   "q": "According to Tversky and Kahneman’s 1992 estimates, a loss feels about how many times as strong as an equal gain?",
+   "options": [
+    "About the same.",
+    "About twice (λ ≈ 2.25).",
+    "About ten times."
+   ],
+   "answer": 1,
+   "why": "Later studies find a range of values, but the asymmetry itself is one of the most replicated findings in behavioural economics."
+  },
+  {
+   "q": "Many people refuse a 50/50 bet to lose $100 or win $150. Why?",
+   "options": [
+    "The bet has a negative expected value.",
+    "They misread the odds.",
+    "Loss aversion: the possible loss weighs more than the larger possible gain."
+   ],
+   "answer": 2,
+   "why": "The expected value is +$25, but with losses weighted about twice, the bet feels like a loss."
+  },
+  {
+   "q": "What is myopic loss aversion?",
+   "options": [
+    "Being unable to see losses coming.",
+    "Preferring short-term investments.",
+    "Checking a portfolio often makes it feel riskier, because short periods show more losses."
+   ],
+   "answer": 2,
+   "why": "Benartzi &amp; Thaler (1995) used it to explain why investors demand such a high premium for holding stocks."
+  }
+ ],
+ "gambler-fallacy": [
+  {
+   "q": "A roulette wheel has come up red five times in a row. The chance of black on the next spin is…",
+   "options": [
+    "unchanged — each spin is independent.",
+    "higher, because black is due.",
+    "lower, because red is on a streak."
+   ],
+   "answer": 0,
+   "why": "The wheel has no memory. Believing black is “due” is the gambler’s fallacy; believing red is “hot” is its mirror image."
+  },
+  {
+   "q": "“The stock fell five days in a row, so it must bounce.” What is wrong with that reasoning?",
+   "options": [
+    "Nothing — streaks always end with a bounce.",
+    "The streak shows a downtrend, so it will keep falling.",
+    "Without evidence of mean reversion at that horizon, a streak says little about the next day."
+   ],
+   "answer": 2,
+   "why": "Daily stock returns are close to independent. Patterns must be tested, not assumed from a streak."
+  },
+  {
+   "q": "What does the law of large numbers actually say?",
+   "options": [
+    "The proportion settles down as trials accumulate — early deviations are diluted, not corrected.",
+    "Outcomes balance out, so an excess of reds must be followed by blacks.",
+    "Small samples look like the whole population."
+   ],
+   "answer": 0,
+   "why": "After 10 extra reds, the proportion still tends to 50% because the 10 become a vanishing share of thousands of spins."
+  }
+ ],
+ "disposition-effect": [
+  {
+   "q": "What is the disposition effect?",
+   "options": [
+    "Buying stocks that have risen recently.",
+    "Selling winners too early and holding on to losers too long.",
+    "Refusing to sell anything."
+   ],
+   "answer": 1,
+   "why": "Shefrin &amp; Statman (1985) named it; realising a loss is painful, realising a gain feels good."
+  },
+  {
+   "q": "In Odean’s (1998) study of brokerage accounts, how did the winners investors sold compare with the losers they kept?",
+   "options": [
+    "The losers kept recovered and beat the winners sold.",
+    "There was no difference.",
+    "The winners sold went on to beat the losers kept over the following year."
+   ],
+   "answer": 2,
+   "why": "The difference was about 3.4 percentage points over the next year — the habit cost money, not just taxes."
+  },
+  {
+   "q": "Why is the disposition effect costly for taxes too?",
+   "options": [
+    "Losses are taxed more heavily than gains.",
+    "Selling winners realises taxable gains, while held losses could have offset them.",
+    "It is not — taxes are the same either way."
+   ],
+   "answer": 1,
+   "why": "Tax rules usually reward the opposite: realise losses, defer gains."
+  }
+ ],
+ "overconfidence": [
+  {
+   "q": "Barber and Odean (2000) sorted households by how much they traded. What did the most active traders earn?",
+   "options": [
+    "The highest returns.",
+    "Clearly lower returns after costs than those who traded least.",
+    "The same as everyone else."
+   ],
+   "answer": 1,
+   "why": "Their paper is titled “Trading Is Hazardous to Your Wealth”: costs ate the gains that confident trading was supposed to bring."
+  },
+  {
+   "q": "People asked for 90% confidence intervals on quantities they do not know contain the truth…",
+   "options": [
+    "about 90% of the time.",
+    "more than 90% of the time.",
+    "far less than 90% of the time — often only about half."
+   ],
+   "answer": 2,
+   "why": "Intervals are too narrow: people are more sure than their knowledge justifies."
+  },
+  {
+   "q": "Which habit helps against overconfidence?",
+   "options": [
+    "Writing forecasts down with a probability, then scoring them later.",
+    "Trading more often to gain experience.",
+    "Relying on gut feeling."
+   ],
+   "answer": 0,
+   "why": "A decision journal turns vague memories of being right into a calibration record."
+  }
+ ],
+ "anchoring": [
+  {
+   "q": "What is anchoring?",
+   "options": [
+    "Estimates pulled towards a number seen first, even an irrelevant one.",
+    "Holding a position too long.",
+    "Following the crowd."
+   ],
+   "answer": 0,
+   "why": "In Tversky &amp; Kahneman’s 1974 experiment, a spun wheel of fortune shifted people’s estimates of a factual quantity."
+  },
+  {
+   "q": "George and Hwang (2004) linked the 52-week high to momentum. What did they find?",
+   "options": [
+    "Stocks near their 52-week high tended to keep outperforming, as if investors under-reacted near that anchor.",
+    "Stocks near their 52-week high tended to fall back.",
+    "The 52-week high had no relation to returns."
+   ],
+   "answer": 0,
+   "why": "Nearness to the 52-week high explained much of the momentum effect in their sample."
+  },
+  {
+   "q": "A common anchor in your own portfolio is…",
+   "options": [
+    "the index level.",
+    "the price you paid, which says nothing about where the stock goes next.",
+    "the dividend yield."
+   ],
+   "answer": 1,
+   "why": "Judge a holding on its prospects from today’s price, not on whether it is above or below your entry."
+  }
+ ],
+ "sunk-cost-fallacy": [
+  {
+   "q": "What is the sunk cost fallacy?",
+   "options": [
+    "Continuing something because of what has already been spent and cannot be recovered.",
+    "Cutting losses too early.",
+    "Spending too little on research."
+   ],
+   "answer": 0,
+   "why": "Past costs are the same whichever way you decide now, so they should not affect the choice."
+  },
+  {
+   "q": "Which question cuts through it for an investment?",
+   "options": [
+    "“Would I buy this today, at today’s price, knowing what I know now?”",
+    "“How much have I lost on it?”",
+    "“What did I pay for it?”"
+   ],
+   "answer": 0,
+   "why": "If the answer is no, holding it is the same decision as buying it."
+  },
+  {
+   "q": "Buying more of a losing position to “win back” what was lost is…",
+   "options": [
+    "always a sound strategy.",
+    "sunk-cost reasoning — the decision should rest on expected future returns.",
+    "required by risk management."
+   ],
+   "answer": 1,
+   "why": "Averaging down can be reasonable when the outlook justifies it; the size of the past loss is not a reason."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('markets/psychology/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'markets-psychology/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up.' });

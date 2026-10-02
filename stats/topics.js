@@ -134,7 +134,7 @@ function buildNav() {
 /* ═══════════════════════════════════════════════════════════════
    CONTENT BUILDER
    ═══════════════════════════════════════════════════════════════ */
-/* selfcheck:start — "Check yourself" pilot; js/self-check.js renders it. */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
 const SELF_CHECK = {
  "hypothesis-testing": [
   {
@@ -294,6 +294,166 @@ const SELF_CHECK = {
    ],
    "answer": 2,
    "why": "ROC-AUC counts true negatives, which are plentiful, so it can look good while most alarms are false. Precision–recall focuses on the rare class (Saito &amp; Rehmsmeier 2015)."
+  }
+ ],
+ "power-analysis": [
+  {
+   "q": "An A/B test was planned with 80% power to detect a 2-point lift. What does the 80% mean?",
+   "options": [
+    "There is an 80% chance that the lift is real.",
+    "The result will be within 2 points of the truth 80% of the time.",
+    "If the true lift is 2 points, the test will come out significant about 80% of the time."
+   ],
+   "answer": 2,
+   "why": "Power is a property of the design: the probability of a significant result <em>given</em> an effect of the stated size. It says nothing about how likely the effect is to exist."
+  },
+  {
+   "q": "To detect an effect half as large with the same power and significance level, the sample size must be about…",
+   "options": [
+    "four times as large.",
+    "twice as large.",
+    "the same — power does not depend on the effect size."
+   ],
+   "answer": 0,
+   "why": "The standard error shrinks with √n, so halving the effect you want to see requires √n to double — four times the sample."
+  },
+  {
+   "q": "A small study finds a significant and surprisingly large effect. Why be cautious?",
+   "options": [
+    "In underpowered studies, the estimates that reach significance are biased upward — only the lucky overestimates clear the bar.",
+    "Small studies cannot produce significant results, so it must be an error.",
+    "Significance guarantees the size of the effect is accurate."
+   ],
+   "answer": 0,
+   "why": "Gelman &amp; Carlin call this a Type M (magnitude) error: with low power, a significant estimate is often several times the true effect."
+  }
+ ],
+ "effect-size": [
+  {
+   "q": "Study A reports p = 0.001 with 100,000 people; study B reports p = 0.04 with 50. Which found the larger effect?",
+   "options": [
+    "A — a smaller p-value means a bigger effect.",
+    "You cannot tell from the p-values: a p-value mixes the size of the effect with the size of the sample.",
+    "B — significance is harder to reach in small samples, so its effect must be the same."
+   ],
+   "answer": 1,
+   "why": "A huge sample makes even a trivial difference significant. Compare effect sizes (and their confidence intervals), not p-values."
+  },
+  {
+   "q": "Two groups differ by Cohen’s d = 0.2. Which description fits?",
+   "options": [
+    "20% of the people in one group are affected.",
+    "The means differ by a fifth of a standard deviation; the two distributions overlap by about 92%.",
+    "The difference is too small to matter in any context."
+   ],
+   "answer": 1,
+   "why": "Cohen called 0.2 “small”, but whether it matters depends on the setting: a small shift applied to millions of people, or to money, can be important."
+  },
+  {
+   "q": "A huge trial finds a drug lowers blood pressure by 1 mmHg on average, p &lt; 0.001. The best summary is:",
+   "options": [
+    "Highly significant, so it is clinically important.",
+    "The effect is too small to be real.",
+    "The effect is clearly real, and whether 1 mmHg matters is a clinical question, not a statistical one."
+   ],
+   "answer": 2,
+   "why": "Statistical significance answers “is it distinguishable from zero?”; practical significance asks “is it big enough to care about?”."
+  }
+ ],
+ "walk-forward": [
+  {
+   "q": "Why not use ordinary shuffled k-fold cross-validation on a trading strategy’s daily data?",
+   "options": [
+    "Shuffled folds train on the future to predict the past, and neighbouring days share information across the split.",
+    "k-fold needs more data than a backtest has.",
+    "Cross-validation only works for classification."
+   ],
+   "answer": 0,
+   "why": "Walk-forward testing keeps time order: fit on the past, test on the next period, roll forward."
+  },
+  {
+   "q": "You test 200 parameter sets walk-forward and report the out-of-sample Sharpe ratio of the best one. What is wrong?",
+   "options": [
+    "Picking the winner by its out-of-sample result makes that result in-sample; the reported Sharpe is biased upward.",
+    "Nothing — walk-forward results are out-of-sample by construction.",
+    "Walk-forward only allows one parameter set."
+   ],
+   "answer": 0,
+   "why": "Selection is fitting. Either choose parameters inside each training window, or correct for the number of trials (e.g. the deflated Sharpe ratio)."
+  },
+  {
+   "q": "What is the trade-off between an expanding (anchored) training window and a rolling one?",
+   "options": [
+    "Expanding windows leak future data; rolling windows do not.",
+    "Expanding keeps all history — more stable estimates, slower to adapt to regime changes; rolling adapts faster but is noisier.",
+    "There is none: they give the same results."
+   ],
+   "answer": 1,
+   "why": "Neither leaks if every training window ends before its test period. The choice is about stability versus adaptivity."
+  }
+ ],
+ "survivorship-bias": [
+  {
+   "q": "You backtest a strategy over 20 years on today’s S&amp;P 500 members. What bias does this introduce?",
+   "options": [
+    "Survivorship bias: companies that were removed or went bankrupt are missing, so returns are overstated.",
+    "Look-ahead bias in the prices.",
+    "None, as long as prices are adjusted for splits and dividends."
+   ],
+   "answer": 0,
+   "why": "Today’s index is a list of winners. A fair test uses the members as they were on each date."
+  },
+  {
+   "q": "A fund database lists the average past return of funds that exist today. Why is it too high?",
+   "options": [
+    "Funds that did badly were closed or merged and dropped out, taking their poor returns with them.",
+    "Fees are not included in fund returns.",
+    "Surviving funds take more risk."
+   ],
+   "answer": 0,
+   "why": "Studies of mutual funds find that ignoring dead funds raises measured average returns noticeably — the losers are exactly the ones that disappear."
+  },
+  {
+   "q": "A backtest uses quarterly earnings dated at the quarter’s end, although they are published weeks later. The problem is:",
+   "options": [
+    "Look-ahead bias: the strategy trades on information that was not yet public.",
+    "Survivorship bias.",
+    "None — the numbers are the same whenever they are published."
+   ],
+   "answer": 0,
+   "why": "Use point-in-time data: each value stamped with the date it became known, not the period it describes."
+  }
+ ],
+ "roc-auc": [
+  {
+   "q": "A classifier has AUC = 0.80. What does that mean?",
+   "options": [
+    "A randomly chosen positive gets a higher score than a randomly chosen negative 80% of the time.",
+    "The model is 80% accurate.",
+    "80% of the positives are caught."
+   ],
+   "answer": 0,
+   "why": "AUC measures ranking. Accuracy and recall depend on the threshold you choose, which AUC averages over."
+  },
+  {
+   "q": "Your model’s AUC on the test set is 0.30. What is the quickest fix?",
+   "options": [
+    "Reverse the scores: the ranking is informative but inverted, and the AUC becomes 0.70.",
+    "Nothing can be done — the model is worse than random.",
+    "Lower the threshold."
+   ],
+   "answer": 0,
+   "why": "AUC below 0.5 usually means a sign or label flip somewhere. 0.5 is the uninformative point, not 0."
+  },
+  {
+   "q": "Which of these does AUC <em>not</em> tell you?",
+   "options": [
+    "How well the model ranks positives above negatives.",
+    "How the model trades off true and false positives across thresholds.",
+    "Whether the predicted probabilities are calibrated."
+   ],
+   "answer": 2,
+   "why": "AUC is unchanged by any order-preserving transformation of the scores, so a model can rank well and still give badly calibrated probabilities."
   }
  ]
 };
@@ -1080,6 +1240,7 @@ plt.legend(); plt.show()</pre></div>
   <div class="callout info"><strong>Multi-class:</strong> Use <code>roc_auc_score(y, y_prob, multi_class='ovr')</code> with one-vs-rest for multi-class problems.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> AUC measures discrimination — can the model separate classes? In <a href="../markets/indicators/#rsi">RSI</a>, you're doing the same thing: separating overbought from oversold regimes across different threshold levels.</div>
   ${depthHtml('roc-auc')}
+  ${selfCheck('roc-auc')}
   <div class="topic-nav" id="nav-roc-auc"></div>
 </div>`;
 }
@@ -1906,6 +2067,7 @@ print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></di
     <div class="howto-pitfall"><strong>Common pitfall — look-ahead bias:</strong> Using indicators like 52-week high/low that peek into the future of your test window. Also: survivorship bias — backtesting on today's S&P 500 ignores all the companies that went bankrupt. Use point-in-time datasets.</div>
   </div>
   ${depthHtml('walk-forward')}
+  ${selfCheck('walk-forward')}
   <div class="topic-nav" id="nav-walk-forward"></div>
 </div>`;
 }
@@ -1985,6 +2147,7 @@ df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'tra
   <div class="callout info"><strong>Data snooping:</strong> If you tested 100 strategies, 5 will look significant at p &lt; 0.05 by pure chance. Adjust for multiple comparisons (Bonferroni) or use a holdout period you never touch.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Backtests are one case of a general pattern — <a href="../essays/#essay-survivor">we study what survived</a> and forget the rest. Its psychological twin is <a href="../markets/psychology/#hindsight-bias">hindsight bias</a>: after the fact, the winners look obvious.</div>
   ${depthHtml('survivorship-bias')}
+  ${selfCheck('survivorship-bias')}
   <div class="topic-nav" id="nav-survivorship-bias"></div>
 </div>`;
 }
@@ -2142,6 +2305,7 @@ print(<span class="st">f"Cohen's d = {d:.3f}"</span>)</pre></div>
   <div class="callout info"><strong>Always report both:</strong> "The improvement was statistically significant (p = 0.02) with a medium effect size (d = 0.55)." p-value alone is meaningless.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A significant result can still be too small to matter. A model in an <a href="../mlops/#ab-rollout">A/B rollout</a> can win by a margin that does not pay for itself, and a trading edge can be real yet vanish in <a href="../markets/risk/#risk-adjusted-perf">risk-adjusted terms</a>.</div>
   ${depthHtml('effect-size')}
+  ${selfCheck('effect-size')}
   <div class="topic-nav" id="nav-effect-size"></div>
 </div>`;
 }
@@ -2184,6 +2348,7 @@ plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="s
   <div class="callout"><strong>Before you experiment:</strong> Do the power analysis first. If you need 500 samples per group and can only get 50, the experiment is doomed before it starts.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Too little data and a real effect stays invisible. The same arithmetic decides how long an <a href="../mlops/#ab-rollout">A/B rollout</a> has to run, and how much history you need before <a href="../timeseries/#backtesting-forecasts">a backtest</a> can tell skill from luck.</div>
   ${depthHtml('power-analysis')}
+  ${selfCheck('power-analysis')}
   <div class="topic-nav" id="nav-power-analysis"></div>
 </div>`;
 }

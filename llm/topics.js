@@ -537,7 +537,241 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "tokenization": [
+  {
+   "q": "Why do language models often miscount the letters in a word?",
+   "options": [
+    "They are trained only on whole words.",
+    "They see subword tokens, not individual characters.",
+    "Counting needs more parameters than they have."
+   ],
+   "answer": 1,
+   "why": "A word like “strawberry” may be two or three tokens; the letters inside a token are not directly visible to the model."
+  },
+  {
+   "q": "The same sentence in Danish and in English usually costs…",
+   "options": [
+    "exactly the same number of tokens.",
+    "more tokens in Danish, because the tokenizer saw less Danish text when it was built.",
+    "fewer tokens in Danish, because Danish words are longer."
+   ],
+   "answer": 1,
+   "why": "BPE merges frequent character sequences. Languages that were rare in its training data split into more, shorter pieces — more cost and less context per sentence."
+  },
+  {
+   "q": "What is the trade-off of a larger vocabulary?",
+   "options": [
+    "Longer sequences and smaller matrices.",
+    "Shorter token sequences, but larger embedding and output matrices.",
+    "There is none."
+   ],
+   "answer": 1,
+   "why": "Each extra token type adds a row to the embedding table and a column to the output layer."
+  }
+ ],
+ "kv-cache": [
+  {
+   "q": "What does the KV cache store?",
+   "options": [
+    "The model’s weights in compressed form.",
+    "The keys and values of earlier tokens in every layer, so they are not recomputed at each generation step.",
+    "Previous prompts and their answers."
+   ],
+   "answer": 1,
+   "why": "Without it, generating token n would mean re-running attention over all n − 1 earlier tokens from scratch."
+  },
+  {
+   "q": "KV cache memory grows with…",
+   "options": [
+    "the vocabulary size.",
+    "sequence length × batch size × layers × (number of KV heads × head size).",
+    "the number of training tokens."
+   ],
+   "answer": 1,
+   "why": "Long contexts and large batches can make the cache larger than the weights themselves."
+  },
+  {
+   "q": "How does grouped-query attention (GQA) shrink the KV cache?",
+   "options": [
+    "Several query heads share one set of keys and values.",
+    "It stores keys and values at 1 bit.",
+    "It drops the oldest tokens."
+   ],
+   "answer": 0,
+   "why": "With 8 KV heads serving 64 query heads, the cache is 8 times smaller than with full multi-head attention."
+  }
+ ],
+ "sampling": [
+  {
+   "q": "What does temperature 0 (greedy decoding) do?",
+   "options": [
+    "Picks tokens uniformly at random.",
+    "Always picks the most likely next token.",
+    "Makes the model refuse to answer."
+   ],
+   "answer": 1,
+   "why": "Greedy decoding is (nearly) deterministic and can fall into repetition loops on long outputs."
+  },
+  {
+   "q": "What does top-p = 0.9 sample from?",
+   "options": [
+    "The 90 most likely tokens.",
+    "The smallest set of tokens whose probabilities add up to at least 0.9.",
+    "Any token with probability above 0.9."
+   ],
+   "answer": 1,
+   "why": "The set adapts: one token when the model is sure, many when it is not (Holtzman et al. 2020)."
+  },
+  {
+   "q": "Raising the temperature makes the output…",
+   "options": [
+    "more varied, and more likely to contain errors.",
+    "more accurate.",
+    "shorter."
+   ],
+   "answer": 0,
+   "why": "A higher temperature flattens the distribution, giving unlikely tokens more chance — good for brainstorming, bad for facts."
+  }
+ ],
+ "rag": [
+  {
+   "q": "A RAG system answers wrongly although the right document is in the corpus. What should you check first?",
+   "options": [
+    "The model’s temperature.",
+    "The length of the system prompt.",
+    "Whether retrieval returned that document at all."
+   ],
+   "answer": 2,
+   "why": "Measure retrieval recall separately from generation. If the passage never reached the model, no prompt will fix it."
+  },
+  {
+   "q": "What goes wrong when chunks are too large?",
+   "options": [
+    "Nothing — larger chunks always help.",
+    "Each embedding blurs several topics, so retrieval gets less precise and the context fills with irrelevant text.",
+    "The model can no longer read the chunk."
+   ],
+   "answer": 1,
+   "why": "Chunk size trades context for precision; test a few sizes on real questions."
+  },
+  {
+   "q": "Does RAG stop hallucination?",
+   "options": [
+    "It reduces it, but the model can still ignore, misread or go beyond the retrieved text.",
+    "Yes, completely.",
+    "No — it has no effect on hallucination."
+   ],
+   "answer": 0,
+   "why": "Evaluate faithfulness (is every claim supported by the retrieved passages?) as well as answer accuracy."
+  }
+ ],
+ "scaling-laws": [
+  {
+   "q": "What did the Chinchilla paper conclude about compute-optimal training?",
+   "options": [
+    "Model size matters far more than data.",
+    "Data matters far more than model size.",
+    "Model size and training tokens should grow roughly together — about 20 tokens per parameter."
+   ],
+   "answer": 2,
+   "why": "Hoffmann et al. (2022) found earlier large models were undertrained: a smaller model on more data matched them for the same compute."
+  },
+  {
+   "q": "Loss falls as a power law in compute. What does that imply?",
+   "options": [
+    "Each constant improvement in loss needs a multiplicative increase in compute.",
+    "Doubling compute halves the loss.",
+    "Loss stops improving after a fixed budget."
+   ],
+   "answer": 0,
+   "why": "On a log-log plot the curve is a straight line: steady gains require exponentially growing budgets."
+  },
+  {
+   "q": "What do scaling laws predict reliably?",
+   "options": [
+    "Exactly which benchmarks a model will pass.",
+    "Pre-training loss — not when specific abilities will appear on downstream tasks.",
+    "How safe the model will be."
+   ],
+   "answer": 1,
+   "why": "Smooth loss curves can hide abrupt-looking jumps on individual tasks, which depend heavily on how the task is scored."
+  }
+ ],
+ "quantization": [
+  {
+   "q": "Going from 16-bit to 4-bit weights shrinks weight memory to about…",
+   "options": [
+    "a quarter, plus a little overhead for the scale factors.",
+    "half.",
+    "a sixteenth."
+   ],
+   "answer": 0,
+   "why": "Four bits instead of sixteen. Group-wise schemes add a scale (and sometimes a zero point) per small block of weights."
+  },
+  {
+   "q": "Why do outlier weights make quantization harder?",
+   "options": [
+    "Outliers are deleted before quantizing, which changes the model.",
+    "They make the model slower.",
+    "The scale is set by the largest value, so ordinary weights get only a few levels and lose precision."
+   ],
+   "answer": 2,
+   "why": "Per-group or per-channel scales, and keeping outliers in higher precision, limit the damage."
+  },
+  {
+   "q": "Why does weight-only quantization speed up token-by-token generation?",
+   "options": [
+    "The model needs fewer generation steps.",
+    "Integer arithmetic is always faster than floating point.",
+    "Decoding is limited by memory bandwidth, so reading fewer bytes per weight makes each step faster."
+   ],
+   "answer": 2,
+   "why": "At batch size 1 the GPU mostly waits for weights to arrive from memory; smaller weights arrive sooner."
+  }
+ ],
+ "evaluation": [
+  {
+   "q": "What is benchmark contamination?",
+   "options": [
+    "A benchmark with wrong answers in it.",
+    "Test questions (or close copies) appearing in the training data, which inflates the score.",
+    "Running too many benchmarks."
+   ],
+   "answer": 1,
+   "why": "A model that has seen the answers is measuring memory, not ability. Fresh or held-out test sets guard against it."
+  },
+  {
+   "q": "Model A scores 86.0% and model B 86.5% on a 1,000-question benchmark. What can you conclude?",
+   "options": [
+    "B is better.",
+    "A is better, because it is more consistent.",
+    "Very little: each score has a standard error of about 1.1 points, larger than the gap."
+   ],
+   "answer": 2,
+   "why": "With n = 1,000 and p ≈ 0.86, the standard error is √(0.86 × 0.14 / 1000) ≈ 0.011. Report intervals, and compare on the same questions."
+  },
+  {
+   "q": "What is a known risk of using an LLM as a judge?",
+   "options": [
+    "They grade too leniently to separate good models from bad ones.",
+    "They always agree with humans.",
+    "Judges can favour longer answers, a particular style, or the answer shown first."
+   ],
+   "answer": 2,
+   "why": "Validate the judge against human ratings on a sample, and swap the order of the answers being compared."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('llm/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'llm/' + id, codeNote: 'Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.' });

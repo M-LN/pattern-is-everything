@@ -453,7 +453,209 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "drift-detection": [
+  {
+   "q": "A drift detector fires on the input data, but measured accuracy has not changed. What does that mean?",
+   "options": [
+    "Drift is a warning, not proof of harm — check performance on labelled data before acting.",
+    "The model must be retrained immediately.",
+    "The model has already started to fail."
+   ],
+   "answer": 0,
+   "why": "Inputs can shift in ways the model handles well. Drift tells you where to look; outcomes tell you whether it matters."
+  },
+  {
+   "q": "On a million rows, a Kolmogorov–Smirnov test flags even tiny shifts as significant. What is better?",
+   "options": [
+    "Judge the size of the shift (e.g. PSI or a distance) against a threshold, not the p-value alone.",
+    "Use a smaller significance level, such as 0.01.",
+    "Stop monitoring that feature."
+   ],
+   "answer": 0,
+   "why": "With enough data every difference is significant. The question is whether it is large enough to matter."
+  },
+  {
+   "q": "What is concept drift?",
+   "options": [
+    "The input distribution changes.",
+    "The relationship between the inputs and the target changes, even if the inputs look the same.",
+    "Some labels in the training data were wrong."
+   ],
+   "answer": 1,
+   "why": "Fraud patterns adapting to a detector are a classic case. Input monitoring cannot see it; only labelled outcomes can."
+  }
+ ],
+ "ab-rollout": [
+  {
+   "q": "A canary on 1% of traffic runs for an hour without alarms. Is the new model safe?",
+   "options": [
+    "Yes — an hour without alarms proves it.",
+    "No — canaries never catch anything.",
+    "Only against frequent, fast failures — rare problems and harms seen only when labels arrive need more traffic and time."
+   ],
+   "answer": 2,
+   "why": "A canary is a smoke test. Size and duration decide which failures it can possibly detect."
+  },
+  {
+   "q": "Why randomise an A/B test by user rather than by request?",
+   "options": [
+    "It needs fewer users.",
+    "Randomising by request needs a larger sample.",
+    "Each user gets a consistent experience, and the units being compared stay independent."
+   ],
+   "answer": 2,
+   "why": "If one user sees both versions, their behaviour mixes the two and the comparison is contaminated."
+  },
+  {
+   "q": "You check an A/B test every day and stop as soon as it is significant. What is the problem?",
+   "options": [
+    "None — stopping early saves traffic.",
+    "It lowers the false-positive rate.",
+    "Repeated peeking inflates the false-positive rate well beyond the nominal 5%."
+   ],
+   "answer": 2,
+   "why": "Use a fixed horizon or a sequential method designed for repeated looks."
+  }
+ ],
+ "shadow-scoring": [
+  {
+   "q": "What does shadow mode test?",
+   "options": [
+    "How users react to the challenger.",
+    "Only the challenger’s latency.",
+    "The challenger’s predictions on live traffic, without affecting users — not its effect on their behaviour."
+   ],
+   "answer": 2,
+   "why": "Shadow predictions are logged, never served, so any feedback loop through user behaviour stays invisible until an A/B test."
+  },
+  {
+   "q": "On 2,000 shadowed requests the challenger is right 91% of the time, the champion 90%. Promote it?",
+   "options": [
+    "Not yet — a one-point gap on 2,000 requests is within noise; compare paired results on more traffic.",
+    "Yes — it is better.",
+    "No — shadow results can never justify promotion."
+   ],
+   "answer": 0,
+   "why": "The standard error of the difference is about one point here. Paired comparisons (same requests) help, but the sample is still small."
+  },
+  {
+   "q": "What does shadow scoring cost?",
+   "options": [
+    "Nothing — it reuses the champion’s predictions.",
+    "Extra inference for the shadowed traffic, and care to keep it from adding latency to real responses.",
+    "A share of users get worse predictions."
+   ],
+   "answer": 1,
+   "why": "Run the challenger asynchronously, off the request path, and sample traffic if compute is tight."
+  }
+ ],
+ "reproducibility": [
+  {
+   "q": "Same code, same seed, a different GPU — and slightly different results. Why?",
+   "options": [
+    "The seed is ignored on GPUs.",
+    "Floating-point addition is not associative, and parallel hardware sums in a different order.",
+    "One of the GPUs is faulty."
+   ],
+   "answer": 1,
+   "why": "Bit-identical results need the same hardware, library versions and deterministic kernels, not just a seed."
+  },
+  {
+   "q": "Besides the code, what do you need to reproduce a training run?",
+   "options": [
+    "The exact data version, the environment (package versions), the configuration and the seeds.",
+    "Only the final model file.",
+    "Only the random seed."
+   ],
+   "answer": 0,
+   "why": "Lineage tools and experiment trackers record these together, so a result can be traced back to its inputs."
+  },
+  {
+   "q": "Your requirements file pins only top-level packages, like numpy&gt;=1.20. What can go wrong?",
+   "options": [
+    "Nothing — newer versions are always compatible.",
+    "Nothing — only the listed packages get installed, so nothing else can change.",
+    "Unpinned and transitive dependencies change between installs; a lock file fixes every version."
+   ],
+   "answer": 2,
+   "why": "A rebuild months later can silently pull different versions and change results."
+  }
+ ],
+ "data-quality": [
+  {
+   "q": "Where should data quality gates sit?",
+   "options": [
+    "Only after the model is deployed.",
+    "Only in the training notebook.",
+    "At ingestion, before training and before serving — failing the pipeline instead of passing bad data on."
+   ],
+   "answer": 2,
+   "why": "A gate is useful only if a failure stops something. Checks that just log warnings get ignored."
+  },
+  {
+   "q": "A column’s null rate jumps from 1% to 30% overnight. What should the pipeline do?",
+   "options": [
+    "Impute the missing values and carry on.",
+    "Drop the rows with nulls.",
+    "Block and alert — it is most likely an upstream break, not a real change."
+   ],
+   "answer": 2,
+   "why": "Silent imputation turns a broken feed into quietly wrong predictions."
+  },
+  {
+   "q": "Schema checks pass, but prices arrive in cents instead of euros. What would have caught it?",
+   "options": [
+    "A stricter schema.",
+    "More unit tests on the model.",
+    "Range and distribution checks on the values, not only on their types."
+   ],
+   "answer": 2,
+   "why": "The type is still a number. Expectations on ranges, means or quantiles catch unit changes."
+  }
+ ],
+ "alerting-slos": [
+  {
+   "q": "A service has a 99.9% monthly availability SLO. How much downtime does the error budget allow in 30 days?",
+   "options": [
+    "About 43 minutes",
+    "About 4 hours",
+    "About 4 minutes"
+   ],
+   "answer": 0,
+   "why": "0.1% of 30 × 24 × 60 = 43,200 minutes is 43.2 minutes."
+  },
+  {
+   "q": "Why not page someone on every single error?",
+   "options": [
+    "Error counts are only available at the end of the month.",
+    "Single errors are almost always the client’s fault.",
+    "It causes alert fatigue; alert when the error budget is burning fast instead."
+   ],
+   "answer": 2,
+   "why": "Burn-rate alerts fire when the current error rate would use up the budget well before the period ends."
+  },
+  {
+   "q": "Besides latency and errors, what should an ML service’s indicators include?",
+   "options": [
+    "Nothing more — ML services are like any other service.",
+    "Only GPU utilisation.",
+    "Signals of prediction quality — score distributions now, accuracy once labels arrive."
+   ],
+   "answer": 2,
+   "why": "A model can return fast, valid, wrong answers. Quality indicators catch what availability metrics cannot."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('mlops/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'mlops/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.' });

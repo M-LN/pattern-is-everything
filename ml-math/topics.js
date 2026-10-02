@@ -655,7 +655,273 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "bias-variance": [
+  {
+   "q": "Training error is 2% and validation error is 25%. What is the main problem?",
+   "options": [
+    "High variance: the model fits the training data far better than new data (overfitting).",
+    "High bias: the model is too simple.",
+    "The validation set is too large."
+   ],
+   "answer": 0,
+   "why": "A large gap between training and validation error is the signature of variance. Regularisation, more data or a simpler model narrow it."
+  },
+  {
+   "q": "When does adding more training data help most?",
+   "options": [
+    "When the model has high bias — both errors are high and close.",
+    "When the model has high variance — a large gap between training and validation error.",
+    "Always equally, whatever the errors look like."
+   ],
+   "answer": 1,
+   "why": "More data constrains a flexible model. A model that is too simple stays too simple however much data it sees."
+  },
+  {
+   "q": "Training error is 20% and validation error 21%, on a task where people manage 5%. What should you try?",
+   "options": [
+    "Stronger regularisation.",
+    "Collecting more data of the same kind.",
+    "A more flexible model or better features — this is high bias (underfitting)."
+   ],
+   "answer": 2,
+   "why": "Both errors are high and close together: the model cannot represent the pattern, so more capacity, not more constraint, is needed."
+  }
+ ],
+ "bayes": [
+  {
+   "q": "A disease affects 1% of people. A test catches 90% of cases and gives a false positive in 9% of healthy people. You test positive. How likely is it that you have the disease?",
+   "options": [
+    "About 9%",
+    "About 90%",
+    "About 50%"
+   ],
+   "answer": 0,
+   "why": "Of 1,000 people, 9 sick ones test positive and about 89 healthy ones do too: 9 / 98 ≈ 9%. The low base rate dominates."
+  },
+  {
+   "q": "When does the prior matter most in a Bayesian analysis?",
+   "options": [
+    "When there is a lot of data.",
+    "Never — the likelihood always dominates.",
+    "When the evidence is weak or there is little data."
+   ],
+   "answer": 2,
+   "why": "With much data the likelihood overwhelms any reasonable prior; with little data the prior can decide the answer."
+  },
+  {
+   "q": "What does a naive Bayes classifier assume?",
+   "options": [
+    "That all classes are equally likely.",
+    "That the features are normally distributed.",
+    "That the features are independent of each other given the class."
+   ],
+   "answer": 2,
+   "why": "The assumption is rarely true, yet the classifier often ranks well — its probabilities, though, tend to be overconfident."
+  }
+ ],
+ "gradient": [
+  {
+   "q": "The loss jumps around and grows during training. What is the most likely cause?",
+   "options": [
+    "The learning rate is too low.",
+    "The model has too few parameters.",
+    "The learning rate is too high, so steps overshoot the minimum."
+   ],
+   "answer": 2,
+   "why": "Too large a step crosses the valley and lands higher on the other side; repeated, the loss diverges."
+  },
+  {
+   "q": "In which direction does the gradient of the loss point?",
+   "options": [
+    "The direction of steepest increase, which is why gradient descent steps the opposite way.",
+    "Straight towards the minimum.",
+    "The direction of steepest decrease."
+   ],
+   "answer": 0,
+   "why": "The negative gradient is the locally steepest way down — not necessarily the shortest way to the minimum."
+  },
+  {
+   "q": "Why scale features before gradient descent?",
+   "options": [
+    "Scaling changes which solution is optimal.",
+    "Gradient descent only works on inputs between 0 and 1.",
+    "Features on very different scales stretch the loss surface, so descent zig-zags and converges slowly."
+   ],
+   "answer": 2,
+   "why": "With similar scales the contours are rounder, and one learning rate suits every direction."
+  }
+ ],
+ "regularization": [
+  {
+   "q": "What is the practical difference between L1 and L2 regularisation?",
+   "options": [
+    "L2 drives weights exactly to zero; L1 only shrinks them.",
+    "They are the same up to a constant.",
+    "L1 drives some weights exactly to zero (selecting features); L2 shrinks all weights towards zero."
+   ],
+   "answer": 2,
+   "why": "The L1 penalty has a corner at zero, so the optimum often sits exactly there; the L2 penalty is smooth."
+  },
+  {
+   "q": "What happens as you increase the regularisation strength λ?",
+   "options": [
+    "Bias and variance both go down.",
+    "Variance goes up and bias goes down.",
+    "Bias goes up and variance goes down."
+   ],
+   "answer": 2,
+   "why": "A stronger penalty restricts the model: less sensitive to the training sample, but less able to fit the true pattern."
+  },
+  {
+   "q": "You fit ridge regression without standardising the features. What goes wrong?",
+   "options": [
+    "The penalty depends on each feature’s units, so features measured on small scales are penalised more.",
+    "Nothing — ridge is scale-invariant.",
+    "The model can no longer be fitted."
+   ],
+   "answer": 0,
+   "why": "A feature in millimetres needs a larger coefficient than the same feature in metres, so the penalty treats them differently. Standardise first."
+  }
+ ],
+ "softmax": [
+  {
+   "q": "How do softmax([2, 1, 0]) and softmax([102, 101, 100]) compare?",
+   "options": [
+    "The second is much more peaked.",
+    "The second overflows and is undefined.",
+    "They are identical — softmax only depends on differences between the inputs."
+   ],
+   "answer": 2,
+   "why": "Adding a constant to every input cancels out. That is why implementations subtract the maximum first, for numerical stability."
+  },
+  {
+   "q": "What happens to softmax as the temperature approaches 0?",
+   "options": [
+    "It approaches a uniform distribution.",
+    "It stays the same.",
+    "It approaches a one-hot vector on the largest input (argmax)."
+   ],
+   "answer": 2,
+   "why": "Dividing the inputs by a small temperature magnifies their differences; a large temperature flattens them."
+  },
+  {
+   "q": "A network’s softmax gives 0.9 for class A. Is it right 90% of the time on such cases?",
+   "options": [
+    "Yes, by definition of softmax.",
+    "No, softmax outputs are not probabilities at all.",
+    "Only if the model is calibrated — deep networks are often overconfident."
+   ],
+   "answer": 2,
+   "why": "Softmax outputs sum to 1, but nothing forces them to match observed frequencies. Temperature scaling on validation data is a common fix (Guo et al. 2017)."
+  }
+ ],
+ "entropy": [
+  {
+   "q": "What is the entropy of a fair coin flip, in bits?",
+   "options": [
+    "1 bit",
+    "0.5 bits",
+    "2 bits"
+   ],
+   "answer": 0,
+   "why": "H = −2 × ½ log<sub>2</sub>½ = 1. A biased coin has less: its outcome is easier to guess."
+  },
+  {
+   "q": "Cross-entropy H(p, q) is never smaller than the entropy H(p). When are they equal?",
+   "options": [
+    "When the model distribution q equals the true distribution p.",
+    "When q is uniform.",
+    "Never."
+   ],
+   "answer": 0,
+   "why": "The gap H(p, q) − H(p) is the KL divergence, which is zero only when q = p. Minimising cross-entropy pushes q towards p."
+  },
+  {
+   "q": "Which distribution over four outcomes has the highest entropy?",
+   "options": [
+    "Any distribution with one outcome at 100%.",
+    "The uniform one: ¼ each, 2 bits.",
+    "Half on one outcome, the rest split evenly."
+   ],
+   "answer": 1,
+   "why": "Entropy is highest when you know least: every outcome equally likely."
+  }
+ ],
+ "cosine-sim": [
+  {
+   "q": "What is the cosine similarity of [1, 2] and [2, 4]?",
+   "options": [
+    "0.5",
+    "0",
+    "1"
+   ],
+   "answer": 2,
+   "why": "The vectors point the same way; cosine similarity ignores length."
+  },
+  {
+   "q": "For vectors normalised to length 1, how do cosine similarity and Euclidean distance compare?",
+   "options": [
+    "They can rank neighbours in opposite order.",
+    "Euclidean distance is always zero.",
+    "They rank neighbours identically: ‖a − b‖² = 2 − 2·cos(a, b)."
+   ],
+   "answer": 2,
+   "why": "That is why vector databases can use either once embeddings are normalised."
+  },
+  {
+   "q": "A cosine similarity of 0 means the vectors are…",
+   "options": [
+    "pointing in opposite directions.",
+    "orthogonal — no linear alignment at all.",
+    "identical."
+   ],
+   "answer": 1,
+   "why": "Opposite directions give −1. Many embedding spaces rarely produce negative values, so 0 already means “unrelated”."
+  }
+ ],
+ "pca": [
+  {
+   "q": "Why standardise variables before PCA?",
+   "options": [
+    "PCA follows variance, so a variable measured in large units would dominate the components.",
+    "PCA requires normally distributed inputs.",
+    "It makes the components uncorrelated."
+   ],
+   "answer": 0,
+   "why": "Income in kroner would swamp age in years. Standardising lets each variable count by its correlation, not its units."
+  },
+  {
+   "q": "What is the first principal component?",
+   "options": [
+    "The variable with the largest mean.",
+    "The direction along which the data vary the most.",
+    "The direction that best predicts the target."
+   ],
+   "answer": 1,
+   "why": "Each next component is the direction of largest remaining variance, orthogonal to the earlier ones."
+  },
+  {
+   "q": "PCA keeps components covering 95% of the variance. Does that keep 95% of the information for predicting y?",
+   "options": [
+    "Yes, by construction.",
+    "Not necessarily — PCA never looks at y, and a low-variance direction can carry the signal.",
+    "Yes, as long as the data are standardised."
+   ],
+   "answer": 1,
+   "why": "Unsupervised compression is not supervised selection. Partial least squares, or validating the downstream model, guards against this."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('ml-math/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'ml-math/' + id, codeNote: 'Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.' });

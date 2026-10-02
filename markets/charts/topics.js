@@ -455,7 +455,177 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "head-and-shoulders": [
+  {
+   "q": "When is a head-and-shoulders top considered complete in classical charting?",
+   "options": [
+    "When the right shoulder forms.",
+    "When the head is higher than both shoulders.",
+    "When price closes below the neckline."
+   ],
+   "answer": 2,
+   "why": "Before the neckline breaks, the shape is just three peaks — and many such shapes resolve upward."
+  },
+  {
+   "q": "How is the classic price target measured?",
+   "options": [
+    "The width of the pattern, projected down.",
+    "The height from the head to the neckline, projected down from the neckline.",
+    "Half the height of the right shoulder."
+   ],
+   "answer": 1,
+   "why": "The measured move is a rule of thumb, not a forecast with known accuracy."
+  },
+  {
+   "q": "What does research say about chart patterns like this one?",
+   "options": [
+    "The evidence is mixed: some patterns carry a little information, and spotting them in hindsight overstates their reliability.",
+    "They reliably predict reversals.",
+    "They have been proven to be pure noise."
+   ],
+   "answer": 0,
+   "why": "Lo, Mamaysky &amp; Wang (2000) found some patterns shifted return distributions slightly; profits after costs and out of sample are another matter."
+  }
+ ],
+ "support-resistance": [
+  {
+   "q": "Why might support and resistance levels work at all?",
+   "options": [
+    "Market makers are obliged to defend those prices.",
+    "They cannot work; any effect is imagined.",
+    "Orders cluster at round numbers and previous highs and lows, so price often pauses there."
+   ],
+   "answer": 2,
+   "why": "Osler (2000) found published support and resistance levels helped predict intraday trend interruptions in currency markets."
+  },
+  {
+   "q": "Price breaks below support, then closes back above it the next day. What is this called?",
+   "options": [
+    "A false breakout — the reason many traders wait for a close beyond the level.",
+    "A confirmed breakdown.",
+    "A gap."
+   ],
+   "answer": 0,
+   "why": "Requiring a close, or a percentage beyond the level, filters some false breaks at the cost of later entries."
+  },
+  {
+   "q": "What is the trap in drawing levels on a past chart?",
+   "options": [
+    "Levels drawn on the past are always valid.",
+    "With hindsight you can always find lines that “worked”; a fair test fixes the levels before the price action.",
+    "Past charts lack the data to draw levels."
+   ],
+   "answer": 1,
+   "why": "Define the levels by a rule (e.g. the last swing low) and test that rule on data it did not see."
+  }
+ ],
+ "double-top": [
+  {
+   "q": "Two peaks of similar height have formed. When is the double top complete?",
+   "options": [
+    "As soon as the second peak forms.",
+    "When price closes below the low between the two peaks.",
+    "When volume rises on the second peak."
+   ],
+   "answer": 1,
+   "why": "Two similar highs are common inside ordinary uptrends; the break of the valley is what separates a reversal from a pause."
+  },
+  {
+   "q": "What is the classic target after the break?",
+   "options": [
+    "The height of the first peak.",
+    "The distance from the peaks to the valley, projected down from the valley.",
+    "Twice the distance between the peaks."
+   ],
+   "answer": 1,
+   "why": "Like other measured moves, it is a convention for planning, not a probability."
+  },
+  {
+   "q": "Why do traders insist on the break before acting?",
+   "options": [
+    "Without it, two similar highs often turn out to be a pause, and the trend continues.",
+    "Volume is always highest at the break.",
+    "The pattern only forms after the break."
+   ],
+   "answer": 0,
+   "why": "Confirmation trades a later entry for fewer false signals."
+  }
+ ],
+ "bull-flag": [
+  {
+   "q": "What does a bull flag consist of?",
+   "options": [
+    "A slow rise with no pullback.",
+    "Two equal lows.",
+    "A sharp rise (the pole), then a short, shallow pullback or sideways drift."
+   ],
+   "answer": 2,
+   "why": "The flag is a pause after a strong move; the pattern is read as continuation if price breaks above it."
+  },
+  {
+   "q": "What volume pattern is traditionally expected?",
+   "options": [
+    "Rising steadily through the flag.",
+    "Volume plays no role.",
+    "High on the pole, lower during the flag, rising again on the breakout."
+   ],
+   "answer": 2,
+   "why": "Falling volume during the flag is read as a lack of selling pressure — a heuristic, not a rule."
+  },
+  {
+   "q": "How is the classic target set?",
+   "options": [
+    "The width of the flag.",
+    "The previous all-time high.",
+    "The length of the pole, added to the breakout point."
+   ],
+   "answer": 2,
+   "why": "Measured moves assume the second leg repeats the first — a symmetry with little evidence behind it."
+  }
+ ],
+ "gaps": [
+  {
+   "q": "A gap at the start of a new trend, on heavy volume after news, is classically called a…",
+   "options": [
+    "exhaustion gap.",
+    "breakaway gap.",
+    "common gap."
+   ],
+   "answer": 1,
+   "why": "Runaway gaps appear mid-trend; exhaustion gaps near its end. The labels are only certain in hindsight."
+  },
+  {
+   "q": "What about the saying “gaps always fill”?",
+   "options": [
+    "Many gaps do fill eventually, but “eventually” can mean years — it is not a timing rule.",
+    "It is true within a few days.",
+    "Gaps never fill."
+   ],
+   "answer": 0,
+   "why": "A rule that is right only on an unknown timescale cannot guide a trade."
+  },
+  {
+   "q": "Why are price gaps common in stocks but rare in major currency pairs?",
+   "options": [
+    "Stock markets close overnight, so news arrives while they are shut; currencies trade around the clock on weekdays.",
+    "Central banks fix currency prices between sessions.",
+    "Stocks are more volatile than currencies."
+   ],
+   "answer": 0,
+   "why": "A gap is simply news priced in at the next open."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('markets/charts/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'markets-charts/' + id, codeNote: 'Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.' });

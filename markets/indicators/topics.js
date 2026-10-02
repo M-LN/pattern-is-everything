@@ -490,7 +490,209 @@ const TOPIC_DEPTH = {
 /* The content standard's depth for a topic: a worked example on the shared
    15-day data, where the indicator misleads, the pandas that computes it,
    and sources. Empty for a topic without an entry. */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "rsi": [
+  {
+   "q": "RSI stays above 70 during a strong uptrend. What does that tell you?",
+   "options": [
+    "A reversal is due.",
+    "Momentum is strong; overbought conditions can last a long time and are not a sell signal on their own.",
+    "The trend is weakening."
+   ],
+   "answer": 1,
+   "why": "Fading every reading above 70 in a trend repeatedly sells too early."
+  },
+  {
+   "q": "What is RSI built from?",
+   "options": [
+    "Volume and price.",
+    "The distance from a moving average.",
+    "The average of recent gains compared with the average of recent losses."
+   ],
+   "answer": 2,
+   "why": "RSI = 100 − 100 / (1 + average gain / average loss), with Wilder’s smoothing in the classic version."
+  },
+  {
+   "q": "How does a 5-period RSI differ from a 14-period one?",
+   "options": [
+    "It is smoother.",
+    "It is the same indicator, just faster to compute.",
+    "It is more extreme: it reaches 70 and 30 far more often."
+   ],
+   "answer": 2,
+   "why": "A shorter window averages fewer moves, so the ratio swings more. Fixed thresholds mean different things at different lengths."
+  }
+ ],
+ "macd": [
+  {
+   "q": "What is the MACD line?",
+   "options": [
+    "A 9-period average of price.",
+    "The difference between a 12-period and a 26-period exponential moving average.",
+    "The difference between price and its 200-day average."
+   ],
+   "answer": 1,
+   "why": "The signal line is a 9-period EMA of the MACD line."
+  },
+  {
+   "q": "What does the MACD histogram show?",
+   "options": [
+    "The MACD line minus its signal line.",
+    "Trading volume.",
+    "The price change over 26 periods."
+   ],
+   "answer": 0,
+   "why": "The histogram shrinks before a crossover, which is why some traders watch it for early warning."
+  },
+  {
+   "q": "Why do MACD crossovers often come late?",
+   "options": [
+    "The indicator is only updated weekly.",
+    "They are built from moving averages, which lag price.",
+    "Exchanges publish the data with a delay."
+   ],
+   "answer": 1,
+   "why": "Every smoothing step trades noise for lag. Signals confirm moves that have already started."
+  }
+ ],
+ "bollinger-bands": [
+  {
+   "q": "How are standard Bollinger Bands built?",
+   "options": [
+    "A fixed percentage above and below the price.",
+    "The highest high and lowest low of 20 periods.",
+    "A 20-period moving average plus and minus two standard deviations of price."
+   ],
+   "answer": 2,
+   "why": "The bands widen when prices are volatile and narrow when they are calm."
+  },
+  {
+   "q": "The bands narrow sharply (a “squeeze”). What does that tell you?",
+   "options": [
+    "Price is about to fall.",
+    "Price is about to rise.",
+    "Volatility has contracted — not which way the next move will go."
+   ],
+   "answer": 2,
+   "why": "Low volatility tends not to last, but a squeeze carries no information about direction."
+  },
+  {
+   "q": "Price touches the upper band. Is that a sell signal?",
+   "options": [
+    "Yes, always.",
+    "Not on its own — in a strong trend price can “walk the band” for a long time.",
+    "Yes, if the band is wide."
+   ],
+   "answer": 1,
+   "why": "Bollinger himself warned against reading touches as signals by themselves."
+  }
+ ],
+ "sma": [
+  {
+   "q": "Roughly how far does a 20-day simple moving average lag the price?",
+   "options": [
+    "20 days.",
+    "One day.",
+    "About 9–10 days — (n − 1) / 2 for an average of n days."
+   ],
+   "answer": 2,
+   "why": "The average sits at the centre of its window, which is (n − 1) / 2 days in the past."
+  },
+  {
+   "q": "What is a “golden cross”?",
+   "options": [
+    "The 50-day average crossing above the 200-day average.",
+    "Price crossing above its 50-day average.",
+    "Two averages of the same length crossing."
+   ],
+   "answer": 0,
+   "why": "The death cross is the opposite. Both are slow signals because both averages lag."
+  },
+  {
+   "q": "Why can an SMA move although today’s price did not change?",
+   "options": [
+    "It includes a forecast of the next price.",
+    "An old price drops out of the window, and that alone changes the average.",
+    "It cannot — that is the point of an average."
+   ],
+   "answer": 1,
+   "why": "This “drop-off effect” is one reason exponential averages, which never drop values abruptly, are used instead."
+  }
+ ],
+ "atr": [
+  {
+   "q": "What does the Average True Range measure?",
+   "options": [
+    "The trend direction.",
+    "How much price typically moves per period — volatility, not direction.",
+    "Trading volume."
+   ],
+   "answer": 1,
+   "why": "Wilder designed it for commodities, where limit moves and gaps made the simple high–low range misleading."
+  },
+  {
+   "q": "How does the true range differ from the high minus the low?",
+   "options": [
+    "It uses closing prices only.",
+    "It is always smaller.",
+    "It also counts a gap from the previous close."
+   ],
+   "answer": 2,
+   "why": "True range is the largest of: high − low, |high − previous close|, |low − previous close|."
+  },
+  {
+   "q": "Why set a stop at, say, 2 × ATR from entry?",
+   "options": [
+    "It guarantees the loss is limited to 2 × ATR.",
+    "The distance adapts to volatility, so ordinary noise is less likely to trigger it.",
+    "ATR predicts where price will turn."
+   ],
+   "answer": 1,
+   "why": "A fixed stop is too tight in volatile markets and too loose in calm ones. No stop guarantees the fill price."
+  }
+ ],
+ "vwap": [
+  {
+   "q": "What is VWAP?",
+   "options": [
+    "The average of the open and close.",
+    "The average price of the session, weighted by the volume traded at each price.",
+    "A moving average over 20 days."
+   ],
+   "answer": 1,
+   "why": "It resets each session and accumulates trade by trade."
+  },
+  {
+   "q": "Why do institutions care about VWAP?",
+   "options": [
+    "It predicts the next day’s close.",
+    "It is a common benchmark for whether a large order was executed at a fair price.",
+    "Exchanges require it."
+   ],
+   "answer": 1,
+   "why": "Buying below VWAP, or selling above it, is read as good execution."
+  },
+  {
+   "q": "Why does VWAP barely move late in the day?",
+   "options": [
+    "Less volume trades in the afternoon.",
+    "It is a cumulative average: by afternoon, new trades are a small share of the day’s volume.",
+    "It only counts trades above a minimum size."
+   ],
+   "answer": 1,
+   "why": "Early in the session, a few trades move it a lot; later it is anchored by everything that came before."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('markets/indicators/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'markets-indicators/' + id, dataHtml: EXAMPLE_DATA_HTML,

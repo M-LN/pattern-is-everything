@@ -455,7 +455,241 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "value-at-risk": [
+  {
+   "q": "A portfolio’s 1-day 99% VaR is $1 million. What does that mean?",
+   "options": [
+    "The most the portfolio can lose in a day is $1 million.",
+    "There is a 99% chance of losing $1 million.",
+    "On 99% of days the loss should not exceed $1 million — it says nothing about how large the other 1% can be."
+   ],
+   "answer": 2,
+   "why": "VaR is a threshold, not a worst case. Expected shortfall measures what lies beyond it."
+  },
+  {
+   "q": "VaR is not subadditive. What does that mean in practice?",
+   "options": [
+    "The VaR of two positions combined can exceed the sum of their separate VaRs, which can penalise diversification.",
+    "Combining positions can only lower VaR.",
+    "VaR always overstates risk."
+   ],
+   "answer": 0,
+   "why": "This is one reason Artzner et al. (1999) did not count VaR among “coherent” risk measures."
+  },
+  {
+   "q": "What happens if you compute VaR assuming normal returns when real returns are fat-tailed?",
+   "options": [
+    "VaR is overestimated.",
+    "Extreme losses are underestimated.",
+    "Nothing — the normal distribution is conservative."
+   ],
+   "answer": 1,
+   "why": "Fat tails put more probability on large moves than the normal curve does, especially at high confidence levels."
+  }
+ ],
+ "expected-shortfall": [
+  {
+   "q": "What is the 97.5% expected shortfall?",
+   "options": [
+    "The loss exceeded on 2.5% of days.",
+    "The average loss in the worst 2.5% of cases.",
+    "The largest loss ever recorded."
+   ],
+   "answer": 1,
+   "why": "It looks beyond the VaR threshold, so it reflects how bad the tail is, not just where it starts."
+  },
+  {
+   "q": "How does expected shortfall compare with VaR at the same confidence level?",
+   "options": [
+    "It is always at least as large.",
+    "It is always smaller.",
+    "They are equal for any distribution."
+   ],
+   "answer": 0,
+   "why": "It averages losses that are all beyond the VaR, so it cannot be smaller."
+  },
+  {
+   "q": "What did the Basel Committee’s market-risk framework (FRTB) do with VaR?",
+   "options": [
+    "Replaced 99% VaR with 97.5% expected shortfall for capital requirements.",
+    "Raised VaR to 99.9%.",
+    "Replaced VaR with the standard deviation of returns."
+   ],
+   "answer": 0,
+   "why": "For a normal distribution the two are similar in size, but expected shortfall reacts to the shape of the tail."
+  }
+ ],
+ "kelly-criterion": [
+  {
+   "q": "A bet pays even money and wins with probability 0.55. What fraction does Kelly stake?",
+   "options": [
+    "10%",
+    "55%",
+    "5%"
+   ],
+   "answer": 0,
+   "why": "For even odds the Kelly fraction is p − q = 0.55 − 0.45 = 0.10."
+  },
+  {
+   "q": "What happens to long-run growth if you bet twice the Kelly fraction?",
+   "options": [
+    "Expected growth falls to about zero, with much larger swings.",
+    "Growth doubles.",
+    "Growth rises slightly."
+   ],
+   "answer": 0,
+   "why": "Growth is roughly a parabola in the fraction bet: it peaks at Kelly and returns to zero at about twice Kelly."
+  },
+  {
+   "q": "Why do many practitioners bet half Kelly?",
+   "options": [
+    "Half Kelly grows faster than full Kelly.",
+    "Full Kelly only applies to casino games, not to markets.",
+    "The edge is estimated with error; half Kelly keeps about three quarters of the growth at half the volatility."
+   ],
+   "answer": 2,
+   "why": "Overestimating the edge pushes you past full Kelly, where growth falls fast. Half Kelly leaves a margin."
+  }
+ ],
+ "diversification": [
+  {
+   "q": "N uncorrelated assets, each with volatility σ, held in equal weights. What is the portfolio volatility?",
+   "options": [
+    "σ / N",
+    "σ / √N",
+    "σ"
+   ],
+   "answer": 1,
+   "why": "Variances add: N × (σ/N)² = σ²/N, so volatility is σ/√N."
+  },
+  {
+   "q": "If every pair of assets has correlation ρ, what does portfolio variance approach as N grows?",
+   "options": [
+    "Zero.",
+    "ρσ² — the shared part cannot be diversified away.",
+    "σ²"
+   ],
+   "answer": 1,
+   "why": "Only the uncorrelated part shrinks with N. That floor is market risk."
+  },
+  {
+   "q": "What tends to happen to correlations between risky assets in a crisis?",
+   "options": [
+    "They rise, so diversification helps least when it is needed most.",
+    "They fall to zero.",
+    "They become negative."
+   ],
+   "answer": 0,
+   "why": "Correlations estimated in calm periods overstate the protection a portfolio has in a crash."
+  }
+ ],
+ "drawdown-analysis": [
+  {
+   "q": "After a 50% drawdown, what gain is needed to get back to the peak?",
+   "options": [
+    "50%",
+    "75%",
+    "100%"
+   ],
+   "answer": 2,
+   "why": "Half of the money must double. Losses and the gains needed to recover them are not symmetric."
+  },
+  {
+   "q": "Why does the maximum drawdown of a longer backtest tend to be larger?",
+   "options": [
+    "Longer backtests use riskier strategies.",
+    "A longer period gives more chances for a bad run, so compare drawdowns over periods of the same length.",
+    "It does not — it tends to be smaller."
+   ],
+   "answer": 1,
+   "why": "Maximum drawdown is an extreme, and extremes grow with sample length."
+  },
+  {
+   "q": "What is the Calmar ratio?",
+   "options": [
+    "Annual return divided by maximum drawdown.",
+    "Return divided by volatility.",
+    "Return divided by downside deviation."
+   ],
+   "answer": 0,
+   "why": "The second is the Sharpe ratio, the third the Sortino ratio. Calmar penalises the single deepest fall."
+  }
+ ],
+ "risk-parity": [
+  {
+   "q": "How does risk parity weight assets?",
+   "options": [
+    "Equally by money.",
+    "By market value.",
+    "So that each contributes equally to the portfolio’s total risk."
+   ],
+   "answer": 2,
+   "why": "Low-volatility assets get larger weights, high-volatility ones smaller."
+  },
+  {
+   "q": "Compared with a 60/40 stock–bond portfolio, a stock–bond risk-parity portfolio typically…",
+   "options": [
+    "holds far more bonds, often with leverage to reach a target return.",
+    "holds more stocks.",
+    "holds the same weights."
+   ],
+   "answer": 0,
+   "why": "Stocks are several times as volatile as bonds, so equal risk means a much larger bond weight."
+  },
+  {
+   "q": "When is risk parity most vulnerable?",
+   "options": [
+    "When stocks and bonds fall together, as when interest rates rise sharply.",
+    "When stocks rise.",
+    "When volatility is low."
+   ],
+   "answer": 0,
+   "why": "2022 was such a year: the bond-heavy, leveraged allocation lost on both sides."
+  }
+ ],
+ "stop-losses": [
+  {
+   "q": "Your stop is at $95. The stock opens at $88 after bad news overnight. Where are you filled?",
+   "options": [
+    "At $95.",
+    "Near $88 — the stop becomes a market order once triggered; it does not guarantee $95.",
+    "Not at all — the stop is cancelled."
+   ],
+   "answer": 1,
+   "why": "Gaps jump over stop levels. A stop limits losses in orderly markets only."
+  },
+  {
+   "q": "What did Kaminski and Lo (2014) find about stop-loss rules?",
+   "options": [
+    "They always improve returns.",
+    "They can add value when returns trend (momentum), but lower expected returns if prices follow a random walk.",
+    "They never make a difference."
+   ],
+   "answer": 1,
+   "why": "A stop is a bet on persistence: after a loss, more losses are expected."
+  },
+  {
+   "q": "What goes wrong with a stop set very tight?",
+   "options": [
+    "Ordinary noise triggers it, so you are stopped out of positions that would have worked.",
+    "It reduces the number of trades.",
+    "It raises the position’s risk."
+   ],
+   "answer": 0,
+   "why": "Setting the distance relative to volatility (e.g. a multiple of ATR) avoids stops inside the normal daily range."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('markets/risk/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'markets-risk/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.' });

@@ -451,7 +451,241 @@ const TOPIC_DEPTH = {
  }
 };
 /* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+/* selfcheck:start — "Check yourself" questions; js/self-check.js renders them. */
+const SELF_CHECK = {
+ "stationarity": [
+  {
+   "q": "Two independent random walks often show a strong correlation. Why?",
+   "options": [
+    "Random walks are always correlated with each other.",
+    "The correlation is real but small.",
+    "Both drift over time, and the correlation of non-stationary levels is spurious — correlate the changes instead."
+   ],
+   "answer": 2,
+   "why": "Granger &amp; Newbold (1974) showed that regressions of one random walk on another look significant far too often. Differencing removes the problem."
+  },
+  {
+   "q": "Which of these is closest to stationary?",
+   "options": [
+    "The daily price of a stock.",
+    "A series with a steady upward trend.",
+    "The daily returns of a stock."
+   ],
+   "answer": 2,
+   "why": "Prices wander (a unit root); returns fluctuate around a roughly stable mean, though their volatility changes over time."
+  },
+  {
+   "q": "An augmented Dickey–Fuller test gives p = 0.40. What follows?",
+   "options": [
+    "You cannot reject a unit root; treat the series as non-stationary, for example by differencing it.",
+    "The series is stationary.",
+    "There is a 40% chance the series is stationary."
+   ],
+   "answer": 0,
+   "why": "The ADF null hypothesis is a unit root. A large p-value means no evidence against it — not proof of it."
+  }
+ ],
+ "autocorrelation": [
+  {
+   "q": "For an AR(1) process with φ = 0.7, what is the autocorrelation at lag 2?",
+   "options": [
+    "0.7",
+    "0",
+    "0.49"
+   ],
+   "answer": 2,
+   "why": "In an AR(1), the autocorrelation at lag k is φ<sup>k</sup>: 0.7² = 0.49. It decays geometrically."
+  },
+  {
+   "q": "The PACF cuts off after lag 2 while the ACF decays slowly. Which model does that suggest?",
+   "options": [
+    "AR(2)",
+    "MA(2)",
+    "A random walk"
+   ],
+   "answer": 0,
+   "why": "For AR(p) the partial autocorrelations vanish after lag p; for MA(q) it is the ACF that cuts off after lag q."
+  },
+  {
+   "q": "What should the residuals of a good forecasting model look like?",
+   "options": [
+    "No significant autocorrelation — leftover autocorrelation is signal the model missed.",
+    "Strong autocorrelation at lag 1.",
+    "The same autocorrelation as the original series."
+   ],
+   "answer": 0,
+   "why": "A Ljung–Box test on the residuals is the usual check: they should look like white noise."
+  }
+ ],
+ "differencing": [
+  {
+   "q": "What do you get when you difference a random walk once?",
+   "options": [
+    "A trend.",
+    "Another random walk.",
+    "White noise — the independent steps."
+   ],
+   "answer": 2,
+   "why": "A random walk is the cumulative sum of its steps; differencing undoes the sum."
+  },
+  {
+   "q": "What does a seasonal difference at lag 12 remove from monthly data?",
+   "options": [
+    "A linear trend only.",
+    "All autocorrelation.",
+    "A stable yearly pattern."
+   ],
+   "answer": 2,
+   "why": "y<sub>t</sub> − y<sub>t−12</sub> compares each month with the same month a year earlier, cancelling a repeating seasonal shape."
+  },
+  {
+   "q": "What happens if you difference a series that was already stationary?",
+   "options": [
+    "Nothing — differencing a stationary series leaves it unchanged.",
+    "You add noise and create negative autocorrelation at lag 1 (over-differencing).",
+    "The series becomes a random walk."
+   ],
+   "answer": 1,
+   "why": "Over-differenced series show a lag-1 autocorrelation near −0.5 and larger forecast variance."
+  }
+ ],
+ "backtesting-forecasts": [
+  {
+   "q": "Model A beats a seasonal-naive forecast by 3% MAE on one test window. Is that enough?",
+   "options": [
+    "No — one window is one sample; test from several forecast origins and look at the spread.",
+    "Yes — any improvement on held-out data is real.",
+    "Yes, if the window is at least a year long."
+   ],
+   "answer": 0,
+   "why": "Rolling-origin evaluation gives many test windows, so you can see whether the gain is consistent or a fluke of one period."
+  },
+  {
+   "q": "Why compare a forecasting model with a naive forecast at all?",
+   "options": [
+    "Naive forecasts are usually the most accurate.",
+    "Naive forecasts are needed to fill gaps in the series.",
+    "It shows whether the model adds anything beyond copying the last value or season — many complex models do not."
+   ],
+   "answer": 2,
+   "why": "Scaled errors such as MASE build this in: a value below 1 means better than the naive benchmark."
+  },
+  {
+   "q": "You will forecast 7 days ahead but evaluate only 1-step-ahead errors. What is the problem?",
+   "options": [
+    "Errors grow with the horizon, so 1-step errors make the model look better than it will be at 7 days.",
+    "None — the errors are the same at every horizon.",
+    "1-step errors are always larger, so the test is too strict."
+   ],
+   "answer": 0,
+   "why": "Evaluate at the horizon you will use, with the information available at the forecast origin."
+  }
+ ],
+ "cross-validation-ts": [
+  {
+   "q": "Why leave a gap between the training and test periods in time-series cross-validation?",
+   "options": [
+    "To make the training set smaller.",
+    "It is required for the folds to be the same size.",
+    "When features or targets span several time steps (lags, rolling windows), a gap stops information leaking across the boundary."
+   ],
+   "answer": 2,
+   "why": "Without a gap, the last training rows and the first test rows can share overlapping windows of the same data."
+  },
+  {
+   "q": "Random k-fold on lagged features scores much better than a time-ordered split. The most likely reason:",
+   "options": [
+    "Random k-fold uses more data, so it is more accurate.",
+    "The time-ordered split is too pessimistic.",
+    "Leakage: neighbouring rows, which share most of their lags, land in both training and test sets."
+   ],
+   "answer": 2,
+   "why": "The random score measures interpolation inside the past, not forecasting the future."
+  },
+  {
+   "q": "What does scikit-learn’s TimeSeriesSplit guarantee?",
+   "options": [
+    "Each test fold comes after all of its training data.",
+    "Each fold has the same number of training rows.",
+    "The folds are shuffled within each year."
+   ],
+   "answer": 0,
+   "why": "Training windows expand forward; the test fold is always the next block in time."
+  }
+ ],
+ "exponential-smoothing": [
+  {
+   "q": "Simple exponential smoothing with α close to 1 behaves like…",
+   "options": [
+    "the mean of all observations.",
+    "the naive forecast — the last observed value.",
+    "a linear trend."
+   ],
+   "answer": 1,
+   "why": "α is the weight on the newest observation. Near 1, older values hardly count; near 0, the forecast barely moves."
+  },
+  {
+   "q": "What do simple exponential smoothing forecasts for 1, 2, … 10 steps ahead look like?",
+   "options": [
+    "All the same: a flat line at the current level.",
+    "A straight line continuing the recent trend.",
+    "A repeat of the last season."
+   ],
+   "answer": 0,
+   "why": "SES has only a level. Holt’s method adds a trend, and Holt–Winters adds seasonality."
+  },
+  {
+   "q": "What does the Holt–Winters method add to simple exponential smoothing?",
+   "options": [
+    "A trend and a seasonal component, each smoothed with its own parameter.",
+    "Autoregressive terms.",
+    "External variables such as temperature."
+   ],
+   "answer": 0,
+   "why": "The ETS framework (error, trend, season) puts all of these into one family of state-space models."
+  }
+ ],
+ "garch": [
+  {
+   "q": "What does a GARCH model describe?",
+   "options": [
+    "The direction of tomorrow’s return.",
+    "The long-term trend of prices.",
+    "How the variance (volatility) of returns changes over time — not their direction."
+   ],
+   "answer": 2,
+   "why": "GARCH captures volatility clustering: calm periods and turbulent periods each tend to persist."
+  },
+  {
+   "q": "In a GARCH(1,1), α + β is close to 1. What does that mean?",
+   "options": [
+    "Volatility is constant.",
+    "Returns are strongly autocorrelated.",
+    "Volatility shocks die out slowly — volatility is highly persistent."
+   ],
+   "answer": 2,
+   "why": "α + β sets how fast a shock to variance decays back to its long-run level. Daily equity returns typically give values around 0.97–0.99."
+  },
+  {
+   "q": "Returns show no autocorrelation, but squared returns do. What does that say?",
+   "options": [
+    "The series is not stationary.",
+    "The direction of moves is unpredictable, but their size is: volatility clusters.",
+    "The returns are normally distributed."
+   ],
+   "answer": 1,
+   "why": "This is the stylised fact GARCH was built for (Engle 1982, Bollerslev 1986)."
+  }
+ ]
+};
+function selfCheck(id) {
+  return typeof renderSelfCheck === 'function' ? renderSelfCheck('timeseries/' + id, SELF_CHECK[id]) : '';
+}
+/* selfcheck:end */
 function depthHtml(id) {
+  return depthOnly(id) + selfCheck(id);
+}
+function depthOnly(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
   return renderDepth({ ...d, run: 'timeseries/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.' });

@@ -1,9 +1,10 @@
 /* ── Check yourself ──
    A few multiple-choice questions under a topic, each with the reasoning
-   behind the answer. A pilot on The Toolkit: renderSelfCheck(id, items)
-   returns the markup (the collection's topics.js holds the questions);
-   the rest of this file makes the options clickable and counts answers as
-   GoatCounter events, so the pilot can be judged on whether people use it.
+   behind the answer — on the topics where misconceptions are common, in
+   every collection. renderSelfCheck(id, items) returns the markup (each
+   collection's topics.js holds its SELF_CHECK questions); the rest of this
+   file makes the options clickable and counts answers as GoatCounter
+   events, which also shows which questions people get wrong.
 
    Without JavaScript — or on a pre-rendered page before this loads — each
    question still works: the answer sits in a <details> under it.

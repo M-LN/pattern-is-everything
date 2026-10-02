@@ -21,6 +21,7 @@
    10c. Every Run button's code matches its entry in run/*.json, and those
         files match scripts/snippets/ (scripts/build-run.py --check); the case
         studies re-run and match their pages (scripts/build-cases.py --check)
+   10d. Check-yourself questions are well-formed and on their topic pages
     11. Content standard — warnings only: short topics, formula pattern lines,
         topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
@@ -401,6 +402,39 @@ console.log('10c. Runnable code');
     if (e.code === 'ENOENT') console.log('  ⚠ python not found — case studies not re-run');
     else fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-3).join(' | '));
   }
+}
+/* ── 10d. Check yourself ──
+   Each collection's SELF_CHECK questions belong to real topics, have two to
+   four options and an answer among them, explain the answer, and appear
+   on the topic's pre-rendered page. */
+console.log('10d. Check yourself');
+{
+  const conn = JSON.parse(readFileSync('connections.json', 'utf8')).topics;
+  let topics = 0, questions = 0;
+  const bad = [];
+  for (const { dir } of COLLECTIONS) {
+    const src = readFileSync(join(dir, 'topics.js'), 'utf8').replace(/\r\n/g, '\n');
+    const a = src.indexOf('const SELF_CHECK = ');
+    if (a < 0) continue;
+    const b = src.indexOf('};\nfunction selfCheck(id)', a);
+    let data;
+    try { data = JSON.parse(src.slice(a + 'const SELF_CHECK = '.length, b + 1)); }
+    catch (e) { bad.push(`${dir}: SELF_CHECK is not valid JSON`); continue; }
+    for (const [id, items] of Object.entries(data)) {
+      topics++;
+      if (!conn[`/${dir}/#${id}`]) bad.push(`${dir}/${id}: not a topic`);
+      items.forEach((it, n) => {
+        questions++;
+        if (!it.q || !it.why) bad.push(`${dir}/${id} q${n + 1}: question or explanation missing`);
+        if (!Array.isArray(it.options) || it.options.length < 2 || it.options.length > 4) bad.push(`${dir}/${id} q${n + 1}: needs 2–4 options`);
+        else if (!Number.isInteger(it.answer) || it.answer < 0 || it.answer >= it.options.length) bad.push(`${dir}/${id} q${n + 1}: answer out of range`);
+      });
+      const page = join(dir, id, 'index.html');
+      if (existsSync(page) && !readFileSync(page, 'utf8').includes(`class="selfcheck" data-topic="${dir}/${id}"`)) bad.push(`${dir}/${id}: questions missing from the pre-rendered page`);
+    }
+  }
+  if (bad.length) fail(`${bad.length} problem(s): ${bad.slice(0, 5).join('; ')}`);
+  else ok(`${questions} questions on ${topics} topics, each answerable and on its page`);
 }
 /* ── 11. Content standard (warnings) ──
    Not failures: content is fixed by writing it, and a build should not stop
