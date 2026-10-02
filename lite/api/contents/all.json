@@ -10,7 +10,7 @@
       "mimetype": "text/markdown",
       "name": "README.md",
       "path": "README.md",
-      "size": 2683,
+      "size": 1134,
       "type": "file",
       "writable": true
     },
@@ -96,34 +96,6 @@
       "path": "housing.csv",
       "size": 1010427,
       "type": "file",
-      "writable": true
-    },
-    {
-      "content": null,
-      "created": "2026-05-26T17:58:06.431781Z",
-      "format": null,
-      "hash": null,
-      "hash_algorithm": null,
-      "last_modified": "2026-05-26T17:48:20.806340Z",
-      "mimetype": null,
-      "name": "pattern-portal-real-data-lab-browser.ipynb",
-      "path": "pattern-portal-real-data-lab-browser.ipynb",
-      "size": 9079,
-      "type": "notebook",
-      "writable": true
-    },
-    {
-      "content": null,
-      "created": "2026-05-26T17:10:43.249484Z",
-      "format": null,
-      "hash": null,
-      "hash_algorithm": null,
-      "last_modified": "2026-05-26T17:48:20.806340Z",
-      "mimetype": null,
-      "name": "pattern-portal-real-data-lab.ipynb",
-      "path": "pattern-portal-real-data-lab.ipynb",
-      "size": 9079,
-      "type": "notebook",
       "writable": true
     },
     {

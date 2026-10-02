@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -120,11 +118,7 @@
       <div class="cg"><span class="cl">Energy kept</span><span class="vd" id="svdEnergy" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre>U, S, Vt = torch.linalg.svd(A)           <span class="cm"># full SVD</span>
-A_approx = U[:, :r] @ torch.diag(S[:r]) @ Vt[:r, :]  <span class="cm"># rank-r</span>
-
-<span class="cm"># NumPy equivalent</span>
-U, s, Vt = np.linalg.svd(A, full_matrices=<span class="st">False</span>)</pre></div>
+  
   <div class="callout info"><strong>SVD → LoRA:</strong> LoRA exploits the fact that weight updates during fine-tuning are often low-rank. Instead of updating a full (d×d) matrix, it learns two small matrices (d×r) and (r×d) where r ≪ d. This is fundamentally SVD thinking.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Decomposing a matrix into rank-1 layers is the math behind <a href="../../markets/risk/#factor-models">factor analysis</a> in statistics and <a href="../../llm/#lora-qlora">LoRA’s low-rank updates</a>.</div>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A 50×50 matrix whose singular values fall by 30% each. Keeping the top five captures <strong>97.2%</strong> of its energy with a relative error of <strong>16.8%</strong>, using <strong>505</strong> numbers instead of 2,500. The Eckart–Young theorem says no rank-5 matrix does better — the idea behind LoRA and compressed recommenders.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>The approximation is only good when singular values decay; for noise-like matrices every component matters.</li><li>Energy captured is not task performance; check the error on what the matrix is used for.</li><li>Full SVD is expensive for large matrices; randomised or truncated methods are used in practice.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="ml-math/svd"><pre>rng = np.random.default_rng(8)
@@ -136,7 +130,11 @@ k = 5
 A_k = U[:, :k] @ np.diag(s[:k]) @ V[:, :k].T     # best rank-5 approximation
 energy = (s[:k] ** 2).sum() / (s ** 2).sum()
 rel_err = np.linalg.norm(A - A_k) / np.linalg.norm(A)
-numbers = (50 * 50, k * (50 + 50 + 1))           # entries stored: full vs rank-5</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Eckart &amp; G. Young, “The Approximation of One Matrix by Another of Lower Rank”, <em>Psychometrika</em> 1(3), 1936</li><li><em>Matrix Computations</em> (4th ed.), G. H. Golub &amp; C. F. Van Loan, Johns Hopkins University Press, 2013</li><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+numbers = (50 * 50, k * (50 + 50 + 1))           # entries stored: full vs rank-5</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre>U, S, Vt = torch.linalg.svd(A)           <span class="cm"># full SVD</span>
+A_approx = U[:, :r] @ torch.diag(S[:r]) @ Vt[:r, :]  <span class="cm"># rank-r</span>
+
+<span class="cm"># NumPy equivalent</span>
+U, s, Vt = np.linalg.svd(A, full_matrices=<span class="st">False</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. Eckart &amp; G. Young, “The Approximation of One Matrix by Another of Lower Rank”, <em>Psychometrika</em> 1(3), 1936</li><li><em>Matrix Computations</em> (4th ed.), G. H. Golub &amp; C. F. Van Loan, Johns Hopkins University Press, 2013</li><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

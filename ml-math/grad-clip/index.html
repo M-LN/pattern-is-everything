@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -120,17 +118,17 @@
       <button class="btn" onclick="drawClip()">REDRAW</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Standard training loop with gradient clipping</span>
-loss.backward()
-torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="st">1.0</span>)  <span class="cm"># clip by norm</span>
-optimizer.step()</pre></div>
+  
   <div class="callout"><strong>When to use:</strong> Almost always for RNNs/LSTMs. Common in transformer training too (GPT uses max_norm=1.0). The max_norm value of 1.0 is a good default.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../../markets/indicators/#atr">ATR-based stops</a> that cap how much a position can move against you.</div>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A gradient of length <strong>50</strong>. Clipping by norm to 1 gives (0.6, −0.8, 0.01): one fiftieth the length, exactly the same direction (cosine <strong>1.0</strong>). Clipping each value to [−1, 1] gives (1, −1, 0.5): the small third component is now as big as the others, and the direction has turned (cosine <strong>0.94</strong>).</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>A clipping threshold that triggers on every step is just a smaller learning rate; log how often it fires.</li><li>Clipping treats the symptom; frequent explosions often point to a bad learning rate, initialization or data bug.</li><li>Clipping by value distorts the direction; prefer clipping by norm.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="ml-math/grad-clip"><pre>g = np.array([30.0, -40.0, 0.5])                    # an exploding gradient, norm about 50
 max_norm = 1.0
 by_norm = g * min(1, max_norm / np.linalg.norm(g))
 by_value = np.clip(g, -1, 1)
-cos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Pascanu, T. Mikolov &amp; Y. Bengio, “On the Difficulty of Training Recurrent Neural Networks”, <em>ICML</em>, 2013</li><li>J. Zhang, T. He, S. Sra &amp; A. Jadbabaie, “Why Gradient Clipping Accelerates Training: A Theoretical Justification for Adaptivity”, <em>ICLR</em>, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+cos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Standard training loop with gradient clipping</span>
+loss.backward()
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="st">1.0</span>)  <span class="cm"># clip by norm</span>
+optimizer.step()</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Pascanu, T. Mikolov &amp; Y. Bengio, “On the Difficulty of Training Recurrent Neural Networks”, <em>ICML</em>, 2013</li><li>J. Zhang, T. He, S. Sra &amp; A. Jadbabaie, “Why Gradient Clipping Accelerates Training: A Theoretical Justification for Adaptivity”, <em>ICLR</em>, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -120,7 +118,14 @@
       <div class="cg"><span class="cl">Tail weight</span><input type="range" aria-label="Tail weight" id="distKurt" min="0" max="100" step="1" value="30"><span class="vd" id="distKurtV">3.0</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — distribution diagnostics</span>
+  
+  <div class="callout"><strong>When it matters:</strong> Linear regression’s tests and intervals assume roughly normal residuals (the fit itself does not). Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Fat tails are why risk models that assume a bell curve underestimate the bad days — see <a href="../../markets/risk/#tail-risk">tail risk</a> and <a href="../../markets/risk/#expected-shortfall">expected shortfall</a>, which looks at how bad the worst cases are rather than just where they start.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>10,000 simulated incomes from a lognormal distribution: skewness <strong>3.57</strong>, a mean of <strong>49,351</strong> and a median of <strong>36,160</strong>. The “average” earner earns less than the average. On a log scale the skewness is <strong>0.0</strong>: the data are symmetric in ratios, which is often the right scale to model them on.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Skewness and kurtosis estimates are dominated by a few extreme points and are unstable in small samples.</li><li>Normality tests reject trivial departures in large samples and miss big ones in small samples; look at a QQ plot instead.</li><li>Transforming the target changes what a model predicts (a median rather than a mean on the original scale).</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/distribution-shape"><pre>from scipy.stats import skew
+rng = np.random.default_rng(8)
+income = rng.lognormal(mean=10.5, sigma=0.8, size=10_000)   # right-skewed, like incomes
+stats_raw = (round(skew(income), 2), round(income.mean()), round(np.median(income)))
+skew_log = round(skew(np.log(income)), 2)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — distribution diagnostics</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> skew, kurtosis, probplot
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
 
@@ -130,14 +135,7 @@ print(<span class="st">f"Kurt: {kurtosis(data):.3f}"</span>)
 <span class="cm"># QQ plot — points on line = normal</span>
 fig, ax = plt.subplots()
 probplot(data, plot=ax)
-plt.show()</pre></div>
-  <div class="callout"><strong>When it matters:</strong> Linear regression’s tests and intervals assume roughly normal residuals (the fit itself does not). Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Fat tails are why risk models that assume a bell curve underestimate the bad days — see <a href="../../markets/risk/#tail-risk">tail risk</a> and <a href="../../markets/risk/#expected-shortfall">expected shortfall</a>, which looks at how bad the worst cases are rather than just where they start.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>10,000 simulated incomes from a lognormal distribution: skewness <strong>3.57</strong>, a mean of <strong>49,351</strong> and a median of <strong>36,160</strong>. The “average” earner earns less than the average. On a log scale the skewness is <strong>0.0</strong>: the data are symmetric in ratios, which is often the right scale to model them on.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Skewness and kurtosis estimates are dominated by a few extreme points and are unstable in small samples.</li><li>Normality tests reject trivial departures in large samples and miss big ones in small samples; look at a QQ plot instead.</li><li>Transforming the target changes what a model predicts (a median rather than a mean on the original scale).</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/distribution-shape"><pre>from scipy.stats import skew
-rng = np.random.default_rng(8)
-income = rng.lognormal(mean=10.5, sigma=0.8, size=10_000)   # right-skewed, like incomes
-stats_raw = (round(skew(income), 2), round(income.mean()), round(np.median(income)))
-skew_log = round(skew(np.log(income)), 2)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. N. Joanes &amp; C. A. Gill, “Comparing Measures of Sample Skewness and Kurtosis”, <em>Journal of the Royal Statistical Society D</em> 47(1), 1998</li><li>G. E. P. Box &amp; D. R. Cox, “An Analysis of Transformations”, <em>Journal of the Royal Statistical Society B</em> 26(2), 1964</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+plt.show()</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. N. Joanes &amp; C. A. Gill, “Comparing Measures of Sample Skewness and Kurtosis”, <em>Journal of the Royal Statistical Society D</em> 47(1), 1998</li><li>G. E. P. Box &amp; D. R. Cox, “An Analysis of Transformations”, <em>Journal of the Royal Statistical Society B</em> 26(2), 1964</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

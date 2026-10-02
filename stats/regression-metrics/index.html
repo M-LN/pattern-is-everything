@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -123,7 +121,13 @@
       <div class="cg"><span class="cl">R²</span><span class="vd" id="regR2" style="color:#81c784">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — regression metrics</span>
+  
+  <div class="callout"><strong>Adjusted R²:</strong> R²<sub>adj</sub> = 1 − (1−R²)(n−1)/(n−p−1). Penalises adding features. Always use adjusted R² when comparing models with different feature counts.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../../timeseries/#backtesting-forecasts">backtesting forecasts</a>. Guide: <a href="/guides/which-metric/">Which metric should I evaluate my model with?</a></div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A model that learned the wrong pattern on eight held-out points: MAE <strong>2.12</strong>, RMSE <strong>2.14</strong> — and an R² of <strong>−2.04</strong>. On new data R² can go below zero: the model is worse than predicting the mean every time. R² is a comparison with that baseline, not a number guaranteed to sit between 0 and 1.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>R² rises with every added feature on training data; judge it on held-out data, or use adjusted R².</li><li>RMSE and MAE answer different questions (the mean versus the median of the error); pick the one that matches the cost of mistakes.</li><li>R² depends on the spread of the target; the same model scores higher on a more varied test set.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/regression-metrics"><pre>y = np.array([10.0, 12, 11, 13, 12, 14, 11, 13])
+model = np.array([12.5, 10, 13, 11, 14, 12, 13.5, 11])          # a model that learned the wrong pattern
+r2 = 1 - ((y - model) ** 2).sum() / ((y - y.mean()) ** 2).sum()
+mae, rmse = np.abs(y - model).mean(), np.sqrt(((y - model) ** 2).mean())</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — regression metrics</span>
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
     mean_absolute_error, mean_squared_error, r2_score
 )
@@ -132,13 +136,7 @@ mae  = mean_absolute_error(y_true, y_pred)
 rmse = mean_squared_error(y_true, y_pred, squared=<span class="st">False</span>)
 r2   = r2_score(y_true, y_pred)
 
-print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div>
-  <div class="callout"><strong>Adjusted R²:</strong> R²<sub>adj</sub> = 1 − (1−R²)(n−1)/(n−p−1). Penalises adding features. Always use adjusted R² when comparing models with different feature counts.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../../timeseries/#backtesting-forecasts">backtesting forecasts</a>. Guide: <a href="/guides/which-metric/">Which metric should I evaluate my model with?</a></div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A model that learned the wrong pattern on eight held-out points: MAE <strong>2.12</strong>, RMSE <strong>2.14</strong> — and an R² of <strong>−2.04</strong>. On new data R² can go below zero: the model is worse than predicting the mean every time. R² is a comparison with that baseline, not a number guaranteed to sit between 0 and 1.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>R² rises with every added feature on training data; judge it on held-out data, or use adjusted R².</li><li>RMSE and MAE answer different questions (the mean versus the median of the error); pick the one that matches the cost of mistakes.</li><li>R² depends on the spread of the target; the same model scores higher on a more varied test set.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/regression-metrics"><pre>y = np.array([10.0, 12, 11, 13, 12, 14, 11, 13])
-model = np.array([12.5, 10, 13, 11, 14, 12, 13.5, 11])          # a model that learned the wrong pattern
-r2 = 1 - ((y - model) ** 2).sum() / ((y - y.mean()) ** 2).sum()
-mae, rmse = np.abs(y - model).mean(), np.sqrt(((y - model) ** 2).mean())</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. O. Kvålseth, “Cautionary Note about R²”, <em>The American Statistician</em> 39(4), 1985</li><li>C. J. Willmott &amp; K. Matsuura, “Advantages of the Mean Absolute Error (MAE) over the Root Mean Square Error (RMSE) in Assessing Average Model Performance”, <em>Climate Research</em> 30, 2005</li><li>T. Chai &amp; R. R. Draxler, “Root Mean Square Error (RMSE) or Mean Absolute Error (MAE)?”, <em>Geoscientific Model Development</em> 7, 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. O. Kvålseth, “Cautionary Note about R²”, <em>The American Statistician</em> 39(4), 1985</li><li>C. J. Willmott &amp; K. Matsuura, “Advantages of the Mean Absolute Error (MAE) over the Root Mean Square Error (RMSE) in Assessing Average Model Performance”, <em>Climate Research</em> 30, 2005</li><li>T. Chai &amp; R. R. Draxler, “Root Mean Square Error (RMSE) or Mean Absolute Error (MAE)?”, <em>Geoscientific Model Development</em> 7, 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

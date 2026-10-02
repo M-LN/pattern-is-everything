@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -121,7 +119,13 @@
       <div class="cg"><span class="cl">P(B&gt;A)</span><span class="vd" id="abProb" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Bayesian A/B test</span>
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../../ml-math/#bayes">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../../markets/psychology/#market-sentiment-cycle">market sentiment</a> — prices update beliefs with every new trade.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A converts 120 of 1,000 visitors, B 135 of 1,000. With uniform priors, the posterior probability that B is better is <strong>84.3%</strong>, and the expected loss from choosing B — how much conversion you give up on average in the worlds where A is better — is just <strong>0.12</strong> percentage points. A decision rule on expected loss can ship B even though a significance test would not reject.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>“Probability that B is better” is not immune to peeking: stopping when it crosses a line still raises error rates unless the decision rule accounts for it.</li><li>Priors matter with little data; report how the conclusion changes under a sceptical prior.</li><li>A posterior on conversion says nothing about long-term effects such as retention or novelty wearing off.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/bayesian-ab"><pre>rng = np.random.default_rng(16)
+a = rng.beta(1 + 120, 1 + 880, 200_000)              # 120 of 1,000 converted, uniform prior
+b = rng.beta(1 + 135, 1 + 865, 200_000)              # 135 of 1,000
+p_b_better = (b &gt; a).mean()
+expected_loss_b = np.maximum(a - b, 0).mean()        # what choosing B costs on average if wrong</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — Bayesian A/B test</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> beta
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -136,13 +140,7 @@ post_b = beta(b_conv + <span class="st">1</span>, b_total - b_conv + <span class
 <span class="cm"># P(B &gt; A) via simulation</span>
 samples = <span class="st">100000</span>
 p_b_wins = (post_b.rvs(samples) &gt; post_a.rvs(samples)).mean()
-print(<span class="st">f"P(B &gt; A) = {p_b_wins:.3f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../../ml-math/#bayes">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../../markets/psychology/#market-sentiment-cycle">market sentiment</a> — prices update beliefs with every new trade.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A converts 120 of 1,000 visitors, B 135 of 1,000. With uniform priors, the posterior probability that B is better is <strong>84.3%</strong>, and the expected loss from choosing B — how much conversion you give up on average in the worlds where A is better — is just <strong>0.12</strong> percentage points. A decision rule on expected loss can ship B even though a significance test would not reject.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>“Probability that B is better” is not immune to peeking: stopping when it crosses a line still raises error rates unless the decision rule accounts for it.</li><li>Priors matter with little data; report how the conclusion changes under a sceptical prior.</li><li>A posterior on conversion says nothing about long-term effects such as retention or novelty wearing off.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/bayesian-ab"><pre>rng = np.random.default_rng(16)
-a = rng.beta(1 + 120, 1 + 880, 200_000)              # 120 of 1,000 converted, uniform prior
-b = rng.beta(1 + 135, 1 + 865, 200_000)              # 135 of 1,000
-p_b_better = (b &gt; a).mean()
-expected_loss_b = np.maximum(a - b, 0).mean()        # what choosing B costs on average if wrong</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Bayesian Data Analysis</em> (3rd ed.), A. Gelman, J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari &amp; D. B. Rubin, CRC Press, 2013</li><li>C. Stucchio, “Bayesian A/B Testing at VWO”, VWO whitepaper, 2015 — expected-loss decision rules</li><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+print(<span class="st">f"P(B &gt; A) = {p_b_wins:.3f}"</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Bayesian Data Analysis</em> (3rd ed.), A. Gelman, J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari &amp; D. B. Rubin, CRC Press, 2013</li><li>C. Stucchio, “Bayesian A/B Testing at VWO”, VWO whitepaper, 2015 — expected-loss decision rules</li><li><em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

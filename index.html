@@ -45,7 +45,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-400-italic.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css?v=2">
-  <link rel="stylesheet" href="css/main.css?v=38">
+  <link rel="stylesheet" href="css/main.css?v=39">
   </head>
 <body>
 
@@ -62,9 +62,7 @@
     <a href="/markets/">Markets</a>
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
-    <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
+    <a href="/cases/">Cases</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -79,7 +77,7 @@
   <p>Have you noticed the same shapes keep appearing — in data, in price charts? The bell curve in market returns. Gradient descent rolling downhill. A head-and-shoulders pattern at a reversal. This is a map of those recurring structures — 257 interactive, visual references across machine learning, statistics, and markets.</p>
   <div class="hero-ctas">
     <a class="hero-btn hero-btn-primary" href="start/index.html">Start learning →</a>
-    <a class="hero-btn hero-btn-ghost" href="#universes">Browse all 257 topics</a>
+    <a class="hero-btn hero-btn-ghost" href="#universes">Browse all <span id="totalTopics">257</span> topics</a>
   </div>
   <!-- Filled by js/progress.js from what this visitor has already opened. -->
   <div class="continue-reading" id="continueReading" hidden>
@@ -98,53 +96,20 @@
   <span class="pod-cat" id="podCat"></span>
 </div>
 
-<div class="start-exploring">
+<div class="start-exploring" id="put-it-to-work">
   <div class="section-head">
     <div class="section-kicker">Start here</div>
-    <h2>New here? <em>Start with these</em></h2>
+    <h2>Where to <em>begin</em></h2>
   </div>
   <div class="start-grid" style="grid-template-columns:repeat(auto-fit,minmax(185px,1fr));">
-    <a class="start-card" href="start/index.html">
+    <a class="start-card" href="/start/">
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="8 5.5 18.5 12 8 18.5"/></svg></div>
       <div class="start-card-text">
         <div class="start-card-name">Start Here Path</div>
         <div class="start-card-universe">Beginner → Build → Advanced</div>
       </div>
-      <span class="start-badge">Guide</span>
+      <span class="start-badge">Path</span>
     </a>
-    <a class="start-card" href="stats/index.html#distribution-shape">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19c4.5 0 4.5-12 9-12s4.5 12 9 12"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Distribution Shape</div>
-        <div class="start-card-universe">Statistics & Data Analytics</div>
-      </div>
-      <span class="start-badge">Start here</span>
-    </a>
-    <a class="start-card" href="ml-math/index.html#gradient">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5c5 1 7.5 5 9 12"/><circle cx="15" cy="17.5" r="2.4"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Gradient Descent</div>
-        <div class="start-card-universe">Machine Learning → ML Math</div>
-      </div>
-      <span class="start-badge">Popular</span>
-    </a>
-    <a class="start-card" href="markets/charts/index.html#head-and-shoulders">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 18 6.5 12 9.5 15 12 6 14.5 15 17.5 12 21 18"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Head & Shoulders</div>
-        <div class="start-card-universe">Markets → Chart Patterns</div>
-      </div>
-      <span class="start-badge">Popular</span>
-    </a>
-  </div>
-</div>
-
-<div class="start-exploring" id="put-it-to-work">
-  <div class="section-head">
-    <div class="section-kicker">Put it to work</div>
-    <h2>From reading to <em>doing</em></h2>
-  </div>
-  <div class="start-grid" style="grid-template-columns:repeat(auto-fit,minmax(185px,1fr));">
     <a class="start-card" href="/guides/">
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v6"/><path d="M12 9 6 15v6"/><path d="m12 9 6 6v6"/></svg></div>
       <div class="start-card-text">
@@ -157,45 +122,18 @@
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg></div>
       <div class="start-card-text">
         <div class="start-card-name">Case studies</div>
-        <div class="start-card-universe">Housing · credit · energy · markets, on real data</div>
+        <div class="start-card-universe">Four, on real public data</div>
       </div>
       <span class="start-badge">Real data</span>
     </a>
     <a class="start-card" href="/markets/indicators/rsi/">
       <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8 6 3 12 8 18"/><polyline points="16 6 21 12 16 18"/></svg></div>
       <div class="start-card-text">
-        <div class="start-card-name">Run the code</div>
-        <div class="start-card-universe">Python in your browser, under every topic</div>
+        <div class="start-card-name">Run it, check yourself</div>
+        <div class="start-card-universe">Python in your browser and questions under the topics</div>
       </div>
-      <span class="start-badge">▶ Run</span>
+      <span class="start-badge">Try it</span>
     </a>
-    <a class="start-card" href="/stats/hypothesis-testing/">
-      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16.5 9"/></svg></div>
-      <div class="start-card-text">
-        <div class="start-card-name">Check yourself</div>
-        <div class="start-card-universe">Questions on 62 topics, with the reasoning</div>
-      </div>
-      <span class="start-badge">Quiz</span>
-    </a>
-  </div>
-</div>
-
-<div class="portal-stats band">
-  <div class="portal-stat">
-    <div class="portal-stat-num" id="totalTopics">257</div>
-    <div class="portal-stat-label">Core Topics</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num" id="totalViz">257</div>
-    <div class="portal-stat-label">Core Visualizations</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">4</div>
-    <div class="portal-stat-label">Universes</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">10</div>
-    <div class="portal-stat-label">Collections</div>
   </div>
 </div>
 
@@ -321,128 +259,14 @@
   </div>
 </div>
 
-<div class="live-preview">
-  <div class="section-head">
-    <div class="section-kicker">Live interactive preview</div>
-    <h2>Every topic is a <em>living diagram</em></h2>
-    <p class="section-sub">Not screenshots — every reference on this site is drawn live on canvas, with parameters you can drag.</p>
-  </div>
-  <div class="live-preview-wrap">
-    <canvas id="heroCanvas" aria-hidden="true"></canvas>
-    <div class="live-preview-caption">Normal distribution — drag the sliders inside any topic &nbsp;·&nbsp; <a href="stats/index.html#distribution-shape">Try it →</a></div>
-  </div>
-</div>
-
-<div class="inside-preview">
-  <div class="inside-strip">
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></span> Interactive canvas diagrams</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 5H7l6 7-6 7h10"/></svg></span> Core formulas explained</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12" y1="17" x2="19" y2="17"/></svg></span> JupyterLite notebooks</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span> Real-data mini-cases</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></span> Draggable parameters</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a6.6 6.6 0 0 0 8.5 8.5z"/></svg></span> Dark mode</div>
-    <div class="inside-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></span> Zero dependencies</div>
-  </div>
-</div>
-
-<div class="mission-bar">
-  <a href="support/index.html">
-    <span class="mission-heart">♥</span> 100% of donations go to mental health
-    <span class="mission-arrow">→</span>
-  </a>
-</div>
-
-<!-- Learning Paths -->
-<div class="learning-paths">
-  <div class="section-head">
-    <div class="section-kicker">Learning paths</div>
-    <h2>Guided <em>progression</em></h2>
-    <p class="section-sub">Six curated routes from beginner to advanced — open one to see its steps. Progress is saved locally, no account needed.</p>
-  </div>
-  <div class="lp-grid">
-
-    <div class="lp-card beginner" id="home-ml-fundamentals">
-      <span class="lp-level">Beginner</span>
-      <div class="lp-name">ML <em>Fundamentals</em></div>
-      <div class="lp-desc">Start from zero — distributions, metrics, and your first model evaluation. No prior ML experience needed.</div>
-      <div class="lp-time">~45 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card beginner" id="home-real-data-model">
-      <span class="lp-level">Build</span>
-      <div class="lp-name">First <em>Real-Data Model</em></div>
-      <div class="lp-desc">Move from visual intuition into a practical workflow: dataset, split, model, metric, and failure mode.</div>
-      <div class="lp-time">~60 min · case + 4 topics</div>
-    </div>
-
-    <div class="lp-card intermediate" id="home-time-series-mastery">
-      <span class="lp-level">Intermediate</span>
-      <div class="lp-name">Time Series <em>Mastery</em></div>
-      <div class="lp-desc">From stationarity to forecasting — the full pipeline for time-dependent data.</div>
-      <div class="lp-time">~60 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card advanced" id="home-llm-engineering">
-      <span class="lp-level">Advanced</span>
-      <div class="lp-name">LLM <em>Engineering</em></div>
-      <div class="lp-desc">From tokenization to RLHF — understand and build with large language models.</div>
-      <div class="lp-time">~90 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card beginner" id="home-stats-foundations">
-      <span class="lp-level">Beginner</span>
-      <div class="lp-name">Statistics <em>Foundations</em></div>
-      <div class="lp-desc">From p-values to Simpson's paradox — the statistical bedrock every honest analysis stands on.</div>
-      <div class="lp-time">~50 min · 5 topics</div>
-    </div>
-
-    <div class="lp-card beginner" id="home-market-intuition">
-      <span class="lp-level">Beginner</span>
-      <div class="lp-name">Market <em>Intuition</em></div>
-      <div class="lp-desc">Understand how markets move — risk, psychology, and the patterns traders watch. Evidence levels clearly marked.</div>
-      <div class="lp-time">~45 min · 5 topics</div>
-    </div>
-
-  </div>
-</div>
-
-<div class="pattern-thread-home">
-  <span class="pt-label">◆ The Pattern</span>
-  <span class="pt-text">A bell curve in model outputs, a head-and-shoulders on a chart — the same structural principle, different data. Every topic here makes that connection visible.</span>
-</div>
-<div class="portal-content">
-  <div class="section-head">
-    <div class="section-kicker">Beyond the library</div>
-    <h2>Explore <em>differently</em></h2>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;">
-    <a href="universe/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'" onfocus="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onblur="this.style.borderColor='var(--border)';this.style.transform='none'">
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;">◆ Interactive experience</div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#c8a96e;">Pattern <em style="font-style:italic;">Cosmos</em></div>
-      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">A galaxy of all 257 topics — pan, zoom, and click through nine glowing collection clusters.</div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#7a6340;margin-top:6px;">Enter Cosmos →</div>
-    </a>
-    <a href="game/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'" onfocus="this.style.borderColor='#7a634066';this.style.transform='translateY(-2px)'" onblur="this.style.borderColor='var(--border)';this.style.transform='none'">
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#7a6340;">◆ Game</div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#c8a96e;">Pattern <em style="font-style:italic;">Weaver</em></div>
-      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">A cross-domain quiz — find the thread connecting two topics and build a constellation of links.</div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#7a6340;margin-top:6px;">Begin Weaving →</div>
-    </a>
-    <a href="sandbox/index.html" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);background:linear-gradient(135deg,#050508 0%,#0c0a14 60%,#050508 100%);padding:26px 26px 22px;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s var(--ease);" onmouseover="this.style.borderColor='#4a7a8a66';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'" onfocus="this.style.borderColor='#4a7a8a66';this.style.transform='translateY(-2px)'" onblur="this.style.borderColor='var(--border)';this.style.transform='none'">
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#4a7a8a;">◆ Sandbox</div>
-      <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:400;line-height:1.15;letter-spacing:-.02em;color:#4fc3f7;">The <em style="font-style:italic;">Sandbox</em></div>
-      <div style="font-family:var(--mono);font-size:11px;color:#9a8e80;line-height:1.7;flex:1;">Hands-on labs — fit regressions, cluster data, trade candlesticks, and tip the logistic map into chaos.</div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#4a7a8a;margin-top:6px;">Open Sandbox →</div>
-    </a>
-  </div>
-</div>
-
-<div class="portal-video">
-  <div class="portal-video-wrap">
-    <iframe src="https://www.youtube-nocookie.com/embed/hchZlpgAgRY" title="Pattern is Everything — Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-  </div>
-  <p class="portal-video-label">A quick tour of the site</p>
-</div>
+<nav class="home-more" aria-label="More to explore">
+  <a href="/universe/">Pattern Cosmos</a><span aria-hidden="true">·</span>
+  <a href="/game/">Pattern Weaver game</a><span aria-hidden="true">·</span>
+  <a href="/sandbox/">Sandbox labs</a><span aria-hidden="true">·</span>
+  <a href="/lab/">The Model Lab</a><span aria-hidden="true">·</span>
+  <a href="https://www.youtube.com/watch?v=hchZlpgAgRY" target="_blank" rel="noopener">Video tour</a><span aria-hidden="true">·</span>
+  <a href="/support/">♥ 100% of donations go to mental health</a>
+</nav>
 
 </main>
 
@@ -451,10 +275,11 @@
   <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
   <nav class="footer-links" aria-label="Footer">
     <a href="https://github.com/M-LN/pattern-is-everything" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
-    <a href="lite/lab/?path=pattern-portal-real-data-lab-browser.ipynb" target="_blank" rel="noopener">JupyterLite Lab</a>
+    <a href="lite/lab/" target="_blank" rel="noopener">JupyterLite Lab</a>
     <a href="support/index.html">♥ Support</a>
     <a href="cases/index.html">Real-Data Cases</a>
     <a href="lab/index.html">The Model Lab</a>
+    <a href="/sandbox/">Sandbox</a>
     <a href="guides/">Guides</a>
     <a href="method/">How this site works</a>
     <a href="essays/feed.xml">RSS</a>

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -120,17 +118,7 @@
       <button class="btn" onclick="reshapSHAP()">NEW SAMPLE</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — SHAP waterfall for a single prediction</span>
-<span class="kw">import</span> shap
-
-explainer = shap.TreeExplainer(model)
-shap_values = explainer(X_test)
-
-<span class="cm"># Waterfall for one prediction</span>
-shap.plots.waterfall(shap_values[<span class="st">0</span>])
-
-<span class="cm"># Global summary</span>
-shap.plots.beeswarm(shap_values)</pre></div>
+  
   <div class="callout info"><strong>Explainer choice:</strong> Use <code>TreeExplainer</code> for tree models (fast, exact). <code>KernelExplainer</code> for any model (slow, approximate). <code>DeepExplainer</code> for deep learning.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP reveals which features drive a prediction. In markets, <a href="../../markets/indicators/#obv">volume analysis</a> asks the same question — which factors are driving price? Decomposing into contributions is a universal pattern. The tooling — explainers and plots — is in the <a href="../#shap-library">SHAP library</a> topic.</div>
   <div class="howto">
@@ -187,7 +175,17 @@ x = np.array([3.0, 1.0, 0.0])
 phi = w * (x - X.mean(axis=0))                    # exact SHAP values for a linear model
 base = w @ X.mean(axis=0) + b
 check = (base + phi.sum(), w @ x + b)             # additivity
-dup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>E. Štrumbelj &amp; I. Kononenko, “Explaining Prediction Models and Individual Predictions with Feature Contributions”, <em>Knowledge and Information Systems</em> 41(3), 2014</li><li>K. Aas, M. Jullum &amp; A. Løland, “Explaining Individual Predictions When Features Are Dependent”, <em>Artificial Intelligence</em> 298, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+dup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — SHAP waterfall for a single prediction</span>
+<span class="kw">import</span> shap
+
+explainer = shap.TreeExplainer(model)
+shap_values = explainer(X_test)
+
+<span class="cm"># Waterfall for one prediction</span>
+shap.plots.waterfall(shap_values[<span class="st">0</span>])
+
+<span class="cm"># Global summary</span>
+shap.plots.beeswarm(shap_values)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017</li><li>E. Štrumbelj &amp; I. Kononenko, “Explaining Prediction Models and Individual Predictions with Feature Contributions”, <em>Knowledge and Information Systems</em> 41(3), 2014</li><li>K. Aas, M. Jullum &amp; A. Løland, “Explaining Individual Predictions When Features Are Dependent”, <em>Artificial Intelligence</em> 298, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

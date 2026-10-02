@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -133,26 +131,7 @@
       <tr><td>Sample from this distribution?</td><td colspan="2">Kolmogorov-Smirnov / Shapiro-Wilk</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the whole decision map in scipy</span>
-<span class="kw">from</span> scipy <span class="kw">import</span> stats
-
-<span class="cm"># 2 independent groups</span>
-stats.ttest_ind(a, b, equal_var=<span class="st">False</span>)   <span class="cm"># Welch t-test</span>
-stats.mannwhitneyu(a, b)                    <span class="cm"># nonparametric</span>
-
-<span class="cm"># Paired (same subjects, before/after)</span>
-stats.ttest_rel(before, after)
-stats.wilcoxon(before, after)               <span class="cm"># nonparametric</span>
-
-<span class="cm"># 3+ groups</span>
-stats.f_oneway(g1, g2, g3)                  <span class="cm"># ANOVA</span>
-stats.kruskal(g1, g2, g3)                   <span class="cm"># nonparametric</span>
-
-<span class="cm"># Categorical vs categorical</span>
-chi2, p, dof, exp = stats.chi2_contingency(contingency_table)
-
-<span class="cm"># Check normality first (n &lt; ~50)</span>
-stat, p = stats.shapiro(a)</pre></div>
+  
   <div class="callout info"><strong>Normality worries less than you think:</strong> with n &gt; ~30 per group, the <a href="../#clt-sampling">Central Limit Theorem</a> makes the t-test robust to non-normal data. Reach for nonparametric tests when samples are small, heavily skewed, or ordinal.</div>
   <div class="callout"><strong>ANOVA says "some group differs" — not which.</strong> Follow a significant ANOVA with pairwise post-hoc tests (Tukey HSD) rather than running raw t-tests between every pair, which inflates the false-positive rate.</div>
   <div class="why-matters">
@@ -192,7 +171,26 @@ for _ in range(2_000):                               # heavy-tailed data with a 
     a, b = rng.standard_t(2, 40), rng.standard_t(2, 40) + 0.5
     hits_t += ttest_ind(a, b).pvalue &lt; 0.05
     hits_u += mannwhitneyu(a, b).pvalue &lt; 0.05
-power = (hits_t / 2_000, hits_u / 2_000)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. B. Mann &amp; D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <em>Annals of Mathematical Statistics</em> 18(1), 1947</li><li>M. W. Fagerland, “t-Tests, Non-Parametric Tests, and Large Studies — a Paradox of Statistical Practice?”, <em>BMC Medical Research Methodology</em> 12, 2012</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+power = (hits_t / 2_000, hits_u / 2_000)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — the whole decision map in scipy</span>
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+
+<span class="cm"># 2 independent groups</span>
+stats.ttest_ind(a, b, equal_var=<span class="st">False</span>)   <span class="cm"># Welch t-test</span>
+stats.mannwhitneyu(a, b)                    <span class="cm"># nonparametric</span>
+
+<span class="cm"># Paired (same subjects, before/after)</span>
+stats.ttest_rel(before, after)
+stats.wilcoxon(before, after)               <span class="cm"># nonparametric</span>
+
+<span class="cm"># 3+ groups</span>
+stats.f_oneway(g1, g2, g3)                  <span class="cm"># ANOVA</span>
+stats.kruskal(g1, g2, g3)                   <span class="cm"># nonparametric</span>
+
+<span class="cm"># Categorical vs categorical</span>
+chi2, p, dof, exp = stats.chi2_contingency(contingency_table)
+
+<span class="cm"># Check normality first (n &lt; ~50)</span>
+stat, p = stats.shapiro(a)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. B. Mann &amp; D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <em>Annals of Mathematical Statistics</em> 18(1), 1947</li><li>M. W. Fagerland, “t-Tests, Non-Parametric Tests, and Large Studies — a Paradox of Statistical Practice?”, <em>BMC Medical Research Methodology</em> 12, 2012</li><li><em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

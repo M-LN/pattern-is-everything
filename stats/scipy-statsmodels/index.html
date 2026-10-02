@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -114,7 +112,25 @@
     <div class="vl">// scipy.stats + statsmodels workflow</div>
     <canvas id="ssCanvas" role="img" aria-label="scipy.stats &amp; statsmodels: scipy.stats + statsmodels workflow" height="220"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># scipy.stats — statistical tests</span>
+  
+  <table class="mt">
+    <thead><tr><th>Task</th><th>scipy.stats</th><th>statsmodels</th></tr></thead>
+    <tbody>
+      <tr><td>Compare two groups</td><td>ttest_ind, mannwhitneyu</td><td>—</td></tr>
+      <tr><td>Normality</td><td>shapiro, normaltest</td><td>—</td></tr>
+      <tr><td>Regression</td><td>—</td><td>OLS with summary()</td></tr>
+      <tr><td>Time series</td><td>—</td><td>ARIMA, adfuller, acf</td></tr>
+      <tr><td>Distributions</td><td>norm, beta, gamma, etc.</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>sklearn vs statsmodels:</strong> sklearn is for prediction (fit/predict). statsmodels is for inference (coefficients, p-values, diagnostics). Use both — they complement each other.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> statsmodels fits the <a href="../../timeseries/#arima">ARIMA</a> and <a href="../../timeseries/#garch">GARCH</a> models used across the Timeseries collection, so the diagnostics here are the ones you run on every forecast model there.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Ten p-values, eight of them below 0.05. Bonferroni keeps <strong>2</strong> as significant; the Benjamini–Hochberg procedure keeps <strong>6</strong>, controlling the expected share of false discoveries instead of the chance of any. statsmodels’ <code>multipletests</code> does both; which one is right depends on whether a single false positive is costly or a few are acceptable.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Corrections apply to the family of tests you actually ran, including the ones you did not report.</li><li>Benjamini–Hochberg assumes independent or positively dependent tests; under other dependence use Benjamini–Yekutieli.</li><li>A non-significant result after correction is not evidence of no effect.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/scipy-statsmodels"><pre>p = np.array([0.001, 0.004, 0.008, 0.012, 0.02, 0.03, 0.04, 0.045, 0.2, 0.5])
+m = len(p)
+bonferroni = (p &lt; 0.05 / m).sum()
+order = np.sort(p)
+passed = order &lt;= 0.05 * np.arange(1, m + 1) / m    # Benjamini-Hochberg step-up
+bh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># scipy.stats — statistical tests</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> (
     ttest_ind, ttest_rel, mannwhitneyu,
     ks_2samp, shapiro, spearmanr
@@ -136,25 +152,7 @@ print(model.summary())  <span class="cm"># R², coefficients, p-values, CI</span
 <span class="cm"># Time series — ADF stationarity test</span>
 <span class="kw">from</span> statsmodels.tsa.stattools <span class="kw">import</span> adfuller
 result = adfuller(series)
-print(<span class="st">f"ADF Stat: {result[0]:.3f}, p: {result[1]:.4f}"</span>)</pre></div>
-  <table class="mt">
-    <thead><tr><th>Task</th><th>scipy.stats</th><th>statsmodels</th></tr></thead>
-    <tbody>
-      <tr><td>Compare two groups</td><td>ttest_ind, mannwhitneyu</td><td>—</td></tr>
-      <tr><td>Normality</td><td>shapiro, normaltest</td><td>—</td></tr>
-      <tr><td>Regression</td><td>—</td><td>OLS with summary()</td></tr>
-      <tr><td>Time series</td><td>—</td><td>ARIMA, adfuller, acf</td></tr>
-      <tr><td>Distributions</td><td>norm, beta, gamma, etc.</td><td>—</td></tr>
-    </tbody>
-  </table>
-  <div class="callout"><strong>sklearn vs statsmodels:</strong> sklearn is for prediction (fit/predict). statsmodels is for inference (coefficients, p-values, diagnostics). Use both — they complement each other.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> statsmodels fits the <a href="../../timeseries/#arima">ARIMA</a> and <a href="../../timeseries/#garch">GARCH</a> models used across the Timeseries collection, so the diagnostics here are the ones you run on every forecast model there.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Ten p-values, eight of them below 0.05. Bonferroni keeps <strong>2</strong> as significant; the Benjamini–Hochberg procedure keeps <strong>6</strong>, controlling the expected share of false discoveries instead of the chance of any. statsmodels’ <code>multipletests</code> does both; which one is right depends on whether a single false positive is costly or a few are acceptable.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Corrections apply to the family of tests you actually ran, including the ones you did not report.</li><li>Benjamini–Hochberg assumes independent or positively dependent tests; under other dependence use Benjamini–Yekutieli.</li><li>A non-significant result after correction is not evidence of no effect.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/scipy-statsmodels"><pre>p = np.array([0.001, 0.004, 0.008, 0.012, 0.02, 0.03, 0.04, 0.045, 0.2, 0.5])
-m = len(p)
-bonferroni = (p &lt; 0.05 / m).sum()
-order = np.sort(p)
-passed = order &lt;= 0.05 * np.arange(1, m + 1) / m    # Benjamini-Hochberg step-up
-bh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. Benjamini &amp; Y. Hochberg, “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing”, <em>Journal of the Royal Statistical Society B</em> 57(1), 1995</li><li>S. Holm, “A Simple Sequentially Rejective Multiple Test Procedure”, <em>Scandinavian Journal of Statistics</em> 6(2), 1979</li><li>S. Seabold &amp; J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <em>Proceedings of the 9th Python in Science Conference</em>, 2010</li><li>P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <em>Nature Methods</em> 17, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+print(<span class="st">f"ADF Stat: {result[0]:.3f}, p: {result[1]:.4f}"</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. Benjamini &amp; Y. Hochberg, “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing”, <em>Journal of the Royal Statistical Society B</em> 57(1), 1995</li><li>S. Holm, “A Simple Sequentially Rejective Multiple Test Procedure”, <em>Scandinavian Journal of Statistics</em> 6(2), 1979</li><li>S. Seabold &amp; J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <em>Proceedings of the 9th Python in Science Conference</em>, 2010</li><li>P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <em>Nature Methods</em> 17, 2020</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

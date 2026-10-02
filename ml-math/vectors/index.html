@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -132,14 +130,7 @@
       <tr><td>Outer product abᵀ</td><td>(m,)·(n,)→(m,n)</td><td>Rank-1 updates, LoRA</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># PyTorch matrix operations</span>
-a = torch.randn(<span class="st">3</span>)
-b = torch.randn(<span class="st">3</span>)
-dot = torch.dot(a, b)                 <span class="cm"># scalar</span>
-C = A @ B                             <span class="cm"># matrix multiply</span>
-C = torch.matmul(A, B)                <span class="cm"># same thing</span>
-D = A * B                             <span class="cm"># element-wise (Hadamard)</span>
-E = torch.outer(a, b)                 <span class="cm"># outer product</span></pre></div>
+  
   <div class="callout info"><strong>Shape debugging:</strong> Most PyTorch errors are shape mismatches. Use <code>tensor.shape</code> liberally. The rule: (…, m, k) @ (…, k, n) → (…, m, n).</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Dot products measure alignment here and in <a href="../../ml-math/#cosine-sim">cosine similarity</a> for statistics. The same operation that scores <a href="../../llm/#self-attention">attention weights</a> in a transformer also measures how two price series co-move in <a href="../../markets/risk/#correlation-risk">market correlation</a>.</div>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>For a = (1, 2, 3) and b = (4, 5, 6) the dot product is <strong>32</strong>; divided by their lengths it gives a cosine of <strong>0.975</strong>, an angle of <strong>12.9°</strong>. A 2×3 matrix times a 3×4 matrix gives a <strong>2×4</strong> result — the inner sizes must match and disappear. And (AB)ᵀ = BᵀAᵀ holds (<strong>True</strong>): transposing a product reverses its order.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Shape errors are the most common bug in ML code; broadcasting can hide them by silently stretching a vector instead of failing.</li><li>The dot product mixes direction and length; for similarity you usually want the cosine.</li><li>Intuitions from 2 or 3 dimensions mislead in high dimensions, where random vectors are almost always nearly perpendicular.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="ml-math/vectors"><pre>a, b = np.array([1, 2, 3]), np.array([4, 5, 6])
@@ -148,7 +139,14 @@ cos = dot / (np.linalg.norm(a) * np.linalg.norm(b))
 angle = np.degrees(np.arccos(cos))
 A, B = np.ones((2, 3)), np.ones((3, 4))
 shape = (A @ B).shape                       # (2,3) x (3,4): inner sizes must match
-transpose_rule = np.allclose((A @ B).T, B.T @ A.T)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li><li><em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 2</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+transpose_rule = np.allclose((A @ B).T, B.T @ A.T)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># PyTorch matrix operations</span>
+a = torch.randn(<span class="st">3</span>)
+b = torch.randn(<span class="st">3</span>)
+dot = torch.dot(a, b)                 <span class="cm"># scalar</span>
+C = A @ B                             <span class="cm"># matrix multiply</span>
+C = torch.matmul(A, B)                <span class="cm"># same thing</span>
+D = A * B                             <span class="cm"># element-wise (Hadamard)</span>
+E = torch.outer(a, b)                 <span class="cm"># outer product</span></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016</li><li><em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 2</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -123,7 +121,13 @@
       <tr><td>Fourier</td><td>sin(2πt/365), cos(2πt/365)</td><td>Smooth cyclicality</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — time series features</span>
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="../#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../../markets/indicators/#sma">moving averages</a> and <a href="../../markets/indicators/#bollinger-bands">Bollinger Bands</a> from technical analysis.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Daily changes of a random walk are unpredictable by construction. A 3-day rolling mean that includes today correlates <strong>0.58</strong> with today’s value — it contains it. Shift the window by one day and the correlation is <strong>−0.02</strong>. Most too-good time-series features are leaks like this one.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Every rolling, lag and target-encoded feature must be computed only from data available at prediction time.</li><li>Features built on the full dataset (normalisation, fills, encodings) leak too; build them inside each training window.</li><li>Hundreds of automatic features invite overfitting; keep the ones that survive a time-ordered validation.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/feature-engineering"><pre>rng = np.random.default_rng(13)
+y = pd.Series(rng.normal(0, 1, 2_000).cumsum()).diff().dropna()   # daily changes: unpredictable
+leaky = y.rolling(3).mean()                        # includes today's value
+honest = y.shift(1).rolling(3).mean()              # only yesterday and before
+corr_leaky, corr_honest = y.corr(leaky), y.corr(honest)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — time series features</span>
 df[<span class="st">'lag_1'</span>] = df[<span class="st">'y'</span>].shift(<span class="st">1</span>)
 df[<span class="st">'lag_7'</span>] = df[<span class="st">'y'</span>].shift(<span class="st">7</span>)
 df[<span class="st">'roll_mean_7'</span>] = df[<span class="st">'y'</span>].rolling(<span class="st">7</span>).mean()
@@ -132,13 +136,7 @@ df[<span class="st">'dow'</span>] = df.index.dayofweek
 df[<span class="st">'month'</span>] = df.index.month
 <span class="cm"># Fourier features for yearly seasonality</span>
 df[<span class="st">'sin_365'</span>] = np.sin(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)
-df[<span class="st">'cos_365'</span>] = np.cos(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Lag features are the tabular version of what <a href="../#ar-models">AR models</a> learn implicitly. Rolling statistics like rolling mean and rolling std are exactly <a href="../../markets/indicators/#sma">moving averages</a> and <a href="../../markets/indicators/#bollinger-bands">Bollinger Bands</a> from technical analysis.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Daily changes of a random walk are unpredictable by construction. A 3-day rolling mean that includes today correlates <strong>0.58</strong> with today’s value — it contains it. Shift the window by one day and the correlation is <strong>−0.02</strong>. Most too-good time-series features are leaks like this one.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Every rolling, lag and target-encoded feature must be computed only from data available at prediction time.</li><li>Features built on the full dataset (normalisation, fills, encodings) leak too; build them inside each training window.</li><li>Hundreds of automatic features invite overfitting; keep the ones that survive a time-ordered validation.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/feature-engineering"><pre>rng = np.random.default_rng(13)
-y = pd.Series(rng.normal(0, 1, 2_000).cumsum()).diff().dropna()   # daily changes: unpredictable
-leaky = y.rolling(3).mean()                        # includes today's value
-honest = y.shift(1).rolling(3).mean()              # only yesterday and before
-corr_leaky, corr_honest = y.corr(leaky), y.corr(honest)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>M. Christ, N. Braun, J. Neuffer &amp; A. W. Kempa-Liehr, “Time Series FeatuRe Extraction on Basis of Scalable Hypothesis Tests (tsfresh)”, <em>Neurocomputing</em> 307, 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+df[<span class="st">'cos_365'</span>] = np.cos(<span class="st">2</span> * np.pi * df.index.dayofyear / <span class="st">365</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Kaufman, S. Rosset, C. Perlich &amp; O. Stitelman, “Leakage in Data Mining: Formulation, Detection, and Avoidance”, <em>ACM Transactions on Knowledge Discovery from Data</em> 6(4), 2012</li><li>M. Christ, N. Braun, J. Neuffer &amp; A. W. Kempa-Liehr, “Time Series FeatuRe Extraction on Basis of Scalable Hypothesis Tests (tsfresh)”, <em>Neurocomputing</em> 307, 2018</li><li><em>Forecasting: Principles and Practice</em> (3rd ed.), R. J. Hyndman &amp; G. Athanasopoulos, OTexts, 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -31,4 +31,27 @@
         '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/method/">How this site checks its content</a></p></div>' +
     '</section>';
   };
+
+  /* One code section per topic. Many topics also show a library example in
+     their body (scikit-learn, statsmodels…), written before the depth
+     sections existed. foldLibraryCode moves it under "In code", folded,
+     after the runnable snippet. collection-reader.js calls it once the
+     topics are built, so the pre-rendered pages carry the same layout. */
+  window.foldLibraryCode = function (root) {
+    var depths = (root || document).querySelectorAll('.depth');
+    for (var i = 0; i < depths.length; i++) {
+      var depth = depths[i];
+      var topic = depth.closest('.topic') || depth.parentNode;
+      var run = depth.querySelector('.code-block[data-run]');
+      if (!topic || !run) continue;
+      var olds = [], all = topic.querySelectorAll('.code-block');
+      for (var k = 0; k < all.length; k++) if (!depth.contains(all[k])) olds.push(all[k]);
+      if (!olds.length) continue;
+      var det = document.createElement('details');
+      det.className = 'code-alt';
+      det.innerHTML = '<summary>The same idea with a library</summary>';
+      for (var j = 0; j < olds.length; j++) det.appendChild(olds[j]);
+      run.closest('.depth-block').appendChild(det);
+    }
+  };
 })();

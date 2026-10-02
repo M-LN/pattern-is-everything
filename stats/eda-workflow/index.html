@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -132,20 +130,7 @@
       <tr><td>Relationships</td><td>df.corr(), scatter_matrix</td><td>Redundancy, leakage candidates, target signal</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the 10-line EDA opener</span>
-<span class="kw">import</span> pandas <span class="kw">as</span> pd
-
-df = pd.read_csv(<span class="st">'data.csv'</span>)
-
-print(df.shape)
-print(df.info())                          <span class="cm"># dtypes + non-null counts</span>
-print(df.describe(include=<span class="st">'all'</span>).T)      <span class="cm"># numeric + categorical profile</span>
-print(df.isna().mean().sort_values(ascending=<span class="st">False</span>).head(<span class="st">10</span>))
-
-<span class="kw">for</span> col <span class="kw">in</span> df.select_dtypes(<span class="st">'object'</span>):
-    print(col, df[col].nunique(), df[col].value_counts().head(<span class="st">3</span>).to_dict())
-
-df.hist(bins=<span class="st">40</span>, figsize=(<span class="st">12</span>, <span class="st">8</span>))     <span class="cm"># every numeric at once</span></pre></div>
+  
   <div class="callout info"><strong>Mean vs median is a free skew detector:</strong> when they disagree badly (as in the visual above), the distribution is skewed or contaminated by outliers — report medians, and consider a log transform before modeling.</div>
   <div class="callout"><strong>EDA before splitting? Careful.</strong> Profile structure on everything, but tune decisions (imputation values, outlier caps, transformations) on the <em>training split only</em> — otherwise test-set information leaks into your pipeline.</div>
   <div class="dataset-card">
@@ -181,7 +166,20 @@ plt.show()</code></pre>
                    'income': [52_000, -999, 61_000, 48_000, -999]})   # -999 means "unknown"
 age = pd.to_numeric(df.age, errors='coerce')
 naive_mean = df.income.mean()
-clean_mean = df.income.replace(-999, np.nan).mean()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Exploratory Data Analysis</em>, J. W. Tukey, Addison-Wesley, 1977</li><li>K. W. Broman &amp; K. H. Woo, “Data Organization in Spreadsheets”, <em>The American Statistician</em> 72(1), 2018</li><li>H. Wickham, “Tidy Data”, <em>Journal of Statistical Software</em> 59(10), 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+clean_mean = df.income.replace(-999, np.nan).mean()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — the 10-line EDA opener</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.read_csv(<span class="st">'data.csv'</span>)
+
+print(df.shape)
+print(df.info())                          <span class="cm"># dtypes + non-null counts</span>
+print(df.describe(include=<span class="st">'all'</span>).T)      <span class="cm"># numeric + categorical profile</span>
+print(df.isna().mean().sort_values(ascending=<span class="st">False</span>).head(<span class="st">10</span>))
+
+<span class="kw">for</span> col <span class="kw">in</span> df.select_dtypes(<span class="st">'object'</span>):
+    print(col, df[col].nunique(), df[col].value_counts().head(<span class="st">3</span>).to_dict())
+
+df.hist(bins=<span class="st">40</span>, figsize=(<span class="st">12</span>, <span class="st">8</span>))     <span class="cm"># every numeric at once</span></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Exploratory Data Analysis</em>, J. W. Tukey, Addison-Wesley, 1977</li><li>K. W. Broman &amp; K. H. Woo, “Data Organization in Spreadsheets”, <em>The American Statistician</em> 72(1), 2018</li><li>H. Wickham, “Tidy Data”, <em>Journal of Statistical Software</em> 59(10), 2014</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

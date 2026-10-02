@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -115,16 +113,7 @@
     <div class="vl">// Interactive — VAR impulse response</div>
     <canvas id="varCanvas" role="img" aria-label="VAR Models: Interactive — VAR impulse response" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — VAR</span>
-<span class="kw">from</span> statsmodels.tsa.api <span class="kw">import</span> VAR
-
-model = VAR(df[['gdp', 'inflation', 'unemployment']])
-results = model.fit(maxlags=<span class="st">4</span>, ic=<span class="st">'aic'</span>)
-<span class="cm"># Granger causality test</span>
-results.test_causality(<span class="st">'gdp'</span>, [<span class="st">'inflation'</span>], kind=<span class="st">'f'</span>)
-<span class="cm"># Impulse response</span>
-irf = results.irf(<span class="st">20</span>)
-irf.plot()</pre></div>
+  
   <div class="callout bridge"><strong>Pattern bridge:</strong> VAR captures how variables influence each other — the same idea as <a href="../../stats/#feature-correlation">correlation matrices</a> but with temporal structure. In markets, <a href="../../markets/risk/#correlation-risk">cross-asset correlations</a> and intermarket analysis are VAR in practice.</div>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Two series where x drives y with a one-step lag (true effect 0.6). A VAR(1) fitted to 500 points recovers it: in y’s equation the coefficient on yesterday’s x is <strong>0.60</strong>, while x’s equation puts only <strong>0.03</strong> on yesterday’s y. That asymmetry is what Granger causality tests — x helps predict y, not the reverse.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Granger causality is about prediction, not cause: a third series driving both with different lags produces it too.</li><li>Parameters grow with the square of the number of series times the lags; VARs overfit fast without shrinkage.</li><li>Non-stationary series need differencing or a cointegrated VAR (VECM).</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/var-models"><pre>rng = np.random.default_rng(8)
 n = 500
@@ -133,7 +122,16 @@ for t in range(1, n):
     x[t] = 0.5 * x[t - 1] + rng.normal()
     y[t] = 0.3 * y[t - 1] + 0.6 * x[t - 1] + rng.normal()   # x leads y by one step
 Z = np.column_stack([x[:-1], y[:-1]])
-A = np.linalg.lstsq(Z, np.column_stack([x[1:], y[1:]]), rcond=None)[0].T   # rows: equations for x and y</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger, “Investigating Causal Relations by Econometric Models and Cross-Spectral Methods”, <em>Econometrica</em> 37(3), 1969</li><li>C. A. Sims, “Macroeconomics and Reality”, <em>Econometrica</em> 48(1), 1980</li><li><em>New Introduction to Multiple Time Series Analysis</em>, H. Lütkepohl, Springer, 2005</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+A = np.linalg.lstsq(Z, np.column_stack([x[1:], y[1:]]), rcond=None)[0].T   # rows: equations for x and y</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — VAR</span>
+<span class="kw">from</span> statsmodels.tsa.api <span class="kw">import</span> VAR
+
+model = VAR(df[['gdp', 'inflation', 'unemployment']])
+results = model.fit(maxlags=<span class="st">4</span>, ic=<span class="st">'aic'</span>)
+<span class="cm"># Granger causality test</span>
+results.test_causality(<span class="st">'gdp'</span>, [<span class="st">'inflation'</span>], kind=<span class="st">'f'</span>)
+<span class="cm"># Impulse response</span>
+irf = results.irf(<span class="st">20</span>)
+irf.plot()</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>C. W. J. Granger, “Investigating Causal Relations by Econometric Models and Cross-Spectral Methods”, <em>Econometrica</em> 37(3), 1969</li><li>C. A. Sims, “Macroeconomics and Reality”, <em>Econometrica</em> 48(1), 1980</li><li><em>New Introduction to Multiple Time Series Analysis</em>, H. Lütkepohl, Springer, 2005</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

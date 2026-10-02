@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -120,7 +118,14 @@
       <div class="cg"><span class="cl">Outliers</span><span class="vd" id="outCount" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — outlier detection</span>
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../../markets/risk/#tail-risk">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Twelve values around 10, plus 25 and 300. The z-score rule flags only <strong>300</strong>: that one value inflates the standard deviation so much that 25 hides behind it (“masking”). The median-based modified z-score flags <strong>both 25 and 300</strong>. Outlier rules should not be built from statistics the outliers themselves distort.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>An outlier is defined relative to a model; a value extreme in one feature can be normal given the others.</li><li>Deleting outliers automatically can delete the most important cases (fraud, failures, rare events).</li><li>Thresholds such as 3 or 3.5 are conventions; the expected number of false flags grows with the data.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/outlier-detection"><pre>x = np.array([10, 11, 9, 10, 12, 11, 10, 9, 11, 10, 25, 300.0])   # two outliers: 25 and 300
+z = (x - x.mean()) / x.std()
+mad = np.median(np.abs(x - np.median(x)))
+robust = 0.6745 * (x - np.median(x)) / mad          # modified z-score
+flag_z = x[np.abs(z) &gt; 3].tolist()
+flag_robust = x[np.abs(robust) &gt; 3.5].tolist()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — outlier detection</span>
 <span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> IsolationForest
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -131,14 +136,7 @@ mask = (data &lt; Q1 - <span class="st">1.5</span>*IQR) | (data &gt; Q3 + <span 
 
 <span class="cm"># Isolation Forest — multi-dimensional</span>
 iso = IsolationForest(contamination=<span class="st">0.05</span>)
-labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../../markets/risk/#tail-risk">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Twelve values around 10, plus 25 and 300. The z-score rule flags only <strong>300</strong>: that one value inflates the standard deviation so much that 25 hides behind it (“masking”). The median-based modified z-score flags <strong>both 25 and 300</strong>. Outlier rules should not be built from statistics the outliers themselves distort.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>An outlier is defined relative to a model; a value extreme in one feature can be normal given the others.</li><li>Deleting outliers automatically can delete the most important cases (fraud, failures, rare events).</li><li>Thresholds such as 3 or 3.5 are conventions; the expected number of false flags grows with the data.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/outlier-detection"><pre>x = np.array([10, 11, 9, 10, 12, 11, 10, 9, 11, 10, 25, 300.0])   # two outliers: 25 and 300
-z = (x - x.mean()) / x.std()
-mad = np.median(np.abs(x - np.median(x)))
-robust = 0.6745 * (x - np.median(x)) / mad          # modified z-score
-flag_z = x[np.abs(z) &gt; 3].tolist()
-flag_robust = x[np.abs(robust) &gt; 3.5].tolist()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Iglewicz &amp; D. C. Hoaglin, <em>How to Detect and Handle Outliers</em>, ASQC Quality Press, 1993 — the modified z-score</li><li>C. Leys, C. Ley, O. Klein, P. Bernard &amp; L. Licata, “Detecting Outliers: Do Not Use Standard Deviation around the Mean, Use Absolute Deviation around the Median”, <em>Journal of Experimental Social Psychology</em> 49(4), 2013</li><li>F. T. Liu, K. M. Ting &amp; Z.-H. Zhou, “Isolation Forest”, <em>IEEE ICDM</em>, 2008</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>B. Iglewicz &amp; D. C. Hoaglin, <em>How to Detect and Handle Outliers</em>, ASQC Quality Press, 1993 — the modified z-score</li><li>C. Leys, C. Ley, O. Klein, P. Bernard &amp; L. Licata, “Detecting Outliers: Do Not Use Standard Deviation around the Mean, Use Absolute Deviation around the Median”, <em>Journal of Experimental Social Psychology</em> 49(4), 2013</li><li>F. T. Liu, K. M. Ting &amp; Z.-H. Zhou, “Isolation Forest”, <em>IEEE ICDM</em>, 2008</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

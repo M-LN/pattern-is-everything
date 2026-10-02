@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -125,7 +123,19 @@
       <tr><td>Pickle / Joblib</td><td>Simple, native Python</td><td>Prototyping only</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — export model as ONNX + Docker</span>
+  
+  <div class="callout info"><strong>Avoid pickle in production:</strong> Pickle files are Python-version-specific, not human-readable, and pose security risks (arbitrary code execution). Use ONNX or framework-native formats for anything beyond prototypes.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../../stats/#cross-validation">cross-validation</a> — both enforce separation between what you build and where you test it. In markets, <a href="../../stats/#walk-forward">backtesting discipline</a> enforces the same boundary.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>The same six weights packaged with two requirement files that differ in a single pin — NumPy 1.26.4 against 2.0.0 — get different artifact IDs: <strong>e93e1a2e4504</strong> and <strong>c538e448aba7</strong>. That is the point of packaging: a model is not its weights, it is its weights plus everything they need to run, and a change to either is a new version.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>A container is only reproducible if its inputs are pinned. A base image tagged <code>latest</code> or an unpinned <code>pip install</code> builds a different artifact next month.</li><li>Converting to ONNX or another format can change numerics or drop unsupported operations; compare outputs before and after on real inputs.</li><li>Loading a pickle runs code. Never load one from a source you do not control.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="mlops/model-packaging"><pre>import hashlib
+weights = np.arange(6, dtype=np.float32).reshape(2, 3)     # the trained model, tiny here
+
+def artifact_id(weights, requirements):                    # identity = model bytes + the environment it needs
+    h = hashlib.sha256(weights.tobytes())
+    h.update(requirements.encode())
+    return h.hexdigest()[:12]
+
+a = artifact_id(weights, 'numpy==1.26.4\nscikit-learn==1.4.2')
+b = artifact_id(weights, 'numpy==2.0.0\nscikit-learn==1.4.2')     # same weights, one pin changed</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — export model as ONNX + Docker</span>
 <span class="kw">import</span> onnx, torch
 
 <span class="cm"># Export PyTorch model to ONNX</span>
@@ -138,19 +148,7 @@ torch.onnx.export(model, dummy, <span class="st">"model.onnx"</span>,
 <span class="cm"># FROM python:3.11-slim</span>
 <span class="cm"># COPY model.onnx requirements.txt serve.py .</span>
 <span class="cm"># RUN pip install -r requirements.txt</span>
-<span class="cm"># CMD ["python", "serve.py"]</span></pre></div>
-  <div class="callout info"><strong>Avoid pickle in production:</strong> Pickle files are Python-version-specific, not human-readable, and pose security risks (arbitrary code execution). Use ONNX or framework-native formats for anything beyond prototypes.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../../stats/#cross-validation">cross-validation</a> — both enforce separation between what you build and where you test it. In markets, <a href="../../stats/#walk-forward">backtesting discipline</a> enforces the same boundary.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>The same six weights packaged with two requirement files that differ in a single pin — NumPy 1.26.4 against 2.0.0 — get different artifact IDs: <strong>e93e1a2e4504</strong> and <strong>c538e448aba7</strong>. That is the point of packaging: a model is not its weights, it is its weights plus everything they need to run, and a change to either is a new version.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>A container is only reproducible if its inputs are pinned. A base image tagged <code>latest</code> or an unpinned <code>pip install</code> builds a different artifact next month.</li><li>Converting to ONNX or another format can change numerics or drop unsupported operations; compare outputs before and after on real inputs.</li><li>Loading a pickle runs code. Never load one from a source you do not control.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="mlops/model-packaging"><pre>import hashlib
-weights = np.arange(6, dtype=np.float32).reshape(2, 3)     # the trained model, tiny here
-
-def artifact_id(weights, requirements):                    # identity = model bytes + the environment it needs
-    h = hashlib.sha256(weights.tobytes())
-    h.update(requirements.encode())
-    return h.hexdigest()[:12]
-
-a = artifact_id(weights, 'numpy==1.26.4\nscikit-learn==1.4.2')
-b = artifact_id(weights, 'numpy==2.0.0\nscikit-learn==1.4.2')     # same weights, one pin changed</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. Sculley et al., “Hidden Technical Debt in Machine Learning Systems”, <em>Advances in Neural Information Processing Systems</em> 28, 2015</li><li>M. Zaharia et al., “Accelerating the Machine Learning Lifecycle with MLflow”, <em>IEEE Data Engineering Bulletin</em> 41(4), 2018</li><li>Open Neural Network Exchange (ONNX) specification, onnx.ai — the portable model format</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+<span class="cm"># CMD ["python", "serve.py"]</span></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. Sculley et al., “Hidden Technical Debt in Machine Learning Systems”, <em>Advances in Neural Information Processing Systems</em> 28, 2015</li><li>M. Zaharia et al., “Accelerating the Machine Learning Lifecycle with MLflow”, <em>IEEE Data Engineering Bulletin</em> 41(4), 2018</li><li>Open Neural Network Exchange (ONNX) specification, onnx.ai — the portable model format</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

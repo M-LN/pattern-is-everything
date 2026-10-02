@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -114,7 +112,22 @@
     <div class="vl">// The scikit-learn evaluation workflow</div>
     <canvas id="skCanvas" role="img" aria-label="scikit-learn Evaluation Suite: The scikit-learn evaluation workflow" height="220"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Complete sklearn evaluation workflow</span>
+  
+  <table class="mt">
+    <thead><tr><th>Module</th><th>Key functions</th><th>This toolkit topic</th></tr></thead>
+    <tbody>
+      <tr><td>sklearn.metrics</td><td>classification_report, roc_auc_score, r2_score</td><td><a href="../#confusion-matrix">Confusion Matrix</a>, <a href="../#regression-metrics">Regression</a></td></tr>
+      <tr><td>sklearn.model_selection</td><td>cross_val_score, TimeSeriesSplit, learning_curve</td><td><a href="../#cross-validation">CV</a>, <a href="../#learning-curves">Learning Curves</a></td></tr>
+      <tr><td>sklearn.inspection</td><td>permutation_importance, PartialDependenceDisplay</td><td><a href="../#permutation-importance">Permutation</a>, <a href="../#pdp-ice">PDP/ICE</a></td></tr>
+      <tr><td>sklearn.feature_selection</td><td>mutual_info_classif, SelectKBest</td><td><a href="../#information-gain">Information Gain</a></td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Tip:</strong> Always use <code>Pipeline</code> to chain preprocessing + model. This prevents data leakage in CV and makes deployment trivial.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The same metrics follow a model into production, where <a href="../../mlops/#model-monitoring">model monitoring</a> tracks them over time. For ordered data, <a href="../../timeseries/#cross-validation-ts">time-series cross-validation</a> replaces the shuffled folds.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Three classes with 900, 80 and 20 examples and per-class F1 of 0.95, 0.60 and 0.20. The macro average, which counts each class once, is <strong>0.583</strong>; the weighted average, which counts each example once, is <strong>0.907</strong>. classification_report prints both. The weighted number mostly describes the big class.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Micro, macro and weighted averages answer different questions; report the one that matches what you care about.</li><li>Default scorers in cross_val_score (accuracy, R²) may not be the metric you need; set scoring explicitly.</li><li>Reports on the training data say nothing about generalisation; evaluate on held-out folds.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/sklearn-eval"><pre>support = np.array([900, 80, 20])                    # three classes, very unequal
+f1 = np.array([0.95, 0.60, 0.20])                      # per-class F1 from a classification report
+macro = f1.mean()                                      # every class counts the same
+weighted = (f1 * support).sum() / support.sum()        # every example counts the same</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Complete sklearn evaluation workflow</span>
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
     cross_val_score, learning_curve, GridSearchCV
 )
@@ -139,22 +152,7 @@ pi = permutation_importance(model, X_test, y_test, n_repeats=<span class="st">30
 
 <span class="cm"># 5. Hyperparameter tuning</span>
 grid = GridSearchCV(model, param_grid, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
-grid.fit(X_train, y_train)</pre></div>
-  <table class="mt">
-    <thead><tr><th>Module</th><th>Key functions</th><th>This toolkit topic</th></tr></thead>
-    <tbody>
-      <tr><td>sklearn.metrics</td><td>classification_report, roc_auc_score, r2_score</td><td><a href="../#confusion-matrix">Confusion Matrix</a>, <a href="../#regression-metrics">Regression</a></td></tr>
-      <tr><td>sklearn.model_selection</td><td>cross_val_score, TimeSeriesSplit, learning_curve</td><td><a href="../#cross-validation">CV</a>, <a href="../#learning-curves">Learning Curves</a></td></tr>
-      <tr><td>sklearn.inspection</td><td>permutation_importance, PartialDependenceDisplay</td><td><a href="../#permutation-importance">Permutation</a>, <a href="../#pdp-ice">PDP/ICE</a></td></tr>
-      <tr><td>sklearn.feature_selection</td><td>mutual_info_classif, SelectKBest</td><td><a href="../#information-gain">Information Gain</a></td></tr>
-    </tbody>
-  </table>
-  <div class="callout"><strong>Tip:</strong> Always use <code>Pipeline</code> to chain preprocessing + model. This prevents data leakage in CV and makes deployment trivial.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The same metrics follow a model into production, where <a href="../../mlops/#model-monitoring">model monitoring</a> tracks them over time. For ordered data, <a href="../../timeseries/#cross-validation-ts">time-series cross-validation</a> replaces the shuffled folds.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Three classes with 900, 80 and 20 examples and per-class F1 of 0.95, 0.60 and 0.20. The macro average, which counts each class once, is <strong>0.583</strong>; the weighted average, which counts each example once, is <strong>0.907</strong>. classification_report prints both. The weighted number mostly describes the big class.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Micro, macro and weighted averages answer different questions; report the one that matches what you care about.</li><li>Default scorers in cross_val_score (accuracy, R²) may not be the metric you need; set scoring explicitly.</li><li>Reports on the training data say nothing about generalisation; evaluate on held-out folds.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/sklearn-eval"><pre>support = np.array([900, 80, 20])                    # three classes, very unequal
-f1 = np.array([0.95, 0.60, 0.20])                      # per-class F1 from a classification report
-macro = f1.mean()                                      # every class counts the same
-weighted = (f1 * support).sum() / support.sum()        # every example counts the same</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>F. Pedregosa et al., “Scikit-learn: Machine Learning in Python”, <em>Journal of Machine Learning Research</em> 12, 2011</li><li>M. Sokolova &amp; G. Lapalme, “A Systematic Analysis of Performance Measures for Classification Tasks”, <em>Information Processing &amp; Management</em> 45(4), 2009</li><li>J. Opitz &amp; S. Burst, “Macro F1 and Macro F1”, arXiv:1911.03347, 2019</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+grid.fit(X_train, y_train)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>F. Pedregosa et al., “Scikit-learn: Machine Learning in Python”, <em>Journal of Machine Learning Research</em> 12, 2011</li><li>M. Sokolova &amp; G. Lapalme, “A Systematic Analysis of Performance Measures for Classification Tasks”, <em>Information Processing &amp; Management</em> 45(4), 2009</li><li>J. Opitz &amp; S. Burst, “Macro F1 and Macro F1”, arXiv:1911.03347, 2019</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

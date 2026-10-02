@@ -4115,3 +4115,17 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 :root[data-theme="dark"] .evidence-badge.heuristic { color: #c87f2f; }
 :root[data-theme="dark"] .lab-part, :root[data-theme="dark"] .lab-fail,
 :root[data-theme="dark"] .value-item strong, :root[data-theme="dark"] .howto-pitfall strong, :root[data-theme="dark"] .empty-state a { color: #e36d53; }
+
+/* Home: the secondary destinations, on one quiet line under the universes. */
+.home-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; max-width: 900px; margin: 8px auto 56px; padding: 0 16px;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  /* not the sidebar: the global nav rule makes navs sticky, full-height and masked */
+  position: static; height: auto; border: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+.home-more span { color: var(--border2); }
+.home-more a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--border2); text-underline-offset: 3px; }
+.home-more a:hover { color: var(--accent); text-decoration-color: currentColor; }
+/* A topic's library example, folded under "In code" (js/topic-depth.js). */
+.code-alt { margin: 10px 0 0; }
+.code-alt summary { cursor: pointer; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.code-alt summary:hover { color: var(--accent); }
+.code-alt .code-block { margin-top: 8px; }

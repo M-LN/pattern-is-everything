@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -117,7 +115,14 @@
   <div class="va"><div class="vl">Interactive — RLHF pipeline stages</div><canvas id="rlhfCanvas" role="img" aria-label="RLHF: Interactive — RLHF pipeline stages" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawRLHF(1)">Stage 1: SFT</button> <button class="btn b2" onclick="drawRLHF(2)">Stage 2: Reward</button> <button class="btn b3" onclick="drawRLHF(3)">Stage 3: PPO</button></div></div>
   <h3 id="python-reward-model-training">Python — reward model training<a class="heading-anchor" href="#python-reward-model-training" aria-label="Copy link to this section" title="Copy link to this section">#</a></h3>
-  <div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>import torch.nn.functional as F
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Aligning model outputs with human preferences via reward modeling. The <a href="../../ml-math/#rlhf">math of RLHF</a> is a policy gradient over preference pairs. In markets, <a href="../../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A reward model that overrates the third answer (4 points against 1 and 2). A modest policy shift has a KL of <strong>0.085</strong> from the reference; collapsing onto the overrated answer has <strong>1.48</strong>. With a weak penalty, β = 0.1, the collapse scores higher (<strong>3.80</strong> against 2.19) — reward hacking. With β = 2 the modest policy wins (<strong>2.03</strong> against 0.98). The KL term is what keeps the model honest to its starting point.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>The reward model is a learned proxy; optimising hard against it eventually exploits its errors (Gao et al. 2023).</li><li>β is a dial between following the reward and staying close to the reference; there is no principled value.</li><li>Human raters reward confident, longer answers; RLHF can amplify that.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="llm/rlhf"><pre>ref = np.array([0.5, 0.3, 0.2])                 # reference policy over three answers
+reward = np.array([1.0, 2.0, 4.0])              # the reward model's scores (the third one it overrates)
+kl = lambda p: np.sum(p * np.log(p / ref))
+objective = lambda p, beta: p @ reward - beta * kl(p)
+modest, hacked = np.array([0.3, 0.45, 0.25]), np.array([0.01, 0.01, 0.98])
+result = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>import torch.nn.functional as F
 
 class RewardModel(nn.Module):
     def __init__(self, base_model):
@@ -132,14 +137,7 @@ class RewardModel(nn.Module):
 
 # Bradley-Terry loss
 def reward_loss(chosen_reward, rejected_reward):
-    return -F.logsigmoid(chosen_reward - rejected_reward).mean()</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Aligning model outputs with human preferences via reward modeling. The <a href="../../ml-math/#rlhf">math of RLHF</a> is a policy gradient over preference pairs. In markets, <a href="../../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A reward model that overrates the third answer (4 points against 1 and 2). A modest policy shift has a KL of <strong>0.085</strong> from the reference; collapsing onto the overrated answer has <strong>1.48</strong>. With a weak penalty, β = 0.1, the collapse scores higher (<strong>3.80</strong> against 2.19) — reward hacking. With β = 2 the modest policy wins (<strong>2.03</strong> against 0.98). The KL term is what keeps the model honest to its starting point.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>The reward model is a learned proxy; optimising hard against it eventually exploits its errors (Gao et al. 2023).</li><li>β is a dial between following the reward and staying close to the reference; there is no principled value.</li><li>Human raters reward confident, longer answers; RLHF can amplify that.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="llm/rlhf"><pre>ref = np.array([0.5, 0.3, 0.2])                 # reference policy over three answers
-reward = np.array([1.0, 2.0, 4.0])              # the reward model's scores (the third one it overrates)
-kl = lambda p: np.sum(p * np.log(p / ref))
-objective = lambda p, beta: p @ reward - beta * kl(p)
-modest, hacked = np.array([0.3, 0.45, 0.25]), np.array([0.01, 0.01, 0.98])
-result = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>N. Stiennon et al., “Learning to Summarize from Human Feedback”, <em>NeurIPS</em>, 2020</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+    return -F.logsigmoid(chosen_reward - rejected_reward).mean()</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017</li><li>N. Stiennon et al., “Learning to Summarize from Human Feedback”, <em>NeurIPS</em>, 2020</li><li>L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022</li><li>L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

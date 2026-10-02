@@ -456,6 +456,7 @@ function navLink(id, className, dir) {
 function initReader() {
   buildNav();
   buildContent();
+  if (window.foldLibraryCode) foldLibraryCode(document);   // one code section per topic (topic-depth.js)
   const homeNI = document.querySelector('.ni[data-topic="home"]');
   if (homeNI) homeNI.classList.add('active');
   restoreProgress();

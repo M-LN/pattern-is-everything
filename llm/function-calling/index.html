@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -117,7 +115,22 @@
   <div class="va"><div class="vl">Interactive — function call flow</div><canvas id="funcCanvas" role="img" aria-label="Function Calling: Interactive — function call flow" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animFunc()">Simulate Call</button> <button class="btn b2" onclick="resetFunc()">Reset</button></div></div>
   <h3 id="python-openai-function-calling">Python — OpenAI function calling<a class="heading-anchor" href="#python-openai-function-calling" aria-label="Copy link to this section" title="Copy link to this section">#</a></h3>
-  <div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>from openai import OpenAI
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The model outputting structured tool calls is <a href="../../ml-math/#softmax">classification over actions</a> instead of tokens. In markets, <a href="../../markets/indicators/#ichimoku">Ichimoku’s multi-signal system</a> calls different functions (trend, momentum, support) from one framework.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Four tool calls checked against a schema. The first passes. The second is missing the required <code>unit</code> and sends <code>days</code> as a string. The third is not valid JSON (a missing brace). The fourth uses “K”, which is not an allowed unit. Every one of these reaches your code unless you validate — the model proposes a call, your program decides whether to run it.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Constrained decoding (JSON mode) guarantees valid syntax, not correct arguments.</li><li>Tool descriptions are part of the prompt; vague descriptions cause wrong tool choice.</li><li>Tool outputs can carry instructions (prompt injection); treat them as data, never as commands.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="llm/function-calling"><pre>import json
+schema = {'required': ['city', 'unit'], 'types': {'city': str, 'unit': str, 'days': int},
+          'enum': {'unit': ['celsius', 'fahrenheit']}}
+
+def check(raw):
+    try: args = json.loads(raw)
+    except json.JSONDecodeError as e: return [f'not JSON: {e.msg}']
+    errs = [f'missing {k}' for k in schema['required'] if k not in args]
+    errs += [f'{k} should be {t.__name__}' for k, t in schema['types'].items() if k in args and not isinstance(args[k], t)]
+    errs += [f'{k} not in {v}' for k, v in schema['enum'].items() if k in args and args[k] not in v]
+    return errs
+
+calls = ['{"city": "Aarhus", "unit": "celsius"}', '{"city": "Aarhus", "days": "3"}', '{"city": "Aarhus", "unit": "kelvin"', '{"city": "Aarhus", "unit": "K"}']
+results = [check(c) for c in calls]</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>from openai import OpenAI
 import json
 
 client = OpenAI()
@@ -145,22 +158,7 @@ response = client.chat.completions.create(
 )
 # Parse tool call → execute → send result back
 call = response.choices[0].message.tool_calls[0]
-args = json.loads(call.function.arguments)</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The model outputting structured tool calls is <a href="../../ml-math/#softmax">classification over actions</a> instead of tokens. In markets, <a href="../../markets/indicators/#ichimoku">Ichimoku’s multi-signal system</a> calls different functions (trend, momentum, support) from one framework.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Four tool calls checked against a schema. The first passes. The second is missing the required <code>unit</code> and sends <code>days</code> as a string. The third is not valid JSON (a missing brace). The fourth uses “K”, which is not an allowed unit. Every one of these reaches your code unless you validate — the model proposes a call, your program decides whether to run it.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Constrained decoding (JSON mode) guarantees valid syntax, not correct arguments.</li><li>Tool descriptions are part of the prompt; vague descriptions cause wrong tool choice.</li><li>Tool outputs can carry instructions (prompt injection); treat them as data, never as commands.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="llm/function-calling"><pre>import json
-schema = {'required': ['city', 'unit'], 'types': {'city': str, 'unit': str, 'days': int},
-          'enum': {'unit': ['celsius', 'fahrenheit']}}
-
-def check(raw):
-    try: args = json.loads(raw)
-    except json.JSONDecodeError as e: return [f'not JSON: {e.msg}']
-    errs = [f'missing {k}' for k in schema['required'] if k not in args]
-    errs += [f'{k} should be {t.__name__}' for k, t in schema['types'].items() if k in args and not isinstance(args[k], t)]
-    errs += [f'{k} not in {v}' for k, v in schema['enum'].items() if k in args and args[k] not in v]
-    return errs
-
-calls = ['{"city": "Aarhus", "unit": "celsius"}', '{"city": "Aarhus", "days": "3"}', '{"city": "Aarhus", "unit": "kelvin"', '{"city": "Aarhus", "unit": "K"}']
-results = [check(c) for c in calls]</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. Schick et al., “Toolformer: Language Models Can Teach Themselves to Use Tools”, <em>NeurIPS</em>, 2023</li><li>S. G. Patil, T. Zhang, X. Wang &amp; J. E. Gonzalez, “Gorilla: Large Language Model Connected with Massive APIs”, arXiv:2305.15334, 2023</li><li>JSON Schema specification, json-schema.org</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+args = json.loads(call.function.arguments)</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. Schick et al., “Toolformer: Language Models Can Teach Themselves to Use Tools”, <em>NeurIPS</em>, 2023</li><li>S. G. Patil, T. Zhang, X. Wang &amp; J. E. Gonzalez, “Gorilla: Large Language Model Connected with Massive APIs”, arXiv:2305.15334, 2023</li><li>JSON Schema specification, json-schema.org</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -117,22 +115,7 @@
   <div class="va"><div class="vl">Interactive — precision comparison</div><canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision comparison" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawQuant('fp16')">FP16</button> <button class="btn b2" onclick="drawQuant('int8')">INT8</button> <button class="btn b3" onclick="drawQuant('int4')">INT4</button></div></div>
   <h3 id="python-quantize-with-bitsandbytes">Python — quantize with bitsandbytes<a class="heading-anchor" href="#python-quantize-with-bitsandbytes" aria-label="Copy link to this section" title="Copy link to this section">#</a></h3>
-  <div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>from transformers import AutoModelForCausalLM, BitsAndBytesConfig
-
-# 4-bit quantization (NF4 for QLoRA)
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16,
-    bnb_4bit_use_double_quant=True,  # quantize the quantization constants
-)
-
-model = AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-3.1-70B",
-    quantization_config=bnb_config,
-    device_map="auto"
-)
-# 70B model now fits in ~35GB VRAM</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div>
+  
   <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values. The production side — calibration, accuracy checks and serving — is in <a href="../../mlops/#quantization">quantization for MLOps</a>.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
@@ -158,7 +141,22 @@ def int4_error(w, group):
     scale = np.abs(g).max(axis=1, keepdims=True) / 7
     return np.abs(np.clip(np.round(g / scale), -7, 7) * scale - g).mean() / np.abs(w).mean()
 
-per_tensor, per_group = int4_error(w, 4_096), int4_error(w, 128)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. Frantar, S. Ashkboos, T. Hoefler &amp; D. Alistarh, “GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers”, <em>ICLR</em>, 2023</li><li>J. Lin et al., “AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration”, <em>Proceedings of Machine Learning and Systems</em> 6, 2024</li><li>T. Dettmers &amp; L. Zettlemoyer, “The Case for 4-bit Precision: k-bit Inference Scaling Laws”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><section class="selfcheck" data-topic="llm/quantization"><div class="depth-title">Check yourself</div><div class="sc-q" data-answer="0" data-n="1"><p class="sc-prompt"><span class="sc-num">1.</span> Going from 16-bit to 4-bit weights shrinks weight memory to about…</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>a quarter, plus a little overhead for the scale factors.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>half.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>a sixteenth.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>A.</strong> Four bits instead of sixteen. Group-wise schemes add a scale (and sometimes a zero point) per small block of weights.</p></details></div><div class="sc-q" data-answer="2" data-n="2"><p class="sc-prompt"><span class="sc-num">2.</span> Why do outlier weights make quantization harder?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>Outliers are deleted before quantizing, which changes the model.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>They make the model slower.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>The scale is set by the largest value, so ordinary weights get only a few levels and lose precision.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>C.</strong> Per-group or per-channel scales, and keeping outliers in higher precision, limit the damage.</p></details></div><div class="sc-q" data-answer="2" data-n="3"><p class="sc-prompt"><span class="sc-num">3.</span> Why does weight-only quantization speed up token-by-token generation?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>The model needs fewer generation steps.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>Integer arithmetic is always faster than floating point.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>Decoding is limited by memory bandwidth, so reading fewer bytes per weight makes each step faster.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>C.</strong> At batch size 1 the GPU mostly waits for weights to arrive from memory; smaller weights arrive sooner.</p></details></div></section>
+per_tensor, per_group = int4_error(w, 4_096), int4_error(w, 128)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+
+# 4-bit quantization (NF4 for QLoRA)
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_use_double_quant=True,  # quantize the quantization constants
+)
+
+model = AutoModelForCausalLM.from_pretrained(
+    "meta-llama/Llama-3.1-70B",
+    quantization_config=bnb_config,
+    device_map="auto"
+)
+# 70B model now fits in ~35GB VRAM</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>E. Frantar, S. Ashkboos, T. Hoefler &amp; D. Alistarh, “GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers”, <em>ICLR</em>, 2023</li><li>J. Lin et al., “AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration”, <em>Proceedings of Machine Learning and Systems</em> 6, 2024</li><li>T. Dettmers &amp; L. Zettlemoyer, “The Case for 4-bit Precision: k-bit Inference Scaling Laws”, <em>ICML</em>, 2023</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section><section class="selfcheck" data-topic="llm/quantization"><div class="depth-title">Check yourself</div><div class="sc-q" data-answer="0" data-n="1"><p class="sc-prompt"><span class="sc-num">1.</span> Going from 16-bit to 4-bit weights shrinks weight memory to about…</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>a quarter, plus a little overhead for the scale factors.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>half.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>a sixteenth.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>A.</strong> Four bits instead of sixteen. Group-wise schemes add a scale (and sometimes a zero point) per small block of weights.</p></details></div><div class="sc-q" data-answer="2" data-n="2"><p class="sc-prompt"><span class="sc-num">2.</span> Why do outlier weights make quantization harder?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>Outliers are deleted before quantizing, which changes the model.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>They make the model slower.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>The scale is set by the largest value, so ordinary weights get only a few levels and lose precision.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>C.</strong> Per-group or per-channel scales, and keeping outliers in higher precision, limit the damage.</p></details></div><div class="sc-q" data-answer="2" data-n="3"><p class="sc-prompt"><span class="sc-num">3.</span> Why does weight-only quantization speed up token-by-token generation?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>The model needs fewer generation steps.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>Integer arithmetic is always faster than floating point.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>Decoding is limited by memory bandwidth, so reading fewer bytes per weight makes each step faster.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>C.</strong> At batch size 1 the GPU mostly waits for weights to arrive from memory; smaller weights arrive sooner.</p></details></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v113';
+const CACHE_NAME = 'pattern-v114';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -38,17 +38,11 @@ const SHELL = [
   '/essays/visualizations.js',
   '/cases/index.html',
   '/cases/cases.js',
-  '/cases/datasets/fraud_sample.csv',
-  '/cases/datasets/housing_sample.csv',
-  '/cases/datasets/energy_demand_sample.csv',
-  '/cases/datasets/market_ohlcv_sample.csv',
   '/notebooks/README.md',
   '/notebooks/case-credit-default.ipynb',
   '/notebooks/case-housing-regression.ipynb',
   '/notebooks/case-energy-forecast.ipynb',
   '/notebooks/case-market-backtest.ipynb',
-  '/notebooks/pattern-portal-real-data-lab-browser.ipynb',
-  '/notebooks/pattern-portal-real-data-lab.ipynb',
   '/mlops/index.html',
   '/timeseries/index.html',
   '/markets/risk/index.html',

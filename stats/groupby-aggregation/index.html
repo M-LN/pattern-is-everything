@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -128,26 +126,7 @@
       <tr><td>transform</td><td>Group stat broadcast back to rows</td><td>g['rev'].transform('mean')</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the aggregation toolbox</span>
-<span class="kw">import</span> pandas <span class="kw">as</span> pd
-
-<span class="cm"># Multiple metrics per group, named columns</span>
-summary = (df.groupby(<span class="st">'region'</span>)
-             .agg(orders=(<span class="st">'order_id'</span>, <span class="st">'count'</span>),
-                  revenue=(<span class="st">'amount'</span>, <span class="st">'sum'</span>),
-                  avg_basket=(<span class="st">'amount'</span>, <span class="st">'mean'</span>))
-             .sort_values(<span class="st">'revenue'</span>, ascending=<span class="st">False</span>))
-
-<span class="cm"># Rows × columns grid</span>
-pivot = df.pivot_table(values=<span class="st">'amount'</span>, index=<span class="st">'region'</span>,
-                       columns=<span class="st">'month'</span>, aggfunc=<span class="st">'sum'</span>, fill_value=<span class="st">0</span>)
-
-<span class="cm"># Same thing in SQL</span>
-<span class="cm"># SELECT region, COUNT(*), SUM(amount), AVG(amount)</span>
-<span class="cm"># FROM orders GROUP BY region ORDER BY SUM(amount) DESC;</span>
-
-<span class="cm"># Group stat next to each row (for "% of segment" columns)</span>
-df[<span class="st">'pct_of_region'</span>] = df[<span class="st">'amount'</span>] / df.groupby(<span class="st">'region'</span>)[<span class="st">'amount'</span>].transform(<span class="st">'sum'</span>)</pre></div>
+  
   <div class="callout info"><strong>Mean of means ≠ overall mean.</strong> Averaging per-group averages weights every group equally regardless of size. Aggregate from raw rows (or weight by group size) — this is <a href="../#correlation-causation">Simpson's paradox</a> waiting to happen in a dashboard.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Aggregation is also feature engineering — per-entity groupby stats ("customer's average order", "merchant's txn count") are among the strongest features in tabular ML and fraud models.</div>
   <div class="why-matters">
@@ -183,7 +162,26 @@ print(tips.pivot_table('total_bill', index='day',
                    'basket': np.r_[np.full(900, 40.0), np.full(100, 80.0)]})
 per_store = df.groupby('store').basket.mean()
 mean_of_means = per_store.mean()                    # each store counts once
-pooled = df.basket.mean()                           # each basket counts once</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Wickham, “The Split-Apply-Combine Strategy for Data Analysis”, <em>Journal of Statistical Software</em> 40(1), 2011</li><li><em>Python for Data Analysis</em> (3rd ed.), W. McKinney, O’Reilly, 2022</li><li>E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+pooled = df.basket.mean()                           # each basket counts once</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — the aggregation toolbox</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Multiple metrics per group, named columns</span>
+summary = (df.groupby(<span class="st">'region'</span>)
+             .agg(orders=(<span class="st">'order_id'</span>, <span class="st">'count'</span>),
+                  revenue=(<span class="st">'amount'</span>, <span class="st">'sum'</span>),
+                  avg_basket=(<span class="st">'amount'</span>, <span class="st">'mean'</span>))
+             .sort_values(<span class="st">'revenue'</span>, ascending=<span class="st">False</span>))
+
+<span class="cm"># Rows × columns grid</span>
+pivot = df.pivot_table(values=<span class="st">'amount'</span>, index=<span class="st">'region'</span>,
+                       columns=<span class="st">'month'</span>, aggfunc=<span class="st">'sum'</span>, fill_value=<span class="st">0</span>)
+
+<span class="cm"># Same thing in SQL</span>
+<span class="cm"># SELECT region, COUNT(*), SUM(amount), AVG(amount)</span>
+<span class="cm"># FROM orders GROUP BY region ORDER BY SUM(amount) DESC;</span>
+
+<span class="cm"># Group stat next to each row (for "% of segment" columns)</span>
+df[<span class="st">'pct_of_region'</span>] = df[<span class="st">'amount'</span>] / df.groupby(<span class="st">'region'</span>)[<span class="st">'amount'</span>].transform(<span class="st">'sum'</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>H. Wickham, “The Split-Apply-Combine Strategy for Data Analysis”, <em>Journal of Statistical Software</em> 40(1), 2011</li><li><em>Python for Data Analysis</em> (3rd ed.), W. McKinney, O’Reilly, 2022</li><li>E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

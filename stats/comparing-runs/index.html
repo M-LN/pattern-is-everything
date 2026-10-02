@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -121,7 +119,14 @@
       <div class="cg"><span class="cl">p-value</span><span class="vd" id="compP" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — comparing two models</span>
+  
+  <div class="callout"><strong>Rule of thumb:</strong> If p &lt; 0.05, the difference is statistically significant — but also check <a href="../#effect-size">effect size</a>. A significant p-value with tiny effect size means the improvement is real but may not matter.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two runs differ by 0.4 points: signal or seed? <a href="../../mlops/#experiment-tracking">Experiment tracking</a> keeps the runs to compare, and traders ask the same of two strategies through <a href="../../markets/risk/#risk-adjusted-perf">risk-adjusted performance</a>.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Model B beats model A by about one point on each of five CV folds, while the folds themselves vary from 0.78 to 0.90. An unpaired t-test sees the fold-to-fold variation and gives p = <strong>0.736</strong>. A paired test compares the models fold by fold and gives p = <strong>0.00015</strong>. When two models are scored on the same splits, compare them on the same splits.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Folds share training data, so even the paired test is too optimistic; the corrected resampled t-test adjusts for it (Nadeau &amp; Bengio 2003).</li><li>Across many datasets, use rank-based tests such as Wilcoxon or Friedman (Demšar 2006).</li><li>A significant difference can still be too small to matter; report the size of the gain.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/comparing-runs"><pre>from scipy.stats import ttest_ind, ttest_rel
+a = np.array([0.81, 0.86, 0.78, 0.90, 0.84])        # model A, five CV folds
+b = a + np.array([0.012, 0.009, 0.011, 0.008, 0.010])   # B is a little better on every fold
+p_unpaired = ttest_ind(b, a).pvalue
+p_paired = ttest_rel(b, a).pvalue</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — comparing two models</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> ttest_rel, wilcoxon
 
 <span class="cm"># Paired t-test on k-fold scores</span>
@@ -131,14 +136,7 @@ t_stat, p_val = ttest_rel(scores_a, scores_b)
 
 <span class="cm"># Non-parametric alternative</span>
 w_stat, p_val = wilcoxon(scores_a, scores_b)
-print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
-  <div class="callout"><strong>Rule of thumb:</strong> If p &lt; 0.05, the difference is statistically significant — but also check <a href="../#effect-size">effect size</a>. A significant p-value with tiny effect size means the improvement is real but may not matter.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Two runs differ by 0.4 points: signal or seed? <a href="../../mlops/#experiment-tracking">Experiment tracking</a> keeps the runs to compare, and traders ask the same of two strategies through <a href="../../markets/risk/#risk-adjusted-perf">risk-adjusted performance</a>.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>Model B beats model A by about one point on each of five CV folds, while the folds themselves vary from 0.78 to 0.90. An unpaired t-test sees the fold-to-fold variation and gives p = <strong>0.736</strong>. A paired test compares the models fold by fold and gives p = <strong>0.00015</strong>. When two models are scored on the same splits, compare them on the same splits.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Folds share training data, so even the paired test is too optimistic; the corrected resampled t-test adjusts for it (Nadeau &amp; Bengio 2003).</li><li>Across many datasets, use rank-based tests such as Wilcoxon or Friedman (Demšar 2006).</li><li>A significant difference can still be too small to matter; report the size of the gain.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="stats/comparing-runs"><pre>from scipy.stats import ttest_ind, ttest_rel
-a = np.array([0.81, 0.86, 0.78, 0.90, 0.84])        # model A, five CV folds
-b = a + np.array([0.012, 0.009, 0.011, 0.008, 0.010])   # B is a little better on every fold
-p_unpaired = ttest_ind(b, a).pvalue
-p_paired = ttest_rel(b, a).pvalue</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998</li><li>C. Nadeau &amp; Y. Bengio, “Inference for the Generalization Error”, <em>Machine Learning</em> 52(3), 2003</li><li>J. Demšar, “Statistical Comparisons of Classifiers over Multiple Data Sets”, <em>Journal of Machine Learning Research</em> 7, 2006</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998</li><li>C. Nadeau &amp; Y. Bengio, “Inference for the Generalization Error”, <em>Machine Learning</em> 52(3), 2003</li><li>J. Demšar, “Statistical Comparisons of Classifiers over Multiple Data Sets”, <em>Journal of Machine Learning Research</em> 7, 2006</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -117,18 +115,7 @@
   <div class="va"><div class="vl">Interactive — attention weight heatmap</div><canvas id="selfAttnCanvas" role="img" aria-label="Self-Attention: Interactive — attention weight heatmap" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawSelfAttn()">New Random Sequence</button> <label>Temperature: <input type="range" id="attnTemp" min="0.1" max="3" step="0.1" value="1" oninput="drawSelfAttn()"></label></div></div>
   <h3 id="python-self-attention-from-scratch">Python — self-attention from scratch<a class="heading-anchor" href="#python-self-attention-from-scratch" aria-label="Copy link to this section" title="Copy link to this section">#</a></h3>
-  <div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>import torch
-import torch.nn.functional as F
-
-def self_attention(x, W_q, W_k, W_v):
-    """x: (batch, seq_len, d_model)"""
-    Q = x @ W_q  # (batch, seq_len, d_k)
-    K = x @ W_k
-    V = x @ W_v
-    d_k = Q.size(-1)
-    scores = Q @ K.transpose(-2, -1) / d_k**0.5
-    weights = F.softmax(scores, dim=-1)
-    return weights @ V  # (batch, seq_len, d_v)</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div>
+  
   <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../../stats/#feature-correlation">correlation matrix</a> computed at each layer. In markets, <a href="../../markets/indicators/#vwap">VWAP</a> weights each price by volume — attention over the session.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
@@ -146,7 +133,18 @@ def self_attention(x, W_q, W_k, W_v):
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>The attention scores for one head in one layer form an n × n matrix. In fp16 that is <strong>0.03 GB</strong> at 4k tokens, <strong>2.1 GB</strong> at 32k and <strong>34 GB</strong> at 128k — for a single head. FlashAttention never stores the matrix: it computes attention in tiles that fit in fast on-chip memory, which is what made long contexts practical.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>FlashAttention removes the memory cost, not the compute: the work still grows with n².</li><li>Attention weights are not explanations of the output (Jain &amp; Wallace 2019).</li><li>Longer context is not the same as better use of context (see Context Windows).</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="llm/self-attention"><pre>def score_matrix_gb(n, bytes_per=2):            # one head, one layer, fp16
     return n * n * bytes_per / 1e9
 
-sizes = {n: round(score_matrix_gb(n), 3) for n in (4_096, 32_768, 131_072)}</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>T. Dao, D. Y. Fu, S. Ermon, A. Rudra &amp; C. Ré, “FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness”, <em>NeurIPS</em>, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+sizes = {n: round(score_matrix_gb(n), 3) for n in (4_096, 32_768, 131_072)}</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre data-_copy-added="1" style="position: relative;"><code>import torch
+import torch.nn.functional as F
+
+def self_attention(x, W_q, W_k, W_v):
+    """x: (batch, seq_len, d_model)"""
+    Q = x @ W_q  # (batch, seq_len, d_k)
+    K = x @ W_k
+    V = x @ W_v
+    d_k = Q.size(-1)
+    scores = Q @ K.transpose(-2, -1) / d_k**0.5
+    weights = F.softmax(scores, dim=-1)
+    return weights @ V  # (batch, seq_len, d_v)</code><button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code"><svg class="cc-icon-copy" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><svg class="cc-icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12 10 17 19 7"></polyline></svg><span class="cc-label">Copy</span></button></pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017</li><li>T. Dao, D. Y. Fu, S. Ermon, A. Rudra &amp; C. Ré, “FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness”, <em>NeurIPS</em>, 2022</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

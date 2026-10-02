@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -129,18 +127,7 @@
       <tr><td>Nested CV</td><td>Hyperparameter tuning + eval</td><td>Inner loop tunes, outer evaluates</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — cross-validation</span>
-<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
-    cross_val_score, StratifiedKFold, TimeSeriesSplit
-)
-
-<span class="cm"># Standard k-fold</span>
-scores = cross_val_score(model, X, y, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
-print(<span class="st">f"F1: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
-
-<span class="cm"># Time series — never leak future data</span>
-tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
-scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
+  
   <div class="callout info"><strong>Data leakage trap:</strong> If you scale or impute <em>before</em> splitting, information from the test fold leaks into training. Always put preprocessing inside a <code>Pipeline</code>.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Cross-validation in ML and <a href="../#walk-forward">walk-forward validation</a> in backtesting are the same principle — testing on data the model has never seen. The time-series variant here connects directly to market backtesting.</div>
   <div class="howto">
@@ -175,7 +162,18 @@ empty = 0
 for _ in range(10_000):                              # plain 5-fold on a shuffled order
     folds = rng.permutation(y).reshape(5, 20)
     empty += (folds.sum(axis=1) == 0).any()
-p_some_fold_without_positives = empty / 10_000</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Kohavi, “A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection”, <em>IJCAI</em>, 1995</li><li>S. Arlot &amp; A. Celisse, “A Survey of Cross-Validation Procedures for Model Selection”, <em>Statistics Surveys</em> 4, 2010</li><li>S. Varma &amp; R. Simon, “Bias in Error Estimation When Using Cross-Validation for Model Selection”, <em>BMC Bioinformatics</em> 7, 2006</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+p_some_fold_without_positives = empty / 10_000</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — cross-validation</span>
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
+    cross_val_score, StratifiedKFold, TimeSeriesSplit
+)
+
+<span class="cm"># Standard k-fold</span>
+scores = cross_val_score(model, X, y, cv=<span class="st">5</span>, scoring=<span class="st">'f1'</span>)
+print(<span class="st">f"F1: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
+
+<span class="cm"># Time series — never leak future data</span>
+tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
+scores = cross_val_score(model, X, y, cv=tscv)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>R. Kohavi, “A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection”, <em>IJCAI</em>, 1995</li><li>S. Arlot &amp; A. Celisse, “A Survey of Cross-Validation Procedures for Model Selection”, <em>Statistics Surveys</em> 4, 2010</li><li>S. Varma &amp; R. Simon, “Bias in Error Estimation When Using Cross-Validation for Model Selection”, <em>BMC Bioinformatics</em> 7, 2006</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   <section class="selfcheck" data-topic="stats/cross-validation"><div class="depth-title">Check yourself</div><div class="sc-q" data-answer="1" data-n="1"><p class="sc-prompt"><span class="sc-num">1.</span> You standardize all features with the mean and standard deviation of the whole dataset, then run 5-fold cross-validation. What is wrong?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>Nothing; scaling does not affect cross-validation.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>Statistics from the validation folds leaked into training, so the score is optimistic.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>Cross-validation needs at least 10 folds.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>B.</strong> Every preprocessing step that learns from data has to be fitted inside each training fold. In scikit-learn, put the scaler and the model in one <code>Pipeline</code> and cross-validate the pipeline.</p></details></div><div class="sc-q" data-answer="2" data-n="2"><p class="sc-prompt"><span class="sc-num">2.</span> Why is shuffled k-fold a poor choice for a daily price series?</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>It is too slow for long series.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>It leaves too little data for training.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>It trains on the future and tests on the past, leaking information across time.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>C.</strong> Neighbouring days are related, and shuffling puts tomorrow in the training set while testing on today. Use walk-forward validation or <code>TimeSeriesSplit</code>, ideally with a gap between training and test.</p></details></div><div class="sc-q" data-answer="0" data-n="3"><p class="sc-prompt"><span class="sc-num">3.</span> You try 200 hyperparameter settings and report the best cross-validated score. That score is…</p><div class="sc-options"><button type="button" class="sc-opt" data-k="0"><span class="sc-key">A</span><span>optimistically biased — the best of 200 was partly chosen for luck.</span></button><button type="button" class="sc-opt" data-k="1"><span class="sc-key">B</span><span>an unbiased estimate of performance on new data.</span></button><button type="button" class="sc-opt" data-k="2"><span class="sc-key">C</span><span>pessimistic, because each fold trains on less data.</span></button></div><details class="sc-why"><summary>Show answer</summary><p><strong>A.</strong> Selecting the maximum of many noisy scores flatters it. Nested cross-validation, or a test set touched only once at the end, gives an honest estimate.</p></details></div></section>
   
 </div>

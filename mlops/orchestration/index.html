@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -114,7 +112,13 @@
     <div class="vl">// Interactive — DAG dependency graph</div>
     <canvas id="orchCanvas" role="img" aria-label="Orchestration &amp; Scheduling: Interactive — DAG dependency graph" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Airflow DAG for retraining</span>
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Orchestration DAGs structure ML workflows the same way <a href="../../ml-math/#backprop">computation graphs</a> structure neural networks — directed, acyclic, and dependency-ordered. In markets, systematic trading rules follow the same sequential logic.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A task that fails transiently one time in five succeeds within three retries with probability <strong>99.84%</strong>. Spacing the retries at <strong>30, 60 and 120 seconds</strong> lets a struggling dependency recover instead of being hammered. And when a bug is fixed, a backfill re-runs the daily DAG for each of the last <strong>90</strong> days.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Retries only help transient failures; a bug fails four times instead of once.</li><li>Retries without jitter synchronize clients into waves that can take a service down again.</li><li>Backfills of non-idempotent tasks double-write; make each run safe to repeat.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="mlops/orchestration"><pre>p_fail = 0.20                          # a task fails transiently one time in five
+retries = 3
+p_success = 1 - p_fail ** (retries + 1)
+backoff = [30 * 2 ** k for k in range(retries)]           # seconds between attempts: exponential
+backfill_runs = 90                                         # a daily DAG re-run for the last 90 days</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — Airflow DAG for retraining</span>
 <span class="kw">from</span> airflow <span class="kw">import</span> DAG
 <span class="kw">from</span> airflow.operators.python <span class="kw">import</span> PythonOperator
 <span class="kw">from</span> datetime <span class="kw">import</span> datetime
@@ -128,13 +132,7 @@ train  = PythonOperator(task_id=<span class="st">"train"</span>,  python_callabl
 eval_  = PythonOperator(task_id=<span class="st">"eval"</span>,   python_callable=evaluate,     dag=dag)
 deploy = PythonOperator(task_id=<span class="st">"deploy"</span>, python_callable=deploy_model, dag=dag)
 
-ingest &gt;&gt; train &gt;&gt; eval_ &gt;&gt; deploy</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Orchestration DAGs structure ML workflows the same way <a href="../../ml-math/#backprop">computation graphs</a> structure neural networks — directed, acyclic, and dependency-ordered. In markets, systematic trading rules follow the same sequential logic.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>A task that fails transiently one time in five succeeds within three retries with probability <strong>99.84%</strong>. Spacing the retries at <strong>30, 60 and 120 seconds</strong> lets a struggling dependency recover instead of being hammered. And when a bug is fixed, a backfill re-runs the daily DAG for each of the last <strong>90</strong> days.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Retries only help transient failures; a bug fails four times instead of once.</li><li>Retries without jitter synchronize clients into waves that can take a service down again.</li><li>Backfills of non-idempotent tasks double-write; make each run safe to repeat.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="mlops/orchestration"><pre>p_fail = 0.20                          # a task fails transiently one time in five
-retries = 3
-p_success = 1 - p_fail ** (retries + 1)
-backoff = [30 * 2 ** k for k in range(retries)]           # seconds between attempts: exponential
-backfill_runs = 90                                         # a daily DAG re-run for the last 90 days</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Apache Airflow documentation, airflow.apache.org — retries, scheduling and backfill</li><li>M. Brooker, “Exponential Backoff and Jitter”, AWS Architecture Blog, 2015</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+ingest &gt;&gt; train &gt;&gt; eval_ &gt;&gt; deploy</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Apache Airflow documentation, airflow.apache.org — retries, scheduling and backfill</li><li>M. Brooker, “Exponential Backoff and Jitter”, AWS Architecture Blog, 2015</li><li><em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

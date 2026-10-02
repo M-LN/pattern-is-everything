@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -119,12 +117,7 @@
       <div class="cg"><span class="cl">Order (p)</span><input type="range" aria-label="Order (p)" id="arOrder" min="1" max="3" step="1" value="1"><span class="vd" id="arOrderV">1</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — fit AR model</span>
-<span class="kw">from</span> statsmodels.tsa.ar_model <span class="kw">import</span> AutoReg
-
-model = AutoReg(series, lags=<span class="st">3</span>).fit()
-print(model.summary())
-forecast = model.predict(start=len(series), end=len(series)+<span class="st">10</span>)</pre></div>
+  
   <div class="callout bridge"><strong>Pattern bridge:</strong> AR models are time-series <a href="../../ml-math/#linear">linear regression</a> where the features are your own lagged values. In markets, the idea that past prices predict future prices is the foundation of <a href="../../markets/indicators/#roc">momentum</a>.</div>
   <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>200 points from an AR(1) with φ = 0.8: least squares estimates <strong>0.763</strong>. From a value 3 above the mean, the forecasts are <strong>2.40, 1.92, 0.98, 0.32</strong> at 1, 2, 5 and 10 steps — decaying towards the mean, with a half-life of <strong>3.1</strong> steps. An AR forecast is a memory that fades geometrically.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Least squares underestimates φ in small samples, more so as φ approaches 1.</li><li>Near φ = 1 the series behaves like a random walk and AR forecasts become fragile.</li><li>Choosing p by in-sample fit overfits; compare information criteria or out-of-sample error.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/ar-models"><pre>rng = np.random.default_rng(4)
 phi, n = 0.8, 200
@@ -133,7 +126,12 @@ for t in range(1, n): y[t] = phi * y[t - 1] + rng.normal()
 phi_hat = np.linalg.lstsq(y[:-1, None], y[1:], rcond=None)[0][0]
 last = 3.0                                        # forecast from a value 3 above the mean of 0
 forecast = [round(last * phi ** h, 2) for h in (1, 2, 5, 10)]
-half_life = np.log(0.5) / np.log(phi)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li><em>Time Series Analysis</em>, J. D. Hamilton, Princeton University Press, 1994</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+half_life = np.log(0.5) / np.log(phi)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># Python — fit AR model</span>
+<span class="kw">from</span> statsmodels.tsa.ar_model <span class="kw">import</span> AutoReg
+
+model = AutoReg(series, lags=<span class="st">3</span>).fit()
+print(model.summary())
+forecast = model.predict(start=len(series), end=len(series)+<span class="st">10</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li><em>Time Series Analysis: Forecasting and Control</em> (5th ed.), G. E. P. Box, G. M. Jenkins, G. C. Reinsel &amp; G. M. Ljung, Wiley, 2015</li><li><em>Time Series Analysis</em>, J. D. Hamilton, Princeton University Press, 1994</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

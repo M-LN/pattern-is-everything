@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=38">
+  <link rel="stylesheet" href="../../css/main.css?v=39">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -89,8 +89,6 @@
     <a href="/essays/">Essays</a>
     <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="/lab/">Lab</a>
     <a href="/start/">Start here</a>
   </nav>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
@@ -115,7 +113,14 @@
     <div class="vl">// Interactive — LSTM gate activations</div>
     <canvas id="lstmCanvas" role="img" aria-label="LSTM &amp; GRU: Interactive — LSTM gate activations" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># PyTorch — LSTM for multi-step forecasting</span>
+  
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed — they learn <em>what to remember</em>, connecting to the formal <a href="../../llm/#self-attention">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../../ml-math/#gru">the GRU topic</a> in ML Math.</div>
+  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>On a random walk, “tomorrow equals today” has a mean absolute error of <strong>0.79</strong>; forecasting the training average gives <strong>8.87</strong>; adding the historical drift does no better than naive (<strong>0.79</strong>). No model — LSTM or otherwise — can beat naive on a pure random walk, which is why every forecasting result should be reported against it.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Plotted one step ahead, a naive-like model looks impressively accurate; the plot hides that it is just copying yesterday.</li><li>In the M-competitions, machine-learning methods often trailed simple statistical ones (Makridakis et al. 2018), especially on single series.</li><li>LSTMs need careful tuning and many series; their gains are real on large, related datasets.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/lstm-for-ts"><pre>rng = np.random.default_rng(11)
+y = 100 + rng.normal(0, 1, 2_000).cumsum()       # a random walk, like many prices
+test = y[1_000:]
+naive = np.abs(test[1:] - test[:-1]).mean()       # tomorrow = today
+mean_fc = np.abs(test[1:] - y[:1_000].mean()).mean()   # tomorrow = the training average
+drift = np.abs(test[1:] - (test[:-1] + np.diff(y[:1_000]).mean())).mean()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre><span class="cm"># PyTorch — LSTM for multi-step forecasting</span>
 <span class="kw">class</span> LSTMForecaster(nn.Module):
     <span class="kw">def</span> __init__(self, n_features, hidden, n_out):
         super().__init__()
@@ -124,14 +129,7 @@
         self.fc = nn.Linear(hidden, n_out)
     <span class="kw">def</span> forward(self, x):
         out, _ = self.lstm(x)
-        <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LSTM gates are an attention mechanism before attention existed — they learn <em>what to remember</em>, connecting to the formal <a href="../../llm/#self-attention">self-attention</a> in transformers. The GRU/LSTM choice mirrors <a href="../../ml-math/#gru">the GRU topic</a> in ML Math.</div>
-  <section class="depth"><div class="depth-block"><div class="depth-title">Worked example</div><p>On a random walk, “tomorrow equals today” has a mean absolute error of <strong>0.79</strong>; forecasting the training average gives <strong>8.87</strong>; adding the historical drift does no better than naive (<strong>0.79</strong>). No model — LSTM or otherwise — can beat naive on a pure random walk, which is why every forecasting result should be reported against it.</p></div><div class="depth-block"><div class="depth-title">Where it misleads</div><ul><li>Plotted one step ahead, a naive-like model looks impressively accurate; the plot hides that it is just copying yesterday.</li><li>In the M-competitions, machine-learning methods often trailed simple statistical ones (Makridakis et al. 2018), especially on single series.</li><li>LSTMs need careful tuning and many series; their gains are real on large, related datasets.</li></ul></div><div class="depth-block"><div class="depth-title">In code</div><div class="code-block" tabindex="0" data-run="timeseries/lstm-for-ts"><pre>rng = np.random.default_rng(11)
-y = 100 + rng.normal(0, 1, 2_000).cumsum()       # a random walk, like many prices
-test = y[1_000:]
-naive = np.abs(test[1:] - test[:-1]).mean()       # tomorrow = today
-mean_fc = np.abs(test[1:] - y[:1_000].mean()).mean()   # tomorrow = the training average
-drift = np.abs(test[1:] - (test[:-1] + np.diff(y[:1_000]).mean())).mean()</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Hochreiter &amp; J. Schmidhuber, “Long Short-Term Memory”, <em>Neural Computation</em> 9(8), 1997</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning Forecasting Methods: Concerns and Ways Forward”, <em>PLoS ONE</em> 13(3), 2018</li><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+        <span class="kw">return</span> self.fc(out[:, -<span class="st">1</span>, :])</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>S. Hochreiter &amp; J. Schmidhuber, “Long Short-Term Memory”, <em>Neural Computation</em> 9(8), 1997</li><li>S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning Forecasting Methods: Concerns and Ways Forward”, <em>PLoS ONE</em> 13(3), 2018</li><li>H. Hewamalage, C. Bergmeir &amp; K. Bandara, “Recurrent Neural Networks for Time Series Forecasting: Current Status and Future Directions”, <em>International Journal of Forecasting</em> 37(1), 2021</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">
