@@ -15,8 +15,8 @@
   --surface2: #f2ede4;
   --border:   #e2d9cc;
   --border2:  #c9bead;
-  --accent:   #bd4527;
-  --accent2:  #2a7d5f;
+  --accent:   #b23f22;
+  --accent2:  #247052;
   --accent3:  #2955a0;
   --accent4:  #8b4fa8;
   --text:     #1a1714;
@@ -46,6 +46,8 @@
     --muted:    #9a8e80;
     --accent:    #dc6147;
     --accent2:   #3d9e78;
+    --accent3:   #6fa8ff;
+    --accent4:   #b98ad6;
     --hi:       rgba(200,75,47,0.1);
   }
 }
@@ -59,6 +61,8 @@
   --muted:    #9a8e80;
   --accent:    #dc6147;
   --accent2:   #3d9e78;
+  --accent3:   #6fa8ff;
+  --accent4:   #b98ad6;
   --hi:       rgba(200,75,47,0.1);
 }
 /* Explicit light theme must win over the OS dark-mode media query,
@@ -72,8 +76,10 @@
   --text:     #1a1714;
   --muted:    #6a5e52;
   --hi:       rgba(200,75,47,0.06);
-  --accent:   #bd4527;
-  --accent2:  #2a7d5f;
+  --accent:   #b23f22;
+  --accent2:  #247052;
+  --accent3:  #2955a0;
+  --accent4:  #8b4fa8;
 }
 
 /* ── Reset ── */
@@ -413,7 +419,7 @@ nav::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 .ni:active { transform: scale(.98); }
 .ni-num {
   font-family: var(--mono);
-  font-size: 9px; color: var(--border2);
+  font-size: 9px; color: var(--muted);
   flex-shrink: 0; width: 20px;
   transition: color .15s;
 }
@@ -894,7 +900,7 @@ input[type=range]:focus-visible {
 .cl2 { color: #70b8a8; }
 .fn  { color: #a4b8e0; }
 .st  { color: #b8d496; }
-.cm  { color: #6b6256; font-style: italic; }
+.cm  { color: #948878; font-style: italic; }
 
 /* ── Steps / walkthrough ── */
 .steps { display: grid; gap: 8px; margin: 16px 0; }
@@ -1019,7 +1025,7 @@ input[type=range]:focus-visible {
 .pattern-essay .prose + .prose { margin-top: 14px; }
 .pattern-essay .va { border: none; background: none; padding: 0; margin: 28px 0; }
 .pattern-essay .va canvas { border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
-.pattern-essay .essay-label { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); opacity: .5; text-align: right; margin-top: 6px; }
+.pattern-essay .essay-label { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-align: right; margin-top: 6px; }
 .pattern-essay .essay-refs { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); max-width: 640px; }
 .pattern-essay .essay-refs-title { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .pattern-essay .essay-ref { font-family: var(--mono); font-size: 11px; line-height: 1.7; color: var(--muted); padding-left: 16px; text-indent: -16px; margin-bottom: 6px; }
@@ -2090,7 +2096,7 @@ body:has(.portal-header) .layout { margin-top: 0; }
   border: 1px solid rgba(41,85,160,.18);
 }
 .evidence-badge.heuristic {
-  color: #c87f2f;
+  color: #9a5a14;
   background: rgba(200,127,47,.08);
   border: 1px solid rgba(200,127,47,.18);
 }
@@ -4082,3 +4088,30 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 [data-theme="dark"] .run-out .run-err { color: #ff8a80; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .run-out .run-err { color: #ff8a80; } }
 @media print { .run-bar, .run-setup, .run-out { display: none; } }
+
+/* Contrast (WCAG AA, 4.5:1). White text on the accent needs a deeper orange
+   in the dark theme; text on the dark theme's lighter blue and purple goes
+   dark; the heuristic badge keeps its lighter orange on the dark ground. */
+.depth-note a { color: var(--accent3); text-decoration: underline; text-underline-offset: 2px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .run-bar .run-btn, :root:not([data-theme="light"]) .trail-start,
+  :root:not([data-theme="light"]) .support-cta, :root:not([data-theme="light"]) .nf-btn-primary,
+  :root:not([data-theme="light"]) .topic-counter { background: #b8432a; border-color: #b8432a; }
+  :root:not([data-theme="light"]) .btn.b3:hover, :root:not([data-theme="light"]) .btn.b4:hover,
+  :root:not([data-theme="light"]) .case-jupyterlite-cta,
+  :root:not([data-theme="light"]) .learning-path-actions a.learning-path-next,
+  :root:not([data-theme="light"]) .fchip.active { color: #141210; }
+  :root:not([data-theme="light"]) .evidence-badge.heuristic { color: #c87f2f; }
+  :root:not([data-theme="light"]) .lab-part, :root:not([data-theme="light"]) .lab-fail,
+  :root:not([data-theme="light"]) .value-item strong, :root:not([data-theme="light"]) .howto-pitfall strong, :root:not([data-theme="light"]) .empty-state a { color: #e36d53; }
+}
+:root[data-theme="dark"] .run-bar .run-btn, :root[data-theme="dark"] .trail-start,
+:root[data-theme="dark"] .support-cta, :root[data-theme="dark"] .nf-btn-primary,
+:root[data-theme="dark"] .topic-counter { background: #b8432a; border-color: #b8432a; }
+:root[data-theme="dark"] .btn.b3:hover, :root[data-theme="dark"] .btn.b4:hover,
+:root[data-theme="dark"] .case-jupyterlite-cta,
+:root[data-theme="dark"] .learning-path-actions a.learning-path-next,
+:root[data-theme="dark"] .fchip.active { color: #141210; }
+:root[data-theme="dark"] .evidence-badge.heuristic { color: #c87f2f; }
+:root[data-theme="dark"] .lab-part, :root[data-theme="dark"] .lab-fail,
+:root[data-theme="dark"] .value-item strong, :root[data-theme="dark"] .howto-pitfall strong, :root[data-theme="dark"] .empty-state a { color: #e36d53; }

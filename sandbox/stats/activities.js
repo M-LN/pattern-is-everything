@@ -566,7 +566,7 @@ function buildDistributionExplorer() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Distribution</span>
-        <select id="deDist" class="sb-select" onchange="ENGINE.setDist(this.value)">
+        <select aria-label="Distribution" id="deDist" class="sb-select" onchange="ENGINE.setDist(this.value)">
           <option value="normal">Normal</option>
           <option value="uniform">Uniform</option>
           <option value="exponential">Exponential</option>
@@ -575,17 +575,17 @@ function buildDistributionExplorer() {
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Param 1 (μ / a / λ)</span>
-        <input type="range" id="deParam1" min="-5" max="5" step="0.1" value="0" oninput="ENGINE.setParam1(+this.value);document.getElementById('deP1V').textContent=this.value">
+        <input aria-label="Param 1 (μ / a / λ)" type="range" id="deParam1" min="-5" max="5" step="0.1" value="0" oninput="ENGINE.setParam1(+this.value);document.getElementById('deP1V').textContent=this.value">
         <span class="ctrl-val" id="deP1V">0</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Param 2 (σ / b)</span>
-        <input type="range" id="deParam2" min="0.1" max="5" step="0.1" value="1" oninput="ENGINE.setParam2(+this.value);document.getElementById('deP2V').textContent=this.value">
+        <input aria-label="Param 2 (σ / b)" type="range" id="deParam2" min="0.1" max="5" step="0.1" value="1" oninput="ENGINE.setParam2(+this.value);document.getElementById('deP2V').textContent=this.value">
         <span class="ctrl-val" id="deP2V">1</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Samples</span>
-        <input type="range" id="deSamples" min="100" max="5000" step="100" value="1000" oninput="ENGINE.setSamples(+this.value);document.getElementById('deSampV').textContent=this.value">
+        <input aria-label="Samples" type="range" id="deSamples" min="100" max="5000" step="100" value="1000" oninput="ENGINE.setSamples(+this.value);document.getElementById('deSampV').textContent=this.value">
         <span class="ctrl-val" id="deSampV">1000</span>
       </div>
       <div class="ctrl-buttons">
@@ -612,17 +612,17 @@ function buildHypothesisTesting() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Effect Size (d)</span>
-        <input type="range" id="htEffect" min="0" max="2" step="0.05" value="0.5" oninput="ENGINE.setHTEffect(+this.value);document.getElementById('htEffV').textContent=this.value">
+        <input aria-label="Effect Size (d)" type="range" id="htEffect" min="0" max="2" step="0.05" value="0.5" oninput="ENGINE.setHTEffect(+this.value);document.getElementById('htEffV').textContent=this.value">
         <span class="ctrl-val" id="htEffV">0.5</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Sample Size (n)</span>
-        <input type="range" id="htN" min="5" max="200" step="1" value="30" oninput="ENGINE.setHTN(+this.value);document.getElementById('htNV').textContent=this.value">
+        <input aria-label="Sample Size (n)" type="range" id="htN" min="5" max="200" step="1" value="30" oninput="ENGINE.setHTN(+this.value);document.getElementById('htNV').textContent=this.value">
         <span class="ctrl-val" id="htNV">30</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Alpha (α)</span>
-        <input type="range" id="htAlpha" min="0.01" max="0.2" step="0.01" value="0.05" oninput="ENGINE.setHTAlpha(+this.value);document.getElementById('htAlphaV').textContent=this.value">
+        <input aria-label="Alpha (α)" type="range" id="htAlpha" min="0.01" max="0.2" step="0.01" value="0.05" oninput="ENGINE.setHTAlpha(+this.value);document.getElementById('htAlphaV').textContent=this.value">
         <span class="ctrl-val" id="htAlphaV">0.05</span>
       </div>
       <div class="ctrl-buttons">
@@ -649,7 +649,7 @@ function buildCorrelationPlayground() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Preset</span>
-        <select id="cpPreset" class="sb-select" onchange="ENGINE.cpPreset(this.value)">
+        <select aria-label="Preset" id="cpPreset" class="sb-select" onchange="ENGINE.cpPreset(this.value)">
           <option value="none">Free draw</option>
           <option value="positive">Strong positive</option>
           <option value="negative">Strong negative</option>
@@ -681,7 +681,7 @@ function buildCentralLimitTheorem() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Population</span>
-        <select id="cltPop" class="sb-select" onchange="ENGINE.setCLTPop(this.value)">
+        <select aria-label="Population" id="cltPop" class="sb-select" onchange="ENGINE.setCLTPop(this.value)">
           <option value="uniform">Uniform</option>
           <option value="skewed">Right-Skewed</option>
           <option value="bimodal">Bimodal</option>
@@ -690,7 +690,7 @@ function buildCentralLimitTheorem() {
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Sample Size (n)</span>
-        <input type="range" id="cltN" min="1" max="100" step="1" value="5" oninput="ENGINE.setCLTN(+this.value);document.getElementById('cltNV').textContent=this.value">
+        <input aria-label="Sample Size (n)" type="range" id="cltN" min="1" max="100" step="1" value="5" oninput="ENGINE.setCLTN(+this.value);document.getElementById('cltNV').textContent=this.value">
         <span class="ctrl-val" id="cltNV">5</span>
       </div>
       <div class="ctrl-buttons">
@@ -721,17 +721,17 @@ function buildBayesianUpdater() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Prior α</span>
-        <input type="range" id="bayAlpha" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorA(+this.value);document.getElementById('bayAV').textContent=this.value">
+        <input aria-label="Prior α" type="range" id="bayAlpha" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorA(+this.value);document.getElementById('bayAV').textContent=this.value">
         <span class="ctrl-val" id="bayAV">1</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Prior β</span>
-        <input type="range" id="bayBeta" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorB(+this.value);document.getElementById('bayBV').textContent=this.value">
+        <input aria-label="Prior β" type="range" id="bayBeta" min="0.5" max="10" step="0.5" value="1" oninput="ENGINE.setPriorB(+this.value);document.getElementById('bayBV').textContent=this.value">
         <span class="ctrl-val" id="bayBV">1</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">True Probability</span>
-        <input type="range" id="bayProb" min="0.1" max="0.9" step="0.05" value="0.5" oninput="ENGINE.setTrueProb(+this.value);document.getElementById('bayProbV').textContent=this.value">
+        <input aria-label="True Probability" type="range" id="bayProb" min="0.1" max="0.9" step="0.05" value="0.5" oninput="ENGINE.setTrueProb(+this.value);document.getElementById('bayProbV').textContent=this.value">
         <span class="ctrl-val" id="bayProbV">0.5</span>
       </div>
       <div class="ctrl-buttons">
@@ -759,17 +759,17 @@ function buildRegressionDiagnostics() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Sample Size</span>
-        <input type="range" id="rdN" min="10" max="200" step="5" value="50" oninput="ENGINE.setRDN(+this.value);document.getElementById('rdNV').textContent=this.value">
+        <input aria-label="Sample Size" type="range" id="rdN" min="10" max="200" step="5" value="50" oninput="ENGINE.setRDN(+this.value);document.getElementById('rdNV').textContent=this.value">
         <span class="ctrl-val" id="rdNV">50</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Noise</span>
-        <input type="range" id="rdNoise" min="0.1" max="5" step="0.1" value="1" oninput="ENGINE.setRDNoise(+this.value);document.getElementById('rdNoiseV').textContent=this.value">
+        <input aria-label="Noise" type="range" id="rdNoise" min="0.1" max="5" step="0.1" value="1" oninput="ENGINE.setRDNoise(+this.value);document.getElementById('rdNoiseV').textContent=this.value">
         <span class="ctrl-val" id="rdNoiseV">1</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Relationship</span>
-        <select id="rdRel" class="sb-select" onchange="ENGINE.setRDRel(this.value)">
+        <select aria-label="Relationship" id="rdRel" class="sb-select" onchange="ENGINE.setRDRel(this.value)">
           <option value="linear">Linear</option>
           <option value="quadratic">Quadratic</option>
           <option value="sine">Sine</option>
@@ -798,17 +798,17 @@ function buildProbabilityCalculator() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">P(A)</span>
-        <input type="range" id="pcPA" min="0.01" max="0.99" step="0.01" value="0.3" oninput="ENGINE.setPCA(+this.value);document.getElementById('pcPAV').textContent=this.value">
+        <input aria-label="P(A)" type="range" id="pcPA" min="0.01" max="0.99" step="0.01" value="0.3" oninput="ENGINE.setPCA(+this.value);document.getElementById('pcPAV').textContent=this.value">
         <span class="ctrl-val" id="pcPAV">0.3</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">P(B|A)</span>
-        <input type="range" id="pcPBA" min="0.01" max="0.99" step="0.01" value="0.8" oninput="ENGINE.setPCBA(+this.value);document.getElementById('pcPBAV').textContent=this.value">
+        <input aria-label="P(B|A)" type="range" id="pcPBA" min="0.01" max="0.99" step="0.01" value="0.8" oninput="ENGINE.setPCBA(+this.value);document.getElementById('pcPBAV').textContent=this.value">
         <span class="ctrl-val" id="pcPBAV">0.8</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">P(B|¬A)</span>
-        <input type="range" id="pcPBNA" min="0.01" max="0.99" step="0.01" value="0.1" oninput="ENGINE.setPCBNotA(+this.value);document.getElementById('pcPBNAV').textContent=this.value">
+        <input aria-label="P(B|¬A)" type="range" id="pcPBNA" min="0.01" max="0.99" step="0.01" value="0.1" oninput="ENGINE.setPCBNotA(+this.value);document.getElementById('pcPBNAV').textContent=this.value">
         <span class="ctrl-val" id="pcPBNAV">0.1</span>
       </div>
       <div class="ctrl-buttons">
@@ -835,22 +835,22 @@ function buildAnovaVisualizer() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Groups</span>
-        <input type="range" id="anovaGroups" min="2" max="5" step="1" value="3" oninput="ENGINE.setAnovaGroups(+this.value);document.getElementById('anovaGroupsV').textContent=this.value">
+        <input aria-label="Groups" type="range" id="anovaGroups" min="2" max="5" step="1" value="3" oninput="ENGINE.setAnovaGroups(+this.value);document.getElementById('anovaGroupsV').textContent=this.value">
         <span class="ctrl-val" id="anovaGroupsV">3</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Points per Group</span>
-        <input type="range" id="anovaN" min="5" max="60" step="1" value="20" oninput="ENGINE.setAnovaN(+this.value);document.getElementById('anovaNV').textContent=this.value">
+        <input aria-label="Points per Group" type="range" id="anovaN" min="5" max="60" step="1" value="20" oninput="ENGINE.setAnovaN(+this.value);document.getElementById('anovaNV').textContent=this.value">
         <span class="ctrl-val" id="anovaNV">20</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Within-Group Spread</span>
-        <input type="range" id="anovaSpread" min="0.2" max="3" step="0.1" value="1" oninput="ENGINE.setAnovaSpread(+this.value);document.getElementById('anovaSpreadV').textContent=this.value">
+        <input aria-label="Within-Group Spread" type="range" id="anovaSpread" min="0.2" max="3" step="0.1" value="1" oninput="ENGINE.setAnovaSpread(+this.value);document.getElementById('anovaSpreadV').textContent=this.value">
         <span class="ctrl-val" id="anovaSpreadV">1</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Effect Size</span>
-        <input type="range" id="anovaEffect" min="0" max="4" step="0.1" value="1.5" oninput="ENGINE.setAnovaEffect(+this.value);document.getElementById('anovaEffectV').textContent=this.value">
+        <input aria-label="Effect Size" type="range" id="anovaEffect" min="0" max="4" step="0.1" value="1.5" oninput="ENGINE.setAnovaEffect(+this.value);document.getElementById('anovaEffectV').textContent=this.value">
         <span class="ctrl-val" id="anovaEffectV">1.5</span>
       </div>
       <div class="ctrl-buttons">
@@ -876,22 +876,22 @@ function buildConfidenceIntervals() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">True Mean (μ)</span>
-        <input type="range" id="ciMean" min="-5" max="5" step="0.5" value="0" oninput="ENGINE.setCIMean(+this.value);document.getElementById('ciMeanV').textContent=this.value">
+        <input aria-label="True Mean (μ)" type="range" id="ciMean" min="-5" max="5" step="0.5" value="0" oninput="ENGINE.setCIMean(+this.value);document.getElementById('ciMeanV').textContent=this.value">
         <span class="ctrl-val" id="ciMeanV">0</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">True SD (σ)</span>
-        <input type="range" id="ciSD" min="0.5" max="5" step="0.5" value="2" oninput="ENGINE.setCISD(+this.value);document.getElementById('ciSDV').textContent=this.value">
+        <input aria-label="True SD (σ)" type="range" id="ciSD" min="0.5" max="5" step="0.5" value="2" oninput="ENGINE.setCISD(+this.value);document.getElementById('ciSDV').textContent=this.value">
         <span class="ctrl-val" id="ciSDV">2</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Sample Size (n)</span>
-        <input type="range" id="ciN" min="5" max="200" step="5" value="25" oninput="ENGINE.setCIN(+this.value);document.getElementById('ciNV').textContent=this.value">
+        <input aria-label="Sample Size (n)" type="range" id="ciN" min="5" max="200" step="5" value="25" oninput="ENGINE.setCIN(+this.value);document.getElementById('ciNV').textContent=this.value">
         <span class="ctrl-val" id="ciNV">25</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Confidence Level</span>
-        <select id="ciConf" class="sb-select" onchange="ENGINE.setCIConf(+this.value)">
+        <select aria-label="Confidence Level" id="ciConf" class="sb-select" onchange="ENGINE.setCIConf(+this.value)">
           <option value="0.90">90%</option>
           <option value="0.95" selected>95%</option>
           <option value="0.99">99%</option>
@@ -922,17 +922,17 @@ function buildChiSquareTest() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Categories</span>
-        <input type="range" id="chiCats" min="2" max="6" step="1" value="4" oninput="ENGINE.setChiCategories(+this.value);document.getElementById('chiCatsV').textContent=this.value">
+        <input aria-label="Categories" type="range" id="chiCats" min="2" max="6" step="1" value="4" oninput="ENGINE.setChiCategories(+this.value);document.getElementById('chiCatsV').textContent=this.value">
         <span class="ctrl-val" id="chiCatsV">4</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Total Observations</span>
-        <input type="range" id="chiTotal" min="50" max="500" step="10" value="200" oninput="ENGINE.setChiTotal(+this.value);document.getElementById('chiTotalV').textContent=this.value">
+        <input aria-label="Total Observations" type="range" id="chiTotal" min="50" max="500" step="10" value="200" oninput="ENGINE.setChiTotal(+this.value);document.getElementById('chiTotalV').textContent=this.value">
         <span class="ctrl-val" id="chiTotalV">200</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Skew</span>
-        <input type="range" id="chiSkew" min="0" max="1" step="0.05" value="0.5" oninput="ENGINE.setChiSkew(+this.value);document.getElementById('chiSkewV').textContent=this.value">
+        <input aria-label="Skew" type="range" id="chiSkew" min="0" max="1" step="0.05" value="0.5" oninput="ENGINE.setChiSkew(+this.value);document.getElementById('chiSkewV').textContent=this.value">
         <span class="ctrl-val" id="chiSkewV">0.5</span>
       </div>
       <div class="ctrl-buttons">
@@ -958,17 +958,17 @@ function buildSurvivalCurves() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Total Patients</span>
-        <input type="range" id="survN" min="20" max="120" step="2" value="60" oninput="ENGINE.setSurvN(+this.value);document.getElementById('survNV').textContent=this.value">
+        <input aria-label="Total Patients" type="range" id="survN" min="20" max="120" step="2" value="60" oninput="ENGINE.setSurvN(+this.value);document.getElementById('survNV').textContent=this.value">
         <span class="ctrl-val" id="survNV">60</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Hazard A (λ)</span>
-        <input type="range" id="survHA" min="0.01" max="0.1" step="0.005" value="0.03" oninput="ENGINE.setSurvHazardA(+this.value);document.getElementById('survHAV').textContent=this.value">
+        <input aria-label="Hazard A (λ)" type="range" id="survHA" min="0.01" max="0.1" step="0.005" value="0.03" oninput="ENGINE.setSurvHazardA(+this.value);document.getElementById('survHAV').textContent=this.value">
         <span class="ctrl-val" id="survHAV">0.03</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Hazard B (λ)</span>
-        <input type="range" id="survHB" min="0.01" max="0.15" step="0.005" value="0.06" oninput="ENGINE.setSurvHazardB(+this.value);document.getElementById('survHBV').textContent=this.value">
+        <input aria-label="Hazard B (λ)" type="range" id="survHB" min="0.01" max="0.15" step="0.005" value="0.06" oninput="ENGINE.setSurvHazardB(+this.value);document.getElementById('survHBV').textContent=this.value">
         <span class="ctrl-val" id="survHBV">0.06</span>
       </div>
       <div class="ctrl-buttons">
@@ -994,7 +994,7 @@ function buildBootstrapResampler() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <span class="ctrl-label">Population</span>
-        <select id="bootPop" class="sb-select" onchange="ENGINE.setBootPop(this.value)">
+        <select aria-label="Population" id="bootPop" class="sb-select" onchange="ENGINE.setBootPop(this.value)">
           <option value="normal">Normal</option>
           <option value="skewed">Right-Skewed</option>
           <option value="bimodal">Bimodal</option>
@@ -1003,12 +1003,12 @@ function buildBootstrapResampler() {
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Sample Size (n)</span>
-        <input type="range" id="bootSampleN" min="10" max="100" step="5" value="30" oninput="ENGINE.setBootN(+this.value);document.getElementById('bootSampleNV').textContent=this.value">
+        <input aria-label="Sample Size (n)" type="range" id="bootSampleN" min="10" max="100" step="5" value="30" oninput="ENGINE.setBootN(+this.value);document.getElementById('bootSampleNV').textContent=this.value">
         <span class="ctrl-val" id="bootSampleNV">30</span>
       </div>
       <div class="ctrl-row">
         <span class="ctrl-label">Confidence Level</span>
-        <select id="bootConf" class="sb-select" onchange="ENGINE.setBootConf(+this.value)">
+        <select aria-label="Confidence Level" id="bootConf" class="sb-select" onchange="ENGINE.setBootConf(+this.value)">
           <option value="0.90">90%</option>
           <option value="0.95" selected>95%</option>
           <option value="0.99">99%</option>

@@ -17,11 +17,13 @@
   <meta property="og:title" content="The 200-day rule — case study">
   <meta property="og:description" content="The 200-day moving-average rule tested on a hundred years of daily US stock market returns: its whole-sample edge comes from one era, it has trailed buy-and-hold since 1976, and a one-day look-ahead bug almost doubles its return.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/cases-market-backtest.jpg?v=c6ca3a15">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=35">
+  <link rel="stylesheet" href="/css/main.css?v=36">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -32,7 +34,7 @@
     .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
     .case-hero { padding: 48px 0 6px; }
     .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .crumb a { color: var(--accent); text-decoration: none; }
+    .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
     .case-hero h2 em { color: var(--accent); }
     .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
@@ -93,7 +95,7 @@
 <div class="case-data"><div><b>Data</b>Fama/French research factors, daily — The daily return of the whole US stock market (all NYSE, AMEX and NASDAQ stocks, weighted by value, from CRSP) in excess of the one-month Treasury bill, and the T-bill return itself, since July 1926.</div><div><b>Source</b><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Kenneth R. French Data Library</a>, Tuck School of Business</div><div><b>Licence</b>Free to download for research and teaching; not redistributed here — the code below fetches it from the library, and this page shows only results computed from it</div><div><b>Get it</b>The code in step 1 downloads the file (≈0.2 MB) directly. The page has no Run buttons, because a browser page cannot fetch from that site; use the notebook below.</div></div>
 <h3 id="step-1"><span class="n">01</span>A hundred years of daily returns</h3>
 <p>Load the file, turn percentages into fractions, and add the T-bill rate back to get the market’s total return.</p>
-<div class="code-block"><pre>import numpy as np
+<div class="code-block" tabindex="0"><pre>import numpy as np
 import pandas as pd
 
 url = ('https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/'
@@ -111,7 +113,7 @@ five worst days: {'1987-10-19': -0.174, '2020-03-16': -0.12, '1929-10-29': -0.11
 <p>The worst day, 19 October 1987, lost <strong>17.4%</strong> — 16 times the standard deviation of a day’s return. Three of the five worst came in the crash of autumn 1929, one in March 2020.</p>
 <h3 id="step-2"><span class="n">02</span>The rule, without peeking</h3>
 <p>Build the market’s value from its returns and its 200-day average. The decision for each day is taken from the previous day’s close — the <code>shift(1)</code> — because that is all an investor would have known. Out of the market, the money earns the T-bill rate. Each switch costs 0.1%.</p>
-<div class="code-block"><pre>price = (1 + r).cumprod()
+<div class="code-block" tabindex="0"><pre>price = (1 + r).cumprod()
 above = (price &gt; price.rolling(200).mean()).shift(1)   # yesterday's close vs its average
 start = price.rolling(200).mean().first_valid_index() + pd.Timedelta(days=1)
 r, rf, above = r[start:], rf[start:], above[start:].astype(bool)
@@ -137,7 +139,7 @@ switches per year: 5.4</pre>
 <p>Over the whole period the rule wins on every line: <strong>10.5%</strong> a year against 9.8% for buy-and-hold, at two thirds of the volatility, and a worst drawdown of 34% instead of 84%. That is the headline result.</p>
 <h3 id="step-3"><span class="n">03</span>Split the century</h3>
 <p>The same comparison, era by era.</p>
-<div class="code-block"><pre>eras = {'1927-1975': ('1927', '1975'),
+<div class="code-block" tabindex="0"><pre>eras = {'1927-1975': ('1927', '1975'),
         '1976-2000': ('1976', '2000'),
         '2001-2026': ('2001', '2026')}
 by_era = {}
@@ -157,7 +159,7 @@ for era, (a, b) in eras.items():
 <figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 178" role="img" aria-label="Annual growth by era"><rect class="cs1" x="190" y="8" width="12" height="12" rx="2"/><text x="208" y="18" class="cl">buy and hold</text><rect class="cs2" x="312" y="8" width="12" height="12" rx="2"/><text x="330" y="18" class="cl">200-day rule</text><text x="180" y="54" class="cl" text-anchor="end">1927-1975</text><rect class="cs1" x="190.0" y="35" width="203.5" height="13" rx="2"/><text x="398.5" y="46" class="cv">7.4%</text><rect class="cs2" x="190.0" y="51" width="288.4" height="13" rx="2"/><text x="483.4" y="62" class="cv">10.5%</text><text x="180" y="100" class="cl" text-anchor="end">1976-2000</text><rect class="cs1" x="190.0" y="81" width="420.0" height="13" rx="2"/><text x="615.0" y="92" class="cv">15.3%</text><rect class="cs2" x="190.0" y="97" width="380.0" height="13" rx="2"/><text x="575.0" y="108" class="cv">13.8%</text><text x="180" y="146" class="cl" text-anchor="end">2001-2026</text><rect class="cs1" x="190.0" y="127" width="259.9" height="13" rx="2"/><text x="454.9" y="138" class="cv">9.5%</text><rect class="cs2" x="190.0" y="143" width="195.6" height="13" rx="2"/><text x="390.6" y="154" class="cv">7.1%</text></svg><figcaption>Compound annual return, with 0.1% per switch for the rule. Daily data, US market (CRSP value-weighted).</figcaption></figure>
 <h3 id="step-4"><span class="n">04</span>The bug that nearly doubles the result</h3>
 <p>Remove the <code>shift(1)</code>: decide each day using that same day’s close — which is only known once the day’s return has already happened.</p>
-<div class="code-block"><pre>peek = (price &gt; price.rolling(200).mean())[start:]
+<div class="code-block" tabindex="0"><pre>peek = (price &gt; price.rolling(200).mean())[start:]
 cheat = pd.Series(np.where(peek, r, rf), index=r.index)
 cheat -= 0.001 * (peek != peek.shift(1, fill_value=True))
 cheat_all = summary(cheat, 'with look-ahead')</pre></div>

@@ -17,11 +17,13 @@
   <meta property="og:title" content="California housing — case study">
   <meta property="og:description" content="A house-price model on the California Housing data scores R² 0.84 with random cross-validation and 0.68 on regions it has not seen. What the test measures, and the price cap hidden in the target.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/cases-housing-regression.jpg?v=17c9de8a">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=35">
+  <link rel="stylesheet" href="/css/main.css?v=36">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -32,7 +34,7 @@
     .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
     .case-hero { padding: 48px 0 6px; }
     .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .crumb a { color: var(--accent); text-decoration: none; }
+    .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
     .case-hero h2 em { color: var(--accent); }
     .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
@@ -93,7 +95,7 @@
 <div class="case-data"><div><b>Data</b>California Housing — One row per census block group (a district of typically 600–3,000 people) from the 1990 US census: location, median age of the houses, rooms, bedrooms, population, households, median income, and the median house value.</div><div><b>Source</b><a href="https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html">StatLib, via Luís Torgo</a>; the same data as scikit-learn’s <code>fetch_california_housing</code></div><div><b>Licence</b>Public data from the US census, distributed by StatLib for research and teaching</div><div><b>File</b><a href="/cases/data/housing.csv" download>housing.csv</a> (987 KB), as used below</div></div>
 <h3 id="step-1"><span class="n">01</span>Look before modelling</h3>
 <p>Load the data and check the ranges. Three columns stop dead at a limit, the sign of values cut off (top-coded) when the data were published.</p>
-<div class="code-block" data-run="cases-housing-regression/step-1"><pre>import numpy as np
+<div class="code-block" tabindex="0" data-run="cases-housing-regression/step-1"><pre>import numpy as np
 import pandas as pd
 
 df = pd.read_csv('housing.csv')
@@ -116,7 +118,7 @@ rooms per household: median 5.2 | max 141.9</pre>
 <p><strong>965</strong> districts (4.7%) sit exactly at $500,001. Their true median value is somewhere above it, and no model trained on this column can learn by how much. The age and income columns are capped too, and a few districts average over 100 rooms per household — resort towns, where most houses are holiday homes with few permanent households.</p>
 <h3 id="step-2"><span class="n">02</span>A baseline, then a test that matches the question</h3>
 <p>Predicting the average value for every district misses by about $91k on average. Two quick models: a linear regression on income and housing features, and k-nearest neighbours that sees nothing but the location — it predicts the average value of the ten nearest districts. Each is scored twice: with random 5-fold cross-validation, and with folds made of whole regions (1°×1° squares of latitude and longitude, 55 of them), so the test districts lie in areas the model has not seen.</p>
-<div class="code-block" data-run="cases-housing-regression/step-2"><pre>from sklearn.model_selection import KFold, PredefinedSplit, cross_val_score
+<div class="code-block" tabindex="0" data-run="cases-housing-regression/step-2"><pre>from sklearn.model_selection import KFold, PredefinedSplit, cross_val_score
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 
@@ -159,7 +161,7 @@ R² (random folds, new regions)
 <p>The linear model scores about the same either way (R² 0.55 and 0.49). The location-only model looks better than it — <strong>R² 0.79</strong> with random folds — and collapses to <strong>0.17</strong> on new regions. With random folds, the nearest neighbours of a test district are its own neighbours in the training data; the model is not predicting, it is looking up the street. Nearby districts have similar prices (spatial autocorrelation), so random folds leak information whenever location is a feature.</p>
 <h3 id="step-3"><span class="n">03</span>A stronger model, the same gap</h3>
 <p>Gradient-boosted trees on all the features, location included — the kind of model that wins tabular benchmarks. It is fitted ten times, once per fold of each test.</p>
-<div class="code-block" data-run="cases-housing-regression/step-3"><pre>from sklearn.ensemble import HistGradientBoostingRegressor
+<div class="code-block" tabindex="0" data-run="cases-housing-regression/step-3"><pre>from sklearn.ensemble import HistGradientBoostingRegressor
 
 boost = r2(HistGradientBoostingRegressor(random_state=0), list(X.columns))
 print('gradient boosting, all features:', boost)</pre></div>
@@ -169,7 +171,7 @@ print('gradient boosting, all features:', boost)</pre></div>
 <figure class="case-fig"><svg class="case-chart" viewBox="0 0 680 178" role="img" aria-label="R² by model and test"><rect class="cs1" x="190" y="8" width="12" height="12" rx="2"/><text x="208" y="18" class="cl">random folds</text><rect class="cs2" x="312" y="8" width="12" height="12" rx="2"/><text x="330" y="18" class="cl">new regions</text><text x="180" y="54" class="cl" text-anchor="end">Linear, no location</text><rect class="cs1" x="190.0" y="35" width="275.5" height="13" rx="2"/><text x="470.5" y="46" class="cv">0.55</text><rect class="cs2" x="190.0" y="51" width="247.9" height="13" rx="2"/><text x="442.9" y="62" class="cv">0.49</text><text x="180" y="100" class="cl" text-anchor="end">10 nearest districts</text><rect class="cs1" x="190.0" y="81" width="396.4" height="13" rx="2"/><text x="591.4" y="92" class="cv">0.79</text><rect class="cs2" x="190.0" y="97" width="84.3" height="13" rx="2"/><text x="279.3" y="108" class="cv">0.17</text><text x="180" y="146" class="cl" text-anchor="end">Gradient boosting, all</text><rect class="cs1" x="190.0" y="127" width="420.0" height="13" rx="2"/><text x="615.0" y="138" class="cv">0.84</text><rect class="cs2" x="190.0" y="143" width="340.7" height="13" rx="2"/><text x="535.7" y="154" class="cv">0.68</text></svg><figcaption>R², 5-fold cross-validation. “New regions”: folds of whole 1°×1° squares, so no test district has training data from its own area.</figcaption></figure>
 <h3 id="step-4"><span class="n">04</span>What the cap does to the errors</h3>
 <p>Hold out a random fifth of the districts, fit the boosted model on the rest, and look at the districts whose value is capped.</p>
-<div class="code-block" data-run="cases-housing-regression/step-4"><pre>from sklearn.model_selection import train_test_split
+<div class="code-block" tabindex="0" data-run="cases-housing-regression/step-4"><pre>from sklearn.model_selection import train_test_split
 
 X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=0)
 model = HistGradientBoostingRegressor(random_state=0).fit(X_tr, y_tr)

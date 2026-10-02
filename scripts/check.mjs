@@ -370,7 +370,7 @@ console.log('10c. Runnable code');
     for (const id of readdirSync(dir)) {
       const f = join(dir, id, 'index.html');
       if (!existsSync(f)) continue;
-      for (const m of readFileSync(f, 'utf8').matchAll(/<div class="code-block" data-run="([^"]+)\/([^"\/]+)"><pre>([\s\S]*?)<\/pre>/g)) {
+      for (const m of readFileSync(f, 'utf8').matchAll(/<div class="code-block"(?: tabindex="0")? data-run="([^"]+)\/([^"\/]+)"><pre>([\s\S]*?)<\/pre>/g)) {
         const [, file, topic, code] = m;
         runs[file] ||= existsSync(`run/${file}.json`) ? JSON.parse(readFileSync(`run/${file}.json`, 'utf8')) : {};
         seen.add(`${file}/${topic}`);

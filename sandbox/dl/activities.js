@@ -353,7 +353,7 @@ const DL_HEAD = (num, title, sub) => `
   <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">${sub}</p>`;
 
 function buildCnnFilter() {
-  return DL_HEAD('D1','CNN <em style="color:#4dd0e1">Filter</em> Explorer',
+  return DL_HEAD('D1','CNN <em style="color:var(--lab-ink)">Filter</em> Explorer',
     `Paint on the input grid. Watch the ${T('filter','A small matrix of weights — the learnable pattern detector. It slides across the input computing a dot product at every position.')} slide across it and produce a ${T('feature map','The output of applying the filter to the entire input. Each value shows how strongly the filter pattern matched at that location.')}.`) + `
   <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:16px;">
     <div>
@@ -373,7 +373,7 @@ function buildCnnFilter() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Filter preset</label>
-      <select id="cnnFilterSel" onchange="ENGINE.setCnnFilter(this.value)" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Filter preset" id="cnnFilterSel" onchange="ENGINE.setCnnFilter(this.value)" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="edge-h">Edge (horizontal)</option>
         <option value="edge-v">Edge (vertical)</option>
         <option value="blur">Blur</option>
@@ -389,13 +389,13 @@ function buildCnnFilter() {
 }
 
 function buildSelfAttention() {
-  return DL_HEAD('D2','<em style="color:#4dd0e1">Self</em>-Attention',
+  return DL_HEAD('D2','<em style="color:var(--lab-ink)">Self</em>-Attention',
     `Click any token to see its ${T('attention weights','How much this token "looks at" every other token. Computed from the dot product of its Query vector with all other tokens\' Key vectors, then softmaxed.')}.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="attnCanvas" role="img" aria-label="Self-Attention — visualization" height="360"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Example sentence</label>
-      <select id="attnSentSel" onchange="ENGINE.setAttnSentence(this.value)" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Example sentence" id="attnSentSel" onchange="ENGINE.setAttnSentence(this.value)" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="0">The cat sat on the mat</option>
         <option value="1">She sells sea shells</option>
         <option value="2">The bank by the river bank</option>
@@ -404,7 +404,7 @@ function buildSelfAttention() {
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Temperature','Controls how "peaked" the attention distribution is. Low temperature = one dominant token. High = spread evenly across all tokens.')}</label>
-      <input type="range" id="attnTemp" min="1" max="20" step="1" value="5"
+      <input aria-label="Temperature" type="range" id="attnTemp" min="1" max="20" step="1" value="5"
              oninput="document.getElementById('attnTempV').textContent=(this.value/10).toFixed(1);ENGINE.drawAttention()">
       <span class="ctrl-val" id="attnTempV">0.5</span>
     </div>
@@ -415,7 +415,7 @@ function buildSelfAttention() {
 }
 
 function buildAutoencoder() {
-  return DL_HEAD('D3','<em style="color:#4dd0e1">Auto</em>encoder',
+  return DL_HEAD('D3','<em style="color:var(--lab-ink)">Auto</em>encoder',
     `Paint a shape. The ${T('encoder','Compresses the input into a small code — fewer neurons than the input, so it must discard details.')} squeezes it to a ${T('bottleneck','The narrowest point — a vector of n numbers that must summarise the entire input. Smaller = more compression = blurrier reconstruction.')}. The ${T('decoder','Expands the code back to full size. It sees only the bottleneck — everything else is discarded.')} reconstructs from that code alone.`) + `
   <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin-bottom:16px;">
     <div>
@@ -435,7 +435,7 @@ function buildAutoencoder() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Bottleneck size</label>
-      <input type="range" id="aeBottleneck" min="1" max="32" step="1" value="8"
+      <input aria-label="Bottleneck size" type="range" id="aeBottleneck" min="1" max="32" step="1" value="8"
              oninput="document.getElementById('aeBottleneckV').textContent=this.value+' dims';ENGINE.runAutoencoder()">
       <span class="ctrl-val" id="aeBottleneckV">8 dims</span>
     </div>
@@ -447,7 +447,7 @@ function buildAutoencoder() {
 }
 
 function buildVae() {
-  return DL_HEAD('D4','Variational <em style="color:#4dd0e1">Autoencoder</em>',
+  return DL_HEAD('D4','Variational <em style="color:var(--lab-ink)">Autoencoder</em>',
     `Click anywhere in the ${T('latent space','A 2D coordinate system where each point represents a learned encoding. Nearby points decode to similar outputs — the VAE ensures this by training with a KL divergence penalty.')} to decode that point into a shape. The space is smooth and continuous.`) + `
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
     <div>
@@ -462,7 +462,7 @@ function buildVae() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Sampling σ','Standard deviation of the sampling noise. High σ = wider samples from around the clicked point — more diversity, less accuracy.')}</label>
-      <input type="range" id="vaeSigma" min="1" max="30" step="1" value="5"
+      <input aria-label="Sampling σ" type="range" id="vaeSigma" min="1" max="30" step="1" value="5"
              oninput="document.getElementById('vaeSigmaV').textContent=(this.value/10).toFixed(1);ENGINE.drawVaeLatent()">
       <span class="ctrl-val" id="vaeSigmaV">0.5</span>
     </div>
@@ -473,7 +473,7 @@ function buildVae() {
 }
 
 function buildUnet() {
-  return DL_HEAD('D5','<em style="color:#4dd0e1">U-Net</em>',
+  return DL_HEAD('D5','<em style="color:var(--lab-ink)">U-Net</em>',
     `Watch data flow through the encoder (down), cross the ${T('bottleneck','The deepest, smallest feature map — maximum compression, maximum context.')}, and back up through the decoder. The ${T('skip connections','Direct connections from each encoder level to the matching decoder level. They pass high-resolution spatial detail that the encoder would otherwise lose.')} paste spatial detail at every scale.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="unetCanvas" role="img" aria-label="U-Net — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
@@ -494,13 +494,13 @@ function buildUnet() {
 }
 
 function buildSeq2Seq() {
-  return DL_HEAD('D6','<em style="color:#4dd0e1">Seq2Seq</em> + Attention',
+  return DL_HEAD('D6','<em style="color:var(--lab-ink)">Seq2Seq</em> + Attention',
     `The ${T('encoder','Reads the input sequence left to right, building a hidden state at each step. With attention, all hidden states are kept and made available to the decoder.')} reads the input. The ${T('decoder','Generates one output token at a time, attending to the encoder hidden states to decide which input positions to focus on at each step.')} generates the output. The ${T('alignment matrix','Shows which input position (column) the decoder is attending to when generating each output token (row). Bright = strong attention.')}.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="s2sCanvas" role="img" aria-label="Seq2Seq + Attention — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Example</label>
-      <select id="s2sExSel" onchange="ENGINE.setS2SExample(parseInt(this.value))" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Example" id="s2sExSel" onchange="ENGINE.setS2SExample(parseInt(this.value))" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="0">1 2 3 4 5 → sum sequence</option>
         <option value="1">English → French (simple)</option>
         <option value="2">Reverse a sequence</option>
@@ -519,13 +519,13 @@ function buildSeq2Seq() {
 }
 
 function buildGan() {
-  return DL_HEAD('D7','<em style="color:#4dd0e1">GAN</em> Training',
+  return DL_HEAD('D7','<em style="color:var(--lab-ink)">GAN</em> Training',
     `The ${T('generator','Maps random noise z to a fake sample. Trained to fool the discriminator — it wants D(G(z)) to be close to 1.')} tries to match the real ${T('distribution','The statistical pattern of the real data — in this 1D demo, a Gaussian. The generator starts with a flat uniform distribution and must learn to mimic the bell shape.')}. The ${T('discriminator','Classifies samples as real or fake. Trained to output 1 for real samples and 0 for fakes.')} tries to tell them apart.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="ganCanvas" role="img" aria-label="GAN Training — visualization" height="300"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Real distribution</label>
-      <select id="ganDistSel" onchange="ENGINE.resetGan()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Real distribution" id="ganDistSel" onchange="ENGINE.resetGan()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="gaussian">Gaussian (μ=0.6)</option>
         <option value="bimodal">Bimodal</option>
         <option value="uniform">Uniform</option>
@@ -544,19 +544,19 @@ function buildGan() {
 }
 
 function buildDiffusion() {
-  return DL_HEAD('D8','<em style="color:#4dd0e1">Diffusion</em> Process',
+  return DL_HEAD('D8','<em style="color:var(--lab-ink)">Diffusion</em> Process',
     `Drag the timestep slider to add ${T('noise','Gaussian random values added to the data. At each forward step: xₜ = √(1−β)·xₜ₋₁ + √β·ε, where ε ~ N(0,I) and β is the noise schedule.')} forward (→ pure noise) or reverse it backward (→ original structure).`) + `
   <div class="sandbox-canvas-wrap"><canvas id="diffCanvas" role="img" aria-label="Diffusion Process — visualization" height="300"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Timestep t','0 = original data, T = pure noise. The forward process adds noise; the reverse process (learned by the model) denoises step by step.')}</label>
-      <input type="range" id="diffT" min="0" max="60" step="1" value="0"
+      <input aria-label="Timestep t" type="range" id="diffT" min="0" max="60" step="1" value="0"
              oninput="document.getElementById('diffTV').textContent=this.value;ENGINE.drawDiffusion()">
       <span class="ctrl-val" id="diffTV">0</span>
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">Pattern</label>
-      <select id="diffPatSel" onchange="ENGINE.resetDiffusion()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Pattern" id="diffPatSel" onchange="ENGINE.resetDiffusion()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="two-moons">Two moons</option>
         <option value="spiral">Spiral</option>
         <option value="grid">Grid</option>
@@ -570,7 +570,7 @@ function buildDiffusion() {
 }
 
 function buildResidual() {
-  return DL_HEAD('D9','<em style="color:#4dd0e1">Residual</em> Networks',
+  return DL_HEAD('D9','<em style="color:var(--lab-ink)">Residual</em> Networks',
     `Toggle ${T('skip connections','A direct addition from the block input to its output: y = F(x) + x. The +x ensures the gradient always has a path back, no matter how many layers deep.')} to see how the ${T('gradient','The signal backpropagated through the network to update weights. Without skip connections, repeated multiplication by small numbers causes it to vanish — early layers receive no update.')} survives or vanishes through a deep network.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="resCanvas" role="img" aria-label="Residual Networks — visualization" height="380"></canvas></div>
   <div class="sandbox-controls">
@@ -581,7 +581,7 @@ function buildResidual() {
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">Network depth</label>
-      <input type="range" id="resDepth" min="4" max="20" step="1" value="10"
+      <input aria-label="Network depth" type="range" id="resDepth" min="4" max="20" step="1" value="10"
              oninput="document.getElementById('resDepthV').textContent=this.value+' layers';ENGINE.drawResidual()">
       <span class="ctrl-val" id="resDepthV">10 layers</span>
     </div>
@@ -592,13 +592,13 @@ function buildResidual() {
 }
 
 function buildEmbeddings() {
-  return DL_HEAD('D10','<em style="color:#4dd0e1">Embedding</em> Space',
+  return DL_HEAD('D10','<em style="color:var(--lab-ink)">Embedding</em> Space',
     `A 2D projection of a semantic space. Hover for labels. Click any point to see its ${T('nearest neighbours','The k most similar tokens by cosine similarity in the embedding space. Similar meaning = nearby vector = connected by a line.')}. The clusters that form are not programmed — they emerge from training.`) + `
   <div class="sandbox-canvas-wrap"><canvas id="embCanvas" role="img" aria-label="Embedding Space — visualization" height="380" style="cursor:pointer;"></canvas></div>
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Neighbours k</label>
-      <input type="range" id="embK" min="1" max="6" step="1" value="3"
+      <input aria-label="Neighbours k" type="range" id="embK" min="1" max="6" step="1" value="3"
              oninput="document.getElementById('embKV').textContent=this.value;ENGINE.drawEmbeddings()">
       <span class="ctrl-val" id="embKV">3</span>
     </div>
@@ -621,7 +621,7 @@ function buildKalman() {
       <p style="font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.65;margin:0;">${sub}</p>
     </div>`;
 
-  return DL_HEAD('D11','Discrete <em style="color:#4dd0e1">Kalman</em> Filter',
+  return DL_HEAD('D11','Discrete <em style="color:var(--lab-ink)">Kalman</em> Filter',
     `Track a hidden state from noisy measurements. The filter runs a ${T('predict','Roll the state forward through the dynamics model and grow the uncertainty: x̂⁻ = A x̂, P⁻ = A P Aᵀ + Q.')} → ${T('update','Correct the prediction with the new measurement, weighted by the Kalman gain, and shrink the uncertainty.')} loop forever.`)
 
   /* ── PART 1 — THEORY ── */
@@ -663,13 +663,13 @@ function buildKalman() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Q — process noise','How much the true state is expected to change each step. Higher Q → higher gain → more responsive, noisier estimate.')}</label>
-      <input type="range" id="kalUniQ" min="1" max="400" step="1" value="50"
+      <input aria-label="Q — process noise" type="range" id="kalUniQ" min="1" max="400" step="1" value="50"
              oninput="document.getElementById('kalUniQV').textContent=(this.value/100).toFixed(2);ENGINE.runKalUni()">
       <span class="ctrl-val" id="kalUniQV">0.50</span>
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">${T('R — measurement noise','How noisy the sensor is assumed to be. Higher R → lower gain → smoother but laggier estimate.')}</label>
-      <input type="range" id="kalUniR" min="10" max="1200" step="10" value="200"
+      <input aria-label="R — measurement noise" type="range" id="kalUniR" min="10" max="1200" step="10" value="200"
              oninput="document.getElementById('kalUniRV').textContent=(this.value/100).toFixed(2);ENGINE.runKalUni()">
       <span class="ctrl-val" id="kalUniRV">2.00</span>
     </div>
@@ -690,19 +690,19 @@ function buildKalman() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Q — process noise','Process-noise level on the diagonal of Q. More process noise pushes the steady-state gain up.')}</label>
-      <input type="range" id="kalMultiQ" min="1" max="200" step="1" value="20"
+      <input aria-label="Q — process noise" type="range" id="kalMultiQ" min="1" max="200" step="1" value="20"
              oninput="document.getElementById('kalMultiQV').textContent=(this.value/1000).toFixed(3);ENGINE.runKalMulti()">
       <span class="ctrl-val" id="kalMultiQV">0.020</span>
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">${T('R — measurement noise','Sensor-noise level on the diagonal of R. More sensor noise pulls the steady-state gain down.')}</label>
-      <input type="range" id="kalMultiR" min="10" max="1000" step="10" value="200"
+      <input aria-label="R — measurement noise" type="range" id="kalMultiR" min="10" max="1000" step="10" value="200"
              oninput="document.getElementById('kalMultiRV').textContent=(this.value/1000).toFixed(3);ENGINE.runKalMulti()">
       <span class="ctrl-val" id="kalMultiRV">0.200</span>
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Thermal coupling','How fast heat flows between core and surface each step. It fills the off-diagonal terms of the A matrix.')}</label>
-      <input type="range" id="kalMultiC" min="0" max="50" step="1" value="15"
+      <input aria-label="Thermal coupling" type="range" id="kalMultiC" min="0" max="50" step="1" value="15"
              oninput="document.getElementById('kalMultiCV').textContent=(this.value/100).toFixed(2);ENGINE.runKalMulti()">
       <span class="ctrl-val" id="kalMultiCV">0.15</span>
     </div>
@@ -720,7 +720,7 @@ function buildMlpDeep() {
       <p style="font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.65;margin:0;">${sub}</p>
     </div>`;
 
-  return DL_HEAD('D12','Neural Network — <em style="color:#4dd0e1">Deep Dive</em>',
+  return DL_HEAD('D12','Neural Network — <em style="color:var(--lab-ink)">Deep Dive</em>',
     `A real, trainable ${T('MLP','Multilayer perceptron — the original deep network. Stacked layers of neurons, each a weighted sum followed by a non-linearity, trained by backpropagation.')}: two inputs → a hidden layer → one output. It runs genuine ${T('forward pass','Feed the input through every layer to produce a prediction — each neuron computes its weighted sum and activation in turn.')} and ${T('backpropagation','The chain rule applied backward through the network to get ∂Loss/∂weight for every weight, so gradient descent can update them.')} in your browser. Train it, then drill down to the emitter level.`)
 
   /* ── PART 1 — THE LIVING NETWORK ── */
@@ -737,14 +737,14 @@ function buildMlpDeep() {
   <div class="sandbox-controls">
     <div class="ctrl-row">
       <label class="ctrl-label">Dataset</label>
-      <select id="nnData" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Dataset" id="nnData" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="circle">Circle (concentric)</option>
         <option value="xor">XOR</option>
         <option value="spiral">Spiral</option>
         <option value="linear">Linear</option>
       </select>
       <label class="ctrl-label" style="margin-left:8px;">${T('Activation','The non-linearity each hidden neuron applies. tanh and sigmoid squash into a fixed range; ReLU passes positives straight through and zeros negatives.')}</label>
-      <select id="nnAct" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+      <select aria-label="Activation" id="nnAct" onchange="ENGINE.initNn()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
         <option value="tanh">tanh</option>
         <option value="sigmoid">sigmoid</option>
         <option value="relu">ReLU</option>
@@ -752,11 +752,11 @@ function buildMlpDeep() {
     </div>
     <div class="ctrl-row">
       <label class="ctrl-label">${T('Hidden neurons','How many neurons in the hidden layer. More neurons = more lines to combine = a more flexible boundary (and more to overfit with).')}</label>
-      <input type="range" id="nnHidden" min="2" max="6" step="1" value="4"
+      <input aria-label="Hidden neurons" type="range" id="nnHidden" min="2" max="6" step="1" value="4"
              oninput="document.getElementById('nnHiddenV').textContent=this.value;ENGINE.initNn()">
       <span class="ctrl-val" id="nnHiddenV">4</span>
       <label class="ctrl-label" style="margin-left:8px;">${T('Learning rate η','How big a step each weight takes against its gradient. Too high → the loss bounces or blows up; too low → it crawls.')}</label>
-      <input type="range" id="nnLR" min="1" max="100" step="1" value="10"
+      <input aria-label="Learning rate η" type="range" id="nnLR" min="1" max="100" step="1" value="10"
              oninput="document.getElementById('nnLRV').textContent=(this.value/20).toFixed(2)">
       <span class="ctrl-val" id="nnLRV">0.50</span>
     </div>

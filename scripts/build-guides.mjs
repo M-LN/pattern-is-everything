@@ -9,6 +9,7 @@
    Usage: node scripts/build-guides.mjs            (writes the pages)
           node scripts/build-guides.mjs --check    (fails if they are stale) */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { GUIDES } from './guides-data.mjs';
 
 const SITE = 'https://patterniseverything.com';
@@ -63,7 +64,7 @@ const CSS = `
     .guide { width: min(780px, calc(100% - 32px)); margin: 0 auto 80px; }
     .guide-hero { padding: 48px 0 10px; }
     .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .crumb a { color: var(--accent); text-decoration: none; }
+    .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .guide-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
     .guide-hero p { color: var(--muted); line-height: 1.75; margin: 0; }
     .g-before { margin: 22px 0 26px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; line-height: 1.7; }
@@ -108,7 +109,13 @@ const CSS = `
     .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
     @media (max-width: 600px) { .portal-header { padding: 0 16px; } .g-opt > summary { padding-left: 34px; } .g-opt > summary::before { left: 12px; } }`;
 
-function page({ title, desc, path, heroTitle, crumb, body, script }) {
+/* A guide's share card (scripts/build-page-cards.mjs), versioned by its hash; the hub keeps the site card. */
+function card(id) {
+  const f = `assets/og/pages/guides-${id}.jpg`;
+  if (!existsSync(f)) return `${SITE}/assets/og/og-start.png`;
+  return `${SITE}/${f}?v=${createHash('md5').update(readFileSync(f)).digest('hex').slice(0, 8)}`;
+}
+function page({ title, desc, path, heroTitle, crumb, body, script, og }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,11 +135,13 @@ function page({ title, desc, path, heroTitle, crumb, body, script }) {
   <meta property="og:title" content="${attr(title)}">
   <meta property="og:description" content="${attr(desc)}">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="${SITE}/assets/og/og-start.png">
+  <meta property="og:image" content="${og || `${SITE}/assets/og/og-start.png`}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=35">
+  <link rel="stylesheet" href="/css/main.css?v=36">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>${CSS}
@@ -177,6 +186,7 @@ ${g.kind === 'tree' ? node(g.root) : checklist(g)}
 <div class="g-tools"><button type="button" data-reset>${g.kind === 'tree' ? 'Start over' : 'Clear all'}</button></div>
 </section>`;
   files[`guides/${g.id}/index.html`] = page({
+    og: card(g.id),
     title: g.title, desc: g.blurb, path: `/guides/${g.id}/`,
     heroTitle: 'Guides',
     crumb: `<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · ${kind} · ${g.minutes} min</div><h2>${esc(g.title)}</h2><p>${esc(g.blurb)}</p></section>`,

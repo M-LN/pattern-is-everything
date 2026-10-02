@@ -22,9 +22,23 @@
   --ctrl-label-w: 140px;
 }
 
+/* ── Lab colour as text ──
+   The pastel lab colours read well on the dark ground only. Text in the lab
+   colour uses --lab-ink: the pastel in the dark theme, a deeper shade of it
+   in the light theme (4.5:1 or better on the page and card backgrounds). */
+[data-lab] { --lab-ink: var(--lab-accent); }
+:root:not([data-theme="dark"])[data-lab="ml"]      { --lab-ink: #0b6e99; }
+:root:not([data-theme="dark"])[data-lab="markets"] { --lab-ink: #247052; }
+:root:not([data-theme="dark"])[data-lab="stats"]   { --lab-ink: #8e44ad; }
+:root:not([data-theme="dark"])[data-lab="dl"]      { --lab-ink: #00737f; }
+:root:not([data-theme="dark"])[data-lab="chaos"]   { --lab-ink: #bf360c; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-lab] { --lab-ink: var(--lab-accent); }
+}
+
 /* ── Header accent ── */
 header { border-bottom-color: var(--lab-accent); }
-header em { color: var(--lab-accent); }
+header em { color: var(--lab-ink); }
 
 /* ── Canvas wrap ── */
 .sandbox-canvas-wrap {
@@ -211,7 +225,7 @@ header em { color: var(--lab-accent); }
   color: var(--muted);
 }
 .challenge-item.done .challenge-status { color: #81c784; }
-.challenge-item.active .challenge-status { color: var(--lab-accent); }
+.challenge-item.active .challenge-status { color: var(--lab-ink); }
 .challenge-info { flex: 1; }
 .challenge-title {
   font-family: var(--mono);
@@ -258,7 +272,7 @@ header em { color: var(--lab-accent); }
   font-size: 10px;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--lab-accent);
+  color: var(--lab-ink);
   margin-bottom: 3px;
 }
 .build-mode-title {
@@ -318,7 +332,7 @@ header em { color: var(--lab-accent); }
 .lab-switch {
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--lab-accent);
+  color: var(--text);
   text-decoration: none;
   margin-right: 8px;
   padding: 4px 10px;
@@ -341,7 +355,7 @@ header em { color: var(--lab-accent); }
   font-size: 11px;
   letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--lab-accent, var(--muted));
+  color: var(--lab-ink, var(--muted));
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -369,7 +383,7 @@ header em { color: var(--lab-accent); }
 .sandbox-explainer .exp-formula {
   font-family: var(--mono);
   font-size: 12px;
-  color: var(--lab-accent, var(--text));
+  color: var(--lab-ink, var(--text));
   background: rgba(255,255,255,.03);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -406,7 +420,7 @@ header em { color: var(--lab-accent); }
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--lab-accent);
+  color: var(--lab-ink);
   opacity: .75;
   margin-bottom: 6px;
 }
@@ -448,7 +462,7 @@ header em { color: var(--lab-accent); }
   transition: all .15s;
   margin-top: 2px;
 }
-.narrator-close:hover { border-color: var(--lab-accent); color: var(--lab-accent); }
+.narrator-close:hover { border-color: var(--lab-accent); color: var(--lab-ink); }
 .narrator-next {
   background: var(--lab-accent);
   border: none;
@@ -463,7 +477,7 @@ header em { color: var(--lab-accent); }
   transition: opacity .15s;
 }
 .narrator-next:hover { opacity: .85; }
-.teach-btn { border-color: var(--lab-accent) !important; color: var(--lab-accent) !important; }
+.teach-btn { border-color: var(--lab-ink) !important; color: var(--lab-ink) !important; }
 .teach-btn:hover { background: rgba(var(--lab-accent-rgb), 0.12) !important; }
 
 @keyframes narrator-in {
@@ -501,7 +515,7 @@ header em { color: var(--lab-accent); }
   font-family: var(--mono);
   font-size: 15px;
   font-weight: 700;
-  color: var(--lab-accent);
+  color: var(--lab-ink);
   margin-bottom: 5px;
 }
 .fd-tooltip-def {

@@ -24,7 +24,7 @@
       "mimetype": null,
       "name": "case-credit-default.ipynb",
       "path": "case-credit-default.ipynb",
-      "size": 8672,
+      "size": 8881,
       "type": "notebook",
       "writable": true
     },
@@ -38,7 +38,7 @@
       "mimetype": null,
       "name": "case-energy-forecast.ipynb",
       "path": "case-energy-forecast.ipynb",
-      "size": 8649,
+      "size": 8862,
       "type": "notebook",
       "writable": true
     },
@@ -52,7 +52,7 @@
       "mimetype": null,
       "name": "case-housing-regression.ipynb",
       "path": "case-housing-regression.ipynb",
-      "size": 8967,
+      "size": 9170,
       "type": "notebook",
       "writable": true
     },
@@ -66,7 +66,7 @@
       "mimetype": null,
       "name": "case-market-backtest.ipynb",
       "path": "case-market-backtest.ipynb",
-      "size": 6810,
+      "size": 6977,
       "type": "notebook",
       "writable": true
     },
@@ -80,7 +80,7 @@
       "mimetype": "text/csv",
       "name": "credit.csv",
       "path": "credit.csv",
-      "size": 2698292,
+      "size": 2728293,
       "type": "file",
       "writable": true
     },
@@ -94,7 +94,7 @@
       "mimetype": "text/csv",
       "name": "housing.csv",
       "path": "housing.csv",
-      "size": 989786,
+      "size": 1010427,
       "type": "file",
       "writable": true
     },
@@ -136,7 +136,7 @@
       "mimetype": "text/csv",
       "name": "power-daily.csv",
       "path": "power-daily.csv",
-      "size": 32870,
+      "size": 34313,
       "type": "file",
       "writable": true
     }

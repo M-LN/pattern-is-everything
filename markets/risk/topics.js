@@ -771,7 +771,7 @@ function buildValueAtRisk() {
     <div class="vl">// Interactive — confidence level vs. VaR threshold</div>
     <canvas id="cvs-value-at-risk" role="img" aria-label="Value at Risk (VaR): Interactive — confidence level vs. VaR threshold" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Confidence %</span><input type="range" min="90" max="99" value="95" data-ctrl="varConf"></div>
+      <div class="cg"><span class="cl">Confidence %</span><input type="range" aria-label="Confidence %" min="90" max="99" value="95" data-ctrl="varConf"></div>
     </div>
   </div>
   <table class="mt">
@@ -847,7 +847,7 @@ function buildExpectedShortfall() {
     <div class="vl">// Interactive — tail threshold and expected shortfall region</div>
     <canvas id="cvs-expected-shortfall" role="img" aria-label="Expected Shortfall (CVaR): Interactive — tail threshold and expected shortfall region" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Tail &alpha; %</span><input type="range" min="1" max="10" value="5" data-ctrl="esTail"></div>
+      <div class="cg"><span class="cl">Tail &alpha; %</span><input type="range" aria-label="Tail α %" min="1" max="10" value="5" data-ctrl="esTail"></div>
     </div>
   </div>
   <div class="callout info"><strong>Basel III.</strong> Banks must now report Expected Shortfall at 97.5 % under the Fundamental Review of the Trading Book (FRTB).</div>
@@ -867,7 +867,7 @@ function buildVolatilityModeling() {
     <div class="vl">// Interactive — EWMA decay parameter and conditional variance</div>
     <canvas id="cvs-volatility-modeling" role="img" aria-label="Volatility Modeling: Interactive — EWMA decay parameter and conditional variance" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">EWMA &lambda;</span><input type="range" min="80" max="99" value="94" data-ctrl="ewmaLambda"></div>
+      <div class="cg"><span class="cl">EWMA &lambda;</span><input type="range" aria-label="EWMA λ" min="80" max="99" value="94" data-ctrl="ewmaLambda"></div>
     </div>
   </div>
   <table class="mt">
@@ -894,7 +894,7 @@ function buildCorrelationRisk() {
     <div class="vl">// Interactive — stress level and correlation regime shift</div>
     <canvas id="cvs-correlation-risk" role="img" aria-label="Correlation Risk: Interactive — stress level and correlation regime shift" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Stress level</span><input type="range" min="0" max="100" value="20" data-ctrl="stressLevel"></div>
+      <div class="cg"><span class="cl">Stress level</span><input type="range" aria-label="Stress level" min="0" max="100" value="20" data-ctrl="stressLevel"></div>
     </div>
   </div>
   <div class="callout info"><strong>2008 lesson.</strong> Structured-credit losses soared because default correlations jumped far beyond historical norms.</div>
@@ -914,7 +914,7 @@ function buildTailRisk() {
     <div class="vl">// Interactive — kurtosis and tail weight visualization</div>
     <canvas id="cvs-tail-risk" role="img" aria-label="Tail Risk: Interactive — kurtosis and tail weight visualization" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Kurtosis</span><input type="range" min="3" max="12" value="5" data-ctrl="kurtLevel"></div>
+      <div class="cg"><span class="cl">Kurtosis</span><input type="range" aria-label="Kurtosis" min="3" max="12" value="5" data-ctrl="kurtLevel"></div>
     </div>
   </div>
   <div class="callout info"><strong>Black-swan readiness.</strong> Stress tests should use EVT-calibrated scenarios, not just historical worst days.</div>
@@ -934,7 +934,7 @@ function buildMeanVariance() {
     <div class="vl">// Interactive — risk aversion and efficient frontier</div>
     <canvas id="cvs-mean-variance" role="img" aria-label="Mean-Variance Optimization: Interactive — risk aversion and efficient frontier" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Risk aversion</span><input type="range" min="1" max="20" value="5" data-ctrl="riskAversion"></div>
+      <div class="cg"><span class="cl">Risk aversion</span><input type="range" aria-label="Risk aversion" min="1" max="20" value="5" data-ctrl="riskAversion"></div>
     </div>
   </div>
   <table class="mt">
@@ -1003,7 +1003,7 @@ function buildRebalancing() {
     <div class="vl">// Interactive — rebalancing bands and drift over time</div>
     <canvas id="cvs-rebalancing" role="img" aria-label="Rebalancing Strategies: Interactive — rebalancing bands and drift over time" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Band width %</span><input type="range" min="1" max="10" value="5" data-ctrl="rebalBand"></div>
+      <div class="cg"><span class="cl">Band width %</span><input type="range" aria-label="Band width %" min="1" max="10" value="5" data-ctrl="rebalBand"></div>
     </div>
   </div>
   <div class="callout info"><strong>Tax efficiency.</strong> Threshold-based rebalancing combined with tax-loss harvesting can add value after tax, but the size depends on the tax regime and market path.</div>
@@ -1023,7 +1023,7 @@ function buildDiversification() {
     <div class="vl">// Interactive — number of assets vs. portfolio volatility</div>
     <canvas id="cvs-diversification" role="img" aria-label="Diversification: Interactive — number of assets vs. portfolio volatility" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Number of assets</span><input type="range" min="1" max="50" value="10" data-ctrl="numAssets"></div>
+      <div class="cg"><span class="cl">Number of assets</span><input type="range" aria-label="Number of assets" min="1" max="50" value="10" data-ctrl="numAssets"></div>
     </div>
   </div>
   <div class="callout info"><strong>Diminishing returns.</strong> Most diversification benefit arrives by 15-20 uncorrelated assets — beyond that, marginal reduction is small.</div>
@@ -1043,7 +1043,7 @@ function buildKellyCriterion() {
     <div class="vl">// Interactive — win rate and Kelly fraction</div>
     <canvas id="cvs-kelly-criterion" role="img" aria-label="Kelly Criterion: Interactive — win rate and Kelly fraction" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Win rate %</span><input type="range" min="30" max="80" value="55" data-ctrl="kellyWin"></div>
+      <div class="cg"><span class="cl">Win rate %</span><input type="range" aria-label="Win rate %" min="30" max="80" value="55" data-ctrl="kellyWin"></div>
     </div>
   </div>
   <table class="mt">
@@ -1071,7 +1071,7 @@ function buildFixedFractional() {
     <div class="vl">// Interactive — risk fraction and equity curve</div>
     <canvas id="cvs-fixed-fractional" role="img" aria-label="Fixed Fractional Sizing: Interactive — risk fraction and equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Risk fraction %</span><input type="range" min="1" max="5" value="2" data-ctrl="ffFrac"></div>
+      <div class="cg"><span class="cl">Risk fraction %</span><input type="range" aria-label="Risk fraction %" min="1" max="5" value="2" data-ctrl="ffFrac"></div>
     </div>
   </div>
   <div class="callout info"><strong>Ruin probability.</strong> At 1 % risk per trade each loss is 1 % of what is left, so the account shrinks but never reaches zero: 20 straight losers still leave 82 %.</div>
@@ -1107,7 +1107,7 @@ function buildPyramiding() {
     <div class="vl">// Interactive — pyramid tiers and position build-up</div>
     <canvas id="cvs-pyramiding" role="img" aria-label="Pyramiding: Interactive — pyramid tiers and position build-up" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Tiers</span><input type="range" min="1" max="5" value="3" data-ctrl="pyramidTiers"></div>
+      <div class="cg"><span class="cl">Tiers</span><input type="range" aria-label="Tiers" min="1" max="5" value="3" data-ctrl="pyramidTiers"></div>
     </div>
   </div>
   <div class="callout info"><strong>Trend following.</strong> Pyramiding is a hallmark of trend-following systems — it maximizes exposure to strong moves.</div>
@@ -1153,7 +1153,7 @@ function buildOptionsHedging() {
     <div class="vl">// Interactive — put strike and payoff profile</div>
     <canvas id="cvs-options-hedging" role="img" aria-label="Options Hedging: Interactive — put strike and payoff profile" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Put strike %</span><input type="range" min="80" max="100" value="95" data-ctrl="putStrike"></div>
+      <div class="cg"><span class="cl">Put strike %</span><input type="range" aria-label="Put strike %" min="80" max="100" value="95" data-ctrl="putStrike"></div>
     </div>
   </div>
   <table class="mt">
@@ -1189,7 +1189,7 @@ function buildStopLosses() {
     <div class="vl">// Interactive — ATR multiplier and stop placement</div>
     <canvas id="cvs-stop-losses" role="img" aria-label="Stop-Loss Strategies: Interactive — ATR multiplier and stop placement" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">ATR multiplier</span><input type="range" min="10" max="40" value="20" data-ctrl="atrMult"></div>
+      <div class="cg"><span class="cl">ATR multiplier</span><input type="range" aria-label="ATR multiplier" min="10" max="40" value="20" data-ctrl="atrMult"></div>
     </div>
   </div>
   <div class="callout info"><strong>Mental stops fail.</strong> Paper stops get overridden by emotion — always enter with a hard order.</div>
@@ -1209,7 +1209,7 @@ function buildPairsTrading() {
     <div class="vl">// Interactive — entry z-score and spread convergence</div>
     <canvas id="cvs-pairs-trading" role="img" aria-label="Pairs Trading: Interactive — entry z-score and spread convergence" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Entry z-score</span><input type="range" min="10" max="30" value="20" data-ctrl="pairsZ"></div>
+      <div class="cg"><span class="cl">Entry z-score</span><input type="range" aria-label="Entry z-score" min="10" max="30" value="20" data-ctrl="pairsZ"></div>
     </div>
   </div>
   <div class="callout info"><strong>Regime risk.</strong> Structural breaks (e.g. mergers, sector shifts) can permanently break a pair's relationship.</div>
@@ -1229,7 +1229,7 @@ function buildPortfolioInsurance() {
     <div class="vl">// Interactive — CPPI multiplier and portfolio path</div>
     <canvas id="cvs-portfolio-insurance" role="img" aria-label="Portfolio Insurance: Interactive — CPPI multiplier and portfolio path" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Multiplier m</span><input type="range" min="2" max="8" value="4" data-ctrl="cppiMult"></div>
+      <div class="cg"><span class="cl">Multiplier m</span><input type="range" aria-label="Multiplier m" min="2" max="8" value="4" data-ctrl="cppiMult"></div>
     </div>
   </div>
   <div class="callout info"><strong>1987 crash.</strong> Portfolio-insurance selling through index futures amplified Black Monday, according to the Brady Report — a cautionary tale about mechanical hedging.</div>
@@ -1249,7 +1249,7 @@ function buildCurrencyHedging() {
     <div class="vl">// Interactive — hedge ratio and FX exposure</div>
     <canvas id="cvs-currency-hedging" role="img" aria-label="Currency Hedging: Interactive — hedge ratio and FX exposure" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Hedge ratio %</span><input type="range" min="0" max="100" value="50" data-ctrl="hedgeRatio"></div>
+      <div class="cg"><span class="cl">Hedge ratio %</span><input type="range" aria-label="Hedge ratio %" min="0" max="100" value="50" data-ctrl="hedgeRatio"></div>
     </div>
   </div>
   <table class="mt">
@@ -1293,7 +1293,7 @@ function buildBenchmarkTracking() {
     <div class="vl">// Interactive — active share and tracking error</div>
     <canvas id="cvs-benchmark-tracking" role="img" aria-label="Benchmark Tracking: Interactive — active share and tracking error" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Active share %</span><input type="range" min="10" max="90" value="50" data-ctrl="activeShare"></div>
+      <div class="cg"><span class="cl">Active share %</span><input type="range" aria-label="Active share %" min="10" max="90" value="50" data-ctrl="activeShare"></div>
     </div>
   </div>
   <div class="callout info"><strong>Closet indexing.</strong> A fund with high fees but low active share is a bad deal — pay passive fees for passive exposure.</div>
@@ -1356,7 +1356,7 @@ function buildDrawdownAnalysis() {
     <div class="vl">// Interactive — volatility and underwater equity curve</div>
     <canvas id="cvs-drawdown-analysis" role="img" aria-label="Drawdown Analysis: Interactive — volatility and underwater equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Volatility</span><input type="range" min="5" max="40" value="15" data-ctrl="ddVol"></div>
+      <div class="cg"><span class="cl">Volatility</span><input type="range" aria-label="Volatility" min="5" max="40" value="15" data-ctrl="ddVol"></div>
     </div>
   </div>
   <table class="mt">

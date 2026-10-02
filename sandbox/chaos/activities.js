@@ -255,7 +255,7 @@ function buildContent() {
 
 function buildLogisticMap() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Logistic <em style="font-style:italic;color:#ff8a65;">Map</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Logistic <em style="font-style:italic;color:var(--lab-ink);">Map</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       A single formula, one parameter. Drag ${T('r','Growth rate — the single parameter that controls the entire system. Below 3: stable. Near 3.45: period doubling. Above 3.57: chaos.')} from left to right and watch order give way to chaos.
     </p>
@@ -265,13 +265,13 @@ function buildLogisticMap() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Growth rate ${T('r','The bifurcation parameter. Every qualitative change in the system — fixed point, period-2, period-4, chaos — is caused solely by this number.')}</label>
-        <input type="range" id="lmR" min="2.4" max="4.0" step="0.01" value="2.8"
+        <input aria-label="Growth rate r" type="range" id="lmR" min="2.4" max="4.0" step="0.01" value="2.8"
                oninput="document.getElementById('lmRV').textContent=parseFloat(this.value).toFixed(2);ENGINE.drawLogisticMap()">
         <span class="ctrl-val" id="lmRV">2.80</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Starting value ${T('x₀','The initial condition — a number between 0 and 1. In the chaotic regime, changing this by 0.001 eventually sends the trajectory somewhere completely different.')}</label>
-        <input type="range" id="lmX0" min="0.01" max="0.99" step="0.01" value="0.5"
+        <input aria-label="Starting value x₀" type="range" id="lmX0" min="0.01" max="0.99" step="0.01" value="0.5"
                oninput="document.getElementById('lmX0V').textContent=parseFloat(this.value).toFixed(2);ENGINE.drawLogisticMap()">
         <span class="ctrl-val" id="lmX0V">0.50</span>
       </div>
@@ -284,7 +284,7 @@ function buildLogisticMap() {
 
 function buildButterflyEffect() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Butterfly <em style="font-style:italic;color:#ff8a65;">Effect</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Butterfly <em style="font-style:italic;color:var(--lab-ink);">Effect</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       Two simulations, almost identical starts. Watch them track together — then diverge completely.
     </p>
@@ -294,13 +294,13 @@ function buildButterflyEffect() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Growth rate ${T('r','Keep r in the chaos zone (above 3.57) to see divergence. Below it, both trajectories settle to the same attractor.')}</label>
-        <input type="range" id="beR" min="3.5" max="4.0" step="0.01" value="3.9"
+        <input aria-label="Growth rate r" type="range" id="beR" min="3.5" max="4.0" step="0.01" value="3.9"
                oninput="document.getElementById('beRV').textContent=parseFloat(this.value).toFixed(2);ENGINE.drawButterflyEffect()">
         <span class="ctrl-val" id="beRV">3.90</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Initial separation ${T('ε','Epsilon — the tiny difference between the two starting values. Even ε = 0.000001 eventually causes complete divergence in a chaotic system.')}</label>
-        <select id="beEps" onchange="ENGINE.drawButterflyEffect()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
+        <select aria-label="Initial separation ε" id="beEps" onchange="ENGINE.drawButterflyEffect()" style="font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;">
           <option value="0.1">ε = 0.1</option>
           <option value="0.01">ε = 0.01</option>
           <option value="0.001" selected>ε = 0.001</option>
@@ -317,7 +317,7 @@ function buildButterflyEffect() {
 
 function buildBifurcation() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Bifurcation <em style="font-style:italic;color:#ff8a65;">Diagram</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Bifurcation <em style="font-style:italic;color:var(--lab-ink);">Diagram</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       Every stable state for every ${T('r','Growth rate — x-axis runs from r = 2.5 to r = 4.0. Each vertical slice shows all values the system visits at that r.')} — the complete portrait of the logistic map. The onset of chaos, rendered all at once.
     </p>
@@ -337,7 +337,7 @@ function buildBifurcation() {
 
 function buildLorenzAttractor() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Lorenz <em style="font-style:italic;color:#ff8a65;">Attractor</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">The Lorenz <em style="font-style:italic;color:var(--lab-ink);">Attractor</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       Deterministic equations, infinite non-repeating path. The butterfly that started chaos theory.
     </p>
@@ -347,13 +347,13 @@ function buildLorenzAttractor() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">${T('ρ','Rho — the Rayleigh number. Controls how vigorously the convection rolls. Below 24.74: fixed point. Above: chaos. Classic value: 28.')}</label>
-        <input type="range" id="lorRho" min="10" max="60" step="0.5" value="28"
+        <input aria-label="ρ" type="range" id="lorRho" min="10" max="60" step="0.5" value="28"
                oninput="document.getElementById('lorRhoV').textContent=parseFloat(this.value).toFixed(1);ENGINE.restartLorenz()">
         <span class="ctrl-val" id="lorRhoV">28.0</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Speed</label>
-        <input type="range" id="lorSpeed" min="1" max="8" step="1" value="3"
+        <input aria-label="Speed" type="range" id="lorSpeed" min="1" max="8" step="1" value="3"
                oninput="document.getElementById('lorSpeedV').textContent=this.value+'×'">
         <span class="ctrl-val" id="lorSpeedV">3×</span>
       </div>
@@ -367,7 +367,7 @@ function buildLorenzAttractor() {
 
 function buildWolframRules() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Wolfram's <em style="font-style:italic;color:#ff8a65;">Rules</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Wolfram's <em style="font-style:italic;color:var(--lab-ink);">Rules</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       256 rules. Each a universe. From uniform grey to universal computation.
     </p>
@@ -377,7 +377,7 @@ function buildWolframRules() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Rule ${T('N','Rule number 0–255. Each bit in its binary representation defines the output for one of the 8 possible 3-cell neighbourhood patterns.')}</label>
-        <input type="range" id="wolRule" min="0" max="255" step="1" value="90"
+        <input aria-label="Rule N" type="range" id="wolRule" min="0" max="255" step="1" value="90"
                oninput="document.getElementById('wolRuleV').textContent=this.value;ENGINE.drawWolfram()">
         <span class="ctrl-val" id="wolRuleV">90</span>
       </div>
@@ -396,7 +396,7 @@ function buildWolframRules() {
 
 function buildGameOfLife() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Conway's Game <em style="font-style:italic;color:#ff8a65;">of Life</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;margin-bottom:8px;">Conway's Game <em style="font-style:italic;color:var(--lab-ink);">of Life</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
       Four rules. Click to paint cells, then press Run. No designer — only emergence.
     </p>
@@ -410,7 +410,7 @@ function buildGameOfLife() {
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Speed</label>
-        <input type="range" id="golSpeed" min="1" max="20" step="1" value="6"
+        <input aria-label="Speed" type="range" id="golSpeed" min="1" max="20" step="1" value="6"
                oninput="document.getElementById('golSpeedV').textContent=this.value+'fps'">
         <span class="ctrl-val" id="golSpeedV">6fps</span>
       </div>

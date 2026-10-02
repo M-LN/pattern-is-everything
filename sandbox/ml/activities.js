@@ -310,7 +310,7 @@ function buildContent() {
 
 function buildLinearRegression() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Linear Regression <em style="font-style:italic;color:#4fc3f7;">Playground</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Linear Regression <em style="font-style:italic;color:var(--lab-ink);">Playground</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Click on the canvas to place data points. Hit <strong>Fit Line</strong> to watch gradient descent find the best-fit line in real-time. Adjust the learning rate to see how it affects convergence.
     </p>
@@ -322,12 +322,12 @@ function buildLinearRegression() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Learning Rate</label>
-        <input type="range" id="lrRate" min="0.001" max="1" step="0.001" value="0.05">
+        <input aria-label="Learning Rate" type="range" id="lrRate" min="0.001" max="1" step="0.001" value="0.05">
         <span class="ctrl-val" id="lrRateV">0.050</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Iterations</label>
-        <input type="range" id="lrIter" min="5" max="200" step="1" value="50">
+        <input aria-label="Iterations" type="range" id="lrIter" min="5" max="200" step="1" value="50">
         <span class="ctrl-val" id="lrIterV">50</span>
       </div>
       <div class="ctrl-buttons">
@@ -369,7 +369,7 @@ function buildLinearRegression() {
 
 function buildKMeans() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">K-Means <em style="font-style:italic;color:#4fc3f7;">Clustering</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">K-Means <em style="font-style:italic;color:var(--lab-ink);">Clustering</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Click to place data points on the canvas. Choose K and step through the algorithm — watch centroids move and Voronoi-style regions form.
     </p>
@@ -381,7 +381,7 @@ function buildKMeans() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">K (clusters)</label>
-        <input type="range" id="kmK" min="2" max="6" step="1" value="3">
+        <input aria-label="K (clusters)" type="range" id="kmK" min="2" max="6" step="1" value="3">
         <span class="ctrl-val" id="kmKV">3</span>
       </div>
       <div class="ctrl-buttons">
@@ -424,7 +424,7 @@ function buildKMeans() {
 /* ── Build: Classification Boundary ── */
 function buildClassificationBoundary() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Classification <em style="font-style:italic;color:#4fc3f7;">Boundary</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Classification <em style="font-style:italic;color:var(--lab-ink);">Boundary</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Click to place <strong style="color:#4fc3f7">Class A</strong> points. <strong>Shift+Click</strong> for <strong style="color:#e57373">Class B</strong>. Train to see the decision boundary.
     </p>
@@ -436,14 +436,14 @@ function buildClassificationBoundary() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Algorithm</label>
-        <select id="cbAlgo" class="sb-select" onchange="ENGINE.setCBAlgo(this.value)">
+        <select aria-label="Algorithm" id="cbAlgo" class="sb-select" onchange="ENGINE.setCBAlgo(this.value)">
           <option value="knn" selected>K-Nearest Neighbors</option>
           <option value="logistic">Logistic Regression</option>
         </select>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">K (for KNN)</label>
-        <input type="range" id="cbK" min="1" max="15" step="2" value="5">
+        <input aria-label="K (for KNN)" type="range" id="cbK" min="1" max="15" step="2" value="5">
         <span class="ctrl-val" id="cbKV">5</span>
       </div>
       <div class="ctrl-buttons">
@@ -486,7 +486,7 @@ function buildClassificationBoundary() {
 /* ── Build: Neural Network Builder ── */
 function buildNeuralNetwork() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Neural Network <em style="font-style:italic;color:#4fc3f7;">Builder</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Neural Network <em style="font-style:italic;color:var(--lab-ink);">Builder</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Pick a dataset, build a network, and watch it learn a decision boundary epoch by epoch. The loss curve shows training progress.
     </p>
@@ -498,7 +498,7 @@ function buildNeuralNetwork() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Dataset</label>
-        <select id="nnDataset" class="sb-select">
+        <select aria-label="Dataset" id="nnDataset" class="sb-select">
           <option value="xor">XOR</option>
           <option value="circle">Circle</option>
           <option value="spiral">Spiral</option>
@@ -507,17 +507,17 @@ function buildNeuralNetwork() {
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Hidden Neurons</label>
-        <input type="range" id="nnNeurons" min="2" max="8" step="1" value="4">
+        <input aria-label="Hidden Neurons" type="range" id="nnNeurons" min="2" max="8" step="1" value="4">
         <span class="ctrl-val" id="nnNeuronsV">4</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Learning Rate</label>
-        <input type="range" id="nnLR" min="0.01" max="2" step="0.01" value="0.5">
+        <input aria-label="Learning Rate" type="range" id="nnLR" min="0.01" max="2" step="0.01" value="0.5">
         <span class="ctrl-val" id="nnLRV">0.50</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Activation</label>
-        <select id="nnActivation" class="sb-select">
+        <select aria-label="Activation" id="nnActivation" class="sb-select">
           <option value="relu">ReLU</option>
           <option value="sigmoid">Sigmoid</option>
           <option value="tanh">Tanh</option>
@@ -562,7 +562,7 @@ function buildNeuralNetwork() {
 /* ── Build: Feature Scaling Demo ── */
 function buildFeatureScaling() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Feature Scaling <em style="font-style:italic;color:#4fc3f7;">Demo</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Feature Scaling <em style="font-style:italic;color:var(--lab-ink);">Demo</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       See how normalization transforms data and speeds up gradient descent. Left = raw data, Right = scaled data. Watch convergence speed difference.
     </p>
@@ -574,7 +574,7 @@ function buildFeatureScaling() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Scaling Method</label>
-        <select id="fsMethod" class="sb-select" onchange="ENGINE.setFSMethod(this.value)">
+        <select aria-label="Scaling Method" id="fsMethod" class="sb-select" onchange="ENGINE.setFSMethod(this.value)">
           <option value="minmax">Min-Max [0, 1]</option>
           <option value="zscore">Z-Score (μ=0, σ=1)</option>
           <option value="robust">Robust (IQR-based)</option>
@@ -620,7 +620,7 @@ function buildFeatureScaling() {
 /* ── Build: Timeseries Forecasting ── */
 function buildTimeseriesForecast() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Timeseries <em style="font-style:italic;color:#4fc3f7;">Forecasting</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Timeseries <em style="font-style:italic;color:var(--lab-ink);">Forecasting</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Generate different time series patterns, forecast with 8 methods, compare them all, and project into the future.
     </p>
@@ -632,7 +632,7 @@ function buildTimeseriesForecast() {
     <div class="sandbox-controls">
       <div class="ctrl-row">
         <label class="ctrl-label">Data Type</label>
-        <select id="tsDataType" class="sb-select" onchange="ENGINE.setTSDataType(this.value)">
+        <select aria-label="Data Type" id="tsDataType" class="sb-select" onchange="ENGINE.setTSDataType(this.value)">
           <option value="trend-season">Trend + Seasonal</option>
           <option value="trend-only">Trend Only</option>
           <option value="seasonal-only">Seasonal Only</option>
@@ -646,7 +646,7 @@ function buildTimeseriesForecast() {
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Method</label>
-        <select id="tsMethod" class="sb-select" onchange="ENGINE.setTSMethod(this.value)">
+        <select aria-label="Method" id="tsMethod" class="sb-select" onchange="ENGINE.setTSMethod(this.value)">
           <option value="ma">Moving Average</option>
           <option value="wma">Weighted Moving Average</option>
           <option value="es">Exponential Smoothing</option>
@@ -663,32 +663,32 @@ function buildTimeseriesForecast() {
       </div>
       <div class="ctrl-row" id="tsWindowRow">
         <label class="ctrl-label">Window</label>
-        <input type="range" id="tsWindow" min="3" max="20" step="1" value="5">
+        <input aria-label="Window" type="range" id="tsWindow" min="3" max="20" step="1" value="5">
         <span class="ctrl-val" id="tsWindowV">5</span>
       </div>
       <div class="ctrl-row" id="tsAlphaRow" style="display:none;">
         <label class="ctrl-label">Alpha (α)</label>
-        <input type="range" id="tsAlpha" min="0.05" max="0.95" step="0.05" value="0.3">
+        <input aria-label="Alpha (α)" type="range" id="tsAlpha" min="0.05" max="0.95" step="0.05" value="0.3">
         <span class="ctrl-val" id="tsAlphaV">0.30</span>
       </div>
       <div class="ctrl-row" id="tsBetaRow" style="display:none;">
         <label class="ctrl-label">Beta (β)</label>
-        <input type="range" id="tsBeta" min="0.01" max="0.5" step="0.01" value="0.1">
+        <input aria-label="Beta (β)" type="range" id="tsBeta" min="0.01" max="0.5" step="0.01" value="0.1">
         <span class="ctrl-val" id="tsBetaV">0.10</span>
       </div>
       <div class="ctrl-row" id="tsGammaRow" style="display:none;">
         <label class="ctrl-label">Gamma (γ)</label>
-        <input type="range" id="tsGamma" min="0.01" max="0.5" step="0.01" value="0.1">
+        <input aria-label="Gamma (γ)" type="range" id="tsGamma" min="0.01" max="0.5" step="0.01" value="0.1">
         <span class="ctrl-val" id="tsGammaV">0.10</span>
       </div>
       <div class="ctrl-row" id="tsSeasonRow" style="display:none;">
         <label class="ctrl-label">Season Length</label>
-        <input type="range" id="tsSeason" min="4" max="24" step="1" value="12">
+        <input aria-label="Season Length" type="range" id="tsSeason" min="4" max="24" step="1" value="12">
         <span class="ctrl-val" id="tsSeasonV">12</span>
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Horizon (future)</label>
-        <input type="range" id="tsHorizon" min="0" max="30" step="1" value="0">
+        <input aria-label="Horizon (future)" type="range" id="tsHorizon" min="0" max="30" step="1" value="0">
         <span class="ctrl-val" id="tsHorizonV">0</span>
       </div>
       <div class="ctrl-buttons">
@@ -747,7 +747,7 @@ function buildTimeseriesForecast() {
 /* ── Build: PCA Visualization ── */
 function buildPcaVisualizer() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">PCA <em style="font-style:italic;color:#4fc3f7;">Visualization</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">PCA <em style="font-style:italic;color:var(--lab-ink);">Visualization</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Click to place 2D data points. Hit <strong>Compute PCA</strong> to find principal components — eigenvectors show the directions of maximum variance.
     </p>
@@ -799,7 +799,7 @@ function buildPcaVisualizer() {
 /* ── Build: Decision Tree ── */
 function buildDecisionTree() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Decision <em style="font-style:italic;color:#4fc3f7;">Tree</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Decision <em style="font-style:italic;color:var(--lab-ink);">Tree</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Toggle class below, then click to place points. Train to see axis-aligned decision splits.
     </p>
@@ -815,7 +815,7 @@ function buildDecisionTree() {
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Max Depth</label>
-        <input type="range" id="dtDepth" min="1" max="4" step="1" value="2">
+        <input aria-label="Max Depth" type="range" id="dtDepth" min="1" max="4" step="1" value="2">
         <span class="ctrl-val" id="dtDepthV">2</span>
       </div>
       <div class="ctrl-buttons">
@@ -859,7 +859,7 @@ function buildDecisionTree() {
 /* ── Build: Anomaly Detection ── */
 function buildAnomalyDetection() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Anomaly <em style="font-style:italic;color:#4fc3f7;">Detection</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Anomaly <em style="font-style:italic;color:var(--lab-ink);">Detection</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Toggle point type below, then click to place. Hit Detect to fit a Gaussian envelope and flag anomalies.
     </p>
@@ -875,7 +875,7 @@ function buildAnomalyDetection() {
       </div>
       <div class="ctrl-row">
         <label class="ctrl-label">Threshold (percentile)</label>
-        <input type="range" id="adThresh" min="90" max="99" step="1" value="95">
+        <input aria-label="Threshold (percentile)" type="range" id="adThresh" min="90" max="99" step="1" value="95">
         <span class="ctrl-val" id="adThreshV">95</span>
       </div>
       <div class="ctrl-buttons">

@@ -218,7 +218,7 @@ function difficultyDots(level) {
   for (let i = 1; i <= 3; i++) {
     dots += `<span class="dd-dot${i <= rank ? ' on' : ''}"></span>`;
   }
-  return `<span class="difficulty" title="${escapeHTML(level)} difficulty" aria-label="${escapeHTML(level)} difficulty">${dots}</span>`;
+  return `<span class="difficulty" role="img" title="${escapeHTML(level)} difficulty" aria-label="${escapeHTML(level)} difficulty">${dots}</span>`;
 }
 
 function renderCase(caseData) {

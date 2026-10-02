@@ -1018,8 +1018,8 @@ function buildVectors() {
     <div class="vl">// Interactive 2D vectors — drag to change, see dot product</div>
     <canvas id="vecCanvas" role="img" aria-label="Vectors &amp; Matrices: Interactive 2D vectors — drag to change, see dot product" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Vector A angle</span><input type="range" id="vecA" min="0" max="360" step="1" value="30"><span class="vd" id="vecAv">30°</span></div>
-      <div class="cg"><span class="cl">Vector B angle</span><input type="range" id="vecB" min="0" max="360" step="1" value="80"><span class="vd" id="vecBv">80°</span></div>
+      <div class="cg"><span class="cl">Vector A angle</span><input type="range" aria-label="Vector A angle" id="vecA" min="0" max="360" step="1" value="30"><span class="vd" id="vecAv">30°</span></div>
+      <div class="cg"><span class="cl">Vector B angle</span><input type="range" aria-label="Vector B angle" id="vecB" min="0" max="360" step="1" value="80"><span class="vd" id="vecBv">80°</span></div>
       <div class="cg"><span class="cl">Dot Product</span><span class="vd" id="vecDot" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1063,8 +1063,8 @@ function buildLinear() {
     <div class="vl">// Interactive — drag sliders to fit the line</div>
     <canvas id="linCanvas" role="img" aria-label="Linear Regression: Interactive — drag sliders to fit the line" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Weight w</span><input type="range" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
-      <div class="cg"><span class="cl">Bias b</span><input type="range" id="linB" min="-3" max="3" step="0.05" value="0"><span class="vd" id="linBv">0.00</span></div>
+      <div class="cg"><span class="cl">Weight w</span><input type="range" aria-label="Weight w" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
+      <div class="cg"><span class="cl">Bias b</span><input type="range" aria-label="Bias b" id="linB" min="-3" max="3" step="0.05" value="0"><span class="vd" id="linBv">0.00</span></div>
       <div class="cg"><span class="cl">MSE</span><span class="vd" id="linMSE" style="color:var(--accent)">—</span></div>
       <button class="btn" onclick="bestFit()">BEST FIT</button>
     </div>
@@ -1091,8 +1091,8 @@ function buildLogistic() {
     <div class="vl">// Decision boundary — adjust weight and bias</div>
     <canvas id="logCanvas" role="img" aria-label="Logistic Regression: Decision boundary — adjust weight and bias" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Weight w</span><input type="range" id="logW" min="-5" max="5" step="0.1" value="2"><span class="vd" id="logWv">2.0</span></div>
-      <div class="cg"><span class="cl">Bias b</span><input type="range" id="logBias" min="-5" max="5" step="0.1" value="0"><span class="vd" id="logBiasV">0.0</span></div>
+      <div class="cg"><span class="cl">Weight w</span><input type="range" aria-label="Weight w" id="logW" min="-5" max="5" step="0.1" value="2"><span class="vd" id="logWv">2.0</span></div>
+      <div class="cg"><span class="cl">Bias b</span><input type="range" aria-label="Bias b" id="logBias" min="-5" max="5" step="0.1" value="0"><span class="vd" id="logBiasV">0.0</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># PyTorch logistic regression</span>
@@ -1131,7 +1131,7 @@ function buildGradient() {
     <div class="vl">// Animated loss landscape — adjust learning rate and run</div>
     <canvas id="gdCanvas" role="img" aria-label="Gradient Descent: Animated loss landscape — adjust learning rate and run" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Learning Rate α</span><input type="range" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
+      <div class="cg"><span class="cl">Learning Rate α</span><input type="range" aria-label="Learning Rate α" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
       <div class="cg"><span class="cl">Steps</span><span class="vd" id="gdSteps">0</span></div>
       <button class="btn" onclick="runGD()">▶ RUN</button>
       <button class="btn" onclick="resetGD()">↺ RESET</button>
@@ -1240,7 +1240,7 @@ function buildBiasVariance() {
     <div class="vl">// Model complexity vs. error — the classic U-curve</div>
     <canvas id="bvCanvas" role="img" aria-label="Bias-Variance Tradeoff: Model complexity vs. error — the classic U-curve" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Model Complexity</span><input type="range" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
+      <div class="cg"><span class="cl">Model Complexity</span><input type="range" aria-label="Model Complexity" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
       <div class="cg"><span class="cl">Bias²</span><span class="vd" id="bvBias" style="color:var(--accent)">—</span></div>
       <div class="cg"><span class="cl">Variance</span><span class="vd" id="bvVar" style="color:var(--accent3)">—</span></div>
     </div>
@@ -1298,7 +1298,7 @@ function buildLoss() {
     <div class="vl">// MSE vs MAE vs Huber — drag to see how penalty scales with error</div>
     <canvas id="lossCanvas" role="img" aria-label="Loss Functions: MSE vs MAE vs Huber — drag to see how penalty scales with error" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Error magnitude</span><input type="range" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
+      <div class="cg"><span class="cl">Error magnitude</span><input type="range" aria-label="Error magnitude" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
       <div class="cg"><span class="cl">MSE</span><span class="vd" id="mseP">1.000</span></div>
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="maeP" style="color:var(--accent2)">1.000</span></div>
     </div>
@@ -1386,7 +1386,7 @@ function buildRegularization() {
     <div class="ctrl">
       <button class="btn" onclick="drawReg('l2')">L2 (RIDGE)</button>
       <button class="btn b2" onclick="drawReg('l1')">L1 (LASSO)</button>
-      <div class="cg"><span class="cl">λ strength</span><input type="range" id="regLambda" min="0.1" max="3" step="0.1" value="1" oninput="drawReg(currentReg)"><span class="vd" id="regLVal">1.0</span></div>
+      <div class="cg"><span class="cl">λ strength</span><input type="range" aria-label="λ strength" id="regLambda" min="0.1" max="3" step="0.1" value="1" oninput="drawReg(currentReg)"><span class="vd" id="regLVal">1.0</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># L2 via weight_decay in optimizer</span>
@@ -1544,7 +1544,7 @@ function buildGradClip() {
     <div class="vl">// Gradient norm over training — with and without clipping</div>
     <canvas id="clipCanvas" role="img" aria-label="Gradient Clipping: Gradient norm over training — with and without clipping" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Max Norm</span><input type="range" id="clipMax" min="0.1" max="5" step="0.1" value="1" oninput="drawClip()"><span class="vd" id="clipMaxV">1.0</span></div>
+      <div class="cg"><span class="cl">Max Norm</span><input type="range" aria-label="Max Norm" id="clipMax" min="0.1" max="5" step="0.1" value="1" oninput="drawClip()"><span class="vd" id="clipMaxV">1.0</span></div>
       <button class="btn" onclick="drawClip()">REDRAW</button>
     </div>
   </div>
@@ -1596,8 +1596,8 @@ function buildMLE() {
     <div class="vl">// Gaussian distribution — adjust mean and variance</div>
     <canvas id="gaussCanvas" role="img" aria-label="MLE &amp; Gaussian: Gaussian distribution — adjust mean and variance" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Mean μ</span><input type="range" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
-      <div class="cg"><span class="cl">Std σ</span><input type="range" id="gaussSig" min="0.2" max="2.5" step="0.1" value="1" oninput="drawGauss()"><span class="vd" id="gaussSigV">1.0</span></div>
+      <div class="cg"><span class="cl">Mean μ</span><input type="range" aria-label="Mean μ" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
+      <div class="cg"><span class="cl">Std σ</span><input type="range" aria-label="Std σ" id="gaussSig" min="0.2" max="2.5" step="0.1" value="1" oninput="drawGauss()"><span class="vd" id="gaussSigV">1.0</span></div>
     </div>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Training with MSE loss = assuming your errors are Gaussian distributed. Training with Cross-Entropy = assuming Bernoulli/Categorical outputs. The loss function encodes your distributional assumption.</div>
@@ -1623,7 +1623,7 @@ function buildEntropy() {
     <div class="vl">// Binary entropy — adjust probability of heads</div>
     <canvas id="entropyCanvas" role="img" aria-label="Entropy: Binary entropy — adjust probability of heads" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">P(heads)</span><input type="range" id="entP" min="0.01" max="0.99" step="0.01" value="0.5" oninput="drawEntropy()"><span class="vd" id="entPV">0.50</span></div>
+      <div class="cg"><span class="cl">P(heads)</span><input type="range" aria-label="P(heads)" id="entP" min="0.01" max="0.99" step="0.01" value="0.5" oninput="drawEntropy()"><span class="vd" id="entPV">0.50</span></div>
       <div class="cg"><span class="cl">Entropy</span><span class="vd" id="entHV" style="color:var(--accent)">1.000 bits</span></div>
     </div>
   </div>
@@ -1649,7 +1649,7 @@ function buildKLDiv() {
     <div class="vl">// Visualise KL divergence between two Gaussians</div>
     <canvas id="klCanvas" role="img" aria-label="KL Divergence: Visualise KL divergence between two Gaussians" height="230"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Q mean offset</span><input type="range" id="klOffset" min="0" max="4" step="0.1" value="1" oninput="drawKL()"><span class="vd" id="klOffV">1.0</span></div>
+      <div class="cg"><span class="cl">Q mean offset</span><input type="range" aria-label="Q mean offset" id="klOffset" min="0" max="4" step="0.1" value="1" oninput="drawKL()"><span class="vd" id="klOffV">1.0</span></div>
       <div class="cg"><span class="cl">KL(P||Q)</span><span class="vd" id="klVal" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1673,8 +1673,8 @@ function buildBayes() {
     <div class="vl">// Medical test — posterior probability after positive result</div>
     <canvas id="bayesCanvas" role="img" aria-label="Bayes' Theorem: Medical test — posterior probability after positive result" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
-      <div class="cg"><span class="cl">Sensitivity %</span><input type="range" id="sensS" min="50" max="99" step="1" value="95" oninput="onBayes()"><span class="vd" id="sensV">95%</span></div>
+      <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" aria-label="Prior P(disease) %" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
+      <div class="cg"><span class="cl">Sensitivity %</span><input type="range" aria-label="Sensitivity %" id="sensS" min="50" max="99" step="1" value="95" oninput="onBayes()"><span class="vd" id="sensV">95%</span></div>
       <div class="cg"><span class="cl">Posterior</span><span class="vd" id="postV" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1699,7 +1699,7 @@ function buildCrossval() {
     <div class="vl">// k-fold cross-validation — click to cycle through folds</div>
     <canvas id="cvCanvas" role="img" aria-label="Cross-Validation: k-fold cross-validation — click to cycle through folds" height="200"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">k folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
+      <div class="cg"><span class="cl">k folds</span><input type="range" aria-label="k folds" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
       <button class="btn" onclick="animCV()">▶ CYCLE FOLDS</button>
     </div>
   </div>
@@ -1730,9 +1730,9 @@ function buildMetrics() {
     <div class="vl">// Interactive confusion matrix</div>
     <canvas id="metricsCanvas" role="img" aria-label="Eval Metrics: Interactive confusion matrix" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">True Positives</span><input type="range" id="mTP" min="1" max="100" step="1" value="80" oninput="drawMetrics()"><span class="vd" id="mTPv">80</span></div>
-      <div class="cg"><span class="cl">False Positives</span><input type="range" id="mFP" min="0" max="50" step="1" value="10" oninput="drawMetrics()"><span class="vd" id="mFPv">10</span></div>
-      <div class="cg"><span class="cl">False Negatives</span><input type="range" id="mFN" min="0" max="50" step="1" value="20" oninput="drawMetrics()"><span class="vd" id="mFNv">20</span></div>
+      <div class="cg"><span class="cl">True Positives</span><input type="range" aria-label="True Positives" id="mTP" min="1" max="100" step="1" value="80" oninput="drawMetrics()"><span class="vd" id="mTPv">80</span></div>
+      <div class="cg"><span class="cl">False Positives</span><input type="range" aria-label="False Positives" id="mFP" min="0" max="50" step="1" value="10" oninput="drawMetrics()"><span class="vd" id="mFPv">10</span></div>
+      <div class="cg"><span class="cl">False Negatives</span><input type="range" aria-label="False Negatives" id="mFN" min="0" max="50" step="1" value="20" oninput="drawMetrics()"><span class="vd" id="mFNv">20</span></div>
     </div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Precision and recall trade off like <a href="../stats/#hypothesis-testing">Type I and Type II errors</a> in hypothesis testing. In markets, a <a href="../markets/indicators/#macd">MACD signal</a> has the same tradeoff: too sensitive (false positives) vs. too slow (missed moves).</div>
@@ -1756,7 +1756,7 @@ function buildCosineSim() {
     <div class="vl">// Two vectors — adjust angle to see similarity change</div>
     <canvas id="cosCanvas" role="img" aria-label="Cosine Similarity: Two vectors — adjust angle to see similarity change" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Angle between vectors</span><input type="range" id="cosAngle" min="0" max="180" step="1" value="30" oninput="drawCosSim()"><span class="vd" id="cosAngleV">30°</span></div>
+      <div class="cg"><span class="cl">Angle between vectors</span><input type="range" aria-label="Angle between vectors" id="cosAngle" min="0" max="180" step="1" value="30" oninput="drawCosSim()"><span class="vd" id="cosAngleV">30°</span></div>
       <div class="cg"><span class="cl">Cosine Sim</span><span class="vd" id="cosSimV" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1789,8 +1789,8 @@ function buildCNN() {
     <div class="vl">// Convolution operation — kernel sliding over input</div>
     <canvas id="cnnCanvas" role="img" aria-label="CNN: Convolution operation — kernel sliding over input" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
-      <div class="cg"><span class="cl">Stride</span><input type="range" id="cnnS" min="1" max="3" step="1" value="1" oninput="drawCNN()"><span class="vd" id="cnnSV">1</span></div>
+      <div class="cg"><span class="cl">Kernel Size</span><input type="range" aria-label="Kernel Size" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
+      <div class="cg"><span class="cl">Stride</span><input type="range" aria-label="Stride" id="cnnS" min="1" max="3" step="1" value="1" oninput="drawCNN()"><span class="vd" id="cnnSV">1</span></div>
       <button class="btn" onclick="animCNN()">▶ ANIMATE</button>
     </div>
   </div>
@@ -1931,7 +1931,7 @@ function buildRNN() {
     <div class="vl">// RNN unrolled through time</div>
     <canvas id="rnnCanvas" role="img" aria-label="RNN unrolled through time" height="250"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Seq length</span><input type="range" id="rnnLen" min="3" max="6" step="1" value="4" oninput="document.getElementById('rnnLenV').textContent=this.value;drawRNN()"><span class="vd" id="rnnLenV">4</span></div>
+      <div class="cg"><span class="cl">Seq length</span><input type="range" aria-label="Seq length" id="rnnLen" min="3" max="6" step="1" value="4" oninput="document.getElementById('rnnLenV').textContent=this.value;drawRNN()"><span class="vd" id="rnnLenV">4</span></div>
       <button class="btn" onclick="animRNN()">▶ ANIMATE</button>
       <button class="btn" onclick="resetRNN()">↺ RESET</button>
       <span id="rnnMsg" style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:8px">Click Animate</span>
@@ -2012,7 +2012,7 @@ function buildPCA() {
     <div class="vl">// 2D data with principal components — adjust correlation</div>
     <canvas id="pcaCanvas" role="img" aria-label="PCA: 2D data with principal components — adjust correlation" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Correlation</span><input type="range" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
+      <div class="cg"><span class="cl">Correlation</span><input type="range" aria-label="Correlation" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
       <div class="cg"><span class="cl">PC1 explains</span><span class="vd" id="pc1V">—</span></div>
       <div class="cg"><span class="cl">PC2 explains</span><span class="vd" id="pc2V" style="color:var(--accent)">—</span></div>
     </div>
@@ -2038,7 +2038,7 @@ function buildSVD() {
     <div class="vl">// Low-rank approximation — how many singular values do you need?</div>
     <canvas id="svdCanvas" role="img" aria-label="SVD: Low-rank approximation — how many singular values do you need?" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Rank r</span><input type="range" id="svdR" min="1" max="10" step="1" value="3" oninput="drawSVD()"><span class="vd" id="svdRV">3</span></div>
+      <div class="cg"><span class="cl">Rank r</span><input type="range" aria-label="Rank r" id="svdR" min="1" max="10" step="1" value="3" oninput="drawSVD()"><span class="vd" id="svdRV">3</span></div>
       <div class="cg"><span class="cl">Energy kept</span><span class="vd" id="svdEnergy" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -2101,7 +2101,7 @@ function buildDiffusion() {
     <div class="vl">// Forward diffusion — noise being added over timesteps</div>
     <canvas id="diffCanvas" role="img" aria-label="Diffusion Models: Forward diffusion — noise being added over timesteps" height="240"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Timestep t</span><input type="range" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
+      <div class="cg"><span class="cl">Timestep t</span><input type="range" aria-label="Timestep t" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
       <button class="btn" onclick="animDiff()">▶ FORWARD PROCESS</button>
     </div>
   </div>
@@ -2195,8 +2195,8 @@ function buildLoRA() {
     <div class="vl">// Parameter savings — full fine-tuning vs LoRA</div>
     <canvas id="loraCanvas" role="img" aria-label="LoRA: Parameter savings — full fine-tuning vs LoRA" height="220"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Model dim d</span><input type="range" id="loraD" min="256" max="8192" step="256" value="4096" oninput="drawLoRA()"><span class="vd" id="loraDV">4096</span></div>
-      <div class="cg"><span class="cl">Rank r</span><input type="range" id="loraR" min="1" max="64" step="1" value="16" oninput="drawLoRA()"><span class="vd" id="loraRV">16</span></div>
+      <div class="cg"><span class="cl">Model dim d</span><input type="range" aria-label="Model dim d" id="loraD" min="256" max="8192" step="256" value="4096" oninput="drawLoRA()"><span class="vd" id="loraDV">4096</span></div>
+      <div class="cg"><span class="cl">Rank r</span><input type="range" aria-label="Rank r" id="loraR" min="1" max="64" step="1" value="16" oninput="drawLoRA()"><span class="vd" id="loraRV">16</span></div>
       <div class="cg"><span class="cl">Savings</span><span class="vd" id="loraSave" style="color:var(--accent2)">—</span></div>
     </div>
   </div>

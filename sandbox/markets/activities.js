@@ -247,7 +247,7 @@ function buildContent() {
 
 function buildIndicatorPlayground() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Indicator <em style="font-style:italic;color:#81c784;">Playground</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Indicator <em style="font-style:italic;color:var(--lab-ink);">Playground</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Toggle technical indicators on a generated candlestick chart. Watch how each indicator reacts to price movement — combine them to understand convergence and divergence.
     </p>
@@ -301,7 +301,7 @@ function buildIndicatorPlayground() {
 
 function buildCandlestickSpotter() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Candlestick <em style="font-style:italic;color:#81c784;">Pattern Spotter</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Candlestick <em style="font-style:italic;color:var(--lab-ink);">Pattern Spotter</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       A pattern is highlighted on the chart — pick the correct name from the choices. Build your recognition speed and accuracy over time.
     </p>
@@ -352,7 +352,7 @@ function buildCandlestickSpotter() {
 
 function buildPaperTrading() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Paper <em style="font-style:italic;color:#81c784;">Trading Sim</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Paper <em style="font-style:italic;color:var(--lab-ink);">Trading Sim</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Step through a price chart bar-by-bar. Buy and sell with virtual cash — learn to manage entries, exits, and emotions without real risk.
     </p>
@@ -405,7 +405,7 @@ function buildPaperTrading() {
 
 function buildMaCrossover() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Moving Average <em style="font-style:italic;color:#81c784;">Crossover</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Moving Average <em style="font-style:italic;color:var(--lab-ink);">Crossover</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Overlay fast & slow SMAs on generated price data. Golden crosses (fast above slow) and death crosses (fast below slow) are marked automatically — track their accuracy.
     </p>
@@ -417,12 +417,12 @@ function buildMaCrossover() {
     <div class="sandbox-controls">
       <div class="ctrl-group">
         <label class="ctrl-label" for="macFast">Fast SMA</label>
-        <input id="macFast" type="range" class="sb-range" min="5" max="30" value="10">
+        <input aria-label="Fast SMA" id="macFast" type="range" class="sb-range" min="5" max="30" value="10">
         <span class="range-val" id="macFastVal">10</span>
       </div>
       <div class="ctrl-group">
         <label class="ctrl-label" for="macSlow">Slow SMA</label>
-        <input id="macSlow" type="range" class="sb-range" min="15" max="60" value="30">
+        <input aria-label="Slow SMA" id="macSlow" type="range" class="sb-range" min="15" max="60" value="30">
         <span class="range-val" id="macSlowVal">30</span>
       </div>
       <div class="ctrl-buttons">
@@ -463,7 +463,7 @@ function buildMaCrossover() {
 
 function buildSupportResistance() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Support & <em style="font-style:italic;color:#81c784;">Resistance</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Support & <em style="font-style:italic;color:var(--lab-ink);">Resistance</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Auto-detect support and resistance levels via pivot analysis. Click the chart to add manual levels. Watch how price bounces off or breaks through each zone.
     </p>
@@ -475,7 +475,7 @@ function buildSupportResistance() {
     <div class="sandbox-controls">
       <div class="ctrl-group">
         <label class="ctrl-label" for="srSens">Sensitivity</label>
-        <input id="srSens" type="range" class="sb-range" min="1" max="10" value="5">
+        <input aria-label="Sensitivity" id="srSens" type="range" class="sb-range" min="1" max="10" value="5">
         <span class="range-val" id="srSensVal">5</span>
       </div>
       <div class="ctrl-buttons">
@@ -516,7 +516,7 @@ function buildSupportResistance() {
 
 function buildVolumeProfile() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Volume <em style="font-style:italic;color:#81c784;">Profile</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Volume <em style="font-style:italic;color:var(--lab-ink);">Profile</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       View a horizontal volume histogram at each price level. Identify the Point of Control (highest volume), Value Area High and Low — key zones where the market traded most.
     </p>
@@ -564,7 +564,7 @@ function buildVolumeProfile() {
 
 function buildRiskCalculator() {
   return `
-    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Risk <em style="font-style:italic;color:#81c784;">Calculator</em></h2>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Risk <em style="font-style:italic;color:var(--lab-ink);">Calculator</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
       Size your positions correctly. Enter your account, risk tolerance, and trade levels to see optimal lot sizes, risk/reward ratios, and Kelly sizing.
     </p>
@@ -576,30 +576,30 @@ function buildRiskCalculator() {
     <div class="sandbox-controls">
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcAccount">Account ($)</label>
-        <input id="rcAccount" type="number" class="sb-input" value="10000" min="100" step="100">
+        <input aria-label="Account ($)" id="rcAccount" type="number" class="sb-input" value="10000" min="100" step="100">
       </div>
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcRiskPct">Risk % per trade</label>
-        <input id="rcRiskPct" type="number" class="sb-input" value="2" min="0.1" max="100" step="0.1">
+        <input aria-label="Risk % per trade" id="rcRiskPct" type="number" class="sb-input" value="2" min="0.1" max="100" step="0.1">
       </div>
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcEntry">Entry price</label>
-        <input id="rcEntry" type="number" class="sb-input" value="100" min="0.01" step="0.01">
+        <input aria-label="Entry price" id="rcEntry" type="number" class="sb-input" value="100" min="0.01" step="0.01">
       </div>
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcStop">Stop-loss</label>
-        <input id="rcStop" type="number" class="sb-input" value="95" min="0.01" step="0.01">
+        <input aria-label="Stop-loss" id="rcStop" type="number" class="sb-input" value="95" min="0.01" step="0.01">
       </div>
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcTarget">Target price</label>
-        <input id="rcTarget" type="number" class="sb-input" value="115" min="0.01" step="0.01">
+        <input aria-label="Target price" id="rcTarget" type="number" class="sb-input" value="115" min="0.01" step="0.01">
       </div>
     </div>
 
     <div class="sandbox-controls" style="margin-top:8px;">
       <div class="ctrl-group">
         <label class="ctrl-label" for="rcWinRate">Win rate (Kelly)</label>
-        <input id="rcWinRate" type="number" class="sb-input" value="55" min="1" max="99" step="1">
+        <input aria-label="Win rate (Kelly)" id="rcWinRate" type="number" class="sb-input" value="55" min="1" max="99" step="1">
         <span style="font-family:var(--mono);font-size:11px;color:var(--muted);">%</span>
       </div>
       <div class="ctrl-buttons">

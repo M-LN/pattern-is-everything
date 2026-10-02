@@ -775,7 +775,7 @@ function buildStationarity() {
     <div class="vl">// Interactive &mdash; stationary vs non-stationary series</div>
     <canvas id="stationCanvas" role="img" aria-label="Stationarity: Interactive — stationary vs non-stationary series" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Trend Strength</span><input type="range" id="stationTrend" min="0" max="100" step="1" value="0"><span class="vd" id="stationTrendV">0</span></div>
+      <div class="cg"><span class="cl">Trend Strength</span><input type="range" aria-label="Trend Strength" id="stationTrend" min="0" max="100" step="1" value="0"><span class="vd" id="stationTrendV">0</span></div>
     </div>
   </div>
   <table class="mt">
@@ -815,8 +815,8 @@ function buildAutocorrelation() {
     <div class="vl">// Interactive &mdash; ACF and PACF plots</div>
     <canvas id="acfCanvas" role="img" aria-label="Autocorrelation (ACF/PACF): Interactive — ACF and PACF plots" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">AR Order (p)</span><input type="range" id="acfP" min="0" max="5" step="1" value="1"><span class="vd" id="acfPV">1</span></div>
-      <div class="cg"><span class="cl">MA Order (q)</span><input type="range" id="acfQ" min="0" max="5" step="1" value="0"><span class="vd" id="acfQV">0</span></div>
+      <div class="cg"><span class="cl">AR Order (p)</span><input type="range" aria-label="AR Order (p)" id="acfP" min="0" max="5" step="1" value="1"><span class="vd" id="acfPV">1</span></div>
+      <div class="cg"><span class="cl">MA Order (q)</span><input type="range" aria-label="MA Order (q)" id="acfQ" min="0" max="5" step="1" value="0"><span class="vd" id="acfQV">0</span></div>
     </div>
   </div>
   <table class="mt">
@@ -854,8 +854,8 @@ function buildDecomposition() {
     <div class="vl">// Interactive &mdash; STL decomposition</div>
     <canvas id="decompCanvas" role="img" aria-label="Decomposition: Interactive — STL decomposition" height="320"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Seasonal Period</span><input type="range" id="decompPeriod" min="4" max="52" step="1" value="12"><span class="vd" id="decompPeriodV">12</span></div>
-      <div class="cg"><span class="cl">Trend Strength</span><input type="range" id="decompTrend" min="0" max="100" step="1" value="50"><span class="vd" id="decompTrendV">50</span></div>
+      <div class="cg"><span class="cl">Seasonal Period</span><input type="range" aria-label="Seasonal Period" id="decompPeriod" min="4" max="52" step="1" value="12"><span class="vd" id="decompPeriodV">12</span></div>
+      <div class="cg"><span class="cl">Trend Strength</span><input type="range" aria-label="Trend Strength" id="decompTrend" min="0" max="100" step="1" value="50"><span class="vd" id="decompTrendV">50</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; STL decomposition</span>
@@ -885,7 +885,7 @@ function buildDifferencing() {
     <div class="vl">// Interactive &mdash; differencing levels</div>
     <canvas id="diffCanvas" role="img" aria-label="Differencing: Interactive — differencing levels" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Differences (d)</span><input type="range" id="diffD" min="0" max="2" step="1" value="0"><span class="vd" id="diffDV">0</span></div>
+      <div class="cg"><span class="cl">Differences (d)</span><input type="range" aria-label="Differences (d)" id="diffD" min="0" max="2" step="1" value="0"><span class="vd" id="diffDV">0</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; differencing</span>
@@ -914,7 +914,7 @@ function buildResampling() {
     <div class="vl">// Interactive &mdash; resampling effects</div>
     <canvas id="resampleCanvas" role="img" aria-label="Resampling &amp; Frequency: Interactive — resampling effects" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Target Frequency</span><input type="range" id="resampleFreq" min="1" max="5" step="1" value="1"><span class="vd" id="resampleFreqV">1x</span></div>
+      <div class="cg"><span class="cl">Target Frequency</span><input type="range" aria-label="Target Frequency" id="resampleFreq" min="1" max="5" step="1" value="1"><span class="vd" id="resampleFreqV">1x</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; resampling with pandas</span>
@@ -946,8 +946,8 @@ function buildARModels() {
     <div class="vl">// Interactive &mdash; AR(p) process simulation</div>
     <canvas id="arCanvas" role="img" aria-label="AR Models: Interactive — AR(p) process simulation" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">&phi;<sub>1</sub></span><input type="range" id="arPhi1" min="-95" max="95" step="5" value="70"><span class="vd" id="arPhi1V">0.70</span></div>
-      <div class="cg"><span class="cl">Order (p)</span><input type="range" id="arOrder" min="1" max="3" step="1" value="1"><span class="vd" id="arOrderV">1</span></div>
+      <div class="cg"><span class="cl">&phi;<sub>1</sub></span><input type="range" aria-label="AR coefficient phi 1" id="arPhi1" min="-95" max="95" step="5" value="70"><span class="vd" id="arPhi1V">0.70</span></div>
+      <div class="cg"><span class="cl">Order (p)</span><input type="range" aria-label="Order (p)" id="arOrder" min="1" max="3" step="1" value="1"><span class="vd" id="arOrderV">1</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; fit AR model</span>
@@ -976,8 +976,8 @@ function buildMAModels() {
     <div class="vl">// Interactive &mdash; MA(q) impulse response</div>
     <canvas id="maCanvas" role="img" aria-label="MA Models: Interactive — MA(q) impulse response" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">&theta;<sub>1</sub></span><input type="range" id="maTheta1" min="-95" max="95" step="5" value="60"><span class="vd" id="maTheta1V">0.60</span></div>
-      <div class="cg"><span class="cl">Order (q)</span><input type="range" id="maOrder" min="1" max="3" step="1" value="1"><span class="vd" id="maOrderV">1</span></div>
+      <div class="cg"><span class="cl">&theta;<sub>1</sub></span><input type="range" aria-label="MA coefficient theta 1" id="maTheta1" min="-95" max="95" step="5" value="60"><span class="vd" id="maTheta1V">0.60</span></div>
+      <div class="cg"><span class="cl">Order (q)</span><input type="range" aria-label="Order (q)" id="maOrder" min="1" max="3" step="1" value="1"><span class="vd" id="maOrderV">1</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; fit MA model</span>
@@ -1005,9 +1005,9 @@ function buildARIMA() {
     <div class="vl">// Interactive &mdash; ARIMA forecast with confidence intervals</div>
     <canvas id="arimaCanvas" role="img" aria-label="ARIMA: Interactive — ARIMA forecast with confidence intervals" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">p (AR)</span><input type="range" id="arimaP" min="0" max="4" step="1" value="1"><span class="vd" id="arimaPV">1</span></div>
-      <div class="cg"><span class="cl">d (diff)</span><input type="range" id="arimaD" min="0" max="2" step="1" value="1"><span class="vd" id="arimaDV">1</span></div>
-      <div class="cg"><span class="cl">q (MA)</span><input type="range" id="arimaQ" min="0" max="4" step="1" value="1"><span class="vd" id="arimaQV">1</span></div>
+      <div class="cg"><span class="cl">p (AR)</span><input type="range" aria-label="p (AR)" id="arimaP" min="0" max="4" step="1" value="1"><span class="vd" id="arimaPV">1</span></div>
+      <div class="cg"><span class="cl">d (diff)</span><input type="range" aria-label="d (diff)" id="arimaD" min="0" max="2" step="1" value="1"><span class="vd" id="arimaDV">1</span></div>
+      <div class="cg"><span class="cl">q (MA)</span><input type="range" aria-label="q (MA)" id="arimaQ" min="0" max="4" step="1" value="1"><span class="vd" id="arimaQV">1</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; auto ARIMA</span>
@@ -1074,8 +1074,8 @@ function buildSARIMA() {
     <div class="vl">// Interactive &mdash; seasonal pattern visualization</div>
     <canvas id="sarimaCanvas" role="img" aria-label="SARIMA: Interactive — seasonal pattern visualization" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Season (m)</span><input type="range" id="sarimaM" min="4" max="52" step="1" value="12"><span class="vd" id="sarimaMV">12</span></div>
-      <div class="cg"><span class="cl">Seasonal Strength</span><input type="range" id="sarimaS" min="0" max="100" step="1" value="60"><span class="vd" id="sarimaSV">60</span></div>
+      <div class="cg"><span class="cl">Season (m)</span><input type="range" aria-label="Season (m)" id="sarimaM" min="4" max="52" step="1" value="12"><span class="vd" id="sarimaMV">12</span></div>
+      <div class="cg"><span class="cl">Seasonal Strength</span><input type="range" aria-label="Seasonal Strength" id="sarimaS" min="0" max="100" step="1" value="60"><span class="vd" id="sarimaSV">60</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; SARIMA</span>
@@ -1106,7 +1106,7 @@ function buildExponentialSmoothing() {
     <div class="vl">// Interactive &mdash; exponential smoothing</div>
     <canvas id="etsCanvas" role="img" aria-label="Exponential Smoothing: Interactive — exponential smoothing" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Alpha (&alpha;)</span><input type="range" id="etsAlpha" min="1" max="99" step="1" value="30"><span class="vd" id="etsAlphaV">0.30</span></div>
+      <div class="cg"><span class="cl">Alpha (&alpha;)</span><input type="range" aria-label="Alpha (α)" id="etsAlpha" min="1" max="99" step="1" value="30"><span class="vd" id="etsAlphaV">0.30</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; Holt-Winters</span>
@@ -1168,8 +1168,8 @@ function buildStateSpace() {
     <div class="vl">// Interactive &mdash; Kalman filter tracking</div>
     <canvas id="kalmanCanvas" role="img" aria-label="State-Space Models: Interactive — Kalman filter tracking" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Process Noise</span><input type="range" id="kalmanQ" min="1" max="100" step="1" value="20"><span class="vd" id="kalmanQV">20</span></div>
-      <div class="cg"><span class="cl">Observation Noise</span><input type="range" id="kalmanR" min="1" max="100" step="1" value="50"><span class="vd" id="kalmanRV">50</span></div>
+      <div class="cg"><span class="cl">Process Noise</span><input type="range" aria-label="Process Noise" id="kalmanQ" min="1" max="100" step="1" value="20"><span class="vd" id="kalmanQV">20</span></div>
+      <div class="cg"><span class="cl">Observation Noise</span><input type="range" aria-label="Observation Noise" id="kalmanR" min="1" max="100" step="1" value="50"><span class="vd" id="kalmanRV">50</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; Kalman-based structural model</span>
@@ -1200,8 +1200,8 @@ function buildGARCH() {
     <div class="vl">// Interactive &mdash; GARCH volatility clustering</div>
     <canvas id="garchCanvas" role="img" aria-label="GARCH: Interactive — GARCH volatility clustering" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">&alpha; (reaction)</span><input type="range" id="garchA" min="1" max="30" step="1" value="10"><span class="vd" id="garchAV">0.10</span></div>
-      <div class="cg"><span class="cl">&beta; (persistence)</span><input type="range" id="garchB" min="50" max="98" step="1" value="85"><span class="vd" id="garchBV">0.85</span></div>
+      <div class="cg"><span class="cl">&alpha; (reaction)</span><input type="range" aria-label="α (reaction)" id="garchA" min="1" max="30" step="1" value="10"><span class="vd" id="garchAV">0.10</span></div>
+      <div class="cg"><span class="cl">&beta; (persistence)</span><input type="range" aria-label="β (persistence)" id="garchB" min="50" max="98" step="1" value="85"><span class="vd" id="garchBV">0.85</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; GARCH(1,1)</span>
@@ -1261,7 +1261,7 @@ function buildChangepointDetection() {
     <div class="vl">// Interactive &mdash; changepoint detection</div>
     <canvas id="cpCanvas" role="img" aria-label="Changepoint Detection: Interactive — changepoint detection" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Sensitivity</span><input type="range" id="cpSens" min="1" max="100" step="1" value="50"><span class="vd" id="cpSensV">50</span></div>
+      <div class="cg"><span class="cl">Sensitivity</span><input type="range" aria-label="Sensitivity" id="cpSens" min="1" max="100" step="1" value="50"><span class="vd" id="cpSensV">50</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; changepoint detection with ruptures</span>
@@ -1351,8 +1351,8 @@ function buildTemporalCNN() {
     <div class="vl">// Interactive &mdash; dilated causal convolutions</div>
     <canvas id="tcnCanvas" role="img" aria-label="Temporal CNN (TCN): Interactive — dilated causal convolutions" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Layers</span><input type="range" id="tcnLayers" min="2" max="6" step="1" value="4"><span class="vd" id="tcnLayersV">4</span></div>
-      <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="tcnKernel" min="2" max="5" step="1" value="3"><span class="vd" id="tcnKernelV">3</span></div>
+      <div class="cg"><span class="cl">Layers</span><input type="range" aria-label="Layers" id="tcnLayers" min="2" max="6" step="1" value="4"><span class="vd" id="tcnLayersV">4</span></div>
+      <div class="cg"><span class="cl">Kernel Size</span><input type="range" aria-label="Kernel Size" id="tcnKernel" min="2" max="5" step="1" value="3"><span class="vd" id="tcnKernelV">3</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># PyTorch &mdash; basic TCN block</span>
@@ -1489,8 +1489,8 @@ function buildCrossValidationTS() {
     <div class="vl">// Interactive &mdash; temporal cross-validation splits</div>
     <canvas id="tscvCanvas" role="img" aria-label="Cross-Validation for TS: Interactive — temporal cross-validation splits" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Folds</span><input type="range" id="tscvFolds" min="3" max="8" step="1" value="5"><span class="vd" id="tscvFoldsV">5</span></div>
-      <div class="cg"><span class="cl">Strategy</span><input type="range" id="tscvMode" min="1" max="2" step="1" value="1"><span class="vd" id="tscvModeV">Expanding</span></div>
+      <div class="cg"><span class="cl">Folds</span><input type="range" aria-label="Folds" id="tscvFolds" min="3" max="8" step="1" value="5"><span class="vd" id="tscvFoldsV">5</span></div>
+      <div class="cg"><span class="cl">Strategy</span><input type="range" aria-label="Strategy" id="tscvMode" min="1" max="2" step="1" value="1"><span class="vd" id="tscvModeV">Expanding</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; time series cross validation</span>
@@ -1574,7 +1574,7 @@ function buildAnomalyDetection() {
     <div class="vl">// Interactive &mdash; anomaly detection methods</div>
     <canvas id="anomCanvas" role="img" aria-label="Anomaly Detection: Interactive — anomaly detection methods" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Threshold (&sigma;)</span><input type="range" id="anomThresh" min="1" max="5" step="0.5" value="2"><span class="vd" id="anomThreshV">2.0</span></div>
+      <div class="cg"><span class="cl">Threshold (&sigma;)</span><input type="range" aria-label="Threshold (σ)" id="anomThresh" min="1" max="5" step="0.5" value="2"><span class="vd" id="anomThreshV">2.0</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Python &mdash; anomaly detection</span>

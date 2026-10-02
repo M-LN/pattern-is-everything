@@ -106,7 +106,7 @@ CSS = """
     .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
     .case-hero { padding: 48px 0 6px; }
     .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .crumb a { color: var(--accent); text-decoration: none; }
+    .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
     .case-hero h2 em { color: var(--accent); }
     .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
@@ -141,7 +141,7 @@ CSS = """
     @media (max-width: 600px) { .portal-header { padding: 0 16px; } .case-q { font-size: 16px; } }"""
 
 
-def page(title, desc, path, body):
+def page(title, desc, path, body, og):
     return '''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,11 +161,13 @@ def page(title, desc, path, body):
   <meta property="og:title" content="%(title)s">
   <meta property="og:description" content="%(desc)s">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="%(site)s/assets/og/og-start.png">
+  <meta property="og:image" content="%(og)s">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=35">
+  <link rel="stylesheet" href="/css/main.css?v=36">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>%(css)s
@@ -199,7 +201,7 @@ def page(title, desc, path, body):
 </html>
 ''' % {'title': esc(re.sub('<[^>]+>', '', title)), 'desc': html.escape(desc), 'site': SITE, 'path': path,
        'jtitle': json.dumps(re.sub('<[^>]+>', '', title)), 'jdesc': json.dumps(desc), 'css': CSS,
-       'body': body, 'reviewed': REVIEWED}
+       'body': body, 'reviewed': REVIEWED, 'og': og}
 
 
 def build_case(name):
@@ -229,7 +231,7 @@ def build_case(name):
         if st.get('before'):
             parts.append('<p>%s</p>' % fill(st['before'], values))
         attr = ' data-run="%s/%s"' % (key, sid) if runnable else ''
-        parts.append('<div class="code-block"%s><pre>%s</pre></div>' % (attr, esc(st['code'])))
+        parts.append('<div class="code-block" tabindex="0"%s><pre>%s</pre></div>' % (attr, esc(st['code'])))
         if runnable:
             parts.append('<div class="run-bar"><button type="button" class="run-btn">▶ Run</button>'
                          '<span class="run-hint">Python, in your browser%s — edit the code and run it again</span></div>'
@@ -258,7 +260,8 @@ def build_case(name):
                     nb, '; it downloads the data itself' if not runnable else '', nb))
     parts.append('<div class="case-box src"><h4>Sources</h4><ul>%s</ul></div>'
                  % ''.join('<li>%s</li>' % s for s in mod.SOURCES))
-    html_out = page(mod.SHORT + ' — case study', mod.DESCRIPTION, '/cases/%s/' % mod.ID, '\n'.join(parts))
+    html_out = page(mod.SHORT + ' — case study', mod.DESCRIPTION, '/cases/%s/' % mod.ID, '\n'.join(parts),
+                    share_card(mod.ID))
     hub = {
         'id': mod.ID, 'level': mod.LEVEL, 'badge': mod.BADGE,
         'evidenceClass': mod.EVIDENCE[0], 'evidenceLabel': mod.EVIDENCE[1],
@@ -304,6 +307,15 @@ def lite_index():
                         'name': name, 'path': name, 'size': size, 'type': kind, 'writable': True})
     idx['content'] = content
     return json.dumps(idx, indent=2) + '\n'
+
+
+def share_card(case_id):
+    """The case's og:image (scripts/build-page-cards.mjs), versioned by its hash."""
+    import hashlib
+    f = os.path.join(ROOT, 'assets', 'og', 'pages', 'cases-%s.jpg' % case_id)
+    if not os.path.exists(f):
+        return SITE + '/assets/og/og-start.png'
+    return '%s/assets/og/pages/cases-%s.jpg?v=%s' % (SITE, case_id, hashlib.md5(open(f, 'rb').read()).hexdigest()[:8])
 
 
 def md(text):

@@ -789,7 +789,7 @@ function buildServingPatterns() {
     <div class="vl">// Interactive — compare serving patterns</div>
     <canvas id="serveCanvas" role="img" aria-label="Serving Patterns: Interactive — compare serving patterns" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Request Volume</span><input type="range" id="serveVol" min="1" max="100" step="1" value="50"><span class="vd" id="serveVolV">50k/day</span></div>
+      <div class="cg"><span class="cl">Request Volume</span><input type="range" aria-label="Request Volume" id="serveVol" min="1" max="100" step="1" value="50"><span class="vd" id="serveVolV">50k/day</span></div>
     </div>
   </div>
   <table class="mt">
@@ -833,7 +833,7 @@ function buildABRollout() {
     <div class="vl">// Interactive — canary traffic split</div>
     <canvas id="canaryCanvas" role="img" aria-label="A/B &amp; Canary Rollouts: Interactive — canary traffic split" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Canary %</span><input type="range" id="canaryPct" min="0" max="100" step="1" value="5"><span class="vd" id="canaryPctV">5%</span></div>
+      <div class="cg"><span class="cl">Canary %</span><input type="range" aria-label="Canary %" id="canaryPct" min="0" max="100" step="1" value="5"><span class="vd" id="canaryPctV">5%</span></div>
     </div>
   </div>
   <div class="code-block"><pre><span class="cm"># Kubernetes canary with Istio traffic split</span>
@@ -869,7 +869,7 @@ function buildLatencyThroughput() {
     <div class="vl">// Interactive — latency distribution with batch size</div>
     <canvas id="latencyCanvas" role="img" aria-label="Latency &amp; Throughput: Interactive — latency distribution with batch size" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Batch Size</span><input type="range" id="latBatch" min="1" max="64" step="1" value="1"><span class="vd" id="latBatchV">1</span></div>
+      <div class="cg"><span class="cl">Batch Size</span><input type="range" aria-label="Batch Size" id="latBatch" min="1" max="64" step="1" value="1"><span class="vd" id="latBatchV">1</span></div>
       <div class="cg"><span class="cl">p50</span><span class="vd" id="latP50" style="color:var(--accent)">—</span></div>
       <div class="cg"><span class="cl">p99</span><span class="vd" id="latP99" style="color:#e57373">—</span></div>
     </div>
@@ -893,7 +893,7 @@ function buildGPUInference() {
     <div class="vl">// Interactive — GPU vs CPU throughput comparison</div>
     <canvas id="gpuCanvas" role="img" aria-label="GPU Inference: Interactive — GPU vs CPU throughput comparison" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Model Size (M params)</span><input type="range" id="gpuSize" min="1" max="1000" step="10" value="100"><span class="vd" id="gpuSizeV">100M</span></div>
+      <div class="cg"><span class="cl">Model Size (M params)</span><input type="range" aria-label="Model Size (M params)" id="gpuSize" min="1" max="1000" step="10" value="100"><span class="vd" id="gpuSizeV">100M</span></div>
     </div>
   </div>
   <table class="mt">
@@ -926,7 +926,7 @@ function buildDriftDetection() {
     <div class="vl">// Interactive — reference vs production distributions</div>
     <canvas id="driftCanvas" role="img" aria-label="Drift Detection in Production: Interactive — reference vs production distributions" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Drift Amount</span><input type="range" id="driftAmt" min="0" max="100" step="1" value="10"><span class="vd" id="driftAmtV">0.10</span></div>
+      <div class="cg"><span class="cl">Drift Amount</span><input type="range" aria-label="Drift Amount" id="driftAmt" min="0" max="100" step="1" value="10"><span class="vd" id="driftAmtV">0.10</span></div>
       <div class="cg"><span class="cl">PSI</span><span class="vd" id="driftPSI" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -985,7 +985,7 @@ function buildAlertingSLOs() {
     <div class="vl">// Interactive — error budget burn rate</div>
     <canvas id="sloCanvas" role="img" aria-label="Alerting &amp; SLOs: Interactive — error budget burn rate" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">SLO Target %</span><input type="range" id="sloTarget" min="90" max="100" step="0.1" value="99.5"><span class="vd" id="sloTargetV">99.5%</span></div>
+      <div class="cg"><span class="cl">SLO Target %</span><input type="range" aria-label="SLO Target %" id="sloTarget" min="90" max="100" step="0.1" value="99.5"><span class="vd" id="sloTargetV">99.5%</span></div>
     </div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Error budgets work like <a href="../markets/risk/#drawdown-analysis">drawdown limits</a> in trading — a predefined loss tolerance that triggers defensive action when consumed. The statistical foundation is the same <a href="../stats/#confidence-intervals">confidence interval</a> logic.</div>
@@ -1213,7 +1213,7 @@ function buildModelCompression() {
     <div class="vl">// Interactive — pruning vs accuracy tradeoff</div>
     <canvas id="compressCanvas" role="img" aria-label="Model Compression: Interactive — pruning vs accuracy tradeoff" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Sparsity %</span><input type="range" id="compSparsity" min="0" max="99" step="1" value="50"><span class="vd" id="compSparsityV">50%</span></div>
+      <div class="cg"><span class="cl">Sparsity %</span><input type="range" aria-label="Sparsity %" id="compSparsity" min="0" max="99" step="1" value="50"><span class="vd" id="compSparsityV">50%</span></div>
       <div class="cg"><span class="cl">Accuracy</span><span class="vd" id="compAcc" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1265,7 +1265,7 @@ function buildCachingLayers() {
     <div class="vl">// Interactive — cache hit rate vs latency</div>
     <canvas id="cacheCanvas" role="img" aria-label="Caching &amp; Prediction Stores: Interactive — cache hit rate vs latency" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Cache Hit Rate %</span><input type="range" id="cacheHit" min="0" max="100" step="1" value="70"><span class="vd" id="cacheHitV">70%</span></div>
+      <div class="cg"><span class="cl">Cache Hit Rate %</span><input type="range" aria-label="Cache Hit Rate %" id="cacheHit" min="0" max="100" step="1" value="70"><span class="vd" id="cacheHitV">70%</span></div>
       <div class="cg"><span class="cl">Avg Latency</span><span class="vd" id="cacheLatV" style="color:var(--accent)">—</span></div>
     </div>
   </div>
@@ -1288,7 +1288,7 @@ function buildAutoScaling() {
     <div class="vl">// Interactive — replica count vs traffic</div>
     <canvas id="scaleCanvas" role="img" aria-label="Auto-Scaling Endpoints: Interactive — replica count vs traffic" height="260"></canvas>
     <div class="ctrl">
-      <div class="cg"><span class="cl">Traffic Load</span><input type="range" id="scaleLoad" min="0" max="100" step="1" value="50"><span class="vd" id="scaleLoadV">50%</span></div>
+      <div class="cg"><span class="cl">Traffic Load</span><input type="range" aria-label="Traffic Load" id="scaleLoad" min="0" max="100" step="1" value="50"><span class="vd" id="scaleLoadV">50%</span></div>
       <div class="cg"><span class="cl">Replicas</span><span class="vd" id="scaleReps" style="color:var(--accent)">—</span></div>
     </div>
   </div>

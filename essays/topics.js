@@ -231,7 +231,7 @@ function buildEssayBell() {
     <canvas id="bellCanvas" role="img" aria-label="The Bell in Everything — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Dice rolled</span>
-      <input type="range" id="bellDiceSlider" min="1" max="12" value="1" oninput="document.getElementById('bellDiceVal').textContent=this.value;DRAWS['essay-bell']()">
+      <input type="range" aria-label="Dice rolled" id="bellDiceSlider" min="1" max="12" value="1" oninput="document.getElementById('bellDiceVal').textContent=this.value;DRAWS['essay-bell']()">
       <span class="viz-ctrl-val" id="bellDiceVal">1</span>
     </div>
     <div class="essay-label">Sum of <em>n</em> dice &mdash; watch the bell emerge</div>
@@ -264,7 +264,7 @@ function buildEssayMean() {
     <canvas id="meanCanvas" role="img" aria-label="Regression to the Mean — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Correlation</span>
-      <input type="range" id="meanCorrSlider" min="0" max="100" value="55" oninput="document.getElementById('meanCorrVal').textContent=Math.round(this.value)+'%';DRAWS['essay-mean']()">
+      <input type="range" aria-label="Correlation" id="meanCorrSlider" min="0" max="100" value="55" oninput="document.getElementById('meanCorrVal').textContent=Math.round(this.value)+'%';DRAWS['essay-mean']()">
       <span class="viz-ctrl-val" id="meanCorrVal">55%</span>
     </div>
     <div class="essay-label">First measurement vs. second &mdash; the pull toward centre</div>
@@ -297,7 +297,7 @@ function buildEssayTail() {
     <canvas id="tailCanvas" role="img" aria-label="The Long Tail — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Inequality</span>
-      <input type="range" id="tailAlphaSlider" min="10" max="50" value="18" oninput="document.getElementById('tailAlphaVal').textContent=(this.value/10).toFixed(1);DRAWS['essay-tail']()">
+      <input type="range" aria-label="Inequality" id="tailAlphaSlider" min="10" max="50" value="18" oninput="document.getElementById('tailAlphaVal').textContent=(this.value/10).toFixed(1);DRAWS['essay-tail']()">
       <span class="viz-ctrl-val" id="tailAlphaVal">1.8</span>
     </div>
     <div class="essay-label">The few and the many &mdash; drag to steepen the tail</div>
@@ -330,7 +330,7 @@ function buildEssaySignal() {
     <canvas id="signalCanvas" role="img" aria-label="Signal in the Noise — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Noise level</span>
-      <input type="range" id="signalNoiseSlider" min="0" max="100" value="50" oninput="document.getElementById('signalNoiseVal').textContent=this.value+'%';DRAWS['essay-signal']()">
+      <input type="range" aria-label="Noise level" id="signalNoiseSlider" min="0" max="100" value="50" oninput="document.getElementById('signalNoiseVal').textContent=this.value+'%';DRAWS['essay-signal']()">
       <span class="viz-ctrl-val" id="signalNoiseVal">50%</span>
     </div>
     <div class="essay-label">A wave hiding in noise &mdash; drag to reveal or bury it</div>
@@ -363,7 +363,7 @@ function buildEssayMap() {
     <canvas id="mapCanvas" role="img" aria-label="The Map and the Territory — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Model complexity</span>
-      <input type="range" id="mapComplexSlider" min="1" max="5" value="1" oninput="document.getElementById('mapComplexVal').textContent=['Linear','Quadratic','Cubic','Degree 4','Overfit'][this.value-1];DRAWS['essay-map']()">
+      <input type="range" aria-label="Model complexity" id="mapComplexSlider" min="1" max="5" value="1" oninput="document.getElementById('mapComplexVal').textContent=['Linear','Quadratic','Cubic','Degree 4','Overfit'][this.value-1];DRAWS['essay-map']()">
       <span class="viz-ctrl-val" id="mapComplexVal">Linear</span>
     </div>
     <div class="essay-label">The line and the dots &mdash; watch the model overfit</div>
@@ -396,7 +396,7 @@ function buildEssayFeedback() {
     <canvas id="feedbackCanvas" role="img" aria-label="The Feedback Loop — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Growth rate</span>
-      <input type="range" id="feedbackRateSlider" min="102" max="140" value="120" oninput="document.getElementById('feedbackRateVal').textContent=((this.value/100-1)*100).toFixed(0)+'%/yr';DRAWS['essay-feedback']()">
+      <input type="range" aria-label="Growth rate" id="feedbackRateSlider" min="102" max="140" value="120" oninput="document.getElementById('feedbackRateVal').textContent=((this.value/100-1)*100).toFixed(0)+'%/yr';DRAWS['essay-feedback']()">
       <span class="viz-ctrl-val" id="feedbackRateVal">20%/yr</span>
     </div>
     <div class="essay-label">Exponential growth hitting a ceiling &mdash; the S-curve</div>
@@ -458,7 +458,7 @@ function buildEssayThreshold() {
     <canvas id="thresholdCanvas" role="img" aria-label="The Threshold — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Input level</span>
-      <input type="range" id="thresholdInputSlider" min="0" max="100" value="30" oninput="document.getElementById('thresholdInputVal').textContent=this.value;DRAWS['essay-threshold']()">
+      <input type="range" aria-label="Input level" id="thresholdInputSlider" min="0" max="100" value="30" oninput="document.getElementById('thresholdInputVal').textContent=this.value;DRAWS['essay-threshold']()">
       <span class="viz-ctrl-val" id="thresholdInputVal">30</span>
     </div>
     <div class="essay-label">The sigmoid &mdash; drag through the threshold</div>
@@ -491,7 +491,7 @@ function buildEssaySurvivor() {
     <canvas id="survivorCanvas" role="img" aria-label="Survivorship Bias — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Survival cutoff</span>
-      <input type="range" id="survivorCutSlider" min="0" max="80" value="40" oninput="document.getElementById('survivorCutVal').textContent=this.value;DRAWS['essay-survivor']()">
+      <input type="range" aria-label="Survival cutoff" id="survivorCutSlider" min="0" max="80" value="40" oninput="document.getElementById('survivorCutVal').textContent=this.value;DRAWS['essay-survivor']()">
       <span class="viz-ctrl-val" id="survivorCutVal">40</span>
     </div>
     <div class="essay-label">Only survivors are seen &mdash; drag to watch the visible average inflate</div>
@@ -524,7 +524,7 @@ function buildEssayFractal() {
     <canvas id="fractalCanvas" role="img" aria-label="The Fractal — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Recursion depth</span>
-      <input type="range" id="fractalDepthSlider" min="1" max="10" value="6" oninput="document.getElementById('fractalDepthVal').textContent=this.value;DRAWS['essay-fractal']()">
+      <input type="range" aria-label="Recursion depth" id="fractalDepthSlider" min="1" max="10" value="6" oninput="document.getElementById('fractalDepthVal').textContent=this.value;DRAWS['essay-fractal']()">
       <span class="viz-ctrl-val" id="fractalDepthVal">6</span>
     </div>
     <div class="essay-label">A recursive tree &mdash; drag to grow detail from a single rule</div>
@@ -557,7 +557,7 @@ function buildEssaySimpson() {
     <canvas id="simpsonCanvas" role="img" aria-label="Simpson’s Paradox — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Group separation</span>
-      <input type="range" id="simpsonSepSlider" min="0" max="100" value="70" oninput="document.getElementById('simpsonSepVal').textContent=this.value+'%';DRAWS['essay-simpson']()">
+      <input type="range" aria-label="Group separation" id="simpsonSepSlider" min="0" max="100" value="70" oninput="document.getElementById('simpsonSepVal').textContent=this.value+'%';DRAWS['essay-simpson']()">
       <span class="viz-ctrl-val" id="simpsonSepVal">70%</span>
     </div>
     <div class="essay-label">Two rising groups, one falling total &mdash; drag to separate them</div>
@@ -608,7 +608,7 @@ function buildEssayKalman() {
     <canvas id="kalmanCanvas" role="img" aria-label="The Deep Kalman Filter — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Trust in sensor</span>
-      <input type="range" id="kalmanTrustSlider" min="3" max="95" value="30" oninput="document.getElementById('kalmanTrustVal').textContent=this.value+'%';DRAWS['essay-kalman']()">
+      <input type="range" aria-label="Trust in sensor" id="kalmanTrustSlider" min="3" max="95" value="30" oninput="document.getElementById('kalmanTrustVal').textContent=this.value+'%';DRAWS['essay-kalman']()">
       <span class="viz-ctrl-val" id="kalmanTrustVal">30%</span>
     </div>
     <div class="essay-label">Hidden truth \u00b7 noisy sensor \u00b7 filter estimate &mdash; drag to trust the sensor more or less</div>
@@ -660,7 +660,7 @@ function buildEssaySpring() {
     <canvas id="springCanvas" role="img" aria-label="The Coiled Spring — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Compression</span>
-      <input type="range" id="springSlider" min="0" max="90" value="60" oninput="document.getElementById('springVal').textContent=this.value+'%';DRAWS['essay-spring']()">
+      <input type="range" aria-label="Compression" id="springSlider" min="0" max="90" value="60" oninput="document.getElementById('springVal').textContent=this.value+'%';DRAWS['essay-spring']()">
       <span class="viz-ctrl-val" id="springVal">60%</span>
     </div>
     <div class="essay-label">Price and its 10-day range &mdash; drag to squeeze the quiet phase harder and watch the release grow</div>
@@ -712,7 +712,7 @@ function buildEssayForking() {
     <canvas id="forkingCanvas" role="img" aria-label="The Garden of Forking Paths — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Rules tried</span>
-      <input type="range" id="forkingSlider" min="1" max="200" value="20" oninput="document.getElementById('forkingVal').textContent=this.value;DRAWS['essay-forking']()">
+      <input type="range" aria-label="Rules tried" id="forkingSlider" min="1" max="200" value="20" oninput="document.getElementById('forkingVal').textContent=this.value;DRAWS['essay-forking']()">
       <span class="viz-ctrl-val" id="forkingVal">20</span>
     </div>
     <div class="essay-label">Every rule is a coin flip with no edge &mdash; drag to try more of them and watch the best one look brilliant</div>
@@ -768,7 +768,7 @@ function buildEssayMemory() {
     <canvas id="memoryCanvas" role="img" aria-label="How Long Is Memory? — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Half-life</span>
-      <input type="range" id="memorySlider" min="1" max="40" value="6" oninput="document.getElementById('memoryVal').textContent=this.value+' steps';DRAWS['essay-memory']()">
+      <input type="range" aria-label="Half-life" id="memorySlider" min="1" max="40" value="6" oninput="document.getElementById('memoryVal').textContent=this.value+' steps';DRAWS['essay-memory']()">
       <span class="viz-ctrl-val" id="memoryVal">6 steps</span>
     </div>
     <div class="essay-label">A noisy series and an average with fading memory &mdash; the bars show how much each past step still counts</div>
@@ -821,7 +821,7 @@ function buildEssayBottleneck() {
     <canvas id="bottleneckCanvas" role="img" aria-label="The Bottleneck — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Utilisation</span>
-      <input type="range" id="bottleneckSlider" min="10" max="97" value="70" oninput="document.getElementById('bottleneckVal').textContent=this.value+'%';DRAWS['essay-bottleneck']()">
+      <input type="range" aria-label="Utilisation" id="bottleneckSlider" min="10" max="97" value="70" oninput="document.getElementById('bottleneckVal').textContent=this.value+'%';DRAWS['essay-bottleneck']()">
       <span class="viz-ctrl-val" id="bottleneckVal">70%</span>
     </div>
     <div class="essay-label">Time in a simple queue, in multiples of the service time &mdash; drag towards full capacity and watch the curve turn upward</div>
@@ -878,7 +878,7 @@ function buildEssayReversible() {
     <canvas id="reversibleCanvas" role="img" aria-label="Small, Reversible Bets — visualization" height="180"></canvas>
     <div class="viz-ctrl">
       <span>Bet size</span>
-      <input type="range" id="reversibleSlider" min="2" max="50" value="10" oninput="document.getElementById('reversibleVal').textContent=this.value+'%';DRAWS['essay-reversible']()">
+      <input type="range" aria-label="Bet size" id="reversibleSlider" min="2" max="50" value="10" oninput="document.getElementById('reversibleVal').textContent=this.value+'%';DRAWS['essay-reversible']()">
       <span class="viz-ctrl-val" id="reversibleVal">10%</span>
     </div>
     <div class="essay-label">40 players, the same favourable coin (55% to win, even money), 300 rounds &mdash; drag the bet size and watch survival</div>

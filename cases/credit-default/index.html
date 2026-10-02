@@ -17,11 +17,13 @@
   <meta property="og:title" content="Credit card default — case study">
   <meta property="og:description" content="A default model on 30,000 real credit card clients is 82% accurate and still misses most defaults. Undocumented codes, a 4-point gain over guessing, and a threshold set by cost instead of 0.5.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/cases-credit-default.jpg?v=75f8de81">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=35">
+  <link rel="stylesheet" href="/css/main.css?v=36">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -32,7 +34,7 @@
     .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
     .case-hero { padding: 48px 0 6px; }
     .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .crumb a { color: var(--accent); text-decoration: none; }
+    .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
     .case-hero h2 em { color: var(--accent); }
     .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
@@ -93,7 +95,7 @@
 <div class="case-data"><div><b>Data</b>Default of Credit Card Clients — One row per client of a Taiwanese bank, April–September 2005: credit limit, sex, education, marital status, age, six months of repayment status, bill amounts and payments — and whether the client defaulted the following month.</div><div><b>Source</b><a href="https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients">UCI Machine Learning Repository</a>, donated by I-Cheng Yeh</div><div><b>Licence</b><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; here as CSV, with the ID column dropped and the target renamed <code>default</code></div><div><b>File</b><a href="/cases/data/credit.csv" download>credit.csv</a> (2664 KB), as used below</div></div>
 <h3 id="step-1"><span class="n">01</span>The number to beat</h3>
 <p>Before any model: how often do clients default, and how accurate is a model that never predicts a default?</p>
-<div class="code-block" data-run="cases-credit-default/step-1"><pre>import numpy as np
+<div class="code-block" tabindex="0" data-run="cases-credit-default/step-1"><pre>import numpy as np
 import pandas as pd
 
 df = pd.read_csv('credit.csv')
@@ -106,7 +108,7 @@ accuracy of always predicting "no default": 0.7788</pre>
 <p>About one client in 4.5 defaults. Predicting “no default” for everyone is right <strong>77.9%</strong> of the time and catches nobody. Any accuracy figure for this data has to be read against that.</p>
 <h3 id="step-2"><span class="n">02</span>The data dictionary and the data disagree</h3>
 <p>The documentation says repayment status is −1 for “paid duly” and 1–9 for months of delay, education is 1–4 and marital status 1–3. Count what is actually there.</p>
-<div class="code-block" data-run="cases-credit-default/step-2"><pre>pay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
+<div class="code-block" tabindex="0" data-run="cases-credit-default/step-2"><pre>pay = ['PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
 print('PAY_0 values:', df.PAY_0.value_counts().sort_index().to_dict())
 undocumented_pay = df[pay].isin([-2, 0]).any(axis=1).mean()
 odd_education = (~df.EDUCATION.isin([1, 2, 3, 4])).sum()
@@ -122,7 +124,7 @@ a status of 1 in PAY_0 vs PAY_2: 3688 28</pre>
 <p>The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; 86% of clients have one of them in some month. (Discussions of the data commonly read 0 as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1 — one month late — appears 3,688 times in the latest month and only 28 times in the month before, which suggests the months were not coded the same way. A model will use these columns either way; the question is whether you can explain what it learned.</p>
 <h3 id="step-3"><span class="n">03</span>Two models, and what 0.5 hides</h3>
 <p>Hold out 30% of the clients (stratified, so both parts have the same default rate). Fit a logistic regression and gradient-boosted trees, and score them at the default threshold of 0.5.</p>
-<div class="code-block" data-run="cases-credit-default/step-3"><pre>from sklearn.model_selection import train_test_split
+<div class="code-block" tabindex="0" data-run="cases-credit-default/step-3"><pre>from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
@@ -146,7 +148,7 @@ boosted trees  accuracy 0.823  AUC 0.775  recall 0.364  precision 0.687</pre>
 <p>The boosted model is <strong>82.3%</strong> accurate — 4.4 points better than never predicting a default — and at a threshold of 0.5 it catches <strong>36%</strong> of the clients who default. Most defaults go unflagged. The AUC of 0.77 says the ranking is reasonable; the threshold is what throws the catches away.</p>
 <h3 id="step-4"><span class="n">04</span>One column against the model</h3>
 <p>A rule anyone could write: flag every client who is at least a month late right now.</p>
-<div class="code-block" data-run="cases-credit-default/step-4"><pre>late = X_te.PAY_0 &gt;= 1
+<div class="code-block" tabindex="0" data-run="cases-credit-default/step-4"><pre>late = X_te.PAY_0 &gt;= 1
 print('rule PAY_0 &gt;= 1: flags', round(late.mean(), 3), 'of clients',
       '| recall', round(recall_score(y_te, late), 3),
       '| precision', round(precision_score(y_te, late), 3))
@@ -157,7 +159,7 @@ AUC of PAY_0 alone, as a score: 0.688</pre>
 <p>The one-line rule catches <strong>51%</strong> of the defaults — more than the model at 0.5 — with precision 0.51. Last month’s repayment status carries most of the signal; the other 22 columns lift the AUC from 0.69 (that column alone) to 0.77. A baseline like this belongs in every model report, because it tells you what the model adds.</p>
 <h3 id="step-5"><span class="n">05</span>Choose the threshold from the costs</h3>
 <p>Suppose a missed default costs five times as much as flagging a client who would have paid. If the probabilities are calibrated, the cost-minimising rule is to flag when the probability exceeds 1 / (1 + 5) ≈ 0.17. Check the calibration, then compare thresholds.</p>
-<div class="code-block" data-run="cases-credit-default/step-5"><pre>bins = pd.qcut(p, 10, labels=False)                # ten groups by predicted probability
+<div class="code-block" tabindex="0" data-run="cases-credit-default/step-5"><pre>bins = pd.qcut(p, 10, labels=False)                # ten groups by predicted probability
 calib = pd.DataFrame({'predicted': p, 'actual': y_te.values}).groupby(bins).mean().round(3)
 print(calib.T.to_string())
 
