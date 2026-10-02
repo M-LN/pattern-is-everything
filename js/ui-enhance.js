@@ -1198,7 +1198,8 @@
 
   /* ── First-visit "What's new" toast ── */
   // Bump version when there are notable new features to re-show the toast.
-  var WHATSNEW_VERSION = 1;
+  // 1: keyboard shortcuts. 2: guides, case studies, Run, Check yourself.
+  var WHATSNEW_VERSION = 2;
   var WHATSNEW_KEY = 'pp_whatsnew_seen';
   function initWhatsNew() {
     var visits = 0;
@@ -1219,8 +1220,17 @@
       return;
     }
     if (visits < 2) return;
-    // Defer to avoid competing with LCP
-    setTimeout(buildWhatsNewToast, 1800);
+    // Wait for the reader's first scroll, tap or key press, then a moment
+    // more: the page has settled, and a toast painted after input never
+    // becomes the page's largest contentful paint.
+    var shown = false;
+    var once = function () {
+      if (shown) return;
+      shown = true;
+      ['scroll', 'pointerdown', 'keydown'].forEach(function (ev) { window.removeEventListener(ev, once); });
+      setTimeout(buildWhatsNewToast, 1500);
+    };
+    ['scroll', 'pointerdown', 'keydown'].forEach(function (ev) { window.addEventListener(ev, once, { passive: true }); });
   }
   function dismissWhatsNew() {
     var t = document.getElementById('whatsNewToast');
@@ -1240,11 +1250,11 @@
     t.innerHTML =
       '<div class="wn-icon" aria-hidden="true">✨</div>' +
       '<div class="wn-body">' +
-        '<div class="wn-title">New keyboard shortcuts</div>' +
-        '<div class="wn-text">Press <kbd>Ctrl</kbd>+<kbd>K</kbd> to jump to any page, or <kbd>?</kbd> to see all shortcuts.</div>' +
+        '<div class="wn-title">New: guides, case studies, runnable code</div>' +
+        '<div class="wn-text">Decision guides, four case studies on real data, a Run button under every topic’s code, and questions to check yourself.</div>' +
       '</div>' +
       '<div class="wn-actions">' +
-        '<button type="button" class="wn-btn wn-try">Try it</button>' +
+        '<button type="button" class="wn-btn wn-try">Show me</button>' +
         '<button type="button" class="wn-btn wn-dismiss" aria-label="Dismiss">×</button>' +
       '</div>';
     document.body.appendChild(t);
@@ -1257,7 +1267,7 @@
     requestAnimationFrame(function () { t.classList.add('is-visible'); });
     t.querySelector('.wn-try').addEventListener('click', function () {
       dismissWhatsNew();
-      openPalette();
+      location.href = '/#put-it-to-work';   // the home page's section on the new tools
     });
     t.querySelector('.wn-dismiss').addEventListener('click', dismissWhatsNew);
     // Auto-dismiss after 20 seconds of no interaction

@@ -4096,7 +4096,7 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .run-bar .run-btn, :root:not([data-theme="light"]) .trail-start,
   :root:not([data-theme="light"]) .support-cta, :root:not([data-theme="light"]) .nf-btn-primary,
-  :root:not([data-theme="light"]) .topic-counter { background: #b8432a; border-color: #b8432a; }
+  :root:not([data-theme="light"]) .topic-counter, :root:not([data-theme="light"]) .skip-link:focus { background: #b8432a; border-color: #b8432a; }
   :root:not([data-theme="light"]) .btn.b3:hover, :root:not([data-theme="light"]) .btn.b4:hover,
   :root:not([data-theme="light"]) .case-jupyterlite-cta,
   :root:not([data-theme="light"]) .learning-path-actions a.learning-path-next,
@@ -4107,7 +4107,7 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 }
 :root[data-theme="dark"] .run-bar .run-btn, :root[data-theme="dark"] .trail-start,
 :root[data-theme="dark"] .support-cta, :root[data-theme="dark"] .nf-btn-primary,
-:root[data-theme="dark"] .topic-counter { background: #b8432a; border-color: #b8432a; }
+:root[data-theme="dark"] .topic-counter, :root[data-theme="dark"] .skip-link:focus { background: #b8432a; border-color: #b8432a; }
 :root[data-theme="dark"] .btn.b3:hover, :root[data-theme="dark"] .btn.b4:hover,
 :root[data-theme="dark"] .case-jupyterlite-cta,
 :root[data-theme="dark"] .learning-path-actions a.learning-path-next,

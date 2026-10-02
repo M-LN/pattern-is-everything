@@ -104,11 +104,12 @@ function shell({ title, desc, canonical, ogImage, h1, body, extraHead = '' }) {
   <meta name="twitter:description" content="${esc(desc)}">
   <meta name="twitter:image" content="${ogImage}">
 ${extraHead}  <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=37">
+  <link rel="stylesheet" href="/css/main.css?v=38">
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
 <script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
 
 <div class="portal-header" role="banner">
@@ -133,7 +134,7 @@ ${extraHead}  <link rel="stylesheet" href="/css/fonts.css?v=2">
   </div>
 </div>
 
-<main class="trail-page">
+<main class="trail-page" id="mainContent">
 ${body}
 </main>
 
@@ -148,7 +149,7 @@ function toggleTheme() {
 <script src="/js/progress.js?v=1" defer></script>
 <script src="/js/connections.js?v=3" defer></script>
 <script src="/js/trails.js?v=1" defer></script>
-<script src="/js/ui-enhance.js?v=33" defer></script>
+<script src="/js/ui-enhance.js?v=34" defer></script>
 </body>
 </html>
 `;

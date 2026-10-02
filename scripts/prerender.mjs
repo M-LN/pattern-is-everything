@@ -219,7 +219,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=2">
-  <link rel="stylesheet" href="${up}css/main.css?v=37">
+  <link rel="stylesheet" href="${up}css/main.css?v=38">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -234,6 +234,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   </style>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
 <script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
 
 <div class="portal-header" role="banner">
@@ -254,7 +255,7 @@ ${['/ml/','/stats/','/markets/','/essays/','/guides/','/cases/','/sandbox/','/la
   </div>
 </div>
 
-<div role="main" class="topic-page">
+<div role="main" class="topic-page" id="mainContent">
   <div class="crumbs" role="navigation" aria-label="Breadcrumb">
     <a href="${up}index.html">Home</a> / <a href="${coll}">${esc(col.label)}</a> / ${esc(topic.title)}
   </div>

@@ -141,13 +141,14 @@ function page({ title, desc, path, heroTitle, crumb, body, script, og }) {
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=37">
+  <link rel="stylesheet" href="/css/main.css?v=38">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>${CSS}
   </style>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="portal-header">
   <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
   <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">${heroTitle}</h1>
@@ -166,14 +167,14 @@ function page({ title, desc, path, heroTitle, crumb, body, script, og }) {
     <a class="back-link" href="/">Home</a>
   </div>
 </header>
-<main class="guide">
+<main class="guide" id="mainContent">
 ${crumb}
 ${body}
 <p class="reviewed">Last reviewed: ${REVIEWED} · <a href="/method/">How this site checks its content</a></p>
 </main>
 <script src="/js/track.js?v=1" defer></script>
 ${script ? '<script src="/js/guides.js?v=2" defer></script>' : ''}
-<script src="/js/ui-enhance.js?v=33" defer></script>
+<script src="/js/ui-enhance.js?v=34" defer></script>
 </body>
 </html>
 `;
