@@ -1921,10 +1921,10 @@ body:has(.portal-header) .layout { margin-top: 0; }
   letter-spacing: .06em;
   margin-top: 2px;
 }
+/* The badge sits in the corner, so in narrow cards the text keeps the full width. */
+.start-card { padding-top: 28px; }
 .start-card .start-badge {
-  margin-left: auto;
-  flex-shrink: 0;
-  align-self: flex-start;
+  position: absolute; top: 9px; right: 10px;
   font-family: var(--mono);
   font-size: 8px;
   letter-spacing: .1em;

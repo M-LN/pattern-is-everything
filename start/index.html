@@ -20,7 +20,7 @@
   </script>
   <meta property="og:url" content="https://patterniseverything.com/start/">
   <link rel="stylesheet" href="../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../css/main.css?v=36">
+  <link rel="stylesheet" href="../css/main.css?v=37">
   <style>
     body { padding-top: var(--hdr-h); }
     .portal-header {
@@ -193,6 +193,7 @@
     <a href="/stats/">Stats</a>
     <a href="/markets/">Markets</a>
     <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
     <a href="/cases/">Cases</a>
     <a href="/sandbox/">Sandbox</a>
     <a href="/lab/">Lab</a>
@@ -244,10 +245,10 @@
       <div class="path-time">~75 min · includes local CSVs</div>
     </div>
     <div class="path-grid">
-      <a class="step-card" href="../cases/index.html?lp=start-real-data-workflow&lstep=1#housing-regression"><div class="step-num">Case 1</div><div class="step-name">Housing Regression</div><div class="step-note">Load a local sample, split the data, fit a baseline, and report MAE/RMSE.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-real-data-workflow&lstep=1#housing-regression"><div class="step-num">Case 1</div><div class="step-name">California Housing</div><div class="step-note">20,640 real districts: why random cross-validation flatters a model, and a price cap hidden in the target.</div></a>
       <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=2#bias-variance"><div class="step-num">Step 2</div><div class="step-name">Bias vs Variance</div><div class="step-note">Diagnose underfitting, overfitting, and whether more data will help.</div></a>
       <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=3#regularization"><div class="step-num">Step 3</div><div class="step-name">Regularization</div><div class="step-note">Control model complexity without blindly tuning the test set.</div></a>
-      <a class="step-card" href="../lite/lab/?path=case-housing-regression.ipynb&lp=start-real-data-workflow&lstep=4" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">Open the real notebook in a Jupyter interface directly in the browser.</div></a>
+      <a class="step-card" href="../lite/lab/?path=case-housing-regression.ipynb&lp=start-real-data-workflow&lstep=4" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">The housing case as a notebook, in Jupyter in the browser — or run each step on the case page.</div></a>
     </div>
   </section>
 
@@ -260,7 +261,7 @@
       <a class="step-card" href="../timeseries/index.html?lp=start-time-series-drift&lstep=1#stationarity"><div class="step-num">Step 1</div><div class="step-name">Stationarity</div><div class="step-note">Check whether the structure of the series is changing over time.</div></a>
       <a class="step-card" href="../timeseries/index.html?lp=start-time-series-drift&lstep=2#cross-validation-ts"><div class="step-num">Step 2</div><div class="step-name">Walk-Forward Validation</div><div class="step-note">Avoid random splits and evaluate models in time order.</div></a>
       <a class="step-card" href="../stats/index.html?lp=start-time-series-drift&lstep=3#data-drift"><div class="step-num">Step 3</div><div class="step-name">Data Drift</div><div class="step-note">Monitor PSI/KS and connect distribution shift to model decay.</div></a>
-      <a class="step-card" href="../cases/index.html?lp=start-time-series-drift&lstep=4#energy-forecast"><div class="step-num">Case 2</div><div class="step-name">Energy Forecast</div><div class="step-note">Use local demand data to build lag features and compare against a naive baseline.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-time-series-drift&lstep=4#energy-forecast"><div class="step-num">Case 2</div><div class="step-name">Household Electricity</div><div class="step-note">Four years of real meter readings: missing minutes, six naive baselines walk-forward, a model against the 7-day mean.</div></a>
     </div>
   </section>
 
@@ -273,7 +274,7 @@
       <a class="step-card" href="../stats/index.html?lp=start-market-evidence&lstep=1#shap-values"><div class="step-num">Step 1</div><div class="step-name">SHAP Values</div><div class="step-note">Explain predictions while avoiding causal overclaims.</div></a>
       <a class="step-card" href="../markets/index.html?lp=start-market-evidence&lstep=2"><div class="step-num">Step 2</div><div class="step-name">Market Evidence Legend</div><div class="step-note">Separate statistical risk tools from heuristic chart and indicator hypotheses.</div></a>
       <a class="step-card" href="../markets/indicators/index.html?lp=start-market-evidence&lstep=3#rsi"><div class="step-num">Step 3</div><div class="step-name">Validate Indicators</div><div class="step-note">Treat indicator signals as hypotheses and test costs, drawdown, and walk-forward stability.</div></a>
-      <a class="step-card" href="../cases/index.html?lp=start-market-evidence&lstep=4#market-backtest"><div class="step-num">Case 3</div><div class="step-name">Market Backtest</div><div class="step-note">Use the local OHLCV sample to test mechanics before making any claim.</div></a>
+      <a class="step-card" href="../cases/index.html?lp=start-market-evidence&lstep=4#market-backtest"><div class="step-num">Case 3</div><div class="step-name">The 200-Day Rule</div><div class="step-note">A century of daily US market returns: where the edge came from, and a one-day look-ahead bug.</div></a>
     </div>
   </section>
 
