@@ -197,7 +197,7 @@ def page(title, desc, path, body, og):
 </main>
 <script src="/js/track.js?v=1" defer></script>
 <script src="/js/code-run.js?v=2" defer></script>
-<script src="/js/ui-enhance.js?v=35" defer></script>
+<script src="/js/ui-enhance.js?v=36" defer></script>
 </body>
 </html>
 ''' % {'title': esc(re.sub('<[^>]+>', '', title)), 'desc': html.escape(desc), 'site': SITE, 'path': path,

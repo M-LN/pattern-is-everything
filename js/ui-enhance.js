@@ -211,7 +211,7 @@
     { t: 'Why is my model not generalising?', cat: 'Guide', path: '/guides/not-generalising/', kw: 'overfitting underfitting leakage drift diagnose validation' },
     { t: 'Is my backtest honest?',    cat: 'Checklist', path: '/guides/honest-backtest/', kw: 'backtest checklist look-ahead survivorship costs overfitting trading' },
     { t: 'Is my model ready for production?', cat: 'Checklist', path: '/guides/production-ready/', kw: 'production checklist deploy monitoring rollback mlops' },
-    { t: 'About',                     cat: 'Meta',    path: '/about/',              kw: 'about support donate mental health method sources evidence labels fact check review about' },
+    { t: 'About',                     cat: 'Meta',    path: '/about/',              kw: 'about support donate method sources evidence labels fact check review about' },
     // Tools / Labs
     { t: 'Jupyter Lite',              cat: 'Tools',   path: '/lite/',               kw: 'browser jupyter python pyodide notebook lab' },
     { t: 'ML Math Reference',         cat: 'Tools',   path: '/ml-math-reference-v1.html', kw: 'reference cheatsheet formulas' },
@@ -220,7 +220,6 @@
     // Meta
     { t: 'Home',                      cat: 'Meta',    path: '/',                    kw: 'index landing start' },
     { t: 'Start',                     cat: 'Meta',    path: '/start/',              kw: 'getting started onboarding' },
-    { t: 'Impact',                    cat: 'Meta',    path: '/impact/',             kw: 'about mission' },
   ];
 
   /* Global topic index (all 249+ topics across collections), fetched lazily

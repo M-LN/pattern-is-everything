@@ -172,7 +172,7 @@ ${body}
 </main>
 <script src="/js/track.js?v=1" defer></script>
 ${script ? '<script src="/js/guides.js?v=2" defer></script>' : ''}
-<script src="/js/ui-enhance.js?v=35" defer></script>
+<script src="/js/ui-enhance.js?v=36" defer></script>
 </body>
 </html>
 `;
