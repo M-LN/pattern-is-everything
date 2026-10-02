@@ -11,7 +11,7 @@
    a key into run/*.json) the code gets a Run button; js/code-run.js runs it. */
 (function () {
   'use strict';
-  /* When the content was last checked against its sources (see /method/). */
+  /* When the content was last checked against its sources (see /about/). */
   var REVIEWED = 'October 2026';
 
   window.renderDepth = function (d) {
@@ -28,7 +28,7 @@
           '<span class="run-hint">Python, in your browser — edit the code and run it again</span></div>' : '') +
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
       '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
-        '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/method/">How this site checks its content</a></p></div>' +
+        '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/about/#checked">How this site checks its content</a></p></div>' +
     '</section>';
   };
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v114';
+const CACHE_NAME = 'pattern-v115';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -62,7 +62,7 @@ const SHELL = [
   '/sandbox/chaos/index.html',
   '/sandbox/chaos/activities.js',
   '/sandbox/chaos/engines.js',
-  '/support/index.html',
+  '/about/index.html',
   '/impact/index.html',
   '/game/index.html',
   '/game/game-data.js',

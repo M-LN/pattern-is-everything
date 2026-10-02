@@ -1923,6 +1923,7 @@ body:has(.portal-header) .layout { margin-top: 0; }
 }
 /* The badge sits in the corner, so in narrow cards the text keeps the full width. */
 .start-card { padding-top: 28px; }
+.start-card.start-card-plain { padding-top: 14px; }   /* no badge, no room for one */
 .start-card .start-badge {
   position: absolute; top: 9px; right: 10px;
   font-family: var(--mono);

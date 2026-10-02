@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=39">
+  <link rel="stylesheet" href="../../css/main.css?v=40">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -126,7 +126,7 @@ size = out(224, 3, 1, 2)                          # 224x224 input, 3x3 kernel, p
 conv_params = 3 * 3 * 64 * 128 + 128              # 64 -&gt; 128 channels, shared across positions
 dense_params = (224 * 224 * 64) * (112 * 112 * 128)  # a fully connected layer between the same shapes</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p><details class="code-alt"><summary>The same idea with a library</summary><div class="code-block"><pre>self.conv1 = nn.Conv2d(in_channels=<span class="st">3</span>, out_channels=<span class="st">64</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)
 self.pool  = nn.MaxPool2d(kernel_size=<span class="st">2</span>, stride=<span class="st">2</span>)
-self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. LeCun, L. Bottou, Y. Bengio &amp; P. Haffner, “Gradient-Based Learning Applied to Document Recognition”, <em>Proceedings of the IEEE</em> 86(11), 1998</li><li>V. Dumoulin &amp; F. Visin, “A Guide to Convolution Arithmetic for Deep Learning”, arXiv:1603.07285, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, kernel_size=<span class="st">3</span>, padding=<span class="st">1</span>)</pre></div></details></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>Y. LeCun, L. Bottou, Y. Bengio &amp; P. Haffner, “Gradient-Based Learning Applied to Document Recognition”, <em>Proceedings of the IEEE</em> 86(11), 1998</li><li>V. Dumoulin &amp; F. Visin, “A Guide to Convolution Arithmetic for Deep Learning”, arXiv:1603.07285, 2016</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/about/#checked">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

@@ -64,5 +64,37 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/method",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/method/",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/method/index.html",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/support",
+      "destination": "/about/#support",
+      "permanent": true
+    },
+    {
+      "source": "/support/",
+      "destination": "/about/#support",
+      "permanent": true
+    },
+    {
+      "source": "/support/index.html",
+      "destination": "/about/#support",
+      "permanent": true
+    }
   ]
 }

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="../../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../../css/main.css?v=39">
+  <link rel="stylesheet" href="../../css/main.css?v=40">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -132,7 +132,7 @@ dL_dy = y - t
 grad_w2 = dL_dy * h                                # chain rule, backwards
 grad_w1 = dL_dy * w2 * (1 if w1 * x &gt; 0 else 0) * x
 eps = 1e-6                                         # check against finite differences
-num_w1 = (loss(w1 + eps, w2) - loss(w1 - eps, w2)) / (2 * eps)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. E. Rumelhart, G. E. Hinton &amp; R. J. Williams, “Learning Representations by Back-Propagating Errors”, <em>Nature</em> 323, 1986</li><li>A. G. Baydin, B. A. Pearlmutter, A. A. Radul &amp; J. M. Siskind, “Automatic Differentiation in Machine Learning: A Survey”, <em>Journal of Machine Learning Research</em> 18(153), 2018</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/method/">How this site checks its content</a></p></div></section>
+num_w1 = (loss(w1 + eps, w2) - loss(w1 - eps, w2)) / (2 * eps)</pre></div><div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div><p class="depth-note">Assumes <code>import numpy as np</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.</p></div><div class="depth-block depth-sources"><div class="depth-title">Sources</div><ul><li>D. E. Rumelhart, G. E. Hinton &amp; R. J. Williams, “Learning Representations by Back-Propagating Errors”, <em>Nature</em> 323, 1986</li><li>A. G. Baydin, B. A. Pearlmutter, A. A. Radul &amp; J. M. Siskind, “Automatic Differentiation in Machine Learning: A Survey”, <em>Journal of Machine Learning Research</em> 18(153), 2018</li></ul><p class="depth-note depth-reviewed">Last reviewed October 2026 · <a href="/about/#checked">How this site checks its content</a></p></div></section>
   
 </div>
   <section class="topic-connections" aria-label="Topics that link here">

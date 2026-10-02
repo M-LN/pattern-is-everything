@@ -45,7 +45,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-display-400-italic.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css?v=2">
-  <link rel="stylesheet" href="css/main.css?v=39">
+  <link rel="stylesheet" href="css/main.css?v=40">
   </head>
 <body>
 
@@ -259,14 +259,42 @@
   </div>
 </div>
 
-<nav class="home-more" aria-label="More to explore">
-  <a href="/universe/">Pattern Cosmos</a><span aria-hidden="true">·</span>
-  <a href="/game/">Pattern Weaver game</a><span aria-hidden="true">·</span>
-  <a href="/sandbox/">Sandbox labs</a><span aria-hidden="true">·</span>
-  <a href="/lab/">The Model Lab</a><span aria-hidden="true">·</span>
-  <a href="https://www.youtube.com/watch?v=hchZlpgAgRY" target="_blank" rel="noopener">Video tour</a><span aria-hidden="true">·</span>
-  <a href="/support/">♥ 100% of donations go to mental health</a>
-</nav>
+<div class="start-exploring">
+  <div class="section-head">
+    <div class="section-kicker">Beyond the library</div>
+    <h2>Explore <em>differently</em></h2>
+  </div>
+  <div class="start-grid" style="grid-template-columns:repeat(auto-fit,minmax(185px,1fr));">
+    <a class="start-card start-card-plain" href="/universe/">
+      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.2"/><circle cx="5" cy="6" r="1.4"/><circle cx="19" cy="7" r="1.4"/><circle cx="17" cy="18" r="1.4"/><circle cx="6" cy="17" r="1.4"/><path d="M6.2 7 10.4 10.7M17.8 7.9l-4.3 2.9M15.9 17l-2.6-3.3M7.2 16.2l3.1-2.7"/></svg></div>
+      <div class="start-card-text">
+        <div class="start-card-name">Pattern Cosmos</div>
+        <div class="start-card-universe">Every topic as a star map — pan, zoom, explore</div>
+      </div>
+    </a>
+    <a class="start-card start-card-plain" href="/game/">
+      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8a5 5 0 1 0 0 8"/><path d="M17 8a5 5 0 1 1 0 8"/><path d="M9 12h6"/></svg></div>
+      <div class="start-card-text">
+        <div class="start-card-name">Pattern Weaver</div>
+        <div class="start-card-universe">A game: find the thread between two topics</div>
+      </div>
+    </a>
+    <a class="start-card start-card-plain" href="/sandbox/">
+      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6 20V10l6-6 6 6v10"/><path d="M10 20v-5h4v5"/></svg></div>
+      <div class="start-card-text">
+        <div class="start-card-name">Sandbox</div>
+        <div class="start-card-universe">Hands-on labs: fit, cluster, trade, tip into chaos</div>
+      </div>
+    </a>
+    <a class="start-card start-card-plain" href="/lab/">
+      <div class="start-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L5 19a1.5 1.5 0 0 0 1.4 2h11.2A1.5 1.5 0 0 0 19 19l-5-10V3"/><path d="M7.5 15h9"/></svg></div>
+      <div class="start-card-text">
+        <div class="start-card-name">The Model Lab</div>
+        <div class="start-card-universe">Local and hosted language models, tested side by side</div>
+      </div>
+    </a>
+  </div>
+</div>
 
 </main>
 
@@ -275,13 +303,10 @@
   <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
   <nav class="footer-links" aria-label="Footer">
     <a href="https://github.com/M-LN/pattern-is-everything" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
-    <a href="lite/lab/" target="_blank" rel="noopener">JupyterLite Lab</a>
-    <a href="support/index.html">♥ Support</a>
-    <a href="cases/index.html">Real-Data Cases</a>
-    <a href="lab/index.html">The Model Lab</a>
-    <a href="/sandbox/">Sandbox</a>
-    <a href="guides/">Guides</a>
-    <a href="method/">How this site works</a>
+    <a href="lite/lab/" target="_blank" rel="noopener">JupyterLite</a>
+    <a href="about/">About</a>
+    <a href="https://www.youtube.com/watch?v=hchZlpgAgRY" target="_blank" rel="noopener">Video tour</a>
+    <a href="about/#support">♥ 100% of donations go to mental health</a>
     <a href="essays/feed.xml">RSS</a>
   </nav>
 </div>
@@ -860,6 +885,6 @@ if ('serviceWorker' in navigator) {
 <script src="js/progress.js?v=1" defer></script>
 <script src="js/trails.js?v=1" defer></script>
 <script src="js/learning-path.js?v=5" defer></script>
-<script src="js/ui-enhance.js?v=34" defer></script>
+<script src="js/ui-enhance.js?v=35" defer></script>
 </body>
 </html>
