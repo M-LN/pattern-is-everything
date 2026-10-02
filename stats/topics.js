@@ -302,6 +302,555 @@ function selfCheck(id) {
 }
 /* selfcheck:end */
 
+/* depth:start — generated from the scratch scripts toolkit_snippets.py / toolkit_depth.py; each
+   worked example is the output of the code shown with it. */
+const TOPIC_DEPTH = {
+ "confusion-matrix": {
+  "example": "2,000 cases, 20% positive, and one model’s scores. At a threshold of 0.3 the model catches <strong>97%</strong> of positives with <strong>30%</strong> precision; at 0.5, <strong>79%</strong> recall and <strong>51%</strong> precision; at 0.7, <strong>39%</strong> recall and <strong>78%</strong> precision. One model, three confusion matrices: the threshold is a business decision, not a property of the model.",
+  "fails": [
+   "The default 0.5 threshold is only sensible if the scores are calibrated probabilities and both errors cost the same.",
+   "Precision depends on how common positives are; the same matrix means something different in another population.",
+   "Aggregated matrices hide which subgroups bear the errors; break them down by segment."
+  ],
+  "code": "rng = np.random.default_rng(0)\ny = rng.random(2_000) &lt; 0.2                                   # 20% positives\nscore = np.clip(rng.normal(np.where(y, 0.65, 0.35), 0.18), 0, 1)\ntable = {}\nfor th in (0.3, 0.5, 0.7):\n    pred = score &gt;= th\n    tp, fp, fn = (pred &amp; y).sum(), (pred &amp; ~y).sum(), (~pred &amp; y).sum()\n    table[th] = (round(tp / (tp + fp), 2), round(tp / (tp + fn), 2))     # (precision, recall)",
+  "sources": [
+   "D. M. W. Powers, “Evaluation: From Precision, Recall and F-Measure to ROC, Informedness, Markedness and Correlation”, <em>Journal of Machine Learning Technologies</em> 2(1), 2011",
+   "C. Elkan, “The Foundations of Cost-Sensitive Learning”, <em>IJCAI</em>, 2001"
+  ]
+ },
+ "roc-auc": {
+  "example": "300 positives and 700 negatives. The area under the ROC curve computed from ranks is <strong>0.7531</strong>; the share of all positive–negative pairs in which the positive scores higher is also <strong>0.7531</strong>. That is what AUC means: the probability that a random positive outranks a random negative — a ranking measure, blind to the threshold you will actually use.",
+  "fails": [
+   "A good AUC can hide poor performance in the region you operate in; look at the curve near your threshold, or at partial AUC.",
+   "AUC is insensitive to calibration: multiplying all scores by 0.1 leaves it unchanged.",
+   "With rare positives, the ROC curve looks good while precision is poor; check the precision–recall curve too."
+  ],
+  "code": "from scipy.stats import rankdata\nrng = np.random.default_rng(1)\npos, neg = rng.normal(1.0, 1, 300), rng.normal(0, 1, 700)\nranks = rankdata(np.r_[pos, neg])\nauc_rank = (ranks[:300].sum() - 300 * 301 / 2) / (300 * 700)      # Mann-Whitney U, scaled\nauc_pairs = (pos[:, None] &gt; neg[None, :]).mean()                   # P(random positive outranks random negative)",
+  "sources": [
+   "J. A. Hanley &amp; B. J. McNeil, “The Meaning and Use of the Area under a Receiver Operating Characteristic (ROC) Curve”, <em>Radiology</em> 143(1), 1982",
+   "T. Fawcett, “An Introduction to ROC Analysis”, <em>Pattern Recognition Letters</em> 27(8), 2006"
+  ]
+ },
+ "regression-metrics": {
+  "example": "A model that learned the wrong pattern on eight held-out points: MAE <strong>2.12</strong>, RMSE <strong>2.14</strong> — and an R² of <strong>−2.04</strong>. On new data R² can go below zero: the model is worse than predicting the mean every time. R² is a comparison with that baseline, not a number guaranteed to sit between 0 and 1.",
+  "fails": [
+   "R² rises with every added feature on training data; judge it on held-out data, or use adjusted R².",
+   "RMSE and MAE answer different questions (the mean versus the median of the error); pick the one that matches the cost of mistakes.",
+   "R² depends on the spread of the target; the same model scores higher on a more varied test set."
+  ],
+  "code": "y = np.array([10.0, 12, 11, 13, 12, 14, 11, 13])\nmodel = np.array([12.5, 10, 13, 11, 14, 12, 13.5, 11])          # a model that learned the wrong pattern\nr2 = 1 - ((y - model) ** 2).sum() / ((y - y.mean()) ** 2).sum()\nmae, rmse = np.abs(y - model).mean(), np.sqrt(((y - model) ** 2).mean())",
+  "sources": [
+   "T. O. Kvålseth, “Cautionary Note about R²”, <em>The American Statistician</em> 39(4), 1985",
+   "C. J. Willmott &amp; K. Matsuura, “Advantages of the Mean Absolute Error (MAE) over the Root Mean Square Error (RMSE) in Assessing Average Model Performance”, <em>Climate Research</em> 30, 2005",
+   "T. Chai &amp; R. R. Draxler, “Root Mean Square Error (RMSE) or Mean Absolute Error (MAE)?”, <em>Geoscientific Model Development</em> 7, 2014"
+  ]
+ },
+ "cross-validation": {
+  "example": "100 examples, 5 of them positive, split into 5 folds of 20 at random. In <strong>96%</strong> of random splits at least one fold contains no positives at all, so recall cannot even be computed on it. Stratified folds put exactly one positive in each. With rare classes, how you split matters as much as how many folds you use.",
+  "fails": [
+   "Stratification fixes the class balance, not group structure; patients, users or time periods still need grouped or time-ordered folds.",
+   "Fold scores share most of their training data, so their spread understates the true uncertainty.",
+   "Five folds of a tiny dataset give five very noisy estimates; repeated cross-validation helps."
+  ],
+  "code": "rng = np.random.default_rng(2)\ny = np.r_[np.ones(5), np.zeros(95)]                 # 5 positives in 100\nempty = 0\nfor _ in range(10_000):                              # plain 5-fold on a shuffled order\n    folds = rng.permutation(y).reshape(5, 20)\n    empty += (folds.sum(axis=1) == 0).any()\np_some_fold_without_positives = empty / 10_000",
+  "sources": [
+   "R. Kohavi, “A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection”, <em>IJCAI</em>, 1995",
+   "S. Arlot &amp; A. Celisse, “A Survey of Cross-Validation Procedures for Model Selection”, <em>Statistics Surveys</em> 4, 2010",
+   "S. Varma &amp; R. Simon, “Bias in Error Estimation When Using Cross-Validation for Model Selection”, <em>BMC Bioinformatics</em> 7, 2006"
+  ]
+ },
+ "comparing-runs": {
+  "example": "Model B beats model A by about one point on each of five CV folds, while the folds themselves vary from 0.78 to 0.90. An unpaired t-test sees the fold-to-fold variation and gives p = <strong>0.736</strong>. A paired test compares the models fold by fold and gives p = <strong>0.00015</strong>. When two models are scored on the same splits, compare them on the same splits.",
+  "fails": [
+   "Folds share training data, so even the paired test is too optimistic; the corrected resampled t-test adjusts for it (Nadeau &amp; Bengio 2003).",
+   "Across many datasets, use rank-based tests such as Wilcoxon or Friedman (Demšar 2006).",
+   "A significant difference can still be too small to matter; report the size of the gain."
+  ],
+  "code": "from scipy.stats import ttest_ind, ttest_rel\na = np.array([0.81, 0.86, 0.78, 0.90, 0.84])        # model A, five CV folds\nb = a + np.array([0.012, 0.009, 0.011, 0.008, 0.010])   # B is a little better on every fold\np_unpaired = ttest_ind(b, a).pvalue\np_paired = ttest_rel(b, a).pvalue",
+  "sources": [
+   "T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998",
+   "C. Nadeau &amp; Y. Bengio, “Inference for the Generalization Error”, <em>Machine Learning</em> 52(3), 2003",
+   "J. Demšar, “Statistical Comparisons of Classifiers over Multiple Data Sets”, <em>Journal of Machine Learning Research</em> 7, 2006"
+  ]
+ },
+ "learning-curves": {
+  "example": "A degree-7 polynomial fitted to a noisy sine wave. With 20 points the training error is <strong>0.050</strong> and the validation error <strong>0.155</strong>; with 80, <strong>0.079</strong> and <strong>0.102</strong>; with 320, <strong>0.094</strong> and <strong>0.095</strong>. Training error rises and validation error falls until they meet near the noise level (0.09). A gap that is still closing says more data will help.",
+  "fails": [
+   "Curves from a single split are noisy; average several before reading a trend into them.",
+   "Learning curves for different models cross: the best model for small data is often not the best for large (Perlich, Provost &amp; Simonoff 2003).",
+   "A flat validation curve can mean the model is limited, or that the labels are too noisy to learn more from."
+  ],
+  "code": "rng = np.random.default_rng(3)\nf = lambda x: np.sin(3 * x)\nx_val = rng.uniform(-1, 1, 2_000); y_val = f(x_val) + rng.normal(0, 0.3, 2_000)\ngaps = {}\nfor n in (20, 80, 320):\n    x = rng.uniform(-1, 1, n); y = f(x) + rng.normal(0, 0.3, n)\n    c = np.polyfit(x, y, 7)\n    train = ((np.polyval(c, x) - y) ** 2).mean(); val = ((np.polyval(c, x_val) - y_val) ** 2).mean()\n    gaps[n] = (round(train, 3), round(val, 3))",
+  "sources": [
+   "C. Perlich, F. Provost &amp; J. S. Simonoff, “Tree Induction vs. Logistic Regression: A Learning-Curve Analysis”, <em>Journal of Machine Learning Research</em> 4, 2003",
+   "P. Domingos, “A Few Useful Things to Know about Machine Learning”, <em>Communications of the ACM</em> 55(10), 2012"
+  ]
+ },
+ "shap-values": {
+  "example": "For a linear model the SHAP value of each feature is exactly its weight times the distance from the average input. Here the contributions are <strong>2, 0 and −1</strong>, the base value is <strong>5</strong>, and base plus contributions gives <strong>6</strong> — the prediction, every time. Duplicate the first feature and the model can split its weight; SHAP then gives each copy <strong>1</strong>, half the credit.",
+  "fails": [
+   "Credit is shared among correlated features in ways that depend on the model, not on the world.",
+   "SHAP explains the model, not the outcome; a feature with large SHAP values is not shown to cause anything.",
+   "Different background datasets give different SHAP values for the same prediction."
+  ],
+  "code": "w, b = np.array([2.0, -1.0, 0.5]), 1.0          # a linear model\nX = np.array([[1.0, 2.0, 3.0], [3.0, 0.0, 1.0], [2.0, 1.0, 2.0]])   # background data\nx = np.array([3.0, 1.0, 0.0])\nphi = w * (x - X.mean(axis=0))                    # exact SHAP values for a linear model\nbase = w @ X.mean(axis=0) + b\ncheck = (base + phi.sum(), w @ x + b)             # additivity\ndup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split",
+  "sources": [
+   "S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017",
+   "E. Štrumbelj &amp; I. Kononenko, “Explaining Prediction Models and Individual Predictions with Feature Contributions”, <em>Knowledge and Information Systems</em> 41(3), 2014",
+   "K. Aas, M. Jullum &amp; A. Løland, “Explaining Individual Predictions When Features Are Dependent”, <em>Artificial Intelligence</em> 298, 2021"
+  ]
+ },
+ "permutation-importance": {
+  "example": "y depends on x₁ alone. Shuffling x₁ in a model that uses only x₁ raises the error by <strong>7.95</strong>. Add x₂, an almost exact copy, and let the model split the weight: shuffling x₁ now raises the error by just <strong>1.95</strong>, because x₂ still carries the information. Correlated features make each other look unimportant.",
+  "fails": [
+   "Permuting a feature that is correlated with others creates impossible rows, and the model is judged on data it never saw (Hooker, Mentch &amp; Zhou 2021).",
+   "Importance on the training set reflects memorisation; compute it on held-out data.",
+   "Low importance does not mean a feature is irrelevant to the outcome — only that this model does not need it."
+  ],
+  "code": "rng = np.random.default_rng(4)\nn = 5_000\nx1 = rng.normal(size=n); x2 = x1 + rng.normal(0, 0.05, n)    # x2 almost a copy of x1\ny = 2 * x1 + rng.normal(0, 0.5, n)\n\ndef importance(X, w, col):\n    base = ((X @ w - y) ** 2).mean()\n    Xp = X.copy(); Xp[:, col] = rng.permutation(Xp[:, col])\n    return ((Xp @ w - y) ** 2).mean() - base\n\nalone = importance(x1[:, None], np.array([2.0]), 0)\nboth = importance(np.c_[x1, x2], np.array([1.0, 1.0]), 0)     # a model that split the weight",
+  "sources": [
+   "L. Breiman, “Random Forests”, <em>Machine Learning</em> 45(1), 2001",
+   "C. Strobl, A.-L. Boulesteix, T. Kneib, T. Augustin &amp; A. Zeileis, “Conditional Variable Importance for Random Forests”, <em>BMC Bioinformatics</em> 9, 2008",
+   "G. Hooker, L. Mentch &amp; S. Zhou, “Unrestricted Permutation Forces Extrapolation”, <em>Statistics and Computing</em> 31, 2021"
+  ]
+ },
+ "pdp-ice": {
+  "example": "A model that predicts x₁ × x₂, where x₂ is +1 for half the rows and −1 for the other half. The partial dependence on x₁ is nearly flat — <strong>0.08 … −0.08</strong> across the grid — as if x₁ did nothing. The individual (ICE) curves have slopes of <strong>+1</strong> and <strong>−1</strong>: x₁ matters a lot, in opposite directions. Averages hide interactions; ICE shows them.",
+  "fails": [
+   "PDPs evaluate the model on combinations that may never occur when features are correlated; ALE plots avoid this (Apley &amp; Zhu 2020).",
+   "A flat PDP is not evidence that a feature is unimportant.",
+   "Many ICE lines become unreadable; centre them, or cluster them."
+  ],
+  "code": "rng = np.random.default_rng(5)\nx2 = rng.choice([-1.0, 1.0], 1_000)                 # half the rows have x2 = -1, half +1\npredict = lambda x1, x2: x1 * x2                     # a pure interaction\ngrid = np.linspace(-2, 2, 5)\npdp = [predict(g, x2).mean() for g in grid]          # average over the data\nice_slopes = sorted({float(predict(1, v) - predict(0, v)) for v in x2})",
+  "sources": [
+   "J. H. Friedman, “Greedy Function Approximation: A Gradient Boosting Machine”, <em>Annals of Statistics</em> 29(5), 2001",
+   "A. Goldstein, A. Kapelner, J. Bleich &amp; E. Pitkin, “Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation”, <em>Journal of Computational and Graphical Statistics</em> 24(1), 2015",
+   "D. W. Apley &amp; J. Zhu, “Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models”, <em>Journal of the Royal Statistical Society B</em> 82(4), 2020"
+  ]
+ },
+ "feature-correlation": {
+  "example": "Three features where the third is almost a mix of the other two. No pair is correlated above <strong>0.73</strong>, so a correlation heatmap looks unremarkable. Yet the variance inflation factors are <strong>48, 50 and 103</strong> — far past the usual worry level of 10. Multicollinearity can involve several features at once, which pairwise correlations cannot show.",
+  "fails": [
+   "VIF rules of thumb (5, 10) are conventions, not tests; what matters is whether the coefficients you interpret are stable (O’Brien 2007).",
+   "Collinearity hurts the interpretation of coefficients far more than predictions.",
+   "Dropping one of two correlated features changes the meaning of the other’s coefficient."
+  ],
+  "code": "rng = np.random.default_rng(6)\nn = 1_000\na = rng.normal(size=n); b = rng.normal(size=n)\nc = 0.7 * a + 0.7 * b + rng.normal(0, 0.1, n)      # almost a combination of a and b\nX = np.c_[a, b, c]\n\ndef vif(X, j):\n    others = np.c_[np.delete(X, j, axis=1), np.ones(len(X))]\n    fit = others @ np.linalg.lstsq(others, X[:, j], rcond=None)[0]\n    r2 = 1 - ((X[:, j] - fit) ** 2).sum() / ((X[:, j] - X[:, j].mean()) ** 2).sum()\n    return 1 / (1 - r2)\n\nvifs = [round(vif(X, j), 1) for j in range(3)]\nmax_pairwise = np.abs(np.corrcoef(X.T)[np.triu_indices(3, 1)]).max()",
+  "sources": [
+   "<em>Regression Diagnostics</em>, D. A. Belsley, E. Kuh &amp; R. E. Welsch, Wiley, 1980",
+   "R. M. O’Brien, “A Caution Regarding Rules of Thumb for Variance Inflation Factors”, <em>Quality &amp; Quantity</em> 41, 2007"
+  ]
+ },
+ "information-gain": {
+  "example": "y = x² plus a little noise: y is almost entirely determined by x. The Pearson correlation is <strong>0.008</strong>. Mutual information, estimated on a 10×10 grid, is <strong>1.56 bits</strong>. Correlation measures straight-line dependence; mutual information measures any dependence.",
+  "fails": [
+   "Histogram estimates of mutual information depend on the bin count and are biased with little data; nearest-neighbour estimators help (Kraskov et al. 2004).",
+   "Mutual information has no sign and no units you can act on directly; it says that there is a relationship, not which.",
+   "Ranking many features by information on the same data overfits; validate the selection."
+  ],
+  "code": "rng = np.random.default_rng(7)\nx = rng.uniform(-1, 1, 20_000)\ny = x ** 2 + rng.normal(0, 0.05, 20_000)           # fully dependent, not linear\nr = np.corrcoef(x, y)[0, 1]\njoint, _, _ = np.histogram2d(x, y, bins=10)\npxy = joint / joint.sum(); px = pxy.sum(1, keepdims=True); py = pxy.sum(0, keepdims=True)\nnz = pxy &gt; 0\nmi_bits = (pxy[nz] * np.log2(pxy[nz] / (px @ py)[nz])).sum()",
+  "sources": [
+   "<em>Elements of Information Theory</em> (2nd ed.), T. M. Cover &amp; J. A. Thomas, Wiley, 2006",
+   "A. Kraskov, H. Stögbauer &amp; P. Grassberger, “Estimating Mutual Information”, <em>Physical Review E</em> 69, 2004",
+   "D. N. Reshef et al., “Detecting Novel Associations in Large Data Sets”, <em>Science</em> 334(6062), 2011"
+  ]
+ },
+ "distribution-shape": {
+  "example": "10,000 simulated incomes from a lognormal distribution: skewness <strong>3.57</strong>, a mean of <strong>49,351</strong> and a median of <strong>36,160</strong>. The “average” earner earns less than the average. On a log scale the skewness is <strong>0.0</strong>: the data are symmetric in ratios, which is often the right scale to model them on.",
+  "fails": [
+   "Skewness and kurtosis estimates are dominated by a few extreme points and are unstable in small samples.",
+   "Normality tests reject trivial departures in large samples and miss big ones in small samples; look at a QQ plot instead.",
+   "Transforming the target changes what a model predicts (a median rather than a mean on the original scale)."
+  ],
+  "code": "from scipy.stats import skew\nrng = np.random.default_rng(8)\nincome = rng.lognormal(mean=10.5, sigma=0.8, size=10_000)   # right-skewed, like incomes\nstats_raw = (round(skew(income), 2), round(income.mean()), round(np.median(income)))\nskew_log = round(skew(np.log(income)), 2)",
+  "sources": [
+   "D. N. Joanes &amp; C. A. Gill, “Comparing Measures of Sample Skewness and Kurtosis”, <em>Journal of the Royal Statistical Society D</em> 47(1), 1998",
+   "G. E. P. Box &amp; D. R. Cox, “An Analysis of Transformations”, <em>Journal of the Royal Statistical Society B</em> 26(2), 1964"
+  ]
+ },
+ "outlier-detection": {
+  "example": "Twelve values around 10, plus 25 and 300. The z-score rule flags only <strong>300</strong>: that one value inflates the standard deviation so much that 25 hides behind it (“masking”). The median-based modified z-score flags <strong>both 25 and 300</strong>. Outlier rules should not be built from statistics the outliers themselves distort.",
+  "fails": [
+   "An outlier is defined relative to a model; a value extreme in one feature can be normal given the others.",
+   "Deleting outliers automatically can delete the most important cases (fraud, failures, rare events).",
+   "Thresholds such as 3 or 3.5 are conventions; the expected number of false flags grows with the data."
+  ],
+  "code": "x = np.array([10, 11, 9, 10, 12, 11, 10, 9, 11, 10, 25, 300.0])   # two outliers: 25 and 300\nz = (x - x.mean()) / x.std()\nmad = np.median(np.abs(x - np.median(x)))\nrobust = 0.6745 * (x - np.median(x)) / mad          # modified z-score\nflag_z = x[np.abs(z) &gt; 3].tolist()\nflag_robust = x[np.abs(robust) &gt; 3.5].tolist()",
+  "sources": [
+   "B. Iglewicz &amp; D. C. Hoaglin, <em>How to Detect and Handle Outliers</em>, ASQC Quality Press, 1993 — the modified z-score",
+   "C. Leys, C. Ley, O. Klein, P. Bernard &amp; L. Licata, “Detecting Outliers: Do Not Use Standard Deviation around the Mean, Use Absolute Deviation around the Median”, <em>Journal of Experimental Social Psychology</em> 49(4), 2013",
+   "F. T. Liu, K. M. Ting &amp; Z.-H. Zhou, “Isolation Forest”, <em>IEEE ICDM</em>, 2008"
+  ]
+ },
+ "missing-data": {
+  "example": "10,000 incomes with a true mean of <strong>43,741</strong>, where higher earners skip the question more often (<strong>17%</strong> missing overall). The mean of the answers is <strong>36,509</strong> — and imputing the mean for the gaps keeps exactly that bias, while also shrinking the spread. When missingness depends on the value itself, no method on the observed data alone can fully recover it.",
+  "fails": [
+   "Missing not at random (MNAR) cannot be detected from the data; it needs domain knowledge or a sensitivity analysis.",
+   "Multiple imputation handles missing-at-random well; it does not fix MNAR.",
+   "A missingness indicator can itself be predictive, and dropping it throws information away."
+  ],
+  "code": "rng = np.random.default_rng(9)\nincome = rng.lognormal(10.5, 0.6, 10_000)\np_missing = np.clip((income - 30_000) / 100_000, 0, 0.8)     # higher earners skip the question more\nobserved = np.where(rng.random(10_000) &lt; p_missing, np.nan, income)\ntrue_mean = income.mean()\ncomplete_case = np.nanmean(observed)                          # what mean imputation also centres on\nshare_missing = np.isnan(observed).mean()",
+  "sources": [
+   "D. B. Rubin, “Inference and Missing Data”, <em>Biometrika</em> 63(3), 1976",
+   "<em>Statistical Analysis with Missing Data</em> (3rd ed.), R. J. A. Little &amp; D. B. Rubin, Wiley, 2019",
+   "S. van Buuren &amp; K. Groothuis-Oudshoorn, “mice: Multivariate Imputation by Chained Equations in R”, <em>Journal of Statistical Software</em> 45(3), 2011"
+  ]
+ },
+ "data-drift": {
+  "example": "A classifier that catches 80% of positives with 10% false alarms, unchanged. When 10% of cases are positive its precision is <strong>0.471</strong>; when 20% are, <strong>0.667</strong>. Nothing about the features’ distribution within each class moved — only the share of positives (label shift) — yet a key metric changed by 20 points.",
+  "fails": [
+   "Monitoring input features alone misses label shift and concept drift; track outcomes when they arrive.",
+   "Covariate shift, label shift and concept shift need different fixes; diagnose which one you have first (Moreno-Torres et al. 2012).",
+   "Thresholds tuned under one prevalence are wrong under another; re-tune when the base rate moves."
+  ],
+  "code": "tpr, fpr = 0.80, 0.10                               # the model's behaviour within each class, unchanged\ndef precision(prevalence):\n    return tpr * prevalence / (tpr * prevalence + fpr * (1 - prevalence))\nbefore, after = precision(0.10), precision(0.20)       # only the share of positives changed",
+  "sources": [
+   "J. G. Moreno-Torres, T. Raeder, R. Alaiz-Rodríguez, N. V. Chawla &amp; F. Herrera, “A Unifying View on Dataset Shift in Classification”, <em>Pattern Recognition</em> 45(1), 2012",
+   "Z. C. Lipton, Y.-X. Wang &amp; A. Smola, “Detecting and Correcting for Label Shift with Black Box Predictors”, <em>ICML</em>, 2018",
+   "<em>Dataset Shift in Machine Learning</em>, J. Quiñonero-Candela, M. Sugiyama, A. Schwaighofer &amp; N. D. Lawrence (eds.), MIT Press, 2009"
+  ]
+ },
+ "class-imbalance": {
+  "example": "If a missed case costs ten false alarms, the right decision threshold for a calibrated probability is 1/(1 + 10) = <strong>0.091</strong>. A case with P = 0.15 then costs <strong>0.85</strong> in expectation if you act and <strong>1.5</strong> if you do not, so you act. Choosing the threshold from the costs handles imbalance without resampling the data.",
+  "fails": [
+   "The rule needs calibrated probabilities; scores from a resampled or class-weighted model are not.",
+   "For risk prediction, imbalance corrections such as SMOTE often harm calibration without improving discrimination (van den Goorbergh et al. 2022).",
+   "Costs are rarely known exactly; check how sensitive the decision is to them."
+  ],
+  "code": "cost_fp, cost_fn = 1.0, 10.0                        # a missed case costs ten false alarms\nthreshold = cost_fp / (cost_fp + cost_fn)           # act when P(positive) exceeds this\nexpected_cost = lambda p, act: cost_fp * (1 - p) if act else cost_fn * p\nat_15 = (expected_cost(0.15, True), expected_cost(0.15, False))   # a case with P = 0.15",
+  "sources": [
+   "C. Elkan, “The Foundations of Cost-Sensitive Learning”, <em>IJCAI</em>, 2001",
+   "H. He &amp; E. A. Garcia, “Learning from Imbalanced Data”, <em>IEEE Transactions on Knowledge and Data Engineering</em> 21(9), 2009",
+   "R. van den Goorbergh, M. van Smeden, D. Timmerman &amp; B. Van Calster, “The Harm of Class Imbalance Corrections for Risk Prediction Models”, <em>Journal of the American Medical Informatics Association</em> 29(9), 2022"
+  ]
+ },
+ "sharpe-ratio": {
+  "example": "A strategy with an annual Sharpe ratio of 1, measured on three years of monthly returns. Its standard error is about <strong>0.59</strong>, so the 95% interval runs from <strong>−0.15</strong> to <strong>2.15</strong>. Three years cannot tell a good strategy from a useless one — or from an excellent one.",
+  "fails": [
+   "Autocorrelated returns (smoothed or illiquid assets) make the usual √12 annualisation overstate the Sharpe ratio (Lo 2002).",
+   "The ratio treats upside and downside volatility alike; skewed strategies (option selling) look better than they are.",
+   "Comparing the best of many strategies by Sharpe needs a correction for the number tried."
+  ],
+  "code": "sr_annual, months = 1.0, 36                         # a Sharpe of 1, from three years of monthly returns\nsr_m = sr_annual / np.sqrt(12)\nse_m = np.sqrt((1 + 0.5 * sr_m ** 2) / months)       # Lo (2002), i.i.d. returns\nse_annual = se_m * np.sqrt(12)\nci = (sr_annual - 1.96 * se_annual, sr_annual + 1.96 * se_annual)",
+  "sources": [
+   "A. W. Lo, “The Statistics of Sharpe Ratios”, <em>Financial Analysts Journal</em> 58(4), 2002",
+   "W. F. Sharpe, “The Sharpe Ratio”, <em>Journal of Portfolio Management</em> 21(1), 1994",
+   "D. H. Bailey &amp; M. López de Prado, “The Sharpe Ratio Efficient Frontier”, <em>Journal of Risk</em> 15(2), 2012"
+  ]
+ },
+ "max-drawdown": {
+  "example": "Simulated stock-like returns — 7% a year on average with 16% volatility. The median maximum drawdown is <strong>13.7%</strong> over one year, <strong>25.7%</strong> over five and <strong>38.0%</strong> over twenty. The same strategy has a deeper worst drawdown the longer you watch it, so drawdowns from histories of different lengths cannot be compared directly.",
+  "fails": [
+   "A backtest’s maximum drawdown is one draw from a distribution; expect worse live.",
+   "Limits set from a short history will be breached by a perfectly normal strategy.",
+   "Drawdown depends on the order of returns (see Monte Carlo); the same trades can produce very different worst cases."
+  ],
+  "code": "rng = np.random.default_rng(10)\ndef median_mdd(years, paths=2_000, mu=0.07, sigma=0.16):\n    r = rng.normal(mu / 252, sigma / np.sqrt(252), (paths, 252 * years))\n    wealth = np.exp(np.cumsum(r, axis=1))\n    return np.median((1 - wealth / np.maximum.accumulate(wealth, axis=1)).max(axis=1))\ntable = {y: round(median_mdd(y), 3) for y in (1, 5, 20)}",
+  "sources": [
+   "M. Magdon-Ismail, A. F. Atiya, A. Pratap &amp; Y. S. Abu-Mostafa, “On the Maximum Drawdown of a Brownian Motion”, <em>Journal of Applied Probability</em> 41(1), 2004",
+   "M. Magdon-Ismail &amp; A. F. Atiya, “Maximum Drawdown”, <em>Risk</em> 17(10), 2004"
+  ]
+ },
+ "walk-forward": {
+  "example": "200 strategies with no edge at all, tested on two years of daily data. The best one on the first year has a Sharpe ratio of <strong>1.74</strong>; on the second year the same strategy scores <strong>−1.07</strong>, and the average out of sample is <strong>−0.07</strong>. Selecting on in-sample results is selecting on luck; only the out-of-sample period says anything.",
+  "fails": [
+   "Re-optimising at every walk-forward step and then reporting the combined result is still a search; count every variant you tried.",
+   "Short out-of-sample windows are noisy; one good year proves little.",
+   "Walk-forward cannot fix data problems such as survivorship or look-ahead in the inputs."
+  ],
+  "code": "rng = np.random.default_rng(11)\nr = rng.normal(0, 0.01, (200, 1_000))               # 200 strategies with no edge, 1,000 days\nins, outs = r[:, :500], r[:, 500:]\nsharpe = lambda x: x.mean(axis=-1) / x.std(axis=-1) * np.sqrt(252)\nbest = np.argmax(sharpe(ins))\nresult = (round(sharpe(ins)[best], 2), round(sharpe(outs)[best], 2), round(sharpe(outs).mean(), 2))",
+  "sources": [
+   "D. H. Bailey, J. M. Borwein, M. López de Prado &amp; Q. J. Zhu, “Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance”, <em>Notices of the AMS</em> 61(5), 2014",
+   "R. Pardo, <em>The Evaluation and Optimization of Trading Strategies</em> (2nd ed.), Wiley, 2008",
+   "H. White, “A Reality Check for Data Snooping”, <em>Econometrica</em> 68(5), 2000"
+  ]
+ },
+ "monte-carlo": {
+  "example": "One year of 250 trade returns has a maximum drawdown of <strong>12.5%</strong>. Shuffle the same trades into 5,000 other orders: the final result is identical (<strong>True</strong>), but the maximum drawdown ranges from <strong>12.6%</strong> to <strong>26.8%</strong> (5th to 95th percentile). The order you happened to get was among the luckiest; plan for the distribution, not the history.",
+  "fails": [
+   "Shuffling assumes trades are independent; strategies with streaks or regimes need block resampling.",
+   "Simulated paths can only recombine what happened; they cannot produce a crash larger than any in the data.",
+   "A thousand simulated paths from a wrong model are a thousand wrong answers."
+  ],
+  "code": "rng = np.random.default_rng(12)\ntrades = rng.normal(0.002, 0.02, 250)                 # one year of trade returns\ndef mdd(rets):\n    w = np.cumprod(1 + rets); return (1 - w / np.maximum.accumulate(w)).max()\nactual = mdd(trades)\nshuffled = [mdd(rng.permutation(trades)) for _ in range(5_000)]   # same trades, other orders\nlo, hi = np.percentile(shuffled, [5, 95])\nfinal_same = np.isclose(np.prod(1 + trades), np.prod(1 + rng.permutation(trades)))",
+  "sources": [
+   "<em>An Introduction to the Bootstrap</em>, B. Efron &amp; R. J. Tibshirani, Chapman &amp; Hall, 1993",
+   "<em>Monte Carlo Methods in Financial Engineering</em>, P. Glasserman, Springer, 2003"
+  ]
+ },
+ "survivorship-bias": {
+  "example": "1,000 funds with no skill at all, each year closing the worst 10% of those still alive. After five years <strong>590</strong> survive. Across all funds the average annual return is <strong>0.26%</strong> — zero, as it should be. Across the survivors it is <strong>2.16%</strong>. A database of today’s funds reports skill that never existed.",
+  "fails": [
+   "Survivorship hides in index constituents, delisted stocks and closed funds; the data vendor’s history must include the dead.",
+   "The bias is largest exactly where returns are most volatile.",
+   "Selection on success happens in research too: only working strategies get written up."
+  ],
+  "code": "rng = np.random.default_rng(13)\nfunds, years = 1_000, 5\nreturns = rng.normal(0.0, 0.10, (funds, years))      # no fund has any skill\nalive = np.ones(funds, bool)\nfor t in range(years):                                # each year the worst 10% of survivors close\n    cut = np.quantile(returns[alive, t], 0.10)\n    alive &amp;= ~(returns[:, t] &lt; cut)\nall_avg, survivors_avg = returns.mean(), returns[alive].mean()",
+  "sources": [
+   "S. J. Brown, W. Goetzmann, R. G. Ibbotson &amp; S. A. Ross, “Survivorship Bias in Performance Studies”, <em>Review of Financial Studies</em> 5(4), 1992",
+   "E. J. Elton, M. J. Gruber &amp; C. R. Blake, “Survivor Bias and Mutual Fund Performance”, <em>Review of Financial Studies</em> 9(4), 1996"
+  ]
+ },
+ "confidence-intervals": {
+  "example": "A t-interval from 10 observations is promised to cover the true mean 95% of the time. With normal data it does: <strong>95.0%</strong> in 20,000 simulations. With skewed (lognormal) data it covers only <strong>83.6%</strong>. The nominal level is a promise conditional on assumptions; small, skewed samples break it.",
+  "fails": [
+   "Bootstrap intervals help with skew but need enough data themselves; BCa intervals correct for bias and skew (Efron 1987).",
+   "An interval for the mean says nothing about where individual values will fall; that is a prediction interval.",
+   "Overlapping intervals are not a significance test for a difference."
+  ],
+  "code": "from scipy import stats\nrng = np.random.default_rng(14)\ndef coverage(draw, true_mean, n=10, reps=20_000):\n    x = draw((reps, n))\n    half = stats.t.ppf(0.975, n - 1) * x.std(axis=1, ddof=1) / np.sqrt(n)\n    return (np.abs(x.mean(axis=1) - true_mean) &lt;= half).mean()\nnormal = coverage(lambda s: rng.normal(1, 1, s), 1)\nskewed = coverage(lambda s: rng.lognormal(0, 1, s), np.exp(0.5))   # lognormal, mean e^0.5",
+  "sources": [
+   "J. Neyman, “Outline of a Theory of Statistical Estimation Based on the Classical Theory of Probability”, <em>Philosophical Transactions of the Royal Society A</em> 236, 1937",
+   "B. Efron, “Better Bootstrap Confidence Intervals”, <em>Journal of the American Statistical Association</em> 82(397), 1987",
+   "<em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017"
+  ]
+ },
+ "bootstrap-methods": {
+  "example": "Bootstrapping the maximum of 50 values: in <strong>63.8%</strong> of resamples the “new” maximum is just the original maximum, matching the theoretical 1 − (1 − 1/50)⁵⁰ = <strong>63.6%</strong>. The bootstrap distribution piles up on one value and cannot see beyond the sample. The bootstrap works for smooth statistics like means; it fails for extremes.",
+  "fails": [
+   "Other failures: very small samples, heavy tails with infinite variance, and dependent data resampled as if independent.",
+   "Dependent data need block or stationary bootstraps that keep neighbours together.",
+   "The bootstrap estimates sampling variability, not bias from a flawed design."
+  ],
+  "code": "rng = np.random.default_rng(15)\nx = rng.uniform(0, 1, 50)\nboot_max = np.array([rng.choice(x, 50).max() for _ in range(10_000)])\nshare_equal = (boot_max == x.max()).mean()            # resamples whose max is just the sample max\ntheory = 1 - (1 - 1 / 50) ** 50",
+  "sources": [
+   "B. Efron, “Bootstrap Methods: Another Look at the Jackknife”, <em>Annals of Statistics</em> 7(1), 1979",
+   "P. J. Bickel &amp; D. A. Freedman, “Some Asymptotic Theory for the Bootstrap”, <em>Annals of Statistics</em> 9(6), 1981",
+   "<em>An Introduction to the Bootstrap</em>, B. Efron &amp; R. J. Tibshirani, Chapman &amp; Hall, 1993"
+  ]
+ },
+ "bayesian-ab": {
+  "example": "A converts 120 of 1,000 visitors, B 135 of 1,000. With uniform priors, the posterior probability that B is better is <strong>84.3%</strong>, and the expected loss from choosing B — how much conversion you give up on average in the worlds where A is better — is just <strong>0.12</strong> percentage points. A decision rule on expected loss can ship B even though a significance test would not reject.",
+  "fails": [
+   "“Probability that B is better” is not immune to peeking: stopping when it crosses a line still raises error rates unless the decision rule accounts for it.",
+   "Priors matter with little data; report how the conclusion changes under a sceptical prior.",
+   "A posterior on conversion says nothing about long-term effects such as retention or novelty wearing off."
+  ],
+  "code": "rng = np.random.default_rng(16)\na = rng.beta(1 + 120, 1 + 880, 200_000)              # 120 of 1,000 converted, uniform prior\nb = rng.beta(1 + 135, 1 + 865, 200_000)              # 135 of 1,000\np_b_better = (b &gt; a).mean()\nexpected_loss_b = np.maximum(a - b, 0).mean()        # what choosing B costs on average if wrong",
+  "sources": [
+   "<em>Bayesian Data Analysis</em> (3rd ed.), A. Gelman, J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari &amp; D. B. Rubin, CRC Press, 2013",
+   "C. Stucchio, “Bayesian A/B Testing at VWO”, VWO whitepaper, 2015 — expected-loss decision rules",
+   "<em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020"
+  ]
+ },
+ "effect-size": {
+  "example": "Two groups of 100,000 whose means differ by 0.75 points on a standard deviation of 15. The p-value is <strong>1.6×10⁻³⁴</strong> — overwhelming evidence that a difference exists. Cohen’s d is <strong>0.055</strong>, a tenth of what is usually called small. With enough data, significance only tells you the effect is not exactly zero.",
+  "fails": [
+   "Cohen’s benchmarks (0.2, 0.5, 0.8) were meant as a last resort; what counts as meaningful depends on the field and the cost of the change.",
+   "Standardised effect sizes depend on the spread of the sample; the same effect looks bigger in a homogeneous group.",
+   "Effects reported from small significant studies are inflated on average (see Hypothesis Testing)."
+  ],
+  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(17)\na = rng.normal(100, 15, 100_000)\nb = rng.normal(100.75, 15, 100_000)                  # a 0.75-point difference on an SD of 15\np = ttest_ind(a, b).pvalue\nd = (b.mean() - a.mean()) / np.sqrt((a.var(ddof=1) + b.var(ddof=1)) / 2)",
+  "sources": [
+   "<em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.), J. Cohen, Lawrence Erlbaum, 1988",
+   "G. M. Sullivan &amp; R. Feinn, “Using Effect Size — or Why the P Value Is Not Enough”, <em>Journal of Graduate Medical Education</em> 4(3), 2012",
+   "R. L. Wasserstein &amp; N. A. Lazar, “The ASA Statement on p-Values: Context, Process, and Purpose”, <em>The American Statistician</em> 70(2), 2016"
+  ]
+ },
+ "power-analysis": {
+  "example": "To detect a standardised effect with 80% power at the 5% level takes about <strong>393</strong> people per group for d = 0.2, <strong>63</strong> for d = 0.5 and <strong>25</strong> for d = 0.8. A study with 30 per group has only <strong>49%</strong> power for a medium effect of 0.5 — a coin flip whether it finds an effect that is really there.",
+  "fails": [
+   "Power calculations need a guess of the effect size; guessing from a small pilot study usually overestimates it.",
+   "Computing “observed power” after a study is uninformative; it is just a restatement of the p-value.",
+   "Low-powered studies that do find effects tend to exaggerate them (Button et al. 2013)."
+  ],
+  "code": "from scipy.stats import norm\nz = norm.ppf(0.975) + norm.ppf(0.80)\nn_per_group = {d: int(np.ceil(2 * z ** 2 / d ** 2)) for d in (0.2, 0.5, 0.8)}   # normal approximation\npower_30 = norm.cdf(0.5 * np.sqrt(30 / 2) - norm.ppf(0.975))                   # d = 0.5 with 30 per group",
+  "sources": [
+   "<em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.), J. Cohen, Lawrence Erlbaum, 1988",
+   "K. S. Button et al., “Power Failure: Why Small Sample Size Undermines the Reliability of Neuroscience”, <em>Nature Reviews Neuroscience</em> 14, 2013",
+   "<em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020"
+  ]
+ },
+ "hypothesis-testing": {
+  "example": "5,000 experiments with no real effect: <strong>5.0%</strong> come out significant, exactly the false-positive rate promised. 5,000 experiments with a real effect of 0.4 standard deviations and 30 per group: only <strong>32.3%</strong> come out significant, and <strong>18.2%</strong> land between 0.01 and 0.05. With low power, a real effect usually looks like nothing, and when it does show, it barely clears the line.",
+  "fails": [
+   "Significant results from low-powered studies exaggerate the effect size and can even get its sign wrong (Gelman &amp; Carlin 2014).",
+   "When most tested hypotheses are false, most significant findings can be false too (Ioannidis 2005).",
+   "p &lt; 0.05 is a convention, not a law; report the estimate and its interval."
+  ],
+  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(18)\nnull = np.array([ttest_ind(rng.normal(0, 1, 30), rng.normal(0, 1, 30)).pvalue for _ in range(5_000)])\nreal = np.array([ttest_ind(rng.normal(0, 1, 30), rng.normal(0.4, 1, 30)).pvalue for _ in range(5_000)])\nshare = (round((null &lt; 0.05).mean(), 3), round((real &lt; 0.05).mean(), 3))\nnear_miss = round(((real &gt; 0.01) &amp; (real &lt; 0.05)).mean(), 3)",
+  "sources": [
+   "R. L. Wasserstein &amp; N. A. Lazar, “The ASA Statement on p-Values: Context, Process, and Purpose”, <em>The American Statistician</em> 70(2), 2016",
+   "J. P. A. Ioannidis, “Why Most Published Research Findings Are False”, <em>PLoS Medicine</em> 2(8), 2005",
+   "A. Gelman &amp; J. Carlin, “Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors”, <em>Perspectives on Psychological Science</em> 9(6), 2014"
+  ]
+ },
+ "stat-tests": {
+  "example": "Two groups of 40 from a heavy-tailed distribution (Student t with 2 degrees of freedom), with a real shift of 0.5. The t-test detects it <strong>18%</strong> of the time; the Mann–Whitney test <strong>35%</strong> — nearly double. With heavy tails a few extreme values swamp the mean, while ranks barely notice them. The right test depends on the shape of the data, not only on its type.",
+  "fails": [
+   "Mann–Whitney tests whether one group tends to be larger, not whether the means or medians differ, unless the shapes are the same.",
+   "With large samples the t-test is robust to non-normality of the data; the problem is heavy tails and outliers, not skew alone.",
+   "Running several tests and reporting the one that worked is a forking path."
+  ],
+  "code": "from scipy.stats import ttest_ind, mannwhitneyu\nrng = np.random.default_rng(19)\nhits_t = hits_u = 0\nfor _ in range(2_000):                               # heavy-tailed data with a real shift of 0.5\n    a, b = rng.standard_t(2, 40), rng.standard_t(2, 40) + 0.5\n    hits_t += ttest_ind(a, b).pvalue &lt; 0.05\n    hits_u += mannwhitneyu(a, b).pvalue &lt; 0.05\npower = (hits_t / 2_000, hits_u / 2_000)",
+  "sources": [
+   "H. B. Mann &amp; D. R. Whitney, “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other”, <em>Annals of Mathematical Statistics</em> 18(1), 1947",
+   "M. W. Fagerland, “t-Tests, Non-Parametric Tests, and Large Studies — a Paradox of Statistical Practice?”, <em>BMC Medical Research Methodology</em> 12, 2012",
+   "<em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017"
+  ]
+ },
+ "clt-sampling": {
+  "example": "Means of exponential samples: the skewness is <strong>1.99</strong> for single values, <strong>0.87</strong> for means of 5 and <strong>0.35</strong> for means of 30 — falling as 2/√n, the CLT at work. Cauchy data never get there: the spread (interquartile range) of a single draw is <strong>2.10</strong>, and of the mean of 1,000 draws still <strong>2.06</strong>. Without a finite variance, averaging does not help at all.",
+  "fails": [
+   "“n = 30 is enough” is a rule of thumb that fails for strongly skewed or heavy-tailed data.",
+   "The CLT is about the mean; medians, maxima and ratios converge differently, or not at all.",
+   "Dependent observations converge much more slowly than independent ones."
+  ],
+  "code": "from scipy.stats import skew\nrng = np.random.default_rng(20)\nskew_of_mean = {n: round(skew(rng.exponential(1, (20_000, n)).mean(axis=1)), 2) for n in (1, 5, 30)}\ncauchy = rng.standard_cauchy((2_000, 1_000))\nspread = (round(np.subtract(*np.percentile(cauchy[:, 0], [75, 25])), 2),          # one draw\n          round(np.subtract(*np.percentile(cauchy.mean(axis=1), [75, 25])), 2))   # mean of 1,000",
+  "sources": [
+   "<em>An Introduction to Probability Theory and Its Applications</em>, Vol. 2 (2nd ed.), W. Feller, Wiley, 1971",
+   "<em>Introduction to Robust Estimation and Hypothesis Testing</em> (4th ed.), R. R. Wilcox, Academic Press, 2017"
+  ]
+ },
+ "correlation-causation": {
+  "example": "Talent and looks are independent in 20,000 people (r = <strong>−0.002</strong>). Look only at the <strong>1,568</strong> who are noticed because their sum is high, and the correlation is <strong>−0.75</strong>: among the famous, the talented seem plain and the beautiful seem untalented. Selecting on an outcome creates correlations that do not exist — Berkson’s paradox, or collider bias.",
+  "fails": [
+   "Collider bias is created by conditioning — through selection, filtering or “controlling for” a variable that both causes affect.",
+   "Datasets of applicants, patients or customers are already selected; correlations inside them can be artefacts.",
+   "Adding more variables to a regression does not fix this; adding the wrong one causes it."
+  ],
+  "code": "rng = np.random.default_rng(21)\ntalent, looks = rng.normal(size=(2, 20_000))         # independent in the population\nfamous = talent + looks &gt; 2                          # only the top on the sum get noticed\nr_all = np.corrcoef(talent, looks)[0, 1]\nr_famous = np.corrcoef(talent[famous], looks[famous])[0, 1]",
+  "sources": [
+   "J. Berkson, “Limitations of the Application of Fourfold Table Analysis to Hospital Data”, <em>Biometrics Bulletin</em> 2(3), 1946",
+   "<em>Causal Inference in Statistics: A Primer</em>, J. Pearl, M. Glymour &amp; N. P. Jewell, Wiley, 2016",
+   "F. Elwert &amp; C. Winship, “Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable”, <em>Annual Review of Sociology</em> 40, 2014"
+  ]
+ },
+ "eda-workflow": {
+  "example": "Five rows that look harmless. Ages stored as text become numbers only after conversion, with <strong>1</strong> entry (“n/a”) turning into a missing value. Incomes use −999 for “unknown”: the naive mean is <strong>31,800</strong>, the mean without the placeholders <strong>53,667</strong>. The first hour of EDA is mostly about finding what the numbers really are.",
+  "fails": [
+   "Summary statistics hide placeholders, duplicated rows and unit changes; look at value counts and the extremes.",
+   "Every chart you look at during EDA is a test; the patterns you find need confirming on fresh data.",
+   "Cleaning rules decided after seeing results can quietly favour the answer you wanted."
+  ],
+  "code": "df = pd.DataFrame({'age': ['34', '51', '29', 'n/a', '45'],      # numbers stored as text\n                   'income': [52_000, -999, 61_000, 48_000, -999]})   # -999 means \"unknown\"\nage = pd.to_numeric(df.age, errors='coerce')\nnaive_mean = df.income.mean()\nclean_mean = df.income.replace(-999, np.nan).mean()",
+  "sources": [
+   "<em>Exploratory Data Analysis</em>, J. W. Tukey, Addison-Wesley, 1977",
+   "K. W. Broman &amp; K. H. Woo, “Data Organization in Spreadsheets”, <em>The American Statistician</em> 72(1), 2018",
+   "H. Wickham, “Tidy Data”, <em>Journal of Statistical Software</em> 59(10), 2014"
+  ]
+ },
+ "groupby-aggregation": {
+  "example": "900 baskets of 40 in a big store and 100 baskets of 80 in a small one. The per-store means are 40 and 80; their average is <strong>60</strong>. The average basket is <strong>44</strong>. Both are “the mean”: one counts stores, the other counts baskets. Aggregating aggregates silently changes the question.",
+  "fails": [
+   "Averages of ratios and ratios of averages differ; decide which one the question needs.",
+   "Grouped results can reverse when the groups are combined (Simpson’s paradox).",
+   "Small groups produce extreme means by chance; rank them with care."
+  ],
+  "code": "df = pd.DataFrame({'store': ['big'] * 900 + ['small'] * 100,\n                   'basket': np.r_[np.full(900, 40.0), np.full(100, 80.0)]})\nper_store = df.groupby('store').basket.mean()\nmean_of_means = per_store.mean()                    # each store counts once\npooled = df.basket.mean()                           # each basket counts once",
+  "sources": [
+   "H. Wickham, “The Split-Apply-Combine Strategy for Data Analysis”, <em>Journal of Statistical Software</em> 40(1), 2011",
+   "<em>Python for Data Analysis</em> (3rd ed.), W. McKinney, O’Reilly, 2022",
+   "E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951"
+  ]
+ },
+ "cohort-retention": {
+  "example": "From January to June, retention improved in both channels: search from <strong>50.0%</strong> to <strong>53.3%</strong>, ads from <strong>30.0%</strong> to <strong>32.0%</strong>. The overall rate fell from <strong>46.0%</strong> to <strong>38.4%</strong>, because the June cohort came mostly from ads. Reading retention without breaking it down by acquisition mix can report a decline that is really a change in who arrived.",
+  "fails": [
+   "Recent cohorts have not yet had time to churn; averaging curves of different ages biases them.",
+   "Retention definitions (active in month k, or in any month since) change the curve’s shape.",
+   "Extrapolating early churn forward understates lifetime when the curve flattens (Fader &amp; Hardie 2007)."
+  ],
+  "code": "cohorts = pd.DataFrame({'channel': ['search', 'ads'] * 2, 'month': ['Jan', 'Jan', 'Jun', 'Jun'],\n                        'users': [800, 200, 300, 700], 'retained': [400, 60, 160, 224]})\ncohorts['rate'] = cohorts.retained / cohorts.users\noverall = cohorts.groupby('month')[['users', 'retained']].sum()\noverall['rate'] = overall.retained / overall.users",
+  "sources": [
+   "P. S. Fader &amp; B. G. S. Hardie, “How to Project Customer Retention”, <em>Journal of Interactive Marketing</em> 21(1), 2007",
+   "E. H. Simpson, “The Interpretation of Interaction in Contingency Tables”, <em>Journal of the Royal Statistical Society B</em> 13(2), 1951",
+   "P. J. Bickel, E. A. Hammel &amp; J. W. O’Connell, “Sex Bias in Graduate Admissions: Data from Berkeley”, <em>Science</em> 187(4175), 1975"
+  ]
+ },
+ "funnel-analysis": {
+  "example": "A funnel converting 40%, 50% and 20% at its three steps: <strong>4.0%</strong> end to end. Ten more points on the weakest step (20 → 30%) lift it to <strong>6.0%</strong>; ten more points on the 50% step only to <strong>4.8%</strong>. Steps multiply, so the same absolute gain is worth most where the rate is lowest — it is the biggest relative change.",
+  "fails": [
+   "Steps are not independent: pushing more people through one step often lowers the quality of those reaching the next.",
+   "Funnels built from sessions double-count users who return; decide whether you are counting people or visits.",
+   "A funnel shows where people leave, not why; pair it with experiments."
+  ],
+  "code": "stages = np.array([0.40, 0.50, 0.20])               # visit -&gt; signup -&gt; trial -&gt; paid\noverall = stages.prod()\nfix_small = np.array([0.40, 0.50, 0.30]).prod()      # +10 points on the weakest step\nfix_large = np.array([0.40, 0.60, 0.20]).prod()      # +10 points on a stronger one",
+  "sources": [
+   "<em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020",
+   "<em>Lean Analytics</em>, A. Croll &amp; B. Yoskovitz, O’Reilly, 2013"
+  ]
+ },
+ "sklearn-eval": {
+  "example": "Three classes with 900, 80 and 20 examples and per-class F1 of 0.95, 0.60 and 0.20. The macro average, which counts each class once, is <strong>0.583</strong>; the weighted average, which counts each example once, is <strong>0.907</strong>. classification_report prints both. The weighted number mostly describes the big class.",
+  "fails": [
+   "Micro, macro and weighted averages answer different questions; report the one that matches what you care about.",
+   "Default scorers in cross_val_score (accuracy, R²) may not be the metric you need; set scoring explicitly.",
+   "Reports on the training data say nothing about generalisation; evaluate on held-out folds."
+  ],
+  "code": "support = np.array([900, 80, 20])                    # three classes, very unequal\nf1 = np.array([0.95, 0.60, 0.20])                      # per-class F1 from a classification report\nmacro = f1.mean()                                      # every class counts the same\nweighted = (f1 * support).sum() / support.sum()        # every example counts the same",
+  "sources": [
+   "F. Pedregosa et al., “Scikit-learn: Machine Learning in Python”, <em>Journal of Machine Learning Research</em> 12, 2011",
+   "M. Sokolova &amp; G. Lapalme, “A Systematic Analysis of Performance Measures for Classification Tasks”, <em>Information Processing &amp; Management</em> 45(4), 2009",
+   "J. Opitz &amp; S. Burst, “Macro F1 and Macro F1”, arXiv:1911.03347, 2019"
+  ]
+ },
+ "shap-library": {
+  "example": "TreeExplainer on a classifier reports in log-odds. With a 20% base rate the base value is <strong>−1.386</strong>; two features adding 1.2 and 0.9 give a predicted probability of <strong>0.671</strong>. Read the same contributions as probability points and you would get <strong>2.3</strong> — an impossible “230%”. Check the output space before reading a waterfall plot.",
+  "fails": [
+   "TreeExplainer’s default interventional or path-dependent settings give different values for correlated features.",
+   "Global importance from mean |SHAP| is not the same as the importance of a feature for the outcome (Kumar et al. 2020).",
+   "Explanations of a model trained on biased data explain the bias faithfully."
+  ],
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbase_logodds = np.log(0.2 / 0.8)                      # TreeExplainer's base value for a 20% base rate\ncontrib = np.array([1.2, 0.9])                        # two features' SHAP values, in log-odds\np = sigmoid(base_logodds + contrib.sum())\nnaive = 0.2 + contrib.sum()                           # treating them as probability points",
+  "sources": [
+   "S. M. Lundberg et al., “From Local Explanations to Global Understanding with Explainable AI for Trees”, <em>Nature Machine Intelligence</em> 2, 2020",
+   "S. M. Lundberg &amp; S.-I. Lee, “A Unified Approach to Interpreting Model Predictions”, <em>NeurIPS</em>, 2017",
+   "I. E. Kumar, S. Venkatasubramanian, C. Scheidegger &amp; S. Friedler, “Problems with Shapley-Value-Based Explanations as Feature Importance Measures”, <em>ICML</em>, 2020"
+  ]
+ },
+ "optuna": {
+  "example": "Pure random search lands at least one trial in the best 5% of a search space with probability <strong>64%</strong> after 20 trials, <strong>95%</strong> after 60 and near certainty after 200 — whatever the number of dimensions, if only a few really matter (Bergstra &amp; Bengio 2012). Smarter samplers such as TPE beat this baseline; it is the bar they have to clear.",
+  "fails": [
+   "The best of many trials is optimistically biased; evaluate it on data the search never saw.",
+   "Pruning stops slow starters that might finish best; it is a heuristic, not a guarantee.",
+   "A wide, poorly scaled space (learning rate on a linear rather than log scale) wastes most trials."
+  ],
+  "code": "p_top5 = {n: round(1 - 0.95 ** n, 3) for n in (20, 60, 200)}   # random search: at least one trial in the top 5%",
+  "sources": [
+   "T. Akiba, S. Sano, T. Yanase, T. Ohta &amp; M. Koyama, “Optuna: A Next-generation Hyperparameter Optimization Framework”, <em>KDD</em>, 2019",
+   "J. Bergstra &amp; Y. Bengio, “Random Search for Hyper-Parameter Optimization”, <em>Journal of Machine Learning Research</em> 13, 2012",
+   "J. Bergstra, R. Bardenet, Y. Bengio &amp; B. Kégl, “Algorithms for Hyper-Parameter Optimization”, <em>NeurIPS</em>, 2011"
+  ]
+ },
+ "pandas-ta": {
+  "example": "The same 20 closing prices, two “RSI(14)”s. Wilder’s smoothing gives <strong>52.01</strong>; a plain 14-day average of gains and losses gives <strong>63.46</strong>. Libraries and platforms differ in exactly these choices — and Wilder’s version also depends on how much history came before, because its average never fully forgets.",
+  "fails": [
+   "Indicators computed on short histories have not “warmed up”; discard the first few dozen values.",
+   "Two libraries with the same indicator name can give different numbers; pin the implementation and test it against a known reference.",
+   "Downloaded prices may be adjusted or unadjusted for splits and dividends; indicators on mixed data are wrong."
+  ],
+  "code": "close = pd.Series([44.3, 44.1, 44.2, 43.6, 44.3, 44.8, 45.1, 45.4, 45.8, 46.1,\n                   45.9, 46.2, 45.6, 46.3, 46.3, 46.0, 46.4, 46.2, 45.6, 46.2])\nd = close.diff()\nup, down = d.clip(lower=0), -d.clip(upper=0)\ndef rsi(u, v): return (100 - 100 / (1 + u / v)).iloc[-1]\nwilder = rsi(up.ewm(alpha=1 / 14, adjust=False).mean(), down.ewm(alpha=1 / 14, adjust=False).mean())\nsimple = rsi(up.rolling(14).mean(), down.rolling(14).mean())   # \"RSI\" with a plain average",
+  "sources": [
+   "J. W. Wilder Jr., <em>New Concepts in Technical Trading Systems</em>, Trend Research, 1978",
+   "pandas-ta documentation, github.com/twopirllc/pandas-ta",
+   "<em>Technical Analysis from A to Z</em> (2nd ed.), S. B. Achelis, McGraw-Hill, 2000"
+  ]
+ },
+ "scipy-statsmodels": {
+  "example": "Ten p-values, eight of them below 0.05. Bonferroni keeps <strong>2</strong> as significant; the Benjamini–Hochberg procedure keeps <strong>6</strong>, controlling the expected share of false discoveries instead of the chance of any. statsmodels’ <code>multipletests</code> does both; which one is right depends on whether a single false positive is costly or a few are acceptable.",
+  "fails": [
+   "Corrections apply to the family of tests you actually ran, including the ones you did not report.",
+   "Benjamini–Hochberg assumes independent or positively dependent tests; under other dependence use Benjamini–Yekutieli.",
+   "A non-significant result after correction is not evidence of no effect."
+  ],
+  "code": "p = np.array([0.001, 0.004, 0.008, 0.012, 0.02, 0.03, 0.04, 0.045, 0.2, 0.5])\nm = len(p)\nbonferroni = (p &lt; 0.05 / m).sum()\norder = np.sort(p)\npassed = order &lt;= 0.05 * np.arange(1, m + 1) / m    # Benjamini-Hochberg step-up\nbh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0",
+  "sources": [
+   "Y. Benjamini &amp; Y. Hochberg, “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing”, <em>Journal of the Royal Statistical Society B</em> 57(1), 1995",
+   "S. Holm, “A Simple Sequentially Rejective Multiple Test Procedure”, <em>Scandinavian Journal of Statistics</em> 6(2), 1979",
+   "S. Seabold &amp; J. Perktold, “Statsmodels: Econometric and Statistical Modeling with Python”, <em>Proceedings of the 9th Python in Science Conference</em>, 2010",
+   "P. Virtanen et al., “SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python”, <em>Nature Methods</em> 17, 2020"
+  ]
+ }
+};
+/* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+function depthHtml(id) {
+  const d = TOPIC_DEPTH[id];
+  if (!d || typeof renderDepth !== 'function') return '';
+  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.' });
+}
+/* depth:end */
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -493,6 +1042,7 @@ print(classification_report(y_test, y_pred=model.predict(X_test)))
 ConfusionMatrixDisplay.from_estimator(model, X_test, y_test)
 plt.show()</code></pre>
   </div>
+  ${depthHtml('confusion-matrix')}
   <div class="topic-nav" id="nav-confusion-matrix"></div>
 </div>`;
 }
@@ -529,6 +1079,7 @@ plt.xlabel(<span class="st">'FPR'</span>); plt.ylabel(<span class="st">'TPR'</sp
 plt.legend(); plt.show()</pre></div>
   <div class="callout info"><strong>Multi-class:</strong> Use <code>roc_auc_score(y, y_prob, multi_class='ovr')</code> with one-vs-rest for multi-class problems.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> AUC measures discrimination — can the model separate classes? In <a href="../markets/indicators/#rsi">RSI</a>, you're doing the same thing: separating overbought from oversold regimes across different threshold levels.</div>
+  ${depthHtml('roc-auc')}
   <div class="topic-nav" id="nav-roc-auc"></div>
 </div>`;
 }
@@ -567,6 +1118,7 @@ r2   = r2_score(y_true, y_pred)
 print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div>
   <div class="callout"><strong>Adjusted R&sup2;:</strong> R&sup2;<sub>adj</sub> = 1 &minus; (1&minus;R&sup2;)(n&minus;1)/(n&minus;p&minus;1). Penalises adding features. Always use adjusted R&sup2; when comparing models with different feature counts.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../timeseries/#backtesting-forecasts">backtesting forecasts</a>.</div>
+  ${depthHtml('regression-metrics')}
   <div class="topic-nav" id="nav-regression-metrics"></div>
 </div>`;
 }
@@ -639,6 +1191,7 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
     <div class="use-when">✓ <strong>Use when:</strong> Small-to-medium datasets where every sample matters. Model comparison and selection. Hyperparameter tuning (inside nested CV). Reporting final model performance for publication.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Very large datasets (>500K samples) where a single 80/20 split gives stable estimates. Real-time/streaming data where temporal order matters — use walk-forward instead. Quick prototyping where a holdout split is sufficient.</div>
   </div>
+  ${depthHtml('cross-validation')}
   ${selfCheck('cross-validation')}
   <div class="topic-nav" id="nav-cross-validation"></div>
 </div>`;
@@ -677,6 +1230,7 @@ w_stat, p_val = wilcoxon(scores_a, scores_b)
 print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
   <div class="callout"><strong>Rule of thumb:</strong> If p &lt; 0.05, the difference is statistically significant — but also check <a href="#effect-size">effect size</a>. A significant p-value with tiny effect size means the improvement is real but may not matter.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Two runs differ by 0.4 points: signal or seed? <a href="../mlops/#experiment-tracking">Experiment tracking</a> keeps the runs to compare, and traders ask the same of two strategies through <a href="../markets/risk/#risk-adjusted-perf">risk-adjusted performance</a>.</div>
+  ${depthHtml('comparing-runs')}
   <div class="topic-nav" id="nav-comparing-runs"></div>
 </div>`;
 }
@@ -740,6 +1294,7 @@ plt.legend(); plt.show()</pre></div>
     <div class="use-when">✓ <strong>Use when:</strong> You need to decide between getting more data vs. improving the model. Diagnosing overfitting vs underfitting. Justifying compute budget — will more training help? Before deploying to production as a sanity check.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> You're doing a quick prototype where directional results are enough. Using pre-trained models where the learning dynamics are already well-studied. The dataset is fixed and you can't get more data anyway.</div>
   </div>
+  ${depthHtml('learning-curves')}
   <div class="topic-nav" id="nav-learning-curves"></div>
 </div>`;
 }
@@ -824,6 +1379,7 @@ sv = explainer(X_test)
 shap.plots.beeswarm(sv)           # global importance
 shap.plots.waterfall(sv[0])       # explain one prediction</code></pre>
   </div>
+  ${depthHtml('shap-values')}
   <div class="topic-nav" id="nav-shap-values"></div>
 </div>`;
 }
@@ -860,6 +1416,7 @@ result = permutation_importance(
     print(<span class="st">f"{features[i]}: {result.importances_mean[i]:.3f}"</span>)</pre></div>
   <div class="callout"><strong>Correlated features trap:</strong> If two features are correlated, shuffling one leaves the other intact — importance is split between them. Consider using SHAP or drop-column importance for correlated features.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Shuffle an input and see if anything breaks — a controlled experiment that also tests a trading signal in <a href="../markets/risk/#alpha-generation">alpha research</a>. Importances that shift over time are an early warning in <a href="../mlops/#model-monitoring">model monitoring</a>.</div>
+  ${depthHtml('permutation-importance')}
   <div class="topic-nav" id="nav-permutation-importance"></div>
 </div>`;
 }
@@ -894,6 +1451,7 @@ PartialDependenceDisplay.from_estimator(
 )</pre></div>
   <div class="callout info"><strong>Interactions:</strong> If ICE lines cross each other, there's a feature interaction — the effect of this feature depends on other features' values. A flat PDP with scattered ICE means the average is misleading.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A partial-dependence average can hide individual curves pointing the other way — the same trap as <a href="../essays/#essay-simpson">Simpson’s paradox</a>. A signal that works on average can likewise fail in exactly the regimes that matter, as <a href="../markets/risk/#correlation-risk">correlation risk</a> shows.</div>
+  ${depthHtml('pdp-ice')}
   <div class="topic-nav" id="nav-pdp-ice"></div>
 </div>`;
 }
@@ -931,6 +1489,7 @@ vif[<span class="st">'VIF'</span>] = [variance_inflation_factor(X.values, i)
             <span class="kw">for</span> i <span class="kw">in</span> range(X.shape[<span class="st">1</span>])]</pre></div>
   <div class="callout"><strong>Drop rule:</strong> If two features have |r| &gt; 0.9, drop the one less correlated with the target, or the one with higher VIF.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Correlated features split the credit, so neither looks important alone. Portfolios have the same problem: assets that move together give less <a href="../markets/risk/#diversification">diversification</a> than their count suggests, and <a href="../markets/risk/#correlation-risk">correlations rise in a crisis</a>.</div>
+  ${depthHtml('feature-correlation')}
   <div class="topic-nav" id="nav-feature-correlation"></div>
 </div>`;
 }
@@ -962,6 +1521,7 @@ mi = mutual_info_classif(X, y, random_state=<span class="st">42</span>)
 mi_series = pd.Series(mi, index=X.columns).sort_values(ascending=<span class="st">False</span>)
 print(mi_series)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Information gain is how decision trees choose splits. <a href="../ml-math/#entropy">Entropy</a> from the ML Math collection is the foundation. In markets, high mutual information between an indicator and future returns would mean that indicator has real predictive value.</div>
+  ${depthHtml('information-gain')}
   <div class="topic-nav" id="nav-information-gain"></div>
 </div>`;
 }
@@ -998,6 +1558,7 @@ probplot(data, plot=ax)
 plt.show()</pre></div>
   <div class="callout"><strong>When it matters:</strong> Linear regression assumes normal residuals. Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Fat tails are why risk models that assume a bell curve underestimate the bad days — see <a href="../markets/risk/#tail-risk">tail risk</a> and <a href="../markets/risk/#expected-shortfall">expected shortfall</a>, which looks at how bad the worst cases are rather than just where they start.</div>
+  ${depthHtml('distribution-shape')}
   <div class="topic-nav" id="nav-distribution-shape"></div>
 </div>`;
 }
@@ -1034,6 +1595,7 @@ mask = (data &lt; Q1 - <span class="st">1.5</span>*IQR) | (data &gt; Q3 + <span 
 iso = IsolationForest(contamination=<span class="st">0.05</span>)
 labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> In markets, outliers are <a href="../markets/risk/#tail-risk">black swan events</a> — the crash days that break every model. In fraud detection, the outliers <em>are</em> the target. Context decides whether to remove or study them.</div>
+  ${depthHtml('outlier-detection')}
   <div class="topic-nav" id="nav-outlier-detection"></div>
 </div>`;
 }
@@ -1073,6 +1635,7 @@ imp = IterativeImputer(max_iter=<span class="st">10</span>)
 X_filled = imp.fit_transform(X)</pre></div>
   <div class="callout info"><strong>Never impute the target.</strong> And always impute <em>inside</em> cross-validation folds to prevent data leakage.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Gaps are rarely random: a missing price can mean a halted stock, a missing reading a failed sensor. Handling them is part of <a href="../mlops/#data-quality">data quality</a> in production and of <a href="../timeseries/#resampling">resampling</a> irregular time series.</div>
+  ${depthHtml('missing-data')}
   <div class="topic-nav" id="nav-missing-data"></div>
 </div>`;
 }
@@ -1157,6 +1720,7 @@ new = production_df[feature].dropna().to_numpy()
 ks_stat, p_value = ks_2samp(ref, new)
 print({'psi': psi(ref, new), 'ks': ks_stat, 'p_value': p_value})</code></pre>
   </div>
+  ${depthHtml('data-drift')}
   <div class="topic-nav" id="nav-data-drift"></div>
 </div>`;
 }
@@ -1209,6 +1773,7 @@ model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)<
     <div class="skip-when">✗ <strong>Skip when:</strong> Classes are roughly balanced (30-70% split). You have enough minority samples (>5K). You're using models that handle imbalance natively (like focal loss in neural nets).</div>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rare events are the usual case in practice — fraud, failures and crashes are all minority classes. The same imbalance shapes <a href="../timeseries/#anomaly-detection">anomaly detection</a> and is why <a href="../markets/risk/#tail-risk">tail risk</a> is so hard to estimate from history.</div>
+  ${depthHtml('class-imbalance')}
   ${selfCheck('class-imbalance')}
   <div class="topic-nav" id="nav-class-imbalance"></div>
 </div>`;
@@ -1253,6 +1818,7 @@ cum = (<span class="st">1</span> + returns).cumprod()
 dd = (cum / cum.cummax() - <span class="st">1</span>).min()
 calmar = returns.mean() * <span class="st">252</span> / abs(dd)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The Sharpe ratio is signal-to-noise for finance. In ML, the same concept appears as <a href="#comparing-runs">comparing model runs</a> — is the improvement larger than the noise? Both ask: is this real or random?</div>
+  ${depthHtml('sharpe-ratio')}
   <div class="topic-nav" id="nav-sharpe-ratio"></div>
 </div>`;
 }
@@ -1292,6 +1858,7 @@ recovery_periods = underwater.astype(int).groupby(
 ).sum()</pre></div>
   <div class="callout"><strong>Psychology:</strong> A 50% drawdown requires a 100% gain to recover. A 33% drawdown needs 50%. The math is against you — managing drawdown is as important as maximising return.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawdown measures the path, not just the endpoint, and recovery is harder than the fall: a 50% loss needs a 100% gain. That arithmetic drives <a href="../markets/risk/#drawdown-analysis">drawdown analysis</a> and <a href="../markets/risk/#stop-losses">stop-loss rules</a>.</div>
+  ${depthHtml('max-drawdown')}
   <div class="topic-nav" id="nav-max-drawdown"></div>
 </div>`;
 }
@@ -1338,6 +1905,7 @@ print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></di
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — look-ahead bias:</strong> Using indicators like 52-week high/low that peek into the future of your test window. Also: survivorship bias — backtesting on today's S&P 500 ignores all the companies that went bankrupt. Use point-in-time datasets.</div>
   </div>
+  ${depthHtml('walk-forward')}
   <div class="topic-nav" id="nav-walk-forward"></div>
 </div>`;
 }
@@ -1378,6 +1946,7 @@ p5  = np.percentile(paths, <span class="st">5</span>, axis=<span class="st">0</s
 p95 = np.percentile(paths, <span class="st">95</span>, axis=<span class="st">0</span>)</pre></div>
   <div class="callout"><strong>Limitation:</strong> Monte Carlo assumes returns are i.i.d. Real markets have autocorrelation, volatility clustering, and regime changes. Use block bootstrap to preserve some time structure.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Each simulated path is a <a href="../essays/#essay-walk">random walk</a>; thousands of them turn one backtest into a distribution of outcomes. The same simulation gives <a href="../markets/risk/#value-at-risk">value at risk</a> its Monte Carlo variant.</div>
+  ${depthHtml('monte-carlo')}
   <div class="topic-nav" id="nav-monte-carlo"></div>
 </div>`;
 }
@@ -1415,6 +1984,7 @@ function buildSurvivorshipBias() {
 df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'trade_date'</span>]]</pre></div>
   <div class="callout info"><strong>Data snooping:</strong> If you tested 100 strategies, 5 will look significant at p &lt; 0.05 by pure chance. Adjust for multiple comparisons (Bonferroni) or use a holdout period you never touch.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Backtests are one case of a general pattern — <a href="../essays/#essay-survivor">we study what survived</a> and forget the rest. Its psychological twin is <a href="../markets/psychology/#hindsight-bias">hindsight bias</a>: after the fact, the winners look obvious.</div>
+  ${depthHtml('survivorship-bias')}
   <div class="topic-nav" id="nav-survivorship-bias"></div>
 </div>`;
 }
@@ -1452,6 +2022,7 @@ boots = [np.mean(np.random.choice(data, size=n, replace=<span class="st">True</s
          <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="st">10000</span>)]
 ci_boot = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</span>])</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> CIs quantify uncertainty. In ML, report metric &plusmn; CI from <a href="#cross-validation">cross-validation</a>. In markets, <a href="#monte-carlo">Monte Carlo</a> confidence bands are CIs for portfolio outcomes.</div>
+  ${depthHtml('confidence-intervals')}
   ${selfCheck('confidence-intervals')}
   <div class="topic-nav" id="nav-confidence-intervals"></div>
 </div>`;
@@ -1491,6 +2062,7 @@ ci = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97.5</s
 se = boots.std()</pre></div>
   <div class="callout"><strong>BCa (bias-corrected and accelerated):</strong> The basic percentile method works but BCa is more accurate for skewed distributions. <code>scipy.stats.bootstrap</code> offers this.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Resampling with replacement is also how bagging builds varied models — see <a href="../timeseries/#forecast-ensembles">forecast ensembles</a> — and resampling past returns is how historical <a href="../markets/risk/#value-at-risk">value at risk</a> estimates a bad day without assuming a bell curve.</div>
+  ${depthHtml('bootstrap-methods')}
   <div class="topic-nav" id="nav-bootstrap-methods"></div>
 </div>`;
 }
@@ -1532,6 +2104,7 @@ samples = <span class="st">100000</span>
 p_b_wins = (post_b.rvs(samples) &gt; post_a.rvs(samples)).mean()
 print(<span class="st">f"P(B > A) = {p_b_wins:.3f}"</span>)</pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Bayesian updating is the same <a href="../ml-math/#bayes">Bayes' theorem</a> from ML. Prior belief + data = posterior. This connects to <a href="../markets/psychology/#market-sentiment-cycle">market sentiment</a> — prices update beliefs with every new trade.</div>
+  ${depthHtml('bayesian-ab')}
   <div class="topic-nav" id="nav-bayesian-ab"></div>
 </div>`;
 }
@@ -1568,6 +2141,7 @@ d = cohens_d(model_a_scores, model_b_scores)
 print(<span class="st">f"Cohen's d = {d:.3f}"</span>)</pre></div>
   <div class="callout info"><strong>Always report both:</strong> "The improvement was statistically significant (p = 0.02) with a medium effect size (d = 0.55)." p-value alone is meaningless.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A significant result can still be too small to matter. A model in an <a href="../mlops/#ab-rollout">A/B rollout</a> can win by a margin that does not pay for itself, and a trading edge can be real yet vanish in <a href="../markets/risk/#risk-adjusted-perf">risk-adjusted terms</a>.</div>
+  ${depthHtml('effect-size')}
   <div class="topic-nav" id="nav-effect-size"></div>
 </div>`;
 }
@@ -1609,6 +2183,7 @@ powers = [analysis.power(effect_size=<span class="st">0.5</span>, nobs1=n, alpha
 plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="st">'--'</span>); plt.show()</pre></div>
   <div class="callout"><strong>Before you experiment:</strong> Do the power analysis first. If you need 500 samples per group and can only get 50, the experiment is doomed before it starts.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Too little data and a real effect stays invisible. The same arithmetic decides how long an <a href="../mlops/#ab-rollout">A/B rollout</a> has to run, and how much history you need before <a href="../timeseries/#backtesting-forecasts">a backtest</a> can tell skill from luck.</div>
+  ${depthHtml('power-analysis')}
   <div class="topic-nav" id="nav-power-analysis"></div>
 </div>`;
 }
@@ -1698,6 +2273,7 @@ d = (variant.mean() - control.mean()) / np.sqrt(
     (control.var() + variant.var()) / 2)
 print(f"t = {t:.2f}, p = {p:.4f}, Cohen's d = {d:.2f}")</code></pre>
   </div>
+  ${depthHtml('hypothesis-testing')}
   ${selfCheck('hypothesis-testing')}
   <div class="topic-nav" id="nav-hypothesis-testing"></div>
 </div>`;
@@ -1787,6 +2363,7 @@ chi2, p, dof, _ = stats.chi2_contingency(
 print(f"chi2 = {chi2:.1f}, p = {p:.4g}")</code></pre>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing a test is choosing your assumptions. <a href="../mlops/#drift-detection">Drift detection</a> uses the same tests — KS, chi-square — to ask whether production data still looks like training data, and <a href="../timeseries/#stationarity">stationarity tests</a> ask whether a series keeps its statistics over time.</div>
+  ${depthHtml('stat-tests')}
   <div class="topic-nav" id="nav-stat-tests"></div>
 </div>`;
 }
@@ -1859,6 +2436,7 @@ for ax, n in zip(axes, [1, 5, 30]):
     ax.set_title(f"sample means, n = {n}")
 plt.tight_layout(); plt.show()</code></pre>
   </div>
+  ${depthHtml('clt-sampling')}
   <div class="topic-nav" id="nav-clt-sampling"></div>
 </div>`;
 }
@@ -1942,6 +2520,7 @@ within = df.groupby('species').apply(
 print(f"pooled r = {pooled:.2f}")   # negative!
 print(within.round(2))              # all positive</code></pre>
   </div>
+  ${depthHtml('correlation-causation')}
   ${selfCheck('correlation-causation')}
   <div class="topic-nav" id="nav-correlation-causation"></div>
 </div>`;
@@ -2023,6 +2602,7 @@ sns.heatmap(df.isna(), cbar=False)   # missingness at a glance
 plt.show()</code></pre>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The first hour with a dataset is where you catch what <a href="../mlops/#data-quality">data-quality checks</a> later automate, and where a time series first shows its trend and seasons — the starting point for <a href="../timeseries/#decomposition">decomposition</a>.</div>
+  ${depthHtml('eda-workflow')}
   <div class="topic-nav" id="nav-eda-workflow"></div>
 </div>`;
 }
@@ -2105,6 +2685,7 @@ print(summary)
 print(tips.pivot_table('total_bill', index='day',
                        columns='time', aggfunc='sum', observed=True))</code></pre>
   </div>
+  ${depthHtml('groupby-aggregation')}
   <div class="topic-nav" id="nav-groupby-aggregation"></div>
 </div>`;
 }
@@ -2185,6 +2766,7 @@ counts = ev.pivot_table(index='cohort', columns='age',
                         values='user_id', aggfunc='nunique')
 print((counts.div(counts[0], axis=0) * 100).round(1))</code></pre>
   </div>
+  ${depthHtml('cohort-retention')}
   <div class="topic-nav" id="nav-cohort-retention"></div>
 </div>`;
 }
@@ -2268,6 +2850,7 @@ funnel = ev.groupby('event')['user_id'].nunique().reindex(stages)
 print((funnel / funnel.iloc[0]).round(3))
 print("fix first:", (funnel / funnel.shift(1)).idxmin())</code></pre>
   </div>
+  ${depthHtml('funnel-analysis')}
   <div class="topic-nav" id="nav-funnel-analysis"></div>
 </div>`;
 }
@@ -2322,6 +2905,7 @@ grid.fit(X_train, y_train)</pre></div>
   </table>
   <div class="callout"><strong>Tip:</strong> Always use <code>Pipeline</code> to chain preprocessing + model. This prevents data leakage in CV and makes deployment trivial.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The same metrics follow a model into production, where <a href="../mlops/#model-monitoring">model monitoring</a> tracks them over time. For ordered data, <a href="../timeseries/#cross-validation-ts">time-series cross-validation</a> replaces the shuffled folds.</div>
+  ${depthHtml('sklearn-eval')}
   <div class="topic-nav" id="nav-sklearn-eval"></div>
 </div>`;
 }
@@ -2369,6 +2953,7 @@ inter = explainer.shap_interaction_values(X_test)</pre></div>
   </table>
   <div class="callout"><strong>Performance tip:</strong> For KernelExplainer, use a small background dataset (e.g., <code>shap.kmeans(X_train, 50)</code>) to speed things up dramatically.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> SHAP splits a prediction into each feature’s share, as <a href="../markets/risk/#return-attribution">return attribution</a> splits a portfolio’s result into its sources. In production, <a href="../mlops/#fairness-audits">fairness audits</a> use the same attributions to check what a model relies on.</div>
+  ${depthHtml('shap-library')}
   <div class="topic-nav" id="nav-shap-library"></div>
 </div>`;
 }
@@ -2419,6 +3004,7 @@ optuna.visualization.plot_optimization_history(study)</pre></div>
   </table>
   <div class="callout"><strong>vs GridSearch:</strong> GridSearch tests every combination (exponential). Optuna uses Bayesian optimization — it learns which regions are promising and explores them more.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Hyperparameter search is the outer loop around <a href="../ml-math/#gradient">gradient descent</a>: optimising the settings rather than the weights. Tune too hard on one validation set and you fit its noise — the trap described in <a href="../essays/#essay-signal">signal in the noise</a>.</div>
+  ${depthHtml('optuna')}
   <div class="topic-nav" id="nav-optuna"></div>
 </div>`;
 }
@@ -2465,6 +3051,7 @@ print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <sp
     </tbody>
   </table>
   <div class="callout bridge"><strong>Pattern bridge:</strong> These are the same indicators explored in the <a href="../markets/indicators/">Markets &rarr; Indicators</a> collection — <a href="../markets/indicators/#rsi">RSI</a>, <a href="../markets/indicators/#macd">MACD</a>, <a href="../markets/indicators/#bollinger-bands">Bollinger Bands</a> and the rest — but here you can compute them yourself in Python and feed them into ML models as features.</div>
+  ${depthHtml('pandas-ta')}
   <div class="topic-nav" id="nav-pandas-ta"></div>
 </div>`;
 }
@@ -2517,6 +3104,7 @@ print(<span class="st">f"ADF Stat: {result[0]:.3f}, p: {result[1]:.4f}"</span>)<
   </table>
   <div class="callout"><strong>sklearn vs statsmodels:</strong> sklearn is for prediction (fit/predict). statsmodels is for inference (coefficients, p-values, diagnostics). Use both — they complement each other.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> statsmodels fits the <a href="../timeseries/#arima">ARIMA</a> and <a href="../timeseries/#garch">GARCH</a> models used across the Timeseries collection, so the diagnostics here are the ones you run on every forecast model there.</div>
+  ${depthHtml('scipy-statsmodels')}
   <div class="topic-nav" id="nav-scipy-statsmodels"></div>
 </div>`;
 }
