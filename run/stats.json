@@ -1,0 +1,327 @@
+{
+ "confusion-matrix": {
+  "code": "rng = np.random.default_rng(0)\ny = rng.random(2_000) < 0.2                                   # 20% positives\nscore = np.clip(rng.normal(np.where(y, 0.65, 0.35), 0.18), 0, 1)\ntable = {}\nfor th in (0.3, 0.5, 0.7):\n    pred = score >= th\n    tp, fp, fn = (pred & y).sum(), (pred & ~y).sum(), (~pred & y).sum()\n    table[th] = (round(tp / (tp + fp), 2), round(tp / (tp + fn), 2))     # (precision, recall)",
+  "setup": "import numpy as np",
+  "show": "print('table =', table)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "roc-auc": {
+  "code": "from scipy.stats import rankdata\nrng = np.random.default_rng(1)\npos, neg = rng.normal(1.0, 1, 300), rng.normal(0, 1, 700)\nranks = rankdata(np.r_[pos, neg])\nauc_rank = (ranks[:300].sum() - 300 * 301 / 2) / (300 * 700)      # Mann-Whitney U, scaled\nauc_pairs = (pos[:, None] > neg[None, :]).mean()                   # P(random positive outranks random negative)",
+  "setup": "import numpy as np",
+  "show": "print('round(auc_rank, 4) =', round(auc_rank, 4))\nprint('round(auc_pairs, 4) =', round(auc_pairs, 4))",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "regression-metrics": {
+  "code": "y = np.array([10.0, 12, 11, 13, 12, 14, 11, 13])\nmodel = np.array([12.5, 10, 13, 11, 14, 12, 13.5, 11])          # a model that learned the wrong pattern\nr2 = 1 - ((y - model) ** 2).sum() / ((y - y.mean()) ** 2).sum()\nmae, rmse = np.abs(y - model).mean(), np.sqrt(((y - model) ** 2).mean())",
+  "setup": "import numpy as np",
+  "show": "print('round(r2, 2) =', round(r2, 2))\nprint('round(mae, 2) =', round(mae, 2))\nprint('round(rmse, 2) =', round(rmse, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "cross-validation": {
+  "code": "rng = np.random.default_rng(2)\ny = np.r_[np.ones(5), np.zeros(95)]                 # 5 positives in 100\nempty = 0\nfor _ in range(10_000):                              # plain 5-fold on a shuffled order\n    folds = rng.permutation(y).reshape(5, 20)\n    empty += (folds.sum(axis=1) == 0).any()\np_some_fold_without_positives = empty / 10_000",
+  "setup": "import numpy as np",
+  "show": "print('p_some_fold_without_positives =', p_some_fold_without_positives)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "comparing-runs": {
+  "code": "from scipy.stats import ttest_ind, ttest_rel\na = np.array([0.81, 0.86, 0.78, 0.90, 0.84])        # model A, five CV folds\nb = a + np.array([0.012, 0.009, 0.011, 0.008, 0.010])   # B is a little better on every fold\np_unpaired = ttest_ind(b, a).pvalue\np_paired = ttest_rel(b, a).pvalue",
+  "setup": "import numpy as np",
+  "show": "print('round(p_unpaired, 3) =', round(p_unpaired, 3))\nprint('f\"{p_paired:.1e}\" =', f\"{p_paired:.1e}\")",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "learning-curves": {
+  "code": "rng = np.random.default_rng(3)\nf = lambda x: np.sin(3 * x)\nx_val = rng.uniform(-1, 1, 2_000); y_val = f(x_val) + rng.normal(0, 0.3, 2_000)\ngaps = {}\nfor n in (20, 80, 320):\n    x = rng.uniform(-1, 1, n); y = f(x) + rng.normal(0, 0.3, n)\n    c = np.polyfit(x, y, 7)\n    train = ((np.polyval(c, x) - y) ** 2).mean(); val = ((np.polyval(c, x_val) - y_val) ** 2).mean()\n    gaps[n] = (round(train, 3), round(val, 3))",
+  "setup": "import numpy as np",
+  "show": "print('gaps =', gaps)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "shap-values": {
+  "code": "w, b = np.array([2.0, -1.0, 0.5]), 1.0          # a linear model\nX = np.array([[1.0, 2.0, 3.0], [3.0, 0.0, 1.0], [2.0, 1.0, 2.0]])   # background data\nx = np.array([3.0, 1.0, 0.0])\nphi = w * (x - X.mean(axis=0))                    # exact SHAP values for a linear model\nbase = w @ X.mean(axis=0) + b\ncheck = (base + phi.sum(), w @ x + b)             # additivity\ndup = np.array([1.0, 1.0]) * w[0] / 2 * (x[0] - X[:, 0].mean())   # feature 1 copied twice, weight split",
+  "setup": "import numpy as np",
+  "show": "print('phi =', phi)\nprint('round(base, 3) =', round(base, 3))\nprint('check =', check)\nprint('dup =', dup)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "permutation-importance": {
+  "code": "rng = np.random.default_rng(4)\nn = 5_000\nx1 = rng.normal(size=n); x2 = x1 + rng.normal(0, 0.05, n)    # x2 almost a copy of x1\ny = 2 * x1 + rng.normal(0, 0.5, n)\n\ndef importance(X, w, col):\n    base = ((X @ w - y) ** 2).mean()\n    Xp = X.copy(); Xp[:, col] = rng.permutation(Xp[:, col])\n    return ((Xp @ w - y) ** 2).mean() - base\n\nalone = importance(x1[:, None], np.array([2.0]), 0)\nboth = importance(np.c_[x1, x2], np.array([1.0, 1.0]), 0)     # a model that split the weight",
+  "setup": "import numpy as np",
+  "show": "print('round(alone, 2) =', round(alone, 2))\nprint('round(both, 2) =', round(both, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "pdp-ice": {
+  "code": "rng = np.random.default_rng(5)\nx2 = rng.choice([-1.0, 1.0], 1_000)                 # half the rows have x2 = -1, half +1\npredict = lambda x1, x2: x1 * x2                     # a pure interaction\ngrid = np.linspace(-2, 2, 5)\npdp = [predict(g, x2).mean() for g in grid]          # average over the data\nice_slopes = sorted({float(predict(1, v) - predict(0, v)) for v in x2})",
+  "setup": "import numpy as np",
+  "show": "print('np.round(pdp, 2).tolist() =', np.round(pdp, 2).tolist())\nprint('ice_slopes =', ice_slopes)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "feature-correlation": {
+  "code": "rng = np.random.default_rng(6)\nn = 1_000\na = rng.normal(size=n); b = rng.normal(size=n)\nc = 0.7 * a + 0.7 * b + rng.normal(0, 0.1, n)      # almost a combination of a and b\nX = np.c_[a, b, c]\n\ndef vif(X, j):\n    others = np.c_[np.delete(X, j, axis=1), np.ones(len(X))]\n    fit = others @ np.linalg.lstsq(others, X[:, j], rcond=None)[0]\n    r2 = 1 - ((X[:, j] - fit) ** 2).sum() / ((X[:, j] - X[:, j].mean()) ** 2).sum()\n    return 1 / (1 - r2)\n\nvifs = [round(vif(X, j), 1) for j in range(3)]\nmax_pairwise = np.abs(np.corrcoef(X.T)[np.triu_indices(3, 1)]).max()",
+  "setup": "import numpy as np",
+  "show": "print('vifs =', vifs)\nprint('round(max_pairwise, 2) =', round(max_pairwise, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "information-gain": {
+  "code": "rng = np.random.default_rng(7)\nx = rng.uniform(-1, 1, 20_000)\ny = x ** 2 + rng.normal(0, 0.05, 20_000)           # fully dependent, not linear\nr = np.corrcoef(x, y)[0, 1]\njoint, _, _ = np.histogram2d(x, y, bins=10)\npxy = joint / joint.sum(); px = pxy.sum(1, keepdims=True); py = pxy.sum(0, keepdims=True)\nnz = pxy > 0\nmi_bits = (pxy[nz] * np.log2(pxy[nz] / (px @ py)[nz])).sum()",
+  "setup": "import numpy as np",
+  "show": "print('round(r, 3) =', round(r, 3))\nprint('round(mi_bits, 2) =', round(mi_bits, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "distribution-shape": {
+  "code": "from scipy.stats import skew\nrng = np.random.default_rng(8)\nincome = rng.lognormal(mean=10.5, sigma=0.8, size=10_000)   # right-skewed, like incomes\nstats_raw = (round(skew(income), 2), round(income.mean()), round(np.median(income)))\nskew_log = round(skew(np.log(income)), 2)",
+  "setup": "import numpy as np",
+  "show": "print('stats_raw =', stats_raw)\nprint('skew_log =', skew_log)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "outlier-detection": {
+  "code": "x = np.array([10, 11, 9, 10, 12, 11, 10, 9, 11, 10, 25, 300.0])   # two outliers: 25 and 300\nz = (x - x.mean()) / x.std()\nmad = np.median(np.abs(x - np.median(x)))\nrobust = 0.6745 * (x - np.median(x)) / mad          # modified z-score\nflag_z = x[np.abs(z) > 3].tolist()\nflag_robust = x[np.abs(robust) > 3.5].tolist()",
+  "setup": "import numpy as np",
+  "show": "print('flag_z =', flag_z)\nprint('flag_robust =', flag_robust)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "missing-data": {
+  "code": "rng = np.random.default_rng(9)\nincome = rng.lognormal(10.5, 0.6, 10_000)\np_missing = np.clip((income - 30_000) / 100_000, 0, 0.8)     # higher earners skip the question more\nobserved = np.where(rng.random(10_000) < p_missing, np.nan, income)\ntrue_mean = income.mean()\ncomplete_case = np.nanmean(observed)                          # what mean imputation also centres on\nshare_missing = np.isnan(observed).mean()",
+  "setup": "import numpy as np",
+  "show": "print('round(true_mean) =', round(true_mean))\nprint('round(complete_case) =', round(complete_case))\nprint('round(share_missing, 3) =', round(share_missing, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "data-drift": {
+  "code": "tpr, fpr = 0.80, 0.10                               # the model's behaviour within each class, unchanged\ndef precision(prevalence):\n    return tpr * prevalence / (tpr * prevalence + fpr * (1 - prevalence))\nbefore, after = precision(0.10), precision(0.20)       # only the share of positives changed",
+  "setup": "import numpy as np",
+  "show": "print('round(before, 3) =', round(before, 3))\nprint('round(after, 3) =', round(after, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "class-imbalance": {
+  "code": "cost_fp, cost_fn = 1.0, 10.0                        # a missed case costs ten false alarms\nthreshold = cost_fp / (cost_fp + cost_fn)           # act when P(positive) exceeds this\nexpected_cost = lambda p, act: cost_fp * (1 - p) if act else cost_fn * p\nat_15 = (expected_cost(0.15, True), expected_cost(0.15, False))   # a case with P = 0.15",
+  "setup": "import numpy as np",
+  "show": "print('round(threshold, 3) =', round(threshold, 3))\nprint('at_15 =', at_15)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "sharpe-ratio": {
+  "code": "sr_annual, months = 1.0, 36                         # a Sharpe of 1, from three years of monthly returns\nsr_m = sr_annual / np.sqrt(12)\nse_m = np.sqrt((1 + 0.5 * sr_m ** 2) / months)       # Lo (2002), i.i.d. returns\nse_annual = se_m * np.sqrt(12)\nci = (sr_annual - 1.96 * se_annual, sr_annual + 1.96 * se_annual)",
+  "setup": "import numpy as np",
+  "show": "print('round(se_annual, 2) =', round(se_annual, 2))\nprint('np.round(ci, 2) =', np.round(ci, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "max-drawdown": {
+  "code": "rng = np.random.default_rng(10)\ndef median_mdd(years, paths=2_000, mu=0.07, sigma=0.16):\n    r = rng.normal(mu / 252, sigma / np.sqrt(252), (paths, 252 * years))\n    wealth = np.exp(np.cumsum(r, axis=1))\n    return np.median((1 - wealth / np.maximum.accumulate(wealth, axis=1)).max(axis=1))\ntable = {y: round(median_mdd(y), 3) for y in (1, 5, 20)}",
+  "setup": "import numpy as np",
+  "show": "print('table =', table)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "walk-forward": {
+  "code": "rng = np.random.default_rng(11)\nr = rng.normal(0, 0.01, (200, 1_000))               # 200 strategies with no edge, 1,000 days\nins, outs = r[:, :500], r[:, 500:]\nsharpe = lambda x: x.mean(axis=-1) / x.std(axis=-1) * np.sqrt(252)\nbest = np.argmax(sharpe(ins))\nresult = (round(sharpe(ins)[best], 2), round(sharpe(outs)[best], 2), round(sharpe(outs).mean(), 2))",
+  "setup": "import numpy as np",
+  "show": "print('result =', result)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "monte-carlo": {
+  "code": "rng = np.random.default_rng(12)\ntrades = rng.normal(0.002, 0.02, 250)                 # one year of trade returns\ndef mdd(rets):\n    w = np.cumprod(1 + rets); return (1 - w / np.maximum.accumulate(w)).max()\nactual = mdd(trades)\nshuffled = [mdd(rng.permutation(trades)) for _ in range(5_000)]   # same trades, other orders\nlo, hi = np.percentile(shuffled, [5, 95])\nfinal_same = np.isclose(np.prod(1 + trades), np.prod(1 + rng.permutation(trades)))",
+  "setup": "import numpy as np",
+  "show": "print('round(actual, 3) =', round(actual, 3))\nprint('round(lo, 3) =', round(lo, 3))\nprint('round(hi, 3) =', round(hi, 3))\nprint('final_same =', final_same)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "survivorship-bias": {
+  "code": "rng = np.random.default_rng(13)\nfunds, years = 1_000, 5\nreturns = rng.normal(0.0, 0.10, (funds, years))      # no fund has any skill\nalive = np.ones(funds, bool)\nfor t in range(years):                                # each year the worst 10% of survivors close\n    cut = np.quantile(returns[alive, t], 0.10)\n    alive &= ~(returns[:, t] < cut)\nall_avg, survivors_avg = returns.mean(), returns[alive].mean()",
+  "setup": "import numpy as np",
+  "show": "print('alive.sum() =', alive.sum())\nprint('round(all_avg, 4) =', round(all_avg, 4))\nprint('round(survivors_avg, 4) =', round(survivors_avg, 4))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "confidence-intervals": {
+  "code": "from scipy import stats\nrng = np.random.default_rng(14)\ndef coverage(draw, true_mean, n=10, reps=20_000):\n    x = draw((reps, n))\n    half = stats.t.ppf(0.975, n - 1) * x.std(axis=1, ddof=1) / np.sqrt(n)\n    return (np.abs(x.mean(axis=1) - true_mean) <= half).mean()\nnormal = coverage(lambda s: rng.normal(1, 1, s), 1)\nskewed = coverage(lambda s: rng.lognormal(0, 1, s), np.exp(0.5))   # lognormal, mean e^0.5",
+  "setup": "import numpy as np",
+  "show": "print('round(normal, 3) =', round(normal, 3))\nprint('round(skewed, 3) =', round(skewed, 3))",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "bootstrap-methods": {
+  "code": "rng = np.random.default_rng(15)\nx = rng.uniform(0, 1, 50)\nboot_max = np.array([rng.choice(x, 50).max() for _ in range(10_000)])\nshare_equal = (boot_max == x.max()).mean()            # resamples whose max is just the sample max\ntheory = 1 - (1 - 1 / 50) ** 50",
+  "setup": "import numpy as np",
+  "show": "print('round(share_equal, 3) =', round(share_equal, 3))\nprint('round(theory, 3) =', round(theory, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "bayesian-ab": {
+  "code": "rng = np.random.default_rng(16)\na = rng.beta(1 + 120, 1 + 880, 200_000)              # 120 of 1,000 converted, uniform prior\nb = rng.beta(1 + 135, 1 + 865, 200_000)              # 135 of 1,000\np_b_better = (b > a).mean()\nexpected_loss_b = np.maximum(a - b, 0).mean()        # what choosing B costs on average if wrong",
+  "setup": "import numpy as np",
+  "show": "print('round(p_b_better, 3) =', round(p_b_better, 3))\nprint('round(expected_loss_b, 4) =', round(expected_loss_b, 4))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "effect-size": {
+  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(17)\na = rng.normal(100, 15, 100_000)\nb = rng.normal(100.75, 15, 100_000)                  # a 0.75-point difference on an SD of 15\np = ttest_ind(a, b).pvalue\nd = (b.mean() - a.mean()) / np.sqrt((a.var(ddof=1) + b.var(ddof=1)) / 2)",
+  "setup": "import numpy as np",
+  "show": "print('f\"{p:.1e}\" =', f\"{p:.1e}\")\nprint('round(d, 3) =', round(d, 3))",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "power-analysis": {
+  "code": "from scipy.stats import norm\nz = norm.ppf(0.975) + norm.ppf(0.80)\nn_per_group = {d: int(np.ceil(2 * z ** 2 / d ** 2)) for d in (0.2, 0.5, 0.8)}   # normal approximation\npower_30 = norm.cdf(0.5 * np.sqrt(30 / 2) - norm.ppf(0.975))                   # d = 0.5 with 30 per group",
+  "setup": "import numpy as np",
+  "show": "print('n_per_group =', n_per_group)\nprint('round(power_30, 2) =', round(power_30, 2))",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "hypothesis-testing": {
+  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(18)\nx = rng.normal(0, 1, (5_000, 60))                        # 5,000 experiments, two groups of 30, no effect\ny = rng.normal(0, 1, (5_000, 60)); y[:, 30:] += 0.4      # 5,000 more with a real effect of 0.4 SD\nnull = ttest_ind(x[:, :30], x[:, 30:], axis=1).pvalue    # one t-test per row\nreal = ttest_ind(y[:, :30], y[:, 30:], axis=1).pvalue\nshare = (round((null < 0.05).mean(), 3), round((real < 0.05).mean(), 3))\nnear_miss = round(((real > 0.01) & (real < 0.05)).mean(), 3)",
+  "setup": "import numpy as np",
+  "show": "print('share =', share)\nprint('near_miss =', near_miss)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "stat-tests": {
+  "code": "from scipy.stats import ttest_ind, mannwhitneyu\nrng = np.random.default_rng(19)\nhits_t = hits_u = 0\nfor _ in range(2_000):                               # heavy-tailed data with a real shift of 0.5\n    a, b = rng.standard_t(2, 40), rng.standard_t(2, 40) + 0.5\n    hits_t += ttest_ind(a, b).pvalue < 0.05\n    hits_u += mannwhitneyu(a, b).pvalue < 0.05\npower = (hits_t / 2_000, hits_u / 2_000)",
+  "setup": "import numpy as np",
+  "show": "print('power =', power)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "clt-sampling": {
+  "code": "from scipy.stats import skew\nrng = np.random.default_rng(20)\nskew_of_mean = {n: round(skew(rng.exponential(1, (20_000, n)).mean(axis=1)), 2) for n in (1, 5, 30)}\ncauchy = rng.standard_cauchy((2_000, 1_000))\nspread = (round(np.subtract(*np.percentile(cauchy[:, 0], [75, 25])), 2),          # one draw\n          round(np.subtract(*np.percentile(cauchy.mean(axis=1), [75, 25])), 2))   # mean of 1,000",
+  "setup": "import numpy as np",
+  "show": "print('skew_of_mean =', skew_of_mean)\nprint('spread =', spread)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "correlation-causation": {
+  "code": "rng = np.random.default_rng(21)\ntalent, looks = rng.normal(size=(2, 20_000))         # independent in the population\nfamous = talent + looks > 2                          # only the top on the sum get noticed\nr_all = np.corrcoef(talent, looks)[0, 1]\nr_famous = np.corrcoef(talent[famous], looks[famous])[0, 1]",
+  "setup": "import numpy as np",
+  "show": "print('round(r_all, 3) =', round(r_all, 3))\nprint('round(r_famous, 3) =', round(r_famous, 3))\nprint('famous.sum() =', famous.sum())",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "eda-workflow": {
+  "code": "df = pd.DataFrame({'age': ['34', '51', '29', 'n/a', '45'],      # numbers stored as text\n                   'income': [52_000, -999, 61_000, 48_000, -999]})   # -999 means \"unknown\"\nage = pd.to_numeric(df.age, errors='coerce')\nnaive_mean = df.income.mean()\nclean_mean = df.income.replace(-999, np.nan).mean()",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('age.dtype.name =', age.dtype.name)\nprint('age.isna().sum() =', age.isna().sum())\nprint('naive_mean =', naive_mean)\nprint('round(clean_mean, 1) =', round(clean_mean, 1))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "groupby-aggregation": {
+  "code": "df = pd.DataFrame({'store': ['big'] * 900 + ['small'] * 100,\n                   'basket': np.r_[np.full(900, 40.0), np.full(100, 80.0)]})\nper_store = df.groupby('store').basket.mean()\nmean_of_means = per_store.mean()                    # each store counts once\npooled = df.basket.mean()                           # each basket counts once",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('per_store.to_dict() =', per_store.to_dict())\nprint('mean_of_means =', mean_of_means)\nprint('pooled =', pooled)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "cohort-retention": {
+  "code": "cohorts = pd.DataFrame({'channel': ['search', 'ads'] * 2, 'month': ['Jan', 'Jan', 'Jun', 'Jun'],\n                        'users': [800, 200, 300, 700], 'retained': [400, 60, 160, 224]})\ncohorts['rate'] = cohorts.retained / cohorts.users\noverall = cohorts.groupby('month')[['users', 'retained']].sum()\noverall['rate'] = overall.retained / overall.users",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('cohorts.pivot(index=\"month\", columns=\"channel\", values=\"rate\").round(3).to_dict() =', cohorts.pivot(index=\"month\", columns=\"channel\", values=\"rate\").round(3).to_dict())\nprint('overall.rate.round(3).to_dict() =', overall.rate.round(3).to_dict())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "funnel-analysis": {
+  "code": "stages = np.array([0.40, 0.50, 0.20])               # visit -> signup -> trial -> paid\noverall = stages.prod()\nfix_small = np.array([0.40, 0.50, 0.30]).prod()      # +10 points on the weakest step\nfix_large = np.array([0.40, 0.60, 0.20]).prod()      # +10 points on a stronger one",
+  "setup": "import numpy as np",
+  "show": "print('round(overall, 3) =', round(overall, 3))\nprint('round(fix_small, 3) =', round(fix_small, 3))\nprint('round(fix_large, 3) =', round(fix_large, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "sklearn-eval": {
+  "code": "support = np.array([900, 80, 20])                    # three classes, very unequal\nf1 = np.array([0.95, 0.60, 0.20])                      # per-class F1 from a classification report\nmacro = f1.mean()                                      # every class counts the same\nweighted = (f1 * support).sum() / support.sum()        # every example counts the same",
+  "setup": "import numpy as np",
+  "show": "print('round(macro, 3) =', round(macro, 3))\nprint('round(weighted, 3) =', round(weighted, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "shap-library": {
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbase_logodds = np.log(0.2 / 0.8)                      # TreeExplainer's base value for a 20% base rate\ncontrib = np.array([1.2, 0.9])                        # two features' SHAP values, in log-odds\np = sigmoid(base_logodds + contrib.sum())\nnaive = 0.2 + contrib.sum()                           # treating them as probability points",
+  "setup": "import numpy as np",
+  "show": "print('round(base_logodds, 3) =', round(base_logodds, 3))\nprint('round(p, 3) =', round(p, 3))\nprint('naive =', naive)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "optuna": {
+  "code": "p_top5 = {n: round(1 - 0.95 ** n, 3) for n in (20, 60, 200)}   # random search: at least one trial in the top 5%",
+  "setup": "import numpy as np",
+  "show": "print('p_top5 =', p_top5)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "pandas-ta": {
+  "code": "close = pd.Series([44.3, 44.1, 44.2, 43.6, 44.3, 44.8, 45.1, 45.4, 45.8, 46.1,\n                   45.9, 46.2, 45.6, 46.3, 46.3, 46.0, 46.4, 46.2, 45.6, 46.2])\nd = close.diff()\nup, down = d.clip(lower=0), -d.clip(upper=0)\ndef rsi(u, v): return (100 - 100 / (1 + u / v)).iloc[-1]\nwilder = rsi(up.ewm(alpha=1 / 14, adjust=False).mean(), down.ewm(alpha=1 / 14, adjust=False).mean())\nsimple = rsi(up.rolling(14).mean(), down.rolling(14).mean())   # \"RSI\" with a plain average",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('round(wilder, 2) =', round(wilder, 2))\nprint('round(simple, 2) =', round(simple, 2))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "scipy-statsmodels": {
+  "code": "p = np.array([0.001, 0.004, 0.008, 0.012, 0.02, 0.03, 0.04, 0.045, 0.2, 0.5])\nm = len(p)\nbonferroni = (p < 0.05 / m).sum()\norder = np.sort(p)\npassed = order <= 0.05 * np.arange(1, m + 1) / m    # Benjamini-Hochberg step-up\nbh = (np.max(np.nonzero(passed)) + 1) if passed.any() else 0",
+  "setup": "import numpy as np",
+  "show": "print('bonferroni =', bonferroni)\nprint('bh =', bh)\nprint('(p < 0.05).sum() =', (p < 0.05).sum())",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

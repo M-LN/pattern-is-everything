@@ -1,0 +1,214 @@
+{
+ "confirmation-bias": {
+  "code": "prior = 0.60                                    # how sure you are the bullish thesis is right\nlr = [1.5, 1.5, 1.5, 1 / 1.5, 1 / 1.5, 1 / 1.5]  # three pieces of evidence for it, three equally strong against\n\ndef update(p, lrs, w_against=1.0):               # Bayes in log-odds; w_against < 1 discounts contrary evidence\n    logit = np.log(p / (1 - p))\n    for x in lrs:\n        logit += np.log(x) * (w_against if x < 1 else 1)\n    return 1 / (1 + np.exp(-logit))\n\nfair = update(prior, lr)\nbiased = update(prior, lr, w_against=0.5)\nbiased_after_5_rounds = update(prior, lr * 5, w_against=0.5)",
+  "setup": "import numpy as np",
+  "show": "print('fair =', fair)\nprint('biased =', biased)\nprint('biased_after_5_rounds =', biased_after_5_rounds)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "anchoring": {
+  "code": "close = pd.Series([80, 78, 74, 70, 66, 63, 61, 64, 62, 60, 63, 62])   # twelve month-end closes, made up\nhigh52 = close.max()                     # the anchor: the 52-week high\nratio = close.iloc[-1] / high52          # George & Hwang's measure, price over its 52-week high\noff_high = 1 - ratio\ncost = 75                                # where this holder bought: a second anchor\nvs_cost = close.iloc[-1] / cost - 1",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('high52 =', high52)\nprint('ratio =', ratio)\nprint('off_high =', off_high)\nprint('vs_cost =', vs_cost)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "recency-bias": {
+  "code": "r = pd.Series([0.12, 0.08, -0.05, 0.15, 0.10, 0.07, -0.18, 0.22, 0.25, 0.20])   # ten years of returns, made up\nlong_run = r.mean()\nlast_three = r.tail(3).mean()\nfelt = r.ewm(alpha=0.5).mean().iloc[-1]  # each year counts half as much as the one after it",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('long_run =', long_run)\nprint('last_three =', last_three)\nprint('felt =', felt)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "availability-heuristic": {
+  "code": "years = 30\ncrash = np.zeros(years); crash[[8, 27]] = 1       # two crash years in thirty, the latest three years ago\nbase_rate = crash.mean()\n\nvivid = np.where(crash == 1, 5.0, 1.0)            # a crash year comes to mind five times as easily\nfresh = 0.9 ** np.arange(years)[::-1]             # and memories fade by 10% a year\nw = vivid * fresh\nfelt = (w * crash).sum() / w.sum()                # the probability that \"feels\" right",
+  "setup": "import numpy as np",
+  "show": "print('base_rate =', base_rate)\nprint('felt =', felt)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "hindsight-bias": {
+  "code": "log = pd.DataFrame({\n    'event':      ['rate cut', 'earnings beat', 'recession', 'oil above 100', 'index new high'],\n    'said':       [0.30, 0.55, 0.20, 0.40, 0.60],      # written down beforehand\n    'happened':   [1, 0, 1, 0, 1],\n    'remembered': [0.60, 0.35, 0.45, 0.25, 0.80]})     # what you later recall having said\ntoward_outcome = np.where(log.happened == 1, log.remembered - log.said, log.said - log.remembered)\nbrier_said = ((log.said - log.happened) ** 2).mean()   # lower is better\nbrier_remembered = ((log.remembered - log.happened) ** 2).mean()",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('toward_outcome.mean() =', toward_outcome.mean())\nprint('brier_said =', brier_said)\nprint('brier_remembered =', brier_remembered)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "fear-and-greed": {
+  "code": "s = pd.DataFrame({                               # ten weekly readings, made up\n    'vix':      [14, 13, 15, 22, 35, 41, 30, 24, 18, 16],\n    'put_call': [0.80, 0.75, 0.85, 1.00, 1.25, 1.30, 1.10, 0.95, 0.85, 0.80],\n    'above_200d': [72, 75, 68, 50, 28, 20, 33, 45, 60, 66]})   # % of stocks above their 200-day average\nz = (s - s.mean()) / s.std()\nfear = (z.vix + z.put_call - z.above_200d) / 3    # high = fear, low = greed\nlabel = np.select([fear > 1, fear < -1], ['extreme fear', 'extreme greed'], 'neutral')",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('fear.round(2).tolist() =', fear.round(2).tolist())\nprint('label.tolist() =', label.tolist())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "loss-aversion": {
+  "code": "def v(x, a=0.88, lam=2.25):                      # Tversky & Kahneman's (1992) median estimates\n    return np.where(x >= 0, np.abs(x) ** a, -lam * np.abs(x) ** a)\n\nev = 0.5 * 110 + 0.5 * -100                      # a fair coin: win 110 or lose 100\nfelt = 0.5 * v(110) + 0.5 * v(-100)\nwin_needed = 100 * 2.25 ** (1 / 0.88)            # the win that makes losing 100 feel even",
+  "setup": "import numpy as np",
+  "show": "print('ev =', ev)\nprint('float(felt) =', float(felt))\nprint('win_needed =', win_needed)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "regret-aversion": {
+  "code": "pay = pd.DataFrame({'sell now': [0, 0, 0], 'sell half': [15, 2.5, -10], 'hold': [30, 5, -20]},\n                   index=['rally', 'flat', 'drop'])      # profit from here in each outcome\np = np.array([0.35, 0.35, 0.30])                         # your odds for the three outcomes\nev = pay.T @ p\nregret = pay.max(axis=1).values[:, None] - pay.values    # best choice in hindsight minus yours\nworst_regret = pd.Series(regret.max(axis=0), index=pay.columns)",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('ev.to_dict() =', ev.to_dict())\nprint('worst_regret.to_dict() =', worst_regret.to_dict())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "overconfidence": {
+  "code": "fc = pd.DataFrame({                              # ten ranges you were \"90% sure\" of, made up\n    'low':    [95, 40, 1.8, 210, 70, 12, 3.1, 150, 88, 25],\n    'high':   [105, 48, 2.2, 240, 80, 15, 3.5, 170, 96, 30],\n    'actual': [108, 44, 2.5, 236, 64, 13, 3.4, 181, 90, 31]})\nhit_rate = fc.actual.between(fc.low, fc.high).mean()",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('hit_rate =', hit_rate)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "disposition-effect": {
+  "code": "book = pd.DataFrame({                            # every position held on the days something was sold\n    'gain': [1, 1, 1, 0, 0, 0, 0,  1, 1, 0, 0, 0,  1, 1, 1, 0, 0],\n    'sold': [1, 0, 1, 0, 0, 0, 0,  1, 0, 0, 1, 0,  1, 0, 0, 0, 0]})\ng, s = book.gain == 1, book.sold == 1\nPGR = (g & s).sum() / g.sum()                    # proportion of gains realized (Odean 1998)\nPLR = (~g & s).sum() / (~g).sum()                # proportion of losses realized",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('PGR =', PGR)\nprint('PLR =', PLR)\nprint('PGR / PLR =', PGR / PLR)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "herd-behavior": {
+  "code": "from math import comb\nq = pd.DataFrame({'buyers': [18, 9, 14, 5, 11], 'sellers': [2, 11, 6, 15, 9]},\n                 index=list('ABCDE'))            # funds buying and selling five stocks in one quarter, made up\nn = q.buyers + q.sellers\np = q.buyers / n\np_all = q.buyers.sum() / n.sum()                 # share of all trades that are buys\n\ndef af(n, p):                                    # |p_i - p_all| expected by chance alone\n    return sum(comb(n, k) * p**k * (1 - p)**(n - k) * abs(k / n - p) for k in range(n + 1))\n\nH = (p - p_all).abs() - n.apply(af, p=p_all)     # Lakonishok, Shleifer & Vishny's herding measure",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('p_all =', p_all)\nprint('H.round(3).to_dict() =', H.round(3).to_dict())\nprint('H.mean() =', H.mean())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "fomo": {
+  "code": "close = pd.Series([10, 10.5, 11, 12, 13.5, 15.5, 18, 21, 19, 16, 14, 13])   # a run-up and its unwind, made up\nentry = close[close >= 2 * close.iloc[0]].index[0]   # the FOMO buyer waits until it has doubled\nfomo = close.iloc[-1] / close[entry] - 1\nearly = close.iloc[-1] / close.iloc[0] - 1",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('entry =', entry)\nprint('close[entry] =', close[entry])\nprint('fomo =', fomo)\nprint('early =', early)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "social-proof": {
+  "code": "rng = np.random.default_rng(1)\n\ndef market(social, songs=10, listeners=2000):    # ten songs of equal quality\n    plays = np.ones(songs)\n    for _ in range(listeners):\n        p = plays / plays.sum() if social else np.full(songs, 1 / songs)   # social: pick in proportion to plays so far\n        plays[rng.choice(songs, p=p)] += 1\n    return plays\n\ntop_share = lambda w: w.max() / w.sum()\nalone = [top_share(market(False)) for _ in range(5)]\nseen = [market(True) for _ in range(5)]\ntogether = [top_share(w) for w in seen]\nwinners = [int(w.argmax()) for w in seen]",
+  "setup": "import numpy as np",
+  "show": "print('np.round(alone, 2).tolist() =', np.round(alone, 2).tolist())\nprint('np.round(together, 2).tolist() =', np.round(together, 2).tolist())\nprint('winners =', winners)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "contrarian-thinking": {
+  "code": "close = pd.Series([100, 92, 85, 70, 72, 60, 55, 50, 58, 66, 75, 82])   # a sell-off and recovery, made up\nentry = close[close <= 0.7 * close.iloc[0]].index[0]   # buy into the panic, 30% below the high\nworst = close[entry:].min() / close[entry] - 1        # what you sit through first\nfinal = close.iloc[-1] / close[entry] - 1",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('entry =', entry)\nprint('close[entry] =', close[entry])\nprint('worst =', worst)\nprint('final =', final)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "information-cascades": {
+  "code": "rng = np.random.default_rng(7)\n\ndef queue(n=20, q=0.6):                           # the right choice is 1; each private signal is right 60% of the time\n    acts, lead = [], 0                            # lead = adopters minus rejecters seen so far\n    for _ in range(n):\n        signal = 1 if rng.random() < q else 0\n        act = (1 if lead > 0 else 0) if abs(lead) >= 2 else signal   # two ahead: copy the crowd, ignore the signal\n        acts.append(act); lead += 1 if act else -1\n    return acts\n\nwrong_cascade = np.mean([queue()[-1] == 0 for _ in range(10_000)])\npooled_right = np.mean(rng.binomial(20, 0.6, 10_000) > 10)   # if all 20 signals were shared and counted",
+  "setup": "import numpy as np",
+  "show": "print('wrong_cascade =', wrong_cascade)\nprint('pooled_right =', pooled_right)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "sunk-cost-fallacy": {
+  "code": "shares, paid, now = 100, 50.0, 35.0\nsunk = (paid - now) * shares                     # lost whether you sell or not\nhold_view = 0.04                                 # your honest expected return from here\nbest_other = 0.07                                # e.g. an index fund\ncost_of_holding = (best_other - hold_view) * now * shares   # a year's expected shortfall\nback_to_even = paid / now - 1                    # the rise \"getting out at even\" needs",
+  "setup": "import numpy as np",
+  "show": "print('sunk =', sunk)\nprint('cost_of_holding =', cost_of_holding)\nprint('back_to_even =', back_to_even)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "gambler-fallacy": {
+  "code": "rng = np.random.default_rng(0)\nup = rng.random(100_000) < 0.5                   # independent up and down days\nafter_5_down = [up[i] for i in range(5, len(up)) if not up[i - 5:i].any()]\nbounce = np.mean(after_5_down)                   # P(up | five down days in a row)\n\n# Miller & Sanjurjo: in short samples, the average share of heads right after a head is below 1/2\nflips = rng.random((100_000, 4)) < 0.5\nafter_h = flips[:, :-1]\nshares_hh = (flips[:, 1:] & after_h).sum(1)[after_h.any(1)] / after_h.sum(1)[after_h.any(1)]",
+  "setup": "import numpy as np",
+  "show": "print('len(after_5_down) =', len(after_5_down))\nprint('bounce =', bounce)\nprint('shares_hh.mean() =', shares_hh.mean())",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "framing-effect": {
+  "code": "def v(x, a=0.88, lam=2.25):                      # prospect theory's value function\n    return np.where(x >= 0, np.abs(x) ** a, -lam * np.abs(x) ** a)\n\n# Tversky & Kahneman (1981): 600 lives at stake, the same two programmes described two ways\nsaved_sure, saved_gamble = v(200), (1 / 3) * v(600)        # \"200 will be saved\" vs \"1/3 chance all 600 are saved\"\ndie_sure, die_gamble = v(-400), (2 / 3) * v(-600)          # \"400 will die\" vs \"2/3 chance all 600 die\"\nexpected_saved = (200, 600 / 3)",
+  "setup": "import numpy as np",
+  "show": "print('float(saved_sure) =', float(saved_sure))\nprint('float(saved_gamble) =', float(saved_gamble))\nprint('float(die_sure) =', float(die_sure))\nprint('float(die_gamble) =', float(die_gamble))\nprint('expected_saved =', expected_saved)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "mental-accounting": {
+  "code": "capital, profit = 10_000, 4_000                  # the same 14,000, in two mental accounts\nrisk = 0.01 * capital + 0.25 * profit            # 1% of \"my money\", 25% of \"house money\"\nshare_at_risk = risk / (capital + profit)\none_account = 0.01 * (capital + profit)          # the same 1% rule on all of it",
+  "setup": "import numpy as np",
+  "show": "print('risk =', risk)\nprint('share_at_risk =', share_at_risk)\nprint('one_account =', one_account)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "status-quo-bias": {
+  "code": "w0 = np.array([0.60, 0.40])                       # target: 60% stocks, 40% bonds\nr = np.array([[0.20, 0.02], [0.15, 0.03], [0.25, -0.01], [0.10, 0.04], [0.18, 0.02]])   # five years, made up\ngrown = w0 * np.prod(1 + r, axis=0)\nw_now = grown / grown.sum()                      # what you hold after five years of doing nothing",
+  "setup": "import numpy as np",
+  "show": "print(w_now.round(3).tolist())",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "market-sentiment-cycle": {
+  "code": "close = pd.Series([100, 104, 109, 115, 123, 130, 133, 134, 132, 129, 124, 116,\n                   106, 96, 88, 84, 83, 85, 88, 93, 99, 106])   # 22 months, made up\ntrend = close.rolling(6).mean()\nrising = close.diff() > 0\nphase = np.select([(close > trend) & rising, (close > trend) & ~rising,\n                   (close <= trend) & ~rising, (close <= trend) & rising],\n                  ['optimism-euphoria', 'anxiety-denial', 'panic-capitulation', 'hope-relief'], '')\nstarts = [(i, ph) for i, ph in enumerate(phase) if ph and phase[i - 1] != ph]   # month each phase begins",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('starts =', starts)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "accumulation-distribution": {
+  "code": "df = pd.DataFrame({                              # a fall, then a sideways range, made up\n    'close':  [60, 56, 52, 49, 47, 48, 46, 47.5, 47, 48.5, 47.5, 49, 48, 49.5],\n    'volume': [30, 35, 40, 45, 50, 38, 22, 36, 20, 40, 21, 42, 19, 44]})\nbox = df.tail(10)                                    # the last ten days\nwidth = (box.close.max() - box.close.min()) / box.close.mean()\nup = box.close.diff() > 0\nup_down_volume = box.volume[up].mean() / box.volume[~up].mean()   # > 1 is read as quiet buying",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('width =', width)\nprint('up_down_volume =', up_down_volume)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "euphoria-panic": {
+  "code": "peak, trough = 5048.62, 1114.11                  # Nasdaq Composite closes, 10 Mar 2000 and 9 Oct 2002\nfall = trough / peak - 1\nneeded = peak / trough - 1                       # the rise needed just to get back\nup, down = 1.50, -0.60\nround_trip = (1 + up) * (1 + down) - 1           # +150% then -60%",
+  "setup": "import numpy as np",
+  "show": "print('fall =', fall)\nprint('needed =', needed)\nprint('round_trip =', round_trip)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "smart-money-dumb-money": {
+  "code": "r = np.array([0.30, 0.25, -0.20, -0.10, 0.15])   # a fund's return each year, made up\nflow = np.array([100, 200, 400, -300, -100])     # money investors put in (+) or take out (-) at each year's start\n\nvalue = 0.0\nfor f, x in zip(flow, r):\n    value = (value + f) * (1 + x)\nfund = np.prod(1 + r) ** (1 / len(r)) - 1        # time-weighted: what the fund earned\n\ncash = np.append(-flow, value)                   # the investors' own cash flows\nroots = np.roots(cash[::-1])                     # money-weighted: the IRR of those flows\nirr = [z.real - 1 for z in 1 / roots if abs(z.imag) < 1e-9 and z.real > 0]   # per-year rate",
+  "setup": "import numpy as np",
+  "show": "print('value =', value)\nprint('fund =', fund)\nprint('irr[0] =', irr[0])",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "mean-reversion-psychology": {
+  "code": "rng = np.random.default_rng(3)\nskill = rng.normal(0, 1, 10_000)                 # 10,000 managers: a little skill,\nyear1 = skill + rng.normal(0, 2, 10_000)         # a lot of luck\nyear2 = skill + rng.normal(0, 2, 10_000)\ntop = year1 >= np.quantile(year1, 0.9)           # last year's top 10%\nkept = year2[top].mean() / year1[top].mean()     # theory: var(skill) / var(total) = 1 / 5",
+  "setup": "import numpy as np",
+  "show": "print('year1[top].mean() =', year1[top].mean())\nprint('year2[top].mean() =', year2[top].mean())\nprint('kept =', kept)",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

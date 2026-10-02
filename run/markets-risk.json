@@ -1,0 +1,211 @@
+{
+ "value-at-risk": {
+  "code": "r = pd.Series([0.4, -1.2, 0.8, 0.1, -0.6, 1.5, -2.8, 0.3, 0.9, -0.4,\n               0.2, -1.7, 0.6, 1.1, -0.9, 0.5, -3.6, 0.7, 0.0, -0.3]) / 100   # 20 daily returns, made up\nvalue = 1_000_000\nhistorical = -np.quantile(r, 0.05) * value                 # read the 5% quantile off the data\nparametric = -(r.mean() - 1.645 * r.std()) * value         # assume a normal distribution",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('historical =', historical)\nprint('parametric =', parametric)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "expected-shortfall": {
+  "code": "rng = np.random.default_rng(4)\nr = rng.standard_t(3, 10_000) * 0.01 / np.sqrt(3)          # fat-tailed daily returns, 1% volatility\nvar = -np.quantile(r, 0.025)                               # VaR at 97.5%\nes = -r[r <= -var].mean()                                  # the average loss beyond it\nes_normal = 0.01 * np.exp(-1.96**2 / 2) / np.sqrt(2 * np.pi) / 0.025   # ES of a normal with the same volatility",
+  "setup": "import numpy as np",
+  "show": "print('var =', var)\nprint('es =', es)\nprint('es_normal =', es_normal)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "volatility-modeling": {
+  "code": "r = np.r_[np.tile([0.005, -0.005], 15), [-0.04], np.tile([0.005, -0.005], 10)]   # calm, one shock, calm\nlam = 0.94                                                 # RiskMetrics' daily decay\nvar = np.empty(len(r)); var[0] = r[0] ** 2\nfor t in range(1, len(r)):\n    var[t] = lam * var[t - 1] + (1 - lam) * r[t - 1] ** 2   # tomorrow's variance from today's\newma = np.sqrt(var * 252)                                  # annualized\nwindow = pd.Series(r).rolling(20).std().shift().values * np.sqrt(252)   # equal-weight 20-day estimate\ndays = [30, 31, 40]                                        # the shock day, the day after, nine days later",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('ewma[days].round(3) =', ewma[days].round(3))\nprint('window[days].round(3) =', window[days].round(3))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "correlation-risk": {
+  "code": "vol = np.array([0.20, 0.20])                               # two assets, 20% volatility each\nw = np.array([0.5, 0.5])\n\ndef port_vol(rho):\n    cov = np.outer(vol, vol) * np.array([[1, rho], [rho, 1]])\n    return np.sqrt(w @ cov @ w)\n\ncalm, stress = port_vol(0.2), port_vol(0.9)",
+  "setup": "import numpy as np",
+  "show": "print('calm =', calm)\nprint('stress =', stress)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "tail-risk": {
+  "code": "from scipy import stats\nk = 5                                                      # a five-standard-deviation down day\np_normal = stats.norm.cdf(-k)\np_fat = stats.t.cdf(-k * np.sqrt(3), df=3)                 # Student-t with 3 d.o.f., scaled to the same volatility\nyears_normal, years_fat = 1 / (p_normal * 252), 1 / (p_fat * 252)   # how often, in trading years",
+  "setup": "import numpy as np",
+  "show": "print('p_normal =', p_normal)\nprint('p_fat =', p_fat)\nprint('years_normal =', years_normal)\nprint('years_fat =', years_fat)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "mean-variance": {
+  "code": "mu = np.array([0.07, 0.03, 0.05])                         # stocks, bonds, real estate: expected returns\nvol = np.array([0.16, 0.05, 0.12])\nrho = np.array([[1, 0.1, 0.5], [0.1, 1, 0.2], [0.5, 0.2, 1]])\ncov = np.outer(vol, vol) * rho\nrf = 0.02\n\ndef tangency(mu):                                          # the maximum-Sharpe portfolio\n    w = np.linalg.solve(cov, mu - rf)\n    return w / w.sum()\n\nbase = tangency(mu)\nnudged = tangency(mu + [0.01, 0, 0])                       # one point more expected from stocks",
+  "setup": "import numpy as np",
+  "show": "print('base.round(2) =', base.round(2))\nprint('nudged.round(2) =', nudged.round(2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "risk-parity": {
+  "code": "vol = np.array([0.16, 0.05])                               # stocks, bonds\ncov = np.outer(vol, vol) * np.array([[1, 0.1], [0.1, 1]])\n\ndef contributions(w):                                      # each asset's share of portfolio variance\n    return w * (cov @ w) / (w @ cov @ w)\n\nsixty_forty = contributions(np.array([0.6, 0.4]))\nw_rp = (1 / vol) / (1 / vol).sum()                         # inverse volatility: equal risk for two assets\nparity = contributions(w_rp)\nrp_vol = np.sqrt(w_rp @ cov @ w_rp)\nleverage = np.sqrt(np.array([0.6, 0.4]) @ cov @ np.array([0.6, 0.4])) / rp_vol   # to match 60/40's risk",
+  "setup": "import numpy as np",
+  "show": "print('sixty_forty.round(2) =', sixty_forty.round(2))\nprint('w_rp.round(2) =', w_rp.round(2))\nprint('parity.round(2) =', parity.round(2))\nprint('leverage =', leverage)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "factor-models": {
+  "code": "rng = np.random.default_rng(8)\nn = 60                                                     # five years of monthly returns, simulated\nmkt = rng.normal(0.007, 0.045, n)\nsmb = rng.normal(0.002, 0.03, n)                           # small minus big\nfund = 0.000 + 1.1 * mkt + 0.4 * smb + rng.normal(0, 0.01, n)   # no true alpha\nX = np.column_stack([np.ones(n), mkt, smb])\ncoef, *_ = np.linalg.lstsq(X, fund, rcond=None)\nalpha, b_mkt, b_smb = coef\nresid = fund - X @ coef\nr2 = 1 - resid.var() / fund.var()\ncapm_alpha = np.linalg.lstsq(X[:, :2], fund, rcond=None)[0][0]   # leaving out the size factor",
+  "setup": "import numpy as np",
+  "show": "print('alpha * 12 =', alpha * 12)\nprint('b_mkt =', b_mkt)\nprint('b_smb =', b_smb)\nprint('r2 =', r2)\nprint('capm_alpha * 12 =', capm_alpha * 12)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rebalancing": {
+  "code": "rng = np.random.default_rng(5)\nr = np.column_stack([rng.normal(0.008, 0.045, 120), rng.normal(0.003, 0.012, 120)])   # ten years, monthly, simulated\ntarget, band = np.array([0.6, 0.4]), 0.05\nw, trades, drift = target.copy(), 0, target.copy()\nfor m in r:\n    w = w * (1 + m); w /= w.sum()                          # weights drift with returns\n    drift = drift * (1 + m); drift /= drift.sum()          # never rebalanced\n    if abs(w[0] - target[0]) > band:                       # threshold rule: back to 60/40 when 5 points off\n        w, trades = target.copy(), trades + 1",
+  "setup": "import numpy as np",
+  "show": "print('trades =', trades)\nprint('drift.round(2) =', drift.round(2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "diversification": {
+  "code": "sigma, rho = 0.30, 0.30                                   # each stock 30% volatile, average correlation 0.3\nn = np.array([1, 5, 20, 100, 10_000])\nport = sigma * np.sqrt(rho + (1 - rho) / n)                # equal weights\nfloor = sigma * np.sqrt(rho)                               # what no number of such stocks removes",
+  "setup": "import numpy as np",
+  "show": "print('dict(zip(n.tolist(), port.round(3))) =', dict(zip(n.tolist(), port.round(3))))\nprint('floor =', floor)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "kelly-criterion": {
+  "code": "p, b = 0.55, 1.0                                           # win 55% of even-money bets\nkelly = (p * b - (1 - p)) / b\n\ndef growth(f):                                             # expected log growth per bet\n    return p * np.log(1 + b * f) + (1 - p) * np.log(1 - f)\n\nrates = {m: growth(m * kelly) for m in (0.5, 1, 2, 2.5)}",
+  "setup": "import numpy as np",
+  "show": "print('kelly =', kelly)\nprint('{k: round(v, 5) for k, v in rates.items()} =', {k: round(v, 5) for k, v in rates.items()})",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "fixed-fractional": {
+  "code": "equity, risk = 50_000, 0.01                               # risk 1% of equity per trade\nentry, stop = 40.0, 37.0\nshares = int(equity * risk / (entry - stop))\nafter_20_losses = equity * (1 - risk) ** 20\nafter_100_losses = equity * (1 - risk) ** 100",
+  "setup": "import numpy as np",
+  "show": "print('shares =', shares)\nprint('after_20_losses =', after_20_losses)\nprint('after_100_losses =', after_100_losses)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "volatility-sizing": {
+  "code": "risk_per_trade, n = 1_000, 2                              # dollars at risk, stop at 2 x ATR\nassets = pd.DataFrame({'price': [50, 50], 'atr': [1.0, 2.5]}, index=['steady', 'jumpy'])\nassets['shares'] = (risk_per_trade / (n * assets.atr)).astype(int)\nassets['position'] = assets.shares * assets.price",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print(assets.to_dict(\"index\"))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "pyramiding": {
+  "code": "tiers = pd.DataFrame({'price': [100, 105, 110], 'shares': [100, 50, 25]})   # each add half the last\navg = (tiers.price * tiers.shares).sum() / tiers.shares.sum()\nstop = 103                                                 # stop raised under the second add\nat_stop = (stop - avg) * tiers.shares.sum()\nflat = (stop - 110) * 175                                  # the same 175 shares bought all at 110",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('avg =', avg)\nprint('at_stop =', at_stop)\nprint('flat =', flat)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "max-position": {
+  "code": "w = pd.Series({'A': 0.30, 'B': 0.20, 'C': 0.15, 'D': 0.10, 'E': 0.10, 'F': 0.08, 'G': 0.07})\ncap = 0.15\nwhile (w > cap + 1e-12).any():                             # trim to the cap, share the excess pro rata\n    excess = (w - cap).clip(lower=0).sum()\n    w = w.clip(upper=cap)\n    room = w < cap\n    w[room] += excess * w[room] / w[room].sum()\nhit_before = 0.30 * 0.5                                    # the top name halves\nhit_after = w.max() * 0.5",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('w.round(3).to_dict() =', w.round(3).to_dict())\nprint('hit_before =', hit_before)\nprint('hit_after =', hit_after)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "options-hedging": {
+  "code": "S0, put_k, put_cost, call_k, call_premium = 100, 90, 2.5, 115, 2.0   # premiums made up\nST = np.array([70, 90, 100, 115, 130])                     # where the stock ends\nstock = ST - S0\nprotective = stock + np.maximum(put_k - ST, 0) - put_cost\ncollar = protective - np.maximum(ST - call_k, 0) + call_premium",
+  "setup": "import numpy as np",
+  "show": "print('stock.tolist() =', stock.tolist())\nprint('protective.tolist() =', protective.tolist())\nprint('collar.tolist() =', collar.tolist())",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "stop-losses": {
+  "code": "close = pd.Series([50, 51, 53, 52, 55, 57, 56, 59, 58, 55, 56, 53, 51, 52, 48])   # made up\natr = 1.5\ntrail = (close.cummax() - 2 * atr)                         # 2 x ATR under the highest close so far\nexit_trail = close[close < trail].index[0]\nfixed = 50 * 0.90                                          # a fixed 10% stop from the entry\nfixed_hit = (close < fixed).any()",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('exit_trail =', exit_trail)\nprint('close[exit_trail] =', close[exit_trail])\nprint('trail[exit_trail] =', trail[exit_trail])\nprint('fixed_hit =', fixed_hit)\nprint('close.iloc[-1] =', close.iloc[-1])",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "pairs-trading": {
+  "code": "rng = np.random.default_rng(11)\ncommon = np.cumsum(rng.normal(0, 0.01, 500))               # a shared random walk (log prices)\nspread_true = np.zeros(500)\nfor t in range(1, 500):\n    spread_true[t] = 0.9 * spread_true[t - 1] + rng.normal(0, 0.005)   # a mean-reverting gap\na, b = 4.0 + 1.2 * common + spread_true, 3.0 + common\nbeta = np.polyfit(b, a, 1)[0]                              # hedge ratio\nspread = a - beta * b\nz = (spread[-1] - spread.mean()) / spread.std()\nphi = np.polyfit(spread[:-1], spread[1:], 1)[0]            # AR(1) persistence of the spread\nhalf_life = -np.log(2) / np.log(phi)",
+  "setup": "import numpy as np",
+  "show": "print('beta =', beta)\nprint('z =', z)\nprint('half_life =', half_life)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "portfolio-insurance": {
+  "code": "value, floor, m = 100.0, 80.0, 4                          # CPPI: risky exposure = 4 x cushion\nfor move in [0.05, 0.03, -0.10, -0.30]:                    # the last day is a crash\n    risky = min(m * (value - floor), value)\n    value = value + risky * move\n    print(f\"{move:+.0%}  exposure {risky:5.1f}  value {value:5.1f}  floor {floor}\")",
+  "setup": "import numpy as np",
+  "show": "print('value =', value)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "currency-hedging": {
+  "code": "eur, s0, s1 = 100, 1.10, 0.99                             # 100 EUR of stocks; EUR/USD falls 10%\nlocal = 0.08                                               # the stocks return 8% in euros\nfwd = s0 * 1.05 / 1.03                                     # 1-year forward from USD and EUR rates of 5% and 3%\ncost = eur * s0\nunhedged = eur * (1 + local) * s1 / cost - 1\nhedged = (eur * (1 + local) * s1 + eur * (fwd - s1)) / cost - 1   # sell the starting 100 EUR forward",
+  "setup": "import numpy as np",
+  "show": "print('unhedged =', unhedged)\nprint('hedged =', hedged)\nprint('fwd =', fwd)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "return-attribution": {
+  "code": "t = pd.DataFrame({'wp': [0.50, 0.30, 0.20], 'wb': [0.40, 0.40, 0.20],    # portfolio and benchmark weights\n                  'rp': [0.10, 0.04, 0.02], 'rb': [0.08, 0.05, 0.01]},  # sector returns\n                 index=['tech', 'finance', 'energy'])\nRb = (t.wb * t.rb).sum()\nallocation = ((t.wp - t.wb) * (t.rb - Rb)).sum()           # Brinson-Fachler\nselection = (t.wb * (t.rp - t.rb)).sum()\ninteraction = ((t.wp - t.wb) * (t.rp - t.rb)).sum()\nactive = (t.wp * t.rp).sum() - Rb",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('allocation =', allocation)\nprint('selection =', selection)\nprint('interaction =', interaction)\nprint('active =', active)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "benchmark-tracking": {
+  "code": "port  = np.array([1.2, -0.5, 2.1, 0.8, -1.9, 1.5, 0.3, 2.4, -0.7, 1.0, 0.6, -0.2]) / 100   # 12 months, made up\nbench = np.array([1.0, -0.8, 1.8, 1.1, -2.3, 1.2, 0.5, 2.0, -0.4, 0.9, 0.2, -0.5]) / 100\nactive = port - bench\nte = active.std(ddof=1) * np.sqrt(12)                      # annualized tracking error\nir = active.mean() * 12 / te                               # information ratio",
+  "setup": "import numpy as np",
+  "show": "print('active.mean() * 12 =', active.mean() * 12)\nprint('te =', te)\nprint('ir =', ir)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "alpha-generation": {
+  "code": "alpha, te = 0.02, 0.05                                   # 2% a year above the benchmark, 5% tracking error\nir = alpha / te\nyears_for_t2 = (2 / ir) ** 2                               # t-stat = IR x sqrt(years); 2 is the usual bar\nic, breadth = 0.05, 100                                    # Grinold: skill per bet and independent bets a year\nir_fundamental = ic * np.sqrt(breadth)",
+  "setup": "import numpy as np",
+  "show": "print('ir =', ir)\nprint('years_for_t2 =', years_for_t2)\nprint('ir_fundamental =', ir_fundamental)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "risk-adjusted-perf": {
+  "code": "r = np.array([2.1, -1.0, 3.2, 0.5, -2.5, 1.8, 0.9, -0.4, 2.6, -1.6, 1.4, 0.7]) / 100   # 12 months, made up\nrf = 0.03 / 12\nex = r - rf\nsharpe = ex.mean() / ex.std(ddof=1) * np.sqrt(12)\ndownside = np.sqrt((np.minimum(ex, 0) ** 2).mean()) * np.sqrt(12)\nsortino = ex.mean() * 12 / downside\nwealth = np.cumprod(1 + r)\nmdd = (1 - wealth / np.maximum.accumulate(wealth)).max()\ncalmar = (wealth[-1] - 1) / mdd                            # one year, so the total return is the annual one",
+  "setup": "import numpy as np",
+  "show": "print('sharpe =', sharpe)\nprint('sortino =', sortino)\nprint('mdd =', mdd)\nprint('calmar =', calmar)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "drawdown-analysis": {
+  "code": "equity = pd.Series([100, 104, 108, 103, 97, 91, 94, 89, 95, 99, 104, 110, 113])   # month-end, made up\npeak = equity.cummax()\ndd = equity / peak - 1\nmdd = dd.min()\ntrough = dd.idxmin()\nstart = equity[:trough].idxmax()\nrecovered = equity[(equity.index > trough) & (equity >= peak[trough])].index.min()\nto_recover = 1 / (1 + mdd) - 1                             # gain needed from the bottom",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('mdd =', mdd)\nprint('start =', start)\nprint('trough =', trough)\nprint('recovered =', recovered)\nprint('to_recover =', to_recover)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ }
+}

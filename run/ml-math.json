@@ -1,0 +1,306 @@
+{
+ "vectors": {
+  "code": "a, b = np.array([1, 2, 3]), np.array([4, 5, 6])\ndot = a @ b\ncos = dot / (np.linalg.norm(a) * np.linalg.norm(b))\nangle = np.degrees(np.arccos(cos))\nA, B = np.ones((2, 3)), np.ones((3, 4))\nshape = (A @ B).shape                       # (2,3) x (3,4): inner sizes must match\ntranspose_rule = np.allclose((A @ B).T, B.T @ A.T)",
+  "setup": "import numpy as np",
+  "show": "print('dot =', dot)\nprint('cos =', cos)\nprint('angle =', angle)\nprint('shape =', shape)\nprint('transpose_rule =', transpose_rule)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "linear": {
+  "code": "x = np.array([1, 2, 3, 4, 5, 6], dtype=float)\ny = np.array([2.1, 3.9, 6.2, 7.8, 10.1, 12.2])            # made up, roughly y = 2x\nX = np.column_stack([x, np.ones_like(x)])\n(w, b), *_ = np.linalg.lstsq(X, y, rcond=None)             # least squares, closed form\nmse = np.mean((y - (w * x + b)) ** 2)",
+  "setup": "import numpy as np",
+  "show": "print('w =', w)\nprint('b =', b)\nprint('mse =', mse)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "logistic": {
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbce = lambda y, p: -(y * np.log(p) + (1 - y) * np.log(1 - p))\nw, b, x = 1.5, -2.0, 3.0\np = sigmoid(w * x + b)                      # P(y = 1 | x)\nloss_right = bce(1, 0.9)                    # confident and right\nloss_wrong = bce(1, 0.1)                    # confident and wrong\ngrad_w = (p - 1) * x                        # dBCE/dw for a true label y = 1",
+  "setup": "import numpy as np",
+  "show": "print('p =', p)\nprint('loss_right =', loss_right)\nprint('loss_wrong =', loss_wrong)\nprint('grad_w =', grad_w)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "gradient": {
+  "code": "def descend(lr, steps=10, w=0.0):\n    for _ in range(steps):\n        w -= lr * 2 * (w - 3)               # gradient of (w - 3)^2\n    return w\n\ngood = descend(0.1)                          # converging towards 3\ntoo_big = descend(1.1)                       # each step overshoots further",
+  "setup": "import numpy as np",
+  "show": "print('good =', good)\nprint('too_big =', too_big)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "activation": {
+  "code": "rng = np.random.default_rng(0)\nW1, W2 = rng.normal(size=(8, 4)), rng.normal(size=(3, 8))\nx = rng.normal(size=(4, 100))\ntwo_linear = W2 @ (W1 @ x)\none_linear = (W2 @ W1) @ x                  # the same map, one matrix\ncollapse_gap = np.abs(two_linear - one_linear).max()\nwith_relu = W2 @ np.maximum(W1 @ x, 0)\nrelu_gap = np.abs(with_relu - one_linear).max()",
+  "setup": "import numpy as np",
+  "show": "print('collapse_gap =', collapse_gap)\nprint('relu_gap =', relu_gap)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "bias-variance": {
+  "code": "rng = np.random.default_rng(1)\nf = lambda x: np.sin(2 * np.pi * x)\nx_test = np.linspace(0.05, 0.95, 50)\n\ndef bias_var(degree, sets=200, n=30, noise=0.3):\n    preds = []\n    for _ in range(sets):                    # many training sets from the same world\n        x = rng.random(n); y = f(x) + rng.normal(0, noise, n)\n        preds.append(np.polyval(np.polyfit(x, y, degree), x_test))\n    preds = np.array(preds)\n    return ((preds.mean(0) - f(x_test)) ** 2).mean(), preds.var(0).mean()\n\nresult = {d: np.round(bias_var(d), 3).tolist() for d in (1, 3, 9)}   # degree: [bias^2, variance]",
+  "setup": "import numpy as np",
+  "show": "print('result =', result)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "loss": {
+  "code": "y = np.array([1, 2, 2, 3, 30.0])               # one outlier\nc = np.linspace(0, 30, 30001)                      # candidate constant predictions\nmse = ((y[:, None] - c) ** 2).mean(0)\nmae = np.abs(y[:, None] - c).mean(0)\nbest_mse, best_mae = c[mse.argmin()], c[mae.argmin()]   # the mean and the median",
+  "setup": "import numpy as np",
+  "show": "print('best_mse =', best_mse)\nprint('best_mae =', best_mae)\nprint('y.mean() =', y.mean())\nprint('np.median(y) =', np.median(y))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "backprop": {
+  "code": "x, t = 2.0, 1.0                                  # input and target\nw1, w2 = 0.5, -1.5\n\ndef loss(w1, w2):\n    h = max(w1 * x, 0)                             # ReLU hidden unit\n    return 0.5 * (w2 * h - t) ** 2\n\nh = max(w1 * x, 0); y = w2 * h\ndL_dy = y - t\ngrad_w2 = dL_dy * h                                # chain rule, backwards\ngrad_w1 = dL_dy * w2 * (1 if w1 * x > 0 else 0) * x\neps = 1e-6                                         # check against finite differences\nnum_w1 = (loss(w1 + eps, w2) - loss(w1 - eps, w2)) / (2 * eps)",
+  "setup": "import numpy as np",
+  "show": "print('grad_w1 =', grad_w1)\nprint('num_w1 =', num_w1)\nprint('grad_w2 =', grad_w2)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "optimizers": {
+  "code": "grad = lambda p: np.array([p[0], 50 * p[1]])        # f = 0.5 (x^2 + 50 y^2): a narrow valley\nf = lambda p: 0.5 * (p[0] ** 2 + 50 * p[1] ** 2)\n\ndef steps_to(update, tol=1e-3, limit=10_000):\n    p, state = np.array([10.0, 1.0]), {}\n    for k in range(1, limit + 1):\n        p = update(p, grad(p), state, k)\n        if f(p) < tol: return k\n    return limit\n\ndef sgd(p, g, s, k): return p - 0.035 * g\ndef momentum(p, g, s, k):\n    s['v'] = 0.9 * s.get('v', 0) - 0.035 * g; return p + s['v']\ndef adam(p, g, s, k, lr=0.5, b1=0.9, b2=0.999):\n    s['m'] = b1 * s.get('m', 0) + (1 - b1) * g; s['v'] = b2 * s.get('v', 0) + (1 - b2) * g * g\n    m, v = s['m'] / (1 - b1 ** k), s['v'] / (1 - b2 ** k)\n    return p - lr * m / (np.sqrt(v) + 1e-8)\n\nresult = {name: steps_to(u) for name, u in [('sgd', sgd), ('momentum', momentum), ('adam', adam)]}",
+  "setup": "import numpy as np",
+  "show": "print('result =', result)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "regularization": {
+  "code": "rng = np.random.default_rng(2)\nx1 = rng.normal(size=50)\nx2 = x1 + rng.normal(0, 0.01, 50)                  # almost a copy of x1\nX = np.column_stack([x1, x2])\ny = x1 + x2 + rng.normal(0, 0.5, 50)               # the truth: weights 1 and 1\nols = np.linalg.solve(X.T @ X, X.T @ y)\nridge = np.linalg.solve(X.T @ X + 1.0 * np.eye(2), X.T @ y)   # L2 penalty, lambda = 1",
+  "setup": "import numpy as np",
+  "show": "print('ols.round(2) =', ols.round(2))\nprint('ridge.round(2) =', ridge.round(2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "batchnorm": {
+  "code": "rng = np.random.default_rng(3)\nacts = rng.normal(5, 3, size=(64, 4))              # a batch of 64, four units\nxhat = (acts - acts.mean(0)) / np.sqrt(acts.var(0) + 1e-5)\nafter = (xhat.mean(0).round(6).tolist(), xhat.std(0).round(3).tolist())\n# how noisy the batch mean is as an estimate of the true mean (5)\nnoise = {m: np.std([rng.normal(5, 3, m).mean() for _ in range(2000)]).round(3) for m in (2, 64)}",
+  "setup": "import numpy as np",
+  "show": "print('after =', after)\nprint('noise =', noise)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lr-schedule": {
+  "code": "lr_max, lr_min, warmup, total = 3e-4, 3e-5, 1_000, 10_000\n\ndef lr(t):\n    if t < warmup: return lr_max * t / warmup                     # linear warmup\n    progress = (t - warmup) / (total - warmup)\n    return lr_min + 0.5 * (lr_max - lr_min) * (1 + np.cos(np.pi * progress))   # cosine decay\n\nschedule = {t: float(f'{lr(t):.2e}') for t in (0, 500, 1_000, 5_500, 10_000)}",
+  "setup": "import numpy as np",
+  "show": "print('schedule =', schedule)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "weight-init": {
+  "code": "rng = np.random.default_rng(4)\n\ndef final_std(scale, layers=20, width=256):\n    h = rng.normal(size=(width, 100))\n    for _ in range(layers):\n        W = rng.normal(0, scale, (width, width))\n        h = np.maximum(W @ h, 0)                   # ReLU layers\n    return h.std()\n\nnaive = final_std(1.0)                             # N(0, 1) weights\nhe = final_std(np.sqrt(2 / 256))                   # He: variance 2 / fan_in\ntiny = final_std(0.01)",
+  "setup": "import numpy as np",
+  "show": "print('naive =', naive)\nprint('he =', he)\nprint('tiny =', tiny)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "grad-clip": {
+  "code": "g = np.array([30.0, -40.0, 0.5])                    # an exploding gradient, norm about 50\nmax_norm = 1.0\nby_norm = g * min(1, max_norm / np.linalg.norm(g))\nby_value = np.clip(g, -1, 1)\ncos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))",
+  "setup": "import numpy as np",
+  "show": "print('np.linalg.norm(g) =', np.linalg.norm(g))\nprint('by_norm.round(3) =', by_norm.round(3))\nprint('cos(g, by_norm) =', cos(g, by_norm))\nprint('by_value =', by_value)\nprint('cos(g, by_value) =', cos(g, by_value))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "softmax": {
+  "code": "def softmax(z, T=1.0):\n    z = np.asarray(z, float) / T\n    e = np.exp(z - z.max())                        # subtract the max: same result, no overflow\n    return e / e.sum()\n\np = softmax([2.0, 1.0, 0.1])\ncold, hot = softmax([2.0, 1.0, 0.1], T=0.5), softmax([2.0, 1.0, 0.1], T=2.0)\nwith np.errstate(over='ignore', invalid='ignore'):\n    naive = np.exp([1000.0, 1001.0]) / np.exp([1000.0, 1001.0]).sum()   # overflows\nstable = softmax([1000.0, 1001.0])",
+  "setup": "import numpy as np",
+  "show": "print('p.round(3) =', p.round(3))\nprint('cold.round(3) =', cold.round(3))\nprint('hot.round(3) =', hot.round(3))\nprint('naive =', naive)\nprint('stable.round(3) =', stable.round(3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "mle": {
+  "code": "heads, n = 7, 10\np = np.linspace(0.01, 0.99, 99)\nloglik = heads * np.log(p) + (n - heads) * np.log(1 - p)\np_hat = p[loglik.argmax()]                          # the MLE: 7/10\nx = np.array([4.0, 6.0, 5.0, 9.0, 6.0])\nmu_hat = x.mean()\nvar_mle = ((x - mu_hat) ** 2).mean()                # MLE divides by n, not n - 1\nvar_unbiased = x.var(ddof=1)",
+  "setup": "import numpy as np",
+  "show": "print('p_hat =', p_hat)\nprint('mu_hat =', mu_hat)\nprint('var_mle =', var_mle)\nprint('var_unbiased =', var_unbiased)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "entropy": {
+  "code": "H = lambda p: -np.sum(np.asarray(p) * np.log2(p))\nfair, loaded, eight = H([0.5, 0.5]), H([0.9, 0.1]), H(np.full(8, 1 / 8))\np, q = np.array([0.9, 0.1]), np.array([0.5, 0.5])\ncross = -np.sum(p * np.log2(q))                      # coding p's outcomes with q's code",
+  "setup": "import numpy as np",
+  "show": "print('fair =', fair)\nprint('loaded =', loaded)\nprint('eight =', eight)\nprint('cross =', cross)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "kl-div": {
+  "code": "kl = lambda p, q: np.sum(p * np.log(p / q))\nP_, Q_ = np.array([0.5, 0.5]), np.array([0.9, 0.1])\nkl_pq, kl_qp = kl(P_, Q_), kl(Q_, P_)               # not symmetric",
+  "setup": "import numpy as np",
+  "show": "print('kl_pq =', kl_pq)\nprint('kl_qp =', kl_qp)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "bayes": {
+  "code": "prior = 0.01                          # 1% have the condition\nsens, spec = 0.99, 0.95               # P(+ | sick), P(- | healthy)\np_pos = sens * prior + (1 - spec) * (1 - prior)\nposterior = sens * prior / p_pos      # P(sick | +)\nsecond = sens * posterior / (sens * posterior + (1 - spec) * (1 - posterior))   # after a second positive test",
+  "setup": "import numpy as np",
+  "show": "print('p_pos =', p_pos)\nprint('posterior =', posterior)\nprint('second =', second)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "crossval": {
+  "code": "rng = np.random.default_rng(5)\ncorrect = rng.random(100) < 0.8           # a model that is right on 80 of 100 cases, fixed\nsingle = []\nfor _ in range(2000):                      # one random 80/20 split each time\n    test = rng.permutation(100)[:20]\n    single.append(correct[test].mean())\nlo, hi = np.percentile(single, [5, 95])\nfive_fold = np.mean([correct[k::5].mean() for k in range(5)])   # every case tested once",
+  "setup": "import numpy as np",
+  "show": "print('correct.mean() =', correct.mean())\nprint('lo =', lo)\nprint('hi =', hi)\nprint('five_fold =', five_fold)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "metrics": {
+  "code": "tp, fp, fn, tn = 40, 10, 20, 930\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nf1 = 2 * precision * recall / (precision + recall)\naccuracy = (tp + tn) / (tp + fp + fn + tn)",
+  "setup": "import numpy as np",
+  "show": "print('precision =', precision)\nprint('recall =', recall)\nprint('f1 =', f1)\nprint('accuracy =', accuracy)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "cosine-sim": {
+  "code": "a, b = np.array([1.0, 2.0, 0.0]), np.array([2.0, 4.0, 0.0])    # same direction, twice as long\nc = np.array([0.0, 0.0, 3.0])\ncos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))\nresult = dict(cos_ab=cos(a, b), dist_ab=np.linalg.norm(a - b), cos_ac=cos(a, c))\nunit = lambda v: v / np.linalg.norm(v)\ndot_of_units = unit(a) @ unit(b)                  # on normalized vectors, dot product = cosine",
+  "setup": "import numpy as np",
+  "show": "print('result =', result)\nprint('dot_of_units =', dot_of_units)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "cnn": {
+  "code": "out = lambda W, K, P, S: (W - K + 2 * P) // S + 1\nsize = out(224, 3, 1, 2)                          # 224x224 input, 3x3 kernel, padding 1, stride 2\nconv_params = 3 * 3 * 64 * 128 + 128              # 64 -> 128 channels, shared across positions\ndense_params = (224 * 224 * 64) * (112 * 112 * 128)  # a fully connected layer between the same shapes",
+  "setup": "import numpy as np",
+  "show": "print('size =', size)\nprint('conv_params =', conv_params)\nprint('f\"{dense_params:.2e}\" =', f\"{dense_params:.2e}\")",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "embeddings": {
+  "code": "E = {'king': [0.9, 0.8, 0.1], 'queen': [0.9, 0.1, 0.8], 'man': [0.1, 0.9, 0.1],\n     'woman': [0.1, 0.2, 0.8], 'apple': [0.0, 0.3, 0.3]}           # hand-made 3-d vectors\nE = {w: np.array(v) for w, v in E.items()}\ntarget = E['king'] - E['man'] + E['woman']\ncos = lambda u, v: u @ v / (np.linalg.norm(u) * np.linalg.norm(v))\nranked = sorted(E, key=lambda w: -cos(E[w], target))\nbest_excluding_inputs = [w for w in ranked if w not in ('king', 'man', 'woman')][0]",
+  "setup": "import numpy as np",
+  "show": "print('ranked =', ranked)\nprint('best_excluding_inputs =', best_excluding_inputs)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "attention": {
+  "code": "rng = np.random.default_rng(6)\nsoftmax = lambda z: np.exp(z - z.max()) / np.exp(z - z.max()).sum()\nd = 512\nq, K = rng.normal(size=d), rng.normal(size=(10, d))   # one query, ten keys\nraw = softmax(K @ q).max()                             # unscaled scores grow with sqrt(d)\nscaled = softmax(K @ q / np.sqrt(d)).max()",
+  "setup": "import numpy as np",
+  "show": "print('raw =', raw)\nprint('scaled =', scaled)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "transformer": {
+  "code": "d, ff, layers, vocab = 768, 3072, 12, 50_257          # GPT-2 small\nattn = 4 * d * d + 4 * d                             # Q, K, V and output projections\nmlp = 2 * d * ff + ff + d\nnorms = 2 * 2 * d\nper_layer = attn + mlp + norms\nembeddings = vocab * d + 1024 * d                    # tokens + 1,024 learned positions\ntotal = layers * per_layer + embeddings + 2 * d       # + final LayerNorm",
+  "setup": "import numpy as np",
+  "show": "print('per_layer =', per_layer)\nprint('total =', total)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "normalization": {
+  "code": "x = np.array([2.0, 4.0, 6.0, 8.0])\nlayer = (x - x.mean()) / np.sqrt(x.var() + 1e-5)     # LayerNorm, before gamma and beta\nrms = x / np.sqrt((x ** 2).mean() + 1e-5)             # RMSNorm: no mean subtraction\nshifted = x + 100                                     # add the same constant to every feature\nlayer_shift = (shifted - shifted.mean()) / np.sqrt(shifted.var() + 1e-5)\nrms_shift = shifted / np.sqrt((shifted ** 2).mean() + 1e-5)",
+  "setup": "import numpy as np",
+  "show": "print('layer.round(3) =', layer.round(3))\nprint('rms.round(3) =', rms.round(3))\nprint('np.allclose(layer, layer_shift) =', np.allclose(layer, layer_shift))\nprint('rms_shift.round(3) =', rms_shift.round(3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rnn": {
+  "code": "steps = 50\nvanish, explode = 0.9 ** steps, 1.1 ** steps      # gradient factor through 50 steps, per-step gain 0.9 or 1.1",
+  "setup": "import numpy as np",
+  "show": "print('vanish =', vanish)\nprint('explode =', explode)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lstm": {
+  "code": "keep = {f: f ** 100 for f in (0.9, 0.99, 0.999)}      # share of the cell state left after 100 steps\nspan = {f: 1 / (1 - f) for f in (0.9, 0.99, 0.999)}    # rough memory length in steps",
+  "setup": "import numpy as np",
+  "show": "print('{k: float(f\"{v:.3g}\") for k, v in keep.items()} =', {k: float(f\"{v:.3g}\") for k, v in keep.items()})\nprint('span =', span)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "gru": {
+  "code": "x, h = 128, 256\ngate = h * (h + x) + h                  # one gate: weights on [h, x] plus bias\nlstm, gru = 4 * gate, 3 * gate          # LSTM: four blocks; GRU: three",
+  "setup": "import numpy as np",
+  "show": "print('lstm =', lstm)\nprint('gru =', gru)\nprint('gru / lstm =', gru / lstm)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "pca": {
+  "code": "rng = np.random.default_rng(7)\nX = rng.multivariate_normal([0, 0], [[3, 2], [2, 2]], size=5_000)\nX = X - X.mean(0)\nvals, vecs = np.linalg.eigh(np.cov(X.T))\nvals = vals[::-1]\nexplained = vals / vals.sum()",
+  "setup": "import numpy as np",
+  "show": "print('vals.round(2) =', vals.round(2))\nprint('explained.round(3) =', explained.round(3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "svd": {
+  "code": "rng = np.random.default_rng(8)\nU, _ = np.linalg.qr(rng.normal(size=(50, 50)))\nV, _ = np.linalg.qr(rng.normal(size=(50, 50)))\ns = 0.7 ** np.arange(50)                         # singular values that decay\nA = U @ np.diag(s) @ V.T\nk = 5\nA_k = U[:, :k] @ np.diag(s[:k]) @ V[:, :k].T     # best rank-5 approximation\nenergy = (s[:k] ** 2).sum() / (s ** 2).sum()\nrel_err = np.linalg.norm(A - A_k) / np.linalg.norm(A)\nnumbers = (50 * 50, k * (50 + 50 + 1))           # entries stored: full vs rank-5",
+  "setup": "import numpy as np",
+  "show": "print('energy =', energy)\nprint('rel_err =', rel_err)\nprint('numbers =', numbers)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "vae": {
+  "code": "rng = np.random.default_rng(9)\nmu, sigma = 1.0, 0.5                             # what the encoder outputs for one input\nz = mu + sigma * rng.normal(size=5)              # reparameterization: randomness moved into eps\nkl = 0.5 * (sigma ** 2 + mu ** 2 - 1 - np.log(sigma ** 2))   # KL(N(mu, sigma^2) || N(0, 1))",
+  "setup": "import numpy as np",
+  "show": "print('z.round(2) =', z.round(2))\nprint('kl =', kl)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "diffusion": {
+  "code": "T = 1000\nbeta = np.linspace(1e-4, 0.02, T)                # DDPM's linear noise schedule\nalpha_bar = np.cumprod(1 - beta)\nsignal = {t: float(np.sqrt(alpha_bar[t - 1]).round(4)) for t in (1, 100, 500, 1000)}   # share of the original left",
+  "setup": "import numpy as np",
+  "show": "print('signal =', signal)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "gan": {
+  "code": "from math import erf, sqrt, exp, pi\npdf = lambda x, m: exp(-(x - m) ** 2 / 2) / sqrt(2 * pi)\nd_star = lambda x, m_g: pdf(x, 0) / (pdf(x, 0) + pdf(x, m_g))   # best discriminator: data at 0, generator at m_g\nfar = [round(d_star(x, 3), 3) for x in (-1, 0, 1.5, 3)]\nequal = [round(d_star(x, 0), 3) for x in (-1, 0, 1.5, 3)]       # generator matches the data\nvalue_at_equilibrium = 2 * np.log(0.5)",
+  "setup": "import numpy as np",
+  "show": "print('far =', far)\nprint('equal =', equal)\nprint('value_at_equilibrium =', value_at_equilibrium)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "tokenization": {
+  "code": "from collections import Counter\nwords = {'l o w </w>': 5, 'l o w e r </w>': 2, 'n e w e s t </w>': 6, 'w i d e s t </w>': 3}   # word -> count\nmerges = []\nfor _ in range(4):\n    pairs = Counter()\n    for w, n in words.items():\n        s = w.split()\n        for a, b in zip(s, s[1:]): pairs[a, b] += n\n    best = max(pairs, key=pairs.get)\n    merges.append(''.join(best))\n    words = {w.replace(' '.join(best), ''.join(best)): n for w, n in words.items()}",
+  "setup": "import numpy as np",
+  "show": "print('merges =', merges)\nprint('list(words) =', list(words))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lora": {
+  "code": "d, r = 4096, 16\nfull = d * d\nlora = 2 * d * r                                   # B (d x r) and A (r x d)\nrng = np.random.default_rng(10)\nB, A = rng.normal(size=(64, 4)), rng.normal(size=(4, 64))\nrank = np.linalg.matrix_rank(B @ A)                # an update of rank at most r",
+  "setup": "import numpy as np",
+  "show": "print('full =', full)\nprint('lora =', lora)\nprint('lora / full =', lora / full)\nprint('rank =', rank)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rlhf": {
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\np_prefer = sigmoid(1.0)                             # Bradley-Terry: reward gap of 1 -> P(chosen beats rejected)\nbeta = 0.1\ndpo_loss = lambda margin: -np.log(sigmoid(beta * margin))   # margin = difference of log-ratios vs the reference\nlosses = {m: round(float(dpo_loss(m)), 3) for m in (0, 10, 30)}",
+  "setup": "import numpy as np",
+  "show": "print('p_prefer =', p_prefer)\nprint('losses =', losses)",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

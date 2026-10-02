@@ -1,0 +1,227 @@
+{
+ "sma": {
+  "code": "df['sma5'] = df['close'].rolling(5).mean()",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ema": {
+  "code": "df['ema5'] = df['close'].ewm(span=5, adjust=False).mean()   # k = 2/(5+1)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "wma": {
+  "code": "w = np.arange(1, 6)                      # weights 1..5, newest heaviest\ndf['wma5'] = df['close'].rolling(5).apply(lambda x: (x * w).sum() / w.sum(), raw=True)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "dema": {
+  "code": "e1 = df['close'].ewm(span=5, adjust=False).mean()\ne2 = e1.ewm(span=5, adjust=False).mean()     # the EMA of the EMA\ndf['dema5'] = 2 * e1 - e2",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "vwap": {
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\ndf['vwap'] = (tp * df['volume']).cumsum() / df['volume'].cumsum()\n# intraday: group by session date and take the cumulative sums per day",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "rsi": {
+  "code": "d = df['close'].diff()\ngain = d.clip(lower=0).ewm(alpha=1/5, adjust=False).mean()    # Wilder smoothing\nloss = (-d.clip(upper=0)).ewm(alpha=1/5, adjust=False).mean()\ndf['rsi5'] = 100 - 100 / (1 + gain / loss)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "stochastic": {
+  "code": "ll = df['low'].rolling(5).min()\nhh = df['high'].rolling(5).max()\ndf['k'] = 100 * (df['close'] - ll) / (hh - ll)\ndf['d'] = df['k'].rolling(3).mean()",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "cci": {
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nma = tp.rolling(5).mean()\nmd = tp.rolling(5).apply(lambda x: np.abs(x - x.mean()).mean(), raw=True)\ndf['cci5'] = (tp - ma) / (0.015 * md)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "williams-r": {
+  "code": "hh = df['high'].rolling(5).max()\nll = df['low'].rolling(5).min()\ndf['wr5'] = -100 * (hh - df['close']) / (hh - ll)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "roc": {
+  "code": "df['roc5'] = 100 * (df['close'] / df['close'].shift(5) - 1)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "macd": {
+  "code": "fast = df['close'].ewm(span=3, adjust=False).mean()\nslow = df['close'].ewm(span=6, adjust=False).mean()\ndf['macd'] = fast - slow\ndf['signal'] = df['macd'].ewm(span=3, adjust=False).mean()\ndf['hist'] = df['macd'] - df['signal']",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "adx": {
+  "code": "up, down = df['high'].diff(), -df['low'].diff()\nplus_dm = np.where((up > down) & (up > 0), up, 0.0)\nminus_dm = np.where((down > up) & (down > 0), down, 0.0)\npc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\nw = lambda s: pd.Series(s, index=df.index).ewm(alpha=1/5, adjust=False).mean()   # Wilder\natr = w(tr)\ndf['+di'] = 100 * w(plus_dm) / atr\ndf['-di'] = 100 * w(minus_dm) / atr\ndx = 100 * (df['+di'] - df['-di']).abs() / (df['+di'] + df['-di'])\ndf['adx5'] = w(dx)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "parabolic-sar": {
+  "code": "af0, step, af_max = 0.02, 0.02, 0.20\nhigh, low = df['high'].values, df['low'].values\nsar = np.zeros(len(df)); up = True; af = af0\nep, sar[0] = high[0], low[0]\nfor i in range(1, len(df)):\n    sar[i] = sar[i-1] + af * (ep - sar[i-1])\n    if up:\n        sar[i] = min(sar[i], low[i-1], low[max(i-2, 0)])   # never above the last two lows\n        if low[i] < sar[i]:                                 # stop hit: flip short\n            up, sar[i], ep, af = False, ep, low[i], af0\n        elif high[i] > ep:\n            ep, af = high[i], min(af + step, af_max)\n    else:\n        sar[i] = max(sar[i], high[i-1], high[max(i-2, 0)])\n        if high[i] > sar[i]:                                # stop hit: flip long\n            up, sar[i], ep, af = True, ep, high[i], af0\n        elif low[i] < ep:\n            ep, af = low[i], min(af + step, af_max)\ndf['sar'] = sar",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ichimoku": {
+  "code": "mid = lambda n: (df['high'].rolling(n).max() + df['low'].rolling(n).min()) / 2\ndf['tenkan'] = mid(3)                     # 9 in the standard settings\ndf['kijun'] = mid(6)                      # 26\ndf['span_a'] = ((df['tenkan'] + df['kijun']) / 2).shift(6)\ndf['span_b'] = mid(12).shift(6)           # 52, shifted 26 ahead",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "aroon": {
+  "code": "last = lambda f: (lambda x: len(x) - 1 - f(x[::-1]))     # position of the latest extreme\npos_hi = df['high'].rolling(6).apply(last(np.argmax), raw=True)   # 0 = oldest of 6 bars, 5 = today\npos_lo = df['low'].rolling(6).apply(last(np.argmin), raw=True)\ndf['aroon_up'] = 100 * pos_hi / 5           # 100 = the high is today\ndf['aroon_down'] = 100 * pos_lo / 5",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "bollinger-bands": {
+  "code": "mid = df['close'].rolling(5).mean()\nsd = df['close'].rolling(5).std(ddof=0)       # population SD, as Bollinger uses\ndf['bb_up'], df['bb_mid'], df['bb_lo'] = mid + 2 * sd, mid, mid - 2 * sd",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "atr": {
+  "code": "pc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\ndf['atr5'] = tr.ewm(alpha=1/5, adjust=False).mean()   # Wilder smoothing",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "keltner-channels": {
+  "code": "pc = df['close'].shift()\ntr = pd.concat([df['high'] - df['low'], (df['high'] - pc).abs(), (df['low'] - pc).abs()], axis=1).max(axis=1)\natr = tr.ewm(alpha=1/5, adjust=False).mean()\nmid = df['close'].ewm(span=5, adjust=False).mean()\ndf['kc_up'], df['kc_mid'], df['kc_lo'] = mid + 2 * atr, mid, mid - 2 * atr",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "donchian-channels": {
+  "code": "df['dc_up'] = df['high'].rolling(5).max()\ndf['dc_lo'] = df['low'].rolling(5).min()\ndf['dc_mid'] = (df['dc_up'] + df['dc_lo']) / 2\ndf['breakout'] = df['close'] > df['dc_up'].shift()   # close above the prior range",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "standard-deviation": {
+  "code": "df['sd5'] = df['close'].rolling(5).std(ddof=0)\ndf['ret_sd5'] = df['close'].pct_change().rolling(5).std()   # the same idea on returns",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "obv": {
+  "code": "direction = np.sign(df['close'].diff()).fillna(0)\ndf['obv'] = (direction * df['volume']).cumsum()",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "accumulation-distribution": {
+  "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\ndf['ad'] = (clv * df['volume']).cumsum()",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "mfi": {
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nflow = tp * df['volume']\npos = flow.where(tp > tp.shift(), 0).rolling(5).sum()\nneg = flow.where(tp < tp.shift(), 0).rolling(5).sum()\ndf['mfi5'] = 100 - 100 / (1 + pos / neg)",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "chaikin-oscillator": {
+  "code": "clv = ((df['close'] - df['low']) - (df['high'] - df['close'])) / (df['high'] - df['low'])\nad = (clv * df['volume']).cumsum()\ndf['chaikin'] = ad.ewm(span=3, adjust=False).mean() - ad.ewm(span=10, adjust=False).mean()",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "vwap-bands": {
+  "code": "tp = (df['high'] + df['low'] + df['close']) / 3\nv = df['volume']\nvwap = (tp * v).cumsum() / v.cumsum()\nsd = np.sqrt((v * (tp - vwap) ** 2).cumsum() / v.cumsum())   # volume-weighted SD\ndf['vwap'], df['vb_up'], df['vb_lo'] = vwap, vwap + 2 * sd, vwap - 2 * sd",
+  "setup": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'close': [100, 102, 101, 104, 107, 106, 109, 108, 105, 103, 104, 102, 99, 101, 104],\n    'high': [101, 103, 103, 105, 108, 108, 110, 110, 108, 105, 105, 104, 102, 102, 105],\n    'low': [99, 100, 100, 101, 104, 105, 106, 107, 104, 102, 102, 101, 98, 99, 101],\n    'volume': [50, 62, 48, 70, 85, 60, 90, 72, 80, 66, 55, 75, 95, 64, 71],\n})\ndf.index = range(1, 16)\ndf.index.name = 'day'\ndf['volume'] = df['volume'] * 1000   # in shares",
+  "show": "print(df.drop(columns=['close', 'high', 'low', 'volume']).round(2).to_string())",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ }
+}

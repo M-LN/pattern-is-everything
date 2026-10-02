@@ -424,7 +424,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "reproducibility": {
-  "example": "A million float32 numbers summed in two different orders differ by <strong>0.00012</strong>. Nothing is wrong with either sum; floating-point addition is not associative, and parallel hardware changes the order. The same seed does give the same random numbers (<strong>True</strong>), but bit-identical training also needs the same order of operations.",
+  "example": "A million float32 numbers summed in two different orders differ by <strong>0.00012</strong>. Nothing is wrong with either sum; floating-point addition is not associative, and parallel hardware changes the order. Even the size of the gap depends on the machine: run the code below in the browser and it comes out at 0.00018, because that build of NumPy adds the numbers in a different order. The same seed does give the same random numbers (<strong>True</strong>), but bit-identical training also needs the same order of operations.",
   "fails": [
    "Fixing seeds is necessary, not sufficient: library versions, hardware and non-deterministic GPU kernels change results too.",
    "Exact reproduction is not always the goal; reporting the spread over seeds shows whether a result is robust.",
@@ -456,7 +456,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.' });
+  return renderDepth({ ...d, run: 'mlops/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet carries its own example numbers; the comments say which are made up or simulated.' });
 }
 /* depth:end */
 

@@ -540,7 +540,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.' });
+  return renderDepth({ ...d, run: 'llm/' + id, codeNote: 'Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.' });
 }
 /* depth:end */
 

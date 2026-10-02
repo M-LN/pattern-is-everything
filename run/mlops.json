@@ -1,0 +1,210 @@
+{
+ "model-packaging": {
+  "code": "import hashlib\nweights = np.arange(6, dtype=np.float32).reshape(2, 3)     # the trained model, tiny here\n\ndef artifact_id(weights, requirements):                    # identity = model bytes + the environment it needs\n    h = hashlib.sha256(weights.tobytes())\n    h.update(requirements.encode())\n    return h.hexdigest()[:12]\n\na = artifact_id(weights, 'numpy==1.26.4\\nscikit-learn==1.4.2')\nb = artifact_id(weights, 'numpy==2.0.0\\nscikit-learn==1.4.2')     # same weights, one pin changed",
+  "setup": "import numpy as np",
+  "show": "print('a =', a)\nprint('b =', b)\nprint('a == b =', a == b)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "serving-patterns": {
+  "code": "entities = 1_000_000                   # customers that could be scored\nrequested = 50_000                     # customers actually looked up per day\nbatch = dict(scored=entities, avg_age_h=24 / 2)            # nightly batch: everyone, results half a day old on average\nonline = dict(scored=requested, avg_age_h=0)               # online: only who is asked for, scored on the spot\nwaste = 1 - requested / entities                           # share of batch scores nobody reads",
+  "setup": "import numpy as np",
+  "show": "print('batch =', batch)\nprint('online =', online)\nprint('waste =', waste)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "ab-rollout": {
+  "code": "from scipy.stats import norm\np0, p1 = 0.010, 0.015                  # error rate today, and the regression we want to catch\nalpha, power = 0.05, 0.80\nz = norm.ppf(1 - alpha / 2) + norm.ppf(power)\nn = z**2 * (p0 * (1 - p0) + p1 * (1 - p1)) / (p1 - p0) ** 2    # requests needed in each arm\ndaily = 100_000\ndays_at_5pct = n / (0.05 * daily)       # canary gets 5% of traffic",
+  "setup": "import numpy as np",
+  "show": "print('round(n) =', round(n))\nprint('days_at_5pct =', days_at_5pct)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "latency-throughput": {
+  "code": "rng = np.random.default_rng(0)\nlat = rng.lognormal(mean=np.log(40), sigma=0.6, size=100_000)   # simulated latencies in ms\np50, p99 = np.percentile(lat, [50, 99])\nslow_one = 0.01                                # each backend call is slow 1% of the time\nslow_fanout = 1 - (1 - slow_one) ** 10          # a request that waits on 10 such calls\nin_flight = 200 * 0.050                         # Little: 200 requests/s x 50 ms = requests in progress",
+  "setup": "import numpy as np",
+  "show": "print('p50 =', p50)\nprint('p99 =', p99)\nprint('slow_fanout =', slow_fanout)\nprint('in_flight =', in_flight)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "gpu-inference": {
+  "code": "params = 7e9                           # a 7B-parameter model\nbytes_per = 2                          # fp16\nweights_gb = params * bytes_per / 1e9\nbandwidth_gb_s = 2000                  # memory bandwidth of a modern data-centre GPU, ~2 TB/s\ntokens_s_batch1 = bandwidth_gb_s / weights_gb      # each new token reads every weight once\ntokens_s_batch16 = 16 * tokens_s_batch1            # one read serves 16 sequences (until compute-bound)",
+  "setup": "import numpy as np",
+  "show": "print('weights_gb =', weights_gb)\nprint('tokens_s_batch1 =', tokens_s_batch1)\nprint('tokens_s_batch16 =', tokens_s_batch16)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "drift-detection": {
+  "code": "from scipy.stats import ks_2samp\nexpected = np.array([0.10, 0.20, 0.40, 0.20, 0.10])     # share of training data in five score bins\nactual   = np.array([0.05, 0.15, 0.35, 0.25, 0.20])     # the same bins this week\npsi = np.sum((actual - expected) * np.log(actual / expected))\n\nrng = np.random.default_rng(1)                           # a shift too small to matter...\ntrain, live = rng.normal(0, 1, 200_000), rng.normal(0.02, 1, 200_000)\nks_p = ks_2samp(train, live).pvalue                      # ...is still \"significant\" with this much data",
+  "setup": "import numpy as np",
+  "show": "print('psi =', psi)\nprint('ks_p =', ks_p)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "model-monitoring": {
+  "code": "rng = np.random.default_rng(2)\nn = 5_000                                                 # predictions per day\nrate = np.r_[np.full(20, 0.08), np.full(10, 0.11)]        # share predicted positive; it shifts on day 20\npos = rng.binomial(n, rate) / n\nbase = pos[:14].mean()                                    # two weeks of baseline\nlimit = 3 * np.sqrt(base * (1 - base) / n)                # p-chart control limits\nflagged = np.where(np.abs(pos - base) > limit)[0]",
+  "setup": "import numpy as np",
+  "show": "print('round(base, 4) =', round(base, 4))\nprint('round(limit, 4) =', round(limit, 4))\nprint('flagged[:3].tolist() =', flagged[:3].tolist())",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "alerting-slos": {
+  "code": "slo = 0.995                            # 99.5% of requests succeed within 200 ms, over 30 days\nrequests = 10_000_000\nbudget = (1 - slo) * requests          # failures you are allowed in the window\nerror_rate = 0.02                      # what is happening right now\nburn = error_rate / (1 - slo)          # how many times faster than allowed\ndays_left = 30 / burn                  # budget gone at this pace",
+  "setup": "import numpy as np",
+  "show": "print('budget =', budget)\nprint('burn =', burn)\nprint('days_left =', days_left)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "shadow-scoring": {
+  "code": "from scipy.stats import binomtest\nrng = np.random.default_rng(3)\n\ndef shadow(n, p_champ=0.90, p_chal=0.91):           # both models score the same n labelled requests\n    champ = rng.random(n) < p_champ\n    chal = np.where(rng.random(n) < 0.5, champ, rng.random(n) < p_chal)   # they agree half the time by construction\n    only_chal, only_champ = (chal & ~champ).sum(), (champ & ~chal).sum()\n    return binomtest(only_chal, only_chal + only_champ).pvalue           # McNemar's exact test\n\np_2k, p_20k = shadow(2_000), shadow(20_000)",
+  "setup": "import numpy as np",
+  "show": "print('p_2k =', p_2k)\nprint('p_20k =', p_20k)",
+  "pkgs": [
+   "numpy",
+   "scipy"
+  ]
+ },
+ "data-quality": {
+  "code": "batch = pd.DataFrame({'age': [34, 51, None, 29, 230, 45],\n                      'income': [52_000, 61_000, 48_000, None, None, 75_000],\n                      'ts': pd.to_datetime(['2026-09-30 22:00'] * 6)})\nnow, expected_rows = pd.Timestamp('2026-10-01 09:00'), 6\nchecks = {\n    'row count': len(batch) >= 0.5 * expected_rows,\n    'age nulls <= 5%': batch.age.isna().mean() <= 0.05,\n    'age in 0-120': batch.age.dropna().between(0, 120).all(),\n    'income nulls <= 5%': batch.income.isna().mean() <= 0.05,\n    'fresh within 24 h': (now - batch.ts.max()) <= pd.Timedelta('24h'),\n}\nfailed = [name for name, ok in checks.items() if not ok]",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('failed =', failed)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ml-pipelines": {
+  "code": "minutes = {'ingest': 20, 'validate': 5, 'features': 40, 'labels': 15,\n           'train': 90, 'evaluate': 10, 'deploy': 5}\nneeds = {'validate': ['ingest'], 'features': ['validate'], 'labels': ['validate'],\n         'train': ['features', 'labels'], 'evaluate': ['train'], 'deploy': ['evaluate']}\n\ndef finish(step, cache=()):                         # earliest finish, with unlimited parallel workers\n    start = max((finish(d, cache) for d in needs.get(step, [])), default=0)\n    return start + (0 if step in cache else minutes[step])\n\ntotal = finish('deploy')\ncached = finish('deploy', cache={'ingest', 'validate', 'features'})   # retrain on cached features\nserial = sum(minutes.values())",
+  "setup": "import numpy as np",
+  "show": "print('total =', total)\nprint('cached =', cached)\nprint('serial =', serial)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "feature-stores": {
+  "code": "events = pd.DataFrame({'user': [1, 1, 2], 'ts': pd.to_datetime(['2026-03-01', '2026-03-10', '2026-03-05'])})\nfeats = pd.DataFrame({'user': [1, 1, 2, 2], 'ts': pd.to_datetime(['2026-02-20', '2026-03-08', '2026-03-01', '2026-03-09']),\n                      'orders_30d': [2, 5, 1, 4]})\nlatest = events.merge(feats.sort_values('ts').groupby('user').tail(1)[['user', 'orders_30d']], on='user')\nas_of = pd.merge_asof(events.sort_values('ts'), feats.sort_values('ts'), on='ts', by='user')   # point-in-time\nleaked = (latest.sort_values(['user', 'ts']).orders_30d.values != as_of.sort_values(['user', 'ts']).orders_30d.values).sum()",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('latest.orders_30d.tolist() =', latest.orders_30d.tolist())\nprint('as_of.sort_values([\"user\", \"ts\"]).orders_30d.tolist() =', as_of.sort_values([\"user\", \"ts\"]).orders_30d.tolist())\nprint('leaked =', leaked)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "experiment-tracking": {
+  "code": "runs = pd.DataFrame({'config': ['A'] * 5 + ['B'] * 5,\n                     'seed': list(range(5)) * 2,\n                     'auc': [0.842, 0.851, 0.838, 0.847, 0.845,      # five seeds of each config, made up\n                             0.849, 0.836, 0.853, 0.841, 0.846]})\nbest = runs.loc[runs.auc.idxmax()]\nby_config = runs.groupby('config').auc.agg(['mean', 'std'])",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('best.config =', best.config)\nprint('best.auc =', best.auc)\nprint('by_config.round(4).to_dict(\"index\") =', by_config.round(4).to_dict(\"index\"))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ci-cd-ml": {
+  "code": "holdout = pd.DataFrame({'segment': ['new', 'returning', 'enterprise'],\n                        'n': [8_000, 11_000, 1_000],\n                        'champion': [0.880, 0.910, 0.900],\n                        'candidate': [0.895, 0.918, 0.860]})      # accuracy per segment\noverall = lambda col: (holdout[col] * holdout.n).sum() / holdout.n.sum()\nbetter_overall = overall('candidate') > overall('champion')\nworst_drop = (holdout.candidate - holdout.champion).min()\nship = better_overall and worst_drop >= -0.01            # gate: no segment may lose more than one point",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('round(overall(\"champion\"), 4) =', round(overall(\"champion\"), 4))\nprint('round(overall(\"candidate\"), 4) =', round(overall(\"candidate\"), 4))\nprint('round(worst_drop, 3) =', round(worst_drop, 3))\nprint('ship =', ship)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "orchestration": {
+  "code": "p_fail = 0.20                          # a task fails transiently one time in five\nretries = 3\np_success = 1 - p_fail ** (retries + 1)\nbackoff = [30 * 2 ** k for k in range(retries)]           # seconds between attempts: exponential\nbackfill_runs = 90                                         # a daily DAG re-run for the last 90 days",
+  "setup": "import numpy as np",
+  "show": "print('p_success =', p_success)\nprint('backoff =', backoff)\nprint('backfill_runs =', backfill_runs)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "model-compression": {
+  "code": "rng = np.random.default_rng(4)\nx = rng.normal(0, 1, (1_000, 256))                 # a batch of inputs\n\ndef prune_error(W, keep=0.20):                     # keep the largest 20% of weights by size\n    cut = np.quantile(np.abs(W), 1 - keep)\n    Wp = np.where(np.abs(W) >= cut, W, 0)\n    return np.linalg.norm(x @ Wp - x @ W) / np.linalg.norm(x @ W)\n\neven = prune_error(rng.normal(0, 1, (256, 256)))            # weights all of similar size\npeaked = prune_error(rng.standard_t(1.5, (256, 256)))       # a few large weights and many near zero",
+  "setup": "import numpy as np",
+  "show": "print('even =', even)\nprint('peaked =', peaked)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "quantization": {
+  "code": "rng = np.random.default_rng(5)\nw = rng.normal(0, 0.02, 10_000).astype(np.float32)\n\ndef int8_error(w):                                 # symmetric per-tensor INT8\n    scale = np.abs(w).max() / 127\n    q = np.clip(np.round(w / scale), -127, 127)\n    return np.abs(q * scale - w).mean() / np.abs(w).mean()\n\nerr = int8_error(w)\nw_out = w.copy(); w_out[0] = 1.0                   # one outlier weight, 50 standard deviations out\nerr_outlier = int8_error(w_out)\nmemory_saving = 32 / 8",
+  "setup": "import numpy as np",
+  "show": "print('err =', err)\nprint('err_outlier =', err_outlier)\nprint('memory_saving =', memory_saving)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "caching-layers": {
+  "code": "keys = 1_000_000\nrank = np.arange(1, keys + 1)\nshare = (1 / rank) / (1 / rank).sum()             # Zipf: the k-th most popular key gets traffic ~ 1/k\nhit_rate = share[: keys // 100].sum()             # cache the top 1% of keys\nlatency = hit_rate * 1 + (1 - hit_rate) * 50       # ms: 1 from cache, 50 from the model",
+  "setup": "import numpy as np",
+  "show": "print('hit_rate =', hit_rate)\nprint('latency =', latency)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "auto-scaling": {
+  "code": "import math\nrps, latency_s, per_replica = 1_200, 0.080, 8       # traffic, time per request, concurrent requests per replica\nin_flight = rps * latency_s                         # Little's law\nreplicas = math.ceil(in_flight / (per_replica * 0.70))   # target 70% utilisation\ncurrent, cpu, target = 10, 0.92, 0.70\nhpa = math.ceil(current * cpu / target)             # Kubernetes HPA rule",
+  "setup": "import numpy as np",
+  "show": "print('in_flight =', in_flight)\nprint('replicas =', replicas)\nprint('hpa =', hpa)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "cost-governance": {
+  "code": "gpu_per_hour = 2.50                        # dollars, on demand\ncapacity = 400                             # predictions per second at full use\n\ndef cost_per_1k(utilisation):\n    return gpu_per_hour / (capacity * utilisation * 3600) * 1000\n\nlow, high = cost_per_1k(0.30), cost_per_1k(0.80)",
+  "setup": "import numpy as np",
+  "show": "print('low =', low)\nprint('high =', high)\nprint('low / high =', low / high)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "model-registry": {
+  "code": "registry = {'fraud': {'v7': 'archived', 'v8': 'production', 'v9': 'staging'}}\nhistory = ['v7', 'v8']                                   # production versions, oldest first\n\ndef promote(name, version):\n    reg = registry[name]\n    for v, stage in reg.items():\n        if stage == 'production': reg[v] = 'archived'\n    reg[version] = 'production'; history.append(version)\n\ndef rollback(name):\n    history.pop(); promote(name, history.pop())\n\npromote('fraud', 'v9')\nrollback('fraud')                                        # v9 misbehaves: one call back to v8\nlive = [v for v, s in registry['fraud'].items() if s == 'production']",
+  "setup": "import numpy as np",
+  "show": "print('live =', live)\nprint('registry[\"fraud\"] =', registry[\"fraud\"])",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lineage-tracking": {
+  "code": "edges = {'raw/2026-09-28': ['features/v12'], 'raw/2026-09-29': ['features/v12'],\n         'features/v12': ['model/fraud-v9', 'model/churn-v4'],\n         'model/fraud-v9': ['preds/fraud-0930'], 'model/churn-v4': ['preds/churn-0930', 'dashboard/retention']}\n\ndef downstream(node):                                    # everything built from a node\n    seen, stack = set(), [node]\n    while stack:\n        for nxt in edges.get(stack.pop(), []):\n            if nxt not in seen: seen.add(nxt); stack.append(nxt)\n    return sorted(seen)\n\naffected = downstream('raw/2026-09-29')                  # this partition turned out to be corrupt",
+  "setup": "import numpy as np",
+  "show": "print('affected =', affected)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "fairness-audits": {
+  "code": "g = pd.DataFrame({'group': ['a', 'b'],\n                  'tp': [300, 120], 'fn': [100, 80],      # among people who would repay\n                  'fp': [60, 40], 'tn': [540, 760]})       # among people who would not\ng['selection'] = (g.tp + g.fp) / (g.tp + g.fn + g.fp + g.tn)\ng['tpr'] = g.tp / (g.tp + g.fn)\ng['fpr'] = g.fp / (g.fp + g.tn)\ndisparate_impact = g.selection[1] / g.selection[0]        # four-fifths rule: worry below 0.8",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('g[[\"group\", \"selection\", \"tpr\", \"fpr\"]].round(3).to_dict(\"records\") =', g[[\"group\", \"selection\", \"tpr\", \"fpr\"]].round(3).to_dict(\"records\"))\nprint('round(disparate_impact, 3) =', round(disparate_impact, 3))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "reproducibility": {
+  "code": "x = np.random.default_rng(6).normal(0, 1, 1_000_000).astype(np.float32)\ns1 = x.sum()\ns2 = x[np.random.default_rng(7).permutation(len(x))].sum()   # same numbers, different order\norder_diff = abs(float(s1) - float(s2))\nsame_seed = np.random.default_rng(42).random(3).tolist() == np.random.default_rng(42).random(3).tolist()",
+  "setup": "import numpy as np",
+  "show": "print('order_diff =', order_diff)\nprint('same_seed =', same_seed)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "incident-response": {
+  "code": "rps = 50                                   # requests per second\nbad_from = 0                               # a bad model goes live at t = 0\ndetect_manual = 45 * 60                    # someone notices after 45 minutes\ndetect_breaker = 2 * 60                    # error rate > 5% over a 2-minute window trips the breaker\nrollback = 5 * 60                          # manual rollback takes 5 minutes\nhit_manual = rps * (detect_manual + rollback)\nhit_breaker = rps * detect_breaker          # the breaker switches to the fallback at once",
+  "setup": "import numpy as np",
+  "show": "print('hit_manual =', hit_manual)\nprint('hit_breaker =', hit_breaker)\nprint('hit_manual / hit_breaker =', hit_manual / hit_breaker)",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

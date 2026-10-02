@@ -493,7 +493,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, dataHtml: EXAMPLE_DATA_HTML,
+  return renderDepth({ ...d, run: 'markets-indicators/' + id, dataHtml: EXAMPLE_DATA_HTML,
     codeNote: 'Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns high, low, close and volume — the 15 days above.' });
 }
 

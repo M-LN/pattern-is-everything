@@ -219,7 +219,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=2">
-  <link rel="stylesheet" href="${up}css/main.css?v=34">
+  <link rel="stylesheet" href="${up}css/main.css?v=35">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -291,6 +291,7 @@ window.addEventListener('load', function () {
 <script src="${up}js/connections.js?v=3" defer></script>
 <script src="${up}js/track.js?v=1" defer></script>
 ${html.includes('class="selfcheck"') ? `<script src="${up}js/self-check.js?v=1" defer></script>
+` : ''}${html.includes('data-run="') ? `<script src="${up}js/code-run.js?v=1" defer></script>
 ` : ''}</body>
 </html>
 `;

@@ -1,0 +1,206 @@
+{
+ "stationarity": {
+  "code": "rng = np.random.default_rng(0)\ncorr_levels, corr_diffs = [], []\nfor _ in range(1_000):                          # pairs of independent random walks\n    a, b = rng.normal(size=(2, 250)).cumsum(axis=1)\n    corr_levels.append(abs(np.corrcoef(a, b)[0, 1]))\n    corr_diffs.append(abs(np.corrcoef(np.diff(a), np.diff(b))[0, 1]))\nlevels, diffs = np.mean(corr_levels), np.mean(corr_diffs)\nshare_big = np.mean(np.array(corr_levels) > 0.5)",
+  "setup": "import numpy as np",
+  "show": "print('round(levels, 3) =', round(levels, 3))\nprint('round(diffs, 3) =', round(diffs, 3))\nprint('round(share_big, 3) =', round(share_big, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "autocorrelation": {
+  "code": "rng = np.random.default_rng(1)\nn, phi = 2_000, 0.7\ny = np.zeros(n)\nfor t in range(1, n): y[t] = phi * y[t - 1] + rng.normal()   # AR(1)\n\ndef acf(x, k):\n    x = x - x.mean(); return (x[:-k] * x[k:]).sum() / (x * x).sum()\n\nsample = [round(acf(y, k), 3) for k in (1, 2, 3)]\ntheory = [round(phi ** k, 3) for k in (1, 2, 3)]\nX = np.column_stack([y[1:-1], y[:-2]])           # PACF at lag 2: the lag-2 coefficient given lag 1\npacf2 = np.linalg.lstsq(X, y[2:], rcond=None)[0][1]\nband = 1.96 / np.sqrt(n)",
+  "setup": "import numpy as np",
+  "show": "print('sample =', sample)\nprint('theory =', theory)\nprint('round(pacf2, 3) =', round(pacf2, 3))\nprint('round(band, 3) =', round(band, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "decomposition": {
+  "code": "rng = np.random.default_rng(2)\nt = np.arange(120)                                # ten years, monthly\nseason = 10 * np.sin(2 * np.pi * t / 12)\ny = pd.Series(0.5 * t + season + rng.normal(0, 3, 120))\ntrend = y.rolling(12, center=True).mean().rolling(2, center=True).mean()   # centred 2x12 moving average\ndetr = y - trend\nseasonal = detr.groupby(t % 12).transform('mean')\nresid = y - trend - seasonal\namp = (seasonal.max() - seasonal.min()) / 2       # true amplitude is 10",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('round(amp, 2) =', round(amp, 2))\nprint('round(resid.std(), 2) =', round(resid.std(), 2))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "differencing": {
+  "code": "rng = np.random.default_rng(3)\nt = np.arange(500)\ntrend = 0.3 * t + rng.normal(0, 1, 500)\nd1 = np.diff(trend)\nnoise = rng.normal(0, 1, 500)                    # already stationary\nover = np.diff(noise)                            # differenced anyway\n\ndef acf1(x):\n    x = x - x.mean(); return (x[:-1] * x[1:]).sum() / (x * x).sum()",
+  "setup": "import numpy as np",
+  "show": "print('round(d1.mean(), 3) =', round(d1.mean(), 3))\nprint('round(acf1(over), 3) =', round(acf1(over), 3))\nprint('round(over.var() / noise.var(), 2) =', round(over.var() / noise.var(), 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "resampling": {
+  "code": "daily = np.array([0.10, -0.10])                  # +10% then -10%\nsummed = daily.sum()\ncompounded = np.prod(1 + daily) - 1\nlog_sum = np.expm1(np.log1p(daily).sum())        # log returns add up correctly\nprices = pd.Series([100, 102, 101, 108, 95], index=pd.date_range('2026-03-02', periods=5))\nweek = dict(last=prices.iloc[-1], mean=prices.mean())   # a weekly 'close' vs a weekly average",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('summed =', summed)\nprint('round(compounded, 4) =', round(compounded, 4))\nprint('round(log_sum, 4) =', round(log_sum, 4))\nprint('week =', week)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ar-models": {
+  "code": "rng = np.random.default_rng(4)\nphi, n = 0.8, 200\ny = np.zeros(n)\nfor t in range(1, n): y[t] = phi * y[t - 1] + rng.normal()\nphi_hat = np.linalg.lstsq(y[:-1, None], y[1:], rcond=None)[0][0]\nlast = 3.0                                        # forecast from a value 3 above the mean of 0\nforecast = [round(last * phi ** h, 2) for h in (1, 2, 5, 10)]\nhalf_life = np.log(0.5) / np.log(phi)",
+  "setup": "import numpy as np",
+  "show": "print('round(phi_hat, 3) =', round(phi_hat, 3))\nprint('forecast =', forecast)\nprint('round(half_life, 2) =', round(half_life, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "ma-models": {
+  "code": "rng = np.random.default_rng(5)\ntheta, n = 0.6, 5_000\ne = rng.normal(size=n + 1)\ny = e[1:] + theta * e[:-1]                        # MA(1)\n\ndef acf(x, k):\n    x = x - x.mean(); return (x[:-k] * x[k:]).sum() / (x * x).sum()\n\ntheory1 = theta / (1 + theta ** 2)\nsample = [round(acf(y, k), 3) for k in (1, 2, 3)]",
+  "setup": "import numpy as np",
+  "show": "print('round(theory1, 3) =', round(theory1, 3))\nprint('sample =', sample)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "arima": {
+  "code": "sigma = 1.0                                       # one-step error of a random walk, ARIMA(0,1,0)\nwidth = {h: round(1.96 * sigma * np.sqrt(h), 2) for h in (1, 4, 12, 52)}   # 95% interval half-width",
+  "setup": "import numpy as np",
+  "show": "print('width =', width)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "sarima": {
+  "code": "rng = np.random.default_rng(6)\nt = np.arange(96)\ny = 100 + 0.2 * t + 15 * np.sin(2 * np.pi * t / 12) + rng.normal(0, 2, 96)   # eight years, monthly\ntrain, test = y[:84], y[84:]\nnaive = np.full(12, train[-1])                    # repeat the last month\nseasonal_naive = train[-12:]                      # repeat the same month last year\nmae = lambda f: np.abs(test - f).mean()",
+  "setup": "import numpy as np",
+  "show": "print('round(mae(naive), 2) =', round(mae(naive), 2))\nprint('round(mae(seasonal_naive), 2) =', round(mae(seasonal_naive), 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "exponential-smoothing": {
+  "code": "steps_to_90 = {a: round(np.log(0.1) / np.log(1 - a), 1) for a in (0.2, 0.5, 0.8)}   # after a level shift\nb, phi = 1.0, 0.9                                  # trend per period, damping\ndamped_total = b * phi / (1 - phi)                 # where a damped trend's extra growth levels off\nstraight_24 = b * 24                               # an undamped trend 24 periods ahead",
+  "setup": "import numpy as np",
+  "show": "print('steps_to_90 =', steps_to_90)\nprint('round(damped_total, 1) =', round(damped_total, 1))\nprint('straight_24 =', straight_24)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "prophet": {
+  "code": "t = np.arange(48)                                 # four years, monthly\ny = np.where(t < 40, 100 + 1.0 * t, 140 + 3.0 * (t - 40))   # growth triples in the last 8 months\nh = 24\nlast_slope = (y[-1] - y[-9]) / 8                  # the most recent trend segment\noverall = np.polyfit(t, y, 1)[0]\nf_last = y[-1] + last_slope * h\nf_overall = y[-1] + overall * h",
+  "setup": "import numpy as np",
+  "show": "print('last_slope =', last_slope)\nprint('round(overall, 2) =', round(overall, 2))\nprint('f_last =', f_last)\nprint('round(f_overall, 1) =', round(f_overall, 1))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "state-space": {
+  "code": "def steady_gain(q, r=1.0):                     # local level model: state noise q, observation noise r\n    P = (q + np.sqrt(q * q + 4 * q * r)) / 2       # steady-state prior variance\n    return P / (P + r)                              # Kalman gain = the SES smoothing weight\n\ngains = {q: round(steady_gain(q), 3) for q in (0.01, 0.1, 1, 10)}",
+  "setup": "import numpy as np",
+  "show": "print('gains =', gains)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "garch": {
+  "code": "rng = np.random.default_rng(7)\nomega, alpha, beta, n = 0.05, 0.10, 0.85, 20_000\nlong_run = omega / (1 - alpha - beta)\nhalf_life = np.log(0.5) / np.log(alpha + beta)     # days for a volatility shock to halve\nr, s2 = np.zeros(n), np.full(n, long_run)\nfor t in range(1, n):\n    s2[t] = omega + alpha * r[t - 1] ** 2 + beta * s2[t - 1]\n    r[t] = np.sqrt(s2[t]) * rng.normal()\nkurt = ((r - r.mean()) ** 4).mean() / r.var() ** 2   # normal = 3",
+  "setup": "import numpy as np",
+  "show": "print('long_run =', long_run)\nprint('round(half_life, 1) =', round(half_life, 1))\nprint('round(kurt, 2) =', round(kurt, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "var-models": {
+  "code": "rng = np.random.default_rng(8)\nn = 500\nx, y = np.zeros(n), np.zeros(n)\nfor t in range(1, n):\n    x[t] = 0.5 * x[t - 1] + rng.normal()\n    y[t] = 0.3 * y[t - 1] + 0.6 * x[t - 1] + rng.normal()   # x leads y by one step\nZ = np.column_stack([x[:-1], y[:-1]])\nA = np.linalg.lstsq(Z, np.column_stack([x[1:], y[1:]]), rcond=None)[0].T   # rows: equations for x and y",
+  "setup": "import numpy as np",
+  "show": "print(A.round(2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "changepoint-detection": {
+  "code": "rng = np.random.default_rng(9)\ndef best_split(y):                                # the single split that most reduces squared error\n    total = ((y - y.mean()) ** 2).sum()\n    gains = [total - ((y[:k] - y[:k].mean()) ** 2).sum() - ((y[k:] - y[k:].mean()) ** 2).sum() for k in range(5, len(y) - 5)]\n    k = int(np.argmax(gains)); return k + 5, gains[k] / total\n\nshift = np.r_[rng.normal(0, 1, 60), rng.normal(1.5, 1, 40)]   # the mean moves at t = 60\nflat = rng.normal(0, 1, 100)                                   # nothing happens\nfound, found_flat = best_split(shift), best_split(flat)",
+  "setup": "import numpy as np",
+  "show": "print('(found[0], round(found[1], 3)) =', (found[0], round(found[1], 3)))\nprint('(found_flat[0], round(found_flat[1], 3)) =', (found_flat[0], round(found_flat[1], 3)))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rnn-for-ts": {
+  "code": "rng = np.random.default_rng(10)\nprices = 100 + rng.normal(0, 5, 1_000)            # raw prices around 100\nw = rng.normal(0, 0.1, 1_000)                      # small random input weights\nsaturated_raw = np.mean(np.abs(np.tanh(w * prices)) > 0.99)\nz = (prices - prices.mean()) / prices.std()        # standardized\nsaturated_std = np.mean(np.abs(np.tanh(w * z)) > 0.99)",
+  "setup": "import numpy as np",
+  "show": "print('round(saturated_raw, 3) =', round(saturated_raw, 3))\nprint('round(saturated_std, 3) =', round(saturated_std, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lstm-for-ts": {
+  "code": "rng = np.random.default_rng(11)\ny = 100 + rng.normal(0, 1, 2_000).cumsum()       # a random walk, like many prices\ntest = y[1_000:]\nnaive = np.abs(test[1:] - test[:-1]).mean()       # tomorrow = today\nmean_fc = np.abs(test[1:] - y[:1_000].mean()).mean()   # tomorrow = the training average\ndrift = np.abs(test[1:] - (test[:-1] + np.diff(y[:1_000]).mean())).mean()",
+  "setup": "import numpy as np",
+  "show": "print('round(naive, 3) =', round(naive, 3))\nprint('round(mean_fc, 2) =', round(mean_fc, 2))\nprint('round(drift, 3) =', round(drift, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "temporal-cnn": {
+  "code": "def receptive_field(k, dilations, convs_per_block=2):\n    return 1 + convs_per_block * (k - 1) * sum(dilations)\n\nsmall = receptive_field(3, [1, 2, 4, 8])\nlarge = receptive_field(3, [2 ** i for i in range(8)])     # dilations 1..128",
+  "setup": "import numpy as np",
+  "show": "print('small =', small)\nprint('large =', large)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "transformers-for-ts": {
+  "code": "rng = np.random.default_rng(12)\nt = np.arange(600)\ny = 10 * np.sin(2 * np.pi * t / 24) + 0.01 * t + rng.normal(0, 1, 600)   # hourly with a daily cycle\nL = 48                                             # look back two days\nX = np.array([y[i:i + L] for i in range(len(y) - L)]); target = y[L:]\nsplit = 400\nw = np.linalg.lstsq(np.c_[X[:split], np.ones(split)], target[:split], rcond=None)[0]   # one linear layer\nlinear = np.abs(np.c_[X[split:], np.ones(len(X) - split)] @ w - target[split:]).mean()\nseasonal_naive = np.abs(X[split:, -24] - target[split:]).mean()",
+  "setup": "import numpy as np",
+  "show": "print('round(linear, 3) =', round(linear, 3))\nprint('round(seasonal_naive, 3) =', round(seasonal_naive, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "nbeats": {
+  "code": "train = np.array([12, 15, 14, 18, 20, 17, 21, 24, 22, 26, 28, 25.0])   # made up\ntest = np.array([29, 31, 28.0])\nforecast = np.array([28, 29, 30.0])\nscale = np.abs(np.diff(train)).mean()              # in-sample error of the naive forecast\nmase = np.abs(test - forecast).mean() / scale       # < 1 beats naive on the scale of the training data",
+  "setup": "import numpy as np",
+  "show": "print('round(scale, 3) =', round(scale, 3))\nprint('round(mase, 3) =', round(mase, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "feature-engineering": {
+  "code": "rng = np.random.default_rng(13)\ny = pd.Series(rng.normal(0, 1, 2_000).cumsum()).diff().dropna()   # daily changes: unpredictable\nleaky = y.rolling(3).mean()                        # includes today's value\nhonest = y.shift(1).rolling(3).mean()              # only yesterday and before\ncorr_leaky, corr_honest = y.corr(leaky), y.corr(honest)",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('round(corr_leaky, 3) =', round(corr_leaky, 3))\nprint('round(corr_honest, 3) =', round(corr_honest, 3))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "cross-validation-ts": {
+  "code": "n, folds, test_size, gap = 100, 4, 10, 2\nsplits = []\nfor i in range(folds):                             # expanding window\n    test_start = n - (folds - i) * test_size\n    splits.append(((0, test_start - gap), (test_start, test_start + test_size)))",
+  "setup": "import numpy as np",
+  "show": "print('splits =', splits)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "backtesting-forecasts": {
+  "code": "actual = np.array([120.0, 80.0, 2.0, 150.0, 95.0])\nforecast = np.array([110.0, 90.0, 10.0, 140.0, 100.0])\nerr = actual - forecast\nmae = np.abs(err).mean()\nrmse = np.sqrt((err ** 2).mean())\nmape = np.abs(err / actual).mean() * 100\nmape_without_small = np.abs(err / actual)[actual > 10].mean() * 100",
+  "setup": "import numpy as np",
+  "show": "print('mae =', mae)\nprint('round(rmse, 2) =', round(rmse, 2))\nprint('round(mape, 1) =', round(mape, 1))\nprint('round(mape_without_small, 1) =', round(mape_without_small, 1))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "anomaly-detection": {
+  "code": "rng = np.random.default_rng(14)\nday = np.arange(730)\ntemp = 10 - 12 * np.cos(2 * np.pi * day / 365) + rng.normal(0, 2, 730)   # two years, warm summers\ntemp[20] = 15                                      # a warm day in January: normal in July\nz_global = (temp - temp.mean()) / temp.std()\nresid = temp - pd.Series(temp).rolling(15, center=True, min_periods=5).median()\nz_local = resid / resid.std()\nflags = (round(z_global[20], 2), round(z_local[20], 2))\nfalse_alarms_per_day = 10_000 * 0.0027             # 10,000 metrics checked daily at 3 sigma",
+  "setup": "import numpy as np\nimport pandas as pd",
+  "show": "print('flags =', flags)\nprint('false_alarms_per_day =', false_alarms_per_day)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "forecast-ensembles": {
+  "code": "rng = np.random.default_rng(15)\nrho = 0.3\ncov = [[1, rho], [rho, 1]]\ne = rng.multivariate_normal([0, 0], cov, 100_000)     # errors of two unbiased forecasts\nmse_single = (e[:, 0] ** 2).mean()\nmse_avg = (e.mean(axis=1) ** 2).mean()\ntheory = (1 + rho) / 2",
+  "setup": "import numpy as np",
+  "show": "print('round(mse_single, 3) =', round(mse_single, 3))\nprint('round(mse_avg, 3) =', round(mse_avg, 3))\nprint('theory =', theory)",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

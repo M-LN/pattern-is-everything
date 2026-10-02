@@ -454,7 +454,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.' });
+  return renderDepth({ ...d, run: 'timeseries/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code>. Each snippet simulates or makes up its own series, as the comments say.' });
 }
 /* depth:end */
 

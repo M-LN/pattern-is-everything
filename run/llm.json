@@ -1,0 +1,242 @@
+{
+ "tokenization": {
+  "code": "samples = {'English': 'pattern', 'Danish': 'mønstre på tværs', 'Greek': 'μοτίβο',\n           'Chinese': '模式识别', 'Hindi': 'पैटर्न'}\nbytes_per_char = {lang: len(s.encode('utf-8')) / len(s) for lang, s in samples.items()}\n# byte-level BPE starts from UTF-8 bytes: scripts it saw little of stay closer to one token per byte",
+  "setup": "import numpy as np",
+  "show": "print({k: round(v, 2) for k, v in bytes_per_char.items()})",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "embeddings": {
+  "code": "def embedding_share(vocab, d, total):\n    return vocab * d / total\n\ngpt2_small = embedding_share(50_257, 768, 124_439_808)       # GPT-2 small, tied input/output\nllama2_70b = embedding_share(32_000, 8_192, 68_976_648_192)   # Llama 2 70B, one of its two tables\ntied_saving = 50_257 * 768                                     # parameters saved by weight tying",
+  "setup": "import numpy as np",
+  "show": "print('gpt2_small =', gpt2_small)\nprint('llama2_70b =', llama2_70b)\nprint('tied_saving =', tied_saving)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "positional-encoding": {
+  "code": "def pe(pos, d=64):\n    i = np.arange(d // 2)\n    ang = pos / 10_000 ** (2 * i / d)\n    return np.concatenate([np.sin(ang), np.cos(ang)])\n\nnear = (pe(10) @ pe(15), pe(500) @ pe(505))          # same distance, different places\nrot = lambda v, m, th=0.1: np.array([[np.cos(m*th), -np.sin(m*th)], [np.sin(m*th), np.cos(m*th)]]) @ v\nq, k = np.array([1.0, 0.5]), np.array([0.3, 0.8])\nrope = (rot(q, 7) @ rot(k, 3), rot(q, 104) @ rot(k, 100))   # RoPE: score depends on m - n = 4 only",
+  "setup": "import numpy as np",
+  "show": "print('np.round(near, 6) =', np.round(near, 6))\nprint('np.round(rope, 6) =', np.round(rope, 6))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "self-attention": {
+  "code": "def score_matrix_gb(n, bytes_per=2):            # one head, one layer, fp16\n    return n * n * bytes_per / 1e9\n\nsizes = {n: round(score_matrix_gb(n), 3) for n in (4_096, 32_768, 131_072)}",
+  "setup": "import numpy as np",
+  "show": "print('sizes =', sizes)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "multi-head-attention": {
+  "code": "layers, d_k, bytes_per, ctx = 80, 128, 2, 4_096      # Llama-2-70B shapes, fp16, 4k context\ndef kv_gb(kv_heads):\n    return 2 * layers * kv_heads * d_k * bytes_per * ctx / 1e9   # K and V, every layer, every token\nmha, gqa, mqa = kv_gb(64), kv_gb(8), kv_gb(1)         # 64 query heads; 64, 8 or 1 KV heads",
+  "setup": "import numpy as np",
+  "show": "print('round(mha, 2) =', round(mha, 2))\nprint('round(gqa, 2) =', round(gqa, 2))\nprint('round(mqa, 2) =', round(mqa, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "feed-forward": {
+  "code": "d = 4_096\nclassic = 2 * d * (4 * d)                       # W1 and W2 with a 4d hidden layer\nswiglu_ideal = 3 * d * round(2 / 3 * 4 * d)     # three matrices at 2/3 of 4d keep the count equal\nswiglu_llama = 3 * d * 11_008                   # LLaMA-7B rounds the hidden size to 11,008",
+  "setup": "import numpy as np",
+  "show": "print('classic =', classic)\nprint('swiglu_ideal =', swiglu_ideal)\nprint('swiglu_llama =', swiglu_llama)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "transformer-block": {
+  "code": "d, kv_dim, ff, layers, vocab = 8_192, 1_024, 28_672, 80, 32_000   # Llama-2-70B\nattn = d * d + 2 * d * kv_dim + d * d          # Q, K and V (grouped), output\nffn = 3 * d * ff                                # SwiGLU\nblock = attn + ffn + 2 * d                      # + two RMSNorm scales\ntotal = layers * block + 2 * vocab * d + d      # + input and output embeddings, final norm",
+  "setup": "import numpy as np",
+  "show": "print('attn =', attn)\nprint('ffn =', ffn)\nprint('block =', block)\nprint('total =', total)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "decoder-only": {
+  "code": "p = np.array([0.5, 0.3, 0.9, 0.2])              # P(token_t | everything before it)\nlogp = np.log(p).sum()\nseq_prob = np.exp(logp)\nn = 1_000\npairs_causal, pairs_full = n * (n + 1) // 2, n * n   # attention pairs with and without the causal mask",
+  "setup": "import numpy as np",
+  "show": "print('round(logp, 3) =', round(logp, 3))\nprint('round(seq_prob, 4) =', round(seq_prob, 4))\nprint('pairs_causal / pairs_full =', pairs_causal / pairs_full)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "kv-cache": {
+  "code": "T = 1_000                                       # tokens generated\nrecompute = T * (T + 1) // 2                    # K/V projections without a cache: the whole prefix every step\ncached = T                                      # with a cache: one new token per step\nlayers, kv_heads, d_k, bytes_per = 32, 8, 128, 2   # Llama-3-8B shapes, fp16\nper_token_kb = 2 * layers * kv_heads * d_k * bytes_per / 1024\nat_128k_gb = per_token_kb * 131_072 / 1024 ** 2",
+  "setup": "import numpy as np",
+  "show": "print('recompute // cached =', recompute // cached)\nprint('per_token_kb =', per_token_kb)\nprint('at_128k_gb =', at_128k_gb)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "context-windows": {
+  "code": "short, long = 4_096, 131_072\ntokens = long / short\nattention_work = tokens ** 2                   # score matrix grows with n^2\nkv_memory = tokens                             # the cache grows with n\nrope_scale = long / short                      # position interpolation factor",
+  "setup": "import numpy as np",
+  "show": "print('tokens =', tokens)\nprint('attention_work =', attention_work)\nprint('kv_memory =', kv_memory)\nprint('rope_scale =', rope_scale)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "mixture-of-experts": {
+  "code": "total, active, experts, top_k = 46.7e9, 12.9e9, 8, 2       # Mixtral 8x7B, published counts\nper_expert = (total - active) / (experts - top_k)           # total = shared + 8E, active = shared + 2E\nshared = active - top_k * per_expert\nshare_per_expert = top_k / experts                          # tokens each expert sees under perfect balance",
+  "setup": "import numpy as np",
+  "show": "print('round(per_expert / 1e9, 2) =', round(per_expert / 1e9, 2))\nprint('round(shared / 1e9, 2) =', round(shared / 1e9, 2))\nprint('share_per_expert =', share_per_expert)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "scaling-laws": {
+  "code": "C = 1e24                                        # training FLOPs budget\nN = (C / (6 * 20)) ** 0.5                       # Chinchilla: C = 6ND with D = 20N\nD = 20 * N\nllama3_8b_ratio = 15e12 / 8e9                   # tokens per parameter: Llama 3 8B, ~15T tokens",
+  "setup": "import numpy as np",
+  "show": "print('f\"{N:.2e}\" =', f\"{N:.2e}\")\nprint('f\"{D:.2e}\" =', f\"{D:.2e}\")\nprint('llama3_8b_ratio =', llama3_8b_ratio)\nprint('llama3_8b_ratio / 20 =', llama3_8b_ratio / 20)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "pre-training": {
+  "code": "loss = 2.0                                       # nats per token on held-out text\nperplexity = np.exp(loss)\nflops = 6 * 8e9 * 15e12                         # 8B parameters, 15T tokens\ngpu_flops = 989e12 * 0.40                       # an H100's dense bf16 peak at 40% utilisation\ngpu_hours = flops / gpu_flops / 3600",
+  "setup": "import numpy as np",
+  "show": "print('round(perplexity, 2) =', round(perplexity, 2))\nprint('f\"{flops:.1e}\" =', f\"{flops:.1e}\")\nprint('round(gpu_hours) =', round(gpu_hours))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "fine-tuning": {
+  "code": "sft_tokens = 50_000 * 500                       # 50k examples of ~500 tokens\npretrain_tokens = 15e12\nshare = sft_tokens / pretrain_tokens\nlima_examples = 1_000                           # the LIMA paper's whole SFT set",
+  "setup": "import numpy as np",
+  "show": "print('sft_tokens =', sft_tokens)\nprint('f\"{share:.1e}\" =', f\"{share:.1e}\")\nprint('lima_examples =', lima_examples)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "lora-qlora": {
+  "code": "params = 65e9\nfull_adam = params * (2 + 2 + 4 + 4 + 4) / 1e9   # fp16 weights + grads, fp32 master copy + Adam m and v\nqlora_base = params * 0.5 / 1e9                   # 4-bit frozen weights\nadapters = 2 * 8_192 * 64 * 4 * 80                 # rank-64 adapters on 4 projections in 80 layers\nqlora_adapters = adapters * (2 + 2 + 4 + 4 + 4) / 1e9",
+  "setup": "import numpy as np",
+  "show": "print('round(full_adam) =', round(full_adam))\nprint('round(qlora_base, 1) =', round(qlora_base, 1))\nprint('f\"{adapters:.2e}\" =', f\"{adapters:.2e}\")\nprint('round(qlora_adapters, 2) =', round(qlora_adapters, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rlhf": {
+  "code": "ref = np.array([0.5, 0.3, 0.2])                 # reference policy over three answers\nreward = np.array([1.0, 2.0, 4.0])              # the reward model's scores (the third one it overrates)\nkl = lambda p: np.sum(p * np.log(p / ref))\nobjective = lambda p, beta: p @ reward - beta * kl(p)\nmodest, hacked = np.array([0.3, 0.45, 0.25]), np.array([0.01, 0.01, 0.98])\nresult = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}",
+  "setup": "import numpy as np",
+  "show": "print('round(kl(modest), 3) =', round(kl(modest), 3))\nprint('round(kl(hacked), 3) =', round(kl(hacked), 3))\nprint('result =', result)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "dpo": {
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbeta = 0.1\nchosen = (-10.0) - (-12.0)                      # log pi(y_w) - log pi_ref(y_w): the chosen answer gained 2 nats\nrejected = (-14.0) - (-11.0)                    # the rejected answer lost 3\nloss = -np.log(sigmoid(beta * (chosen - rejected)))\nboth_down = -np.log(sigmoid(beta * ((-2.0) - (-6.0))))   # chosen also falls, by 2; rejected by 6",
+  "setup": "import numpy as np",
+  "show": "print('round(loss, 3) =', round(loss, 3))\nprint('round(both_down, 3) =', round(both_down, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "data-curation": {
+  "code": "import zlib\ndef shingles(text, k=5):\n    t = text.lower()\n    return {t[i:i + k] for i in range(len(t) - k + 1)}\n\na = 'The quick brown fox jumps over the lazy dog near the river bank today.'\nb = 'The quick brown fox jumped over the lazy dog near the river bank today!'\nA, B = shingles(a), shingles(b)\njaccard = len(A & B) / len(A | B)\n\nrng = np.random.default_rng(0)\ncoef = rng.integers(1, 2**31 - 1, size=(256, 2))       # 256 random hash functions\nh = lambda s: np.array([zlib.crc32(x.encode()) for x in s], dtype=np.int64)\nminhash = lambda s: ((coef[:, :1] * h(s) + coef[:, 1:]) % (2**31 - 1)).min(axis=1)\nestimate = (minhash(A) == minhash(B)).mean()            # the share of equal minima estimates Jaccard",
+  "setup": "import numpy as np",
+  "show": "print('round(jaccard, 3) =', round(jaccard, 3))\nprint('round(estimate, 3) =', round(estimate, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "decoding-strategies": {
+  "code": "step1 = {'A': 0.6, 'B': 0.4}\nstep2 = {'A': {'x': 0.4, 'y': 0.35, 'z': 0.25}, 'B': {'x': 0.9, 'y': 0.05, 'z': 0.05}}\ngreedy_first = max(step1, key=step1.get)\ngreedy_best = max(step2[greedy_first].values())\ngreedy = (greedy_first, step1[greedy_first] * greedy_best)\nbeam = max((((a, b), step1[a] * pb) for a in step1 for b, pb in step2[a].items()), key=lambda c: c[1])   # width 2 keeps both first steps",
+  "setup": "import numpy as np",
+  "show": "print('greedy =', greedy)\nprint('(beam[0], round(beam[1], 2)) =', (beam[0], round(beam[1], 2)))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "sampling": {
+  "code": "logits = np.array([3.0, 2.5, 2.0, 1.0, 0.5, 0.0, -1.0, -2.0])\n\ndef probs(T):\n    z = np.exp((logits - logits.max()) / T); return z / z.sum()\n\ndef nucleus_size(p, top_p=0.9):\n    return int(np.searchsorted(np.cumsum(np.sort(p)[::-1]), top_p) + 1)\n\nentropy = lambda p: -(p * np.log2(p)).sum()\ntable = {T: (round(entropy(probs(T)), 2), nucleus_size(probs(T))) for T in (0.7, 1.0, 1.3)}",
+  "setup": "import numpy as np",
+  "show": "print('table =', table)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "speculative-decoding": {
+  "code": "def tokens_per_pass(alpha, gamma=4):            # Leviathan et al.: expected tokens per target-model pass\n    return (1 - alpha ** (gamma + 1)) / (1 - alpha)\n\ntable = {a: round(tokens_per_pass(a), 2) for a in (0.6, 0.8, 0.9)}",
+  "setup": "import numpy as np",
+  "show": "print('table =', table)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "quantization": {
+  "code": "sizes = {bits: 70e9 * bits / 8 / 1e9 for bits in (16, 8, 4)}   # a 70B model, GB\nrng = np.random.default_rng(1)\nw = rng.normal(0, 0.02, 4_096)\nw[::512] = 0.5                                    # a few outlier weights\n\ndef int4_error(w, group):\n    g = w.reshape(-1, group)\n    scale = np.abs(g).max(axis=1, keepdims=True) / 7\n    return np.abs(np.clip(np.round(g / scale), -7, 7) * scale - g).mean() / np.abs(w).mean()\n\nper_tensor, per_group = int4_error(w, 4_096), int4_error(w, 128)",
+  "setup": "import numpy as np",
+  "show": "print('sizes =', sizes)\nprint('round(per_tensor, 3) =', round(per_tensor, 3))\nprint('round(per_group, 3) =', round(per_group, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "kv-cache-opt": {
+  "code": "rng = np.random.default_rng(2)\nlengths = np.clip(rng.lognormal(np.log(400), 0.8, 64).astype(int), 16, 4_096)   # 64 live requests\nreserved_contiguous = 64 * 4_096                         # a buffer for the maximum length each\nreserved_paged = (np.ceil(lengths / 16) * 16).sum()      # 16-token blocks, allocated as needed\nused = lengths.sum()\nutil = (used / reserved_contiguous, used / reserved_paged)",
+  "setup": "import numpy as np",
+  "show": "print('int(used) =', int(used))\nprint('round(util[0], 3) =', round(util[0], 3))\nprint('round(util[1], 3) =', round(util[1], 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "batching": {
+  "code": "rng = np.random.default_rng(3)\nout = rng.integers(20, 600, size=(25, 8))              # output lengths: 25 batches of 8 requests\nstatic_util = (out.sum(1) / (8 * out.max(1))).mean()    # each batch runs until its longest request ends\ncontinuous_util = 1.0                                   # finished slots refilled at once (the ideal)",
+  "setup": "import numpy as np",
+  "show": "print('round(static_util, 3) =', round(static_util, 3))\nprint('continuous_util =', continuous_util)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "prompt-engineering": {
+  "code": "from math import comb\ndef majority(p, n):                               # independent samples, binary right/wrong\n    return sum(comb(n, k) * p**k * (1 - p)**(n - k) for k in range(n // 2 + 1, n + 1))\nvotes = {n: round(majority(0.6, n), 3) for n in (1, 5, 15)}",
+  "setup": "import numpy as np",
+  "show": "print('votes =', votes)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "rag": {
+  "code": "rng = np.random.default_rng(4)\ndef split_rate(chunk, overlap, span=100, doc=100_000, trials=20_000):\n    step = chunk - overlap\n    starts = rng.integers(0, doc - span, trials)          # where the fact begins\n    k = starts // step                                    # the last chunk to start before the fact\n    ok = starts + span <= k * step + chunk                # does it reach the fact's end?\n    return 1 - ok.mean()\nrates = {(c, o): round(split_rate(c, o), 3) for c, o in [(512, 0), (512, 64), (512, 128)]}",
+  "setup": "import numpy as np",
+  "show": "print('rates =', rates)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "embedding-search": {
+  "code": "n, d = 1_000_000, 768\nmemory_gb = n * d * 4 / 1e9                      # float32\nflops_per_query = n * d                          # brute force: one dot product per stored vector\npq_bytes = n * 64                                # product quantization to 64 one-byte codes\nrng = np.random.default_rng(5)\nX = rng.normal(size=(1_000, d)); X /= np.linalg.norm(X, axis=1, keepdims=True)\ntypical_cos = np.abs(X[:500] @ X[500:].T).mean()   # unrelated random vectors in 768-d",
+  "setup": "import numpy as np",
+  "show": "print('memory_gb =', memory_gb)\nprint('f\"{flops_per_query:.1e}\" =', f\"{flops_per_query:.1e}\")\nprint('pq_bytes / 1e9 =', pq_bytes / 1e9)\nprint('round(typical_cos, 3) =', round(typical_cos, 3))",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "function-calling": {
+  "code": "import json\nschema = {'required': ['city', 'unit'], 'types': {'city': str, 'unit': str, 'days': int},\n          'enum': {'unit': ['celsius', 'fahrenheit']}}\n\ndef check(raw):\n    try: args = json.loads(raw)\n    except json.JSONDecodeError as e: return [f'not JSON: {e.msg}']\n    errs = [f'missing {k}' for k in schema['required'] if k not in args]\n    errs += [f'{k} should be {t.__name__}' for k, t in schema['types'].items() if k in args and not isinstance(args[k], t)]\n    errs += [f'{k} not in {v}' for k, v in schema['enum'].items() if k in args and args[k] not in v]\n    return errs\n\ncalls = ['{\"city\": \"Aarhus\", \"unit\": \"celsius\"}', '{\"city\": \"Aarhus\", \"days\": \"3\"}', '{\"city\": \"Aarhus\", \"unit\": \"kelvin\"', '{\"city\": \"Aarhus\", \"unit\": \"K\"}']\nresults = [check(c) for c in calls]",
+  "setup": "import numpy as np",
+  "show": "print('results =', results)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "agents": {
+  "code": "chain = {steps: round(0.95 ** steps, 3) for steps in (5, 10, 20)}   # each step right 95% of the time\nretry = round((1 - 0.05 ** 2) ** 20, 3)          # 20 steps, each checked and retried once on failure",
+  "setup": "import numpy as np",
+  "show": "print('chain =', chain)\nprint('retry =', retry)",
+  "pkgs": [
+   "numpy"
+  ]
+ },
+ "evaluation": {
+  "code": "def ci95(acc, n):\n    return 1.96 * np.sqrt(acc * (1 - acc) / n)\n\nsmall = ci95(0.86, 1_000)                       # a 1,000-question benchmark\nmmlu = ci95(0.86, 14_042)                       # MMLU's test set\ngap = 0.875 - 0.86\nse_diff = np.sqrt(2) * small / 1.96             # two independent models on the 1,000 questions\nz = gap / se_diff",
+  "setup": "import numpy as np",
+  "show": "print('round(small * 100, 2) =', round(small * 100, 2))\nprint('round(mmlu * 100, 2) =', round(mmlu * 100, 2))\nprint('round(z, 2) =', round(z, 2))",
+  "pkgs": [
+   "numpy"
+  ]
+ }
+}

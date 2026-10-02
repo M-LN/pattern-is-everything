@@ -5,9 +5,10 @@
    own TOPIC_DEPTH entries and calls renderDepth from buildContent; this file
    only lays them out, so every collection reads the same.
 
-   renderDepth({ example, dataHtml, fails: [], code, codeNote, sources: [] })
+   renderDepth({ example, dataHtml, fails: [], code, codeNote, sources: [], run })
    returns HTML, or '' for a topic with no entry. The strings are trusted
-   markup written in the repo, not user input. */
+   markup written in the repo, not user input. With run ("<collection>/<topic>",
+   a key into run/*.json) the code gets a Run button; js/code-run.js runs it. */
 (function () {
   'use strict';
   /* When the content was last checked against its sources (see /method/). */
@@ -21,7 +22,10 @@
     return '<section class="depth">' +
       '<div class="depth-block"><div class="depth-title">Worked example</div><p>' + d.example + '</p>' + (d.dataHtml || '') + '</div>' +
       '<div class="depth-block"><div class="depth-title">Where it misleads</div>' + list(d.fails) + '</div>' +
-      '<div class="depth-block"><div class="depth-title">In code</div><div class="code-block"><pre>' + d.code + '</pre></div>' +
+      '<div class="depth-block"><div class="depth-title">In code</div>' +
+        '<div class="code-block"' + (d.run ? ' data-run="' + d.run + '"' : '') + '><pre>' + d.code + '</pre></div>' +
+        (d.run ? '<div class="run-bar"><button type="button" class="run-btn">▶ Run</button>' +
+          '<span class="run-hint">Python, in your browser — edit the code and run it again</span></div>' : '') +
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
       '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
         '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/method/">How this site checks its content</a></p></div>' +

@@ -1,0 +1,227 @@
+{
+ "head-and-shoulders": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nls, head, rs = highs.iloc[-3:]                       # left shoulder, head, right shoulder\nbetween = lows[(lows.index > highs.index[-3]) & (lows.index < highs.index[-1])]\nneck = between.mean()                                # neckline (flat here)\nis_hs = head > max(ls, rs) and abs(ls - rs) / head < 0.05\ntarget = neck - (head - neck)                        # measured move\nconfirmed = c.iloc[-1] < neck",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 95), (5, 108), (9, 100), (14, 115), (18, 100), (22, 109), (26, 99), (30, 92)])",
+  "show": "print('is_hs =', is_hs)\nprint('neck =', neck)\nprint('target =', target)\nprint('confirmed =', confirmed)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "inverse-head-and-shoulders": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nls, head, rs = lows.iloc[-3:]                        # the three troughs\nbetween = highs[(highs.index > lows.index[-3]) & (highs.index < lows.index[-1])]\nneck = between.mean()\nis_ihs = head < min(ls, rs) and abs(ls - rs) / head < 0.05\ntarget = neck + (neck - head)\nconfirmed = c.iloc[-1] > neck",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 105), (5, 92), (9, 100), (14, 85), (18, 100), (22, 91), (26, 101), (30, 108)])",
+  "show": "print('is_ihs =', is_ihs)\nprint('neck =', neck)\nprint('target =', target)\nprint('confirmed =', confirmed)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "double-top": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nt1, t2 = highs.iloc[-2:]\nvalley = lows[(lows.index > highs.index[-2]) & (lows.index < highs.index[-1])].min()\nis_dt = abs(t1 - t2) / max(t1, t2) < 0.02            # tops within 2%\ntarget = valley - (max(t1, t2) - valley)\nconfirmed = c.iloc[-1] < valley",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 90), (6, 110), (11, 100), (17, 109.5), (22, 99), (26, 94)])",
+  "show": "print('is_dt =', is_dt)\nprint('valley =', valley)\nprint('target =', target)\nprint('confirmed =', confirmed)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "double-bottom": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nb1, b2 = lows.iloc[-2:]\npeak = highs[(highs.index > lows.index[-2]) & (highs.index < lows.index[-1])].max()\nis_db = abs(b1 - b2) / min(b1, b2) < 0.02\ntarget = peak + (peak - min(b1, b2))\nconfirmed = c.iloc[-1] > peak",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 110), (6, 90), (11, 100), (17, 90.5), (22, 101), (26, 106)])",
+  "show": "print('is_db =', is_db)\nprint('peak =', peak)\nprint('target =', target)\nprint('confirmed =', confirmed)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "rounding-bottom": {
+  "code": "y = df['close'].iloc[-41:].values\nx = np.arange(len(y))\na, b, k = np.polyfit(x, y, 2)                         # y ≈ a·x² + b·x + k\nvertex = -b / (2 * a)                                 # where the curve turns\nis_round = a > 0 and 0.3 < vertex / len(x) < 0.7     # a U, bottoming near the middle\nrim, bottom = max(y[0], y[-1]), y.min()\ntarget = rim + (rim - bottom)",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndef parabola(n=41, rim=110, bottom=90):\n    x = np.arange(n); mid = (n - 1) / 2\n    return list(zip(x, bottom + (rim - bottom) * ((x - mid) / mid) ** 2))\n\ndf = from_points(parabola())",
+  "show": "print('round(a, 3) =', round(a, 3))\nprint('round(vertex, 1) =', round(vertex, 1))\nprint('is_round =', is_round)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "bull-flag": {
+  "code": "c = df['close']\npole = c.iloc[-12] - c.iloc[-17]                      # the 5-bar rise\nflag = c.iloc[-12:-1]                                 # the 11 bars after it\nslope = np.polyfit(np.arange(len(flag)), flag.values, 1)[0]\nis_flag = pole / c.iloc[-17] > 0.08 and slope < 0     # sharp rise, then a drift down\nbreakout = c.iloc[-1] > flag.max()\ntarget = flag.max() + pole",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (5, 115), (7, 112), (9, 114), (11, 111), (13, 113), (15, 110), (16, 116)])",
+  "show": "print('pole =', pole)\nprint('round(slope, 2) =', round(slope, 2))\nprint('is_flag =', is_flag)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "bear-flag": {
+  "code": "c = df['close']\npole = c.iloc[-17] - c.iloc[-12]                      # the 5-bar fall\nflag = c.iloc[-12:-1]\nslope = np.polyfit(np.arange(len(flag)), flag.values, 1)[0]\nis_flag = pole / c.iloc[-17] > 0.08 and slope > 0     # sharp fall, then a drift up\nbreakdown = c.iloc[-1] < flag.min()\ntarget = flag.min() - pole",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (5, 85), (7, 88), (9, 86), (11, 89), (13, 87), (15, 90), (16, 84)])",
+  "show": "print('pole =', pole)\nprint('round(slope, 2) =', round(slope, 2))\nprint('is_flag =', is_flag)\nprint('breakdown =', breakdown)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "pennant": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\npole = c.iloc[-12] - c.iloc[-17]\nhi, lo = swings(c.iloc[-12:-1], n=1)                 # swings inside the pennant\nconverging = hi.is_monotonic_decreasing and lo.is_monotonic_increasing\nbreakout = c.iloc[-1] > hi.iloc[-1]\ntarget = hi.iloc[-1] + pole",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (5, 115), (7, 110), (9, 114), (11, 111), (13, 113), (15, 112), (16, 117)])",
+  "show": "print('pole =', pole)\nprint('list(hi) =', list(hi))\nprint('list(lo) =', list(lo))\nprint('converging =', converging)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "ascending-triangle": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\ntop, rises = highs.iloc[-3:], lows.iloc[-3:]\nflat_top = (top.max() - top.min()) / top.mean() < 0.01\nrising = rises.is_monotonic_increasing\nheight = top.mean() - rises.iloc[0]\nbreakout = c.iloc[-1] > top.max()\ntarget = top.mean() + height",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 95), (4, 110), (8, 100), (12, 110), (16, 104), (20, 110), (24, 107), (27, 114)])",
+  "show": "print('list(top) =', list(top))\nprint('list(rises) =', list(rises))\nprint('flat_top =', flat_top)\nprint('rising =', rising)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "descending-triangle": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nfloor, falls = lows.iloc[-3:], highs.iloc[-3:]\nflat_floor = (floor.max() - floor.min()) / floor.mean() < 0.01\nfalling = falls.is_monotonic_decreasing\nheight = falls.iloc[0] - floor.mean()\nbreakdown = c.iloc[-1] < floor.min()\ntarget = floor.mean() - height",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (4, 90), (8, 105), (12, 90), (16, 100), (20, 90), (24, 96), (27, 86)])",
+  "show": "print('list(floor) =', list(floor))\nprint('list(falls) =', list(falls))\nprint('flat_floor =', flat_floor)\nprint('falling =', falling)\nprint('breakdown =', breakdown)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "symmetric-triangle": {
+  "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nsymmetric = hi.is_monotonic_decreasing and lo.is_monotonic_increasing\nheight = hi.iloc[0] - lo.iloc[0]                     # the widest part\nbreakout = c.iloc[-1] > hi.iloc[-1]\ntarget = c.iloc[-1] + height",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (3, 112), (6, 92), (9, 108), (12, 96), (15, 105), (18, 99), (21, 107)])",
+  "show": "print('list(hi) =', list(hi))\nprint('list(lo) =', list(lo))\nprint('symmetric =', symmetric)\nprint('height =', height)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "rising-wedge": {
+  "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nhs = np.polyfit(hi.index, hi.values, 1)[0]           # slope of the upper line\nls = np.polyfit(lo.index, lo.values, 1)[0]           # slope of the lower line\nis_wedge = hs > 0 and ls > hs                         # both rise, the lows faster\nbreakdown = c.iloc[-1] < lo.iloc[-1]\ntarget = lo.iloc[0]                                   # back to where the wedge began",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 93), (3, 105), (6, 95), (9, 108), (12, 101), (15, 110), (18, 106), (21, 100)])",
+  "show": "print('round(hs, 2) =', round(hs, 2))\nprint('round(ls, 2) =', round(ls, 2))\nprint('is_wedge =', is_wedge)\nprint('breakdown =', breakdown)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "falling-wedge": {
+  "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nhs = np.polyfit(hi.index, hi.values, 1)[0]\nls = np.polyfit(lo.index, lo.values, 1)[0]\nis_wedge = ls < 0 and hs < ls                         # both fall, the highs faster\nbreakout = c.iloc[-1] > hi.iloc[-1]\ntarget = hi.iloc[0]",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 105), (3, 110), (6, 95), (9, 104), (12, 93), (15, 100), (18, 92), (21, 103)])",
+  "show": "print('list(hi) =', list(hi))\nprint('list(lo) =', list(lo))\nprint('round(hs, 2) =', round(hs, 2))\nprint('round(ls, 2) =', round(ls, 2))\nprint('is_wedge =', is_wedge)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "broadening-formation": {
+  "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nbroadening = hi.is_monotonic_increasing and lo.is_monotonic_decreasing\nwidth = (hi.values - lo.values)                       # how far each swing reached",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (3, 105), (6, 95), (9, 108), (12, 92), (15, 111), (18, 89), (21, 95)])",
+  "show": "print('list(hi) =', list(hi))\nprint('list(lo) =', list(lo))\nprint('broadening =', broadening)\nprint('list(width) =', list(width))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "rectangle": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\ntop, bottom = highs.iloc[-3:].mean(), lows.iloc[-3:].mean()\nflat = highs.iloc[-3:].std() / top < 0.01 and lows.iloc[-3:].std() / bottom < 0.01\nheight = top - bottom\nbreakout = c.iloc[-1] > top\ntarget = top + height",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 100), (4, 110), (8, 100), (12, 110), (16, 100), (20, 110), (24, 100), (27, 112)])",
+  "show": "print('round(top, 2) =', round(top, 2))\nprint('round(bottom, 2) =', round(bottom, 2))\nprint('flat =', flat)\nprint('round(height, 2) =', round(height, 2))\nprint('breakout =', breakout)\nprint('round(target, 2) =', round(target, 2))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "doji": {
+  "code": "o, h, l, c = df.iloc[-1][['open', 'high', 'low', 'close']]\nbody, rng = abs(c - o), h - l\nis_doji = body <= 0.1 * rng                           # body under 10% of the day's range",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(103, 104, 101.5, 102), (102, 102.5, 100, 100.5), (100.2, 102, 98, 100.0)])",
+  "show": "print('round(body, 2) =', round(body, 2))\nprint('rng =', rng)\nprint('is_doji =', is_doji)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "hammer": {
+  "code": "o, h, l, c = df.iloc[-1][['open', 'high', 'low', 'close']]\nbody = abs(c - o)\nlower = min(o, c) - l                                 # lower shadow\nupper = h - max(o, c)                                 # upper shadow\nafter_fall = df['close'].iloc[-3] > df['close'].iloc[-2]\nis_hammer = after_fall and lower >= 2 * body and upper <= body",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(104, 104.5, 102, 102.5), (102.5, 103, 100.5, 101), (100, 101, 96, 100.8)])",
+  "show": "print('round(body, 2) =', round(body, 2))\nprint('lower =', lower)\nprint('round(upper, 2) =', round(upper, 2))\nprint('after_fall =', after_fall)\nprint('is_hammer =', is_hammer)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "engulfing": {
+  "code": "(o1, c1), (o2, c2) = df[['open', 'close']].iloc[-2], df[['open', 'close']].iloc[-1]\nbullish = c1 < o1 and c2 > o2 and o2 <= c1 and c2 >= o1   # today's body covers yesterday's",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(103, 103.5, 101.5, 102), (102, 102.5, 99.5, 100), (99.5, 103, 99.2, 102.5)])",
+  "show": "print('o1 =', o1)\nprint('c1 =', c1)\nprint('o2 =', o2)\nprint('c2 =', c2)\nprint('bullish =', bullish)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "morning-star": {
+  "code": "d1, d2, d3 = df.iloc[-3], df.iloc[-2], df.iloc[-1]\nlong_red = d1.open - d1.close > 0.6 * (d1.high - d1.low)\nsmall = abs(d2.close - d2.open) < 0.3 * abs(d1.close - d1.open)\ngap_down = max(d2.open, d2.close) < d1.close\nmid = (d1.open + d1.close) / 2\nstrong_green = d3.close > d3.open and d3.close > mid\nis_morning_star = long_red and small and gap_down and strong_green",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(105, 105.5, 99.5, 100), (99, 99.8, 98.5, 99.3), (100, 103.8, 99.8, 103.5)])",
+  "show": "print('long_red =', long_red)\nprint('small =', small)\nprint('gap_down =', gap_down)\nprint('mid =', mid)\nprint('strong_green =', strong_green)\nprint('is_morning_star =', is_morning_star)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "evening-star": {
+  "code": "d1, d2, d3 = df.iloc[-3], df.iloc[-2], df.iloc[-1]\nlong_green = d1.close - d1.open > 0.6 * (d1.high - d1.low)\nsmall = abs(d2.close - d2.open) < 0.3 * abs(d1.close - d1.open)\ngap_up = min(d2.open, d2.close) > d1.close\nmid = (d1.open + d1.close) / 2\nstrong_red = d3.close < d3.open and d3.close < mid\nis_evening_star = long_green and small and gap_up and strong_red",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(100, 105.5, 99.5, 105), (106, 106.5, 105.2, 105.7), (105, 105.2, 101.2, 101.5)])",
+  "show": "print('long_green =', long_green)\nprint('small =', small)\nprint('gap_up =', gap_up)\nprint('mid =', mid)\nprint('strong_red =', strong_red)\nprint('is_evening_star =', is_evening_star)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "support-resistance": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\ntouches = lows.round(0).value_counts()               # swing lows grouped to the nearest point\nlevel = touches.idxmax()\nsupport = level if touches.max() >= 2 else None\nbroken = c.iloc[-1] < level * 0.99                    # a close 1% under it",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 105), (4, 100), (8, 108), (12, 100), (16, 110), (20, 100), (24, 106)])",
+  "show": "print('list(lows) =', list(lows))\nprint('support =', support)\nprint('touches.max() =', touches.max())\nprint('broken =', broken)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "trendlines": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\n(x1, y1), (x2, y2) = list(lows.iloc[:2].items())      # the first two rising lows\nslope = (y2 - y1) / (x2 - x1)\nline = lambda x: y1 + slope * (x - x1)\nx3, y3 = lows.index[2], lows.iloc[2]                  # the third low tests the line\nheld = y3 >= line(x3) * 0.99\nbroken = c.iloc[-1] < line(len(c) - 1)",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 103), (4, 100), (8, 107), (12, 104), (16, 111), (20, 108), (24, 113)])",
+  "show": "print('list(lows.items()) =', list(lows.items()))\nprint('slope =', slope)\nprint('line(x3) =', line(x3))\nprint('y3 =', y3)\nprint('held =', held)\nprint('broken =', broken)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "channels": {
+  "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nslope, base = np.polyfit(lows.index, lows.values, 1)   # the lower line through the lows\nlower = lambda x: base + slope * x\nwidth = (highs - lower(highs.index)).mean()          # the parallel line through the highs\nupper = lambda x: lower(x) + width\nx = len(c) - 1",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndf = from_points([(0, 103), (4, 100), (8, 107), (12, 104), (16, 111), (20, 108), (24, 115)])",
+  "show": "print('slope =', slope)\nprint('round(width, 2) =', round(width, 2))\nprint('round(lower(x), 2) =', round(lower(x), 2))\nprint('round(upper(x), 2) =', round(upper(x), 2))",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "gaps": {
+  "code": "gap_up = df['low'] > df['high'].shift()               # the whole bar above yesterday's\nsize = df['low'] - df['high'].shift()\nday = gap_up.idxmax()\nbottom = df['high'].iloc[day - 1]                     # the gap's lower edge\nfilled = (df['low'].iloc[day + 1:] <= bottom).any()",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: the bars, given directly\ndef bars(rows):\n    return pd.DataFrame(rows, columns=['open', 'high', 'low', 'close'])\n\ndf = bars([(101, 102, 100.5, 101.5), (101.5, 104, 101, 103.8), (106.2, 108, 106, 107.5), (107.5, 108.5, 105.5, 106), (106, 106.5, 103.5, 104)])",
+  "show": "print('day =', day)\nprint('round(size[day], 2) =', round(size[day], 2))\nprint('bottom =', bottom)\nprint('filled =', filled)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ },
+ "cup-and-handle": {
+  "code": "c = df['close']\ncup = c.iloc[:41]\nrim, bottom = min(cup.iloc[0], cup.iloc[-1]), cup.min()\ndepth = rim - bottom\nhandle = c.iloc[41:-1]\nshallow = rim - handle.min() < depth / 3              # handle retraces under a third of the cup\nbreakout = c.iloc[-1] > rim\ntarget = rim + depth",
+  "setup": "import numpy as np\nimport pandas as pd\n\n# the example data: key points joined by straight lines\ndef from_points(pts, spread=0.5):\n    days = np.arange(pts[-1][0] + 1)\n    close = np.interp(days, [d for d, _ in pts], [p for _, p in pts])\n    df = pd.DataFrame({'close': close})\n    df['open'] = df['close'].shift().fillna(df['close'][0])\n    df['high'] = df[['open', 'close']].max(axis=1) + spread\n    df['low'] = df[['open', 'close']].min(axis=1) - spread\n    return df\n\ndef parabola(n=41, rim=110, bottom=90):\n    x = np.arange(n); mid = (n - 1) / 2\n    return list(zip(x, bottom + (rim - bottom) * ((x - mid) / mid) ** 2))\n\ndf = from_points(parabola() + [(44, 106), (47, 105), (50, 112)])",
+  "show": "print('rim =', rim)\nprint('bottom =', bottom)\nprint('depth =', depth)\nprint('handle.min() =', handle.min())\nprint('shallow =', shallow)\nprint('breakout =', breakout)\nprint('target =', target)",
+  "pkgs": [
+   "numpy",
+   "pandas"
+  ]
+ }
+}

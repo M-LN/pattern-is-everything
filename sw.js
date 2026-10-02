@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v111';
+const CACHE_NAME = 'pattern-v112';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -98,6 +98,8 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
   if (url.pathname === '/lite' || url.pathname.startsWith('/lite/')) return;
+  // Pyodide for the Run buttons: tens of MB the browser's HTTP cache already keeps.
+  if (url.hostname === 'cdn.jsdelivr.net' && url.pathname.startsWith('/pyodide/')) return;
   const isNavigation = e.request.mode === 'navigate';
   e.respondWith(
     fetch(e.request)

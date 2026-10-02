@@ -458,7 +458,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.' });
+  return renderDepth({ ...d, run: 'markets-charts/' + id, codeNote: 'Assumes <code>import numpy as np</code>, <code>import pandas as pd</code>, and a DataFrame <code>df</code> with columns open, high, low and close for the data above.' });
 }
 /* depth:end */
 

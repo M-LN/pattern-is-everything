@@ -17,6 +17,9 @@
      9. Pre-rendered pages carry the current "Linked from" list and share card
     10. Pattern trails name real topics, and /trails/, the homepage block and
         the sitemap entries match trails/trails.json
+   10b. The guide pages are current (scripts/build-guides.mjs --check)
+   10c. Every Run button's code matches its entry in run/*.json, and those
+        files match scripts/snippets/ (scripts/build-run.py --check)
     11. Content standard — warnings only: short topics, formula pattern lines,
         topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
@@ -349,6 +352,46 @@ try {
   ok(out.trim().split(/\r?\n/).pop().replace(/^guides: /, ''));
 } catch (e) {
   fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-6).join(' | ') || 'build-guides --check failed');
+}
+/* ── 10c. Runnable code ──
+   Every Run button (data-run on a pre-rendered page's code) has an entry in
+   run/<collection>.json whose code is the code on the page, and every entry
+   has a page. With Python available, build-run.py --check also confirms the
+   files match scripts/snippets/. */
+console.log('10c. Runnable code');
+{
+  const unesc = s => s.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#0?39;|&#x27;/g, "'").replace(/&amp;/g, '&').replace(/\r/g, '').trim();
+  const runs = {}, seen = new Set();
+  let n = 0, bad = [];
+  for (const { dir } of COLLECTIONS) {
+    for (const id of readdirSync(dir)) {
+      const f = join(dir, id, 'index.html');
+      if (!existsSync(f)) continue;
+      const m = readFileSync(f, 'utf8').match(/<div class="code-block" data-run="([^"]+)\/([^"\/]+)"><pre>([\s\S]*?)<\/pre>/);
+      if (!m) continue;
+      const [, file, topic, code] = m;
+      runs[file] ||= existsSync(`run/${file}.json`) ? JSON.parse(readFileSync(`run/${file}.json`, 'utf8')) : {};
+      seen.add(`${file}/${topic}`);
+      n++;
+      const r = runs[file][topic];
+      if (!r) bad.push(`${file}/${topic}: no entry in run/${file}.json`);
+      else if (r.code.replace(/\r/g, '').trim() !== unesc(code)) bad.push(`${file}/${topic}: code differs from the page`);
+    }
+  }
+  for (const f of readdirSync('run')) {
+    const data = runs[f.replace(/\.json$/, '')] || JSON.parse(readFileSync(join('run', f), 'utf8'));
+    for (const id of Object.keys(data)) if (!seen.has(`${f.replace(/\.json$/, '')}/${id}`)) bad.push(`run/${f}: ${id} has no page with a Run button`);
+  }
+  if (bad.length) fail(`${bad.length} problem(s): ${bad.slice(0, 5).join('; ')}`);
+  else ok(`${n} Run buttons, each with matching code in run/`);
+  try {
+    const out = execFileSync('python', ['scripts/build-run.py', '--check'], { encoding: 'utf8', stdio: 'pipe' });
+    ok(out.trim().replace(/^run: /, ''));
+  } catch (e) {
+    if (e.code === 'ENOENT') console.log('  ⚠ python not found — run/*.json not compared with scripts/snippets/');
+    else fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-3).join(' | '));
+  }
 }
 /* ── 11. Content standard (warnings) ──
    Not failures: content is fixed by writing it, and a build should not stop

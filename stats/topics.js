@@ -668,7 +668,7 @@ const TOPIC_DEPTH = {
    "When most tested hypotheses are false, most significant findings can be false too (Ioannidis 2005).",
    "p &lt; 0.05 is a convention, not a law; report the estimate and its interval."
   ],
-  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(18)\nnull = np.array([ttest_ind(rng.normal(0, 1, 30), rng.normal(0, 1, 30)).pvalue for _ in range(5_000)])\nreal = np.array([ttest_ind(rng.normal(0, 1, 30), rng.normal(0.4, 1, 30)).pvalue for _ in range(5_000)])\nshare = (round((null &lt; 0.05).mean(), 3), round((real &lt; 0.05).mean(), 3))\nnear_miss = round(((real &gt; 0.01) &amp; (real &lt; 0.05)).mean(), 3)",
+  "code": "from scipy.stats import ttest_ind\nrng = np.random.default_rng(18)\nx = rng.normal(0, 1, (5_000, 60))                        # 5,000 experiments, two groups of 30, no effect\ny = rng.normal(0, 1, (5_000, 60)); y[:, 30:] += 0.4      # 5,000 more with a real effect of 0.4 SD\nnull = ttest_ind(x[:, :30], x[:, 30:], axis=1).pvalue    # one t-test per row\nreal = ttest_ind(y[:, :30], y[:, 30:], axis=1).pvalue\nshare = (round((null &lt; 0.05).mean(), 3), round((real &lt; 0.05).mean(), 3))\nnear_miss = round(((real &gt; 0.01) &amp; (real &lt; 0.05)).mean(), 3)",
   "sources": [
    "R. L. Wasserstein &amp; N. A. Lazar, “The ASA Statement on p-Values: Context, Process, and Purpose”, <em>The American Statistician</em> 70(2), 2016",
    "J. P. A. Ioannidis, “Why Most Published Research Findings Are False”, <em>PLoS Medicine</em> 2(8), 2005",
@@ -847,7 +847,7 @@ const TOPIC_DEPTH = {
 function depthHtml(id) {
   const d = TOPIC_DEPTH[id];
   if (!d || typeof renderDepth !== 'function') return '';
-  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.' });
+  return renderDepth({ ...d, run: 'stats/' + id, codeNote: 'Assumes <code>import numpy as np</code> and <code>import pandas as pd</code> (and SciPy where imported). Each snippet simulates or makes up its own data, as the comments say.' });
 }
 /* depth:end */
 
