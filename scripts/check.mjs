@@ -346,11 +346,9 @@ try {
 console.log('10b. Guides');
 try {
   const out = execFileSync(process.execPath, ['scripts/build-guides.mjs', '--check'], { encoding: 'utf8', stdio: 'pipe' });
-  ok(out.trim().split(/?
-/).pop().replace(/^guides: /, ''));
+  ok(out.trim().split(/\r?\n/).pop().replace(/^guides: /, ''));
 } catch (e) {
-  fail(((e.stdout || '') + (e.stderr || '')).trim().split(/?
-/).slice(-6).join(' | ') || 'build-guides --check failed');
+  fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-6).join(' | ') || 'build-guides --check failed');
 }
 /* ── 11. Content standard (warnings) ──
    Not failures: content is fixed by writing it, and a build should not stop
