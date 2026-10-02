@@ -1623,7 +1623,7 @@ function buildNormalization() {
   <p class="sub">// LayerNorm, RMSNorm, GroupNorm — which normalisation for which architecture</p>
   <p class="prose">Different architectures need different normalisation. <strong>BatchNorm</strong> works for CNNs, <strong>LayerNorm</strong> for transformers, <strong>RMSNorm</strong> for modern LLMs (faster, no mean subtraction).</p>
   <div class="fb"><div class="fm">LayerNorm: x̂ = (x − μ) / √(σ² + ε) · γ + β</div><div class="fd">Normalises over <span>features (last dim)</span> — independent of batch size. Standard for transformers.</div></div>
-  <div class="fb c2"><div class="fm">RMSNorm: x̂ = x / RMS(x) · γ &nbsp;&nbsp; RMS(x) = √(Σxᵢ²/n)</div><div class="fd">Skips mean subtraction — <span>15% faster</span> than LayerNorm. Used in LLaMA, Mistral, Gemma.</div></div>
+  <div class="fb c2"><div class="fm">RMSNorm: x̂ = x / RMS(x) · γ &nbsp;&nbsp; RMS(x) = √(Σxᵢ²/n)</div><div class="fd">Skips mean subtraction — <span>faster</span> than LayerNorm (7–64% in its authors’ tests). Used in LLaMA, Mistral, Gemma.</div></div>
   <div class="fb c3"><div class="fm">GroupNorm: split channels into G groups, normalise each</div><div class="fd">Works with any batch size. <span>G=32</span> is common. Used in diffusion models (U-Net).</div></div>
   <table class="mt">
     <thead><tr><th>Method</th><th>Normalises Over</th><th>Batch-Dependent</th><th>Used In</th></tr></thead>

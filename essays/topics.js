@@ -225,7 +225,7 @@ function buildEssayBell() {
   </div>
   <p class="sub">// Wherever many small, independent forces combine, the same shape appears</p>
   <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms \u2014 not because anyone designed it, but because height is the sum of many small genetic and environmental nudges, each roughly independent, each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
-  <p class="prose">The bell appears in measurement error, in exam scores, in the daily returns of large stock indices. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
+  <p class="prose">The bell appears in measurement error, in exam scores, and roughly in the middle of daily stock-index returns — though not in their tails, which are far fatter than a bell allows. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
   <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more \u2014 and nothing less.</p>
   <div class="va">
     <canvas id="bellCanvas" role="img" aria-label="The Bell in Everything — visualization" height="180"></canvas>
@@ -288,7 +288,7 @@ function buildEssayTail() {
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// Most things are small \u2014 a few are enormous \u2014 and the pattern keeps repeating</p>
-  <p class="prose">Rank cities by population and plot the result. A handful of megacities tower on the left; thousands of towns form a long, whispering tail stretching to the right. Now do the same with word frequencies, website traffic, earthquake magnitudes, or personal wealth. The shape is the same: steep drop, then a tail that refuses to die.</p>
+  <p class="prose">Rank cities by population and plot the result. A handful of megacities tower on the left; thousands of towns form a long, whispering tail stretching to the right. Now do the same with word frequencies, website traffic, the energy released by earthquakes, or personal wealth. The shape is the same: steep drop, then a tail that refuses to die.</p>
   <p class="prose">These are power-law distributions, and they emerge wherever <em>success breeds success</em> \u2014 a city that grows attracts more people, which makes it grow further. A word used often becomes even more familiar, so it gets used again. The rich get richer, not always through merit, but through mechanics.</p>
   <p class="prose">The tail matters more than it looks. In a bell curve, extremes are vanishingly rare. In a power law, the single largest event can dwarf the rest combined. This is why one earthquake, one pandemic, or one black swan trade can reshape everything.</p>
   <div class="va">
@@ -385,7 +385,7 @@ function buildEssayFeedback() {
   </div>
   <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
   <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. Nothing changed in the rules — only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
-  <p class="prose">But exponential growth always meets a wall — resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption, viral spread — all follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
+  <p class="prose">But exponential growth always meets a wall — resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption and epidemics often follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
   <p class="prose">Negative feedback works in reverse: the output damps the system back toward equilibrium. A thermostat. A predator-prey cycle. The price mechanism in a market. Without negative feedback, every small perturbation would spiral forever.</p>
   <div class="va">
     <canvas id="feedbackCanvas" role="img" aria-label="The Feedback Loop — visualization" height="180"></canvas>
@@ -417,7 +417,7 @@ function buildEssayWalk() {
   </div>
   <p class="sub">// Each step is random — yet the path that emerges is not without structure</p>
   <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started — the distance from the lamp post grows, just not in a predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
-  <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the expected distance from the start is &radic;<em>n</em>, not <em>n</em>. Doubling your time quadruples your uncertainty, not doubles it. A stock forecast for one year is not twice as reliable as one for four years — it is half as reliable.</p>
+  <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the typical (root-mean-square) distance from the start is &radic;<em>n</em>, not <em>n</em>. Quadrupling your time only doubles your uncertainty. A four-year forecast is twice as uncertain as a one-year forecast — not four times.</p>
   <p class="prose">Random walks also explain why past prices carry almost no information about future prices in efficient markets. Each step erases the memory of the last. The path looks meaningful in hindsight. It was not.</p>
   <div class="va">
     <canvas id="walkCanvas" role="img" aria-label="The Random Walk — visualization" height="180"></canvas>
@@ -540,7 +540,7 @@ function buildEssaySimpson() {
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
   </div>
   <p class="sub">// A trend can point one way in every group \u2014 and the opposite way once they are combined</p>
-  <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments actually favoured women slightly. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>
+  <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments showed no bias against women, and several slightly favoured them. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>
   <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable \u2014 department, severity, the way cases were sorted \u2014 quietly steers the total.</p>
   <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is not better arithmetic \u2014 it is asking what was combined, and why.</p>
   <div class="va">

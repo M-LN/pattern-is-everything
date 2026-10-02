@@ -670,7 +670,7 @@ function buildEmbeddings() {
   <div class="fb"><div class="fm">E = Embedding(token_id) ∈ ℝ^d_model</div><div class="fd">Simple lookup: row token_id from the embedding matrix. No computation, just indexing.</div></div>
   <div class="fb"><div class="fm">Scaled: E' = E · √d_model</div><div class="fd">Some architectures scale embeddings so their magnitude matches positional encodings.</div></div>
   <p class="prose">Typical dimensions: GPT-2 uses d=768 (small) to d=1600 (XL). LLaMA-70B uses d=8192. The embedding table is often <strong>tied</strong> with the output projection (weight tying), reducing parameter count.</p>
-  <div class="callout">For GPT-4's ~100k vocab with d_model=12288, the embedding table alone is ~1.2B parameters — a significant fraction of total model size for smaller models.</div>
+  <div class="callout">For GPT-3 (a 50,257-token vocabulary, d_model = 12,288) the embedding table is about 0.6B parameters — under 0.4% of its 175B. In small models the share is far larger: about 31% in GPT-2 small.</div>
   <div class="va"><div class="vl">Interactive — 2D embedding projection</div><canvas id="embedCanvas" role="img" aria-label="Token Embeddings: Interactive — 2D embedding projection" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="resetEmbed()">Regenerate</button></div></div>
   <h3>Python — embedding layer</h3>
@@ -770,7 +770,7 @@ def self_attention(x, W_q, W_k, W_v):
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Building or understanding any transformer model. Debugging attention patterns to understand model behavior. Designing custom architectures. Understanding why context length is limited.</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> Using LLMs via API — attention is handled for you. Working with very long sequences (>100K tokens) where linear attention variants (Mamba, RWKV) may be more efficient.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Using LLMs via API — attention is handled for you. Working with very long sequences (>100K tokens) where sub-quadratic alternatives (state-space models such as Mamba, or RWKV) may be more efficient.</div>
   </div>
   ${depthHtml('self-attention')}
   <div class="topic-nav" id="nav-self-attention"></div>
@@ -830,11 +830,11 @@ function buildFeedForward() {
     <span class="topic-badge">SwiGLU · GELU · Expansion</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The per-token MLP after every attention layer</p>
-  <p class="prose">After attention mixes information across tokens, the <strong>feed-forward network (FFN)</strong> processes each token independently. It expands to a higher dimension, applies a nonlinearity, and projects back down. This is where most of the model's "knowledge" is stored.</p>
+  <p class="prose">After attention mixes information across tokens, the <strong>feed-forward network (FFN)</strong> processes each token independently. It expands to a higher dimension, applies a nonlinearity, and projects back down. Much of the model’s factual recall appears to live here (Geva et al. 2021).</p>
   <div class="fb"><div class="fm">FFN(x) = W₂ · σ(W₁x + b₁) + b₂    where W₁ ∈ ℝ^(d × 4d)</div><div class="fd">Classic design: expand 4×, activate, contract. About 2/3 of transformer parameters live here.</div></div>
   <div class="fb"><div class="fm">SwiGLU(x) = (W₁x ⊙ Swish(W_gate·x)) · W₂    where W₁,W_gate ∈ ℝ^(d × ⅔·4d)</div><div class="fd">Gated variant used in LLaMA, Mistral, Gemma. ⅔ factor keeps parameter count equal to standard 4d expansion.</div></div>
   <p class="prose"><strong>SwiGLU</strong> consistently outperforms ReLU and GELU. The gating mechanism lets the network learn to suppress/amplify features multiplicatively — more expressive than additive bias alone.</p>
-  <div class="callout">In a 70B-parameter model, the FFN layers contain roughly 47B parameters. They act as massive key-value memories: keys are W₁ rows, values are W₂ columns.</div>
+  <div class="callout">In Llama 2 70B the feed-forward layers hold about 56B of its 69B parameters. They act as massive key-value memories: keys are W₁ rows, values are W₂ columns.</div>
   <div class="va"><div class="vl">Interactive — activation functions comparison</div><canvas id="ffnCanvas" role="img" aria-label="Feed-Forward Networks: Interactive — activation functions comparison" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawFFN('relu')">ReLU</button> <button class="btn b2" onclick="drawFFN('gelu')">GELU</button> <button class="btn b3" onclick="drawFFN('swish')">Swish</button> <button class="btn b4" onclick="drawFFN('swiglu')">SwiGLU gate</button></div></div>
   <h3>Python — SwiGLU FFN</h3>
@@ -867,7 +867,7 @@ function buildTransformerBlock() {
   <p class="prose">A transformer block combines attention and FFN with <strong>residual connections</strong> and <strong>layer normalization</strong>. Modern LLMs use <strong>Pre-Norm</strong> (normalize before each sublayer) rather than Post-Norm, which stabilizes training at scale.</p>
   <div class="fb"><div class="fm">Pre-Norm block:  x → x + Attn(LN(x)) → x + FFN(LN(x))</div><div class="fd">LayerNorm before sublayer, residual after. Gradients flow cleanly through the skip connection.</div></div>
   <div class="fb"><div class="fm">RMSNorm(x) = x / RMS(x) · γ    where RMS(x) = √(mean(x²))</div><div class="fd">Root Mean Square normalization — no mean subtraction. Faster, used in LLaMA, Mistral.</div></div>
-  <p class="prose">A 70B model stacks <strong>80 blocks</strong>. Each block adds ~875M parameters. The residual stream acts as a highway — early layers write features, later layers read and refine them. This is the <strong>residual stream</strong> mental model.</p>
+  <p class="prose">A 70B model stacks <strong>80 blocks</strong>. Each block adds about 856M parameters (Llama 2 70B). The residual stream acts as a highway — early layers write features, later layers read and refine them. This is the <strong>residual stream</strong> mental model.</p>
   <div class="callout">The residual connection is why deep transformers work at all. Without it, gradients vanish through 80+ layers. With it, there's always a direct path from output to any layer.</div>
   <div class="va"><div class="vl">Interactive — data flow through a transformer block</div><canvas id="tfBlockCanvas" role="img" aria-label="Transformer Block: Interactive — data flow through a transformer block" width="700" height="340"></canvas>
   <div class="ctrl"><button class="btn" onclick="animTFBlock()">Animate Forward Pass</button> <button class="btn b2" onclick="drawTFBlock()">Reset</button></div></div>
@@ -904,7 +904,7 @@ function buildDecoderOnly() {
   <div class="fb"><div class="fm">Causal mask: M_ij = 0 if j ≤ i, else −∞</div><div class="fd">Upper triangle set to −∞ before softmax → zeroes out future attention weights.</div></div>
   <div class="fb"><div class="fm">P(text) = ∏ P(token_t | token_1, ..., token_{t-1})</div><div class="fd">Autoregressive factorization — the probability of text as a product of conditional probabilities.</div></div>
   <p class="prose">Why decoder-only won: (1) simpler than encoder-decoder, (2) scales better with compute, (3) naturally handles both understanding and generation in a single architecture. The "decoder" name comes from the original Transformer paper where this half decoded outputs.</p>
-  <div class="callout">Every GPT, LLaMA, Mistral, Gemma, Claude, and most modern LLMs are decoder-only. The encoder-decoder style (T5, BART) is now mainly used for specialized tasks like translation.</div>
+  <div class="callout">GPT, LLaMA, Mistral, Gemma and most other published LLMs are decoder-only. The encoder-decoder style (T5, BART) is now mainly used for specialized tasks like translation.</div>
   <div class="va"><div class="vl">Interactive — causal mask & autoregressive generation</div><canvas id="decoderCanvas" role="img" aria-label="Decoder-Only Models: Interactive — causal mask &amp; autoregressive generation" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDecoder()">Generate Token</button> <button class="btn b2" onclick="resetDecoder()">Reset</button></div></div>
   <h3>Python — causal attention mask</h3>
@@ -936,7 +936,7 @@ function buildKVCache() {
   <p class="sub">// Cache once, reuse forever — the key to fast autoregressive generation</p>
   <p class="prose">During generation, each new token only needs to compute its own Q, K, V — but it attends to <strong>all previous K and V vectors</strong>. Without caching, we'd recompute K,V for all prior tokens at every step. The <strong>KV-cache</strong> stores these, turning generation from O(n²) to O(n) per step.</p>
   <div class="fb"><div class="fm">Step t: K_cache = [K₁, K₂, ..., K_t],  V_cache = [V₁, V₂, ..., V_t]</div><div class="fd">Append new K_t, V_t each step. Only compute attention for the new query against cached K,V.</div></div>
-  <div class="fb"><div class="fm">Memory: 2 · n_layers · seq_len · n_kv_heads · d_k · bytes_per_param</div><div class="fd">For LLaMA-70B with 4K context in FP16: ~2.5 GB per request just for KV cache.</div></div>
+  <div class="fb"><div class="fm">Memory: 2 · n_layers · seq_len · n_kv_heads · d_k · bytes_per_param</div><div class="fd">For Llama 2 70B with 4K context in FP16: about 1.3 GB per request with its 8 KV heads, and 10.7 GB if every head had its own.</div></div>
   <p class="prose">KV-cache is why <strong>batch size</strong> during inference is heavily memory-constrained. GQA (fewer KV heads) directly reduces this cost. This is the main motivation behind MQA and GQA research.</p>
   <div class="callout warn">KV-cache memory scales linearly with sequence length × batch size. For long contexts (128K+), a single request can consume 40+ GB. This dominates GPU memory during serving.</div>
   <div class="va"><div class="vl">Interactive — KV-cache growth during generation</div><canvas id="kvCacheCanvas" role="img" aria-label="KV-Cache: Interactive — KV-cache growth during generation" width="700" height="280"></canvas>
@@ -968,7 +968,7 @@ function buildContextWindows() {
     <span class="topic-badge">Long Context · RoPE Scaling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How much text can a model see at once — and how to push the limits</p>
-  <p class="prose">The context window is the maximum number of tokens a model can process in one forward pass. GPT-3 had 2K, GPT-4 Turbo has 128K, Gemini 1.5 has 1M+. Expanding context is critical for document analysis, code understanding, and long conversations.</p>
+  <p class="prose">The context window is the maximum number of tokens a model can process in one forward pass. GPT-3 (2020) had 2K tokens; by 2024 GPT-4 Turbo offered 128K and Gemini 1.5 1M or more. Expanding context is critical for document analysis, code understanding, and long conversations.</p>
   <div class="fb"><div class="fm">Attention cost: O(n²) time, O(n) KV-cache memory</div><div class="fd">Quadratic compute + linear memory = context length is the fundamental bottleneck.</div></div>
   <div class="fb"><div class="fm">RoPE scaling: θ' = θ · α    where α = target_len / train_len</div><div class="fd">NTK-aware interpolation stretches RoPE frequencies to extrapolate beyond training length.</div></div>
   <p class="prose"><strong>Approaches to longer context:</strong> (1) RoPE scaling (NTK, YaRN) — cheapest, (2) Sliding window attention (Mistral) — each layer sees a local window, (3) Sparse attention patterns — attend to subset, (4) Ring attention — distribute across GPUs, (5) Simply train on more context.</p>
@@ -1002,7 +1002,7 @@ function buildMixtureOfExperts() {
   <p class="sub">// More parameters without proportionally more compute</p>
   <p class="prose"><strong>Mixture of Experts (MoE)</strong> replaces the single FFN with multiple "expert" FFNs and a <strong>router</strong> that selects which experts process each token. Only the top-K experts activate per token — typically K=2 out of 8–64 experts.</p>
   <div class="fb"><div class="fm">MoE(x) = Σᵢ gᵢ(x) · Expertᵢ(x)    where g(x) = TopK(softmax(W_router · x))</div><div class="fd">Router assigns weights to top-K experts. Each expert is a standard FFN. Inactive experts skip computation entirely.</div></div>
-  <div class="fb"><div class="fm">Mixtral 8×7B: 8 experts, top-2 routing → 47B total, ~13B active per token</div><div class="fd">7B-quality performance at 13B-compute cost, with 47B parameters of capacity.</div></div>
+  <div class="fb"><div class="fm">Mixtral 8×7B: 8 experts, top-2 routing → 47B total, ~13B active per token</div><div class="fd">Its authors report it matching or beating Llama 2 70B on most benchmarks, at the compute of a ~13B model.</div></div>
   <p class="prose"><strong>Key challenges:</strong> (1) <em>Load balancing</em> — prevent all tokens routing to the same expert, fixed with auxiliary loss. (2) <em>Expert collapse</em> — some experts never activate. (3) <em>Communication</em> — experts on different GPUs need token routing across devices.</p>
   <div class="callout">MoE models need more RAM (all experts loaded) but less compute (only K active). This makes them memory-bound, not compute-bound — great for inference on high-memory hardware.</div>
   <div class="va"><div class="vl">Interactive — expert routing animation</div><canvas id="moeCanvas" role="img" aria-label="Mixture of Experts: Interactive — expert routing animation" width="700" height="300"></canvas>
@@ -1051,7 +1051,7 @@ function buildScalingLaws() {
   <div class="fb"><div class="fm">Chinchilla optimal: D_opt ≈ 20 · N</div><div class="fd">For a 70B model, train on ~1.4T tokens. GPT-3 (175B) was undertrained at 300B tokens.</div></div>
   <div class="fb"><div class="fm">Compute: C ≈ 6 · N · D  (FLOPs)</div><div class="fd">Rough approximation: 6 FLOPs per parameter per token for a forward+backward pass.</div></div>
   <p class="prose">In practice, modern models (LLaMA 3, Gemma) train <em>way beyond</em> Chinchilla-optimal because <strong>inference cost matters more</strong>: a smaller model trained on more data is cheap to serve. LLaMA 3 8B trains on 15T tokens (1875× parameter count).</p>
-  <div class="callout">Scaling laws let you predict the loss of a $100M training run from a $1K experiment. Run small models, fit the power law, extrapolate — this is how frontier labs plan training.</div>
+  <div class="callout">Scaling laws let you predict the loss of a large run from much smaller ones — the GPT-4 report predicted its final loss from runs with up to 10,000× less compute. Run small models, fit the power law, extrapolate — this is how frontier labs plan training.</div>
   <div class="va"><div class="vl">Interactive — scaling law curves</div><canvas id="scalingCanvas" role="img" aria-label="Scaling Laws: Interactive — scaling law curves" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawScaling('params')">Parameters</button> <button class="btn b2" onclick="drawScaling('data')">Data</button> <button class="btn b3" onclick="drawScaling('compute')">Compute</button></div></div>
   <h3>Python — fit scaling law</h3>
@@ -1087,7 +1087,7 @@ function buildPreTraining() {
   <div class="fb"><div class="fm">L = −(1/T) Σ log P(token_t | token_1, ..., token_{t−1})</div><div class="fd">Average negative log-likelihood over all positions. Lower loss = better predictions.</div></div>
   <div class="fb"><div class="fm">Perplexity = e^L = 2^(L/ln2)</div><div class="fd">Intuition: average number of "choices" the model is uncertain between. PPL of 10 ≈ choosing among 10 options.</div></div>
   <p class="prose"><strong>Training recipe:</strong> AdamW optimizer (β₁=0.9, β₂=0.95), cosine learning rate schedule with warmup, weight decay 0.1, gradient clipping at 1.0, bf16 mixed precision, sequence packing, batch size ramp-up.</p>
-  <div class="callout">LLaMA 3 70B: 15T tokens, ~1e25 FLOPs, ~6000 GPU×months on H100s. The cost of pre-training a frontier model is $10M–$100M+ in compute alone.</div>
+  <div class="callout">Llama 3 70B: about 15T tokens, roughly 6×10²⁴ FLOPs (6 × N × D), and about 6.4 million H100 GPU-hours as reported by Meta. Frontier pre-training runs cost tens of millions of dollars or more in compute alone.</div>
   <div class="va"><div class="vl">Interactive — training loss curve</div><canvas id="pretrainCanvas" role="img" aria-label="Pre-Training: Interactive — training loss curve" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="animPretrain()">Animate Training</button> <button class="btn b2" onclick="resetPretrain()">Reset</button></div></div>
   <h3>Python — pre-training loop skeleton</h3>
@@ -1231,7 +1231,7 @@ function buildRLHF() {
   <div class="fb"><div class="fm">Stage 2 — Reward: L_RM = −log σ(r(x, y_w) − r(x, y_l))</div><div class="fd">Bradley-Terry model: chosen response y_w should score higher than rejected y_l.</div></div>
   <div class="fb"><div class="fm">Stage 3 — PPO: max E[r(x,y)] − β · KL(π_θ || π_ref)</div><div class="fd">Maximize reward while staying close to the reference policy. β controls the KL penalty.</div></div>
   <p class="prose">The KL penalty is crucial — without it, the model "reward hacks": finds adversarial outputs that fool the reward model. Typical β values: 0.01–0.2. RLHF produces noticeably better outputs than SFT alone, but adds significant training complexity.</p>
-  <div class="callout">RLHF was the secret sauce behind ChatGPT's launch. InstructGPT showed that RLHF on a 1.3B model could outperform a 175B SFT model in human evaluations.</div>
+  <div class="callout">RLHF was a key ingredient of ChatGPT. InstructGPT showed that labellers preferred a 1.3B RLHF model's outputs to those of the 175B GPT-3.</div>
   <div class="va"><div class="vl">Interactive — RLHF pipeline stages</div><canvas id="rlhfCanvas" role="img" aria-label="RLHF: Interactive — RLHF pipeline stages" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawRLHF(1)">Stage 1: SFT</button> <button class="btn b2" onclick="drawRLHF(2)">Stage 2: Reward</button> <button class="btn b3" onclick="drawRLHF(3)">Stage 3: PPO</button></div></div>
   <h3>Python — reward model training</h3>
@@ -1296,10 +1296,10 @@ function buildDataCuration() {
     <span class="topic-badge">Quality · Dedup · Mixing</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The most impactful and least glamorous part of LLM training</p>
-  <p class="prose">Data quality determines model quality. The pipeline: <strong>crawl → filter → deduplicate → classify → mix</strong>. Common Crawl provides ~250B pages, but only a small fraction is high-quality. Aggressive filtering and deduplication are essential.</p>
-  <div class="fb"><div class="fm">Quality filter pipeline: URL → language ID → perplexity → toxicity → heuristic rules</div><div class="fd">Each stage drops data. LLaMA 3 starts with 15T+ raw tokens and uses a classifier trained on quality signals.</div></div>
-  <div class="fb"><div class="fm">Dedup: MinHash + LSH for fuzzy, exact-match for verbatim</div><div class="fd">Duplicates hurt training: models memorize repeated passages, wasting capacity. 30–50% of web crawl is near-duplicate.</div></div>
-  <p class="prose"><strong>Data mixing</strong> is critical: model capabilities depend on training data composition. Typical mix: ~50% web, ~25% code, ~10% academic, ~5% books, ~5% math, ~5% conversation. Overloading on code improves reasoning.</p>
+  <p class="prose">Data quality determines model quality. The pipeline: <strong>crawl → filter → deduplicate → classify → mix</strong>. Common Crawl’s archive spans more than 250 billion pages collected since 2008, but only a small fraction is high-quality. Aggressive filtering and deduplication are essential.</p>
+  <div class="fb"><div class="fm">Quality filter pipeline: URL → language ID → perplexity → toxicity → heuristic rules</div><div class="fd">Each stage drops data. Llama 3 was trained on over 15T tokens selected with heuristic filters, deduplication and model-based quality classifiers.</div></div>
+  <div class="fb"><div class="fm">Dedup: MinHash + LSH for fuzzy, exact-match for verbatim</div><div class="fd">Duplicates hurt training: models memorize repeated passages, wasting capacity. A large share of web text is near-duplicate (Lee et al. 2022).</div></div>
+  <p class="prose"><strong>Data mixing</strong> is critical: model capabilities depend on training data composition. Meta reported Llama 3’s mix as roughly 50% general knowledge, 25% maths and reasoning, 17% code and 8% multilingual text. More code has been linked to better reasoning, though the evidence is mixed.</p>
   <div class="callout warn">Benchmark contamination is a real problem — if test questions appear in training data, benchmarks are meaningless. Modern data pipelines include decontamination stages that remove known benchmarks.</div>
   <div class="va"><div class="vl">Interactive — data filtering funnel</div><canvas id="dataCanvas" role="img" aria-label="Data Curation: Interactive — data filtering funnel" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animData()">Animate Pipeline</button> <button class="btn b2" onclick="resetData()">Reset</button></div></div>
@@ -1409,9 +1409,9 @@ function buildSpeculativeDecoding() {
   </div>
   <p class="sub">// Use a fast model to draft, a large model to verify — 2–3× speedup</p>
   <p class="prose">Autoregressive generation is <strong>memory-bound</strong>: each token requires loading all model weights but does minimal computation. <strong>Speculative decoding</strong> uses a small draft model to generate K candidate tokens, then the large model verifies all K in one forward pass (which is compute-bound, so it's fast).</p>
-  <div class="fb"><div class="fm">Draft: generate K tokens with small model M_s (fast)</div><div class="fd">The draft model should be ~10-20× smaller. E.g., 0.5B draft for 70B target.</div></div>
+  <div class="fb"><div class="fm">Draft: generate K tokens with small model M_s (fast)</div><div class="fd">The draft model is usually much smaller — 10× to 100× — e.g. a 1B draft for a 70B target.</div></div>
   <div class="fb"><div class="fm">Verify: run target model M_t on all K tokens in parallel → accept/reject each</div><div class="fd">Accept token i if P_target(token_i) ≥ P_draft(token_i). On rejection, resample from adjusted distribution.</div></div>
-  <p class="prose">The key guarantee: speculative decoding produces <strong>exactly the same distribution</strong> as standard generation — it's lossless. Speedup depends on draft model quality (acceptance rate). Typical: 60–80% acceptance → 2–3× throughput.</p>
+  <p class="prose">The key guarantee: speculative decoding produces <strong>exactly the same distribution</strong> as standard generation — it's lossless. Speedup depends on draft model quality (acceptance rate). Leviathan et al. report 2–3× faster generation.</p>
   <div class="callout">Medusa and Eagle add extra heads to the model itself instead of using a separate draft model — eliminating the need for draft-target distribution matching.</div>
   <div class="va"><div class="vl">Interactive — speculative decoding timeline</div><canvas id="specCanvas" role="img" aria-label="Speculative Decoding: Interactive — speculative decoding timeline" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animSpec()">Generate Batch</button> <button class="btn b2" onclick="resetSpec()">Reset</button> <label>Draft tokens K: <input type="range" id="specK" min="2" max="8" step="1" value="4" oninput="resetSpec()"></label></div></div>
@@ -1459,7 +1459,7 @@ function buildQuantization() {
   <p class="sub">// Shrink models 2–4× with minimal quality loss</p>
   <p class="prose"><strong>Quantization</strong> reduces the precision of model weights from 16-bit floats to 8-bit or 4-bit integers. This halves (or quarters) memory usage and speeds up memory-bound inference. The challenge: preserving output quality.</p>
   <div class="fb"><div class="fm">Linear quantization: q = round((x − zero) / scale)    x ≈ q · scale + zero</div><div class="fd">Map continuous weights to discrete integer grid. Scale and zero-point define the mapping.</div></div>
-  <div class="fb"><div class="fm">Model sizes: FP16=2B/param → INT8=1B/param → INT4=0.5B/param</div><div class="fd">A 70B model: 140GB (FP16) → 70GB (INT8) → 35GB (INT4). Fits on 2× A100 vs 4× A100.</div></div>
+  <div class="fb"><div class="fm">Model sizes: FP16=2B/param → INT8=1B/param → INT4=0.5B/param</div><div class="fd">A 70B model: 140GB (FP16) → 70GB (INT8) → 35GB (INT4). In INT4 it fits on a single 80 GB GPU; FP16 needs at least two.</div></div>
   <p class="prose"><strong>Methods:</strong> (1) <em>GPTQ</em> — weight-only, layer-by-layer with Hessian info, (2) <em>AWQ</em> — activation-aware, protects salient weights, (3) <em>GGUF</em> — CPU-friendly mixed-precision, (4) <em>bitsandbytes</em> — NF4 datatype for QLoRA. Weight-only quantization (activations stay in fp16) is most common for LLMs.</p>
   <div class="callout">INT8 quantization has virtually no quality loss for most tasks. INT4 shows small degradation but is the sweet spot for serving — 4× memory savings are too compelling to ignore.</div>
   <div class="va"><div class="vl">Interactive — precision comparison</div><canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision comparison" width="700" height="280"></canvas>
@@ -1511,9 +1511,9 @@ function buildKVCacheOpt() {
   <p class="sub">// Eliminating the memory fragmentation that limits batch size</p>
   <p class="prose">Standard KV-cache allocates a contiguous buffer for the maximum sequence length per request — this wastes memory (most sequences are shorter). <strong>PagedAttention</strong> (vLLM) allocates KV-cache in <em>fixed-size blocks</em> (like OS virtual memory pages), eliminating fragmentation.</p>
   <div class="fb"><div class="fm">PagedAttention: KV-cache = non-contiguous blocks of size B tokens each</div><div class="fd">Physical blocks allocated on demand. Block table maps logical → physical. No wasted pre-allocation.</div></div>
-  <div class="fb"><div class="fm">Prefix caching: shared prompts → shared KV blocks (copy-on-write)</div><div class="fd">If 100 requests share a system prompt, cache its KV once. Saves ~50% memory for chat workloads.</div></div>
+  <div class="fb"><div class="fm">Prefix caching: shared prompts → shared KV blocks (copy-on-write)</div><div class="fd">If 100 requests share a system prompt, its KV is stored once instead of 100 times; the saving grows with the prompt’s share of each request.</div></div>
   <p class="prose"><strong>Impact:</strong> vLLM achieves 2–4× higher throughput than naive serving by fitting more requests in the same GPU memory. Additional optimizations: <em>KV-cache quantization</em> (FP8 per KV), <em>sliding window eviction</em>, and <em>radix tree prefix sharing</em>.</p>
-  <div class="callout">PagedAttention is the single most impactful inference optimization for serving LLMs at scale. It's why vLLM, TGI, and SGLang are the standard serving frameworks.</div>
+  <div class="callout">PagedAttention is one of the most important serving optimisations of recent years; vLLM introduced it, and other serving frameworks have adopted similar paged KV-caches.</div>
   <div class="va"><div class="vl">Interactive — paged vs contiguous KV-cache allocation</div><canvas id="kvOptCanvas" role="img" aria-label="KV-Cache Optimization: Interactive — paged vs contiguous KV-cache allocation" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawKVOpt('contiguous')">Contiguous (naive)</button> <button class="btn b2" onclick="drawKVOpt('paged')">PagedAttention</button> <button class="btn b3" onclick="animKVOpt()">Add Request</button></div></div>
   <h3>Python — vLLM serving</h3>
@@ -1546,7 +1546,7 @@ function buildBatching() {
   <p class="sub">// Serving hundreds of concurrent requests efficiently</p>
   <p class="prose">LLM inference has two distinct phases: <strong>prefill</strong> (process the full prompt — compute-bound, fast per token) and <strong>decode</strong> (generate one token — memory-bound, slow per token). <strong>Continuous batching</strong> dynamically adds/removes requests from a batch as they finish, rather than waiting for the longest sequence.</p>
   <div class="fb"><div class="fm">Static batching: all requests padded to same length, wait for slowest</div><div class="fd">Wastes GPU cycles on padding. Throughput = 1/longest_sequence.</div></div>
-  <div class="fb"><div class="fm">Continuous batching: new requests join mid-batch, finished ones leave</div><div class="fd">GPU is always busy. Throughput improves 10-20× compared to static batching.</div></div>
+  <div class="fb"><div class="fm">Continuous batching: new requests join mid-batch, finished ones leave</div><div class="fd">GPU is always busy. Throughput can rise several-fold over static batching (Yu et al. 2022).</div></div>
   <p class="prose"><strong>Key metrics:</strong> <em>TTFT</em> (time to first token — mainly prefill), <em>TPS</em> (tokens per second — decode speed), <em>throughput</em> (total tokens/sec across all requests). Disaggregating prefill and decode to separate GPU pools (prefill cluster + decode cluster) is the latest frontier.</p>
   <div class="callout">The fundamental LLM serving insight: prefill is compute-bound, decode is memory-bound. They have opposite optimization strategies. Modern serving engines schedule them separately.</div>
   <div class="va"><div class="vl">Interactive — static vs continuous batching timeline</div><canvas id="batchCanvas" role="img" aria-label="Batching &amp; Throughput: Interactive — static vs continuous batching timeline" width="700" height="280"></canvas>
@@ -1592,7 +1592,7 @@ function buildPromptEngineering() {
   <div class="fb"><div class="fm">Few-shot: Example₁, Example₂, ..., Query → answer</div><div class="fd">Provide 2-5 examples of input→output. Model infers the pattern.</div></div>
   <div class="fb"><div class="fm">Chain-of-Thought: "Think step by step" → reasoning → answer</div><div class="fd">Dramatically improves math, logic, and multi-step reasoning. Model "shows its work."</div></div>
   <p class="prose">Advanced techniques: <em>self-consistency</em> (sample N times, majority vote), <em>tree-of-thought</em> (explore multiple reasoning paths), <em>structured output</em> (ask for JSON with a schema), <em>persona prompting</em> (act as expert in X).</p>
-  <div class="callout">Chain-of-thought prompting improved GSM8K (math) accuracy from 17.7% to 58.1% on PaLM 540B — for free, just by adding "Let's think step by step."</div>
+  <div class="callout">Few-shot chain-of-thought prompting raised PaLM 540B’s GSM8K accuracy from about 18% to about 57% (Wei et al. 2022); simply adding “Let’s think step by step” also helps (Kojima et al. 2022).</div>
   <div class="va"><div class="vl">Interactive — prompt structure diagram</div><canvas id="promptCanvas" role="img" aria-label="Prompt Engineering: Interactive — prompt structure diagram" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawPrompt('zero')">Zero-Shot</button> <button class="btn b2" onclick="drawPrompt('few')">Few-Shot</button> <button class="btn b3" onclick="drawPrompt('cot')">Chain-of-Thought</button></div></div>
   <h3>Python — structured prompting</h3>
@@ -1630,7 +1630,7 @@ function buildRAG() {
   <div class="fb"><div class="fm">Pipeline: Query → Embed → Search → Rerank → Augment Prompt → Generate</div><div class="fd">Each stage has design choices: chunk size, overlap, embedding model, retriever, reranker, prompt template.</div></div>
   <div class="fb"><div class="fm">Chunk size: 256–512 tokens with 10–20% overlap</div><div class="fd">Too small → lost context. Too large → diluted relevance. Semantic chunking (split at paragraph breaks) works better than fixed-size.</div></div>
   <p class="prose"><strong>Common pitfalls:</strong> (1) Chunking destroys context — tables, lists split mid-content. (2) Embedding model mismatch — query embeddings must match document embeddings. (3) Top-K too small — misses relevant but lower-ranked chunks. (4) No reranking — embedding similarity ≠ answer relevance.</p>
-  <div class="callout">Reranking is the highest-impact improvement for most RAG systems. A cross-encoder reranker on top-20 retrieval results can boost precision@5 by 15–20%.</div>
+  <div class="callout">Reranking is often one of the most effective improvements to a RAG system: a cross-encoder re-scores the top 20–100 retrieved passages more accurately than the first-stage search.</div>
   <div class="va"><div class="vl">Interactive — RAG pipeline flow</div><canvas id="ragCanvas" role="img" aria-label="RAG: Interactive — RAG pipeline flow" width="780" height="420"></canvas>
   <div class="ctrl"><button class="btn" onclick="animRAG()">Run Query</button> <button class="btn b2" onclick="resetRAG()">Reset</button></div></div>
   <h3>Python — RAG with LangChain</h3>
@@ -1669,7 +1669,7 @@ function buildEmbeddingSearch() {
   <p class="sub">// Finding semantically similar content at scale</p>
   <p class="prose">Embedding search converts text to vectors and finds nearest neighbors. The embedding model maps text to a dense vector (768–1536 dimensions). <strong>Cosine similarity</strong> or <strong>dot product</strong> measures closeness. For millions of vectors, exact search is too slow — we use <strong>Approximate Nearest Neighbors (ANN)</strong>.</p>
   <div class="fb"><div class="fm">cosine_sim(a, b) = (a · b) / (‖a‖ · ‖b‖) ∈ [−1, 1]</div><div class="fd">1 = identical direction, 0 = orthogonal, −1 = opposite. Most embedding models are L2-normalized.</div></div>
-  <div class="fb"><div class="fm">HNSW: hierarchical navigable small world graph</div><div class="fd">Multi-layer graph: top layers for coarse search, bottom layers for precise. O(log n) query time, ~95%+ recall.</div></div>
+  <div class="fb"><div class="fm">HNSW: hierarchical navigable small world graph</div><div class="fd">Multi-layer graph: top layers for coarse search, bottom layers for precise. Roughly logarithmic query time, with high recall (often above 95%) at typical settings.</div></div>
   <p class="prose"><strong>Vector databases:</strong> Pinecone (managed), Qdrant (open-source), pgvector (PostgreSQL), Chroma (lightweight), Weaviate (hybrid search). For smaller datasets (<100K vectors), brute-force exact search in FAISS is fast enough.</p>
   <div class="callout">Hybrid search (BM25 keyword + semantic embedding) consistently outperforms either alone. Most production systems combine both with reciprocal rank fusion.</div>
   <div class="va"><div class="vl">Interactive — vector space nearest neighbor search</div><canvas id="searchCanvas" role="img" aria-label="Embedding Search: Interactive — vector space nearest neighbor search" width="700" height="300"></canvas>
@@ -1764,7 +1764,7 @@ function buildAgents() {
   <div class="fb"><div class="fm">ReAct loop: Thought → Action(tool, args) → Observation → Thought → ... → Final Answer</div><div class="fd">Each iteration: reason about what's needed, call a tool, process the result, decide next step.</div></div>
   <div class="fb"><div class="fm">Planning: Decompose task → subtasks → execute sequentially or in parallel</div><div class="fd">Complex tasks need planning: break "book a trip" into search flights, compare prices, book, confirm.</div></div>
   <p class="prose"><strong>Memory types:</strong> (1) <em>Short-term</em> — conversation history in context window. (2) <em>Long-term</em> — vector store of past interactions, retrieved as needed. (3) <em>Working memory</em> — scratchpad for current task state. Key challenge: agents can be <em>unreliable</em> — they get stuck in loops, hallucinate tool calls, or lose track of the plan.</p>
-  <div class="callout">The best agent systems use simple, constrained loops — not complex multi-agent frameworks. A single ReAct loop with 3–5 well-designed tools beats a graph of 10 specialized agents for most tasks.</div>
+  <div class="callout">The best agent systems use simple, constrained loops — not complex multi-agent frameworks. Simple baselines are often hard to beat, and complex agent setups add cost (Kapoor et al. 2024).</div>
   <div class="va"><div class="vl">Interactive — ReAct agent loop</div><canvas id="agentCanvas" role="img" aria-label="Agents &amp; Planning: Interactive — ReAct agent loop" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animAgent()">Next Step</button> <button class="btn b2" onclick="resetAgent()">Reset Task</button></div></div>
   <h3>Python — ReAct agent</h3>
@@ -1810,7 +1810,7 @@ function buildEvaluation() {
   <p class="prose">How do you know if an LLM is good? <strong>Perplexity</strong> measures language modeling quality. <strong>Benchmarks</strong> test specific skills. <strong>Human evaluation</strong> and <strong>arena rankings</strong> capture overall helpfulness. Each has blind spots.</p>
   <div class="fb"><div class="fm">Perplexity = e^(−1/T · Σ log P(token_t))</div><div class="fd">Average surprisal. Lower = better at predicting text. Only measures language modeling, not task ability.</div></div>
   <div class="fb"><div class="fm">MMLU: 57 subjects, multiple choice (humanities, STEM, social sciences)</div><div class="fd">Knowledge breadth. GPT-4: ~86%, LLaMA-3-70B: ~82%. But multiple-choice ≠ open-ended ability.</div></div>
-  <p class="prose"><strong>Key benchmarks:</strong> <em>MMLU</em> (knowledge), <em>HumanEval</em> (code generation), <em>GSM8K</em> (math), <em>HellaSwag</em> (common sense), <em>ARC</em> (reasoning), <em>TruthfulQA</em> (hallucination). <strong>Chatbot Arena</strong> uses live ELO rankings from anonymous human votes — currently the most trusted evaluation.</p>
+  <p class="prose"><strong>Key benchmarks:</strong> <em>MMLU</em> (knowledge), <em>HumanEval</em> (code generation), <em>GSM8K</em> (math), <em>HellaSwag</em> (common sense), <em>ARC</em> (reasoning), <em>TruthfulQA</em> (hallucination). <strong>Chatbot Arena</strong> uses live ELO rankings from anonymous human votes — a widely watched evaluation, with biases of its own.</p>
   <div class="callout warn">Benchmark contamination is rampant — if test questions leak into training data, scores are meaningless. Private held-out test sets and Arena rankings are more reliable than public benchmark scores.</div>
   <div class="va"><div class="vl">Interactive — benchmark comparison radar chart</div><canvas id="evalCanvas" role="img" aria-label="Evaluation &amp; Benchmarks: Interactive — benchmark comparison radar chart" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawEval('gpt4')">GPT-4</button> <button class="btn b2" onclick="drawEval('llama3')">LLaMA-3-70B</button> <button class="btn b3" onclick="drawEval('mistral')">Mistral-Large</button> <button class="btn b4" onclick="drawEval('compare')">Compare All</button></div></div>

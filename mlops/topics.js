@@ -695,7 +695,7 @@ function buildGPUInference() {
     </div>
   </div>
   <table class="mt">
-    <thead><tr><th>Approach</th><th>Speedup</th><th>Tradeoff</th></tr></thead>
+    <thead><tr><th>Approach</th><th>Speedup (typical reported; model-dependent)</th><th>Tradeoff</th></tr></thead>
     <tbody>
       <tr><td>TensorRT FP16</td><td>2–4×</td><td>Slight accuracy loss, compile time</td></tr>
       <tr><td>TensorRT INT8</td><td>3–6×</td><td>Needs calibration dataset</td></tr>
@@ -750,7 +750,7 @@ function buildModelMonitoring() {
     <span class="topic-badge">Observability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Prediction health, feature drift, and system metrics in one view</p>
-  <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana + Prometheus is the standard stack.</p>
+  <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana with Prometheus is a common stack.</p>
   <div class="va">
     <div class="vl">// Interactive — monitoring dashboard simulation</div>
     <canvas id="monitorCanvas" role="img" aria-label="Model Monitoring Dashboards: Interactive — monitoring dashboard simulation" height="260"></canvas>
@@ -1006,7 +1006,7 @@ function buildModelCompression() {
   </div>
   <p class="sub">// Pruning, distillation, and the lottery ticket hypothesis</p>
   <p class="prose"><strong>Pruning</strong> removes unimportant weights (structured or unstructured). <strong>Knowledge distillation</strong> trains a small "student" model to mimic a large "teacher." The <strong>lottery ticket hypothesis</strong> suggests sparse subnetworks within large models can match full performance — if you find the right ticket.</p>
-  <div class="fb"><div class="fm">Compression Ratio = Original Size / Compressed Size</div><div class="fd">A 4× compression ratio means your model is 75% smaller — potentially 4× faster with minimal accuracy loss.</div></div>
+  <div class="fb"><div class="fm">Compression Ratio = Original Size / Compressed Size</div><div class="fd">A 4× compression ratio means your model is 75% smaller — faster only if the hardware and runtime exploit the compression.</div></div>
   <div class="va">
     <div class="vl">// Interactive — pruning vs accuracy tradeoff</div>
     <canvas id="compressCanvas" role="img" aria-label="Model Compression: Interactive — pruning vs accuracy tradeoff" height="260"></canvas>
@@ -1036,7 +1036,7 @@ function buildQuantization() {
     <canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision vs accuracy vs speed" height="260"></canvas>
   </div>
   <table class="mt">
-    <thead><tr><th>Method</th><th>Accuracy Impact</th><th>Speed Gain</th></tr></thead>
+    <thead><tr><th>Method</th><th>Accuracy impact (indicative)</th><th>Speed gain (indicative)</th></tr></thead>
     <tbody>
       <tr><td>FP16 (half precision)</td><td>Negligible</td><td>~2×</td></tr>
       <tr><td>PTQ INT8</td><td>0.5–2% drop</td><td>~3×</td></tr>
@@ -1110,7 +1110,7 @@ function buildCostGovernance() {
     <canvas id="costCanvas" role="img" aria-label="Cost Governance: Interactive — cost breakdown by category" height="260"></canvas>
   </div>
   <table class="mt">
-    <thead><tr><th>Strategy</th><th>Savings</th><th>Risk</th></tr></thead>
+    <thead><tr><th>Strategy</th><th>Savings (vendor and practitioner ranges; varies widely)</th><th>Risk</th></tr></thead>
     <tbody>
       <tr><td>Spot/preemptible instances</td><td>60–90%</td><td>Interruption risk</td></tr>
       <tr><td>Right-sizing instances</td><td>20–50%</td><td>Under-provisioning</td></tr>

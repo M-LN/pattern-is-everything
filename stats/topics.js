@@ -1009,7 +1009,7 @@ f = f1_score(y_true, y_pred)</pre></div>
     <ul>
       <li><strong>Low precision</strong> (many false positives) → customer friction, blocked legitimate purchases, support costs ~$5-15 per case</li>
       <li><strong>Low recall</strong> (missed fraud) → direct financial loss, average $150+ per missed case</li>
-      <li>Most production systems operate at 95%+ precision with 60-80% recall — the cost asymmetry drives the threshold</li>
+      <li>Where an operating point lands — high precision, or high recall — depends on what each kind of error costs</li>
       <li>At Stripe/PayPal scale, moving the threshold by 0.01 can shift millions of dollars annually</li>
     </ul>
   </div>
@@ -1172,7 +1172,7 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
       <li>Wrap all preprocessing in a <code>sklearn.pipeline.Pipeline</code> — scaling, imputation, encoding must happen <em>inside</em> each fold</li>
       <li>Use <code>cross_val_score()</code> for a quick check — report <strong>mean ± std</strong> across folds</li>
       <li>For hyperparameter tuning, use <strong>nested CV</strong>: inner loop tunes (GridSearchCV), outer loop evaluates</li>
-      <li>If std across folds is high (>10% of mean), your model is unstable — investigate data quality or try more folds</li>
+      <li>If scores vary a lot across folds, your model or data is unstable — investigate data quality or try more folds</li>
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — overfitting to CV score:</strong> If you run CV many times with different hyperparameters and pick the best, you're overfitting to the CV folds. Use nested CV or hold out a final test set that you touch only once.</div>
   </div>
@@ -1183,7 +1183,7 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
       <li><strong>k=5</strong> is the standard — good bias-variance trade-off, 5x training cost</li>
       <li><strong>k=10</strong> reduces variance slightly but doubles compute vs k=5. Rarely worth it for large datasets</li>
       <li><strong>LOOCV</strong> (k=n) is nearly unbiased but has high variance and n× compute — avoid for n > 10K</li>
-      <li>At Google scale, even 5-fold CV on large datasets uses distributed computing. For quick iteration, use a single holdout, then CV for the final report</li>
+      <li>On very large datasets even 5-fold CV is expensive. For quick iteration, use a single holdout, then CV for the final report</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1349,7 +1349,7 @@ shap.plots.beeswarm(shap_values)</pre></div>
       <li><strong>TreeExplainer</strong>: O(TLD²) per prediction — fast, handles 100K samples in seconds for XGBoost/LightGBM</li>
       <li><strong>KernelExplainer</strong>: O(2^M) where M=features — exponential. With 50 features, use background subsampling (100-200 samples) or wait hours</li>
       <li><strong>Production tip:</strong> Pre-compute SHAP for common feature ranges and cache them. Real-time SHAP on every API call is expensive — batch process nightly</li>
-      <li>EU AI Act and US lending regulations increasingly require explainability — SHAP is the de facto standard for regulatory compliance</li>
+      <li>EU AI Act and US lending regulations increasingly require explainability — SHAP is widely used for this</li>
     </ul>
   </div>
   <div class="why-matters">
@@ -1556,7 +1556,7 @@ print(<span class="st">f"Kurt: {kurtosis(data):.3f}"</span>)
 fig, ax = plt.subplots()
 probplot(data, plot=ax)
 plt.show()</pre></div>
-  <div class="callout"><strong>When it matters:</strong> Linear regression assumes normal residuals. Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
+  <div class="callout"><strong>When it matters:</strong> Linear regression’s tests and intervals assume roughly normal residuals (the fit itself does not). Many tests assume normality. Log-transform right-skewed data. Market returns have heavy tails (excess kurtosis) — never assume normal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Fat tails are why risk models that assume a bell curve underestimate the bad days — see <a href="../markets/risk/#tail-risk">tail risk</a> and <a href="../markets/risk/#expected-shortfall">expected shortfall</a>, which looks at how bad the worst cases are rather than just where they start.</div>
   ${depthHtml('distribution-shape')}
   <div class="topic-nav" id="nav-distribution-shape"></div>
@@ -1960,7 +1960,7 @@ function buildSurvivorshipBias() {
   </div>
   <p class="sub">// The silent traps that make your backtest a fantasy</p>
   <p class="prose"><strong>Survivorship bias</strong>: testing only on stocks that still exist today (ignoring delisted failures). <strong>Look-ahead bias</strong>: using data that wasn't available at the time of the decision. Both make backtests look better than reality.</p>
-  <div class="fb"><div class="fm">Survivorship: Universe(t) &ne; Universe(today)</div><div class="fd">The S&amp;P 500 today excluded hundreds of failed companies that were in it in 2005.</div></div>
+  <div class="fb"><div class="fm">Survivorship: Universe(t) &ne; Universe(today)</div><div class="fd">Hundreds of the S&amp;P 500’s 2005 members are no longer in it — acquired, shrunk or bankrupt; a backtest on today’s members silently drops them.</div></div>
   <div class="fb c2"><div class="fm">Look-ahead: f(t) must use only data from [0, t]</div><div class="fd">Earnings announced on day t+3 can't inform a decision on day t, even if your database has it.</div></div>
   <div class="va">
     <div class="vl">// Interactive — survivorship bias impact on backtest returns</div>
