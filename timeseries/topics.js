@@ -1321,7 +1321,7 @@ backtest = model.historical_forecasts(
 )
 print(<span class="st">f"MAE: </span>{mae(series, backtest):.3f}<span class="st">"</span>)
 print(<span class="st">f"RMSE: </span>{rmse(series, backtest):.3f}<span class="st">"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast backtesting is the time-series version of <a href="../stats/#regression-metrics">loss metrics</a> from statistics. In markets, this directly maps to <a href="../stats/#walk-forward">strategy backtesting</a> &mdash; both test historical performance without look-ahead bias.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Forecast backtesting is the time-series version of <a href="../stats/#regression-metrics">loss metrics</a> from statistics. In markets, this directly maps to <a href="../stats/#walk-forward">strategy backtesting</a> &mdash; both test historical performance without look-ahead bias. Guide: <a href="/guides/which-forecast/">Which forecasting model should I start with?</a></div>
   ${depthHtml('backtesting-forecasts')}
   <div class="topic-nav" id="nav-backtesting-forecasts"></div>
 </div>`;

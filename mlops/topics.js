@@ -957,7 +957,7 @@ function buildCICDML() {
       <tr><td>Deployment</td><td>Smoke test, shadow run</td><td>No errors in canary</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> CI/CD gates are automated <a href="../stats/#effect-size">significance tests</a> — the model must prove it's better before shipping. The same "don't trust your intuition, trust the numbers" principle that <a href="../markets/psychology/#overconfidence">cognitive bias awareness</a> teaches.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> CI/CD gates are automated <a href="../stats/#effect-size">significance tests</a> — the model must prove it's better before shipping. The same "don't trust your intuition, trust the numbers" principle that <a href="../markets/psychology/#overconfidence">cognitive bias awareness</a> teaches. Guide: <a href="/guides/production-ready/">Is my model ready for production?</a></div>
   ${depthHtml('ci-cd-ml')}
   <div class="topic-nav" id="nav-ci-cd-ml"></div>
 </div>`;

@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="../css/fonts.css?v=2">
   <link rel="stylesheet" href="../css/main.css?v=34">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
     body { padding-top: var(--hdr-h); }
     .portal-header {
@@ -48,6 +49,8 @@
     .method p, .method li { line-height: 1.8; }
     .method ul { padding-left: 20px; }
     .method a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .method a { color: #6fa8ff; } }
+    [data-theme="dark"] .method a { color: #6fa8ff; }
     .anatomy { display: grid; gap: 10px; margin: 14px 0; }
     .anatomy div { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--surface); }
     .anatomy b { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 4px; }
@@ -96,7 +99,7 @@
     <div><b>Where it misleads</b>When the idea fails, what that looks like, and what people get wrong about it.</div>
     <div><b>Sources</b>Papers, books and official documentation for the claims made — at least two for every topic whose evidence is heuristic.</div>
   </div>
-  <p>The essays are shorter and have no code; each has its own references.</p>
+  <p>The essays are shorter and have no code; each has its own references. The <a href="../guides/">guides</a> work the other way round: they start from a task — choosing a test, a metric or a forecasting model — and lead to the topics.</p>
 
   <h3>Evidence labels</h3>
   <p>Every topic carries a label saying how firm the ground under it is.</p>
@@ -134,6 +137,6 @@
   <p class="reviewed">Last reviewed: 2 October 2026</p>
 </main>
 
-<script src="../js/ui-enhance.js?v=31" defer></script>
+<script src="../js/ui-enhance.js?v=32" defer></script>
 </body>
 </html>

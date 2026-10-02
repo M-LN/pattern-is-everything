@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which forecasting model should I start with? — Pattern is Everything</title>
+  <meta name="description" content="Start simple, beat the baseline, then add complexity only where it earns its keep.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/guides/which-forecast/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Which forecasting model should I start with?", "description": "Start simple, beat the baseline, then add complexity only where it earns its keep.",
+    "url": "https://patterniseverything.com/guides/which-forecast/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/guides/which-forecast/">
+  <meta property="og:title" content="Which forecasting model should I start with?">
+  <meta property="og:description" content="Start simple, beat the baseline, then add complexity only where it earns its keep.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=34">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .guide { width: min(780px, calc(100% - 32px)); margin: 0 auto 80px; }
+    .guide-hero { padding: 48px 0 10px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .guide-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
+    .guide-hero p { color: var(--muted); line-height: 1.75; margin: 0; }
+    .g-before { margin: 22px 0 26px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; line-height: 1.7; }
+    .guide a, .g-read a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide a { color: #6fa8ff; } }
+    [data-theme="dark"] .guide a { color: #6fa8ff; }
+    .g-q { font-family: var(--serif); font-weight: 700; font-size: 21px; margin: 6px 0 12px; }
+    .g-opts { display: grid; gap: 8px; }
+    .g-opt { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+    .g-opt > summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 40px; position: relative; line-height: 1.5; }
+    .g-opt > summary::-webkit-details-marker { display: none; }
+    .g-opt > summary::before { content: '›'; position: absolute; left: 16px; top: 10px; font: 600 18px var(--mono); color: var(--accent); transition: transform .15s; }
+    .g-opt[open] > summary::before { transform: rotate(90deg); }
+    .g-opt[open] > summary { font-weight: 600; border-bottom: 1px solid var(--border); }
+    .g-opt > summary:hover { color: var(--accent); }
+    .g-opt > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
+    .g-next { padding: 14px 14px 16px; }
+    .g-result { border-radius: 10px; padding: 14px 16px; background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+    .g-kicker { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .g-name { font-family: var(--serif); font-weight: 700; font-size: 22px; margin: 4px 0 8px; line-height: 1.25; }
+    .g-code { display: block; font-family: var(--mono); font-size: 12.5px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; margin: 0 0 8px; overflow-x: auto; white-space: pre; }
+    .g-result p { margin: 0 0 8px; line-height: 1.7; }
+    .g-read { font-size: 14px; line-height: 1.8; }
+    .g-read > span:first-child { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .g-progress { font: 500 12px var(--mono); color: var(--muted); margin: 0 0 10px; }
+    .g-group { border: 1px solid var(--border); border-radius: 12px; padding: 6px 16px 10px; margin: 0 0 14px; background: var(--surface); }
+    .g-group legend { font-family: var(--serif); font-weight: 700; font-size: 19px; padding: 0 6px; }
+    .g-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--border); line-height: 1.6; cursor: pointer; }
+    .g-group .g-item:first-of-type { border-top: 0; }
+    .g-item input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+    .g-item .g-read { display: block; font-size: 13px; margin-top: 2px; }
+    .g-item input:checked + span { color: var(--muted); }
+    .g-tools { margin: 16px 0 0; display: flex; gap: 10px; }
+    .g-tools button { font: 500 12px var(--mono); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+    .g-tools button:hover { color: var(--accent); border-color: var(--accent); }
+    .g-cards { display: grid; gap: 12px; margin: 24px 0; }
+    .g-card { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--surface); }
+    .g-card:hover { border-color: var(--accent); }
+    .g-card .g-kicker { margin-bottom: 4px; }
+    .g-card h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 6px; color: var(--text); }
+    .g-card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .g-opt > summary { padding-left: 34px; } .g-opt > summary::before { left: 12px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Guides</h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/">Home</a>
+  </div>
+</header>
+<main class="guide">
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which forecasting model should I start with?</h2><p>Start simple, beat the baseline, then add complexity only where it earns its keep.</p></section>
+<div class="g-before">Before any model: plot the series, forecast it with naive and seasonal-naive methods, and set up a rolling-origin backtest. Every model below has to beat those baselines on it.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/timeseries/decomposition/">Decomposition</a> · <a href="/timeseries/backtesting-forecasts/">Backtesting Forecasts</a> · <a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a></div></div>
+<section class="g-body" data-guide="which-forecast" data-kind="tree">
+<div class="g-node">
+<div class="g-q">What are you forecasting?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>One series, or a handful</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Does it have a repeating seasonal pattern?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Yes, one season (e.g. yearly in monthly data)</summary>
+<div class="g-next"><div class="g-result" data-result="exponential-smoothing-holt-winters-or-sarima">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Exponential smoothing (Holt–Winters) or SARIMA</div>
+  
+  <p>Both model trend and one season well; fit both and keep the one that wins the backtest. Damp the trend for long horizons.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/exponential-smoothing/">Exponential Smoothing</a> · <a href="/timeseries/sarima/">SARIMA</a> · <a href="/timeseries/arima/">ARIMA</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Yes, several at once (e.g. daily and weekly in hourly data)</summary>
+<div class="g-next"><div class="g-result" data-result="regression-with-fourier-terms-or-gradient-boosting-on-lag-an">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Regression with Fourier terms, or gradient boosting on lag and calendar features</div>
+  
+  <p>Classical seasonal models assume one season of fixed length; Fourier terms and calendar features handle several.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/feature-engineering/">Feature Engineering</a> · <a href="/timeseries/decomposition/">Decomposition</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>No clear season</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Is there a trend?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Yes</summary>
+<div class="g-next"><div class="g-result" data-result="damped-trend-exponential-smoothing-or-arima-with-differencin">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Damped-trend exponential smoothing, or ARIMA with differencing</div>
+  
+  <p>Trends rarely continue unchanged; damping keeps long forecasts sensible.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/exponential-smoothing/">Exponential Smoothing</a> · <a href="/timeseries/differencing/">Differencing</a> · <a href="/timeseries/arima/">ARIMA</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>No</summary>
+<div class="g-next"><div class="g-result" data-result="simple-exponential-smoothing-or-a-low-order-arima">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Simple exponential smoothing or a low-order ARIMA</div>
+  
+  <p>A level that moves slowly is all there is to model — anything more will fit noise.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/exponential-smoothing/">Exponential Smoothing</a> · <a href="/timeseries/ar-models/">AR Models</a> · <a href="/timeseries/stationarity/">Stationarity</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Hundreds or more related series (products, stores, sensors)</summary>
+<div class="g-next"><div class="g-result" data-result="a-global-model-across-all-series-gradient-boosting-on-lag-fe">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">A global model across all series: gradient boosting on lag features, or N-BEATS / DeepAR with long histories</div>
+  
+  <p>Learning across series beats fitting each alone once there are many; deep models pay off with many long, related histories.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/feature-engineering/">Feature Engineering</a> · <a href="/timeseries/nbeats/">N-BEATS &amp; N-HiTS</a> · <a href="/timeseries/rnn-for-ts/">RNNs for Time Series</a> · <a href="/timeseries/forecast-ensembles/">Forecast Ensembles</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>A series driven by known factors (price, weather, promotions)</summary>
+<div class="g-next"><div class="g-result" data-result="regression-with-arima-errors-or-gradient-boosting-with-those">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Regression with ARIMA errors, or gradient boosting with those factors as features</div>
+  
+  <p>Uses the drivers directly — but only if their future values are known or forecastable at prediction time.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/arima/">ARIMA</a> · <a href="/timeseries/feature-engineering/">Feature Engineering</a> · <a href="/timeseries/var-models/">VAR Models</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>How much a price will move, not where it goes</summary>
+<div class="g-next"><div class="g-result" data-result="garch-type-volatility-model">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">GARCH-type volatility model</div>
+  
+  <p>Returns are close to unpredictable; their size clusters and can be forecast.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/garch/">GARCH</a> · <a href="/markets/risk/volatility-modeling/">Volatility Modeling</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>When something changes or goes wrong</summary>
+<div class="g-next"><div class="g-result" data-result="changepoint-or-anomaly-detection">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Changepoint or anomaly detection</div>
+  
+  <p>A different question from forecasting: finding breaks and outliers rather than predicting values.</p>
+  <div class="g-read"><span>Read</span> <a href="/timeseries/changepoint-detection/">Changepoint Detection</a> · <a href="/timeseries/anomaly-detection/">Anomaly Detection</a></div>
+</div></div>
+</details>
+</div>
+</div>
+<div class="g-tools"><button type="button" data-reset>Start over</button></div>
+</section>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/guides.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=32" defer></script>
+</body>
+</html>

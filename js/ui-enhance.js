@@ -199,6 +199,15 @@
     { t: 'Sandbox · Deep Learning',   cat: 'Sandbox', path: '/sandbox/dl/',         kw: 'neural network deep learning' },
     { t: 'Sandbox · Chaos',           cat: 'Sandbox', path: '/sandbox/chaos/',      kw: 'chaos fractal lorenz' },
     { t: 'Sandbox · Markets',         cat: 'Sandbox', path: '/sandbox/markets/',    kw: 'trading interactive' },
+    // Guides (task-first entry points, scripts/build-guides.mjs)
+    { t: 'Guides',                    cat: 'Guides',  path: '/guides/',             kw: 'decision guide checklist which how choose' },
+    { t: 'Which statistical test?',   cat: 'Guide',   path: '/guides/which-test/',  kw: 'choose test t-test mann whitney chi-square anova wilcoxon fisher correlation' },
+    { t: 'Which metric?',             cat: 'Guide',   path: '/guides/which-metric/', kw: 'choose metric accuracy precision recall f1 auc rmse mae mase log loss' },
+    { t: 'Which forecasting model?',  cat: 'Guide',   path: '/guides/which-forecast/', kw: 'choose forecast model arima ets prophet seasonal naive boosting n-beats' },
+    { t: 'Why is my model not generalising?', cat: 'Guide', path: '/guides/not-generalising/', kw: 'overfitting underfitting leakage drift diagnose validation' },
+    { t: 'Is my backtest honest?',    cat: 'Checklist', path: '/guides/honest-backtest/', kw: 'backtest checklist look-ahead survivorship costs overfitting trading' },
+    { t: 'Is my model ready for production?', cat: 'Checklist', path: '/guides/production-ready/', kw: 'production checklist deploy monitoring rollback mlops' },
+    { t: 'How this site works',       cat: 'Meta',    path: '/method/',             kw: 'method sources evidence labels fact check review about' },
     // Tools / Labs
     { t: 'Jupyter Lite',              cat: 'Tools',   path: '/lite/',               kw: 'browser jupyter python pyodide notebook lab' },
     { t: 'ML Math Reference',         cat: 'Tools',   path: '/ml-math-reference-v1.html', kw: 'reference cheatsheet formulas' },

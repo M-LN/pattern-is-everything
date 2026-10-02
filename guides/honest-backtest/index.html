@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is my backtest honest? — Pattern is Everything</title>
+  <meta name="description" content="Fourteen checks that separate a strategy from a story. Tick them off; your progress stays in your browser.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/guides/honest-backtest/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Is my backtest honest?", "description": "Fourteen checks that separate a strategy from a story. Tick them off; your progress stays in your browser.",
+    "url": "https://patterniseverything.com/guides/honest-backtest/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/guides/honest-backtest/">
+  <meta property="og:title" content="Is my backtest honest?">
+  <meta property="og:description" content="Fourteen checks that separate a strategy from a story. Tick them off; your progress stays in your browser.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=34">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .guide { width: min(780px, calc(100% - 32px)); margin: 0 auto 80px; }
+    .guide-hero { padding: 48px 0 10px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .guide-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
+    .guide-hero p { color: var(--muted); line-height: 1.75; margin: 0; }
+    .g-before { margin: 22px 0 26px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; line-height: 1.7; }
+    .guide a, .g-read a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide a { color: #6fa8ff; } }
+    [data-theme="dark"] .guide a { color: #6fa8ff; }
+    .g-q { font-family: var(--serif); font-weight: 700; font-size: 21px; margin: 6px 0 12px; }
+    .g-opts { display: grid; gap: 8px; }
+    .g-opt { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+    .g-opt > summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 40px; position: relative; line-height: 1.5; }
+    .g-opt > summary::-webkit-details-marker { display: none; }
+    .g-opt > summary::before { content: '›'; position: absolute; left: 16px; top: 10px; font: 600 18px var(--mono); color: var(--accent); transition: transform .15s; }
+    .g-opt[open] > summary::before { transform: rotate(90deg); }
+    .g-opt[open] > summary { font-weight: 600; border-bottom: 1px solid var(--border); }
+    .g-opt > summary:hover { color: var(--accent); }
+    .g-opt > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
+    .g-next { padding: 14px 14px 16px; }
+    .g-result { border-radius: 10px; padding: 14px 16px; background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+    .g-kicker { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .g-name { font-family: var(--serif); font-weight: 700; font-size: 22px; margin: 4px 0 8px; line-height: 1.25; }
+    .g-code { display: block; font-family: var(--mono); font-size: 12.5px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; margin: 0 0 8px; overflow-x: auto; white-space: pre; }
+    .g-result p { margin: 0 0 8px; line-height: 1.7; }
+    .g-read { font-size: 14px; line-height: 1.8; }
+    .g-read > span:first-child { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .g-progress { font: 500 12px var(--mono); color: var(--muted); margin: 0 0 10px; }
+    .g-group { border: 1px solid var(--border); border-radius: 12px; padding: 6px 16px 10px; margin: 0 0 14px; background: var(--surface); }
+    .g-group legend { font-family: var(--serif); font-weight: 700; font-size: 19px; padding: 0 6px; }
+    .g-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--border); line-height: 1.6; cursor: pointer; }
+    .g-group .g-item:first-of-type { border-top: 0; }
+    .g-item input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+    .g-item .g-read { display: block; font-size: 13px; margin-top: 2px; }
+    .g-item input:checked + span { color: var(--muted); }
+    .g-tools { margin: 16px 0 0; display: flex; gap: 10px; }
+    .g-tools button { font: 500 12px var(--mono); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+    .g-tools button:hover { color: var(--accent); border-color: var(--accent); }
+    .g-cards { display: grid; gap: 12px; margin: 24px 0; }
+    .g-card { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--surface); }
+    .g-card:hover { border-color: var(--accent); }
+    .g-card .g-kicker { margin-bottom: 4px; }
+    .g-card h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 6px; color: var(--text); }
+    .g-card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .g-opt > summary { padding-left: 34px; } .g-opt > summary::before { left: 12px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Guides</h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/">Home</a>
+  </div>
+</header>
+<main class="guide">
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Checklist · 5 min</div><h2>Is my backtest honest?</h2><p>Fourteen checks that separate a strategy from a story. Tick them off; your progress stays in your browser.</p></section>
+<div class="g-before">A backtest is a search through the past. Most of these checks guard against finding something that was never there.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/essays/essay-forking/">The Garden of Forking Paths</a> · <a href="/stats/walk-forward/">Walk-Forward Validation</a></div></div>
+<section class="g-body" data-guide="honest-backtest" data-kind="checklist">
+<div class="g-progress" aria-live="polite"><span data-done>0</span> of 14 checked</div>
+<fieldset class="g-group"><legend>Data</legend>
+<label class="g-item"><input type="checkbox" data-k="0"><span>Every input uses only information available at the moment of the decision — no look-ahead.<span class="g-read"><a href="/mlops/feature-stores/">Feature Stores</a> · <a href="/timeseries/feature-engineering/">Feature Engineering</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="1"><span>The universe includes companies that were later delisted, acquired or went bankrupt.<span class="g-read"><a href="/stats/survivorship-bias/">Survivorship &amp; Look-Ahead Bias</a> · <a href="/essays/essay-survivor/">Survivorship Bias</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="2"><span>Prices are adjusted for splits and dividends, consistently.<span class="g-read"><a href="/stats/pandas-ta/">pandas-ta &amp; yfinance</a> · <a href="/timeseries/resampling/">Resampling &amp; Frequency</a></span></span></label>
+</fieldset>
+<fieldset class="g-group"><legend>Costs and capacity</legend>
+<label class="g-item"><input type="checkbox" data-k="3"><span>Commissions, spreads and slippage are included — and the result survives doubling them.<span class="g-read"><a href="/markets/risk/stop-losses/">Stop-Loss Strategies</a> · <a href="/stats/walk-forward/">Walk-Forward Validation</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="4"><span>Positions are small relative to traded volume; the strategy could actually be executed.<span class="g-read"><a href="/markets/risk/max-position/">Maximum Position Limits</a></span></span></label>
+</fieldset>
+<fieldset class="g-group"><legend>Validation</legend>
+<label class="g-item"><input type="checkbox" data-k="5"><span>The rule was written down before testing, and the test period was never used for tuning.<span class="g-read"><a href="/stats/hypothesis-testing/">Hypothesis Testing &amp; p-values</a> · <a href="/stats/walk-forward/">Walk-Forward Validation</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="6"><span>Results come from walk-forward or out-of-sample periods, not from the period used to choose the rule.<span class="g-read"><a href="/stats/walk-forward/">Walk-Forward Validation</a> · <a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="7"><span>Every variant tried is counted, and the result is judged against that number.<span class="g-read"><a href="/essays/essay-forking/">The Garden of Forking Paths</a> · <a href="/stats/scipy-statsmodels/">scipy.stats &amp; statsmodels</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="8"><span>Nearby parameter values work too — the result is not a single lucky setting.<span class="g-read"><a href="/stats/optuna/">Optuna</a> · <a href="/stats/monte-carlo/">Monte Carlo Simulation</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="9"><span>The test covers different regimes: calm and crisis, rising and falling markets.<span class="g-read"><a href="/markets/risk/correlation-risk/">Correlation Risk</a> · <a href="/timeseries/changepoint-detection/">Changepoint Detection</a></span></span></label>
+</fieldset>
+<fieldset class="g-group"><legend>Results</legend>
+<label class="g-item"><input type="checkbox" data-k="10"><span>Performance is compared with buy-and-hold or the relevant benchmark, risk-adjusted.<span class="g-read"><a href="/markets/risk/risk-adjusted-perf/">Risk-Adjusted Performance</a> · <a href="/markets/risk/benchmark-tracking/">Benchmark Tracking</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="11"><span>The Sharpe ratio comes with a confidence interval, from enough history to mean something.<span class="g-read"><a href="/stats/sharpe-ratio/">Sharpe Ratio &amp; Risk-Adjusted Returns</a> · <a href="/stats/confidence-intervals/">Confidence Intervals</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="12"><span>Drawdowns are studied as a distribution (resampled orders), not one historical path.<span class="g-read"><a href="/stats/monte-carlo/">Monte Carlo Simulation</a> · <a href="/stats/max-drawdown/">Maximum Drawdown &amp; Recovery</a></span></span></label>
+<label class="g-item"><input type="checkbox" data-k="13"><span>The strategy’s edge has a reason to exist — and a reason it has not been competed away.<span class="g-read"><a href="/markets/risk/alpha-generation/">Alpha Generation</a> · <a href="/markets/risk/factor-models/">Factor Models</a></span></span></label>
+</fieldset>
+<div class="g-tools"><button type="button" data-reset>Clear all</button></div>
+</section>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/guides.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=32" defer></script>
+</body>
+</html>

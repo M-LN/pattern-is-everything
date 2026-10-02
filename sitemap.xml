@@ -1559,4 +1559,39 @@
     <lastmod>2026-10-02</lastmod>
   </url>
   <!-- trails:end -->
+  <url>
+    <loc>https://patterniseverything.com/guides/which-test/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/which-metric/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/which-forecast/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/not-generalising/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/honest-backtest/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/production-ready/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://patterniseverything.com/guides/</loc>
+    <priority>0.8</priority>
+    <lastmod>2026-10-02</lastmod>
+  </url>
 </urlset>

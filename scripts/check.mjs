@@ -340,6 +340,18 @@ try {
 } catch (e) {
   fail(((e.stdout || '') + (e.stderr || '')).trim().split(/\r?\n/).slice(-6).join(' | ') || 'build-trails --check failed');
 }
+/* ── 10b. Guides ──
+   scripts/build-guides.mjs --check rebuilds the guide pages in memory —
+   resolving every topic they link to — and compares them with disk. */
+console.log('10b. Guides');
+try {
+  const out = execFileSync(process.execPath, ['scripts/build-guides.mjs', '--check'], { encoding: 'utf8', stdio: 'pipe' });
+  ok(out.trim().split(/?
+/).pop().replace(/^guides: /, ''));
+} catch (e) {
+  fail(((e.stdout || '') + (e.stderr || '')).trim().split(/?
+/).slice(-6).join(' | ') || 'build-guides --check failed');
+}
 /* ── 11. Content standard (warnings) ──
    Not failures: content is fixed by writing it, and a build should not stop
    because a topic is still short. The counts show where the content plan

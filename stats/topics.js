@@ -1117,7 +1117,7 @@ r2   = r2_score(y_true, y_pred)
 
 print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>)</pre></div>
   <div class="callout"><strong>Adjusted R&sup2;:</strong> R&sup2;<sub>adj</sub> = 1 &minus; (1&minus;R&sup2;)(n&minus;1)/(n&minus;p&minus;1). Penalises adding features. Always use adjusted R&sup2; when comparing models with different feature counts.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../timeseries/#backtesting-forecasts">backtesting forecasts</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing between MAE and RMSE is choosing how hard to punish the big misses — the same choice a <a href="../ml-math/#loss">loss function</a> makes during training, and the one you face again when <a href="../timeseries/#backtesting-forecasts">backtesting forecasts</a>. Guide: <a href="/guides/which-metric/">Which metric should I evaluate my model with?</a></div>
   ${depthHtml('regression-metrics')}
   <div class="topic-nav" id="nav-regression-metrics"></div>
 </div>`;
@@ -1265,7 +1265,7 @@ sizes, train_scores, val_scores = learning_curve(
 plt.plot(sizes, train_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Train'</span>)
 plt.plot(sizes, val_scores.mean(axis=<span class="st">1</span>), label=<span class="st">'Val'</span>)
 plt.legend(); plt.show()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The learning curve gap is the visual form of the <a href="../ml-math/#bias-variance">bias-variance tradeoff</a>. The same tension appears in <a href="#walk-forward">walk-forward backtesting</a> — overfitting to past market conditions. Guide: <a href="/guides/not-generalising/">Why is my model not generalising?</a></div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
@@ -1893,7 +1893,7 @@ results = []
     results.append(score)
 
 print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trendlines">market trend analysis</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Walk-forward validation is <a href="#cross-validation">cross-validation</a> adapted for time. The same "never test on training data" principle, but respecting temporal order — critical in both ML deployment and <a href="../markets/charts/#trendlines">market trend analysis</a>. Guide: <a href="/guides/honest-backtest/">Is my backtest honest?</a></div>
   <div class="howto">
     <div class="howto-title">Real-world pipeline: backtesting a strategy</div>
     <ol>
@@ -2362,7 +2362,7 @@ chi2, p, dof, _ = stats.chi2_contingency(
     pd.crosstab(df['species'], df['island']))
 print(f"chi2 = {chi2:.1f}, p = {p:.4g}")</code></pre>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing a test is choosing your assumptions. <a href="../mlops/#drift-detection">Drift detection</a> uses the same tests — KS, chi-square — to ask whether production data still looks like training data, and <a href="../timeseries/#stationarity">stationarity tests</a> ask whether a series keeps its statistics over time.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Choosing a test is choosing your assumptions. <a href="../mlops/#drift-detection">Drift detection</a> uses the same tests — KS, chi-square — to ask whether production data still looks like training data, and <a href="../timeseries/#stationarity">stationarity tests</a> ask whether a series keeps its statistics over time. Guide: <a href="/guides/which-test/">Which statistical test should I use?</a></div>
   ${depthHtml('stat-tests')}
   <div class="topic-nav" id="nav-stat-tests"></div>
 </div>`;

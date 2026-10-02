@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which statistical test should I use? — Pattern is Everything</title>
+  <meta name="description" content="Answer a few questions about your data and get the test, the SciPy call, and what to report with it.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://patterniseverything.com/guides/which-test/">
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Which statistical test should I use?", "description": "Answer a few questions about your data and get the test, the SciPy call, and what to report with it.",
+    "url": "https://patterniseverything.com/guides/which-test/", "dateModified": "2026-10-02", "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
+  </script>
+  <meta property="og:url" content="https://patterniseverything.com/guides/which-test/">
+  <meta property="og:title" content="Which statistical test should I use?">
+  <meta property="og:description" content="Answer a few questions about your data and get the test, the SciPy call, and what to report with it.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/og-start.png">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/css/fonts.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=34">
+  <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+  <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    body { padding-top: var(--hdr-h); }
+    .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
+    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .guide { width: min(780px, calc(100% - 32px)); margin: 0 auto 80px; }
+    .guide-hero { padding: 48px 0 10px; }
+    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb a { color: var(--accent); text-decoration: none; }
+    .guide-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
+    .guide-hero p { color: var(--muted); line-height: 1.75; margin: 0; }
+    .g-before { margin: 22px 0 26px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; line-height: 1.7; }
+    .guide a, .g-read a { color: var(--accent3); text-underline-offset: 2px; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide a { color: #6fa8ff; } }
+    [data-theme="dark"] .guide a { color: #6fa8ff; }
+    .g-q { font-family: var(--serif); font-weight: 700; font-size: 21px; margin: 6px 0 12px; }
+    .g-opts { display: grid; gap: 8px; }
+    .g-opt { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+    .g-opt > summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 40px; position: relative; line-height: 1.5; }
+    .g-opt > summary::-webkit-details-marker { display: none; }
+    .g-opt > summary::before { content: '›'; position: absolute; left: 16px; top: 10px; font: 600 18px var(--mono); color: var(--accent); transition: transform .15s; }
+    .g-opt[open] > summary::before { transform: rotate(90deg); }
+    .g-opt[open] > summary { font-weight: 600; border-bottom: 1px solid var(--border); }
+    .g-opt > summary:hover { color: var(--accent); }
+    .g-opt > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
+    .g-next { padding: 14px 14px 16px; }
+    .g-result { border-radius: 10px; padding: 14px 16px; background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+    .g-kicker { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .g-name { font-family: var(--serif); font-weight: 700; font-size: 22px; margin: 4px 0 8px; line-height: 1.25; }
+    .g-code { display: block; font-family: var(--mono); font-size: 12.5px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; margin: 0 0 8px; overflow-x: auto; white-space: pre; }
+    .g-result p { margin: 0 0 8px; line-height: 1.7; }
+    .g-read { font-size: 14px; line-height: 1.8; }
+    .g-read > span:first-child { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .g-progress { font: 500 12px var(--mono); color: var(--muted); margin: 0 0 10px; }
+    .g-group { border: 1px solid var(--border); border-radius: 12px; padding: 6px 16px 10px; margin: 0 0 14px; background: var(--surface); }
+    .g-group legend { font-family: var(--serif); font-weight: 700; font-size: 19px; padding: 0 6px; }
+    .g-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--border); line-height: 1.6; cursor: pointer; }
+    .g-group .g-item:first-of-type { border-top: 0; }
+    .g-item input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+    .g-item .g-read { display: block; font-size: 13px; margin-top: 2px; }
+    .g-item input:checked + span { color: var(--muted); }
+    .g-tools { margin: 16px 0 0; display: flex; gap: 10px; }
+    .g-tools button { font: 500 12px var(--mono); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+    .g-tools button:hover { color: var(--accent); border-color: var(--accent); }
+    .g-cards { display: grid; gap: 12px; margin: 24px 0; }
+    .g-card { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--surface); }
+    .g-card:hover { border-color: var(--accent); }
+    .g-card .g-kicker { margin-bottom: 4px; }
+    .g-card h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 6px; color: var(--text); }
+    .g-card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    @media (max-width: 600px) { .portal-header { padding: 0 16px; } .g-opt > summary { padding-left: 34px; } .g-opt > summary::before { left: 12px; } }
+  </style>
+</head>
+<body>
+<header class="portal-header">
+  <a class="logo-ring" href="/" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;">Guides</h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:12px;align-items:center;">
+    <a class="back-link" href="/">Home</a>
+  </div>
+</header>
+<main class="guide">
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which statistical test should I use?</h2><p>Answer a few questions about your data and get the test, the SciPy call, and what to report with it.</p></section>
+<div class="g-before">Decide the test before you look at the results — choosing it afterwards is a forking path. Whatever the test says, report the effect size and a confidence interval alongside the p-value.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/stats/hypothesis-testing/">Hypothesis Testing &amp; p-values</a> · <a href="/stats/effect-size/">Effect Size &amp; Practical Significance</a> · <a href="/essays/essay-forking/">The Garden of Forking Paths</a></div></div>
+<section class="g-body" data-guide="which-test" data-kind="tree">
+<div class="g-node">
+<div class="g-q">What are you comparing?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>One group’s average against a fixed value</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Is the data roughly normal, or do you have 30+ observations?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Yes</summary>
+<div class="g-next"><div class="g-result" data-result="one-sample-t-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">One-sample t-test</div>
+  <code class="g-code">scipy.stats.ttest_1samp(x, popmean)</code>
+  <p>Compares the sample mean with the fixed value, scaled by its standard error.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/confidence-intervals/">Confidence Intervals</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>No — small and skewed</summary>
+<div class="g-next"><div class="g-result" data-result="wilcoxon-signed-rank-test-or-a-bootstrap-interval">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Wilcoxon signed-rank test (or a bootstrap interval)</div>
+  <code class="g-code">scipy.stats.wilcoxon(x - value)</code>
+  <p>Uses ranks of the differences, so a few extreme values cannot dominate.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/bootstrap-methods/">Bootstrap Methods</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Two groups</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Are the measurements paired — the same units measured twice?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Paired (before/after, same users, same folds)</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Are the differences roughly normal, or are there 30+ pairs?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Yes</summary>
+<div class="g-next"><div class="g-result" data-result="paired-t-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Paired t-test</div>
+  <code class="g-code">scipy.stats.ttest_rel(after, before)</code>
+  <p>Tests the mean of the paired differences; far more sensitive than treating the groups as independent.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/comparing-runs/">Comparing Model Runs</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>No</summary>
+<div class="g-next"><div class="g-result" data-result="wilcoxon-signed-rank-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Wilcoxon signed-rank test</div>
+  <code class="g-code">scipy.stats.wilcoxon(after, before)</code>
+  <p>The rank-based version of the paired test.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Independent groups</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">What kind of outcome?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>A number, roughly normal or with large samples</summary>
+<div class="g-next"><div class="g-result" data-result="welch-s-t-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Welch’s t-test</div>
+  <code class="g-code">scipy.stats.ttest_ind(a, b, equal_var=False)</code>
+  <p>The safe default for two means: it does not assume equal variances.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/hypothesis-testing/">Hypothesis Testing &amp; p-values</a> · <a href="/stats/power-analysis/">Power Analysis</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>A number with heavy tails, outliers, or ranks</summary>
+<div class="g-next"><div class="g-result" data-result="mann-whitney-u-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Mann–Whitney U test</div>
+  <code class="g-code">scipy.stats.mannwhitneyu(a, b)</code>
+  <p>Tests whether one group tends to have larger values; with heavy tails it can be far more powerful than the t-test.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/distribution-shape/">Distribution Shape</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Yes/no — a proportion (conversion, defect rate)</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">Do you expect at least 5 cases in every cell of the 2×2 table?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Yes</summary>
+<div class="g-next"><div class="g-result" data-result="chi-square-test-or-two-proportion-z-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Chi-square test (or two-proportion z-test)</div>
+  <code class="g-code">scipy.stats.chi2_contingency(table)</code>
+  <p>Compares observed counts with those expected if the groups did not differ. For A/B tests, a Bayesian view is in Bayesian A/B.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/bayesian-ab/">Bayesian A/B Testing</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>No — small counts</summary>
+<div class="g-next"><div class="g-result" data-result="fisher-s-exact-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Fisher’s exact test</div>
+  <code class="g-code">scipy.stats.fisher_exact(table)</code>
+  <p>Exact for small samples, where the chi-square approximation breaks down.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Three or more groups</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">What kind of outcome?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>A number, roughly normal</summary>
+<div class="g-next"><div class="g-result" data-result="one-way-anova-then-tukey-s-hsd">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">One-way ANOVA, then Tukey’s HSD</div>
+  <code class="g-code">scipy.stats.f_oneway(a, b, c)  # then statsmodels pairwise_tukeyhsd</code>
+  <p>ANOVA says whether any group differs; the post-hoc test says which, while controlling for the extra comparisons. Use Welch’s ANOVA if the spreads differ a lot.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/scipy-statsmodels/">scipy.stats &amp; statsmodels</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>A number, skewed or with outliers</summary>
+<div class="g-next"><div class="g-result" data-result="kruskal-wallis-test">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Kruskal–Wallis test</div>
+  <code class="g-code">scipy.stats.kruskal(a, b, c)</code>
+  <p>The rank-based version of ANOVA; follow up with pairwise tests and a multiple-testing correction.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/scipy-statsmodels/">scipy.stats &amp; statsmodels</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>A category</summary>
+<div class="g-next"><div class="g-result" data-result="chi-square-test-of-independence">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Chi-square test of independence</div>
+  <code class="g-code">scipy.stats.chi2_contingency(table)</code>
+  <p>Tests whether the category mix differs between groups.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Whether two variables are related</summary>
+<div class="g-next"><div class="g-node">
+<div class="g-q">What do the variables look like?</div>
+<div class="g-opts">
+<details class="g-opt"><summary>Both numeric, roughly linear</summary>
+<div class="g-next"><div class="g-result" data-result="pearson-correlation">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Pearson correlation</div>
+  <code class="g-code">scipy.stats.pearsonr(x, y)</code>
+  <p>Measures straight-line association. Plot it first — r = 0 can hide a strong curved relationship.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/feature-correlation/">Feature Correlation &amp; Multicollinearity</a> · <a href="/stats/correlation-causation/">Correlation, Causation &amp; Simpson's Paradox</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Numeric but curved, ranked, or with outliers</summary>
+<div class="g-next"><div class="g-result" data-result="spearman-rank-correlation-or-mutual-information">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Spearman rank correlation (or mutual information)</div>
+  <code class="g-code">scipy.stats.spearmanr(x, y)</code>
+  <p>Captures any monotonic relationship; mutual information captures non-monotonic ones too.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/feature-correlation/">Feature Correlation &amp; Multicollinearity</a> · <a href="/stats/information-gain/">Information Gain &amp; Mutual Information</a></div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Both categories</summary>
+<div class="g-next"><div class="g-result" data-result="chi-square-test-of-independence">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Chi-square test of independence</div>
+  <code class="g-code">scipy.stats.chi2_contingency(table)</code>
+  <p>Tests whether the two categorisations are associated.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/correlation-causation/">Correlation, Causation &amp; Simpson's Paradox</a></div>
+</div></div>
+</details>
+</div>
+</div></div>
+</details>
+<details class="g-opt"><summary>Whether data follow a distribution, or two samples share one</summary>
+<div class="g-next"><div class="g-result" data-result="kolmogorov-smirnov-test-plus-a-qq-plot">
+  <div class="g-kicker">Use</div>
+  <div class="g-name">Kolmogorov–Smirnov test — plus a QQ plot</div>
+  <code class="g-code">scipy.stats.ks_2samp(a, b)</code>
+  <p>With large samples the test flags differences too small to matter; judge the size of the difference on the plot.</p>
+  <div class="g-read"><span>Read</span> <a href="/stats/distribution-shape/">Distribution Shape</a> · <a href="/stats/data-drift/">Data Drift &amp; Distribution Shift</a></div>
+</div></div>
+</details>
+</div>
+</div>
+<div class="g-tools"><button type="button" data-reset>Start over</button></div>
+</section>
+<p class="reviewed">Last reviewed: 2 October 2026 · <a href="/method/">How this site checks its content</a></p>
+</main>
+<script src="/js/track.js?v=1" defer></script>
+<script src="/js/guides.js?v=2" defer></script>
+<script src="/js/ui-enhance.js?v=32" defer></script>
+</body>
+</html>
