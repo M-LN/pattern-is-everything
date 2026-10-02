@@ -4039,3 +4039,9 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 .depth-table th { font-weight: 500; color: var(--muted); }
 .depth-sources ul { font-size: 13px; color: var(--muted); }
 .depth-sources em { color: var(--text); }
+/* Links inside the depth sections read like the pattern-bridge links. */
+.depth a { color: var(--accent3); text-decoration: underline; text-decoration-color: rgba(41,85,160,.3); text-underline-offset: 2px; }
+.depth a:hover { text-decoration-color: var(--accent3); }
+@media (prefers-color-scheme: dark) { .depth a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); } }
+[data-theme="dark"] .depth a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); }
+[data-theme="light"] .depth a { color: var(--accent3); text-decoration-color: rgba(41,85,160,.3); }
