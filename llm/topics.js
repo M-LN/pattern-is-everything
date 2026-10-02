@@ -113,6 +113,437 @@ function buildNav() {
 /* ═══════════════════════════════════════════════════════════════
    CONTENT BUILDER — generates all topic HTML
    ═══════════════════════════════════════════════════════════════ */
+/* depth:start — generated from the scratch scripts llm_snippets.py / llm_depth.py; each
+   worked example is the output of the code shown with it. */
+const TOPIC_DEPTH = {
+ "tokenization": {
+  "example": "Byte-level BPE starts from UTF-8 bytes. English letters are <strong>1</strong> byte each, Danish text averages <strong>1.19</strong> (æ, ø and å take two), Greek <strong>2</strong>, and Chinese and Hindi <strong>3</strong>. Where the tokenizer saw little of a script, merges are few and text stays close to a token per byte — so the same sentence can cost several times more tokens, context and money in one language than in another.",
+  "fails": [
+   "Token counts, prices and context limits are per token, not per word; compare languages on tokens actually produced (Petrov et al. 2023 measured up to 15× differences).",
+   "Tokenizers are frozen with the model; text that is rare in the tokenizer’s training data (code in a new language, a new script) stays expensive.",
+   "Character-level questions (“how many r’s in strawberry?”) are hard because the model never sees characters."
+  ],
+  "code": "samples = {'English': 'pattern', 'Danish': 'mønstre på tværs', 'Greek': 'μοτίβο',\n           'Chinese': '模式识别', 'Hindi': 'पैटर्न'}\nbytes_per_char = {lang: len(s.encode('utf-8')) / len(s) for lang, s in samples.items()}\n# byte-level BPE starts from UTF-8 bytes: scripts it saw little of stay closer to one token per byte",
+  "sources": [
+   "R. Sennrich, B. Haddow &amp; A. Birch, “Neural Machine Translation of Rare Words with Subword Units”, <em>ACL</em>, 2016",
+   "A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019",
+   "A. Petrov, E. La Malfa, P. H. S. Torr &amp; A. Bibi, “Language Model Tokenizers Introduce Unfairness Between Languages”, <em>NeurIPS</em>, 2023"
+  ]
+ },
+ "embeddings": {
+  "example": "In GPT-2 small the embedding table — 50,257 tokens × 768 dimensions — is <strong>31%</strong> of all 124M parameters. In Llama 2 70B one 32,000 × 8,192 table is <strong>0.4%</strong>. Tying the input and output tables, as GPT-2 does, saves <strong>38.6M</strong> parameters. In small models the vocabulary is a large share of the budget; in large ones it hardly registers.",
+  "fails": [
+   "Embedding geometry reflects co-occurrence in training text, including its biases.",
+   "Rare tokens get few updates and poor vectors; “glitch tokens” that almost never appeared in training can produce strange behaviour.",
+   "Comparing input embeddings across models is meaningless; each model has its own space."
+  ],
+  "code": "def embedding_share(vocab, d, total):\n    return vocab * d / total\n\ngpt2_small = embedding_share(50_257, 768, 124_439_808)       # GPT-2 small, tied input/output\nllama2_70b = embedding_share(32_000, 8_192, 68_976_648_192)   # Llama 2 70B, one of its two tables\ntied_saving = 50_257 * 768                                     # parameters saved by weight tying",
+  "sources": [
+   "O. Press &amp; L. Wolf, “Using the Output Embedding to Improve Language Models”, <em>EACL</em>, 2017",
+   "A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019",
+   "H. Touvron et al., “Llama 2: Open Foundation and Fine-Tuned Chat Models”, arXiv:2307.09288, 2023"
+  ]
+ },
+ "positional-encoding": {
+  "example": "With sinusoidal encodings the dot product between positions 10 and 15 is <strong>23.504</strong> — exactly the same as between 500 and 505: similarity depends on distance, not place. RoPE builds this into attention itself. Rotating a query to position 7 and a key to position 3 gives a score of <strong>0.898</strong>; positions 104 and 100 give the same <strong>0.898</strong>, because only the gap of 4 matters.",
+  "fails": [
+   "Models trained on short contexts degrade beyond them unless the positions are rescaled (position interpolation, YaRN) and usually briefly fine-tuned.",
+   "Relative encodings make distance cheap to represent, not easy to use; long-range recall still has to be learned.",
+   "The choice interacts with caching and length extrapolation, so changing it means retraining."
+  ],
+  "code": "def pe(pos, d=64):\n    i = np.arange(d // 2)\n    ang = pos / 10_000 ** (2 * i / d)\n    return np.concatenate([np.sin(ang), np.cos(ang)])\n\nnear = (pe(10) @ pe(15), pe(500) @ pe(505))          # same distance, different places\nrot = lambda v, m, th=0.1: np.array([[np.cos(m*th), -np.sin(m*th)], [np.sin(m*th), np.cos(m*th)]]) @ v\nq, k = np.array([1.0, 0.5]), np.array([0.3, 0.8])\nrope = (rot(q, 7) @ rot(k, 3), rot(q, 104) @ rot(k, 100))   # RoPE: score depends on m - n = 4 only",
+  "sources": [
+   "A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017",
+   "J. Su, Y. Lu, S. Pan, A. Murtadha, B. Wen &amp; Y. Liu, “RoFormer: Enhanced Transformer with Rotary Position Embedding”, <em>Neurocomputing</em> 568, 2024",
+   "O. Press, N. A. Smith &amp; M. Lewis, “Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation”, <em>ICLR</em>, 2022",
+   "B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024"
+  ]
+ },
+ "self-attention": {
+  "example": "The attention scores for one head in one layer form an n × n matrix. In fp16 that is <strong>0.03 GB</strong> at 4k tokens, <strong>2.1 GB</strong> at 32k and <strong>34 GB</strong> at 128k — for a single head. FlashAttention never stores the matrix: it computes attention in tiles that fit in fast on-chip memory, which is what made long contexts practical.",
+  "fails": [
+   "FlashAttention removes the memory cost, not the compute: the work still grows with n².",
+   "Attention weights are not explanations of the output (Jain &amp; Wallace 2019).",
+   "Longer context is not the same as better use of context (see Context Windows)."
+  ],
+  "code": "def score_matrix_gb(n, bytes_per=2):            # one head, one layer, fp16\n    return n * n * bytes_per / 1e9\n\nsizes = {n: round(score_matrix_gb(n), 3) for n in (4_096, 32_768, 131_072)}",
+  "sources": [
+   "A. Vaswani et al., “Attention Is All You Need”, <em>NeurIPS</em>, 2017",
+   "T. Dao, D. Y. Fu, S. Ermon, A. Rudra &amp; C. Ré, “FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness”, <em>NeurIPS</em>, 2022"
+  ]
+ },
+ "multi-head-attention": {
+  "example": "Llama 2 70B has 64 query heads. If each had its own keys and values, the KV-cache for one 4k-token request would be <strong>10.7 GB</strong>. Grouped-query attention shares them across groups — 8 KV heads — for <strong>1.34 GB</strong>; a single shared KV head (MQA) would need <strong>0.17 GB</strong>. Fewer KV heads mean more requests per GPU, at a small cost in quality.",
+  "fails": [
+   "Not every head matters: many can be pruned after training with little loss (Michel, Levy &amp; Neubig 2019), so head count is not a measure of capability.",
+   "Stories about what a head “does” come from a few probes; most heads are hard to interpret.",
+   "Converting a trained multi-head model to GQA needs some extra training (“uptraining”)."
+  ],
+  "code": "layers, d_k, bytes_per, ctx = 80, 128, 2, 4_096      # Llama-2-70B shapes, fp16, 4k context\ndef kv_gb(kv_heads):\n    return 2 * layers * kv_heads * d_k * bytes_per * ctx / 1e9   # K and V, every layer, every token\nmha, gqa, mqa = kv_gb(64), kv_gb(8), kv_gb(1)         # 64 query heads; 64, 8 or 1 KV heads",
+  "sources": [
+   "N. Shazeer, “Fast Transformer Decoding: One Write-Head Is All You Need”, arXiv:1911.02150, 2019",
+   "J. Ainslie et al., “GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints”, <em>EMNLP</em>, 2023",
+   "P. Michel, O. Levy &amp; G. Neubig, “Are Sixteen Heads Really Better than One?”, <em>NeurIPS</em>, 2019"
+  ]
+ },
+ "feed-forward": {
+  "example": "With d = 4,096, a classic feed-forward layer with a 4d hidden size has <strong>134,217,728</strong> parameters. SwiGLU uses three matrices instead of two, so it shrinks the hidden size to two thirds of 4d to keep the count equal: <strong>134,221,824</strong>. LLaMA rounds that hidden size to 11,008 for hardware efficiency, giving <strong>135,266,304</strong>.",
+  "fails": [
+   "Gated variants win in experiments, but the explanation is thin; Shazeer (2020) attributes the success to “divine benevolence”.",
+   "Most of a dense model’s parameters sit here, and so does much of its factual recall (Geva et al. 2021) — which is why editing a fact can have side-effects.",
+   "Feed-forward size and depth trade off; parameter count alone does not say which shape is better."
+  ],
+  "code": "d = 4_096\nclassic = 2 * d * (4 * d)                       # W1 and W2 with a 4d hidden layer\nswiglu_ideal = 3 * d * round(2 / 3 * 4 * d)     # three matrices at 2/3 of 4d keep the count equal\nswiglu_llama = 3 * d * 11_008                   # LLaMA-7B rounds the hidden size to 11,008",
+  "sources": [
+   "N. Shazeer, “GLU Variants Improve Transformer”, arXiv:2002.05202, 2020",
+   "M. Geva, R. Schuster, J. Berant &amp; O. Levy, “Transformer Feed-Forward Layers Are Key-Value Memories”, <em>EMNLP</em>, 2021",
+   "H. Touvron et al., “LLaMA: Open and Efficient Foundation Language Models”, arXiv:2302.13971, 2023"
+  ]
+ },
+ "transformer-block": {
+  "example": "Counting one block of Llama 2 70B: attention <strong>151.0M</strong> parameters (grouped keys and values make it lighter), the SwiGLU feed-forward <strong>704.6M</strong>, two norms almost nothing — <strong>855.7M</strong> per block. Eighty blocks plus the two embedding tables give <strong>68,976,648,192</strong>: the “70B”. Four fifths of each block is the feed-forward layer.",
+  "fails": [
+   "Parameter count is not compute per token for mixture-of-experts models, where only some blocks’ experts run.",
+   "Pre-norm trains more stably than post-norm (Xiong et al. 2020), but very deep pre-norm models can under-use their later layers.",
+   "The “residual stream” picture is a useful lens for interpretability, not a description of what each layer does."
+  ],
+  "code": "d, kv_dim, ff, layers, vocab = 8_192, 1_024, 28_672, 80, 32_000   # Llama-2-70B\nattn = d * d + 2 * d * kv_dim + d * d          # Q, K and V (grouped), output\nffn = 3 * d * ff                                # SwiGLU\nblock = attn + ffn + 2 * d                      # + two RMSNorm scales\ntotal = layers * block + 2 * vocab * d + d      # + input and output embeddings, final norm",
+  "sources": [
+   "H. Touvron et al., “Llama 2: Open Foundation and Fine-Tuned Chat Models”, arXiv:2307.09288, 2023",
+   "R. Xiong et al., “On Layer Normalization in the Transformer Architecture”, <em>ICML</em>, 2020",
+   "N. Elhage et al., “A Mathematical Framework for Transformer Circuits”, Anthropic, transformer-circuits.pub, 2021"
+  ]
+ },
+ "decoder-only": {
+  "example": "A decoder-only model scores a sequence as a product of next-token probabilities. Four tokens with probabilities 0.5, 0.3, 0.9 and 0.2 have a log-probability of <strong>−3.61</strong>: the sequence as a whole has probability <strong>0.027</strong>, and long texts become astronomically unlikely. The causal mask lets each token see only what came before — <strong>50%</strong> of the full attention pairs for 1,000 tokens.",
+  "fails": [
+   "Low probability is not low quality: long, specific, correct answers are always improbable sequences.",
+   "Left-to-right generation cannot revise what it already wrote, which is why planning and self-correction need extra steps.",
+   "Encoder-decoder models remain competitive for some tasks (translation, structured outputs) at smaller scales."
+  ],
+  "code": "p = np.array([0.5, 0.3, 0.9, 0.2])              # P(token_t | everything before it)\nlogp = np.log(p).sum()\nseq_prob = np.exp(logp)\nn = 1_000\npairs_causal, pairs_full = n * (n + 1) // 2, n * n   # attention pairs with and without the causal mask",
+  "sources": [
+   "A. Radford, K. Narasimhan, T. Salimans &amp; I. Sutskever, “Improving Language Understanding by Generative Pre-Training”, OpenAI, 2018",
+   "T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020",
+   "T. Wang et al., “What Language Model Architecture and Pretraining Objective Work Best for Zero-Shot Generalization?”, <em>ICML</em>, 2022"
+  ]
+ },
+ "kv-cache": {
+  "example": "Generating 1,000 tokens without a cache recomputes keys and values for the whole prefix at every step: <strong>500×</strong> as many projections as with one. The cache has a price: for Llama 3 8B it is <strong>128 KB</strong> per token, so a 128k-token context holds <strong>16 GB</strong> of cache — as much as the model’s own weights in fp16.",
+  "fails": [
+   "The cache trades compute for memory; on long contexts memory, not arithmetic, limits how many users a GPU can serve.",
+   "Reusing cache across requests (prefix caching) only works when the prefix is byte-identical.",
+   "Compressing or evicting cache entries saves memory but can silently drop information the model needed."
+  ],
+  "code": "T = 1_000                                       # tokens generated\nrecompute = T * (T + 1) // 2                    # K/V projections without a cache: the whole prefix every step\ncached = T                                      # with a cache: one new token per step\nlayers, kv_heads, d_k, bytes_per = 32, 8, 128, 2   # Llama-3-8B shapes, fp16\nper_token_kb = 2 * layers * kv_heads * d_k * bytes_per / 1024\nat_128k_gb = per_token_kb * 131_072 / 1024 ** 2",
+  "sources": [
+   "R. Pope et al., “Efficiently Scaling Transformer Inference”, <em>Proceedings of Machine Learning and Systems</em> 5, 2023",
+   "N. Shazeer, “Fast Transformer Decoding: One Write-Head Is All You Need”, arXiv:1911.02150, 2019",
+   "W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023"
+  ]
+ },
+ "context-windows": {
+  "example": "Going from a 4k to a 128k window means <strong>32×</strong> as many tokens: the KV-cache grows <strong>32×</strong>, and the attention scores <strong>1,024×</strong>. Extending a 4k-trained model with RoPE interpolation scales positions by the same factor of <strong>32</strong>. A long window is expensive, and the cost grows faster than the length.",
+  "fails": [
+   "Fitting text in the window is not the same as using it: accuracy drops for information in the middle of long contexts (Liu et al. 2024).",
+   "Advertised window sizes are often tested with simple “needle” retrieval; reasoning across many parts of a long document is much harder.",
+   "Long prompts raise cost and latency on every call; retrieval of a few relevant passages is often better."
+  ],
+  "code": "short, long = 4_096, 131_072\ntokens = long / short\nattention_work = tokens ** 2                   # score matrix grows with n^2\nkv_memory = tokens                             # the cache grows with n\nrope_scale = long / short                      # position interpolation factor",
+  "sources": [
+   "N. F. Liu et al., “Lost in the Middle: How Language Models Use Long Contexts”, <em>Transactions of the ACL</em> 12, 2024",
+   "B. Peng, J. Quesnelle, H. Fan &amp; E. Shippole, “YaRN: Efficient Context Window Extension of Large Language Models”, <em>ICLR</em>, 2024",
+   "A. Q. Jiang et al., “Mistral 7B”, arXiv:2310.06825, 2023 — sliding-window attention"
+  ]
+ },
+ "mixture-of-experts": {
+  "example": "Mixtral 8×7B has <strong>46.7B</strong> parameters but uses <strong>12.9B</strong> per token. Solving the two equations gives about <strong>5.63B</strong> per expert and <strong>1.63B</strong> shared (attention, embeddings). With 8 experts and top-2 routing, each expert should see <strong>25%</strong> of tokens; keeping it near that is what the load-balancing loss is for.",
+  "fails": [
+   "Active parameters set compute, but all parameters must sit in memory; MoE saves FLOPs, not GPU memory.",
+   "“8×7B” is not 56B: the experts share attention and embeddings.",
+   "Routing can collapse onto a few experts, and experts do not specialise into neat human topics."
+  ],
+  "code": "total, active, experts, top_k = 46.7e9, 12.9e9, 8, 2       # Mixtral 8x7B, published counts\nper_expert = (total - active) / (experts - top_k)           # total = shared + 8E, active = shared + 2E\nshared = active - top_k * per_expert\nshare_per_expert = top_k / experts                          # tokens each expert sees under perfect balance",
+  "sources": [
+   "N. Shazeer et al., “Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer”, <em>ICLR</em>, 2017",
+   "W. Fedus, B. Zoph &amp; N. Shazeer, “Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity”, <em>Journal of Machine Learning Research</em> 23(120), 2022",
+   "A. Q. Jiang et al., “Mixtral of Experts”, arXiv:2401.04088, 2024"
+  ]
+ },
+ "scaling-laws": {
+  "example": "With 10²⁴ training FLOPs and Chinchilla’s rule of about 20 tokens per parameter, C = 6ND gives a model of <strong>91B</strong> parameters trained on <strong>1.8T</strong> tokens. Llama 3 8B was trained on about 15T tokens: <strong>1,875</strong> per parameter, <strong>94×</strong> the Chinchilla ratio. Chinchilla optimises training compute; models that will be served billions of times are deliberately “over-trained” to be cheap to run.",
+  "fails": [
+   "Scaling laws predict loss, not specific abilities; some skills appear abruptly or not at all at a given scale.",
+   "Fitted exponents depend on data, architecture and the range of sizes fitted; extrapolating far beyond it is a bet.",
+   "Accounting for inference changes the optimum (Sardana &amp; Frankle 2024)."
+  ],
+  "code": "C = 1e24                                        # training FLOPs budget\nN = (C / (6 * 20)) ** 0.5                       # Chinchilla: C = 6ND with D = 20N\nD = 20 * N\nllama3_8b_ratio = 15e12 / 8e9                   # tokens per parameter: Llama 3 8B, ~15T tokens",
+  "sources": [
+   "J. Kaplan et al., “Scaling Laws for Neural Language Models”, arXiv:2001.08361, 2020",
+   "J. Hoffmann et al., “Training Compute-Optimal Large Language Models”, <em>NeurIPS</em>, 2022",
+   "N. Sardana &amp; J. Frankle, “Beyond Chinchilla-Optimal: Accounting for Inference in Language Model Scaling Laws”, <em>ICML</em>, 2024"
+  ]
+ },
+ "pre-training": {
+  "example": "A held-out loss of 2.0 nats per token is a perplexity of <strong>7.39</strong>: as uncertain, on average, as choosing among seven equally likely tokens. Training an 8B model on 15T tokens takes about 6 × N × D = <strong>7.2×10²³</strong> FLOPs. At 40% of an H100’s peak that is about <strong>506,000</strong> GPU-hours — before failed runs, restarts and experiments.",
+  "fails": [
+   "Perplexity is comparable only between models with the same tokenizer and evaluation text.",
+   "Lower pre-training loss does not guarantee better behaviour after fine-tuning, though the two are usually related.",
+   "Achieved utilisation is often well below 40%; the cost estimate is a floor."
+  ],
+  "code": "loss = 2.0                                       # nats per token on held-out text\nperplexity = np.exp(loss)\nflops = 6 * 8e9 * 15e12                         # 8B parameters, 15T tokens\ngpu_flops = 989e12 * 0.40                       # an H100's dense bf16 peak at 40% utilisation\ngpu_hours = flops / gpu_flops / 3600",
+  "sources": [
+   "A. Radford, J. Wu, R. Child, D. Luan, D. Amodei &amp; I. Sutskever, “Language Models Are Unsupervised Multitask Learners”, OpenAI, 2019",
+   "T. Brown et al., “Language Models Are Few-Shot Learners”, <em>NeurIPS</em>, 2020",
+   "A. Chowdhery et al., “PaLM: Scaling Language Modeling with Pathways”, <em>Journal of Machine Learning Research</em> 24(240), 2023 — model FLOPs utilisation"
+  ]
+ },
+ "fine-tuning": {
+  "example": "50,000 instruction examples of about 500 tokens are <strong>25M</strong> tokens — <strong>0.0002%</strong> of a 15T-token pre-training run. LIMA got a strong assistant from just <strong>1,000</strong> carefully chosen examples. Fine-tuning mostly teaches format and behaviour; the knowledge comes from pre-training.",
+  "fails": [
+   "Fine-tuning on facts the model does not already know can increase hallucination rather than teach the facts.",
+   "Aggressive fine-tuning erodes general abilities (catastrophic forgetting); low learning rates and mixing in general data help.",
+   "Small, curated datasets outperform large, noisy ones; quality matters more than count."
+  ],
+  "code": "sft_tokens = 50_000 * 500                       # 50k examples of ~500 tokens\npretrain_tokens = 15e12\nshare = sft_tokens / pretrain_tokens\nlima_examples = 1_000                           # the LIMA paper's whole SFT set",
+  "sources": [
+   "L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022",
+   "C. Zhou et al., “LIMA: Less Is More for Alignment”, <em>NeurIPS</em>, 2023",
+   "Y. Luo et al., “An Empirical Study of Catastrophic Forgetting in Large Language Models During Continual Fine-tuning”, arXiv:2308.08747, 2023"
+  ]
+ },
+ "lora-qlora": {
+  "example": "Full fine-tuning of a 65B model with Adam needs about 16 bytes per parameter — fp16 weights and gradients, an fp32 master copy and two Adam moments — about <strong>1,040 GB</strong>. QLoRA freezes the weights at 4 bits (<strong>32.5 GB</strong>) and trains rank-64 adapters on four projections in 80 layers: <strong>336M</strong> parameters, about <strong>5.4 GB</strong> with their optimizer state. That is how a 65B model fits on a single 48 GB GPU.",
+  "fails": [
+   "Activations and the KV-cache also need memory; long sequences can still overflow a GPU that holds the weights.",
+   "Low-rank updates are a constraint; tasks far from the base model may need higher rank or full fine-tuning.",
+   "Quantization error in the frozen base adds noise the adapters must work around."
+  ],
+  "code": "params = 65e9\nfull_adam = params * (2 + 2 + 4 + 4 + 4) / 1e9   # fp16 weights + grads, fp32 master copy + Adam m and v\nqlora_base = params * 0.5 / 1e9                   # 4-bit frozen weights\nadapters = 2 * 8_192 * 64 * 4 * 80                 # rank-64 adapters on 4 projections in 80 layers\nqlora_adapters = adapters * (2 + 2 + 4 + 4 + 4) / 1e9",
+  "sources": [
+   "E. J. Hu et al., “LoRA: Low-Rank Adaptation of Large Language Models”, <em>ICLR</em>, 2022",
+   "T. Dettmers, A. Pagnoni, A. Holtzman &amp; L. Zettlemoyer, “QLoRA: Efficient Finetuning of Quantized LLMs”, <em>NeurIPS</em>, 2023",
+   "S. Rajbhandari, J. Rasley, O. Ruwase &amp; Y. He, “ZeRO: Memory Optimizations Toward Training Trillion Parameter Models”, <em>SC20</em>, 2020 — the 16-bytes-per-parameter accounting"
+  ]
+ },
+ "rlhf": {
+  "example": "A reward model that overrates the third answer (4 points against 1 and 2). A modest policy shift has a KL of <strong>0.085</strong> from the reference; collapsing onto the overrated answer has <strong>1.48</strong>. With a weak penalty, β = 0.1, the collapse scores higher (<strong>3.80</strong> against 2.19) — reward hacking. With β = 2 the modest policy wins (<strong>2.03</strong> against 0.98). The KL term is what keeps the model honest to its starting point.",
+  "fails": [
+   "The reward model is a learned proxy; optimising hard against it eventually exploits its errors (Gao et al. 2023).",
+   "β is a dial between following the reward and staying close to the reference; there is no principled value.",
+   "Human raters reward confident, longer answers; RLHF can amplify that."
+  ],
+  "code": "ref = np.array([0.5, 0.3, 0.2])                 # reference policy over three answers\nreward = np.array([1.0, 2.0, 4.0])              # the reward model's scores (the third one it overrates)\nkl = lambda p: np.sum(p * np.log(p / ref))\nobjective = lambda p, beta: p @ reward - beta * kl(p)\nmodest, hacked = np.array([0.3, 0.45, 0.25]), np.array([0.01, 0.01, 0.98])\nresult = {beta: (round(objective(modest, beta), 3), round(objective(hacked, beta), 3)) for beta in (0.1, 2.0)}",
+  "sources": [
+   "P. F. Christiano et al., “Deep Reinforcement Learning from Human Preferences”, <em>NeurIPS</em>, 2017",
+   "N. Stiennon et al., “Learning to Summarize from Human Feedback”, <em>NeurIPS</em>, 2020",
+   "L. Ouyang et al., “Training Language Models to Follow Instructions with Human Feedback”, <em>NeurIPS</em>, 2022",
+   "L. Gao, J. Schulman &amp; J. Hilton, “Scaling Laws for Reward Model Overoptimization”, <em>ICML</em>, 2023"
+  ]
+ },
+ "dpo": {
+  "example": "Relative to the reference model, the chosen answer’s log-probability rises by 2 and the rejected one’s falls by 3: with β = 0.1 the DPO loss is <strong>0.474</strong>. If instead the chosen answer <em>falls</em> by 2 while the rejected falls by 6, the loss is <strong>0.513</strong> — still lower than at the start (0.693). DPO rewards the gap, so it can push down the probability of the very answers it prefers.",
+  "fails": [
+   "Falling likelihood of preferred answers is a known failure mode (Pal et al. 2024); monitor the chosen log-probabilities, not just the loss.",
+   "DPO assumes the Bradley–Terry preference model; with noisy or deterministic preferences it can overfit (Azar et al. 2024).",
+   "Offline preference data goes stale as the model changes; iterative or online variants address this."
+  ],
+  "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbeta = 0.1\nchosen = (-10.0) - (-12.0)                      # log pi(y_w) - log pi_ref(y_w): the chosen answer gained 2 nats\nrejected = (-14.0) - (-11.0)                    # the rejected answer lost 3\nloss = -np.log(sigmoid(beta * (chosen - rejected)))\nboth_down = -np.log(sigmoid(beta * ((-2.0) - (-6.0))))   # chosen also falls, by 2; rejected by 6",
+  "sources": [
+   "R. Rafailov et al., “Direct Preference Optimization: Your Language Model Is Secretly a Reward Model”, <em>NeurIPS</em>, 2023",
+   "M. G. Azar et al., “A General Theoretical Paradigm to Understand Learning from Human Preferences”, <em>AISTATS</em>, 2024",
+   "A. Pal et al., “Smaug: Fixing Failure Modes of Preference Optimisation with DPO-Positive”, arXiv:2402.13228, 2024"
+  ]
+ },
+ "data-curation": {
+  "example": "Two sentences that differ in two words share <strong>0.817</strong> of their five-character shingles (Jaccard). MinHash estimates this from 256 hash minima as <strong>0.785</strong>, without comparing the texts directly — which is how near-duplicates are found among billions of web pages. Removing them makes models better and less prone to memorising (Lee et al. 2022).",
+  "fails": [
+   "A threshold that removes boilerplate can also remove legitimately similar documents (laws, templates, code).",
+   "Quality filters trained on “good” reference text encode its tastes and can under-represent dialects and topics.",
+   "Deduplication against benchmarks (decontamination) needs fuzzy matching; exact matching misses paraphrased test items."
+  ],
+  "code": "import zlib\ndef shingles(text, k=5):\n    t = text.lower()\n    return {t[i:i + k] for i in range(len(t) - k + 1)}\n\na = 'The quick brown fox jumps over the lazy dog near the river bank today.'\nb = 'The quick brown fox jumped over the lazy dog near the river bank today!'\nA, B = shingles(a), shingles(b)\njaccard = len(A &amp; B) / len(A | B)\n\nrng = np.random.default_rng(0)\ncoef = rng.integers(1, 2**31 - 1, size=(256, 2))       # 256 random hash functions\nh = lambda s: np.array([zlib.crc32(x.encode()) for x in s], dtype=np.int64)\nminhash = lambda s: ((coef[:, :1] * h(s) + coef[:, 1:]) % (2**31 - 1)).min(axis=1)\nestimate = (minhash(A) == minhash(B)).mean()            # the share of equal minima estimates Jaccard",
+  "sources": [
+   "A. Z. Broder, “On the Resemblance and Containment of Documents”, <em>Compression and Complexity of Sequences</em>, 1997",
+   "K. Lee et al., “Deduplicating Training Data Makes Language Models Better”, <em>ACL</em>, 2022",
+   "G. Penedo et al., “The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale”, <em>NeurIPS Datasets and Benchmarks</em>, 2024"
+  ]
+ },
+ "decoding-strategies": {
+  "example": "A two-step choice. Greedy decoding takes A (0.6) and then the best continuation of A (0.4): a sequence probability of <strong>0.24</strong>. B starts less likely (0.4) but continues with 0.9, for <strong>0.36</strong>. A beam of width 2 keeps both first steps and finds B–x. Greedy commits too early; beam search looks a little further.",
+  "fails": [
+   "The most probable text is often bland or repetitive; for open-ended generation, maximising probability is the wrong goal (Holtzman et al. 2020).",
+   "Wider beams can make translation <em>worse</em> beyond small widths (the beam search curse).",
+   "Deterministic decoding still varies across hardware and batch sizes because of floating-point non-determinism."
+  ],
+  "code": "step1 = {'A': 0.6, 'B': 0.4}\nstep2 = {'A': {'x': 0.4, 'y': 0.35, 'z': 0.25}, 'B': {'x': 0.9, 'y': 0.05, 'z': 0.05}}\ngreedy_first = max(step1, key=step1.get)\ngreedy_best = max(step2[greedy_first].values())\ngreedy = (greedy_first, step1[greedy_first] * greedy_best)\nbeam = max((((a, b), step1[a] * pb) for a in step1 for b, pb in step2[a].items()), key=lambda c: c[1])   # width 2 keeps both first steps",
+  "sources": [
+   "A. Holtzman, J. Buys, L. Du, M. Forbes &amp; Y. Choi, “The Curious Case of Neural Text Degeneration”, <em>ICLR</em>, 2020",
+   "C. Meister, R. Cotterell &amp; T. Vieira, “If Beam Search Is the Answer, What Was the Question?”, <em>EMNLP</em>, 2020",
+   "M. Freitag &amp; Y. Al-Onaizan, “Beam Search Strategies for Neural Machine Translation”, <em>Workshop on Neural Machine Translation</em>, 2017"
+  ]
+ },
+ "sampling": {
+  "example": "Eight candidate tokens. At temperature 0.7 the distribution has <strong>1.69</strong> bits of entropy and top-p = 0.9 keeps <strong>3</strong> tokens; at 1.0, <strong>2.07</strong> bits and <strong>4</strong> tokens; at 1.3, <strong>2.33</strong> bits and <strong>5</strong>. Temperature changes how flat the distribution is, and nucleus sampling adapts how many tokens survive to that shape.",
+  "fails": [
+   "High temperature adds diversity and errors together; for factual or code tasks, low temperature is usually better.",
+   "Fixed top-k ignores the shape of the distribution; top-p and min-p adapt, but all are heuristics tuned by eye.",
+   "Sampling settings interact: temperature applied before or after truncation gives different results."
+  ],
+  "code": "logits = np.array([3.0, 2.5, 2.0, 1.0, 0.5, 0.0, -1.0, -2.0])\n\ndef probs(T):\n    z = np.exp((logits - logits.max()) / T); return z / z.sum()\n\ndef nucleus_size(p, top_p=0.9):\n    return int(np.searchsorted(np.cumsum(np.sort(p)[::-1]), top_p) + 1)\n\nentropy = lambda p: -(p * np.log2(p)).sum()\ntable = {T: (round(entropy(probs(T)), 2), nucleus_size(probs(T))) for T in (0.7, 1.0, 1.3)}",
+  "sources": [
+   "A. Holtzman, J. Buys, L. Du, M. Forbes &amp; Y. Choi, “The Curious Case of Neural Text Degeneration”, <em>ICLR</em>, 2020",
+   "A. Fan, M. Lewis &amp; Y. Dauphin, “Hierarchical Neural Story Generation”, <em>ACL</em>, 2018 — top-k sampling",
+   "M. N. Nguyen et al., “Turning Up the Heat: Min-p Sampling for Creative and Coherent LLM Outputs”, arXiv:2407.01082, 2024"
+  ]
+ },
+ "speculative-decoding": {
+  "example": "A draft model proposes 4 tokens and the large model checks them in one pass. If each draft token is accepted with probability α, the expected tokens per large-model pass is (1 − α⁵)/(1 − α): <strong>2.31</strong> at α = 0.6, <strong>3.36</strong> at 0.8 and <strong>4.10</strong> at 0.9. The output distribution is exactly the large model’s; only the speed changes.",
+  "fails": [
+   "The speed-up is in passes, not wall-clock; the draft model’s own cost and a larger batch can eat it.",
+   "Acceptance rates vary by task: code and boilerplate accept well, creative text poorly.",
+   "Under heavy batching the large model is already compute-bound, and speculation helps much less."
+  ],
+  "code": "def tokens_per_pass(alpha, gamma=4):            # Leviathan et al.: expected tokens per target-model pass\n    return (1 - alpha ** (gamma + 1)) / (1 - alpha)\n\ntable = {a: round(tokens_per_pass(a), 2) for a in (0.6, 0.8, 0.9)}",
+  "sources": [
+   "Y. Leviathan, M. Kalman &amp; Y. Matias, “Fast Inference from Transformers via Speculative Decoding”, <em>ICML</em>, 2023",
+   "C. Chen et al., “Accelerating Large Language Model Decoding with Speculative Sampling”, arXiv:2302.01318, 2023"
+  ]
+ },
+ "quantization": {
+  "example": "A 70B model needs <strong>140 GB</strong> in fp16, <strong>70 GB</strong> in int8 and <strong>35 GB</strong> in int4. How it is quantized matters as much as the bit width: with a few outlier weights, one int4 scale for the whole tensor gives an average error of <strong>87%</strong> of a weight’s size; a separate scale per group of 128 weights cuts it to <strong>30%</strong>. Group-wise scales are why 4-bit models work.",
+  "fails": [
+   "Average reconstruction error is not task quality; evaluate on the tasks you care about, including long-context and maths, which degrade first.",
+   "Weight-only quantization saves memory and bandwidth; it speeds up compute-bound batches much less.",
+   "Below 4 bits quality usually falls quickly (Dettmers &amp; Zettlemoyer 2023)."
+  ],
+  "code": "sizes = {bits: 70e9 * bits / 8 / 1e9 for bits in (16, 8, 4)}   # a 70B model, GB\nrng = np.random.default_rng(1)\nw = rng.normal(0, 0.02, 4_096)\nw[::512] = 0.5                                    # a few outlier weights\n\ndef int4_error(w, group):\n    g = w.reshape(-1, group)\n    scale = np.abs(g).max(axis=1, keepdims=True) / 7\n    return np.abs(np.clip(np.round(g / scale), -7, 7) * scale - g).mean() / np.abs(w).mean()\n\nper_tensor, per_group = int4_error(w, 4_096), int4_error(w, 128)",
+  "sources": [
+   "E. Frantar, S. Ashkboos, T. Hoefler &amp; D. Alistarh, “GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers”, <em>ICLR</em>, 2023",
+   "J. Lin et al., “AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration”, <em>Proceedings of Machine Learning and Systems</em> 6, 2024",
+   "T. Dettmers &amp; L. Zettlemoyer, “The Case for 4-bit Precision: k-bit Inference Scaling Laws”, <em>ICML</em>, 2023"
+  ]
+ },
+ "kv-cache-opt": {
+  "example": "64 live requests whose lengths vary around 400 tokens hold <strong>36,363</strong> tokens of cache. Reserving a buffer for the 4,096-token maximum per request uses only <strong>13.9%</strong> of the reserved memory; allocating 16-token pages as needed uses <strong>98.6%</strong>. That difference is how PagedAttention fits several times more requests on the same GPU.",
+  "fails": [
+   "Paging removes fragmentation, not the cache itself; long contexts still need the memory.",
+   "Evicting or compressing cache entries to save memory can drop information the model needed later.",
+   "Prefix sharing only helps when many requests start with exactly the same tokens."
+  ],
+  "code": "rng = np.random.default_rng(2)\nlengths = np.clip(rng.lognormal(np.log(400), 0.8, 64).astype(int), 16, 4_096)   # 64 live requests\nreserved_contiguous = 64 * 4_096                         # a buffer for the maximum length each\nreserved_paged = (np.ceil(lengths / 16) * 16).sum()      # 16-token blocks, allocated as needed\nused = lengths.sum()\nutil = (used / reserved_contiguous, used / reserved_paged)",
+  "sources": [
+   "W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023",
+   "L. Zheng et al., “SGLang: Efficient Execution of Structured Language Model Programs”, arXiv:2312.07104, 2024 — prefix caching"
+  ]
+ },
+ "batching": {
+  "example": "25 batches of 8 requests with output lengths between 20 and 600 tokens. With static batching each batch runs until its longest request finishes, and on average only <strong>59%</strong> of the slots are doing useful work. Continuous batching refills a slot as soon as a request ends, approaching <strong>100%</strong>.",
+  "fails": [
+   "Higher throughput can mean worse latency for each user; batch size is a trade-off, not a free gain.",
+   "Prefill (reading the prompt) and decode compete for the same GPU; long prompts stall everyone’s generation unless the two are separated.",
+   "Benchmarks with uniform request lengths overstate real throughput."
+  ],
+  "code": "rng = np.random.default_rng(3)\nout = rng.integers(20, 600, size=(25, 8))              # output lengths: 25 batches of 8 requests\nstatic_util = (out.sum(1) / (8 * out.max(1))).mean()    # each batch runs until its longest request ends\ncontinuous_util = 1.0                                   # finished slots refilled at once (the ideal)",
+  "sources": [
+   "G.-I. Yu, J. S. Jeong, G.-W. Kim, S. Kim &amp; B.-G. Chun, “Orca: A Distributed Serving System for Transformer-Based Generative Models”, <em>OSDI</em>, 2022",
+   "W. Kwon et al., “Efficient Memory Management for Large Language Model Serving with PagedAttention”, <em>SOSP</em>, 2023",
+   "Y. Zhong et al., “DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving”, <em>OSDI</em>, 2024"
+  ]
+ },
+ "prompt-engineering": {
+  "example": "If a single answer is right 60% of the time and samples were independent, a majority vote over 5 samples would be right <strong>68.3%</strong> of the time and over 15 samples <strong>78.7%</strong>. That is the idea behind self-consistency. In practice samples share their mistakes, so the real gain is smaller — but the direction holds.",
+  "fails": [
+   "Results are sensitive to small formatting changes — spacing, separators, option order — sometimes by many points (Sclar et al. 2024).",
+   "A prompt tuned on one model version often does not transfer to the next.",
+   "Prompt tweaks evaluated on a handful of examples are a garden of forking paths; test on a held-out set."
+  ],
+  "code": "from math import comb\ndef majority(p, n):                               # independent samples, binary right/wrong\n    return sum(comb(n, k) * p**k * (1 - p)**(n - k) for k in range(n // 2 + 1, n + 1))\nvotes = {n: round(majority(0.6, n), 3) for n in (1, 5, 15)}",
+  "sources": [
+   "J. Wei et al., “Chain-of-Thought Prompting Elicits Reasoning in Large Language Models”, <em>NeurIPS</em>, 2022",
+   "X. Wang et al., “Self-Consistency Improves Chain of Thought Reasoning in Language Models”, <em>ICLR</em>, 2023",
+   "M. Sclar, Y. Choi, Y. Tsvetkov &amp; A. Suhr, “Quantifying Language Models’ Sensitivity to Spurious Features in Prompt Design”, <em>ICLR</em>, 2024"
+  ]
+ },
+ "rag": {
+  "example": "A fact that spans 100 tokens, in a document cut into 512-token chunks. With no overlap, <strong>19.3%</strong> of such facts are split across two chunks, so no single retrieved chunk contains them. With 64 tokens of overlap, <strong>7.8%</strong>; with 128 — more than the fact’s length — <strong>none</strong>. Chunking decides what can be retrieved before any embedding model is involved.",
+  "fails": [
+   "Retrieval failures look like model failures: if the right passage is not retrieved, the answer cannot be grounded (Barnett et al. 2024 list seven such failure points).",
+   "Retrieved text placed in the middle of a long prompt is used less (Liu et al. 2024).",
+   "RAG reduces hallucination but does not remove it; the model can still ignore or misread the sources."
+  ],
+  "code": "rng = np.random.default_rng(4)\ndef split_rate(chunk, overlap, span=100, doc=100_000, trials=20_000):\n    step = chunk - overlap\n    starts = rng.integers(0, doc - span, trials)          # where the fact begins\n    k = starts // step                                    # the last chunk to start before the fact\n    ok = starts + span &lt;= k * step + chunk                # does it reach the fact's end?\n    return 1 - ok.mean()\nrates = {(c, o): round(split_rate(c, o), 3) for c, o in [(512, 0), (512, 64), (512, 128)]}",
+  "sources": [
+   "P. Lewis et al., “Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”, <em>NeurIPS</em>, 2020",
+   "S. Barnett et al., “Seven Failure Points When Engineering a Retrieval Augmented Generation System”, arXiv:2401.05856, 2024",
+   "N. F. Liu et al., “Lost in the Middle: How Language Models Use Long Contexts”, <em>Transactions of the ACL</em> 12, 2024"
+  ]
+ },
+ "embedding-search": {
+  "example": "A million 768-dimensional float32 embeddings take <strong>3.1 GB</strong>, and a brute-force query costs <strong>7.7×10⁸</strong> multiply-adds. Product quantization to 64 one-byte codes per vector stores the same index in <strong>0.064 GB</strong>. And in 768 dimensions unrelated vectors are nearly perpendicular — a mean absolute cosine of <strong>0.029</strong> — so “similar” scores need calibrating on real pairs.",
+  "fails": [
+   "Approximate indexes trade recall for speed; measure recall against exact search on your data.",
+   "Embedding similarity is topical, not logical: negations and numbers are often ignored.",
+   "Changing the embedding model means re-embedding everything; vectors from two models are not comparable."
+  ],
+  "code": "n, d = 1_000_000, 768\nmemory_gb = n * d * 4 / 1e9                      # float32\nflops_per_query = n * d                          # brute force: one dot product per stored vector\npq_bytes = n * 64                                # product quantization to 64 one-byte codes\nrng = np.random.default_rng(5)\nX = rng.normal(size=(1_000, d)); X /= np.linalg.norm(X, axis=1, keepdims=True)\ntypical_cos = np.abs(X[:500] @ X[500:].T).mean()   # unrelated random vectors in 768-d",
+  "sources": [
+   "Y. A. Malkov &amp; D. A. Yashunin, “Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs”, <em>IEEE TPAMI</em> 42(4), 2020",
+   "H. Jégou, M. Douze &amp; C. Schmid, “Product Quantization for Nearest Neighbor Search”, <em>IEEE TPAMI</em> 33(1), 2011",
+   "J. Johnson, M. Douze &amp; H. Jégou, “Billion-Scale Similarity Search with GPUs”, <em>IEEE Transactions on Big Data</em> 7(3), 2021"
+  ]
+ },
+ "function-calling": {
+  "example": "Four tool calls checked against a schema. The first passes. The second is missing the required <code>unit</code> and sends <code>days</code> as a string. The third is not valid JSON (a missing brace). The fourth uses “K”, which is not an allowed unit. Every one of these reaches your code unless you validate — the model proposes a call, your program decides whether to run it.",
+  "fails": [
+   "Constrained decoding (JSON mode) guarantees valid syntax, not correct arguments.",
+   "Tool descriptions are part of the prompt; vague descriptions cause wrong tool choice.",
+   "Tool outputs can carry instructions (prompt injection); treat them as data, never as commands."
+  ],
+  "code": "import json\nschema = {'required': ['city', 'unit'], 'types': {'city': str, 'unit': str, 'days': int},\n          'enum': {'unit': ['celsius', 'fahrenheit']}}\n\ndef check(raw):\n    try: args = json.loads(raw)\n    except json.JSONDecodeError as e: return [f'not JSON: {e.msg}']\n    errs = [f'missing {k}' for k in schema['required'] if k not in args]\n    errs += [f'{k} should be {t.__name__}' for k, t in schema['types'].items() if k in args and not isinstance(args[k], t)]\n    errs += [f'{k} not in {v}' for k, v in schema['enum'].items() if k in args and args[k] not in v]\n    return errs\n\ncalls = ['{\"city\": \"Aarhus\", \"unit\": \"celsius\"}', '{\"city\": \"Aarhus\", \"days\": \"3\"}', '{\"city\": \"Aarhus\", \"unit\": \"kelvin\"', '{\"city\": \"Aarhus\", \"unit\": \"K\"}']\nresults = [check(c) for c in calls]",
+  "sources": [
+   "T. Schick et al., “Toolformer: Language Models Can Teach Themselves to Use Tools”, <em>NeurIPS</em>, 2023",
+   "S. G. Patil, T. Zhang, X. Wang &amp; J. E. Gonzalez, “Gorilla: Large Language Model Connected with Massive APIs”, arXiv:2305.15334, 2023",
+   "JSON Schema specification, json-schema.org"
+  ]
+ },
+ "agents": {
+  "example": "If each step of an agent is right 95% of the time, a 5-step task succeeds <strong>77%</strong> of the time, 10 steps <strong>60%</strong> and 20 steps <strong>36%</strong>. Checking each step and retrying once on failure lifts 20 steps to <strong>95%</strong>. Reliability compounds, so agents are built around verification, not just more reasoning.",
+  "fails": [
+   "The retry calculation assumes failures can be detected; silent errors compound unchecked.",
+   "Agent benchmarks often ignore cost and over-fit to the benchmark (Kapoor et al. 2024); compare against simple baselines.",
+   "Every tool an agent can call widens what can go wrong; give it the least access that works."
+  ],
+  "code": "chain = {steps: round(0.95 ** steps, 3) for steps in (5, 10, 20)}   # each step right 95% of the time\nretry = round((1 - 0.05 ** 2) ** 20, 3)          # 20 steps, each checked and retried once on failure",
+  "sources": [
+   "S. Yao et al., “ReAct: Synergizing Reasoning and Acting in Language Models”, <em>ICLR</em>, 2023",
+   "N. Shinn et al., “Reflexion: Language Agents with Verbal Reinforcement Learning”, <em>NeurIPS</em>, 2023",
+   "S. Kapoor, B. Stroebl, Z. S. Siegel, N. Nadgir &amp; A. Narayanan, “AI Agents That Matter”, arXiv:2407.01502, 2024"
+  ]
+ },
+ "evaluation": {
+  "example": "86% accuracy on a 1,000-question benchmark has a 95% margin of about <strong>±2.15</strong> points; on MMLU’s 14,042 test questions, <strong>±0.57</strong>. Two models scoring 86.0 and 87.5 on the 1,000 questions differ by <strong>0.97</strong> standard errors — not distinguishable. Leaderboard gaps of a point or two are often within the noise.",
+  "fails": [
+   "Both models answer the same questions, so a paired test is more sensitive than this independent one; report it (Miller 2024).",
+   "Contamination — test items in the training data — inflates scores in ways no error bar captures.",
+   "Benchmarks measure what is easy to score; arena-style human preference captures other things, and has its own biases."
+  ],
+  "code": "def ci95(acc, n):\n    return 1.96 * np.sqrt(acc * (1 - acc) / n)\n\nsmall = ci95(0.86, 1_000)                       # a 1,000-question benchmark\nmmlu = ci95(0.86, 14_042)                       # MMLU's test set\ngap = 0.875 - 0.86\nse_diff = np.sqrt(2) * small / 1.96             # two independent models on the 1,000 questions\nz = gap / se_diff",
+  "sources": [
+   "D. Hendrycks et al., “Measuring Massive Multitask Language Understanding”, <em>ICLR</em>, 2021",
+   "E. Miller, “Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations”, arXiv:2411.00640, 2024",
+   "W.-L. Chiang et al., “Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference”, <em>ICML</em>, 2024"
+  ]
+ }
+};
+/* The content standard's depth under a topic (js/topic-depth.js lays it out). */
+function depthHtml(id) {
+  const d = TOPIC_DEPTH[id];
+  if (!d || typeof renderDepth !== 'function') return '';
+  return renderDepth({ ...d, codeNote: 'Assumes <code>import numpy as np</code>. Configurations named after real models use their published shapes; other numbers are made up or simulated, as the comments say.' });
+}
+/* depth:end */
+
 function buildContent() {
   const main = document.getElementById('mainContent');
   if (!main) return;
@@ -222,6 +653,7 @@ function buildTokenization() {
         tokens = new_tokens
     return merges</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Splitting text into subword tokens is <a href="../ml-math/#tokenization">BPE compression</a> — frequent pairs merge, rare words split. In statistics, binning discretizes continuous data.</div>
+  ${depthHtml('tokenization')}
   <div class="topic-nav" id="nav-tokenization"></div>
 </div>`;
 }
@@ -257,6 +689,7 @@ from torch.nn.functional import cosine_similarity
 sim = cosine_similarity(vectors[0], vectors[1], dim=0)
 print(f"Similarity: {sim:.3f}")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Mapping tokens to dense vectors where distance = meaning. <a href="../ml-math/#cosine-sim">Cosine similarity</a> measures the result.</div>
+  ${depthHtml('embeddings')}
   <div class="topic-nav" id="nav-embeddings"></div>
 </div>`;
 }
@@ -292,6 +725,7 @@ def sinusoidal_pe(max_len, d_model):
 pe = sinusoidal_pe(512, 256)
 # pe[pos] gives the encoding vector for position pos</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Injecting position via sinusoids so the model knows word order. In markets, <a href="../markets/indicators/#aroon">Aroon</a> encodes "time since" as position information.</div>
+  ${depthHtml('positional-encoding')}
   <div class="topic-nav" id="nav-positional-encoding"></div>
 </div>`;
 }
@@ -339,6 +773,7 @@ def self_attention(x, W_q, W_k, W_v):
     <div class="use-when">✓ <strong>Use when:</strong> Building or understanding any transformer model. Debugging attention patterns to understand model behavior. Designing custom architectures. Understanding why context length is limited.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Using LLMs via API — attention is handled for you. Working with very long sequences (>100K tokens) where linear attention variants (Mamba, RWKV) may be more efficient.</div>
   </div>
+  ${depthHtml('self-attention')}
   <div class="topic-nav" id="nav-self-attention"></div>
 </div>`;
 }
@@ -383,6 +818,7 @@ class GQA(nn.Module):
         attn = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         return self.W_o(attn.transpose(1,2).reshape(B, T, -1))</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Multiple attention heads capture different relationship types in parallel — like running several <a href="../stats/#feature-correlation">correlation analyses</a> simultaneously. In markets, combining <a href="../markets/indicators/#rsi">RSI</a>, <a href="../markets/indicators/#macd">MACD</a>, and volume is multi-headed analysis.</div>
+  ${depthHtml('multi-head-attention')}
   <div class="topic-nav" id="nav-multi-head-attention"></div>
 </div>`;
 }
@@ -416,6 +852,7 @@ class SwiGLU_FFN(nn.Module):
     def forward(self, x):
         return self.w2(self.w1(x) * F.silu(self.w_gate(x)))</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The MLP after attention stores factual knowledge — the model’s memory bank. Like <a href="../ml-math/#activation">activation functions</a> that add non-linearity after linear attention.</div>
+  ${depthHtml('feed-forward')}
   <div class="topic-nav" id="nav-feed-forward"></div>
 </div>`;
 }
@@ -451,6 +888,7 @@ class TransformerBlock(nn.Module):
         x = x + self.ffn(self.ln2(x))    # FFN + residual
         return x</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The repeated unit: attention → add+norm → FFN → add+norm. In <a href="../ml-math/#transformer">ML math</a>, the residual connections prevent gradient vanishing.</div>
+  ${depthHtml('transformer-block')}
   <div class="topic-nav" id="nav-transformer-block"></div>
 </div>`;
 }
@@ -484,6 +922,7 @@ scores = scores + causal_mask(seq_len)  # mask future
 weights = torch.softmax(scores, dim=-1)
 output = weights @ V</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Autoregressive generation — each token conditioned only on the past. In markets, <a href="../markets/psychology/#recency-bias">recency bias</a> makes traders decode only from recent history.</div>
+  ${depthHtml('decoder-only')}
   <div class="topic-nav" id="nav-decoder-only"></div>
 </div>`;
 }
@@ -517,6 +956,7 @@ function buildKVCache() {
             break
     return all_generated_ids</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Caching previously computed keys and values to avoid recomputation. The same <a href="../ml-math/#rnn">memory accumulation</a> that RNN hidden states perform. In markets, <a href="../markets/charts/#support-resistance">support/resistance</a> levels are cached price memories the market doesn’t recompute.</div>
+  ${depthHtml('kv-cache')}
   <div class="topic-nav" id="nav-kv-cache"></div>
 </div>`;
 }
@@ -548,6 +988,7 @@ function buildContextWindows() {
 # Mistral uses window_size=4096: each token attends to
 # the previous 4096 tokens only, regardless of context length</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The finite span of tokens the model can see at once. In statistics, <a href="../stats/#clt-sampling">sample size</a> is the context window of inference — more data, better estimates.</div>
+  ${depthHtml('context-windows')}
   <div class="topic-nav" id="nav-context-windows"></div>
 </div>`;
 }
@@ -593,6 +1034,7 @@ class MoELayer(nn.Module):
                                  self.experts[e](x[mask])
         return out</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Routing inputs to specialized sub-networks — only a fraction active per token. In markets, <a href="../markets/psychology/#smart-money-dumb-money">sector rotation</a> activates different expert sectors at different times. In statistics, mixture models combine multiple distributions.</div>
+  ${depthHtml('mixture-of-experts')}
   <div class="topic-nav" id="nav-mixture-of-experts"></div>
 </div>`;
 }
@@ -629,6 +1071,7 @@ popt, _ = curve_fit(power_law, params, losses)
 predicted = power_law(70e9, *popt)
 print(f"Predicted loss at 70B: {predicted:.3f}")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse. The laws assume every token is worth training on; <a href="#data-curation">data curation</a> is what makes that true.</div>
+  ${depthHtml('scaling-laws')}
   <div class="topic-nav" id="nav-scaling-laws"></div>
 </div>`;
 }
@@ -670,6 +1113,7 @@ for batch in dataloader:
     scheduler.step()
     optimizer.zero_grad()</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Learning general patterns from massive data before specialization. Like <a href="../stats/#bayesian-ab">building a prior distribution</a> from large samples.</div>
+  ${depthHtml('pre-training')}
   <div class="topic-nav" id="nav-pre-training"></div>
 </div>`;
 }
@@ -735,6 +1179,7 @@ trainer = SFTTrainer(model, train_dataset=dataset,
     args=TrainingArguments(num_train_epochs=2, learning_rate=2e-4, per_device_train_batch_size=4))
 trainer.train()</code></pre>
   </div>
+  ${depthHtml('fine-tuning')}
   <div class="topic-nav" id="nav-fine-tuning"></div>
 </div>`;
 }
@@ -770,6 +1215,7 @@ model = get_peft_model(base_model, config)
 model.print_trainable_parameters()
 # trainable: 83M / 7B total = 1.2%</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Low-rank updates that modify a frozen model with minimal parameters. The <a href="../ml-math/#lora">ML math behind LoRA</a> is SVD-inspired rank reduction.</div>
+  ${depthHtml('lora-qlora')}
   <div class="topic-nav" id="nav-lora-qlora"></div>
 </div>`;
 }
@@ -807,6 +1253,7 @@ class RewardModel(nn.Module):
 def reward_loss(chosen_reward, rejected_reward):
     return -F.logsigmoid(chosen_reward - rejected_reward).mean()</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Aligning model outputs with human preferences via reward modeling. The <a href="../ml-math/#rlhf">math of RLHF</a> is a policy gradient over preference pairs. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal.</div>
+  ${depthHtml('rlhf')}
   <div class="topic-nav" id="nav-rlhf"></div>
 </div>`;
 }
@@ -837,6 +1284,7 @@ function buildDPO() {
 # In practice: sum log P(token_t | prev) over response tokens
 # for both policy (π_θ) and reference (π_ref) models</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Direct Preference Optimization skips the reward model, optimizing preferences end-to-end. Like <a href="../ml-math/#loss">simplifying a loss function</a> to remove an intermediate step.</div>
+  ${depthHtml('dpo')}
   <div class="topic-nav" id="nav-dpo"></div>
 </div>`;
 }
@@ -874,6 +1322,7 @@ for doc_id, text in documents:
     else:
         print(f"Dropping duplicate: {doc_id}")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Quality over quantity in training data — deduplication, filtering, mixing. In statistics, <a href="../stats/#class-imbalance">sampling methodology</a> determines everything.</div>
+  ${depthHtml('data-curation')}
   <div class="topic-nav" id="nav-data-curation"></div>
 </div>`;
 }
@@ -910,6 +1359,7 @@ function buildDecodingStrategies() {
         beams = sorted(candidates, key=lambda x: -x[1])[:beam_width]
     return beams[0][0]  # best sequence</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Greedy, beam search, nucleus sampling — trading off quality vs. diversity. The same tradeoff as <a href="../ml-math/#bias-variance">bias-variance</a>: greedy = high bias, random = high variance. In markets, <a href="../markets/psychology/#fear-and-greed">fear and greed</a> drive conservative vs. aggressive strategies.</div>
+  ${depthHtml('decoding-strategies')}
   <div class="topic-nav" id="nav-decoding-strategies"></div>
 </div>`;
 }
@@ -946,6 +1396,7 @@ function buildSampling() {
     probs = logits.softmax(dim=-1)
     return torch.multinomial(probs, 1)</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Temperature, top-k, top-p control the randomness of generation. Temperature is <a href="../ml-math/#softmax">softmax temperature</a> scaling. In statistics, <a href="../stats/#monte-carlo">sampling from distributions</a> is the foundation.</div>
+  ${depthHtml('sampling')}
   <div class="topic-nav" id="nav-sampling"></div>
 </div>`;
 }
@@ -994,6 +1445,7 @@ function buildSpeculativeDecoding() {
                 break
     return tokens</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A small model drafts, a large model verifies — the same principle as <a href="../ml-math/#gan">generator/discriminator</a> in GANs. In markets, <a href="../markets/psychology/#contrarian-thinking">contrarian thinking</a> verifies what the crowd drafts.</div>
+  ${depthHtml('speculative-decoding')}
   <div class="topic-nav" id="nav-speculative-decoding"></div>
 </div>`;
 }
@@ -1045,6 +1497,7 @@ model = AutoModelForCausalLM.from_pretrained(
     <div class="use-when">✓ <strong>Use when:</strong> Deploying models locally or on limited hardware. Reducing inference costs in production. Running large models (30B+) on consumer GPUs. Edge deployment on phones/laptops.</div>
     <div class="skip-when">✗ <strong>Skip when:</strong> Using cloud APIs (already optimized). Tasks requiring maximum precision (scientific computation). Small models (<1B) that already fit in memory. Training — quantize for inference only.</div>
   </div>
+  ${depthHtml('quantization')}
   <div class="topic-nav" id="nav-quantization"></div>
 </div>`;
 }
@@ -1079,6 +1532,7 @@ params = SamplingParams(temperature=0.7, top_p=0.9, max_tokens=256)
 outputs = llm.generate(["Explain PagedAttention"], params)
 print(outputs[0].outputs[0].text)</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Grouped-query and multi-query attention reduce memory by sharing keys/values. The same <a href="../ml-math/#svd">rank reduction</a> principle behind SVD and LoRA.</div>
+  ${depthHtml('kv-cache-opt')}
   <div class="topic-nav" id="nav-kv-cache-opt"></div>
 </div>`;
 }
@@ -1121,6 +1575,7 @@ async def benchmark(n_concurrent=32):
     wall_time = max(r[1] for r in results)
     print(f"Throughput: {total_tokens/wall_time:.0f} tok/s")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Processing multiple requests simultaneously for throughput. In <a href="../ml-math/#gradient">mini-batch gradient descent</a>, the same principle trades per-sample accuracy for throughput.</div>
+  ${depthHtml('batching')}
   <div class="topic-nav" id="nav-batching"></div>
 </div>`;
 }
@@ -1159,6 +1614,7 @@ response = client.chat.completions.create(
     temperature=0.1
 )</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Crafting inputs to steer outputs is the art of framing. In markets, <a href="../markets/psychology/#framing-effect">the framing effect</a> shows how presentation shapes decisions.</div>
+  ${depthHtml('prompt-engineering')}
   <div class="topic-nav" id="nav-prompt-engineering"></div>
 </div>`;
 }
@@ -1199,6 +1655,7 @@ qa = RetrievalQA.from_chain_type(
 )
 answer = qa.invoke("What is the refund policy?")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Retrieval-Augmented Generation grounds the model in external knowledge. <a href="../ml-math/#cosine-sim">Cosine similarity</a> retrieves relevant passages. In statistics, <a href="../stats/#bayesian-ab">Bayesian updating</a> brings prior evidence to new questions. Add tools and a planning loop and retrieval becomes one step of an <a href="#agents">agent</a>.</div>
+  ${depthHtml('rag')}
   <div class="topic-nav" id="nav-rag"></div>
 </div>`;
 }
@@ -1240,6 +1697,7 @@ scores, indices = index.search(query.astype('float32'), k=5)
 for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
     print(f"{i+1}. [{score:.3f}] {docs[idx]}")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Finding nearest neighbors in vector space is <a href="../ml-math/#cosine-sim">cosine similarity at scale</a>. In statistics, k-nearest-neighbors in feature space is the same idea.</div>
+  ${depthHtml('embedding-search')}
   <div class="topic-nav" id="nav-embedding-search"></div>
 </div>`;
 }
@@ -1290,6 +1748,7 @@ response = client.chat.completions.create(
 call = response.choices[0].message.tool_calls[0]
 args = json.loads(call.function.arguments)</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The model outputting structured tool calls is <a href="../ml-math/#softmax">classification over actions</a> instead of tokens. In markets, <a href="../markets/indicators/#ichimoku">Ichimoku’s multi-signal system</a> calls different functions (trend, momentum, support) from one framework.</div>
+  ${depthHtml('function-calling')}
   <div class="topic-nav" id="nav-function-calling"></div>
 </div>`;
 }
@@ -1336,6 +1795,7 @@ function buildAgents() {
             return msg.content  # final answer
     return "Max steps reached"</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> LLMs planning, tool-using, and looping is <a href="../ml-math/#optimizers">optimization</a> made autonomous — each step refines the next. In markets, <a href="../markets/psychology/#market-sentiment-cycle">the sentiment cycle</a> is an agent loop: observe, decide, act, observe again. Every tool an agent uses is reached through <a href="#function-calling">function calling</a>.</div>
+  ${depthHtml('agents')}
   <div class="topic-nav" id="nav-agents"></div>
 </div>`;
 }
@@ -1374,6 +1834,7 @@ results = evaluator.simple_evaluate(
 for task, metrics in results["results"].items():
     print(f"{task}: {metrics['acc,none']:.3f}")</code></pre></div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Benchmarking models with metrics and human evaluation. In ML, <a href="../ml-math/#metrics">precision/recall/F1</a> are the toolkit. In statistics, <a href="../stats/#hypothesis-testing">hypothesis testing</a> evaluates claims.</div>
+  ${depthHtml('evaluation')}
   <div class="topic-nav" id="nav-evaluation"></div>
 </div>`;
 }

@@ -48,7 +48,7 @@
   <url>
     <loc>https://patterniseverything.com/llm/</loc>
     <priority>0.7</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/</loc>
@@ -589,152 +589,152 @@
   <url>
     <loc>https://patterniseverything.com/llm/tokenization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/embeddings/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/positional-encoding/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/self-attention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/multi-head-attention/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/feed-forward/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/transformer-block/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/decoder-only/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/kv-cache/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/context-windows/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/mixture-of-experts/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/scaling-laws/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/pre-training/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/fine-tuning/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/lora-qlora/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/rlhf/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/dpo/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/data-curation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/decoding-strategies/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/sampling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/speculative-decoding/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/quantization/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/kv-cache-opt/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/batching/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/prompt-engineering/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/rag/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/embedding-search/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/function-calling/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/agents/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/llm/evaluation/</loc>
     <priority>0.6</priority>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
   </url>
   <url>
     <loc>https://patterniseverything.com/mlops/model-packaging/</loc>
