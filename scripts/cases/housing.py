@@ -16,8 +16,8 @@ DATA = {
     'what': 'One row per census block group (a district of typically 600–3,000 people) from the 1990 US census: '
             'location, median age of the houses, rooms, bedrooms, population, households, median income, '
             'and the median house value.',
-    'source': '<a href="https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html">StatLib, via Luís Torgo</a>; '
-              'the same data as scikit-learn’s <code>fetch_california_housing</code>',
+    'source': '<a href="https://scikit-learn.org/stable/datasets/real_world.html#california-housing-dataset">scikit-learn’s <code>fetch_california_housing</code></a>; '
+              'originally StatLib, via Luís Torgo',
     'license': 'Public data from the US census, distributed by StatLib for research and teaching',
     'cite': 'R. K. Pace &amp; R. Barry, “Sparse Spatial Autoregressions”, <em>Statistics &amp; Probability Letters</em> 33(3), 1997',
     'file': 'housing.csv',
