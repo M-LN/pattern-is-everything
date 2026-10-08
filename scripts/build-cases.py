@@ -223,7 +223,7 @@ def build_case(name):
                  '<div><b>Licence</b>%s</div>%s</div>' % (
                      d['name'], d['what'], d['source'], d['license'],
                      '<div><b>File</b><a href="/cases/data/%s" download>%s</a> (%s KB), as used below</div>' % (
-                         d['file'], d['file'], round(os.path.getsize(os.path.join(DATA_DIR, d['file'])) / 1024))
+                         d['file'], d['file'], round(served_size(os.path.join(DATA_DIR, d['file'])) / 1024))
                      if d.get('file') else ('<div><b>Get it</b>%s</div>' % d['get'] if d.get('get') else '')))
     run = {}
     for i, st in enumerate(mod.STEPS, 1):
@@ -288,6 +288,13 @@ def hub_js(entries):
     return src[:a] + block + src[b:]
 
 
+def served_size(path):
+    """Bytes as served: git stores these files with LF, so a CRLF checkout (core.autocrlf on
+    Windows) must not change the size printed on the page — or --check differs by machine."""
+    with open(path, 'rb') as f:
+        return len(f.read().replace(b'\r\n', b'\n'))
+
+
 def lite_index():
     """lite/api/contents/all.json lists the files JupyterLite shows; keep it in step with lite/files/."""
     path = os.path.join(ROOT, 'lite', 'api', 'contents', 'all.json')
@@ -296,7 +303,7 @@ def lite_index():
     stamp = '2026-10-02T00:00:00.000000Z'
     content = []
     for name in sorted(os.listdir(os.path.join(ROOT, 'lite', 'files'))):
-        size = os.path.getsize(os.path.join(ROOT, 'lite', 'files', name))
+        size = served_size(os.path.join(ROOT, 'lite', 'files', name))
         prev = old.get(name)
         if prev and prev['size'] == size:
             content.append(prev)

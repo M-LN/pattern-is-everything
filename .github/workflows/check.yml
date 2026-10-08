@@ -1,0 +1,29 @@
+# Runs the site's drift guard (scripts/check.mjs) on every push and pull request.
+# GitHub Actions minutes are separate from the Vercel build quota, so this costs
+# no deploys. Only master deploys; a red check here is the warning before it does.
+name: Site check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - run: node scripts/check.mjs

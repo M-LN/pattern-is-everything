@@ -1,0 +1,9 @@
+# Python used by the build and by `node scripts/check.mjs` (snippets and case studies).
+# The case studies print model results into their pages, and gradient boosting's numbers
+# change between scikit-learn releases — so scikit-learn is pinned to a version whose
+# output matches the committed pages (1.6–1.8 all do; 1.9 does not). Bump it together
+# with a rebuild: python scripts/build-cases.py
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.8.0
