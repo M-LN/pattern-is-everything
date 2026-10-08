@@ -1,0 +1,33 @@
+name: Report a mistake
+description: Something on a page is wrong, outdated or unsourced.
+title: "Correction: "
+labels: [correction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Corrections are made in the open: this issue is linked from the commit that fixes it.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The page with the mistake. Filled in when you come from a page's "Report a mistake" link.
+      placeholder: https://patterniseverything.com/...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: Quote the sentence, number or code if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: What should it say?
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: A paper, book or official documentation that supports the correction, if you have one.

@@ -243,7 +243,7 @@ function buildEssayBell() {
     <div class="essay-ref">[2] Fischer, H. (2011). <em>A History of the Central Limit Theorem.</em> Springer. <a href="https://doi.org/10.1007/978-0-387-87857-7" target="_blank" rel="noopener">doi:10.1007/978-0-387-87857-7</a></div>
     <div class="essay-ref">[3] Lyon, A. (2014). Why are Normal Distributions Normal? <em>The British Journal for the Philosophy of Science, 65</em>(3), 621\u2013649. <a href="https://doi.org/10.1093/bjps/axs046" target="_blank" rel="noopener">doi:10.1093/bjps/axs046</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-bell')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-bell')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-bell')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The same emergence powers the <a href="../stats/index.html#distribution-shape">distribution shape</a> topic in The Toolkit, and the <a href="../stats/index.html#confidence-intervals">confidence interval</a> relies on this bell to set its width.</div>
   <div class="topic-nav" id="nav-essay-bell"></div>
 </div>`;
@@ -276,7 +276,7 @@ function buildEssayMean() {
     <div class="essay-ref">[2] Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>, Ch. 17: Regression to the Mean. Farrar, Straus and Giroux.</div>
     <div class="essay-ref">[3] Barnett, A. G., van der Pols, J. C. &amp; Dobson, A. J. (2005). Regression to the mean: what it is and how to deal with it. <em>International Journal of Epidemiology, 34</em>(1), 215\u2013220. <a href="https://doi.org/10.1093/ije/dyh299" target="_blank" rel="noopener">doi:10.1093/ije/dyh299</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-mean')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-mean')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-mean')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#bayesian-ab">Bayesian A/B testing</a> topic wrestles with the same trap \u2014 is the improvement real, or just regression to the mean?</div>
   <div class="topic-nav" id="nav-essay-mean"></div>
 </div>`;
@@ -309,7 +309,7 @@ function buildEssayTail() {
     <div class="essay-ref">[2] Barab\u00e1si, A.-L. &amp; Albert, R. (1999). Emergence of Scaling in Random Networks. <em>Science, 286</em>(5439), 509\u2013512. <a href="https://doi.org/10.1126/science.286.5439.509" target="_blank" rel="noopener">doi:10.1126/science.286.5439.509</a></div>
     <div class="essay-ref">[3] Taleb, N. N. (2007). <em>The Black Swan: The Impact of the Highly Improbable.</em> Random House.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-tail')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-tail')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-tail')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic asks when the tail <em>is</em> the signal, and <a href="../stats/index.html#max-drawdown">maximum drawdown</a> lives in this tail.</div>
   <div class="topic-nav" id="nav-essay-tail"></div>
 </div>`;
@@ -342,7 +342,7 @@ function buildEssaySignal() {
     <div class="essay-ref">[2] Foster, K. R. &amp; Kokko, H. (2009). The evolution of superstitious and superstition-like behaviour. <em>Proceedings of the Royal Society B, 276</em>(1654), 31\u201337. <a href="https://doi.org/10.1098/rspb.2008.0981" target="_blank" rel="noopener">doi:10.1098/rspb.2008.0981</a></div>
     <div class="essay-ref">[3] Hastie, T., Tibshirani, R. &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning</em>, Ch. 7: Model Assessment and Selection. Springer. <a href="https://doi.org/10.1007/978-0-387-84858-7" target="_blank" rel="noopener">doi:10.1007/978-0-387-84858-7</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-signal')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-signal')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-signal')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#cross-validation">Cross-validation</a> is the practical guard against this, and <a href="../stats/index.html#learning-curves">learning curves</a> let you see overfitting happen in real time. Searching many rules until one works is the trap of <a href="index.html#essay-forking">The Garden of Forking Paths</a>.</div>
   <div class="topic-nav" id="nav-essay-signal"></div>
 </div>`;
@@ -375,7 +375,7 @@ function buildEssayMap() {
     <div class="essay-ref">[2] Box, G. E. P. (1976). Science and Statistics. <em>Journal of the American Statistical Association, 71</em>(356), 791\u2013799. <a href="https://doi.org/10.1080/01621459.1976.10480949" target="_blank" rel="noopener">doi:10.1080/01621459.1976.10480949</a></div>
     <div class="essay-ref">[3] Korzybski, A. (1933). <em>Science and Sanity: An Introduction to Non-Aristotelian Systems and General Semantics.</em> Institute of General Semantics.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-map')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-map')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-map')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> <a href="../stats/index.html#regression-metrics">Regression metrics</a> quantify this gap, and <a href="../stats/index.html#shap-values">SHAP values</a> show what the model chose to see.</div>
   <div class="topic-nav" id="nav-essay-map"></div>
 </div>`;
@@ -408,7 +408,7 @@ function buildEssayFeedback() {
     <div class="essay-ref">[2] Strogatz, S. (2003). <em>Sync: How Order Emerges From Chaos in the Universe, Nature, and Daily Life.</em> Hyperion.</div>
     <div class="essay-ref">[3] Verhulst, P.-F. (1838). Notice sur la loi que la population suit dans son accroissement. <em>Correspondance Mathématique et Physique, 10</em>, 113–121.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-feedback')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-feedback')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-feedback')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#distribution-shape">distribution shape</a> topic shows what happens when feedback loops generate extreme outcomes, and <a href="../sandbox/markets/index.html#indicator-playground">moving averages</a> are a practical negative-feedback tool. Where a loop runs into the slowest step in a system, see <a href="index.html#essay-bottleneck">The Bottleneck</a>.</div>
   <div class="topic-nav" id="nav-essay-feedback"></div>
 </div>`;
@@ -437,7 +437,7 @@ function buildEssayWalk() {
     <div class="essay-ref">[2] Malkiel, B. G. (1973). <em>A Random Walk Down Wall Street.</em> W. W. Norton &amp; Company.</div>
     <div class="essay-ref">[3] Fama, E. F. (1965). Random Walks in Stock Market Prices. <em>Financial Analysts Journal, 21</em>(5), 55–59. <a href="https://doi.org/10.2469/faj.v21.n5.55" target="_blank" rel="noopener">doi:10.2469/faj.v21.n5.55</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-walk')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-walk')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-walk')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> activity lets you test whether you can beat a random walk, and <a href="../timeseries/index.html#decomposition">time-series analysis</a> is the tool for extracting the non-random component. Why the size of each step decides whether a walker survives at all is the subject of <a href="index.html#essay-reversible">Small, Reversible Bets</a>.</div>
   <div class="topic-nav" id="nav-essay-walk"></div>
 </div>`;
@@ -470,7 +470,7 @@ function buildEssayThreshold() {
     <div class="essay-ref">[2] Gladwell, M. (2000). <em>The Tipping Point: How Little Things Can Make a Big Difference.</em> Little, Brown and Company.</div>
     <div class="essay-ref">[3] Strogatz, S. H. (1994). <em>Nonlinear Dynamics and Chaos.</em> Addison-Wesley. Ch. 3: Bifurcations.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-threshold')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-threshold')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-threshold')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Logistic regression in the <a href="../sandbox/ml/index.html#classification-boundary">ML Lab</a> is built on this very curve, and <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> uses a threshold (the p-value) to decide when evidence becomes belief. The quiet build-up before a market breaks is the theme of <a href="index.html#essay-spring">The Coiled Spring</a>.</div>
   <div class="topic-nav" id="nav-essay-threshold"></div>
 </div>`;
@@ -503,7 +503,7 @@ function buildEssaySurvivor() {
     <div class="essay-ref">[2] Mangel, M. &amp; Samaniego, F. J. (1984). Abraham Wald\u2019s Work on Aircraft Survivability. <em>Journal of the American Statistical Association, 79</em>(386), 259\u2013267. <a href="https://doi.org/10.1080/01621459.1984.10478038" target="_blank" rel="noopener">doi:10.1080/01621459.1984.10478038</a></div>
     <div class="essay-ref">[3] Brown, S. J., Goetzmann, W., Ibbotson, R. G. &amp; Ross, S. A. (1992). Survivorship Bias in Performance Studies. <em>Review of Financial Studies, 5</em>(4), 553\u2013580. <a href="https://doi.org/10.1093/rfs/5.4.553" target="_blank" rel="noopener">doi:10.1093/rfs/5.4.553</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-survivor')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-survivor')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-survivor')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic deals with the data you can see, while <a href="../stats/index.html#survivorship-bias">survivorship &amp; look-ahead bias</a> is the backtesting trap built on funds and strategies that quietly disappeared.</div>
   <div class="topic-nav" id="nav-essay-survivor"></div>
 </div>`;
@@ -536,7 +536,7 @@ function buildEssayFractal() {
     <div class="essay-ref">[2] Mandelbrot, B. (1982). <em>The Fractal Geometry of Nature.</em> W. H. Freeman and Company.</div>
     <div class="essay-ref">[3] Mandelbrot, B. &amp; Hudson, R. L. (2004). <em>The (Mis)Behavior of Markets: A Fractal View of Risk, Ruin, and Reward.</em> Basic Books.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-fractal')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-fractal')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-fractal')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The fat tails of <a href="../stats/index.html#distribution-shape">distribution shape</a> are a fractal fingerprint, and <a href="../stats/index.html#monte-carlo">Monte Carlo simulation</a> generates the jagged, self-similar paths Mandelbrot described.</div>
   <div class="topic-nav" id="nav-essay-fractal"></div>
 </div>`;
@@ -569,7 +569,7 @@ function buildEssaySimpson() {
     <div class="essay-ref">[2] Bickel, P. J., Hammel, E. A. &amp; O\u2019Connell, J. W. (1975). Sex Bias in Graduate Admissions: Data from Berkeley. <em>Science, 187</em>(4175), 398\u2013404. <a href="https://doi.org/10.1126/science.187.4175.398" target="_blank" rel="noopener">doi:10.1126/science.187.4175.398</a></div>
     <div class="essay-ref">[3] Pearl, J. (2014). Comment: Understanding Simpson\u2019s Paradox. <em>The American Statistician, 68</em>(1), 8\u201313. <a href="https://doi.org/10.1080/00031305.2014.876829" target="_blank" rel="noopener">doi:10.1080/00031305.2014.876829</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-simpson')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-simpson')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-simpson')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#feature-correlation">feature correlation</a> topic shares this lurking-variable trap, and <a href="../stats/index.html#bayesian-ab">Bayesian A/B testing</a> must guard against pooling groups that should stay apart.</div>
   <div class="topic-nav" id="nav-essay-simpson"></div>
 </div>`;
@@ -621,7 +621,7 @@ function buildEssayKalman() {
     <div class="essay-ref">[3] Krishnan, R. G., Shalit, U. &amp; Sontag, D. (2017). Structured Inference Networks for Nonlinear State Space Models. <em>Proceedings of the AAAI Conference on Artificial Intelligence, 31</em>(1). <a href="https://doi.org/10.1609/aaai.v31i1.10779" target="_blank" rel="noopener">doi:10.1609/aaai.v31i1.10779</a></div>
     <div class="essay-ref">[4] IEC 60076-7 (2018). <em>Power transformers \u2014 Part 7: Loading guide for mineral-oil-immersed power transformers.</em> International Electrotechnical Commission.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-kalman')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-kalman')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-kalman')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> This essay is the applied face of <a href="../timeseries/index.html#state-space">state-space models</a> in The Toolkit, where the Kalman filter lives, and the \u201cdeep\u201d half borrows the learned dynamics of <a href="../timeseries/index.html#lstm-for-ts">recurrent networks</a>. How much of the past any model should keep is the question of <a href="index.html#essay-memory">How Long Is Memory?</a></div>
   <div class="topic-nav" id="nav-essay-kalman"></div>
 </div>`;
@@ -674,7 +674,7 @@ function buildEssaySpring() {
     <div class="essay-ref">[4] Reid, H. F. (1910). <em>The Mechanics of the Earthquake.</em> The California Earthquake of April 18, 1906: Report of the State Earthquake Investigation Commission, Vol. 2. Carnegie Institution of Washington.</div>
     <div class="essay-ref">[5] Bulkowski, T. N. (2005). <em>Encyclopedia of Chart Patterns</em> (2nd ed.). Wiley.</div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-spring')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-spring')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-spring')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The squeeze is measured with the <a href="../markets/indicators/index.html#atr">average true range</a> and sized for with <a href="../markets/risk/index.html#volatility-sizing">volatility-based position sizing</a> — the calm tells you how small the next stop would be, and how wrong that could prove.</div>
   <div class="topic-nav" id="nav-essay-spring"></div>
 </div>`;
@@ -727,7 +727,7 @@ function buildEssayForking() {
     <div class="essay-ref">[5] Benjamini, Y. &amp; Hochberg, Y. (1995). Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing. <em>Journal of the Royal Statistical Society: Series B, 57</em>(1), 289–300. <a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">doi:10.1111/j.2517-6161.1995.tb02031.x</a></div>
     <div class="essay-ref">[6] Bailey, D. H., Borwein, J. M., López de Prado, M. &amp; Zhu, Q. J. (2014). Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance. <em>Notices of the AMS, 61</em>(5), 458–471. <a href="https://doi.org/10.1090/noti1105" target="_blank" rel="noopener">doi:10.1090/noti1105</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-forking')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-forking')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-forking')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The defences are in The Toolkit: <a href="../stats/index.html#hypothesis-testing">hypothesis testing</a> says what a p-value means for a single test, and <a href="../stats/index.html#walk-forward">walk-forward validation</a> keeps the future out of the search.</div>
   <div class="topic-nav" id="nav-essay-forking"></div>
 </div>`;
@@ -783,7 +783,7 @@ function buildEssayMemory() {
     <div class="essay-ref">[5] Hochreiter, S. &amp; Schmidhuber, J. (1997). Long Short-Term Memory. <em>Neural Computation, 9</em>(8), 1735–1780. <a href="https://doi.org/10.1162/neco.1997.9.8.1735" target="_blank" rel="noopener">doi:10.1162/neco.1997.9.8.1735</a></div>
     <div class="essay-ref">[6] Vaswani, A. et al. (2017). Attention Is All You Need. <em>Advances in Neural Information Processing Systems 30.</em> <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-memory')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-memory')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-memory')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Where memory comes from in a price series is the subject of <a href="../timeseries/index.html#stationarity">stationarity</a>; how a network keeps it is the subject of <a href="../ml-math/index.html#attention">attention</a> in ML Math.</div>
   <div class="topic-nav" id="nav-essay-memory"></div>
 </div>`;
@@ -835,7 +835,7 @@ function buildEssayBottleneck() {
     <div class="essay-ref">[4] Williams, S., Waterman, A. &amp; Patterson, D. (2009). Roofline: An Insightful Visual Performance Model for Multicore Architectures. <em>Communications of the ACM, 52</em>(4), 65–76. <a href="https://doi.org/10.1145/1498765.1498785" target="_blank" rel="noopener">doi:10.1145/1498765.1498785</a></div>
     <div class="essay-ref">[5] Leviathan, Y., Kalman, M. &amp; Matias, Y. (2023). Fast Inference from Transformers via Speculative Decoding. <em>Proceedings of the 40th International Conference on Machine Learning.</em> <a href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener">arXiv:2211.17192</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-bottleneck')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-bottleneck')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-bottleneck')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Queues are what <a href="../mlops/index.html#alerting-slos">latency SLOs</a> watch for, and the same arithmetic of narrow steps decides the drop-off in a <a href="../stats/index.html#cohort-retention">retention curve</a>.</div>
   <div class="topic-nav" id="nav-essay-bottleneck"></div>
 </div>`;
@@ -893,7 +893,7 @@ function buildEssayReversible() {
     <div class="essay-ref">[5] Kaplan, J. et al. (2020). Scaling Laws for Neural Language Models. <a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener">arXiv:2001.08361</a></div>
     <div class="essay-ref">[6] Arkes, H. R. &amp; Blumer, C. (1985). The Psychology of Sunk Cost. <em>Organizational Behavior and Human Decision Processes, 35</em>(1), 124–140. <a href="https://doi.org/10.1016/0749-5978(85)90049-4" target="_blank" rel="noopener">doi:10.1016/0749-5978(85)90049-4</a></div>
   </div>
-  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-reversible')} · <a href="../about/#checked">How this site checks its content</a></p>
+  <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-reversible')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-reversible')}</p>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The arithmetic of ruin is in <a href="../markets/risk/index.html#drawdown-analysis">drawdown analysis</a> — a 50% loss needs a 100% gain to recover — and the cost of waiting too long to reverse is in <a href="../markets/risk/index.html#stop-losses">stop-loss strategies</a>.</div>
   <div class="topic-nav" id="nav-essay-reversible"></div>
 </div>`;

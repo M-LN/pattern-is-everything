@@ -1,0 +1,24 @@
+# Monthly external link check (scripts/links.mjs). Fails — and so emails the
+# repository owner — when a source or reference link is dead (404, 410, or the
+# host is gone). Links that only refuse scripts (403, 429, timeouts) are listed
+# in the log without failing the run.
+name: Link check
+
+on:
+  schedule:
+    - cron: '23 5 3 * *'   # the 3rd of each month, 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/links.mjs --ci

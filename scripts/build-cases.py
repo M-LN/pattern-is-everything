@@ -30,6 +30,7 @@ import re
 import shutil
 import sys
 import time
+import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'scripts', 'cases'))
@@ -193,7 +194,7 @@ def page(title, desc, path, body, og):
 </header>
 <main class="case case-page" id="mainContent">
 %(body)s
-<p class="reviewed">Last reviewed: %(reviewed)s · <a href="/about/#checked">How this site checks its content</a></p>
+<p class="reviewed">Last reviewed: %(reviewed)s · <a href="/about/#checked">How this site checks its content</a> · %(report)s</p>
 </main>
 <script src="/js/track.js?v=1" defer></script>
 <script src="/js/code-run.js?v=2" defer></script>
@@ -202,7 +203,15 @@ def page(title, desc, path, body, og):
 </html>
 ''' % {'title': esc(re.sub('<[^>]+>', '', title)), 'desc': html.escape(desc), 'site': SITE, 'path': path,
        'jtitle': json.dumps(re.sub('<[^>]+>', '', title)), 'jdesc': json.dumps(desc), 'css': CSS,
-       'body': body, 'reviewed': REVIEWED, 'og': og}
+       'body': body, 'reviewed': REVIEWED, 'og': og, 'report': report_link(re.sub('<[^>]+>', '', title), path)}
+
+
+def report_link(title, path):
+    """'Report a mistake' — the same issue form, page filled in, as js/topic-depth.js builds for topics."""
+    q = lambda s: urllib.parse.quote(s, safe="-_.!~*'()")
+    return ('<a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml'
+            '&amp;title=%s&amp;page=%s" target="_blank" rel="noopener">Report a mistake</a>'
+            % (q('Correction: ' + title), q(SITE + path)))
 
 
 def build_case(name):

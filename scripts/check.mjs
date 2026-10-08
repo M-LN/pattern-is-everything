@@ -23,7 +23,8 @@
         studies re-run and match their pages (scripts/build-cases.py --check)
    10d. Check-yourself questions are well-formed and on their topic pages
    10e. Every topic has its own evidence label (shown on its page), at least
-        two sources, and a valid review date; topics due for review are warned
+        two sources, a valid review date and a "Report a mistake" link to its
+        own page; topics due for review are warned
     11. Content standard — warnings only: short topics, formula pattern lines,
         topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
@@ -474,14 +475,20 @@ console.log('10e. Evidence labels, sources and review dates');
   for (const r of rows) {
     if (r.problem) { bad.push(`${r.key}: ${r.problem}`); continue; }
     const page = `${r.key}/index.html`;
-    if (existsSync(page) && !readFileSync(page, 'utf8').includes(`"dateModified": "${r.reviewed}"`))
+    if (!existsSync(page)) continue;
+    const html = readFileSync(page, 'utf8');
+    if (!html.includes(`"dateModified": "${r.reviewed}"`))
       bad.push(`${r.key}: page dateModified is not its reviewed date ${r.reviewed} (run scripts/prerender.mjs)`);
+    // "Report a mistake" must open the issue form for this page, not another.
+    if (!html.includes('issues/new?template=correction.yml&amp;') ||
+        !html.includes(`&amp;page=${encodeURIComponent(`https://patterniseverything.com/${r.key}/`)}"`))
+      bad.push(`${r.key}: no "Report a mistake" link for this page`);
   }
   if (bad.length) fail(`${bad.length} problem(s): ${bad.slice(0, 5).join('; ')}${bad.length > 5 ? '; …' : ''}`);
   else {
     ok(`every topic has its own label: ${LABELS.map(l => `${tally[l] || 0} ${l}`).join(', ')}`);
     ok(`${sourced} topics with at least two sources`);
-    ok(`${rows.length} topics with a review date on their page`);
+    ok(`${rows.length} topics with a review date and a "Report a mistake" link on their page`);
   }
   const due = rows.filter(r => r.overdue);
   if (due.length) console.log(`  ⚠ ${due.length} topic(s) due for review: ${due.slice(0, 5).map(r => r.key).join(', ')}${due.length > 5 ? ', …' : ''} (node scripts/reviews.mjs)`);
