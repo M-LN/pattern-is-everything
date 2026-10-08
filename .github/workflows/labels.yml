@@ -1,0 +1,26 @@
+# Creates or updates the repository's labels. Runs when this file changes, or
+# by hand. The issue form .github/ISSUE_TEMPLATE/correction.yml applies
+# `correction` to every "Report a mistake" report.
+name: Labels
+
+on:
+  push:
+    paths:
+      - .github/workflows/labels.yml
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: >
+          gh label create correction --force
+          --color b23f22
+          --description "A reader reported a mistake on the site"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
