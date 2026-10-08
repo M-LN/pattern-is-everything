@@ -2101,6 +2101,11 @@ body:has(.portal-header) .layout { margin-top: 0; }
   background: rgba(200,127,47,.08);
   border: 1px solid rgba(200,127,47,.18);
 }
+.evidence-badge.practice {
+  color: var(--muted);
+  background: rgba(106,94,82,.08);
+  border: 1px solid rgba(106,94,82,.22);
+}
 .evidence-badge.debated {
   color: var(--accent);
   background: rgba(200,75,47,.08);

@@ -15,6 +15,11 @@
       label: 'Heuristic',
       title: 'Pattern-recognition or rule-of-thumb technique. Useful for exploration, not proof of predictive edge.'
     },
+    practice: {
+      className: 'practice',
+      label: 'Practice',
+      title: 'An established tool, workflow or engineering pattern. It encodes experience and trade-offs, not a proof or a measured effect.'
+    },
     debated: {
       className: 'debated',
       label: 'Debated',
@@ -49,16 +54,27 @@
 
   function applyBadge(badge, kind) {
     const spec = TAXONOMY[kind] || TAXONOMY.mathematical;
-    badge.classList.remove('proven', 'statistical', 'heuristic', 'debated', 'educational');
+    badge.classList.remove('proven', 'statistical', 'heuristic', 'practice', 'debated', 'educational');
     badge.classList.add(spec.className);
     badge.textContent = spec.label;
     badge.setAttribute('title', spec.title);
     badge.dataset.evidence = kind;
   }
 
+  /* Each topic's label is set per topic, in its collection's TOPIC_DATA
+     (evidence: '...'), and scripts/check.mjs requires one. The path and badge
+     text are only a fallback for badges outside a topic, such as the sandboxes. */
+  function topicKind(badge) {
+    const topic = badge.closest('.topic[id]');
+    if (!topic || typeof TOPIC_DATA === 'undefined') return null;
+    const entry = TOPIC_DATA.find(t => t.id === topic.id);
+    return entry && TAXONOMY[entry.evidence] ? entry.evidence : null;
+  }
+
   function normalize() {
     const fallback = pageKind();
-    document.querySelectorAll('.evidence-badge').forEach(badge => applyBadge(badge, inferBadgeKind(badge, fallback)));
+    document.querySelectorAll('.evidence-badge').forEach(badge =>
+      applyBadge(badge, topicKind(badge) || inferBadgeKind(badge, fallback)));
   }
 
   window.EVIDENCE_TAXONOMY = TAXONOMY;

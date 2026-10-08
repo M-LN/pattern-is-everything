@@ -167,7 +167,7 @@ def page(title, desc, path, body, og):
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=40">
+  <link rel="stylesheet" href="/css/main.css?v=41">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>%(css)s
