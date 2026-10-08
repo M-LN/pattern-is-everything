@@ -16,7 +16,7 @@ const CASES = [
     "finding": "Gradient boosting scores R² 0.84 with random cross-validation and 0.68 on regions it has not seen; a model that only knows the location drops from 0.79 to 0.17.",
     "page": "/cases/housing-regression/",
     "datasetName": "California Housing",
-    "datasetUrl": "https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html",
+    "datasetUrl": "https://scikit-learn.org/stable/datasets/real_world.html#california-housing-dataset",
     "notebookPath": "case-housing-regression.ipynb",
     "runnable": true,
     "steps": [
