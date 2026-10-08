@@ -120,6 +120,14 @@ one in LLM Engineering and MLOps, eighteen elsewhere. A weekly GitHub Action fai
 are due. After reviewing a topic, update its `reviewed` date and run
 `node scripts/prerender.mjs <collection>`.
 
+`node scripts/links.mjs` checks every external link (sources, references, data sets). A monthly
+GitHub Action fails on dead links (404, 410, host gone); links that only refuse scripts (403,
+429, timeouts) are listed for a look in a browser.
+
+Every topic, essay, guide and case ends with **Report a mistake**, which opens the issue form
+in `.github/ISSUE_TEMPLATE/correction.yml` with the page filled in. Close a report with the
+commit that fixes it.
+
 ## Deployment
 
 The site is deployed on Vercel through its GitHub integration. **Only `master` deploys**:

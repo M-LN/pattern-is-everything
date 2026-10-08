@@ -23,6 +23,18 @@
     return m ? MONTHS[+m[2] - 1] + ' ' + m[1] : '';
   };
 
+  /* "Report a mistake": a GitHub issue form (.github/ISSUE_TEMPLATE/correction.yml)
+     with the topic's own page filled in. The page URL is built from the
+     collection the topic is rendered in, so the pre-rendered pages carry the
+     same link. scripts/build-guides.mjs and build-cases.py build the same URL. */
+  var ISSUE_FORM = 'https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml';
+  window.reportLink = function (id) {
+    var t = typeof TOPIC_DATA !== 'undefined' && TOPIC_DATA.find(function (x) { return x.id === id; });
+    var page = 'https://patterniseverything.com' + location.pathname.replace(/index\.html$/, '') + id + '/';
+    return '<a href="' + ISSUE_FORM + '&amp;title=' + encodeURIComponent('Correction: ' + (t ? t.title : id)) +
+      '&amp;page=' + encodeURIComponent(page) + '" target="_blank" rel="noopener">Report a mistake</a>';
+  };
+
   window.renderDepth = function (d) {
     if (!d) return '';
     var list = function (items) {
@@ -38,7 +50,7 @@
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
       '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
         (reviewedOn(d.id) ? '<p class="depth-note depth-reviewed">Last reviewed ' + reviewedOn(d.id) +
-          ' · <a href="/about/#checked">How this site checks its content</a></p>' : '') + '</div>' +
+          ' · <a href="/about/#checked">How this site checks its content</a> · ' + reportLink(d.id) + '</p>' : '') + '</div>' +
     '</section>';
   };
 

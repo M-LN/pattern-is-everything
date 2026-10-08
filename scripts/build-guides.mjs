@@ -115,6 +115,10 @@ function card(id) {
   if (!existsSync(f)) return `${SITE}/assets/og/og-start.png`;
   return `${SITE}/${f}?v=${createHash('md5').update(readFileSync(f)).digest('hex').slice(0, 8)}`;
 }
+/* "Report a mistake" — the same issue form, page filled in, as js/topic-depth.js builds for topics. */
+const reportLink = (title, path) => `<a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml` +
+  `&amp;title=${encodeURIComponent('Correction: ' + title)}&amp;page=${encodeURIComponent(SITE + path)}" target="_blank" rel="noopener">Report a mistake</a>`;
+
 function page({ title, desc, path, heroTitle, crumb, body, script, og }) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -168,7 +172,7 @@ function page({ title, desc, path, heroTitle, crumb, body, script, og }) {
 <main class="guide" id="mainContent">
 ${crumb}
 ${body}
-<p class="reviewed">Last reviewed: ${REVIEWED} · <a href="/about/#checked">How this site checks its content</a></p>
+<p class="reviewed">Last reviewed: ${REVIEWED} · <a href="/about/#checked">How this site checks its content</a> · ${reportLink(title, path)}</p>
 </main>
 <script src="/js/track.js?v=1" defer></script>
 ${script ? '<script src="/js/guides.js?v=2" defer></script>' : ''}
