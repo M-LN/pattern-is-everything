@@ -22,6 +22,8 @@
         files match scripts/snippets/ (scripts/build-run.py --check); the case
         studies re-run and match their pages (scripts/build-cases.py --check)
    10d. Check-yourself questions are well-formed and on their topic pages
+   10e. Every topic has its own evidence label (shown on its page), at least
+        two sources, and a valid review date; topics due for review are warned
     11. Content standard — warnings only: short topics, formula pattern lines,
         topics with no links out or in (scripts/content-report.mjs)
    Run scripts/build.mjs and scripts/build-game-data.mjs to fix drift in
@@ -32,6 +34,7 @@ import { join, dirname, normalize } from 'node:path';
 import { buildConnections } from './connections.mjs';
 import { execFileSync } from 'node:child_process';
 import { contentInventory, MIN_WORDS } from './content-report.mjs';
+import { reviewQueue } from './reviews.mjs';
 
 const COLLECTIONS = [
   { col: 'stats',      dir: 'stats',               path: '/stats/',               universe: 'stats' },
@@ -435,6 +438,53 @@ console.log('10d. Check yourself');
   }
   if (bad.length) fail(`${bad.length} problem(s): ${bad.slice(0, 5).join('; ')}`);
   else ok(`${questions} questions on ${topics} topics, each answerable and on its page`);
+}
+/* ── 10e. Evidence labels, sources and review dates ──
+   /about/ says every topic carries an evidence label, has sources and shows
+   when it was last reviewed. The label is the topic's own (evidence: in
+   TOPIC_DATA; js/evidence-taxonomy.js renders it), not its collection's, and
+   the pre-rendered page must show it. Each topic cites at least two sources.
+   The reviewed date must be real and on the page as dateModified; topics due
+   for review are listed as warnings (node scripts/reviews.mjs). */
+console.log('10e. Evidence labels, sources and review dates');
+{
+  const LABELS = ['mathematical', 'statistical', 'practice', 'heuristic', 'debated'];
+  const taxonomy = readFileSync('js/evidence-taxonomy.js', 'utf8');
+  const bad = [];
+  for (const l of LABELS) if (!taxonomy.includes(`    ${l}: {`)) bad.push(`js/evidence-taxonomy.js: no '${l}' label`);
+  const tally = {};
+  let sourced = 0;
+  for (const c of COLLECTIONS) {
+    for (const t of topicsByCol.get(c.col)) {
+      const key = `${c.dir}/${t.id}`;
+      if (!LABELS.includes(t.evidence)) { bad.push(`${key}: evidence '${t.evidence ?? 'none'}' is not one of ${LABELS.join(', ')}`); continue; }
+      tally[t.evidence] = (tally[t.evidence] || 0) + 1;
+      const page = `${c.dir}/${t.id}/index.html`;
+      if (!existsSync(page)) continue;          // section 5 reports missing pages
+      const html = readFileSync(page, 'utf8');
+      const shown = (html.match(/class="evidence-badge[^"]*"[^>]*data-evidence="([a-z]+)"/) || [])[1];
+      if (shown !== t.evidence) bad.push(`${key}: page shows '${shown ?? 'no label'}', TOPIC_DATA says '${t.evidence}'`);
+      const src = html.match(/class="depth-block depth-sources">([\s\S]*?)<\/ul>/);
+      const n = src ? (src[1].match(/<li>/g) || []).length : 0;
+      if (n < 2) bad.push(`${key}: ${n} source(s), needs at least 2`);
+      else sourced++;
+    }
+  }
+  const rows = reviewQueue();
+  for (const r of rows) {
+    if (r.problem) { bad.push(`${r.key}: ${r.problem}`); continue; }
+    const page = `${r.key}/index.html`;
+    if (existsSync(page) && !readFileSync(page, 'utf8').includes(`"dateModified": "${r.reviewed}"`))
+      bad.push(`${r.key}: page dateModified is not its reviewed date ${r.reviewed} (run scripts/prerender.mjs)`);
+  }
+  if (bad.length) fail(`${bad.length} problem(s): ${bad.slice(0, 5).join('; ')}${bad.length > 5 ? '; …' : ''}`);
+  else {
+    ok(`every topic has its own label: ${LABELS.map(l => `${tally[l] || 0} ${l}`).join(', ')}`);
+    ok(`${sourced} topics with at least two sources`);
+    ok(`${rows.length} topics with a review date on their page`);
+  }
+  const due = rows.filter(r => r.overdue);
+  if (due.length) console.log(`  ⚠ ${due.length} topic(s) due for review: ${due.slice(0, 5).map(r => r.key).join(', ')}${due.length > 5 ? ', …' : ''} (node scripts/reviews.mjs)`);
 }
 /* ── 11. Content standard (warnings) ──
    Not failures: content is fixed by writing it, and a build should not stop

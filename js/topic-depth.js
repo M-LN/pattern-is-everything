@@ -5,14 +5,23 @@
    own TOPIC_DEPTH entries and calls renderDepth from buildContent; this file
    only lays them out, so every collection reads the same.
 
-   renderDepth({ example, dataHtml, fails: [], code, codeNote, sources: [], run })
+   renderDepth({ id, example, dataHtml, fails: [], code, codeNote, sources: [], run })
    returns HTML, or '' for a topic with no entry. The strings are trusted
    markup written in the repo, not user input. With run ("<collection>/<topic>",
    a key into run/*.json) the code gets a Run button; js/code-run.js runs it. */
 (function () {
   'use strict';
-  /* When the content was last checked against its sources (see /about/). */
-  var REVIEWED = 'October 2026';
+  /* When a topic was last checked against its sources (see /about/): the
+     reviewed date on its TOPIC_DATA entry, shown as month and year. Each topic
+     carries its own, so re-reviewing one topic dates only that topic;
+     node scripts/reviews.mjs lists the ones due. */
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                'August', 'September', 'October', 'November', 'December'];
+  window.reviewedOn = function (id) {
+    var t = typeof TOPIC_DATA !== 'undefined' && TOPIC_DATA.find(function (x) { return x.id === id; });
+    var m = t && /^(\d{4})-(\d{2})-\d{2}$/.exec(t.reviewed || '');
+    return m ? MONTHS[+m[2] - 1] + ' ' + m[1] : '';
+  };
 
   window.renderDepth = function (d) {
     if (!d) return '';
@@ -28,7 +37,8 @@
           '<span class="run-hint">Python, in your browser — edit the code and run it again</span></div>' : '') +
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
       '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
-        '<p class="depth-note depth-reviewed">Last reviewed ' + REVIEWED + ' · <a href="/about/#checked">How this site checks its content</a></p></div>' +
+        (reviewedOn(d.id) ? '<p class="depth-note depth-reviewed">Last reviewed ' + reviewedOn(d.id) +
+          ' · <a href="/about/#checked">How this site checks its content</a></p>' : '') + '</div>' +
     '</section>';
   };
 

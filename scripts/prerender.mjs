@@ -36,8 +36,6 @@ try {
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://patterniseverything.com';
-/* When the content was last checked against its sources (shown on every topic; see /about/). */
-const REVIEWED = '2026-10-02';
 
 /* Collections that can be pre-rendered. `depth` is how many directories the
    collection sits below the site root, which sets the generated page's
@@ -200,7 +198,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
     "articleSection": ${JSON.stringify(topic.category || '')},
     "isAccessibleForFree": true,
     "inLanguage": "en",
-    "dateModified": "${REVIEWED}",
+    "dateModified": "${topic.reviewed}",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "${SITE}/" },
     "publisher": { "@type": "Organization", "name": "Pattern is Everything" }
   }
@@ -219,7 +217,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=2">
-  <link rel="stylesheet" href="${up}css/main.css?v=40">
+  <link rel="stylesheet" href="${up}css/main.css?v=41">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -335,7 +333,7 @@ async function extract(key) {
       });
       clone.classList.remove('active');
       return { id, title: meta.title || id, category: meta.category || '',
-               content: meta.content || '', html: clone.outerHTML };
+               reviewed: meta.reviewed, content: meta.content || '', html: clone.outerHTML };
     });
   });
 
@@ -449,6 +447,10 @@ async function run() {
       .update(lf(await readFile(join(ROOT, col.dir, 'topics.js'), 'utf8'))).digest('hex').slice(0, 12);
     for (let i = 0; i < data.length; i++) {
       const topic = data[i];
+      /* When the topic was last checked against its sources: its own date in
+         TOPIC_DATA, shown on the page (js/topic-depth.js) and as dateModified. */
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(topic.reviewed || ''))
+        throw new Error(`${col.dir}/topics.js: ${topic.id} has no reviewed date (reviewed:'YYYY-MM-DD')`);
       const out = join(ROOT, col.dir, topic.id, 'index.html');
       const body = page({
         topic, html: rebase(topic.html, topicIds), col, key, fingerprint, vizSrc, connections,

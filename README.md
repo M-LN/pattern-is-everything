@@ -101,6 +101,25 @@ http://localhost:4173/
 
 You can also use `npx serve .` or another static server if that is your normal workflow.
 
+## Checks and Reviews
+
+`node scripts/check.mjs` is the drift guard: deep links, counts, pre-rendered pages, runnable
+code, the case studies re-run against their pages, and more. A GitHub Action runs it on every
+push and pull request; locally it needs the Python in `scripts/requirements.txt`
+(`pip install -r scripts/requirements.txt`).
+
+Every topic's entry in its collection's `TOPIC_DATA` carries two fields the check enforces:
+
+- `evidence` - `mathematical`, `statistical`, `practice`, `heuristic` or `debated`, as
+  defined on `/about/`. It belongs to the topic, not the collection.
+- `reviewed` - the date the topic was last checked against its sources (`'2026-10-02'`).
+  It appears on the page and as its `dateModified`.
+
+`node scripts/reviews.mjs` lists the topics due for another review: six months after the last
+one in LLM Engineering and MLOps, eighteen elsewhere. A weekly GitHub Action fails when any
+are due. After reviewing a topic, update its `reviewed` date and run
+`node scripts/prerender.mjs <collection>`.
+
 ## Deployment
 
 The site is deployed on Vercel through its GitHub integration. **Only `master` deploys**:

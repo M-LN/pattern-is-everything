@@ -26,7 +26,7 @@
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../css/main.css?v=40">
+  <link rel="stylesheet" href="../css/main.css?v=41">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -102,7 +102,7 @@
     <div><b>Explanation and visualization</b>What happens and why, with an interactive chart you can push around.</div>
     <div><b>Worked example</b>The idea applied to concrete numbers. Every figure in it is the output of the code shown underneath, run on the data shown with it. Where the data are made up or simulated, the code’s comments say so; where a real model or study is named, its published numbers are used. <em>Run</em> under the code executes it in your browser, with the imports and data it needs shown above it, so you can check the figures — or change the code and see what moves.</div>
     <div><b>Where it misleads</b>When the idea fails, what that looks like, and what people get wrong about it.</div>
-    <div><b>Sources</b>Papers, books and official documentation for the claims made — at least two for every topic whose evidence is heuristic.</div>
+    <div><b>Sources</b>Papers, books and official documentation for the claims made — at least two for every topic.</div>
   </div>
   <p>The essays are shorter and have no code; each has its own references. The <a href="../guides/">guides</a> work the other way round: they start from a task — choosing a test, a metric or a forecasting model — and lead to the topics.</p>
 
@@ -111,10 +111,11 @@
   <table class="labels">
     <tr><td><span class="evidence-badge proven">Mathematical</span></td><td>A definition or a theorem. The formula is exact; whether it is useful still depends on your data and assumptions.</td></tr>
     <tr><td><span class="evidence-badge statistical">Statistical</span></td><td>Grounded in estimation, validation or empirical evaluation. Comes with uncertainty and assumptions.</td></tr>
+    <tr><td><span class="evidence-badge practice">Practice</span></td><td>An established tool, workflow or engineering pattern — RAG, feature stores, CI/CD. It encodes experience and trade-offs, not a proof or a measured effect.</td></tr>
     <tr><td><span class="evidence-badge heuristic">Heuristic</span></td><td>A rule of thumb or a pattern people look for. Useful for thinking and exploring; not proof of a predictive edge.</td></tr>
     <tr><td><span class="evidence-badge debated">Debated</span></td><td>The evidence is mixed or contested. Test it on your own data before relying on it.</td></tr>
   </table>
-  <p>Most chart patterns, technical indicators and market-psychology ideas sit in the last two rows. The site presents them as hypotheses, together with the research on whether they work.</p>
+  <p>The label belongs to the topic, not to its collection: in LLM Engineering, attention is Mathematical, scaling laws are Statistical, RAG is Practice and prompt engineering is Heuristic. Chart patterns and most market-psychology ideas are Heuristic; technical indicators used as trading signals, stop-losses and transformer forecasters are Debated. The site presents them as hypotheses, together with the research on whether they work.</p>
 
   <h3 id="checked">How the content is checked</h3>
   <p>In October 2026 the whole site went through a fact-check: every figure and empirical claim in the original text was traced to a source, recomputed, or removed.</p>
@@ -125,7 +126,7 @@
     <div><strong>274</strong><span>topics with sources and a review date</span></div>
   </div>
   <p>Examples of what was fixed: a capital rule attributed to Basel III that was in fact the 1996 amendment; a comparison between two language models stated backwards; the square-root law of random walks inverted; trading-indicator “win rates” with no source behind them. Superlatives such as “the most reliable pattern” were toned down, and assumptions — usually normality — were made explicit where a number depends on them.</p>
-  <p>Each topic shows when it was last reviewed. Topics are reviewed again when something they rely on changes.</p>
+  <p>Each topic shows when it was last reviewed, and the date is the topic’s own: reviewing one topic does not re-date the rest. A topic falls due for another review six months after its last one in LLM Engineering and MLOps, and eighteen months after it everywhere else — sooner if something it relies on changes. A weekly job lists the topics that are due.</p>
 
   <h3>What changes fast</h3>
   <p>LLM Engineering and MLOps mention specific models, tools and hardware. Those details age within months, so the text dates them (“by 2024…”) rather than calling anything the latest, and these two collections are reviewed more often than the rest. The mathematics underneath changes slowly.</p>
