@@ -770,16 +770,9 @@ h2 em { font-style: italic; color: var(--accent); }
 }
 .vl {
   font-family: var(--mono);
-  font-size: 10px; color: var(--muted);
-  letter-spacing: .12em;
+  font-size: 12px; color: var(--muted);
   margin-bottom: 12px;
-  text-transform: uppercase;
   display: flex; align-items: center; gap: 6px;
-}
-.vl::before {
-  content: '▸';
-  color: var(--accent);
-  font-size: 8px;
 }
 canvas {
   display: block;
@@ -987,24 +980,18 @@ input[type=range]:focus-visible {
   font-family: var(--mono);
 }
 .callout strong { color: var(--accent2); }
-.callout::before {
-  content: '💡';
-  margin-right: 6px;
-}
 .callout.warn {
   background: rgba(200,75,47,.05);
   border-color: rgba(200,75,47,.2);
   color: var(--accent);
 }
 .callout.warn strong { color: var(--accent); }
-.callout.warn::before { content: '⚠️'; }
 .callout.info {
   background: rgba(41,85,160,.05);
   border-color: rgba(41,85,160,.2);
   color: var(--accent3);
 }
 .callout.info strong { color: var(--accent3); }
-.callout.info::before { content: 'ℹ️'; }
 .callout.bridge {
   background: linear-gradient(135deg, rgba(200,75,47,.04), rgba(41,85,160,.04));
   border-color: rgba(200,75,47,.18);
@@ -1012,7 +999,7 @@ input[type=range]:focus-visible {
   color: var(--text);
 }
 .callout.bridge strong { color: var(--accent); }
-.callout.bridge::before { content: '↔'; font-weight: 700; }
+.callout.bridge::before { content: '↔'; font-weight: 700; margin-right: 6px; }
 .callout.bridge a { color: var(--accent3); text-decoration: underline; text-decoration-color: rgba(41,85,160,.3); text-underline-offset: 2px; }
 .callout.bridge a:hover { text-decoration-color: var(--accent3); }
 @media (prefers-color-scheme: dark) { .callout.bridge a { color: #6fa8ff; text-decoration-color: rgba(111,168,255,.3); } .callout.bridge a:hover { text-decoration-color: #6fa8ff; } }
@@ -1052,9 +1039,7 @@ input[type=range]:focus-visible {
   line-height: 1.6;
 }
 .pt-label {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  font-size: 12px;
   font-weight: 600;
   color: var(--accent);
   white-space: nowrap;
@@ -2242,9 +2227,6 @@ body:has(.portal-header) .layout { margin-top: 0; }
   align-items: center;
   gap: 8px;
 }
-.howto-title::before {
-  content: '⚡';
-}
 .howto ol {
   list-style: none;
   counter-reset: howto-step;
@@ -2319,7 +2301,6 @@ body:has(.portal-header) .layout { margin-top: 0; }
   align-items: center;
   gap: 6px;
 }
-.perf-insight-title::before { content: '⚡'; }
 .perf-insight p, .perf-insight li {
   font-family: var(--sans);
   font-size: 13px;
@@ -2365,7 +2346,6 @@ body:has(.portal-header) .layout { margin-top: 0; }
   align-items: center;
   gap: 6px;
 }
-.why-matters-title::before { content: '🎯'; }
 .why-matters p {
   font-family: var(--sans);
   font-size: 13px;
@@ -2411,7 +2391,6 @@ body:has(.portal-header) .layout { margin-top: 0; }
   align-items: center;
   gap: 6px;
 }
-.dataset-card-title::before { content: '📊'; }
 .dataset-card a {
   display: inline-flex;
   align-items: center;
@@ -2450,8 +2429,6 @@ body:has(.portal-header) .layout { margin-top: 0; }
   align-items: center;
   gap: 6px;
 }
-.dev-export-title::before { content: '🛠'; }
-.dev-export-title::before { content: '🛠'; }
 .dev-export pre {
   background: var(--surface2);
   padding: 10px 14px;
@@ -2582,9 +2559,7 @@ body:has(.portal-header) .layout { margin-top: 0; }
   line-height: 1.6;
 }
 .pattern-thread-home .pt-label {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  font-size: 12px;
   font-weight: 600;
   color: var(--accent);
   white-space: nowrap;
@@ -4135,3 +4110,13 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 .code-alt summary { cursor: pointer; font-family: var(--mono); font-size: 12px; color: var(--muted); }
 .code-alt summary:hover { color: var(--accent); }
 .code-alt .code-block { margin-top: 8px; }
+
+/* Headings carry no single accented word; the site name on the home page keeps it.
+   !important because several headers set the accent in an inline style. */
+:is(h1, h2, h3, h4) em:not(.portal-hero h1 em),
+.cc-title em, .case-title em, .path-title em, .start-hero em, .domain-title em {
+  font-style: inherit !important;
+  color: inherit !important;
+}
+/* The kicker above a section repeated the heading under it. */
+.section-kicker { display: none; }

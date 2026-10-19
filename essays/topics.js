@@ -221,7 +221,7 @@ function buildEssayBell() {
   return `<div class="topic pattern-essay" id="essay-bell">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E1 \u2014 Pattern Essays</div><h2>The Bell in <em>Everything</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Wherever many small, independent forces combine, the same shape appears</p>
   <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms \u2014 not because anyone designed it, but because height is the sum of many small genetic and environmental nudges, each roughly independent, each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
@@ -254,7 +254,7 @@ function buildEssayMean() {
   return `<div class="topic pattern-essay" id="essay-mean">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E2 \u2014 Pattern Essays</div><h2>Regression to the <em>Mean</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Extreme outcomes are followed by less extreme ones \u2014 not a force, just arithmetic</p>
   <p class="prose">Francis Galton measured parents and children in the 1880s and noticed something odd: the tallest parents tended to have children who were tall \u2014 but not <em>quite</em> as tall. The shortest parents had children who were short \u2014 but not quite as short. He called it &ldquo;regression toward mediocrity.&rdquo;</p>
@@ -287,7 +287,7 @@ function buildEssayTail() {
   return `<div class="topic pattern-essay" id="essay-tail">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E3 \u2014 Pattern Essays</div><h2>The Long <em>Tail</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Most things are small \u2014 a few are enormous \u2014 and the pattern keeps repeating</p>
   <p class="prose">Rank cities by population and plot the result. A handful of megacities tower on the left; thousands of towns form a long, whispering tail stretching to the right. Now do the same with word frequencies, website traffic, the energy released by earthquakes, or personal wealth. The shape is the same: steep drop, then a tail that refuses to die.</p>
@@ -320,7 +320,7 @@ function buildEssaySignal() {
   return `<div class="topic pattern-essay" id="essay-signal">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E4 \u2014 Pattern Essays</div><h2>Signal in the <em>Noise</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// The hard part is not finding pattern \u2014 it is resisting the urge to find it where there is none</p>
   <p class="prose">Scatter a hundred random points on a plane. Stare long enough and you will see clusters, streaks, shapes. The human brain is a pattern-completion machine \u2014 it was built for a world where mistaking a shadow for a predator was safer than ignoring a predator. That wiring does not switch off when you look at data.</p>
@@ -353,7 +353,7 @@ function buildEssayMap() {
   return `<div class="topic pattern-essay" id="essay-map">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E5 \u2014 Pattern Essays</div><h2>The Map and the <em>Territory</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// A model is a deliberate simplification \u2014 the danger is forgetting what was left out</p>
   <p class="prose">Jorge Luis Borges imagined an empire whose cartographers drew a map so detailed it was the same size as the empire itself. It was, of course, useless. A map\u2019s value is in what it <em>leaves out</em> \u2014 the irrelevant streets, the unchanged fields \u2014 so that what remains becomes visible.</p>
@@ -386,7 +386,7 @@ function buildEssayFeedback() {
   return `<div class="topic pattern-essay" id="essay-feedback">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E6 — Pattern Essays</div><h2>The Feedback <em>Loop</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
   <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. Nothing changed in the rules — only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
@@ -419,7 +419,7 @@ function buildEssayWalk() {
   return `<div class="topic pattern-essay" id="essay-walk">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E7 — Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Each step is random — yet the path that emerges is not without structure</p>
   <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started — the distance from the lamp post grows, just not in a predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
@@ -448,7 +448,7 @@ function buildEssayThreshold() {
   return `<div class="topic pattern-essay" id="essay-threshold">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E8 — Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Many systems stay quiet for a long time — then change all at once</p>
   <p class="prose">Add grains of sand to a pile, one at a time. For a long while, nothing dramatic happens. Then, at some unpredictable moment, a single grain triggers an avalanche. The pile was always close to collapse. The last grain gets the credit it did not deserve.</p>
@@ -481,7 +481,7 @@ function buildEssaySurvivor() {
   return `<div class="topic pattern-essay" id="essay-survivor">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E9 \u2014 Pattern Essays</div><h2>Survivorship <em>Bias</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// We study what survived \u2014 and quietly forget everything that did not</p>
   <p class="prose">During the Second World War, the U.S. military studied bombers returning from missions and mapped where they were riddled with bullet holes \u2014 the wings, the fuselage, the tail. The instinct was to reinforce those areas. The statistician Abraham Wald saw it differently: the holes showed where a plane could be hit <em>and still come home</em>. The places with no holes \u2014 the engines, the cockpit \u2014 were where the lost planes had been struck. Reinforce the gaps, he argued, not the marks.</p>
@@ -514,7 +514,7 @@ function buildEssayFractal() {
   return `<div class="topic pattern-essay" id="essay-fractal">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E10 \u2014 Pattern Essays</div><h2>The <em>Fractal</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Zoom in, and the pattern repeats \u2014 the same shape living inside itself</p>
   <p class="prose">How long is the coastline of Britain? It sounds like a question with an answer, until you try to measure it. Use a long ruler and you cut across the bays; use a shorter one and you trace into each inlet, finding more length. Shrink the ruler again and the coastline grows once more. The closer you look, the more detail appears \u2014 and the detail looks like the whole.</p>
@@ -547,7 +547,7 @@ function buildEssaySimpson() {
   return `<div class="topic pattern-essay" id="essay-simpson">
   <div class="topic-header">
     <div class="topic-meta"><div class="topic-num">E11 \u2014 Pattern Essays</div><h2>Simpson\u2019s <em>Paradox</em></h2></div>
-    <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">2 min read</span></div>
+    <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// A trend can point one way in every group \u2014 and the opposite way once they are combined</p>
   <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments showed no bias against women, and several slightly favoured them. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>

@@ -71,7 +71,7 @@ function trailCard(trail) {
         <div class="trail-card-kicker">${trail.stops.length} stops · ${esc(collectionsOf(trail).join(' · '))}</div>
         <div class="trail-card-title">${esc(trail.title)}</div>
         <p class="trail-card-intro">${esc(trail.intro)}</p>
-        <div class="trail-card-foot"><span class="trail-card-progress" data-trail-progress="${trail.id}"></span><span class="trail-card-go">Follow the trail →</span></div>
+        <div class="trail-card-foot"><span class="trail-card-progress" data-trail-progress="${trail.id}"></span><span class="trail-card-go">Follow the trail</span></div>
       </div>
     </a>`;
 }
@@ -104,7 +104,7 @@ function shell({ title, desc, canonical, ogImage, h1, body, extraHead = '' }) {
   <meta name="twitter:description" content="${esc(desc)}">
   <meta name="twitter:image" content="${ogImage}">
 ${extraHead}  <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=41">
+  <link rel="stylesheet" href="/css/main.css?v=42">
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -183,7 +183,7 @@ function trailPage(trail) {
   <h2>${esc(trail.title)}</h2>
   <p class="trail-intro">${esc(trail.intro)}</p>
   <div class="trail-actions">
-    <a class="trail-start" href="${esc(stopUrl(trail, trail.stops[0].key))}" data-trail-nav data-trail-start="${trail.id}">Start the trail →</a>
+    <a class="trail-start" href="${esc(stopUrl(trail, trail.stops[0].key))}" data-trail-nav data-trail-start="${trail.id}">Start the trail</a>
     <span class="trail-progress" data-trail-progress="${trail.id}"></span>
   </div>
 </div>
@@ -240,7 +240,7 @@ function homeBlock() {
   <div class="trail-grid">
     ${trails.slice(0, 3).map(trailCard).join('\n    ')}
   </div>
-  <a class="trails-all" href="/trails/">All ${trails.length} trails →</a>
+  <a class="trails-all" href="/trails/">All ${trails.length} trails</a>
 </div>
 ${H_END}`;
 }

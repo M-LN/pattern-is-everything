@@ -217,7 +217,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=2">
-  <link rel="stylesheet" href="${up}css/main.css?v=41">
+  <link rel="stylesheet" href="${up}css/main.css?v=42">
   <style>
     .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
@@ -261,7 +261,7 @@ ${html}
 ${linkedFromHtml(col, topic, up, connections)}  <div class="topic-nav">
     ${nav}
   </div>
-  <a class="reader-link" href="${coll}#${topic.id}">Open in the full reader, with the topic sidebar →</a>
+  <a class="reader-link" href="${coll}#${topic.id}">Open in the full reader, with the topic sidebar</a>
 </div>
 
 <script>
