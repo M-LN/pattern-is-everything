@@ -27,12 +27,14 @@
       letter-spacing: .06em; margin-bottom: 22px; }
     .crumbs a { color: var(--muted); text-decoration: none; }
     .crumbs a:hover { color: var(--accent); }
-    .topic-page { max-width: 860px; margin: 0 auto; padding: 32px 24px 72px; }
+    /* main.css clears max-width and padding on .portal-header + #mainContent (an id rule),
+       which beats a plain .topic-page; matching the id keeps this page in a reading column. */
+    .portal-header + #mainContent.topic-page { max-width: 860px; margin: 0 auto; padding: 32px 24px 72px; }
     .topic-page .topic { display: block; }
     @media (max-width: 720px) {
       .topic-header { flex-wrap: wrap; gap: 8px; }
       .topic-badge { white-space: normal; text-align: left; }
-      .topic-page { padding-left: 16px; padding-right: 16px; }
+      .portal-header + #mainContent.topic-page { padding-left: 16px; padding-right: 16px; }
     }
     .wr-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 22px 0 12px; }
     .wr-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius);
