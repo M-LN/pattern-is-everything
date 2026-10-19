@@ -131,12 +131,12 @@ function buildHome() {
     <div class="cat-card" onclick="show('essay-mean',true)">
       <div class="cat-card-icon">\u21c5</div>
       <div class="cat-card-name">Regression to the Mean</div>
-      <div class="cat-card-count">Extreme outcomes pull back toward the centre &mdash; always</div>
+      <div class="cat-card-count">Extreme outcomes pull back toward the centre</div>
     </div>
     <div class="cat-card" onclick="show('essay-tail',true)">
       <div class="cat-card-icon">\u221e</div>
       <div class="cat-card-name">The Long Tail</div>
-      <div class="cat-card-count">Most things are small &mdash; a few are enormous</div>
+      <div class="cat-card-count">Most things are small, and a few are enormous</div>
     </div>
     <div class="cat-card" onclick="show('essay-signal',true)">
       <div class="cat-card-icon">\u223f</div>
@@ -156,42 +156,42 @@ function buildHome() {
     <div class="cat-card" onclick="show('essay-walk',true)">
       <div class="cat-card-icon">\u223c</div>
       <div class="cat-card-name">The Random Walk</div>
-      <div class="cat-card-count">Each step is random &mdash; the path is not</div>
+      <div class="cat-card-count">Each step is random, yet the path has structure</div>
     </div>
     <div class="cat-card" onclick="show('essay-threshold',true)">
       <div class="cat-card-icon">\u26a1</div>
       <div class="cat-card-name">The Threshold</div>
-      <div class="cat-card-count">Quiet for a long time &mdash; then all at once</div>
+      <div class="cat-card-count">Quiet for a long time, then all at once</div>
     </div>
     <div class="cat-card" onclick="show('essay-survivor',true)">
       <div class="cat-card-icon">\u2708</div>
       <div class="cat-card-name">Survivorship Bias</div>
-      <div class="cat-card-count">We study what survived &mdash; and forget what did not</div>
+      <div class="cat-card-count">We study what survived and forget what did not</div>
     </div>
     <div class="cat-card" onclick="show('essay-fractal',true)">
       <div class="cat-card-icon">\u2745</div>
       <div class="cat-card-name">The Fractal</div>
-      <div class="cat-card-count">Zoom in &mdash; and the pattern repeats itself</div>
+      <div class="cat-card-count">Zoom in and the pattern repeats itself</div>
     </div>
     <div class="cat-card" onclick="show('essay-simpson',true)">
       <div class="cat-card-icon">\u2696</div>
       <div class="cat-card-name">Simpson\u2019s Paradox</div>
-      <div class="cat-card-count">Every group says one thing &mdash; the total says another</div>
+      <div class="cat-card-count">Every group says one thing, and the total says another</div>
     </div>
     <div class="cat-card" onclick="show('essay-kalman',true)">
       <div class="cat-card-icon">\u29bf</div>
       <div class="cat-card-name">The Deep Kalman Filter</div>
-      <div class="cat-card-count">Estimating what you cannot measure &mdash; predict, then correct</div>
+      <div class="cat-card-count">Estimating what you cannot measure: predict, then correct</div>
     </div>
     <div class="cat-card" onclick="show('essay-spring',true)">
       <div class="cat-card-icon">\u2307</div>
       <div class="cat-card-name">The Coiled Spring</div>
-      <div class="cat-card-count">Quiet gathers before loud &mdash; a squeeze warns about size, not direction</div>
+      <div class="cat-card-count">Quiet gathers before loud. A squeeze warns about size, not direction</div>
     </div>
     <div class="cat-card" onclick="show('essay-forking',true)">
       <div class="cat-card-icon">\u2442</div>
       <div class="cat-card-name">The Garden of Forking Paths</div>
-      <div class="cat-card-count">Try enough paths and one will work &mdash; by luck alone</div>
+      <div class="cat-card-count">Try enough paths and one will work by luck alone</div>
     </div>
     <div class="cat-card" onclick="show('essay-memory',true)">
       <div class="cat-card-icon">\u21a9</div>
@@ -201,12 +201,12 @@ function buildHome() {
     <div class="cat-card" onclick="show('essay-bottleneck',true)">
       <div class="cat-card-icon">\u29d7</div>
       <div class="cat-card-name">The Bottleneck</div>
-      <div class="cat-card-count">The slowest step sets the pace &mdash; and waiting explodes near capacity</div>
+      <div class="cat-card-count">The slowest step sets the pace, and waiting explodes near capacity</div>
     </div>
     <div class="cat-card" onclick="show('essay-reversible',true)">
       <div class="cat-card-icon">⇄</div>
       <div class="cat-card-name">Small, Reversible Bets</div>
-      <div class="cat-card-count">Make mistakes cheap to undo &mdash; and survivable when you cannot</div>
+      <div class="cat-card-count">Make mistakes cheap to undo, and survivable when you cannot</div>
     </div>
   </div>
 </div>`;
@@ -224,9 +224,9 @@ function buildEssayBell() {
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Wherever many small, independent forces combine, the same shape appears</p>
-  <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms \u2014 not because anyone designed it, but because height is the sum of many small genetic and environmental nudges, each roughly independent, each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
-  <p class="prose">The bell appears in measurement error, in exam scores, and roughly in the middle of daily stock-index returns — though not in their tails, which are far fatter than a bell allows. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
-  <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more \u2014 and nothing less.</p>
+  <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms. Nobody designed it. Height is the sum of many small genetic and environmental nudges, each roughly independent and each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
+  <p class="prose">The bell appears in measurement error, in exam scores and roughly in the middle of daily stock-index returns. It does not hold in their tails, which are far fatter than a bell allows. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
+  <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more, and nothing less.</p>
   <div class="va">
     <canvas id="bellCanvas" role="img" aria-label="The Bell in Everything — visualization" height="180"></canvas>
     <div class="viz-ctrl">
@@ -234,9 +234,9 @@ function buildEssayBell() {
       <input type="range" aria-label="Dice rolled" id="bellDiceSlider" min="1" max="12" value="1" oninput="document.getElementById('bellDiceVal').textContent=this.value;DRAWS['essay-bell']()">
       <span class="viz-ctrl-val" id="bellDiceVal">1</span>
     </div>
-    <div class="essay-label">Sum of <em>n</em> dice &mdash; watch the bell emerge</div>
+    <div class="essay-label">Sum of <em>n</em> dice. Add dice and watch the bell emerge</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Whenever many small, independent effects add up, expect a bell curve \u2014 and expect genuine extremes to be rare.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Whenever many small, independent effects add up, expect a bell curve, and expect genuine extremes to be rare.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Laplace, P.-S. (1810). M\u00e9moire sur les approximations des formules qui sont fonctions de tr\u00e8s grands nombres. <em>M\u00e9moires de l\u2019Acad\u00e9mie royale des Sciences de Paris.</em></div>
@@ -256,8 +256,8 @@ function buildEssayMean() {
     <div class="topic-meta"><div class="topic-num">E2 \u2014 Pattern Essays</div><h2>Regression to the <em>Mean</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// Extreme outcomes are followed by less extreme ones \u2014 not a force, just arithmetic</p>
-  <p class="prose">Francis Galton measured parents and children in the 1880s and noticed something odd: the tallest parents tended to have children who were tall \u2014 but not <em>quite</em> as tall. The shortest parents had children who were short \u2014 but not quite as short. He called it &ldquo;regression toward mediocrity.&rdquo;</p>
+  <p class="sub">// Extreme outcomes are followed by less extreme ones, and the cause is arithmetic</p>
+  <p class="prose">Francis Galton measured parents and children in the 1880s and noticed something odd. The tallest parents tended to have children who were tall, though not <em>quite</em> as tall. The shortest parents had children who were short, though not quite as short. He called it &ldquo;regression toward mediocrity.&rdquo;</p>
   <p class="prose">This is not a biological force pulling everyone to average. It is arithmetic. Any measurement is part signal, part luck. When luck runs extremely high, it is unlikely to run that high again. So the next measurement drifts back toward the centre. A fund manager\u2019s best quarter is followed by a more ordinary one. A student\u2019s worst exam is followed by a better one. Nothing changed except the luck component.</p>
   <p class="prose">The pattern: whenever you select on an extreme, the follow-up will be less extreme. Understanding this prevents you from inventing explanations for what is simply reversion.</p>
   <div class="va">
@@ -267,9 +267,9 @@ function buildEssayMean() {
       <input type="range" aria-label="Correlation" id="meanCorrSlider" min="0" max="100" value="55" oninput="document.getElementById('meanCorrVal').textContent=Math.round(this.value)+'%';DRAWS['essay-mean']()">
       <span class="viz-ctrl-val" id="meanCorrVal">55%</span>
     </div>
-    <div class="essay-label">First measurement vs. second &mdash; the pull toward centre</div>
+    <div class="essay-label">First measurement against second, pulled toward the centre</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>After any extreme result, bet on something more ordinary next \u2014 and resist inventing a story for the change.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>After any extreme result, bet on something more ordinary next, and resist inventing a story for the change.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Galton, F. (1886). Regression Towards Mediocrity in Hereditary Stature. <em>Journal of the Anthropological Institute, 15</em>, 246\u2013263. <a href="https://doi.org/10.2307/2841583" target="_blank" rel="noopener">doi:10.2307/2841583</a></div>
@@ -289,9 +289,9 @@ function buildEssayTail() {
     <div class="topic-meta"><div class="topic-num">E3 \u2014 Pattern Essays</div><h2>The Long <em>Tail</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// Most things are small \u2014 a few are enormous \u2014 and the pattern keeps repeating</p>
+  <p class="sub">// Most things are small, a few are enormous, and the pattern keeps repeating</p>
   <p class="prose">Rank cities by population and plot the result. A handful of megacities tower on the left; thousands of towns form a long, whispering tail stretching to the right. Now do the same with word frequencies, website traffic, the energy released by earthquakes, or personal wealth. The shape is the same: steep drop, then a tail that refuses to die.</p>
-  <p class="prose">These are power-law distributions, and they emerge wherever <em>success breeds success</em> \u2014 a city that grows attracts more people, which makes it grow further. A word used often becomes even more familiar, so it gets used again. The rich get richer, not always through merit, but through mechanics.</p>
+  <p class="prose">These are power-law distributions, and they emerge wherever <em>success breeds success</em>. A city that grows attracts more people, which makes it grow further. A word used often becomes even more familiar, so it gets used again. The rich get richer through mechanics, and only sometimes through merit.</p>
   <p class="prose">The tail matters more than it looks. In a bell curve, extremes are vanishingly rare. In a power law, the single largest event can dwarf the rest combined. This is why one earthquake, one pandemic, or one black swan trade can reshape everything.</p>
   <div class="va">
     <canvas id="tailCanvas" role="img" aria-label="The Long Tail — visualization" height="180"></canvas>
@@ -300,7 +300,7 @@ function buildEssayTail() {
       <input type="range" aria-label="Inequality" id="tailAlphaSlider" min="10" max="50" value="18" oninput="document.getElementById('tailAlphaVal').textContent=(this.value/10).toFixed(1);DRAWS['essay-tail']()">
       <span class="viz-ctrl-val" id="tailAlphaVal">1.8</span>
     </div>
-    <div class="essay-label">The few and the many &mdash; drag to steepen the tail</div>
+    <div class="essay-label">The few and the many. Drag to steepen the tail</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>In a power-law world the average is misleading, and the single biggest event can outweigh all the rest combined.</div>
   <div class="essay-refs">
@@ -322,9 +322,9 @@ function buildEssaySignal() {
     <div class="topic-meta"><div class="topic-num">E4 \u2014 Pattern Essays</div><h2>Signal in the <em>Noise</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// The hard part is not finding pattern \u2014 it is resisting the urge to find it where there is none</p>
-  <p class="prose">Scatter a hundred random points on a plane. Stare long enough and you will see clusters, streaks, shapes. The human brain is a pattern-completion machine \u2014 it was built for a world where mistaking a shadow for a predator was safer than ignoring a predator. That wiring does not switch off when you look at data.</p>
-  <p class="prose">Every dataset is a blend of true signal and meaningless noise. A model trained too eagerly memorises the noise and calls it knowledge \u2014 the textbook definition of overfitting. The antidote is restraint: hold data back, cross-validate, penalise complexity, and accept that &ldquo;I don\u2019t know&rdquo; is sometimes the most accurate answer.</p>
+  <p class="sub">// Finding patterns is easy. The hard part is resisting them where there are none</p>
+  <p class="prose">Scatter a hundred random points on a plane. Stare long enough and you will see clusters, streaks, shapes. The human brain is a pattern-completion machine, built for a world where mistaking a shadow for a predator was safer than ignoring a predator. That wiring does not switch off when you look at data.</p>
+  <p class="prose">Every dataset is a blend of true signal and meaningless noise. A model trained too eagerly memorises the noise and calls it knowledge. That is the textbook definition of overfitting. The antidote is restraint: hold data back, cross-validate, penalise complexity, and accept that &ldquo;I don\u2019t know&rdquo; is sometimes the most accurate answer.</p>
   <p class="prose">The pattern here is a meta-pattern: <em>the urge to see patterns can itself be the error</em>. The discipline of statistics is, at its core, a set of tools for telling the difference.</p>
   <div class="va">
     <canvas id="signalCanvas" role="img" aria-label="Signal in the Noise — visualization" height="180"></canvas>
@@ -333,7 +333,7 @@ function buildEssaySignal() {
       <input type="range" aria-label="Noise level" id="signalNoiseSlider" min="0" max="100" value="50" oninput="document.getElementById('signalNoiseVal').textContent=this.value+'%';DRAWS['essay-signal']()">
       <span class="viz-ctrl-val" id="signalNoiseVal">50%</span>
     </div>
-    <div class="essay-label">A wave hiding in noise &mdash; drag to reveal or bury it</div>
+    <div class="essay-label">A wave hiding in noise. Drag to reveal or bury it</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Before trusting a pattern, ask whether you would still see it in fresh data you have not looked at yet.</div>
   <div class="essay-refs">
@@ -355,9 +355,9 @@ function buildEssayMap() {
     <div class="topic-meta"><div class="topic-num">E5 \u2014 Pattern Essays</div><h2>The Map and the <em>Territory</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// A model is a deliberate simplification \u2014 the danger is forgetting what was left out</p>
-  <p class="prose">Jorge Luis Borges imagined an empire whose cartographers drew a map so detailed it was the same size as the empire itself. It was, of course, useless. A map\u2019s value is in what it <em>leaves out</em> \u2014 the irrelevant streets, the unchanged fields \u2014 so that what remains becomes visible.</p>
-  <p class="prose">Every model you build is a map. A linear regression draws one straight line through a cloud of points and declares, &ldquo;this is the relationship.&rdquo; The cloud disagrees at every point. That disagreement \u2014 the residuals \u2014 is not a flaw; it is the honest price of simplification. The danger arrives when you forget the residuals exist, when you treat the line as the territory.</p>
+  <p class="sub">// A model is a deliberate simplification, and the danger is forgetting what was left out</p>
+  <p class="prose">Jorge Luis Borges imagined an empire whose cartographers drew a map so detailed it was the same size as the empire itself. It was, of course, useless. A map’s value lies in what it <em>leaves out</em>. Drop the irrelevant streets and the unchanged fields, and what remains becomes visible.</p>
+  <p class="prose">Every model you build is a map. A linear regression draws one straight line through a cloud of points and declares, &ldquo;this is the relationship.&rdquo; The cloud disagrees at every point. That disagreement, the residuals, is the honest price of simplification. The danger arrives when you forget the residuals exist, when you treat the line as the territory.</p>
   <p class="prose">The best practitioners hold two truths at once: the model is useful <em>and</em> the model is wrong. The gap between the line and the dots is where humility lives.</p>
   <div class="va">
     <canvas id="mapCanvas" role="img" aria-label="The Map and the Territory — visualization" height="180"></canvas>
@@ -366,9 +366,9 @@ function buildEssayMap() {
       <input type="range" aria-label="Model complexity" id="mapComplexSlider" min="1" max="5" value="1" oninput="document.getElementById('mapComplexVal').textContent=['Linear','Quadratic','Cubic','Degree 4','Overfit'][this.value-1];DRAWS['essay-map']()">
       <span class="viz-ctrl-val" id="mapComplexVal">Linear</span>
     </div>
-    <div class="essay-label">The line and the dots &mdash; watch the model overfit</div>
+    <div class="essay-label">The line and the dots. Watch the model overfit</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Every model is wrong in some way \u2014 keep the residuals in view and never mistake the line for the world.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Every model is wrong in some way. Keep the residuals in view and never mistake the line for the world.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Borges, J. L. (1946). On Exactitude in Science. <em>Los Anales de Buenos Aires, 1</em>(3).</div>
@@ -389,8 +389,8 @@ function buildEssayFeedback() {
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
-  <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. Nothing changed in the rules — only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
-  <p class="prose">But exponential growth always meets a wall — resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption and epidemics often follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
+  <p class="prose">A savings account grows slowly at first. Interest earns interest, which earns more interest. After a few years the line barely looks bent. After a few decades it curves sharply upward. The rules never changed. Only time passed. This is compounding: the simplest and most powerful feedback loop.</p>
+  <p class="prose">But exponential growth always meets a wall: resources run out, competition arrives, the body builds immunity. The result is an S-curve: slow start, explosive middle, plateau at the top. Population growth, technology adoption and epidemics often follow this shape. The feedback loop is the engine; the ceiling is the brake.</p>
   <p class="prose">Negative feedback works in reverse: the output damps the system back toward equilibrium. A thermostat. A predator-prey cycle. The price mechanism in a market. Without negative feedback, every small perturbation would spiral forever.</p>
   <div class="va">
     <canvas id="feedbackCanvas" role="img" aria-label="The Feedback Loop — visualization" height="180"></canvas>
@@ -399,9 +399,9 @@ function buildEssayFeedback() {
       <input type="range" aria-label="Growth rate" id="feedbackRateSlider" min="102" max="140" value="120" oninput="document.getElementById('feedbackRateVal').textContent=((this.value/100-1)*100).toFixed(0)+'%/yr';DRAWS['essay-feedback']()">
       <span class="viz-ctrl-val" id="feedbackRateVal">20%/yr</span>
     </div>
-    <div class="essay-label">Exponential growth hitting a ceiling &mdash; the S-curve</div>
+    <div class="essay-label">Exponential growth hitting a ceiling: the S-curve</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Find the loop \u2014 what feeds back into what \u2014 because that, not the starting point, decides where a system ends up.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Find the loop, meaning what feeds back into what. The loop decides where a system ends up, far more than the starting point does.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Meadows, D. H. (2008). <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing.</div>
@@ -421,14 +421,14 @@ function buildEssayWalk() {
     <div class="topic-meta"><div class="topic-num">E7 — Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// Each step is random — yet the path that emerges is not without structure</p>
-  <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started — the distance from the lamp post grows, just not in a predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
-  <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the typical (root-mean-square) distance from the start is &radic;<em>n</em>, not <em>n</em>. Quadrupling your time only doubles your uncertainty. A four-year forecast is twice as uncertain as a one-year forecast — not four times.</p>
+  <p class="sub">// Each step is random, yet the path that emerges has structure</p>
+  <p class="prose">Imagine a drunkard leaving a lamp post, each step equally likely to go left or right. Where will they be after a thousand steps? Not where they started. The distance from the lamp post grows, though in no predictable direction. This is a random walk, and it describes stock prices, the diffusion of molecules, the path of a pollen grain in water.</p>
+  <p class="prose">The surprising thing is the square-root law: after <em>n</em> steps of size 1, the typical (root-mean-square) distance from the start is &radic;<em>n</em>, not <em>n</em>. Quadrupling your time only doubles your uncertainty. A four-year forecast is twice as uncertain as a one-year forecast, not four times as uncertain.</p>
   <p class="prose">Random walks also explain why past prices carry almost no information about future prices in efficient markets. Each step erases the memory of the last. The path looks meaningful in hindsight. It was not.</p>
   <div class="va">
     <canvas id="walkCanvas" role="img" aria-label="The Random Walk — visualization" height="180"></canvas>
     <button class="viz-regen" onclick="DRAWS['essay-walk']()">&#8635; New walk</button>
-    <div class="essay-label">Five simultaneous random walks &mdash; each unique, none predictable</div>
+    <div class="essay-label">Five simultaneous random walks, each unique and none predictable</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Uncertainty grows with the square root of time, and a convincing path in hindsight may carry no signal at all.</div>
   <div class="essay-refs">
@@ -450,10 +450,10 @@ function buildEssayThreshold() {
     <div class="topic-meta"><div class="topic-num">E8 — Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// Many systems stay quiet for a long time — then change all at once</p>
+  <p class="sub">// Many systems stay quiet for a long time, then change all at once</p>
   <p class="prose">Add grains of sand to a pile, one at a time. For a long while, nothing dramatic happens. Then, at some unpredictable moment, a single grain triggers an avalanche. The pile was always close to collapse. The last grain gets the credit it did not deserve.</p>
   <p class="prose">This is threshold behaviour, and it appears everywhere: a rumour that suddenly goes viral, ice that holds firm and then fractures, a neuron that fires only when input crosses a minimum. In each case, input and output are not proportional. Small changes accumulate invisibly until the threshold is crossed, and then the system snaps.</p>
-  <p class="prose">The sigmoid function is the mathematician’s version: nearly flat on both sides, steep in the middle. It describes the dose-response curve of a drug, the probability of a binary outcome in logistic regression, and the activation of a neuron. The threshold is not special — it is simply the midpoint of a curve that was always going to be steep somewhere.</p>
+  <p class="prose">The sigmoid function is the mathematician’s version: nearly flat on both sides, steep in the middle. It describes the dose-response curve of a drug, the probability of a binary outcome in logistic regression, and the activation of a neuron. Nothing is special about the threshold. It is simply the midpoint of a curve that was always going to be steep somewhere.</p>
   <div class="va">
     <canvas id="thresholdCanvas" role="img" aria-label="The Threshold — visualization" height="180"></canvas>
     <div class="viz-ctrl">
@@ -461,9 +461,9 @@ function buildEssayThreshold() {
       <input type="range" aria-label="Input level" id="thresholdInputSlider" min="0" max="100" value="30" oninput="document.getElementById('thresholdInputVal').textContent=this.value;DRAWS['essay-threshold']()">
       <span class="viz-ctrl-val" id="thresholdInputVal">30</span>
     </div>
-    <div class="essay-label">The sigmoid &mdash; drag through the threshold</div>
+    <div class="essay-label">The sigmoid. Drag through the threshold</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Slow, invisible accumulation can end in a sudden snap \u2014 watch the approach to the line, not just the line itself.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Slow, invisible accumulation can end in a sudden snap. Watch the approach to the line as well as the line itself.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Bak, P., Tang, C. &amp; Wiesenfeld, K. (1987). Self-organized criticality. <em>Physical Review Letters, 59</em>(4), 381–384. <a href="https://doi.org/10.1103/PhysRevLett.59.381" target="_blank" rel="noopener">doi:10.1103/PhysRevLett.59.381</a></div>
@@ -483,10 +483,10 @@ function buildEssaySurvivor() {
     <div class="topic-meta"><div class="topic-num">E9 \u2014 Pattern Essays</div><h2>Survivorship <em>Bias</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// We study what survived \u2014 and quietly forget everything that did not</p>
-  <p class="prose">During the Second World War, the U.S. military studied bombers returning from missions and mapped where they were riddled with bullet holes \u2014 the wings, the fuselage, the tail. The instinct was to reinforce those areas. The statistician Abraham Wald saw it differently: the holes showed where a plane could be hit <em>and still come home</em>. The places with no holes \u2014 the engines, the cockpit \u2014 were where the lost planes had been struck. Reinforce the gaps, he argued, not the marks.</p>
+  <p class="sub">// We study what survived and quietly forget everything that did not</p>
+  <p class="prose">During the Second World War, the U.S. military studied bombers returning from missions and mapped where they were riddled with bullet holes: the wings, the fuselage, the tail. The instinct was to reinforce those areas. The statistician Abraham Wald saw it differently: the holes showed where a plane could be hit <em>and still come home</em>. The places with no holes, the engines and the cockpit, were where the lost planes had been struck. Reinforce the gaps, he argued, not the marks.</p>
   <p class="prose">This is survivorship bias: we draw conclusions from the things that made it through the filter and never see the ones that did not. We study successful founders and copy their habits, ignoring the identical habits of thousands who failed. We admire old buildings and call past craftsmanship superior, forgetting the flimsy ones that already collapsed.</p>
-  <p class="prose">The pattern is a hole in the data, not in the analysis. The missing observations are invisible by definition \u2014 which is exactly why they are so easy to forget, and so dangerous to ignore.</p>
+  <p class="prose">The pattern is a hole in the data, not in the analysis. The missing observations are invisible by definition. That is exactly why they are so easy to forget and so dangerous to ignore.</p>
   <div class="va">
     <canvas id="survivorCanvas" role="img" aria-label="Survivorship Bias — visualization" height="180"></canvas>
     <div class="viz-ctrl">
@@ -494,7 +494,7 @@ function buildEssaySurvivor() {
       <input type="range" aria-label="Survival cutoff" id="survivorCutSlider" min="0" max="80" value="40" oninput="document.getElementById('survivorCutVal').textContent=this.value;DRAWS['essay-survivor']()">
       <span class="viz-ctrl-val" id="survivorCutVal">40</span>
     </div>
-    <div class="essay-label">Only survivors are seen &mdash; drag to watch the visible average inflate</div>
+    <div class="essay-label">Only survivors are seen. Drag to watch the visible average inflate</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Before trusting any lesson drawn from winners, ask what happened to everyone who is no longer in the sample.</div>
   <div class="essay-refs">
@@ -516,9 +516,9 @@ function buildEssayFractal() {
     <div class="topic-meta"><div class="topic-num">E10 \u2014 Pattern Essays</div><h2>The <em>Fractal</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// Zoom in, and the pattern repeats \u2014 the same shape living inside itself</p>
-  <p class="prose">How long is the coastline of Britain? It sounds like a question with an answer, until you try to measure it. Use a long ruler and you cut across the bays; use a shorter one and you trace into each inlet, finding more length. Shrink the ruler again and the coastline grows once more. The closer you look, the more detail appears \u2014 and the detail looks like the whole.</p>
-  <p class="prose">Beno\u00eet Mandelbrot called these shapes fractals: objects whose structure repeats across scales. A branch resembles the tree; a tributary resembles the river; a jagged minute of stock prices resembles a jagged year. Self-similarity is not a curiosity \u2014 it is one of the most common signatures of how nature builds, from lungs and blood vessels to lightning and snowflakes.</p>
+  <p class="sub">// Zoom in and the pattern repeats, the same shape living inside itself</p>
+  <p class="prose">How long is the coastline of Britain? It sounds like a question with an answer, until you try to measure it. Use a long ruler and you cut across the bays; use a shorter one and you trace into each inlet, finding more length. Shrink the ruler again and the coastline grows once more. The closer you look, the more detail appears, and the detail looks like the whole.</p>
+  <p class="prose">Beno\u00eet Mandelbrot called these shapes fractals: objects whose structure repeats across scales. A branch resembles the tree; a tributary resembles the river; a jagged minute of stock prices resembles a jagged year. Self-similarity is one of the most common signatures of how nature builds, from lungs and blood vessels to lightning and snowflakes.</p>
   <p class="prose">The pattern is recursion made visible: a simple rule applied to itself, over and over, producing endless complexity from almost nothing. The whole is written into every part.</p>
   <div class="va">
     <canvas id="fractalCanvas" role="img" aria-label="The Fractal — visualization" height="180"></canvas>
@@ -527,9 +527,9 @@ function buildEssayFractal() {
       <input type="range" aria-label="Recursion depth" id="fractalDepthSlider" min="1" max="10" value="6" oninput="document.getElementById('fractalDepthVal').textContent=this.value;DRAWS['essay-fractal']()">
       <span class="viz-ctrl-val" id="fractalDepthVal">6</span>
     </div>
-    <div class="essay-label">A recursive tree &mdash; drag to grow detail from a single rule</div>
+    <div class="essay-label">A recursive tree. Drag to grow detail from a single rule</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>When a shape looks the same at every zoom level, a simple repeated rule is usually doing the work \u2014 and there may be no single \u201ctrue\u201d scale to measure.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>When a shape looks the same at every zoom level, a simple repeated rule is usually doing the work, and there may be no single “true” scale to measure.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Mandelbrot, B. (1967). How Long Is the Coast of Britain? Statistical Self-Similarity and Fractional Dimension. <em>Science, 156</em>(3775), 636\u2013638. <a href="https://doi.org/10.1126/science.156.3775.636" target="_blank" rel="noopener">doi:10.1126/science.156.3775.636</a></div>
@@ -549,10 +549,10 @@ function buildEssaySimpson() {
     <div class="topic-meta"><div class="topic-num">E11 \u2014 Pattern Essays</div><h2>Simpson\u2019s <em>Paradox</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// A trend can point one way in every group \u2014 and the opposite way once they are combined</p>
+  <p class="sub">// A trend can point one way in every group and the opposite way once they are combined</p>
   <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments showed no bias against women, and several slightly favoured them. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>
-  <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable \u2014 department, severity, the way cases were sorted \u2014 quietly steers the total.</p>
-  <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is not better arithmetic \u2014 it is asking what was combined, and why.</p>
+  <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable, whether department, severity or the way cases were sorted, quietly steers the total.</p>
+  <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is to ask what was combined, and why.</p>
   <div class="va">
     <canvas id="simpsonCanvas" role="img" aria-label="Simpson’s Paradox — visualization" height="180"></canvas>
     <div class="viz-ctrl">
@@ -560,9 +560,9 @@ function buildEssaySimpson() {
       <input type="range" aria-label="Group separation" id="simpsonSepSlider" min="0" max="100" value="70" oninput="document.getElementById('simpsonSepVal').textContent=this.value+'%';DRAWS['essay-simpson']()">
       <span class="viz-ctrl-val" id="simpsonSepVal">70%</span>
     </div>
-    <div class="essay-label">Two rising groups, one falling total &mdash; drag to separate them</div>
+    <div class="essay-label">Two rising groups, one falling total. Drag to separate them</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Before trusting an overall trend, split the data by the obvious subgroups \u2014 the aggregate can point where no group does.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Before trusting an overall trend, split the data by the obvious subgroups. The aggregate can point where no group does.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Simpson, E. H. (1951). The Interpretation of Interaction in Contingency Tables. <em>Journal of the Royal Statistical Society B, 13</em>(2), 238\u2013241. <a href="https://doi.org/10.1111/j.2517-6161.1951.tb00088.x" target="_blank" rel="noopener">doi:10.1111/j.2517-6161.1951.tb00088.x</a></div>
@@ -582,10 +582,10 @@ function buildEssayKalman() {
     <div class="topic-meta"><div class="topic-num">E12 \u2014 Pattern Essays</div><h2>The Deep <em>Kalman Filter</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
-  <p class="sub">// Estimating what you cannot measure \u2014 predict, then correct, then predict again</p>
-  <p class="prose">Some of the most important numbers in the world cannot be measured directly. The temperature deep inside a spinning generator. The exact charge left in a battery. The true health of a patient between hospital visits. In each case the quantity that matters is <em>hidden</em> \u2014 wrapped in insulation, sealed in a cell, hidden inside a body \u2014 and all we have are noisy, indirect signals from the outside.</p>
-  <p class="prose">In 1960, Rudolf K\u00e1lm\u00e1n described a way to estimate such hidden quantities. The idea is a rhythm of two steps. First <strong>predict</strong>: use a model of how the system behaves to guess where the hidden state should be a moment from now. Then <strong>correct</strong>: when a noisy measurement arrives, nudge the guess toward it \u2014 but only partway, in proportion to how much you trust the sensor versus the model. Repeat forever. The amount of that nudge is the famous <em>Kalman gain</em>, and it automatically settles on the optimal blend of prediction and measurement.</p>
-  <p class="prose">The classic filter assumes you can write the system\u2019s physics down by hand as neat linear equations. Reality is rarely so polite. The <strong>Deep Kalman Filter</strong> keeps the same predict-then-correct rhythm but replaces the hand-written model with neural networks that <em>learn</em> how the hidden state evolves and how it shows up in the sensors \u2014 straight from data. It is the same ancient pattern of disciplined guessing, now able to handle systems too tangled to derive on paper.</p>
+  <p class="sub">// Estimating what you cannot measure: predict, then correct, then predict again</p>
+  <p class="prose">Some of the most important numbers in the world cannot be measured directly. The temperature deep inside a spinning generator. The exact charge left in a battery. The true health of a patient between hospital visits. In each case the quantity that matters is <em>hidden</em>, whether wrapped in insulation, sealed in a cell or inside a body, and all we have are noisy, indirect signals from the outside.</p>
+  <p class="prose">In 1960, Rudolf K\u00e1lm\u00e1n described a way to estimate such hidden quantities. The idea is a rhythm of two steps. First <strong>predict</strong>: use a model of how the system behaves to guess where the hidden state should be a moment from now. Then <strong>correct</strong>: when a noisy measurement arrives, nudge the guess toward it, but only partway, in proportion to how much you trust the sensor over the model. Repeat forever. The amount of that nudge is the famous <em>Kalman gain</em>, and it automatically settles on the optimal blend of prediction and measurement.</p>
+  <p class="prose">The classic filter assumes you can write the system\u2019s physics down by hand as neat linear equations. Reality is rarely so polite. The <strong>Deep Kalman Filter</strong> keeps the same predict-then-correct rhythm but replaces the hand-written model with neural networks that <em>learn</em>, straight from data, how the hidden state evolves and how it shows up in the sensors. It is the same ancient pattern of disciplined guessing, now able to handle systems too tangled to derive on paper.</p>
 
   <div class="essay-case">
     <h4>Case 1 \u2014 The generator\u2019s hidden hotspot</h4>
@@ -602,7 +602,7 @@ function buildEssayKalman() {
     <p>A person\u2019s underlying health is a hidden state that moves continuously, yet we only glimpse it through scattered, irregular measurements \u2014 a blood test here, a blood-pressure reading there, a symptom noted weeks apart. Krishnan, Shalit and Sontag introduced the Deep Kalman Filter precisely for this setting: to estimate a latent patient state from sparse electronic health records and even reason about how a medication would change its trajectory. The filter fills the gaps between observations with a learned model of how the disease progresses, then snaps back to reality each time a real measurement arrives \u2014 the same predict-and-correct heartbeat, applied to a human being.</p>
   </div>
 
-  <p class="prose">Three very different worlds \u2014 a power plant, a battery pack, a hospital ward \u2014 share one structure. Something essential is hidden; the sensors are noisy and indirect; and the way forward is not to trust the model alone, nor the measurement alone, but to weigh them against each other, moment by moment. That weighing <em>is</em> the pattern.</p>
+  <p class="prose">A power plant, a battery pack and a hospital ward are very different worlds, yet they share one structure. Something essential is hidden, and the sensors are noisy and indirect. The way forward is to weigh the model and the measurement against each other, moment by moment. That weighing <em>is</em> the pattern.</p>
 
   <div class="va">
     <canvas id="kalmanCanvas" role="img" aria-label="The Deep Kalman Filter — visualization" height="180"></canvas>
@@ -611,9 +611,9 @@ function buildEssayKalman() {
       <input type="range" aria-label="Trust in sensor" id="kalmanTrustSlider" min="3" max="95" value="30" oninput="document.getElementById('kalmanTrustVal').textContent=this.value+'%';DRAWS['essay-kalman']()">
       <span class="viz-ctrl-val" id="kalmanTrustVal">30%</span>
     </div>
-    <div class="essay-label">Hidden truth \u00b7 noisy sensor \u00b7 filter estimate &mdash; drag to trust the sensor more or less</div>
+    <div class="essay-label">Hidden truth, noisy sensor and filter estimate. Drag to trust the sensor more or less</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>When the thing you care about is hidden, do not chase the raw sensor and do not trust the model blindly \u2014 blend the two, weighting each by how much you trust it. A deep filter just learns that model from data instead of deriving it by hand.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>When the thing you care about is hidden, blend the raw sensor and the model, weighting each by how much you trust it. A deep filter just learns that model from data instead of deriving it by hand.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Kalman, R. E. (1960). A New Approach to Linear Filtering and Prediction Problems. <em>Journal of Basic Engineering, 82</em>(1), 35\u201345. <a href="https://doi.org/10.1115/1.3662552" target="_blank" rel="noopener">doi:10.1115/1.3662552</a></div>
@@ -634,7 +634,7 @@ function buildEssaySpring() {
     <div class="topic-meta"><div class="topic-num">E13 — Pattern Essays</div><h2>The Coiled <em>Spring</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
-  <p class="sub">// Quiet gathers before loud — a narrowing range warns about size, not direction</p>
+  <p class="sub">// Quiet gathers before loud. A narrowing range warns about size, not direction</p>
   <p class="prose">In 1963 Benoît Mandelbrot noticed something about cotton prices that every trader already felt: large changes tend to be followed by large changes, of either sign, and small changes by small ones. Calm comes in stretches, and so do storms. Volatility has a memory even when direction does not.</p>
   <p class="prose">That memory gives markets a rhythm. A range narrows day by day as buyers and sellers drift towards agreement, positions pile up on both sides of a level, and the news everyone is waiting for has not yet arrived. Then something resolves, and the stored-up disagreement is released at once. The quiet was not the absence of risk. It was risk being wound up.</p>
 
@@ -653,7 +653,7 @@ function buildEssaySpring() {
     <p><a href="../markets/risk/index.html#volatility-modeling">Volatility models</a> such as <a href="../timeseries/index.html#garch">GARCH</a> write the rhythm down. Today’s variance is built from yesterday’s variance and yesterday’s shock, so calm predicts calm — but only for a while, because the model also pulls volatility back towards its long-run level. An unusually quiet market is, in this view, a market that is likely to get louder.</p>
   </div>
 
-  <p class="prose">The same shape turns up far from markets. In 1910 the geologist Harry Fielding Reid explained earthquakes as elastic rebound: the ground on either side of a fault creeps past slowly for years while the fault stays locked, strain builds silently, and then it is released in one slip. Stillness on the surface was storage underneath. And like Mandelbrot’s prices, the pattern looks the same whether you watch minutes or months — a cousin of <a href="index.html#essay-fractal">the fractal</a> and of <a href="index.html#essay-threshold">the threshold</a>.</p>
+  <p class="prose">The same shape turns up far from markets. In 1910 the geologist Harry Fielding Reid explained earthquakes as elastic rebound: the ground on either side of a fault creeps past slowly for years while the fault stays locked, strain builds silently, and then it is released in one slip. Stillness on the surface was storage underneath. And like Mandelbrot’s prices, the pattern looks the same whether you watch minutes or months, which makes it a cousin of <a href="index.html#essay-fractal">the fractal</a> and of <a href="index.html#essay-threshold">the threshold</a>.</p>
   <p class="prose">What compression does not tell you is which way the spring will jump. A tight triangle says a large move is more likely than usual; it says much less about its sign, and plenty of squeezes simply fizzle out into another quiet range.</p>
 
   <div class="va">
@@ -663,7 +663,7 @@ function buildEssaySpring() {
       <input type="range" aria-label="Compression" id="springSlider" min="0" max="90" value="60" oninput="document.getElementById('springVal').textContent=this.value+'%';DRAWS['essay-spring']()">
       <span class="viz-ctrl-val" id="springVal">60%</span>
     </div>
-    <div class="essay-label">Price and its 10-day range &mdash; drag to squeeze the quiet phase harder and watch the release grow</div>
+    <div class="essay-label">Price and its 10-day range. Drag to squeeze the quiet phase harder and watch the release grow</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>A narrowing range is a warning about size, not a forecast of direction. Size a position for the release, not for the calm that came before it.</div>
   <div class="essay-refs">
@@ -687,9 +687,9 @@ function buildEssayForking() {
     <div class="topic-meta"><div class="topic-num">E14 — Pattern Essays</div><h2>The Garden of <em>Forking Paths</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
-  <p class="sub">// Try enough paths and one of them will lead somewhere — by luck alone</p>
-  <p class="prose">In a 1941 story by Jorge Luis Borges, a labyrinth is not a building but a novel in which every choice is taken: at each fork the story splits, and all the branches go on. Seventy years later the statisticians Andrew Gelman and Eric Loken borrowed the title for a quieter problem. A researcher rarely runs twenty tests and reports the best. More often they run one — but which one depends on the data: which outliers to drop, which window to use, which subgroup looked interesting. Each choice is a fork, and the path actually taken was chosen by the noise.</p>
-  <p class="prose">The arithmetic is unforgiving. A rule with no edge at all passes a test at the 5% level one time in twenty. Try twenty such rules and the chance that at least one passes is about 64%. Try two hundred and it is a near certainty. The best result of a search is not a typical result; it is the luckiest one, and luck does not repeat.</p>
+  <p class="sub">// Try enough paths and one of them will lead somewhere by luck alone</p>
+  <p class="prose">In a 1941 story by Jorge Luis Borges, the labyrinth turns out to be a novel in which every choice is taken. At each fork the story splits, and all the branches go on. Seventy years later the statisticians Andrew Gelman and Eric Loken borrowed the title for a quieter problem. A researcher rarely runs twenty tests and reports the best. More often they run one, and the data decide which one: which outliers to drop, which window to use, which subgroup looked interesting. Each choice is a fork, and the path actually taken was chosen by the noise.</p>
+  <p class="prose">The arithmetic is unforgiving. A rule with no edge at all passes a test at the 5% level one time in twenty. Try twenty such rules and the chance that at least one passes is about 64%. Try two hundred and it is a near certainty. The best result of a search is the luckiest one, and luck does not repeat.</p>
 
   <div class="essay-case">
     <h4>The chart reader</h4>
@@ -706,7 +706,7 @@ function buildEssayForking() {
     <p>Machine learning automates the garden. <a href="../stats/index.html#optuna">Optuna</a> can try hundreds of hyperparameter settings in an afternoon, and the best validation score among them is flattered for the same reason the best trading rule is. The <a href="../stats/index.html#sklearn-eval">scikit-learn evaluation suite</a> answers with nested cross-validation and a test set that is touched once; <a href="../stats/index.html#scipy-statsmodels">statsmodels</a> answers with corrections for multiple testing, such as Benjamini and Hochberg’s. Public leaderboards are the same garden walked by a whole field: every team tunes against the same test set, which is why <a href="../llm/index.html#evaluation">LLM evaluation</a> keeps needing fresh benchmarks.</p>
   </div>
 
-  <p class="prose">None of this means patterns are illusions. It means a result has to be judged together with the search that found it. A model is a map drawn from one territory, and a map redrawn until it fits every bump of the old ground is the one most likely to mislead on the new — the warning of <a href="index.html#essay-map">The Map and the Territory</a> and of <a href="index.html#essay-signal">Signal in the Noise</a>.</p>
+  <p class="prose">None of this means patterns are illusions. It means a result has to be judged together with the search that found it. A model is a map drawn from one territory, and a map redrawn until it fits every bump of the old ground is the one most likely to mislead on the new. That is the warning of <a href="index.html#essay-map">The Map and the Territory</a> and of <a href="index.html#essay-signal">Signal in the Noise</a>.</p>
 
   <div class="va">
     <canvas id="forkingCanvas" role="img" aria-label="The Garden of Forking Paths — visualization" height="180"></canvas>
@@ -715,7 +715,7 @@ function buildEssayForking() {
       <input type="range" aria-label="Rules tried" id="forkingSlider" min="1" max="200" value="20" oninput="document.getElementById('forkingVal').textContent=this.value;DRAWS['essay-forking']()">
       <span class="viz-ctrl-val" id="forkingVal">20</span>
     </div>
-    <div class="essay-label">Every rule is a coin flip with no edge &mdash; drag to try more of them and watch the best one look brilliant</div>
+    <div class="essay-label">Every rule is a coin flip with no edge. Drag to try more of them and watch the best one look brilliant</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Count the paths you walked, not just the one you report. The best of many tries is always flattered; judge it on data it has never seen.</div>
   <div class="essay-refs">
@@ -740,9 +740,9 @@ function buildEssayMemory() {
     <div class="topic-meta"><div class="topic-num">E15 — Pattern Essays</div><h2>How Long Is <em>Memory?</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
-  <p class="sub">// Every model decides how much the past matters — usually with a number nobody looks at</p>
+  <p class="sub">// Every model decides how much the past matters, usually with a number nobody looks at</p>
   <p class="prose">In 1885 Hermann Ebbinghaus learned lists of nonsense syllables and tested himself at intervals afterwards. What he retained fell quickly at first and then more slowly: a forgetting curve. Some sixty-five years later the hydrologist Harold Edwin Hurst, planning dams on the Nile, found the opposite surprise. Wet years clustered with wet years and dry with dry over spans far longer than anyone expected; the river remembered.</p>
-  <p class="prose">Between those two lies a question every model of a sequence has to answer: how far back does the past still matter, and how quickly should it fade? The answer is rarely argued for. It hides in a window length, a decay rate, a lag order or a context size — and it shapes everything the model can see.</p>
+  <p class="prose">Between those two lies a question every model of a sequence has to answer: how far back does the past still matter, and how quickly should it fade? The answer is rarely argued for. It hides in a window length, a decay rate, a lag order or a context size, and it shapes everything the model can see.</p>
 
   <div class="essay-case">
     <h4>Averages — memory as a window</h4>
@@ -771,7 +771,7 @@ function buildEssayMemory() {
       <input type="range" aria-label="Half-life" id="memorySlider" min="1" max="40" value="6" oninput="document.getElementById('memoryVal').textContent=this.value+' steps';DRAWS['essay-memory']()">
       <span class="viz-ctrl-val" id="memoryVal">6 steps</span>
     </div>
-    <div class="essay-label">A noisy series and an average with fading memory &mdash; the bars show how much each past step still counts</div>
+    <div class="essay-label">A noisy series and an average with fading memory. The bars show how much each past step still counts</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Every model answers “how much does the past matter?” Make that answer on purpose, and match it to how fast the world you are modelling forgets.</div>
   <div class="essay-refs">
@@ -796,9 +796,9 @@ function buildEssayBottleneck() {
     <div class="topic-meta"><div class="topic-num">E16 — Pattern Essays</div><h2>The <em>Bottleneck</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
-  <p class="sub">// A system goes no faster than its slowest step — and near full capacity, waiting explodes</p>
+  <p class="sub">// A system goes no faster than its slowest step, and near full capacity the waiting explodes</p>
   <p class="prose">In <em>The Goal</em>, a 1984 novel about a failing factory, Eliyahu Goldratt has his plant manager learn the lesson on a scout hike. The column of boys can only move as fast as the slowest one; hurrying the others just stretches the line. In the factory it is a single machine, and every improvement made anywhere else only grows the pile of parts waiting in front of it.</p>
-  <p class="prose">Two facts from queueing theory make this sharper. John Little showed in 1961 that, in any stable system, the number of things inside it equals the rate at which they arrive times how long each one stays — so queues and waiting times rise and fall together. And waiting does not grow evenly with load. In the simplest queue, a server busy 50% of the time keeps each job waiting about as long as it takes to serve it; at 90% busy the time in the system is ten times the service time, at 95% twenty. The last few percent of utilisation are paid for in waiting.</p>
+  <p class="prose">Two facts from queueing theory make this sharper. John Little showed in 1961 that, in any stable system, the number of things inside it equals the rate at which they arrive times how long each one stays. Queues and waiting times therefore rise and fall together. And waiting does not grow evenly with load. In the simplest queue, a server busy 50% of the time keeps each job waiting about as long as it takes to serve it; at 90% busy the time in the system is ten times the service time, at 95% twenty. The last few percent of utilisation are paid for in waiting.</p>
 
   <div class="essay-case">
     <h4>Serving a model</h4>
@@ -824,9 +824,9 @@ function buildEssayBottleneck() {
       <input type="range" aria-label="Utilisation" id="bottleneckSlider" min="10" max="97" value="70" oninput="document.getElementById('bottleneckVal').textContent=this.value+'%';DRAWS['essay-bottleneck']()">
       <span class="viz-ctrl-val" id="bottleneckVal">70%</span>
     </div>
-    <div class="essay-label">Time in a simple queue, in multiples of the service time &mdash; drag towards full capacity and watch the curve turn upward</div>
+    <div class="essay-label">Time in a simple queue, in multiples of the service time. Drag towards full capacity and watch the curve turn upward</div>
   </div>
-  <div class="essay-takeaway"><strong>What to remember</strong>Find the slowest step before optimising anything. Everywhere else, extra speed only lengthens the queue in front of it — and close to full capacity, the waiting grows far faster than the load.</div>
+  <div class="essay-takeaway"><strong>What to remember</strong>Find the slowest step before optimising anything. Everywhere else, extra speed only lengthens the queue in front of it. Close to full capacity, the waiting grows far faster than the load.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
     <div class="essay-ref">[1] Goldratt, E. M. &amp; Cox, J. (1984). <em>The Goal: A Process of Ongoing Improvement.</em> Great Barrington, MA: North River Press.</div>
@@ -849,8 +849,8 @@ function buildEssayReversible() {
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</p>
-  <p class="prose">In his 2015 letter to shareholders, Jeff Bezos split decisions into two kinds. Some are one-way doors: once through, you cannot come back, and they deserve slow, careful thought. Most are two-way doors: if the room on the other side is wrong, you walk back out. The common mistake, he argued, is treating the second kind like the first — deliberating for weeks over choices that could have been tried, measured and reversed in days.</p>
-  <p class="prose">The same idea has a harder, mathematical edge. When gains and losses compound, the order of events matters and a large enough loss ends the game. A bet can have a positive expected value and still ruin almost everyone who takes it too often at too large a size. The physicist Ole Peters calls this the ergodicity problem: the average over many people is not what any one person experiences over time. Survival is not one goal among others; it is the condition for having any others.</p>
+  <p class="prose">In his 2015 letter to shareholders, Jeff Bezos split decisions into two kinds. Some are one-way doors: once through, you cannot come back, and they deserve slow, careful thought. Most are two-way doors: if the room on the other side is wrong, you walk back out. The common mistake, he argued, is treating the second kind like the first: deliberating for weeks over choices that could have been tried, measured and reversed in days.</p>
+  <p class="prose">The same idea has a harder, mathematical edge. When gains and losses compound, the order of events matters and a large enough loss ends the game. A bet can have a positive expected value and still ruin almost everyone who takes it too often at too large a size. The physicist Ole Peters calls this the ergodicity problem: the average over many people is not what any one person experiences over time. Survival is the condition for having any other goal at all.</p>
 
   <div class="essay-case">
     <h4>Shipping a model — build the way back first</h4>
@@ -872,7 +872,7 @@ function buildEssayReversible() {
     <p>The obstacles are mostly psychological. The <a href="../markets/psychology/index.html#sunk-cost-fallacy">sunk cost fallacy</a> keeps people walking through a door they should back out of; the <a href="../markets/psychology/index.html#disposition-effect">disposition effect</a> reverses the wrong positions, selling winners and keeping losers; <a href="../markets/psychology/index.html#mental-accounting">mental accounting</a> treats recent gains as house money to bet bigger with; and <a href="../markets/psychology/index.html#fomo">FOMO</a> turns many small entries into one large, late one. Each turns a two-way door into a one-way door from the inside.</p>
   </div>
 
-  <p class="prose">Cheap reversals are also what makes it safe to try many things — and trying many things brings back the warning of <a href="index.html#essay-forking">The Garden of Forking Paths</a>: the more you try, the more carefully you have to judge what seems to work. Small bets are for learning fast, not for believing the first lucky one.</p>
+  <p class="prose">Cheap reversals also make it safe to try many things. Trying many things brings back the warning of <a href="index.html#essay-forking">The Garden of Forking Paths</a>: the more you try, the more carefully you have to judge what seems to work. Small bets are for learning fast, not for believing the first lucky one.</p>
 
   <div class="va">
     <canvas id="reversibleCanvas" role="img" aria-label="Small, Reversible Bets — visualization" height="180"></canvas>
@@ -881,7 +881,7 @@ function buildEssayReversible() {
       <input type="range" aria-label="Bet size" id="reversibleSlider" min="2" max="50" value="10" oninput="document.getElementById('reversibleVal').textContent=this.value+'%';DRAWS['essay-reversible']()">
       <span class="viz-ctrl-val" id="reversibleVal">10%</span>
     </div>
-    <div class="essay-label">40 players, the same favourable coin (55% to win, even money), 300 rounds &mdash; drag the bet size and watch survival</div>
+    <div class="essay-label">40 players, the same favourable coin (55% to win, even money), 300 rounds. Drag the bet size and watch survival</div>
   </div>
   <div class="essay-takeaway"><strong>What to remember</strong>Prefer decisions you can undo, and size the ones you cannot so that being wrong is survivable. Speed comes from cheap reversals, not from being right the first time.</div>
   <div class="essay-refs">
