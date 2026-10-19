@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wind Race — Pattern is Everything</title>
+  <meta name="description" content="Six forecasting models race on a month of real Danish wind power. With and without a weather forecast: how much is information worth against a cleverer model?">
+  <link rel="canonical" href="https://patterniseverything.com/wind-race/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Wind Race — Pattern is Everything">
+  <meta property="og:description" content="Six models, one month of real Danish wind power, seven hours ahead. Better information beats a cleverer model.">
+  <meta property="og:url" content="https://patterniseverything.com/wind-race/">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../css/fonts.css?v=2">
+  <link rel="stylesheet" href="../css/main.css?v=41">
+  <style>
+    .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
+      letter-spacing: .06em; margin-bottom: 22px; }
+    .crumbs a { color: var(--muted); text-decoration: none; }
+    .crumbs a:hover { color: var(--accent); }
+    .topic-page { max-width: 860px; margin: 0 auto; padding: 32px 24px 72px; }
+    .topic-page .topic { display: block; }
+    @media (max-width: 720px) {
+      .topic-header { flex-wrap: wrap; gap: 8px; }
+      .topic-badge { white-space: normal; text-align: left; }
+      .topic-page { padding-left: 16px; padding-right: 16px; }
+    }
+    .wr-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 22px 0 12px; }
+    .wr-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 3px; background: var(--surface); }
+    .wr-seg button { font: inherit; font-size: 14px; font-weight: 600; color: var(--muted);
+      background: transparent; border: 0; border-radius: 7px; padding: 8px 14px; cursor: pointer; }
+    .wr-seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+    .wr-go { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+      font-weight: 600; padding: 11px 18px; border-radius: var(--radius); border: 1px solid var(--accent);
+      background: var(--accent); color: #fff; cursor: pointer; }
+    .wr-track { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+      background: var(--surface); }
+    .wr-track canvas { display: block; width: 100%; height: 320px; }
+    @media (max-width: 600px) { .wr-track canvas { height: 240px; } }
+    .wr-timing { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 10px;
+      background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    @media (max-width: 640px) { .wr-timing { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .wr-car { display: grid; grid-template-columns: 20px 4px minmax(0, 1fr); gap: 8px; align-items: center;
+      padding: 8px 10px; background: var(--surface); }
+    .wr-car .pos { font-family: var(--serif); font-weight: 700; font-size: 20px; text-align: center; line-height: 1; }
+    .wr-car .sw { width: 4px; height: 30px; border-radius: 2px; }
+    .wr-car .nm { font-weight: 600; font-size: 14px; line-height: 1.25; }
+    .wr-car .st { font-family: var(--mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .wr-car .off { color: var(--accent); }
+    .wr-car.empty { color: var(--muted); font-size: 12px; display: flex; align-items: center; }
+    .wr-verdict { min-height: 3.2em; margin-top: 12px; }
+    .wr-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--muted);
+      align-items: center; margin: 14px 0 8px; }
+    .wr-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+    .wr-legend .o { border: 2px solid var(--muted); box-sizing: border-box; }
+    .wr-legend .f { background: var(--text); }
+    .wr-legend .r { width: 2px; height: 14px; border-radius: 0; background: var(--accent); margin-right: 8px; }
+    .wr-legend .ln { width: 18px; height: 0; border-radius: 0; border-top: 2px solid var(--text); vertical-align: 4px; }
+    .wr-legend .ln.dash { border-top: 2px dashed var(--accent); }
+    .wr-legend .bx { width: 14px; height: 12px; border-radius: 2px; background: var(--hi); border: 1px solid var(--accent); }
+    .wr-db { display: flex; flex-direction: column; gap: 2px; }
+    .wr-row { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; }
+    @media (max-width: 520px) { .wr-row { grid-template-columns: 92px minmax(0, 1fr); } }
+    .wr-name { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .wr-name span { width: 4px; height: 18px; border-radius: 2px; flex: none; }
+    .wr-plot { position: relative; height: 30px; }
+    .wr-plot .grid { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); }
+    .wr-plot .ref { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--accent); }
+    .wr-plot .link { position: absolute; top: 14px; height: 2px; background: var(--border2); }
+    .wr-plot .dot { position: absolute; top: 8px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; box-sizing: border-box; }
+    .wr-plot .dot.o { border: 2px solid var(--muted); background: var(--bg); }
+    .wr-plot .lab { position: absolute; top: 6px; font-family: var(--mono); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .wr-plot .lab.mut { color: var(--muted); }
+    .wr-axis { position: relative; height: 18px; margin-left: 128px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+    @media (max-width: 520px) { .wr-axis { margin-left: 104px; } }
+    .wr-axis span { position: absolute; transform: translateX(-50%); }
+    .wr-misses { list-style: none; margin: 10px 0 0; padding: 0; }
+    .wr-misses li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 10px 0; border-top: 1px solid var(--border); }
+    @media (max-width: 520px) { .wr-misses li { grid-template-columns: 1fr; gap: 2px; } }
+    .wr-misses .when { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 2px; }
+    .wr-misses p { margin: 0; }
+    .wr-misses .data .when { color: var(--accent); }
+    .wr-ov { position: relative; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .wr-ov svg { display: block; width: 100%; height: 240px; touch-action: pan-y; }
+    @media (max-width: 520px) { .wr-ov svg { height: 200px; } }
+    .wr-tip { position: absolute; top: 8px; pointer-events: none; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 9px; font-size: 12px; line-height: 1.4; white-space: nowrap; }
+    .wr-tip b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+    .wr-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 10px;
+      background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    @media (max-width: 640px) { .wr-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .wr-facts div { background: var(--surface); padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+    .wr-facts span { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .wr-facts b { font-family: var(--mono); font-weight: 500; font-size: 16px; font-variant-numeric: tabular-nums; }
+    .wr-facts small { font-size: 12px; color: var(--muted); }
+    .wr-scroll { overflow-x: auto; margin: 14px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .wr-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    .wr-table th, .wr-table td { padding: 8px 14px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
+    .wr-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .wr-table td { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+    .wr-table .num { text-align: right; }
+    .wr-table tr.more td { color: var(--muted); font-family: var(--sans); }
+    .wr-table tr:last-child td { border-bottom: 0; }
+    .wr-cols { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 14px; }
+    .wr-cols dt { font-family: var(--mono); font-size: 12px; }
+    .wr-cols dd { margin: 0; color: var(--muted); }
+    .wr-copy { font: inherit; font-size: 14px; font-weight: 600; color: var(--text); background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 14px; cursor: pointer; }
+    .wr-copy:hover { border-color: var(--border2); }
+    .wr-copied { font-size: 13px; color: var(--muted); }
+    .wr-csv { width: 100%; height: 160px; box-sizing: border-box; background: var(--bg); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px; font-family: var(--mono); font-size: 12px; padding: 8px; margin-top: 10px; }
+    .wr-foot { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .wr-foot a { color: var(--muted); }
+    @media (prefers-reduced-motion: reduce) { .wr-go { transition: none; } }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+<script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+
+<div class="portal-header" role="banner">
+  <a class="logo-ring" href="../index.html" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+    The Wind Race
+  </h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a class="back-link" href="../index.html">← Home</a>
+  </div>
+</div>
+
+<div role="main" class="topic-page" id="mainContent">
+  <div class="crumbs" role="navigation" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a> / The Wind Race
+  </div>
+<div class="topic" id="wind-race">
+<div class="topic-header"><div class="topic-meta"><div class="topic-num">Lab — Forecasting</div><h2><em>The Wind Race</em></h2></div><span class="topic-badge">6 models · 744 hours · real data</span></div>
+<div class="pattern-thread"><span class="pt-label">◆ The Pattern</span><span class="pt-text">Better information beats a cleverer model</span></div>
+
+<p><strong>Six forecasting models try to predict how much power the wind turbines of western Denmark will deliver seven hours from now.</strong> The road is the real output, hour by hour, for one month, from the Danish grid operator Energinet. A model that guesses right stays on the road. A model that guesses wrong ends up in the gravel.</p>
+<p>Race them twice. First they only see how much it has blown so far. Then every model also gets the grid operator's weather-based forecast for the hours ahead.</p>
+
+<div class="wr-bar">
+  <div class="wr-seg" role="group" aria-label="What the models may see">
+    <button type="button" id="m-off" aria-pressed="true">Without forecast</button>
+    <button type="button" id="m-on" aria-pressed="false">With forecast</button>
+  </div>
+  <button type="button" class="wr-go" id="go">Start the race</button>
+</div>
+<div class="wr-track"><canvas id="cv" role="img" aria-label="A race track built from Danish wind power, with one car per forecasting model"></canvas></div>
+<div class="wr-timing" id="timing"></div>
+<p class="wr-verdict" id="verdict" aria-live="polite"></p>
+
+<h2>What the race shows</h2>
+<div class="wr-legend">
+  <span><i class="o"></i>Without forecast</span>
+  <span><i class="f"></i>With forecast</span>
+  <span><i class="r"></i>The forecast alone (without Thor)</span>
+</div>
+<div class="wr-db" id="db" role="img" aria-label="Average error per model, with and without the forecast"></div>
+<div class="wr-axis" id="axis"></div>
+<p id="takeaway"></p>
+<div class="callout">Information gives the big jump. Method gives the last stretch. A cleverer model with nothing new to look at cannot see the weather coming.</div>
+
+<h2>When even the forecast missed</h2>
+<p id="missintro"></p>
+<ul class="wr-misses" id="misses"></ul>
+
+<h2>About the data</h2>
+<p>The whole race rests on two numbers for every hour: how much power the wind turbines in western Denmark actually delivered, and what Energinet had forecast the day before. The forecast does not cover the Thor offshore wind farm, which is why the dashed line runs below. Here is the whole month.</p>
+<div class="wr-legend">
+  <span><i class="ln"></i>Actual output</span>
+  <span><i class="ln dash"></i>Day-ahead forecast</span>
+  <span><i class="bx"></i>Frozen measurement</span>
+</div>
+<div class="wr-ov"><svg id="ovsvg" role="img" aria-label="Actual wind power and day-ahead forecast, hour by hour, 14 September to 14 October 2026"></svg><div class="wr-tip" id="tip" hidden></div></div>
+<div class="wr-facts" id="facts"></div>
+
+<h3>What one row looks like</h3>
+<p>One row is one hour in Danish local time. There are 744 rows from 14 September 00:00 to 14 October 23:00, with no daylight-saving change in the period.</p>
+<div class="wr-scroll"><table class="wr-table" id="sample"></table></div>
+<dl class="wr-cols">
+  <dt>time</dt><dd>Start of the hour, Danish local time.</dd>
+  <dt>actual MW</dt><dd>The mean of twelve five-minute measurements in the hour. Onshore plus offshore wind in DK1 (Jutland and Funen).</dd>
+  <dt>forecast MW</dt><dd>Energinet's day-ahead forecast for the same hour, onshore plus offshore, without the Thor offshore wind farm. It is published at 18:00 the day before, so it was known well in advance.</dd>
+</dl>
+
+<h3>Known errors and caveats</h3>
+<div class="fb"><div class="fm">The forecast does not cover Thor</div><div class="fd">Energinet states in the description of the forecast dataset that the Thor offshore wind farm (about 1,000 MW) is not included. The actual output matches Energinet's settlement data, which include all wind farms. That is why the forecast is on average 741 MW lower, most of all when it is windy. This page therefore does not measure how good Energinet's forecast is. It measures how well the models can use it.</div></div>
+<div class="fb"><div class="fm">A frozen measurement</div><div class="fd">On 15 September from 10:00 to 23:00 the actual output is stuck at exactly 2,667 MW. Energinet's settlement data show 3,500 to 3,770 MW for those hours. The error has not been corrected, so the data are exactly as Energinet publishes them.</div></div>
+<div class="fb"><div class="fm">One missing measurement</div><div class="fd">8,927 of 8,928 five-minute measurements are present. The hour with the gap uses the mean of the eleven that are there.</div></div>
+<div class="fb"><div class="fm">One month, one area</div><div class="fd">The results hold for DK1 in autumn 2026. Other months and eastern Denmark (DK2) may tell a different story.</div></div>
+
+<h3>Sources</h3>
+<p>Energinet's open data, <a href="https://www.energidataservice.dk/" target="_blank" rel="noopener">Energi Data Service</a>. Actual output: the dataset <code>ElectricityProdex5MinRealtime</code>, columns <code>OnshoreWindPower</code> and <code>OffshoreWindPower</code>. Forecast: the dataset <a href="https://api.energidataservice.dk/meta/dataset/Forecasts_Hour" target="_blank" rel="noopener"><code>Forecasts_Hour</code></a>, column <code>ForecastDayAhead</code> for Onshore Wind and Offshore Wind. Cross-check: <code>ProductionConsumptionSettlement</code>. Contains data used pursuant to “Conditions for use of Danish public-sector data” from Energi Data Service. This page is not made or endorsed by Energinet.</p>
+<div class="wr-bar"><button type="button" class="wr-copy" id="copy">Copy all 744 rows as CSV</button><span class="wr-copied" id="copied" aria-live="polite"></span></div>
+<textarea id="csvbox" class="wr-csv" readonly hidden aria-label="The dataset as CSV"></textarea>
+
+<h2>Method</h2>
+<p>Every model only sees what was known when it had to guess, seven hours before the hour it predicts. <strong>Without forecast</strong>, the models guess from the output alone: the Parrot repeats the last value, the Average takes the last twelve hours, the Ruler extends the trend, the Memory finds similar moments in the past (k-nearest neighbours), and the Neuron is a small neural network that keeps learning as the race goes on.</p>
+<p><strong>With forecast</strong>, those five start from the forecast and guess how far off it will be, each with its own method. The Calibrator is a linear regression on the latest measurement and the forecast, refitted every hour on what it has seen so far. It may scale the forecast, which matters here because the forecast leaves out Thor. Errors are the mean absolute difference in MW over the whole month. A car is on the road when its guess is within about 525 MW of the real output.</p>
+
+<div class="wr-foot"><a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml&amp;title=Correction%3A%20The%20Wind%20Race&amp;page=https%3A%2F%2Fpatterniseverything.com%2Fwind-race%2F" target="_blank" rel="noopener">Report a mistake</a> · Data: Energinet, Energi Data Service, 14 September to 14 October 2026.</div>
+</div>
+</div>
+
+<script type="text/plain" id="winddata">
+tidspunkt;vind_faktisk_MW;prognose_dagen_foer_MW;prognose_5_timer_MW;prognose_1_time_MW
+2026-09-14 00:00;2318;1583;1502;1524
+2026-09-14 01:00;2288;1579;1494;1508
+2026-09-14 02:00;2214;1567;1439;1396
+2026-09-14 03:00;2098;1456;1328;1317
+2026-09-14 04:00;1784;1319;1293;1352
+2026-09-14 05:00;1590;1197;1225;1209
+2026-09-14 06:00;1521;1050;1091;997
+2026-09-14 07:00;1445;898;905;786
+2026-09-14 08:00;1169;798;855;745
+2026-09-14 09:00;898;829;847;889
+2026-09-14 10:00;1116;870;840;808
+2026-09-14 11:00;1189;843;866;793
+2026-09-14 12:00;1229;797;852;958
+2026-09-14 13:00;1170;761;848;922
+2026-09-14 14:00;1111;727;761;879
+2026-09-14 15:00;894;703;667;842
+2026-09-14 16:00;700;676;743;739
+2026-09-14 17:00;683;613;664;535
+2026-09-14 18:00;769;525;618;386
+2026-09-14 19:00;809;484;567;355
+2026-09-14 20:00;921;480;579;440
+2026-09-14 21:00;1121;506;612;556
+2026-09-14 22:00;1245;617;690;683
+2026-09-14 23:00;1345;769;806;888
+2026-09-15 00:00;1735;981;985;1015
+2026-09-15 01:00;1729;1175;1177;1160
+2026-09-15 02:00;1833;1272;1258;1287
+2026-09-15 03:00;1851;1275;1316;1221
+2026-09-15 04:00;1860;1252;1321;1298
+2026-09-15 05:00;2024;1260;1319;1303
+2026-09-15 06:00;2202;1291;1403;1391
+2026-09-15 07:00;2442;1376;1443;1517
+2026-09-15 08:00;2615;1445;1565;1548
+2026-09-15 09:00;2651;1610;1750;1936
+2026-09-15 10:00;2667;1760;1933;2120
+2026-09-15 11:00;2667;1931;2093;2213
+2026-09-15 12:00;2667;2199;2286;2502
+2026-09-15 13:00;2667;2388;2559;2734
+2026-09-15 14:00;2667;2408;2541;2875
+2026-09-15 15:00;2667;2333;2475;2655
+2026-09-15 16:00;2667;2278;2421;2661
+2026-09-15 17:00;2667;2207;2366;2586
+2026-09-15 18:00;2667;2040;2282;2459
+2026-09-15 19:00;2667;1823;2086;2528
+2026-09-15 20:00;2667;1749;2149;2586
+2026-09-15 21:00;2667;1736;2117;2525
+2026-09-15 22:00;2667;1732;2017;2425
+2026-09-15 23:00;2667;1563;1976;2578
+2026-09-16 00:00;3385;1842;1900;2499
+2026-09-16 01:00;3305;1756;1843;2276
+2026-09-16 02:00;3152;1716;1784;2190
+2026-09-16 03:00;3018;1612;1839;2074
+2026-09-16 04:00;2909;1498;1826;1970
+2026-09-16 05:00;2643;1440;1724;1943
+2026-09-16 06:00;2528;1380;1642;1839
+2026-09-16 07:00;2436;1311;1581;1484
+2026-09-16 08:00;2414;1320;1543;1505
+2026-09-16 09:00;2560;1503;1720;1724
+2026-09-16 10:00;3162;1712;1941;1916
+2026-09-16 11:00;3640;1875;1935;2132
+2026-09-16 12:00;3827;2069;2139;2633
+2026-09-16 13:00;4048;2174;2403;2901
+2026-09-16 14:00;4130;2212;2425;3048
+2026-09-16 15:00;4095;2218;2506;3080
+2026-09-16 16:00;3918;2202;2699;3054
+2026-09-16 17:00;3755;2174;2691;2967
+2026-09-16 18:00;3478;2085;2567;2621
+2026-09-16 19:00;3224;1926;2423;2348
+2026-09-16 20:00;3212;1937;2389;2363
+2026-09-16 21:00;3373;2041;2533;2569
+2026-09-16 22:00;3473;2042;2551;2399
+2026-09-16 23:00;3411;1992;2352;2361
+2026-09-17 00:00;3355;2267;2248;2419
+2026-09-17 01:00;3285;2126;2189;2332
+2026-09-17 02:00;3123;2032;2031;2310
+2026-09-17 03:00;2810;1912;1893;2115
+2026-09-17 04:00;2282;1783;1787;1900
+2026-09-17 05:00;2055;1601;1646;1743
+2026-09-17 06:00;1886;1390;1526;1461
+2026-09-17 07:00;2089;1243;1400;1354
+2026-09-17 08:00;2076;1189;1439;1214
+2026-09-17 09:00;2204;1301;1561;1630
+2026-09-17 10:00;2535;1442;1650;1571
+2026-09-17 11:00;2752;1556;1719;1716
+2026-09-17 12:00;2680;1734;1825;1957
+2026-09-17 13:00;2876;1846;2075;2168
+2026-09-17 14:00;2736;1883;2004;2190
+2026-09-17 15:00;2792;1888;2058;2118
+2026-09-17 16:00;2728;1947;2108;2011
+2026-09-17 17:00;2778;1970;2150;2011
+2026-09-17 18:00;2982;1890;2033;1884
+2026-09-17 19:00;2908;1761;1890;1940
+2026-09-17 20:00;2828;1686;1818;2012
+2026-09-17 21:00;2813;1620;1790;1996
+2026-09-17 22:00;2710;1550;1728;1906
+2026-09-17 23:00;2589;1521;1720;1904
+2026-09-18 00:00;2672;1685;1733;1804
+2026-09-18 01:00;2796;1685;1825;1941
+2026-09-18 02:00;2852;1774;1938;1998
+2026-09-18 03:00;2966;1853;1990;2051
+2026-09-18 04:00;3024;1943;2008;2126
+2026-09-18 05:00;3015;2032;2069;2244
+2026-09-18 06:00;3010;2020;2066;2153
+2026-09-18 07:00;3044;1968;2048;2017
+2026-09-18 08:00;2929;1973;1989;2037
+2026-09-18 09:00;2841;2206;2215;2338
+2026-09-18 10:00;3146;2414;2346;2391
+2026-09-18 11:00;3502;2488;2366;2276
+2026-09-18 12:00;3446;2474;2380;2388
+2026-09-18 13:00;3170;2311;2342;2511
+2026-09-18 14:00;3237;2255;2293;2380
+2026-09-18 15:00;3693;2332;2291;2457
+2026-09-18 16:00;4008;2541;2533;2686
+2026-09-18 17:00;3706;2570;2586;3013
+2026-09-18 18:00;3342;2369;2204;2713
+2026-09-18 19:00;3090;2102;1943;2100
+2026-09-18 20:00;3100;2041;1929;2151
+2026-09-18 21:00;3300;2090;2158;2363
+2026-09-18 22:00;3489;2100;2413;2406
+2026-09-18 23:00;3563;2048;2311;2595
+2026-09-19 00:00;3459;2443;2459;2721
+2026-09-19 01:00;3528;2589;2709;2858
+2026-09-19 02:00;3587;2654;2752;2846
+2026-09-19 03:00;3429;2600;2775;2850
+2026-09-19 04:00;3434;2611;2806;2747
+2026-09-19 05:00;3442;2633;2757;2769
+2026-09-19 06:00;3615;2635;2687;2609
+2026-09-19 07:00;3767;2513;2578;2600
+2026-09-19 08:00;3761;2354;2413;2564
+2026-09-19 09:00;3720;2369;2481;2883
+2026-09-19 10:00;3299;2309;2381;2870
+2026-09-19 11:00;3196;2291;2329;2534
+2026-09-19 12:00;2782;2461;2499;2343
+2026-09-19 13:00;3006;2660;2818;2398
+2026-09-19 14:00;2893;2567;2739;2412
+2026-09-19 15:00;2854;2620;2629;2446
+2026-09-19 16:00;3188;2841;2739;2687
+2026-09-19 17:00;4073;3164;2999;2804
+2026-09-19 18:00;4757;3284;3131;3054
+2026-09-19 19:00;4570;2996;2831;3359
+2026-09-19 20:00;4333;2843;2723;3338
+2026-09-19 21:00;4028;2728;2632;3279
+2026-09-19 22:00;3891;2607;2606;3081
+2026-09-19 23:00;3824;2462;2711;2809
+2026-09-20 00:00;3808;2527;2595;2701
+2026-09-20 01:00;3441;2359;2483;2642
+2026-09-20 02:00;3453;2345;2414;2491
+2026-09-20 03:00;3412;2357;2322;2450
+2026-09-20 04:00;3518;2354;2359;2484
+2026-09-20 05:00;3577;2333;2502;2567
+2026-09-20 06:00;3470;2285;2414;2668
+2026-09-20 07:00;3866;2381;2522;2611
+2026-09-20 08:00;4014;2432;2537;2664
+2026-09-20 09:00;3717;2614;2713;3115
+2026-09-20 10:00;3280;2698;2808;3206
+2026-09-20 11:00;3152;2693;2727;2612
+2026-09-20 12:00;2714;2733;2656;2452
+2026-09-20 13:00;2804;2742;2867;2465
+2026-09-20 14:00;2858;2705;2907;2458
+2026-09-20 15:00;2959;2754;2737;2599
+2026-09-20 16:00;3813;2996;2927;2769
+2026-09-20 17:00;4620;3383;3238;3178
+2026-09-20 18:00;5304;3587;3438;3657
+2026-09-20 19:00;5287;3415;3477;3973
+2026-09-20 20:00;5260;3376;3371;4148
+2026-09-20 21:00;5239;3436;3472;4326
+2026-09-20 22:00;5250;3501;3606;4252
+2026-09-20 23:00;5326;3496;3678;4106
+2026-09-21 00:00;5290;3626;3939;4055
+2026-09-21 01:00;5173;3535;3896;4100
+2026-09-21 02:00;5087;3515;3833;4059
+2026-09-21 03:00;5104;3512;3815;4087
+2026-09-21 04:00;4988;3538;3841;3977
+2026-09-21 05:00;4916;3512;3850;4056
+2026-09-21 06:00;4749;3331;3500;3845
+2026-09-21 07:00;4800;3131;3289;3529
+2026-09-21 08:00;4788;3010;3130;3403
+2026-09-21 09:00;4895;3286;3435;3907
+2026-09-21 10:00;5029;3210;3450;3870
+2026-09-21 11:00;4856;2894;2934;3389
+2026-09-21 12:00;4629;2938;3035;3314
+2026-09-21 13:00;4369;2830;3044;3282
+2026-09-21 14:00;4165;2674;2944;3303
+2026-09-21 15:00;4167;2650;2692;3203
+2026-09-21 16:00;4056;2642;2663;3206
+2026-09-21 17:00;3906;2554;2602;3058
+2026-09-21 18:00;3337;2205;2279;2625
+2026-09-21 19:00;2876;1798;1836;2172
+2026-09-21 20:00;2559;1605;1725;1777
+2026-09-21 21:00;2321;1543;1604;1601
+2026-09-21 22:00;2131;1452;1440;1398
+2026-09-21 23:00;1815;1357;1456;1267
+2026-09-22 00:00;1554;1332;1229;1161
+2026-09-22 01:00;1243;1210;1102;917
+2026-09-22 02:00;1099;1045;881;761
+2026-09-22 03:00;894;882;721;570
+2026-09-22 04:00;613;724;599;477
+2026-09-22 05:00;418;563;415;332
+2026-09-22 06:00;315;417;294;193
+2026-09-22 07:00;159;305;165;90
+2026-09-22 08:00;77;217;117;58
+2026-09-22 09:00;59;145;75;26
+2026-09-22 10:00;62;93;32;2
+2026-09-22 11:00;65;72;38;22
+2026-09-22 12:00;111;78;63;53
+2026-09-22 13:00;196;110;105;115
+2026-09-22 14:00;204;137;150;147
+2026-09-22 15:00;224;168;189;191
+2026-09-22 16:00;283;192;213;221
+2026-09-22 17:00;326;187;200;176
+2026-09-22 18:00;253;172;162;151
+2026-09-22 19:00;197;168;178;163
+2026-09-22 20:00;201;174;165;135
+2026-09-22 21:00;260;188;176;151
+2026-09-22 22:00;346;186;205;163
+2026-09-22 23:00;405;158;253;199
+2026-09-23 00:00;395;284;263;238
+2026-09-23 01:00;333;336;320;269
+2026-09-23 02:00;316;351;287;261
+2026-09-23 03:00;342;346;292;259
+2026-09-23 04:00;399;336;313;279
+2026-09-23 05:00;501;322;359;292
+2026-09-23 06:00;528;298;339;342
+2026-09-23 07:00;542;294;321;349
+2026-09-23 08:00;591;301;385;356
+2026-09-23 09:00;612;350;437;435
+2026-09-23 10:00;585;415;533;511
+2026-09-23 11:00;663;503;687;539
+2026-09-23 12:00;765;644;807;617
+2026-09-23 13:00;1003;783;927;675
+2026-09-23 14:00;1219;909;1004;770
+2026-09-23 15:00;1399;1062;1109;867
+2026-09-23 16:00;1782;1240;1268;1065
+2026-09-23 17:00;1993;1417;1368;1195
+2026-09-23 18:00;2100;1590;1473;1317
+2026-09-23 19:00;2336;1791;1485;1372
+2026-09-23 20:00;2398;1977;1565;1605
+2026-09-23 21:00;2819;2054;1691;1873
+2026-09-23 22:00;2898;2259;1852;2052
+2026-09-23 23:00;2974;2272;1764;2008
+2026-09-24 00:00;3266;1912;1966;2084
+2026-09-24 01:00;3636;2281;2338;2561
+2026-09-24 02:00;3645;2445;2473;2753
+2026-09-24 03:00;3766;2450;2451;2762
+2026-09-24 04:00;3570;2479;2515;2729
+2026-09-24 05:00;3414;2464;2562;2754
+2026-09-24 06:00;3383;2366;2543;2579
+2026-09-24 07:00;3337;2211;2351;2189
+2026-09-24 08:00;3110;2033;2171;2051
+2026-09-24 09:00;2771;2058;2170;2203
+2026-09-24 10:00;2494;1985;1998;2008
+2026-09-24 11:00;2367;1804;1709;1547
+2026-09-24 12:00;2310;1682;1627;1367
+2026-09-24 13:00;2296;1514;1574;1352
+2026-09-24 14:00;2373;1409;1490;1349
+2026-09-24 15:00;2319;1382;1324;1392
+2026-09-24 16:00;2237;1352;1223;1417
+2026-09-24 17:00;2039;1280;1155;1301
+2026-09-24 18:00;1831;1147;1088;1105
+2026-09-24 19:00;1599;968;998;1044
+2026-09-24 20:00;1567;887;970;924
+2026-09-24 21:00;1287;864;883;782
+2026-09-24 22:00;1012;825;816;809
+2026-09-24 23:00;931;788;831;720
+2026-09-25 00:00;993;865;837;681
+2026-09-25 01:00;1086;893;823;732
+2026-09-25 02:00;1215;940;918;859
+2026-09-25 03:00;1378;897;924;881
+2026-09-25 04:00;1246;816;846;891
+2026-09-25 05:00;1166;738;808;897
+2026-09-25 06:00;1031;710;754;769
+2026-09-25 07:00;1223;738;731;742
+2026-09-25 08:00;1167;785;819;678
+2026-09-25 09:00;1066;907;960;944
+2026-09-25 10:00;1286;1032;1071;1009
+2026-09-25 11:00;1614;1113;1224;1031
+2026-09-25 12:00;1578;1142;1300;1220
+2026-09-25 13:00;1838;1187;1481;1427
+2026-09-25 14:00;1931;1249;1492;1624
+2026-09-25 15:00;2002;1284;1395;1696
+2026-09-25 16:00;1895;1272;1372;1639
+2026-09-25 17:00;1792;1244;1390;1569
+2026-09-25 18:00;1723;1181;1347;1357
+2026-09-25 19:00;2221;1110;1300;1232
+2026-09-25 20:00;2124;1111;1233;1329
+2026-09-25 21:00;1837;1138;1235;1442
+2026-09-25 22:00;1637;1150;1204;1355
+2026-09-25 23:00;1425;1068;1191;1277
+2026-09-26 00:00;1461;1145;1155;1107
+2026-09-26 01:00;1663;1136;1180;1058
+2026-09-26 02:00;1495;1122;1174;1178
+2026-09-26 03:00;1421;1088;1159;1250
+2026-09-26 04:00;1399;1093;1100;999
+2026-09-26 05:00;1586;1116;1125;1014
+2026-09-26 06:00;1743;1106;1170;1127
+2026-09-26 07:00;2074;1101;1229;1207
+2026-09-26 08:00;2057;1097;1144;1158
+2026-09-26 09:00;1997;1163;1230;1439
+2026-09-26 10:00;2168;1206;1307;1441
+2026-09-26 11:00;2320;1188;1320;1386
+2026-09-26 12:00;2106;1133;1249;1539
+2026-09-26 13:00;1913;1068;1313;1592
+2026-09-26 14:00;1722;1007;1206;1484
+2026-09-26 15:00;1531;958;1102;1246
+2026-09-26 16:00;1204;892;1116;1061
+2026-09-26 17:00;919;789;1030;861
+2026-09-26 18:00;733;646;799;569
+2026-09-26 19:00;644;536;621;374
+2026-09-26 20:00;594;521;569;360
+2026-09-26 21:00;650;521;581;435
+2026-09-26 22:00;699;517;529;405
+2026-09-26 23:00;696;488;451;415
+2026-09-27 00:00;638;426;415;410
+2026-09-27 01:00;625;408;443;387
+2026-09-27 02:00;645;417;426;364
+2026-09-27 03:00;652;445;414;390
+2026-09-27 04:00;616;471;428;458
+2026-09-27 05:00;631;499;489;490
+2026-09-27 06:00;705;549;536;530
+2026-09-27 07:00;974;617;635;573
+2026-09-27 08:00;1347;707;729;716
+2026-09-27 09:00;1342;844;870;1028
+2026-09-27 10:00;1308;930;950;1097
+2026-09-27 11:00;1504;1068;1029;993
+2026-09-27 12:00;1794;1329;1273;1210
+2026-09-27 13:00;1988;1606;1662;1528
+2026-09-27 14:00;2458;1817;1909;1857
+2026-09-27 15:00;2801;1996;2036;2066
+2026-09-27 16:00;3536;2380;2428;2511
+2026-09-27 17:00;4407;2739;2748;2831
+2026-09-27 18:00;4521;2886;2894;3458
+2026-09-27 19:00;4527;2867;3005;3473
+2026-09-27 20:00;4476;2892;3088;3579
+2026-09-27 21:00;4419;2958;2916;3546
+2026-09-27 22:00;4111;2946;3195;3279
+2026-09-27 23:00;3794;2678;2932;2956
+2026-09-28 00:00;3340;2613;2643;2481
+2026-09-28 01:00;2842;2375;2408;2296
+2026-09-28 02:00;2352;2113;1944;1955
+2026-09-28 03:00;2026;1801;1731;1649
+2026-09-28 04:00;1685;1448;1509;1302
+2026-09-28 05:00;1405;1168;1335;1104
+2026-09-28 06:00;1254;1009;1185;1061
+2026-09-28 07:00;1220;927;1065;967
+2026-09-28 08:00;1077;870;952;826
+2026-09-28 09:00;977;897;959;834
+2026-09-28 10:00;698;889;913;723
+2026-09-28 11:00;512;779;719;440
+2026-09-28 12:00;513;699;558;263
+2026-09-28 13:00;522;698;613;392
+2026-09-28 14:00;499;669;559;457
+2026-09-28 15:00;429;635;456;344
+2026-09-28 16:00;367;632;419;352
+2026-09-28 17:00;363;591;440;348
+2026-09-28 18:00;417;551;424;281
+2026-09-28 19:00;424;525;414;305
+2026-09-28 20:00;505;505;460;376
+2026-09-28 21:00;541;515;502;441
+2026-09-28 22:00;506;559;489;500
+2026-09-28 23:00;463;559;480;502
+2026-09-29 00:00;449;468;481;426
+2026-09-29 01:00;506;474;497;418
+2026-09-29 02:00;555;502;514;414
+2026-09-29 03:00;646;538;510;451
+2026-09-29 04:00;680;570;493;528
+2026-09-29 05:00;744;592;507;586
+2026-09-29 06:00;787;600;559;608
+2026-09-29 07:00;845;613;617;626
+2026-09-29 08:00;955;638;720;711
+2026-09-29 09:00;1077;748;874;799
+2026-09-29 10:00;1108;842;1027;894
+2026-09-29 11:00;1307;942;1011;942
+2026-09-29 12:00;1479;1032;1125;980
+2026-09-29 13:00;1561;1139;1267;1114
+2026-09-29 14:00;1749;1215;1298;1120
+2026-09-29 15:00;1938;1298;1368;1237
+2026-09-29 16:00;2272;1394;1435;1477
+2026-09-29 17:00;2672;1533;1589;1692
+2026-09-29 18:00;2979;1708;1709;1864
+2026-09-29 19:00;3361;1805;1817;2091
+2026-09-29 20:00;3697;1884;2062;2398
+2026-09-29 21:00;3758;1929;2252;2727
+2026-09-29 22:00;3724;2015;2308;2785
+2026-09-29 23:00;3483;2011;2363;2662
+2026-09-30 00:00;3338;2291;2356;2506
+2026-09-30 01:00;3373;2278;2384;2367
+2026-09-30 02:00;3439;2286;2418;2463
+2026-09-30 03:00;3500;2321;2429;2572
+2026-09-30 04:00;3554;2381;2514;2663
+2026-09-30 05:00;3753;2423;2562;2706
+2026-09-30 06:00;3870;2378;2620;2779
+2026-09-30 07:00;3879;2319;2532;2828
+2026-09-30 08:00;3815;2292;2530;2793
+2026-09-30 09:00;3703;2466;2720;2997
+2026-09-30 10:00;3760;2508;2790;3046
+2026-09-30 11:00;3926;2491;2777;2825
+2026-09-30 12:00;3995;2619;2843;2980
+2026-09-30 13:00;4160;2599;2907;3116
+2026-09-30 14:00;4050;2540;2932;3208
+2026-09-30 15:00;4120;2509;2765;3156
+2026-09-30 16:00;4207;2516;2768;3102
+2026-09-30 17:00;4204;2528;2917;3163
+2026-09-30 18:00;4222;2528;2995;3310
+2026-09-30 19:00;4325;2449;2951;3170
+2026-09-30 20:00;4374;2474;3063;3333
+2026-09-30 21:00;4275;2534;3179;3518
+2026-09-30 22:00;4163;2554;3159;3358
+2026-09-30 23:00;3980;2457;2995;3136
+2026-10-01 00:00;3852;2891;2892;2953
+2026-10-01 01:00;3773;2813;2939;2823
+2026-10-01 02:00;3716;2749;2804;2746
+2026-10-01 03:00;3570;2674;2686;2760
+2026-10-01 04:00;3537;2579;2629;2711
+2026-10-01 05:00;3566;2457;2545;2641
+2026-10-01 06:00;3526;2313;2505;2518
+2026-10-01 07:00;3417;2170;2338;2336
+2026-10-01 08:00;3341;2034;2142;2270
+2026-10-01 09:00;3305;2097;2227;2543
+2026-10-01 10:00;3168;2041;2188;2460
+2026-10-01 11:00;3052;1941;1990;2255
+2026-10-01 12:00;2914;1874;1907;2104
+2026-10-01 13:00;2762;1755;1992;2053
+2026-10-01 14:00;2558;1584;1794;1999
+2026-10-01 15:00;2185;1413;1568;1705
+2026-10-01 16:00;1737;1347;1421;1513
+2026-10-01 17:00;1475;1293;1312;1294
+2026-10-01 18:00;1389;1225;1217;966
+2026-10-01 19:00;1314;1098;1043;983
+2026-10-01 20:00;1263;941;963;996
+2026-10-01 21:00;1210;795;877;865
+2026-10-01 22:00;1123;757;760;813
+2026-10-01 23:00;974;731;772;761
+2026-10-02 00:00;882;731;744;709
+2026-10-02 01:00;835;674;661;617
+2026-10-02 02:00;869;618;641;594
+2026-10-02 03:00;1016;584;592;569
+2026-10-02 04:00;993;601;595;566
+2026-10-02 05:00;859;602;638;581
+2026-10-02 06:00;805;591;658;603
+2026-10-02 07:00;746;573;609;560
+2026-10-02 08:00;689;535;570;564
+2026-10-02 09:00;579;527;565;507
+2026-10-02 10:00;497;482;562;460
+2026-10-02 11:00;400;456;518;431
+2026-10-02 12:00;439;453;522;437
+2026-10-02 13:00;542;481;564;402
+2026-10-02 14:00;646;492;576;406
+2026-10-02 15:00;677;491;543;437
+2026-10-02 16:00;651;475;525;492
+2026-10-02 17:00;641;417;430;405
+2026-10-02 18:00;694;374;393;303
+2026-10-02 19:00;876;390;406;289
+2026-10-02 20:00;1096;454;478;418
+2026-10-02 21:00;1337;549;626;643
+2026-10-02 22:00;1439;680;753;823
+2026-10-02 23:00;1564;770;827;1016
+2026-10-03 00:00;1761;909;917;1064
+2026-10-03 01:00;1945;1028;1072;1139
+2026-10-03 02:00;2050;1105;1154;1222
+2026-10-03 03:00;2088;1165;1245;1335
+2026-10-03 04:00;2235;1213;1304;1445
+2026-10-03 05:00;2407;1263;1402;1498
+2026-10-03 06:00;2559;1283;1465;1615
+2026-10-03 07:00;2665;1281;1462;1594
+2026-10-03 08:00;2623;1256;1477;1696
+2026-10-03 09:00;2496;1315;1535;1873
+2026-10-03 10:00;2509;1356;1615;1838
+2026-10-03 11:00;2666;1440;1698;1709
+2026-10-03 12:00;3027;1602;1867;1827
+2026-10-03 13:00;3353;1753;2064;2008
+2026-10-03 14:00;3416;1782;1994;2208
+2026-10-03 15:00;3418;1728;1836;2326
+2026-10-03 16:00;3005;1643;1739;2242
+2026-10-03 17:00;2355;1446;1604;2103
+2026-10-03 18:00;1820;1159;1357;1677
+2026-10-03 19:00;1652;961;1211;1255
+2026-10-03 20:00;1687;877;1228;1181
+2026-10-03 21:00;1641;852;1202;1087
+2026-10-03 22:00;1574;843;1131;1070
+2026-10-03 23:00;1350;832;1029;1133
+2026-10-04 00:00;1195;959;968;1038
+2026-10-04 01:00;1252;923;975;920
+2026-10-04 02:00;1175;885;923;810
+2026-10-04 03:00;1089;828;886;812
+2026-10-04 04:00;967;721;780;725
+2026-10-04 05:00;951;611;655;685
+2026-10-04 06:00;914;544;605;687
+2026-10-04 07:00;747;505;623;646
+2026-10-04 08:00;727;487;665;625
+2026-10-04 09:00;777;538;719;649
+2026-10-04 10:00;940;609;787;739
+2026-10-04 11:00;1294;722;882;765
+2026-10-04 12:00;1539;830;1029;914
+2026-10-04 13:00;1753;982;1195;1247
+2026-10-04 14:00;1898;1072;1304;1424
+2026-10-04 15:00;2128;1148;1329;1398
+2026-10-04 16:00;2266;1215;1391;1494
+2026-10-04 17:00;2403;1256;1464;1556
+2026-10-04 18:00;2515;1274;1575;1543
+2026-10-04 19:00;2707;1305;1570;1680
+2026-10-04 20:00;3079;1454;1840;1965
+2026-10-04 21:00;3402;1649;2153;2383
+2026-10-04 22:00;3598;1883;2385;2641
+2026-10-04 23:00;3784;2032;2503;2809
+2026-10-05 00:00;3982;2586;2609;2889
+2026-10-05 01:00;4120;2626;2744;3009
+2026-10-05 02:00;4213;2648;2793;3052
+2026-10-05 03:00;4104;2599;2761;3117
+2026-10-05 04:00;3981;2571;2723;3110
+2026-10-05 05:00;3930;2532;2689;3015
+2026-10-05 06:00;3775;2409;2658;2935
+2026-10-05 07:00;3843;2264;2633;2749
+2026-10-05 08:00;3818;2198;2592;2590
+2026-10-05 09:00;3965;2458;2812;3095
+2026-10-05 10:00;4111;2658;2966;3274
+2026-10-05 11:00;4234;2725;2914;3243
+2026-10-05 12:00;4294;2917;2903;3274
+2026-10-05 13:00;4295;2890;3064;3287
+2026-10-05 14:00;4555;2895;3154;3355
+2026-10-05 15:00;4696;2873;3084;3309
+2026-10-05 16:00;4762;2921;3072;3583
+2026-10-05 17:00;4833;2961;3154;3644
+2026-10-05 18:00;4212;2895;2946;3571
+2026-10-05 19:00;4255;2683;2926;3427
+2026-10-05 20:00;4391;2569;2966;3393
+2026-10-05 21:00;4180;2460;2905;3276
+2026-10-05 22:00;3975;2366;2729;3062
+2026-10-05 23:00;3548;2170;2524;2722
+2026-10-06 00:00;3083;2264;2301;2408
+2026-10-06 01:00;2546;2042;2100;2213
+2026-10-06 02:00;2238;1868;1858;1919
+2026-10-06 03:00;1987;1705;1662;1663
+2026-10-06 04:00;1840;1530;1543;1431
+2026-10-06 05:00;1791;1345;1400;1333
+2026-10-06 06:00;1634;1176;1256;1265
+2026-10-06 07:00;1576;1023;1061;1129
+2026-10-06 08:00;1507;912;880;991
+2026-10-06 09:00;1344;960;906;1028
+2026-10-06 10:00;1312;1018;952;1020
+2026-10-06 11:00;1384;1015;951;886
+2026-10-06 12:00;1316;998;913;976
+2026-10-06 13:00;1239;1003;915;1016
+2026-10-06 14:00;1240;998;892;999
+2026-10-06 15:00;1173;969;813;996
+2026-10-06 16:00;933;915;847;1008
+2026-10-06 17:00;827;818;799;826
+2026-10-06 18:00;715;671;693;593
+2026-10-06 19:00;674;555;599;484
+2026-10-06 20:00;688;517;558;492
+2026-10-06 21:00;624;519;515;505
+2026-10-06 22:00;547;488;433;492
+2026-10-06 23:00;443;431;348;431
+2026-10-07 00:00;314;306;331;349
+2026-10-07 01:00;222;287;332;316
+2026-10-07 02:00;178;293;345;239
+2026-10-07 03:00;193;302;350;196
+2026-10-07 04:00;185;323;339;226
+2026-10-07 05:00;269;350;354;254
+2026-10-07 06:00;367;398;357;257
+2026-10-07 07:00;513;454;387;341
+2026-10-07 08:00;665;494;433;370
+2026-10-07 09:00;814;558;496;479
+2026-10-07 10:00;858;631;567;569
+2026-10-07 11:00;914;696;615;585
+2026-10-07 12:00;1085;738;677;615
+2026-10-07 13:00;1341;833;804;731
+2026-10-07 14:00;1479;912;887;923
+2026-10-07 15:00;1672;984;945;1029
+2026-10-07 16:00;1779;1099;1039;1212
+2026-10-07 17:00;1922;1149;1100;1111
+2026-10-07 18:00;1919;1188;1109;1010
+2026-10-07 19:00;1563;1223;1089;1177
+2026-10-07 20:00;1320;1221;1191;1155
+2026-10-07 21:00;1264;1187;1164;1143
+2026-10-07 22:00;1154;1239;1191;1195
+2026-10-07 23:00;1053;1190;1118;1106
+2026-10-08 00:00;1017;956;946;883
+2026-10-08 01:00;760;901;926;754
+2026-10-08 02:00;772;834;833;662
+2026-10-08 03:00;1003;849;860;775
+2026-10-08 04:00;1443;943;991;829
+2026-10-08 05:00;2292;1068;1106;884
+2026-10-08 06:00;2844;1279;1358;1363
+2026-10-08 07:00;3238;1564;1747;2019
+2026-10-08 08:00;3558;1675;1820;2431
+2026-10-08 09:00;3708;1882;1982;2641
+2026-10-08 10:00;3707;2154;2274;2987
+2026-10-08 11:00;3779;2359;2500;3120
+2026-10-08 12:00;4010;2637;2872;2906
+2026-10-08 13:00;4170;2801;3110;3140
+2026-10-08 14:00;4251;2825;2988;3271
+2026-10-08 15:00;4187;2802;3200;3261
+2026-10-08 16:00;4099;2795;2921;3188
+2026-10-08 17:00;4061;2763;2964;3113
+2026-10-08 18:00;4170;2678;2983;3012
+2026-10-08 19:00;4306;2567;2956;3033
+2026-10-08 20:00;4448;2672;3020;3350
+2026-10-08 21:00;4477;2843;3169;3594
+2026-10-08 22:00;4409;2962;3200;3543
+2026-10-08 23:00;4372;2921;3093;3343
+2026-10-09 00:00;4290;3036;3149;3300
+2026-10-09 01:00;4198;2861;3074;3216
+2026-10-09 02:00;3983;2678;2900;2951
+2026-10-09 03:00;3686;2466;2559;2818
+2026-10-09 04:00;3188;2266;2305;2488
+2026-10-09 05:00;2393;1896;2017;2092
+2026-10-09 06:00;1796;1443;1544;1428
+2026-10-09 07:00;1180;1121;1254;1092
+2026-10-09 08:00;841;877;1047;904
+2026-10-09 09:00;590;750;919;739
+2026-10-09 10:00;444;707;766;618
+2026-10-09 11:00;570;735;798;571
+2026-10-09 12:00;947;862;991;683
+2026-10-09 13:00;1578;1077;1197;890
+2026-10-09 14:00;2031;1282;1258;1024
+2026-10-09 15:00;2145;1462;1249;1244
+2026-10-09 16:00;2223;1664;1363;1613
+2026-10-09 17:00;2440;1743;1506;1773
+2026-10-09 18:00;2635;1703;1600;1717
+2026-10-09 19:00;2697;1708;1769;1979
+2026-10-09 20:00;2715;1729;1956;2132
+2026-10-09 21:00;2828;1713;1998;1900
+2026-10-09 22:00;2715;1695;2051;2013
+2026-10-09 23:00;2565;1688;2063;2085
+2026-10-10 00:00;2668;2138;2152;1984
+2026-10-10 01:00;2878;2173;2148;1945
+2026-10-10 02:00;3194;2329;2385;2267
+2026-10-10 03:00;3413;2441;2434;2267
+2026-10-10 04:00;3308;2539;2363;2464
+2026-10-10 05:00;3252;2508;2415;2612
+2026-10-10 06:00;3437;2251;2241;2272
+2026-10-10 07:00;3275;1969;1889;1899
+2026-10-10 08:00;2702;1737;1664;2072
+2026-10-10 09:00;2357;1653;1677;2011
+2026-10-10 10:00;2088;1521;1533;1511
+2026-10-10 11:00;1783;1246;1291;1206
+2026-10-10 12:00;1195;1078;1328;1151
+2026-10-10 13:00;811;933;1220;1016
+2026-10-10 14:00;953;908;981;733
+2026-10-10 15:00;902;866;885;615
+2026-10-10 16:00;1138;886;914;754
+2026-10-10 17:00;1004;884;932;889
+2026-10-10 18:00;742;811;784;770
+2026-10-10 19:00;859;730;631;598
+2026-10-10 20:00;764;697;705;489
+2026-10-10 21:00;617;684;705;665
+2026-10-10 22:00;673;630;650;592
+2026-10-10 23:00;543;578;605;556
+2026-10-11 00:00;548;613;589;495
+2026-10-11 01:00;357;607;609;501
+2026-10-11 02:00;354;651;599;450
+2026-10-11 03:00;390;689;574;348
+2026-10-11 04:00;614;674;555;321
+2026-10-11 05:00;673;656;573;351
+2026-10-11 06:00;707;652;590;426
+2026-10-11 07:00;843;700;644;505
+2026-10-11 08:00;830;739;716;632
+2026-10-11 09:00;858;789;787;748
+2026-10-11 10:00;855;852;853;780
+2026-10-11 11:00;974;924;900;837
+2026-10-11 12:00;1134;998;978;756
+2026-10-11 13:00;1274;1146;1159;977
+2026-10-11 14:00;1506;1327;1302;1197
+2026-10-11 15:00;1634;1497;1466;1434
+2026-10-11 16:00;1764;1640;1584;1498
+2026-10-11 17:00;1778;1643;1618;1418
+2026-10-11 18:00;1677;1496;1526;1339
+2026-10-11 19:00;1418;1353;1402;1288
+2026-10-11 20:00;1231;1283;1350;1266
+2026-10-11 21:00;1160;1172;1302;1112
+2026-10-11 22:00;1133;1042;1232;974
+2026-10-11 23:00;1042;958;1099;929
+2026-10-12 00:00;962;1009;1006;916
+2026-10-12 01:00;813;891;868;808
+2026-10-12 02:00;697;777;757;695
+2026-10-12 03:00;564;675;659;600
+2026-10-12 04:00;549;607;590;506
+2026-10-12 05:00;522;524;515;446
+2026-10-12 06:00;474;439;432;440
+2026-10-12 07:00;400;372;371;359
+2026-10-12 08:00;399;311;320;305
+2026-10-12 09:00;456;278;288;279
+2026-10-12 10:00;369;254;285;312
+2026-10-12 11:00;372;276;295;293
+2026-10-12 12:00;381;320;334;254
+2026-10-12 13:00;396;376;376;280
+2026-10-12 14:00;370;404;432;281
+2026-10-12 15:00;365;387;418;241
+2026-10-12 16:00;325;368;404;190
+2026-10-12 17:00;391;386;379;184
+2026-10-12 18:00;484;450;407;219
+2026-10-12 19:00;880;526;471;357
+2026-10-12 20:00;1481;633;606;536
+2026-10-12 21:00;1731;729;766;866
+2026-10-12 22:00;1856;852;888;1170
+2026-10-12 23:00;1911;967;1045;1300
+2026-10-13 00:00;2043;1139;1148;1353
+2026-10-13 01:00;2170;1298;1344;1476
+2026-10-13 02:00;2384;1474;1543;1593
+2026-10-13 03:00;2488;1624;1680;1760
+2026-10-13 04:00;2461;1737;1783;1961
+2026-10-13 05:00;2525;1830;1889;2040
+2026-10-13 06:00;2712;1862;1991;2056
+2026-10-13 07:00;2901;1879;2098;2016
+2026-10-13 08:00;3094;1949;2263;2211
+2026-10-13 09:00;3423;2268;2548;2637
+2026-10-13 10:00;3789;2502;2703;2972
+2026-10-13 11:00;4085;2620;2743;3071
+2026-10-13 12:00;4330;2816;2925;3334
+2026-10-13 13:00;4305;2834;3096;3483
+2026-10-13 14:00;4319;2875;3148;3663
+2026-10-13 15:00;4440;3001;3220;3592
+2026-10-13 16:00;4577;3195;3393;3742
+2026-10-13 17:00;4628;3235;3424;3618
+2026-10-13 18:00;4285;3114;3320;3436
+2026-10-13 19:00;3947;2931;3228;3524
+2026-10-13 20:00;3967;2802;3245;3269
+2026-10-13 21:00;3997;2723;3119;3085
+2026-10-13 22:00;4029;2821;3052;3106
+2026-10-13 23:00;3953;2805;2946;3172
+2026-10-14 00:00;3807;2865;2865;3093
+2026-10-14 01:00;3878;2834;2866;2970
+2026-10-14 02:00;3786;2887;2881;3196
+2026-10-14 03:00;4007;2924;2912;3157
+2026-10-14 04:00;3975;2958;2961;3113
+2026-10-14 05:00;4032;2984;2967;3354
+2026-10-14 06:00;4159;2944;3055;3281
+2026-10-14 07:00;4297;2788;2957;3086
+2026-10-14 08:00;4182;2610;2736;3019
+2026-10-14 09:00;4135;2688;2850;3560
+2026-10-14 10:00;4066;2655;2860;3416
+2026-10-14 11:00;4034;2534;2768;3146
+2026-10-14 12:00;3800;2441;2590;2847
+2026-10-14 13:00;3489;2208;2490;2633
+2026-10-14 14:00;3306;1903;2067;2295
+2026-10-14 15:00;3017;1644;1791;2173
+2026-10-14 16:00;2662;1465;1444;1933
+2026-10-14 17:00;2006;1273;1274;1657
+2026-10-14 18:00;1857;1124;1362;1426
+2026-10-14 19:00;1899;1037;1340;1108
+2026-10-14 20:00;1983;1054;1365;1318
+2026-10-14 21:00;2223;1133;1494;1440
+2026-10-14 22:00;2405;1257;1547;1576
+2026-10-14 23:00;2396;1377;1569;1706
+</script>
+<script>
+(function(){
+const N=744, W=48, FINISH=740, H=7, V0=24, TOL=0.17;
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){let u=0;while(u===0)u=r();const v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function solve(A,b,lam){
+  const n=b.length,m=[];
+  for(let i=0;i<n;i++){m.push([...A[i],b[i]]);m[i][i]+=lam}
+  for(let c=0;c<n;c++){
+    let p=c;for(let r=c+1;r<n;r++)if(Math.abs(m[r][c])>Math.abs(m[p][c]))p=r;
+    if(Math.abs(m[p][c])<1e-12)return null;
+    [m[c],m[p]]=[m[p],m[c]];
+    for(let r=0;r<n;r++){if(r===c)continue;const f=m[r][c]/m[c][c];for(let k=c;k<=n;k++)m[r][k]-=f*m[c][k]}
+  }
+  return m.map((row,i)=>row[n]/row[i]);
+}
+function computePreds(y,u,h,seed){
+  const out={}; MODELS.forEach(m=>out[m.id]=new Float64Array(N));
+  const clamp=v=>Math.max(-1.5,Math.min(1.5,v));
+  for(let t=W-5;t<N;t++){
+    const s=t-h;
+    out.naive[t]=y[s];
+    let a=0;for(let i=s-11;i<=s;i++)a+=y[i];out.ma[t]=a/12;
+    let sx=0,sy=0,sxx=0,sxy=0;
+    for(let i=0;i<12;i++){const v=y[s-11+i];sx+=i;sy+=v;sxx+=i*i;sxy+=i*v}
+    const b=(12*sxy-sx*sy)/(12*sxx-sx*sx), a0=(sy-b*sx)/12;
+    out.lin[t]=clamp(a0+b*(11+h));
+    const L=8,K=4,bd=[Infinity,Infinity,Infinity,Infinity],bj=[-1,-1,-1,-1];
+    for(let j=L-1;j<=s-h;j++){
+      let d=0;
+      for(let i=0;i<L;i++){const p=y[s-L+1+i]-y[s],q=y[j-L+1+i]-y[j];d+=(p-q)*(p-q)}
+      d+=0.5*(y[s]-y[j])*(y[s]-y[j]);
+      if(d<bd[K-1]){let k=K-1;while(k>0&&bd[k-1]>d){bd[k]=bd[k-1];bj[k]=bj[k-1];k--}bd[k]=d;bj[k]=j}
+    }
+    let cnt=0,acc=0;for(let k=0;k<K;k++)if(bj[k]>=0){acc+=y[bj[k]+h]-y[bj[k]];cnt++}
+    out.knn[t]=clamp(y[s]+(cnt?acc/cnt:0));
+  }
+  // Neuronen: online-trænet net, der kun lærer af punkter med kendt svar
+  {
+    const r=rng(seed^0x9e3779b9), L=8, I=L+1, Hn=10, lr=0.03;
+    const W1=[],b1=new Float64Array(Hn),W2=new Float64Array(Hn);let b2=0;
+    for(let j=0;j<Hn;j++){W1.push(Float64Array.from({length:I},()=>gauss(r)*0.4));W2[j]=gauss(r)*0.3}
+    const x=new Float64Array(I),z=new Float64Array(Hn);
+    const feat=e=>{for(let i=0;i<L;i++)x[i]=(y[e-L+1+i]-y[e])*2;x[L]=y[e]};
+    const fwd=()=>{let o=b2;for(let j=0;j<Hn;j++){let s=b1[j];const w=W1[j];for(let i=0;i<I;i++)s+=w[i]*x[i];z[j]=Math.tanh(s);o+=W2[j]*z[j]}return o};
+    const train=(e,target)=>{feat(e);const err=fwd()-target;
+      for(let j=0;j<Hn;j++){const dz=err*W2[j]*(1-z[j]*z[j]);W2[j]-=lr*err*z[j];b1[j]-=lr*dz;const w=W1[j];for(let i=0;i<I;i++)w[i]-=lr*dz*x[i]}
+      b2-=lr*err};
+    for(let t=2*h+L;t<N;t++){
+      const s=t-h,e=s-h;
+      train(e,(y[s]-y[e])*2);
+      for(let k=0;k<4;k++){const ee=L-1+Math.floor(r()*(e-L+2));train(ee,(y[ee+h]-y[ee])*2)}
+      feat(s);out.mlp[t]=clamp(y[s]+fwd()/2);
+    }
+  }
+  // Fysikeren: lineær model på seneste måling + kendt input frem til målet, refittet løbende
+  if(u){
+    const pre=new Float64Array(N+1);for(let i=0;i<N;i++)pre[i+1]=pre[i]+u[i];
+    const ub=(a,b)=>(pre[b+1]-pre[a+1])/(b-a);
+    const feat=(e,tEnd)=>{const m=ub(e,tEnd),v=u[tEnd];return[1,y[e],m,m*m,u[e],v,v*v]};
+    const NF=7,A=Array.from({length:NF},()=>new Float64Array(NF)),bv=new Float64Array(NF);
+    let cnt=0,nextE=0;
+    for(let t=W-5;t<N;t++){
+      const s=t-h;
+      while(nextE+h<=s){const f=feat(nextE,nextE+h),tg=y[nextE+h];
+        for(let i=0;i<NF;i++){bv[i]+=f[i]*tg;for(let j=0;j<NF;j++)A[i][j]+=f[i]*f[j]}cnt++;nextE++}
+      let p=y[s];
+      if(cnt>=12){const w=solve(A,bv,1e-3);if(w){const f=feat(s,t);p=0;for(let i=0;i<NF;i++)p+=w[i]*f[i]}}
+      out.phys[t]=clamp(p);
+    }
+  }
+  return out;
+}
+const at=(arr,d)=>{const i=Math.max(0,Math.min(N-2,Math.floor(d))),f=d-i;return arr[i]+(arr[i+1]-arr[i])*f};
+const factor=e=>e<=TOL?1-0.35*(e/TOL):Math.max(0.25,0.65-0.5*(e-TOL)/TOL);
+const byRank=(a,b)=>(a.fin!=null&&b.fin!=null)?a.fin-b.fin:a.fin!=null?-1:b.fin!=null?1:b.d-a.d;
+
+
+const MODELS=[
+  {id:'phys',name:'Calibrator',ci:0,off:null,on:'Scales the forecast and corrects it'},
+  {id:'naive',name:'Parrot',ci:1,off:'Repeats the last value',on:'Forecast plus its latest error'},
+  {id:'ma',name:'Average',ci:2,off:'Mean of the last 12 hours',on:'Forecast plus its mean error'},
+  {id:'lin',name:'Ruler',ci:3,off:'Extends the trend',on:'Forecast plus the trend in its error'},
+  {id:'knn',name:'Memory',ci:4,off:'Finds similar moments',on:'Finds similar forecast errors'},
+  {id:'mlp',name:'Neuron',ci:5,off:'Small neural network',on:'Neural net learning the forecast error'}
+];
+const PAL={light:['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300'],dark:['#3987e5','#d95926','#199e70','#c98500','#d55181','#008300']};
+const isDark=()=>document.documentElement.getAttribute('data-theme')==='dark';
+const col=m=>PAL[isDark()?'dark':'light'][m.ci];
+const tok=(n,f)=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||f;
+const $=id=>document.getElementById(id);
+
+// --- data
+const rows=$('winddata').textContent.trim().split('\n').slice(1).map(l=>l.split(';'));
+const times=rows.map(r=>r[0]), act=rows.map(r=>+r[1]), fc=rows.map(r=>+r[2]);
+const mn=Math.min(...act), mx=Math.max(...act), mid=(mn+mx)/2, half=(mx-mn)/2;
+const toY=v=>(v-mid)/half*0.85, toMW=e=>e/0.85*half;
+const Y=Float64Array.from(act,toY), F=Float64Array.from(fc,toY);
+const fmn=Math.min(...fc), fmx=Math.max(...fc), U=Float64Array.from(fc,v=>(v-fmn)/(fmx-fmn));
+const SEED=7;
+const P={off:computePreds(Y,null,H,SEED),on:null};
+{
+  const r=new Float64Array(N);for(let i=0;i<N;i++)r[i]=Y[i]-F[i];
+  const pr=computePreds(r,null,H,SEED),full=computePreds(Y,U,H,SEED),o={};
+  for(const m of MODELS){if(m.id==='phys'){o.phys=full.phys;continue}
+    const a=new Float64Array(N);for(let t=0;t<N;t++)a[t]=Math.max(-1.5,Math.min(1.5,pr[m.id][t]+F[t]));o[m.id]=a}
+  P.on=o;
+}
+const mae=arr=>{let s=0,n=0;for(let t=W;t<FINISH;t++){s+=Math.abs(arr[t]-Y[t]);n++}return toMW(s/n)};
+const STATS=MODELS.map(m=>({m,off:m.off?mae(P.off[m.id]):null,on:mae(P.on[m.id])}));
+const RAW=mae(F);
+
+// --- labels
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dlabel=(i,withTime)=>{const s=times[Math.max(0,Math.min(N-1,Math.round(i)))];return (+s.slice(8,10))+' '+MON[+s.slice(5,7)-1]+(withTime?' '+s.slice(11,16):'')};
+const fmw=v=>Math.round(v).toLocaleString('en-GB')+' MW';
+
+// --- race
+let mode='off',cars=[],state='grid',raceT=0,winT=null,camD=0,cw=800,ch=320,dpr=1,view=110;
+const cv=$('cv'),ctx=cv.getContext('2d');
+const active=()=>MODELS.filter(m=>mode==='on'||m.off);
+function reset(){
+  cars=active().map((m,i)=>({m,i,d:W,fin:null,ea:0,da:0,off:false,dust:[]}));
+  state='grid';raceT=0;winT=null;camD=W-view*0.2;$('go').textContent='Start the race';
+  $('verdict').innerHTML=mode==='off'
+    ?'The models only see how much it has blown so far. Press <strong>Start the race</strong>.'
+    :'Now every model has the grid operator’s forecast for the hours ahead. Press <strong>Start the race</strong>.';
+  renderTiming();draw();
+}
+function step(dt){
+  raceT+=dt;const PP=P[mode];
+  for(const c of cars){
+    if(c.fin!=null)continue;
+    const e=Math.abs(at(PP[c.m.id],c.d)-at(Y,c.d)),f=factor(e),dd=V0*f*dt;
+    c.d+=dd;c.ea+=e*dd;c.da+=dd;c.off=e>TOL;
+    if(c.off&&Math.random()<0.6)c.dust.push({d:c.d-0.3,v:at(PP[c.m.id],c.d)+(Math.random()-0.5)*0.08,life:1});
+    if(c.d>=FINISH){c.d=FINISH;c.fin=raceT;c.off=false;if(winT==null)winT=raceT}
+  }
+  for(const c of cars){c.dust.forEach(q=>q.life-=dt*1.6);c.dust=c.dust.filter(q=>q.life>0).slice(-20)}
+  if(cars.every(c=>c.fin!=null)||(winT!=null&&raceT-winT>6))finish();
+}
+const order=()=>[...cars].sort(byRank);
+function finish(){
+  state='done';$('go').textContent='Race again';
+  const w=order()[0];
+  $('verdict').innerHTML=mode==='off'
+    ?'<strong>The '+w.m.name+' wins</strong>, but nobody is fast. Without knowing the weather, the best models are '+fmw(Math.min(...STATS.filter(s=>s.off).map(s=>s.off)))+' off on average. Now try <strong>With forecast</strong>.'
+    :'<strong>The '+w.m.name+' wins</strong>. With the forecast the whole field is far faster. Below you can see how much each model improved.';
+  renderTiming();
+}
+function renderTiming(){
+  const o=order(),lead=o[0];
+  let html=o.map((c,k)=>{
+    const err=c.da?fmw(toMW(c.ea/c.da)):'–';
+    let st;
+    if(state==='grid')st=mode==='on'?c.m.on:c.m.off;
+    else if(c.fin!=null)st=(k===0?'winner':'+'+(c.fin-lead.fin).toFixed(1)+' s')+' · error '+err;
+    else if(state==='done')st='did not finish · error '+err;
+    else st=c.off?'<span class="off">in the gravel</span> · error '+err:'error '+err;
+    return '<div class="wr-car"><div class="pos">'+(k+1)+'</div><div class="sw" style="background:'+col(c.m)+'"></div><div style="min-width:0"><div class="nm">'+c.m.name+'</div><div class="st">'+st+'</div></div></div>';
+  }).join('');
+  if(mode==='off')html+='<div class="wr-car empty">The Calibrator only races with the forecast</div>';
+  $('timing').innerHTML=html;
+}
+function draw(){
+  const w=cw,h=ch;ctx.setTransform(dpr,0,0,dpr,0,0);
+  const dark=isDark(),ground=tok('--surface','#fff'),line=tok('--border','#e2d9cc'),muted=tok('--muted','#6a5e52'),accent=tok('--accent','#b23f22');
+  const road=dark?'#3a3630':'#d9d2c5',kerb=dark?'#5a5248':'#b9ad9a',lane=dark?'rgba(232,226,216,.35)':'rgba(255,255,255,.9)';
+  const px=w/view,amp=h*0.36,X=t=>(t-camD)*px,Yp=v=>h*0.48-v*amp,roadW=2*TOL*amp,PP=P[mode];
+  ctx.fillStyle=ground;ctx.fillRect(0,0,w,h);
+  const t0=Math.max(0,Math.floor(camD)-2),t1=Math.min(N-1,Math.ceil(camD+view)+2);
+  ctx.font='500 11px "IBM Plex Mono", monospace';ctx.textAlign='left';
+  for(let t=t0;t<=t1;t++){if(times[t].slice(11,13)==='00'){const xx=X(t);ctx.fillStyle=line;ctx.fillRect(xx,0,1,h);ctx.fillStyle=muted;ctx.fillText(dlabel(t),xx+5,15)}}
+  const path=a=>{ctx.beginPath();for(let t=t0;t<=t1;t++){const xx=X(t),yy=Yp(a[t]);t===t0?ctx.moveTo(xx,yy):ctx.lineTo(xx,yy)}};
+  ctx.lineJoin='round';ctx.lineCap='round';
+  path(Y);ctx.lineWidth=roadW+6;ctx.strokeStyle=kerb;ctx.stroke();
+  ctx.lineWidth=roadW;ctx.strokeStyle=road;ctx.stroke();
+  ctx.lineWidth=1.5;ctx.setLineDash([8,12]);ctx.strokeStyle=lane;ctx.stroke();ctx.setLineDash([]);
+  if(mode==='on'){path(F);ctx.lineWidth=2;ctx.setLineDash([3,5]);ctx.strokeStyle=accent;ctx.stroke();ctx.setLineDash([]);
+    const ti=Math.round(Math.max(t0,camD+4));ctx.fillStyle=accent;ctx.font='600 11px Inter, sans-serif';ctx.fillText('forecast',Math.max(8,X(ti)),Yp(F[ti])+16)}
+  const gate=(t,chk)=>{const xx=X(t);if(xx<-20||xx>w+20)return;const yc=Yp(Y[t]),top=yc-roadW/2-3,sz=(roadW+6)/6;
+    for(let r=0;r<6;r++)for(let c=0;c<2;c++){if(!chk&&c===1)continue;ctx.fillStyle=chk?(((r+c)%2)?tok('--text','#1a1714'):ground):tok('--text','#1a1714');ctx.fillRect(xx+c*sz-sz,top+r*sz,sz,sz)}};
+  gate(W,false);gate(FINISH,true);
+  for(const c of cars){const p=PP[c.m.id],a=Math.max(t0,Math.floor(c.d-30)),b=Math.floor(c.d);if(b<=a)continue;
+    ctx.beginPath();for(let t=a;t<=b;t++){const xx=X(t),yy=Yp(p[t]);t===a?ctx.moveTo(xx,yy):ctx.lineTo(xx,yy)}
+    ctx.lineTo(X(c.d),Yp(at(p,c.d)));ctx.globalAlpha=0.7;ctx.lineWidth=2;ctx.strokeStyle=col(c.m);ctx.stroke();ctx.globalAlpha=1}
+  for(const c of cars)for(const q of c.dust){ctx.globalAlpha=q.life*0.45;ctx.fillStyle=muted;ctx.beginPath();ctx.arc(X(q.d),Yp(q.v),2+(1-q.life)*5,0,Math.PI*2);ctx.fill()}
+  ctx.globalAlpha=1;
+  for(const c of [...cars].reverse()){const p=PP[c.m.id],xx=X(c.d),yy=Yp(at(p,c.d));
+    if(xx<12){ctx.fillStyle=col(c.m);ctx.beginPath();ctx.moveTo(3,yy);ctx.lineTo(12,yy-5);ctx.lineTo(12,yy+5);ctx.fill();continue}
+    const ang=Math.atan2(Yp(at(p,c.d+0.5))-Yp(at(p,c.d-0.5)),px);
+    ctx.save();ctx.translate(xx,yy);ctx.rotate(ang);
+    ctx.fillStyle=col(c.m);ctx.beginPath();if(ctx.roundRect)ctx.roundRect(-10,-5,20,10,3);else ctx.rect(-10,-5,20,10);ctx.fill();
+    ctx.strokeStyle=ground;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=ground;ctx.fillRect(1,-3,4,6);ctx.restore()}
+  const my=h-12,m0=14,m1=w-14;ctx.strokeStyle=line;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(m0,my);ctx.lineTo(m1,my);ctx.stroke();
+  for(const c of cars){const f=(c.d-W)/(FINISH-W);ctx.fillStyle=col(c.m);ctx.beginPath();ctx.arc(m0+f*(m1-m0),my,4.5,0,Math.PI*2);ctx.fill()}
+}
+let last=0,tt=0;
+function loop(ts){const dt=Math.min(0.05,(ts-(last||ts))/1000);last=ts;
+  if(state==='race'){step(dt);const lead=Math.max(...cars.map(c=>c.d));
+    const tg=Math.max(W-view*0.2,Math.min(FINISH+12-view,lead-view*0.62));camD+=(tg-camD)*Math.min(1,dt*4);
+    tt+=dt;if(tt>0.15){tt=0;renderTiming()}draw()}
+  requestAnimationFrame(loop)}
+function resize(){const r=cv.getBoundingClientRect();if(!r.width)return;dpr=window.devicePixelRatio||1;cw=r.width;ch=r.height;
+  cv.width=Math.round(cw*dpr);cv.height=Math.round(ch*dpr);view=cw<600?60:110;if(state==='grid')camD=W-view*0.2;draw()}
+
+// --- what the race shows
+function renderChart(){
+  const top=Math.ceil(Math.max(RAW,...STATS.map(s=>s.off||0))*1.3/250)*250,x=v=>v/top*100+'%';
+  const list=[...STATS].sort((a,b)=>a.on-b.on);
+  $('db').innerHTML=list.map(s=>{
+    let g='';for(let v=0;v<=top;v+=250)g+='<div class="grid" style="left:'+x(v)+'"></div>';
+    g+='<div class="ref" style="left:'+x(RAW)+'" title="The forecast alone, without Thor: '+fmw(RAW)+'"></div>';
+    if(s.off!=null)g+='<div class="link" style="left:'+x(s.on)+';width:calc('+x(s.off)+' - '+x(s.on)+')"></div>'+
+      '<div class="dot o" style="left:'+x(s.off)+'" title="'+s.m.name+' without forecast: '+fmw(s.off)+'"></div>'+
+      '<div class="lab mut" style="left:calc('+x(s.off)+' + 11px)">'+fmw(s.off)+'</div>';
+    g+='<div class="dot" style="left:'+x(s.on)+';background:'+col(s.m)+'" title="'+s.m.name+' with forecast: '+fmw(s.on)+'"></div>'+
+      '<div class="lab" style="left:calc('+x(s.on)+' - 11px);transform:translateX(-100%)">'+fmw(s.on)+'</div>';
+    return '<div class="wr-row"><div class="wr-name"><span style="background:'+col(s.m)+'"></span>'+s.m.name+'</div><div class="wr-plot">'+g+'</div></div>';
+  }).join('');
+  let ax='';for(let v=0;v<=top;v+=500)ax+='<span style="left:'+x(v)+(v+500>top?';transform:translateX(-100%)':v===0?';transform:none':'')+'">'+(v?v.toLocaleString('en-GB'):'0 MW')+'</span>';
+  $('axis').innerHTML=ax;
+  const offs=STATS.filter(s=>s.off),bestOff=Math.min(...offs.map(s=>s.off)),bestOn=Math.min(...offs.map(s=>s.on)),kal=STATS[0].on;
+  $('takeaway').innerHTML='<strong>Information gives the big jump.</strong> The best models go from '+fmw(bestOff)+' to '+fmw(bestOn)+' of error when they get the forecast. '+
+    '<strong>Method gives the last stretch.</strong> The Calibrator gets down to '+fmw(kal)+', because it is allowed to scale the forecast. That matters here: the forecast leaves out the Thor offshore wind farm while the real output includes it, and the Calibrator learns to add Thor’s share by itself. '+
+    'The forecast on its own is '+fmw(RAW)+' off, but that number says nothing about the quality of Energinet’s forecast, because it measures something other than the road.';
+}
+
+// --- the misses
+const FROZEN=[34,47];
+function renderMisses(){
+  const PP=P.on,sv=new Float64Array(N),best=new Float64Array(N);
+  for(let t=W;t<FINISH;t++){let b=Infinity,bp=0;for(const m of MODELS){const e=Math.abs(PP[m.id][t]-Y[t]);if(e<b){b=e;bp=PP[m.id][t]}}sv[t]=b;best[t]=bp}
+  const ev=[];let cur=null;const thr=toY(mid+700)-toY(mid);
+  const frozen=t=>t>=FROZEN[0]&&t<=FROZEN[1]+H+1; // the frozen hours, and the hours right after when the models had seen them
+  for(let t=W;t<FINISH;t++){if(frozen(t))continue;if(sv[t]>thr){if(cur&&t-cur.e<=H)cur.e=t;else{cur={s:t,e:t,p:t};ev.push(cur)}if(sv[t]>sv[cur.p])cur.p=t}}
+  ev.sort((a,b)=>sv[b.p]-sv[a.p]);const top=ev.slice(0,4).sort((a,b)=>a.s-b.s);
+  $('missintro').textContent='Even with the forecast, there are hours when all six models are more than 700 MW off. The weather changed faster than the forecast saw coming.';
+  $('misses').innerHTML=top.map(e=>{const t=e.p,guess=best[t]/0.85*half+mid,diff=act[t]-guess;
+    return '<li><span class="when">'+dlabel(t,true)+'</span><p>The turbines delivered <strong>'+fmw(act[t])+'</strong>, while the best guess seven hours earlier was '+fmw(guess)+'. The wind came in <strong>'+fmw(Math.abs(diff))+' '+(diff>0?'stronger':'weaker')+'</strong> than expected.</p></li>'}).join('')+
+    '<li class="data"><span class="when">15 Sep 10:00–23:00</span><p><strong>A data error, not a weather error.</strong> Energinet’s live measurement was stuck at exactly 2,667 MW for 14 hours. Settlement data for the same hours show 3,500 to 3,770 MW. This kind of error is easy to miss, because a flat line is easy to predict.</p></li>';
+}
+
+// --- about the data
+function renderData(){
+  const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;
+  const iMax=act.indexOf(Math.max(...act)),iMin=act.indexOf(Math.min(...act));
+  $('facts').innerHTML=[
+    ['Rows',N.toLocaleString('en-GB'),'one per hour'],
+    ['Actual, mean',fmw(avg(act)),'forecast: '+fmw(avg(fc))],
+    ['Highest hour',fmw(act[iMax]),dlabel(iMax,true)],
+    ['Lowest hour',fmw(act[iMin]),dlabel(iMin,true)]
+  ].map(f=>'<div><span>'+f[0]+'</span><b>'+f[1]+'</b><small>'+f[2]+'</small></div>').join('');
+  let t='<tr><th>time</th><th class="num">actual MW</th><th class="num">forecast MW</th></tr>';
+  [0,1,2,FROZEN[0],FROZEN[0]+1].forEach((i,k)=>{if(k===3)t+='<tr class="more"><td colspan="3">…</td></tr>';
+    t+='<tr><td>'+times[i]+'</td><td class="num">'+act[i]+'</td><td class="num">'+fc[i]+'</td></tr>'});
+  t+='<tr class="more"><td colspan="3">… 744 rows in total</td></tr>';
+  $('sample').innerHTML=t;
+  drawOverview();
+}
+function drawOverview(){
+  const svg=$('ovsvg'),r=svg.getBoundingClientRect();if(!r.width)return;
+  const text=tok('--text','#1a1714'),muted=tok('--muted','#6a5e52'),line=tok('--border','#e2d9cc'),accent=tok('--accent','#b23f22'),surf=tok('--surface','#fff');
+  const w=r.width,h=r.height,L=44,R=10,T=12,B=24,top=6000;
+  const X=i=>L+i/(N-1)*(w-L-R),Yv=v=>T+(1-v/top)*(h-T-B);
+  const pts=a=>a.map((v,i)=>X(i).toFixed(1)+','+Yv(v).toFixed(1)).join(' ');
+  const font='font-family="IBM Plex Mono, monospace" font-size="11"';
+  let g='';
+  for(let v=0;v<=top;v+=2000)g+='<line x1="'+L+'" x2="'+(w-R)+'" y1="'+Yv(v)+'" y2="'+Yv(v)+'" stroke="'+line+'"/><text x="'+(L-6)+'" y="'+(Yv(v)+4)+'" fill="'+muted+'" '+font+' text-anchor="end">'+(v?v.toLocaleString('en-GB'):'0')+'</text>';
+  for(let i=0;i<N;i+=168)g+='<line x1="'+X(i)+'" x2="'+X(i)+'" y1="'+(h-B)+'" y2="'+(h-B+4)+'" stroke="'+muted+'"/><text x="'+X(i)+'" y="'+(h-6)+'" fill="'+muted+'" '+font+' text-anchor="'+(i===0?'start':'middle')+'">'+dlabel(i)+'</text>';
+  g+='<rect x="'+X(FROZEN[0])+'" y="'+T+'" width="'+(X(FROZEN[1]+1)-X(FROZEN[0]))+'" height="'+(h-T-B)+'" fill="'+tok('--hi','rgba(200,75,47,.06)')+'" stroke="'+accent+'" stroke-width="1"/>';
+  g+='<polyline points="'+pts(fc)+'" fill="none" stroke="'+accent+'" stroke-width="1.5" stroke-dasharray="3 3"/>';
+  g+='<polyline points="'+pts(act)+'" fill="none" stroke="'+text+'" stroke-width="1.5" stroke-linejoin="round"/>';
+  g+='<line id="xh" y1="'+T+'" y2="'+(h-B)+'" stroke="'+muted+'" visibility="hidden"/>';
+  g+='<circle id="xa" r="4" fill="'+text+'" stroke="'+surf+'" stroke-width="2" visibility="hidden"/><circle id="xf" r="4" fill="'+accent+'" stroke="'+surf+'" stroke-width="2" visibility="hidden"/>';
+  svg.setAttribute('viewBox','0 0 '+w+' '+h);svg.innerHTML=g;
+  svg.onpointermove=e=>{const b=svg.getBoundingClientRect(),xp=e.clientX-b.left;const i=Math.max(0,Math.min(N-1,Math.round((xp-L)/(w-L-R)*(N-1))));
+    ['xh','xa','xf'].forEach(id=>$(id).setAttribute('visibility','visible'));
+    $('xh').setAttribute('x1',X(i));$('xh').setAttribute('x2',X(i));$('xa').setAttribute('cx',X(i));$('xa').setAttribute('cy',Yv(act[i]));$('xf').setAttribute('cx',X(i));$('xf').setAttribute('cy',Yv(fc[i]));
+    const tip=$('tip');tip.innerHTML=dlabel(i,true)+'<br>Actual <b>'+fmw(act[i])+'</b><br>Forecast <b>'+fmw(fc[i])+'</b>'+(i>=FROZEN[0]&&i<=FROZEN[1]?'<br><span style="color:'+accent+'">frozen measurement</span>':'');
+    tip.hidden=false;const tw=tip.offsetWidth;tip.style.left=Math.max(4,Math.min(w-tw-4,X(i)+(X(i)>w/2?-tw-12:12)))+'px'};
+  svg.onpointerleave=()=>{['xh','xa','xf'].forEach(id=>{const el=$(id);if(el)el.setAttribute('visibility','hidden')});$('tip').hidden=true};
+}
+$('copy').addEventListener('click',()=>{
+  const text=$('winddata').textContent.trim().replace(/;/g,',').replace(/^tidspunkt,vind_faktisk_MW,prognose_dagen_foer_MW,prognose_5_timer_MW,prognose_1_time_MW/,'time,actual_MW,forecast_day_ahead_MW,forecast_5_hour_MW,forecast_1_hour_MW');
+  const done=m=>{$('copied').textContent=m};
+  const fallback=()=>{const box=$('csvbox');box.value=text;box.hidden=false;box.focus();box.select();done('Copying was blocked. The text is selected in the box below, so you can copy it yourself.')};
+  try{navigator.clipboard.writeText(text).then(()=>done('Copied. Paste it into a spreadsheet.'),fallback)}catch(e){fallback()}
+});
+
+function setMode(m){mode=m;$('m-off').setAttribute('aria-pressed',m==='off');$('m-on').setAttribute('aria-pressed',m==='on');reset()}
+$('m-off').addEventListener('click',()=>setMode('off'));
+$('m-on').addEventListener('click',()=>setMode('on'));
+$('go').addEventListener('click',()=>{if(state!=='grid')reset();state='race';$('go').textContent='Restart';
+  $('verdict').innerHTML='Follow the trails behind the cars. They are the models’ guesses. Where a trail leaves the road, the model is wrong.';last=0});
+window.redrawWindRace=()=>{renderChart();renderTiming();draw();drawOverview()};
+new ResizeObserver(resize).observe(cv);
+new ResizeObserver(drawOverview).observe($('ovsvg'));
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>window.redrawWindRace());
+renderChart();renderMisses();renderData();reset();resize();requestAnimationFrame(loop);
+})();
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+  if (window.redrawWindRace) window.redrawWindRace();
+}
+</script>
+<script defer src="../js/ui-enhance.js?v=36"></script>
+</body>
+</html>
