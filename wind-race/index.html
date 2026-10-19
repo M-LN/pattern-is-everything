@@ -120,6 +120,10 @@
     .wr-copied { font-size: 13px; color: var(--muted); }
     .wr-csv { width: 100%; height: 160px; box-sizing: border-box; background: var(--bg); color: var(--text);
       border: 1px solid var(--border); border-radius: 6px; font-family: var(--mono); font-size: 12px; padding: 8px; margin-top: 10px; }
+    .wr-note { border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 12px 16px; margin: 10px 0; }
+    .wr-note-t { font-weight: 600; margin-bottom: 4px; }
+    .wr-note-d { color: var(--muted); font-size: 14px; line-height: 1.55; }
     .wr-foot { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); }
     .wr-foot a { color: var(--muted); }
     @media (prefers-reduced-motion: reduce) { .wr-go { transition: none; } }
@@ -206,10 +210,10 @@
 </dl>
 
 <h3>Known errors and caveats</h3>
-<div class="fb"><div class="fm">The forecast does not cover Thor</div><div class="fd">Energinet states in the description of the forecast dataset that the Thor offshore wind farm (about 1,000 MW) is not included. The actual output matches Energinet's settlement data, which include all wind farms. That is why the forecast is on average 741 MW lower, most of all when it is windy. This page therefore does not measure how good Energinet's forecast is. It measures how well the models can use it.</div></div>
-<div class="fb"><div class="fm">A frozen measurement</div><div class="fd">On 15 September from 10:00 to 23:00 the actual output is stuck at exactly 2,667 MW. Energinet's settlement data show 3,500 to 3,770 MW for those hours. The error has not been corrected, so the data are exactly as Energinet publishes them.</div></div>
-<div class="fb"><div class="fm">One missing measurement</div><div class="fd">8,927 of 8,928 five-minute measurements are present. The hour with the gap uses the mean of the eleven that are there.</div></div>
-<div class="fb"><div class="fm">One month, one area</div><div class="fd">The results hold for DK1 in autumn 2026. Other months and eastern Denmark (DK2) may tell a different story.</div></div>
+<div class="wr-note"><div class="wr-note-t">The forecast does not cover Thor</div><div class="wr-note-d">Energinet states in the description of the forecast dataset that the Thor offshore wind farm (about 1,000 MW) is not included. The actual output matches Energinet's settlement data, which include all wind farms. That is why the forecast is on average 741 MW lower, most of all when it is windy. This page therefore does not measure how good Energinet's forecast is. It measures how well the models can use it.</div></div>
+<div class="wr-note"><div class="wr-note-t">A frozen measurement</div><div class="wr-note-d">On 15 September from 10:00 to 23:00 the actual output is stuck at exactly 2,667 MW. Energinet's settlement data show 3,500 to 3,770 MW for those hours. The error has not been corrected, so the data are exactly as Energinet publishes them.</div></div>
+<div class="wr-note"><div class="wr-note-t">One missing measurement</div><div class="wr-note-d">8,927 of 8,928 five-minute measurements are present. The hour with the gap uses the mean of the eleven that are there.</div></div>
+<div class="wr-note"><div class="wr-note-t">One month, one area</div><div class="wr-note-d">The results hold for DK1 in autumn 2026. Other months and eastern Denmark (DK2) may tell a different story.</div></div>
 
 <h3>Sources</h3>
 <p>Energinet's open data, <a href="https://www.energidataservice.dk/" target="_blank" rel="noopener">Energi Data Service</a>. Actual output: the dataset <code>ElectricityProdex5MinRealtime</code>, columns <code>OnshoreWindPower</code> and <code>OffshoreWindPower</code>. Forecast: the dataset <a href="https://api.energidataservice.dk/meta/dataset/Forecasts_Hour" target="_blank" rel="noopener"><code>Forecasts_Hour</code></a>, column <code>ForecastDayAhead</code> for Onshore Wind and Offshore Wind. Cross-check: <code>ProductionConsumptionSettlement</code>. Contains data used pursuant to “Conditions for use of Danish public-sector data” from Energi Data Service. This page is not made or endorsed by Energinet.</p>
@@ -973,7 +977,7 @@ tidspunkt;vind_faktisk_MW;prognose_dagen_foer_MW;prognose_5_timer_MW;prognose_1_
 </script>
 <script>
 (function(){
-const N=744, W=48, FINISH=740, H=7, V0=24, TOL=0.17;
+const N=744, W=48, FINISH=740, H=7, V0=40, TOL=0.17;
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function gauss(r){let u=0;while(u===0)u=r();const v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
 function solve(A,b,lam){
@@ -1110,7 +1114,7 @@ function step(dt){
     if(c.d>=FINISH){c.d=FINISH;c.fin=raceT;c.off=false;if(winT==null)winT=raceT}
   }
   for(const c of cars){c.dust.forEach(q=>q.life-=dt*1.6);c.dust=c.dust.filter(q=>q.life>0).slice(-20)}
-  if(cars.every(c=>c.fin!=null)||(winT!=null&&raceT-winT>6))finish();
+  if(cars.every(c=>c.fin!=null)||(winT!=null&&raceT-winT>15))finish();
 }
 const order=()=>[...cars].sort(byRank);
 function finish(){
