@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Learning Duck — Pattern is Everything</title>
+  <meta name="description" content="One duck, one piece of bread, three ways to learn: evolution, Q-learning and a deep Q-network, running live in your browser. Watch what each learns, and break each one.">
+  <link rel="canonical" href="https://patterniseverything.com/learning-duck/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Learning Duck — Pattern is Everything">
+  <meta property="og:description" content="Evolution, Q-learning and a deep Q-network solve the same problem in your browser. Three ways to learn, three ways to fail.">
+  <meta property="og:url" content="https://patterniseverything.com/learning-duck/">
+  <meta property="og:site_name" content="Pattern is Everything">
+  <meta property="og:image" content="https://patterniseverything.com/assets/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../css/fonts.css?v=2">
+  <link rel="stylesheet" href="../css/main.css?v=42">
+  <style>
+    .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
+      letter-spacing: .06em; margin-bottom: 22px; }
+    .crumbs a { color: var(--muted); text-decoration: none; }
+    .crumbs a:hover { color: var(--accent); }
+    .portal-header + #mainContent.topic-page { max-width: 860px; margin: 0 auto; padding: 32px 24px 72px; }
+    .topic-page .topic { display: block; }
+    @media (max-width: 720px) {
+      .topic-header { flex-wrap: wrap; gap: 8px; }
+      .topic-badge { white-space: normal; text-align: left; }
+      .portal-header + #mainContent.topic-page { padding-left: 16px; padding-right: 16px; }
+    }
+    .ld-toc { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12px; margin: 18px 0 8px; }
+    .ld-toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .ld-toc a:hover { color: var(--accent); border-color: var(--accent); }
+    .ld-lab { scroll-margin-top: 80px; }
+    .ld-step { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 44px 0 -6px; }
+    .ld-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 10px; }
+    .ld-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); padding: 3px; background: var(--surface); }
+    .ld-seg > span { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); align-self: center; padding: 0 6px 0 8px; }
+    .ld-seg button, .ld-btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); background: transparent; border: 0; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
+    .ld-seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+    .ld-btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: var(--radius); }
+    .ld-btn:hover { border-color: var(--border2); }
+    .ld-btn[aria-pressed="false"].ld-learn { border-color: var(--accent); color: var(--accent); }
+    .ld-btn[aria-pressed="true"].ld-real { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+    .ld-seg button:focus-visible, .ld-btn:focus-visible, .ld-ch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .ld-world { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #2e5658; touch-action: manipulation; }
+    .ld-world canvas { display: block; width: 100%; }
+    .ld-world .tag { position: absolute; left: 10px; top: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+      color: #eaf1f3; background: rgba(10,20,25,.55); padding: 5px 9px; border-radius: 6px; pointer-events: none; }
+    .ld-world .hint { position: absolute; left: 10px; bottom: 8px; font-family: var(--mono); font-size: 11px; color: #e9f1ee; background: rgba(10,25,30,.5); padding: 4px 8px; border-radius: 6px; pointer-events: none; }
+    #e-world canvas { height: 340px; } #q-world canvas { height: 300px; }
+    @media (max-width: 600px) { #e-world canvas { height: 280px; } #q-world canvas { height: 250px; } }
+    #d-world { aspect-ratio: 800 / 520; } #d-world canvas { height: 100%; }
+    #d-world.draw { cursor: crosshair; }
+    .ld-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 10px;
+      background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .ld-facts.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    @media (max-width: 600px) { .ld-facts, .ld-facts.five { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .ld-facts div { background: var(--surface); padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .ld-facts span { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .ld-facts b { font-family: var(--mono); font-weight: 500; font-size: 16px; font-variant-numeric: tabular-nums; }
+    .ld-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+    @media (max-width: 680px) { .ld-two { grid-template-columns: minmax(0, 1fr); } }
+    .ld-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 12px 14px; min-width: 0; }
+    .ld-card h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0 0 8px; }
+    .ld-card canvas { display: block; width: 100%; }
+    .ld-cap { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin: 8px 0 0; }
+    .ld-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .ld-legend i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; vertical-align: 3px; margin-right: 6px; }
+    .ld-legend i.sq { width: 10px; height: 10px; vertical-align: -1px; border-radius: 2px; }
+    .ld-formula { font-family: var(--mono); font-size: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px 16px; margin: 14px 0; overflow-x: auto; white-space: nowrap; }
+    .ld-formula small { display: block; white-space: normal; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+    .ld-try { margin: 12px 0; padding-left: 1.3em; }
+    .ld-try li { margin: 4px 0; }
+    .ld-ch { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+    @media (max-width: 720px) { .ld-ch { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .ld-ch button { font: inherit; text-align: left; border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      border-radius: var(--radius); padding: 8px 10px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+    .ld-ch button b { font-size: 13px; }
+    .ld-ch button small { font-size: 11.5px; color: var(--muted); line-height: 1.35; }
+    .ld-ch button[aria-pressed="true"] { border-color: var(--text); background: var(--text); color: var(--bg); }
+    .ld-ch button[aria-pressed="true"] small { color: var(--bg); opacity: .75; }
+    .ld-ch button.hack[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .ld-q { display: grid; grid-template-columns: 70px minmax(0, 1fr) 44px; gap: 8px; align-items: center; font-size: 13px; margin-top: 5px; }
+    .ld-q .bar { height: 9px; border-radius: 5px; background: var(--surface2); overflow: hidden; }
+    .ld-q .bar div { height: 100%; width: 50%; background: var(--border2); }
+    .ld-q.on { font-weight: 600; } .ld-q.on .bar div { background: var(--text); }
+    .ld-q span:last-child { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .ld-fail { border-top: 1px solid var(--border); padding-top: 4px; margin-top: 18px; }
+    .ld-fail h3 { margin-bottom: 4px; }
+    .ld-fail .how { font-size: 14px; color: var(--muted); }
+    .ld-fail .how strong { color: var(--text); font-weight: 600; }
+    .ld-scroll { overflow-x: auto; margin: 14px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .ld-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+    .ld-table th, .ld-table td { padding: 9px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+    .ld-table thead th { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .ld-table tbody th { font-weight: 600; white-space: nowrap; }
+    .ld-table tr:last-child td, .ld-table tr:last-child th { border-bottom: 0; }
+    .ld-cols { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0 0 14px; font-size: 14px; }
+    .ld-cols dt { font-family: var(--mono); font-size: 12px; }
+    .ld-cols dd { margin: 0; color: var(--muted); }
+    .ld-refs { font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--muted); padding-left: 1.2em; }
+    .ld-refs a { color: var(--muted); }
+    .ld-foot { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .ld-foot a { color: var(--muted); }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+<script>(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
+
+<div class="portal-header" role="banner">
+  <a class="logo-ring" href="../index.html" title="Back to Pattern is Everything"></a>
+  <h1 style="font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+    The Learning Duck
+  </h1>
+  <nav class="portal-nav" aria-label="Primary">
+    <a href="/ml/">ML</a>
+    <a href="/stats/">Stats</a>
+    <a href="/markets/">Markets</a>
+    <a href="/essays/">Essays</a>
+    <a href="/guides/">Guides</a>
+    <a href="/cases/">Cases</a>
+    <a href="/start/">Start here</a>
+  </nav>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">◐</button>
+    <a class="back-link" href="../index.html">← Home</a>
+  </div>
+</div>
+
+<div role="main" class="topic-page" id="mainContent">
+  <div class="crumbs" role="navigation" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a> / The Learning Duck
+  </div>
+<div class="topic" id="learning-duck">
+<div class="topic-header"><div class="topic-meta"><div class="topic-num">Lab — Reinforcement learning</div><h2><em>The Learning Duck</em></h2></div><span class="topic-badge">3 learners · runs in your browser</span></div>
+<div class="pattern-thread"><span class="pt-label">◆ The Pattern</span><span class="pt-text">A learner can only learn what its senses and its reward let it see</span></div>
+
+<p><strong>A duck has to find bread. Nobody tells it how.</strong> On this page the same small problem is solved three times, by three kinds of learning: evolution, a table of experience, and a neural network. All three run live in your browser. You can watch what each one learns, and you can break each one.</p>
+<p>The three are not toys of three different fields. They are the ladder that reinforcement learning climbed, from selection to tables to the deep networks that learned to play Atari games and that walking robots are trained with today.</p>
+<div class="ld-toc" role="navigation" aria-label="Labs on this page">
+  <a href="#lab-evolution">1 · Evolution</a>
+  <a href="#lab-qtable">2 · Q-learning</a>
+  <a href="#lab-dqn">3 · Deep Q-network</a>
+  <a href="#failures">Three failures</a>
+  <a href="#side-by-side">Side by side</a>
+  <a href="#method">Method</a>
+</div>
+
+<!-- ============ LAB 1 ============ -->
+<div class="ld-lab" id="lab-evolution">
+<div class="ld-step">Lab 1</div>
+<h2>Evolution: learning without a learner</h2>
+<p>Thirty ducks start with random brains. Each brain is a tiny neural network of 68 numbers that turns what the duck senses into a turn and a speed. A duck that eats enough has ducklings, and each duckling gets a copy of its mother's brain with small random changes. A pike hunts them all.</p>
+<p>No duck ever learns anything during its life. The population does.</p>
+
+<div class="ld-bar">
+  <div class="ld-seg" role="group" aria-label="Speed"><span>Speed</span>
+    <button type="button" data-e-speed="1" aria-pressed="false">1×</button>
+    <button type="button" data-e-speed="5" aria-pressed="true">5×</button>
+    <button type="button" data-e-speed="25" aria-pressed="false">25×</button>
+  </div>
+  <div class="ld-seg" role="group" aria-label="Pikes"><span>Pikes</span>
+    <button type="button" data-e-pike="0" aria-pressed="false">0</button>
+    <button type="button" data-e-pike="1" aria-pressed="true">1</button>
+    <button type="button" data-e-pike="2" aria-pressed="false">2</button>
+  </div>
+  <button type="button" class="ld-btn" id="e-reset">New pond</button>
+</div>
+<div class="ld-world" id="e-world"><canvas id="e-cv" role="img" aria-label="A pond with ducks, bread and a pike"></canvas><div class="hint">Click the water to throw bread</div></div>
+<div class="ld-facts">
+  <div><span>Ducks</span><b id="e-n">0</b></div>
+  <div><span>Generation</span><b id="e-gen">1</b></div>
+  <div><span>Ducklings</span><b id="e-born">0</b></div>
+  <div><span>Taken by pike</span><b id="e-eaten">0</b></div>
+</div>
+<div class="ld-card" style="margin-top:12px">
+  <h4>Share of ducks with the right reflex</h4>
+  <div class="ld-legend"><span><i id="e-l1"></i>Turns toward bread</span><span><i id="e-l2"></i>Turns away from the pike</span></div>
+  <canvas id="e-chart" height="150"></canvas>
+  <p class="ld-cap">Every four seconds of pond time each brain gets a small test: bread on its left, then on its right, and the same with the pike. A random brain passes about a quarter of the time. Try 25× and two pikes.</p>
+</div>
+<div class="callout"><strong>◆ Selection is a search algorithm.</strong> Mutation proposes, survival decides, and what is learned ends up stored in the population, not in any single duck. The same loop drives genetic algorithms and neuroevolution. It needs no gradient and no reward signal after each move, only a way to tell who did better.</div>
+</div>
+
+<!-- ============ LAB 2 ============ -->
+<div class="ld-lab" id="lab-qtable">
+<div class="ld-step">Lab 2</div>
+<h2>Q-learning: a table of experience</h2>
+<p>Now one duck learns during its own life. It splits the world into 36 situations: where the bread is (12 directions) and how far away it is (3 rings). For each situation it keeps a score for each of five moves, from hard left to hard right. After every move it nudges that score toward what actually happened. That is Q-learning.</p>
+<div class="ld-formula">Q(s, a) ← Q(s, a) + α · [ r + γ · max<sub>a′</sub> Q(s′, a′) − Q(s, a) ]
+  <small>α = 0.2, how fast old scores give way. γ = 0.9, how much the future counts. r is the reward: a little for getting closer to the bread, a lot for reaching it, a small cost for every step. The bracket is the surprise: what happened minus what the duck expected.</small>
+</div>
+
+<div class="ld-bar">
+  <button type="button" class="ld-btn ld-real" id="q-mode" aria-pressed="false">Switch to real water</button>
+  <button type="button" class="ld-btn ld-learn" id="q-learn" aria-pressed="true">Learning: on</button>
+  <div class="ld-seg" role="group" aria-label="Speed"><span>Speed</span>
+    <button type="button" data-q-speed="1" aria-pressed="false">1×</button>
+    <button type="button" data-q-speed="8" aria-pressed="true">8×</button>
+    <button type="button" data-q-speed="60" aria-pressed="false">60×</button>
+  </div>
+  <button type="button" class="ld-btn" id="q-reset">Forget everything</button>
+</div>
+<div class="ld-world" id="q-world"><canvas id="q-cv" role="img" aria-label="The duck, the bread and the path the duck swam"></canvas><div class="tag" id="q-tag">Simulation · perfect physics</div><div class="hint">Click to move the bread</div></div>
+<div class="ld-two">
+  <div class="ld-card">
+    <h4>What the duck has learned</h4>
+    <canvas id="q-brain" height="250"></canvas>
+    <div class="ld-legend" style="margin-top:8px"><span><i class="sq" style="background:#2c6a96"></i>hard left</span><span><i class="sq" style="background:#86b5d3"></i>left</span><span><i class="sq" style="background:#d6d2c4"></i>straight</span><span><i class="sq" style="background:#e8ab6c"></i>right</span><span><i class="sq" style="background:#c25e1c"></i>hard right</span></div>
+    <p class="ld-cap">The whole table, drawn as a compass. The duck in the middle faces up. Each cell is a place the bread can be, near on the inside, far on the outside. The colour is the move with the best score there, strong when the duck is sure. The outlined cell is where the bread is now.</p>
+  </div>
+  <div class="ld-card">
+    <h4>How directly it swims</h4>
+    <div class="ld-legend"><span><i class="sq" id="q-k1"></i>simulation</span><span><i class="sq" id="q-k2"></i>real water</span><span><i class="sq" id="q-k3"></i>learning off</span></div>
+    <canvas id="q-chart" height="190"></canvas>
+    <p class="ld-cap">100% is a straight line to the bread. The line is the average of the last 10 tries.</p>
+  </div>
+</div>
+<ol class="ld-try">
+  <li>Let it learn in simulation at 60× until the line flattens out.</li>
+  <li>Turn learning off and switch to real water. There is a current, and the duck's left foot is weak.</li>
+  <li>Turn learning back on and watch the compass change colour.</li>
+</ol>
+<div class="callout warn"><strong>◆ The sim-to-real gap.</strong> A policy is only as good as the world it was trained in. In real water a straight move drifts to the right, so the trained duck circles the bread. With learning on it recovers, and the compass shows how: the blue cells turn orange, because the duck finds it is quicker to go round to the right than to fight its weak left turn. Robot builders fight the same gap when a walking policy trained in a physics simulator meets a real floor.</div>
+</div>
+
+<!-- ============ LAB 3 ============ -->
+<div class="ld-lab" id="lab-dqn">
+<div class="ld-step">Lab 3</div>
+<h2>Deep Q-network: a neural network instead of a table</h2>
+<p>A table cannot cope with reeds. There are far too many situations to list. So the third duck replaces the table with a small neural network of 988 numbers. Its inputs are seven eyes that measure the distance to reeds, a nose that smells the bread, and a sense of touch. Its outputs are scores for four moves: left, straight, right and back up. It learns with the same update as the table, from a memory of its last 20,000 moves.</p>
+<p>The smell spreads around obstacles the way it would in water, so the nose points along the shortest open path. The yellow glow on the water is that smell.</p>
+
+<div class="ld-bar">
+  <div class="ld-seg" role="group" aria-label="Layout"><span>Layout</span>
+    <button type="button" data-d-preset="aaben" aria-pressed="false">Open</button>
+    <button type="button" data-d-preset="sivskov" aria-pressed="true">Reeds</button>
+    <button type="button" data-d-preset="bro" aria-pressed="false">Bridge</button>
+    <button type="button" data-d-preset="bugter" aria-pressed="false">Bends</button>
+  </div>
+  <button type="button" class="ld-btn" id="d-tool" aria-pressed="false">Draw reeds</button>
+  <button type="button" class="ld-btn" id="d-clear">Clear reeds</button>
+</div>
+<div class="ld-bar" style="margin-top:0">
+  <button type="button" class="ld-btn ld-learn" id="d-learn" aria-pressed="true">Learning: on</button>
+  <div class="ld-seg" role="group" aria-label="Speed"><span>Speed</span>
+    <button type="button" data-d-speed="1" aria-pressed="false">1×</button>
+    <button type="button" data-d-speed="10" aria-pressed="true">10×</button>
+    <button type="button" data-d-speed="40" aria-pressed="false">40×</button>
+  </div>
+  <button type="button" class="ld-btn" id="d-smell" aria-pressed="true">Smell: shown</button>
+  <button type="button" class="ld-btn" id="d-reset">Forget everything</button>
+</div>
+<div class="ld-world" id="d-world"><canvas id="d-cv" role="img" aria-label="The duck among reeds, with its eyes, the smell of bread and the path it swam"></canvas><div class="hint" id="d-hint">Click to move the bread</div></div>
+<div class="ld-ch" role="group" aria-label="Challenges">
+  <button type="button" data-d-ch="current" aria-pressed="false"><b>Current</b><small>Water pushes down and right</small></button>
+  <button type="button" data-d-ch="pike" aria-pressed="false"><b>Pike</b><small>Hunts the duck. To the eyes it looks like a reed</small></button>
+  <button type="button" data-d-ch="flee" aria-pressed="false"><b>Fleeing bread</b><small>Drifts away when the duck comes close</small></button>
+  <button type="button" data-d-ch="blind" aria-pressed="false"><b>Blind right side</b><small>The three right eyes go dark</small></button>
+  <button type="button" class="hack" data-d-ch="straight" aria-pressed="false"><b>Straight-line nose</b><small>Smell points at the bread, through reeds</small></button>
+</div>
+<div class="ld-facts five">
+  <div><span>Steps</span><b id="d-steps">0</b></div>
+  <div><span>Bread</span><b id="d-bread">0</b></div>
+  <div><span>Into reeds</span><b id="d-hits">0</b></div>
+  <div><span>Taken</span><b id="d-caught">0</b></div>
+  <div><span>Exploring</span><b id="d-eps">100%</b></div>
+</div>
+<div class="ld-two">
+  <div class="ld-card">
+    <h4>Is it getting better?</h4>
+    <canvas id="d-chart" height="200"></canvas>
+    <p class="ld-cap">Each point is 1,000 steps. Shaded stretches had learning switched off.</p>
+  </div>
+  <div class="ld-card">
+    <h4>What it wants to do now</h4>
+    <div class="ld-q" id="d-q0"><span>Left</span><div class="bar"><div></div></div><span>0.00</span></div>
+    <div class="ld-q" id="d-q1"><span>Straight</span><div class="bar"><div></div></div><span>0.00</span></div>
+    <div class="ld-q" id="d-q2"><span>Right</span><div class="bar"><div></div></div><span>0.00</span></div>
+    <div class="ld-q" id="d-q3"><span>Back up</span><div class="bar"><div></div></div><span>0.00</span></div>
+    <p class="ld-cap">The network's estimate of future reward for each move. It picks the highest. Watch Back up: it stays lowest until the duck touches a reed, then jumps.</p>
+  </div>
+</div>
+<div class="ld-card" style="margin-top:12px">
+  <h4>The network right now</h4>
+  <canvas id="d-brain" height="300"></canvas>
+  <p class="ld-cap">Senses on the left, two layers of 24 neurons, four moves on the right. Green connections excite, orange inhibit; only the stronger ones are drawn. A neuron lights up when it is active.</p>
+</div>
+<div class="callout info"><strong>◆ Generalisation.</strong> The network never stores a situation. It learns a function from senses to scores, so it can act sensibly in a layout it has never seen. Train it in Reeds, switch learning off, then choose Bridge or draw your own reeds. If it still finds the bread, it has learned the principle and not the map.</div>
+</div>
+
+<!-- ============ PATTERNS ============ -->
+<h2 id="failures">Three failures you can reproduce</h2>
+<p>Each lab on this page was built by watching a duck fail. These three failures are the ones that matter far beyond ducks.</p>
+
+<div class="ld-fail">
+<h3>Reward hacking: you get what you reward, not what you meant</h3>
+<p>The first version of Lab 3 gave the duck a nose that pointed straight at the bread and paid it for every step that brought it closer in a straight line. It learned to press itself against the reed nearest the bread and stay there, because the long way round first makes the distance worse. Nothing was wrong with the learning. The reward described a different goal than the one intended.</p>
+<p class="how"><strong>See it:</strong> in Lab 3, choose Bridge, switch on Straight-line nose and press Forget everything. In our test runs it found about 2 pieces of bread per 1,000 steps and hit the reeds about 40 times. With the smell that flows around obstacles it found about 5 and hit them about 3 times. The fix was to change what is rewarded, not how the duck learns.</p>
+</div>
+
+<div class="ld-fail">
+<h3>The sim-to-real gap: the world changed, the policy did not</h3>
+<p>A policy learns the world it is trained in, including its accidents. Move it to a slightly different world and it fails in ways that look strange from outside but are perfectly consistent from inside.</p>
+<p class="how"><strong>See it:</strong> in Lab 2, train to over 90% in simulation, turn learning off and switch to real water. In our runs it dropped to between 20% and 35%. With learning back on it recovered to about 65%. In data work the same thing is called distribution shift.</p>
+</div>
+
+<div class="ld-fail">
+<h3>Partial observability: you cannot learn what you cannot sense</h3>
+<p>The duck in Lab 3 only knows this one moment. It cannot tell where fleeing bread is heading, and its eyes report a pike exactly as they report a reed. More practice does not help, because the information is not in its inputs. The fix is a new sense or a memory, for example a recurrent network that carries the last few seconds forward.</p>
+<p class="how"><strong>See it:</strong> in Lab 3, switch on Fleeing bread or Pike after the duck has learned. The Taken counter keeps rising and the bread count stays low, however long it trains.</p>
+</div>
+
+<h2 id="side-by-side">The three side by side</h2>
+<div class="ld-scroll"><table class="ld-table">
+  <thead><tr><th></th><th>Evolution</th><th>Q-learning</th><th>Deep Q-network</th></tr></thead>
+  <tbody>
+    <tr><th>Who learns</th><td>The population</td><td>One duck</td><td>One duck</td></tr>
+    <tr><th>Where it is stored</th><td>68 inherited numbers per duck</td><td>A table of 36 × 5 scores</td><td>988 network weights</td></tr>
+    <tr><th>Feedback</th><td>Survival and offspring</td><td>A reward after every move</td><td>A reward after every move</td></tr>
+    <tr><th>Learns within one life</th><td>No</td><td>Yes</td><td>Yes</td></tr>
+    <tr><th>New situations</th><td>Only those selection has met</td><td>Only those in the table</td><td>Yes, if the senses carry the information</td></tr>
+    <tr><th>Typical failure</th><td>Slow, and keeps whatever happens to survive</td><td>Sim-to-real gap</td><td>Reward hacking, no memory</td></tr>
+  </tbody>
+</table></div>
+<div class="callout bridge"><strong>Related:</strong> the network in Lab 3 is trained with <a href="/ml-math/#backprop">backpropagation</a> and a variant of <a href="/ml-math/#gradient">gradient descent</a>. The sim-to-real gap is <a href="/stats/#data-drift">distribution shift</a> in a body. Reward hacking is the central worry in <a href="/ml-math/#rlhf">RLHF</a>, where a language model is trained against a learned reward. Memory is what an <a href="/ml-math/#rnn">RNN</a> adds.</div>
+
+<h2 id="method">Method</h2>
+<dl class="ld-cols">
+  <dt>Lab 1</dt><dd>Each brain has 9 inputs (direction and distance to the nearest bread and pike, a wall ahead, its own energy, a constant), 6 hidden tanh neurons and 2 outputs (turn and speed). Food gives energy, swimming costs energy, and a duck with enough energy has a duckling. Each of the 68 weights mutates with probability 0.12 by a Gaussian step of 0.3. If fewer than six ducks remain, newcomers are mutated copies of the best duck so far.</dd>
+  <dt>Lab 2</dt><dd>Tabular Q-learning with 36 states and 5 actions, α = 0.2, γ = 0.9. Exploration starts at 30% random moves and decays by 1.5% per try to 3%. Reward per step: −0.02, plus 0.12 per pixel closer, plus 5 for the bread. Real water adds a current of (0.5, 0.2) pixels per step, a turning bias of 0.13 radians per step and a little noise.</dd>
+  <dt>Lab 3</dt><dd>Double DQN with a 11–24–24–4 ReLU network, Huber loss and Adam (learning rate 0.0005), batch 32, replay memory 20,000, target network synced every 600 updates, γ = 0.95. Exploration falls from 100% to 4% over 25,000 steps. Reward per step: −0.01, plus 0.06 per pixel closer along the smell, −1 for touching a reed, +5 for the bread, −3 if the pike takes it. The smell is a shortest-path distance on a 10-pixel grid around the reeds.</dd>
+</dl>
+<p>Everything runs in this page in plain JavaScript, with no libraries. The test numbers quoted above come from running the same code without graphics; your runs will differ a little, since every run starts from random numbers. The Lab 3 brain is saved in your browser, so a reload does not throw away its training.</p>
+
+<h3>References</h3>
+<ol class="ld-refs">
+  <li>Sutton, R. S. &amp; Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em>, 2nd ed. MIT Press. <a href="http://incompleteideas.net/book/the-book-2nd.html" target="_blank" rel="noopener">Free online</a>.</li>
+  <li>Watkins, C. J. C. H. &amp; Dayan, P. (1992). Q-learning. <em>Machine Learning</em> 8, 279–292.</li>
+  <li>Mnih, V. et al. (2015). Human-level control through deep reinforcement learning. <em>Nature</em> 518, 529–533.</li>
+  <li>van Hasselt, H., Guez, A. &amp; Silver, D. (2016). Deep reinforcement learning with double Q-learning. <em>AAAI</em>.</li>
+  <li>Pollen Robotics, <a href="https://pollen-robotics.com/microduck/" target="_blank" rel="noopener">Microduck</a>, a small biped trained in a physics simulator and moved to the real robot. The inspiration for this page.</li>
+</ol>
+
+<div class="ld-foot"><a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml&amp;title=Correction%3A%20The%20Learning%20Duck&amp;page=https%3A%2F%2Fpatterniseverything.com%2Flearning-duck%2F" target="_blank" rel="noopener">Report a mistake</a> · All three labs run locally in your browser. Nothing is sent anywhere.</div>
+</div>
+</div>
+
+<script>
+/* Shared helpers */
+const LD = (() => {
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const randn = () => { let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+  const wrap = a => { while(a>Math.PI)a-=2*Math.PI; while(a<-Math.PI)a+=2*Math.PI; return a; };
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+  const dpr = () => Math.min(2, window.devicePixelRatio||1);
+  function fit(c){ const r=c.getBoundingClientRect(), d=dpr(), w=Math.max(10,r.width), h=Math.max(10,r.height);
+    if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){ c.width=Math.round(w*d); c.height=Math.round(h*d); }
+    const x=c.getContext('2d'); x.setTransform(d,0,0,d,0,0); return [x,w,h]; }
+  function small(c){ const h=+c.getAttribute('height'); c.style.height=h+'px'; return fit(c); }
+  function watch(el){ const st={on:false}; new IntersectionObserver(es=>{ st.on=es[0].isIntersecting; },{rootMargin:'100px'}).observe(el); return st; }
+  function seg(sel, attr, cb){ const bs=document.querySelectorAll(sel); bs.forEach(b=>b.addEventListener('click',()=>{ bs.forEach(o=>o.setAttribute('aria-pressed',o===b)); cb(b.getAttribute(attr)); })); }
+  function duck(x, r, kind){ // kind: real | wire ; draws at origin facing +x
+    if(kind==='wire'){ x.strokeStyle='#bcd3f0'; x.lineWidth=1.5; x.fillStyle='rgba(188,211,240,.15)';
+      x.beginPath(); x.ellipse(0,0,r*1.1,r*.72,0,0,6.28); x.fill(); x.stroke();
+      x.beginPath(); x.arc(r*.9,0,r*.5,0,6.28); x.stroke();
+      x.beginPath(); x.moveTo(r*1.3,-r*.2); x.lineTo(r*1.85,0); x.lineTo(r*1.3,r*.2); x.stroke(); return; }
+    x.fillStyle='rgba(0,20,20,.28)'; x.beginPath(); x.ellipse(-1,2,r*1.15,r*.75,0,0,6.28); x.fill();
+    x.fillStyle='#f3efe2'; x.beginPath(); x.ellipse(0,0,r*1.1,r*.72,0,0,6.28); x.fill();
+    x.fillStyle='#d9d2bd'; x.beginPath(); x.ellipse(-r*.2,0,r*.6,r*.42,0,0,6.28); x.fill();
+    x.fillStyle='#3e6b45'; x.beginPath(); x.arc(r*.9,0,r*.5,0,6.28); x.fill();
+    x.fillStyle='#d97f22'; x.beginPath(); x.moveTo(r*1.3,-r*.2); x.lineTo(r*1.85,0); x.lineTo(r*1.3,r*.2); x.closePath(); x.fill(); }
+  function pike(x, resting){ x.globalAlpha=resting?0.4:0.8; x.fillStyle='#1f3820';
+    x.beginPath(); x.ellipse(0,0,26,6.8,0,0,6.28); x.fill();
+    x.beginPath(); x.moveTo(-22,0); x.lineTo(-36,-8); x.lineTo(-33,0); x.lineTo(-36,8); x.closePath(); x.fill();
+    x.fillStyle='#c9d36a'; x.beginPath(); x.arc(17,-2.5,1.7,0,6.28); x.fill(); x.globalAlpha=1; }
+  function water(x,w,h){ const g=x.createLinearGradient(0,0,w,h); g.addColorStop(0,'#4a7b7c'); g.addColorStop(1,'#2d5456'); x.fillStyle=g; x.fillRect(0,0,w,h); }
+  return {css,randn,wrap,clamp,fit,small,watch,seg,duck,pike,water};
+})();
+
+/* ================= LAB 1: evolution ================= */
+(() => {
+const {css,randn,wrap,clamp,fit,small,watch,seg}=LD;
+const cv=document.getElementById('e-cv'), world=document.getElementById('e-world'), vis=watch(world);
+const N_IN=9,N_H=6,BASE=N_IN*N_H,NW=BASE+(N_H+1)*2;
+const newG=()=>{const w=new Float32Array(NW);for(let i=0;i<NW;i++)w[i]=randn()*0.8;return{w,size:0.8+Math.random()*0.4,hue:Math.random()*360};};
+function mutate(g,rate=0.12,amt=0.3){const w=Float32Array.from(g.w);for(let i=0;i<NW;i++)if(Math.random()<rate)w[i]+=randn()*amt;if(Math.random()<0.04)w[(Math.random()*NW)|0]=randn()*0.8;
+  return{w,size:clamp(g.size+(Math.random()<.3?randn()*0.06:0),0.65,1.4),hue:(g.hue+randn()*7+360)%360};}
+const hid=new Float32Array(N_H),out=[0,0];
+function think(w,inp){for(let j=0;j<N_H;j++){let s=0;for(let i=0;i<N_IN;i++)s+=w[i*N_H+j]*inp[i];hid[j]=Math.tanh(s);}
+  for(let k=0;k<2;k++){let s=w[BASE+N_H*2+k];for(let j=0;j<N_H;j++)s+=w[BASE+j*2+k]*hid[j];out[k]=s;}out[0]=Math.tanh(out[0]);out[1]=1/(1+Math.exp(-out[1]));}
+const tin=new Float32Array(N_IN);
+function turnFor(w,food,pk){tin.fill(0);tin[7]=0.5;tin[8]=1;if(food!=null){tin[0]=Math.sin(food);tin[1]=Math.cos(food);tin[2]=0.7;}if(pk!=null){tin[3]=Math.sin(pk);tin[4]=Math.cos(pk);tin[5]=0.7;}think(w,tin);return out[0];}
+const reflex=g=>({seek:turnFor(g.w,0.9,null)>0.05&&turnFor(g.w,-0.9,null)<-0.05, flee:turnFor(g.w,null,0.9)<-0.05&&turnFor(g.w,null,-0.9)>0.05});
+
+let W=600,H=340,ducks,food,pikes,ripples,tick,stats,hall,hallScore,hallGen,hist,speed=5,pikeN=1,pads=[];
+const inp=new Float32Array(N_IN);
+const mk=(g,x,y,gen)=>({g,gen,x,y,a:Math.random()*6.28,e:1,age:0,dead:false,r:7*g.size+1.5,vmax:2.3/Math.sqrt(g.size),emax:1.6+g.size*0.6});
+const rx=()=>14+Math.random()*(W-28), ry=()=>14+Math.random()*(H-28);
+const addFood=(x,y)=>food.push({x:clamp(x,6,W-6),y:clamp(y,6,H-6),s:2+Math.random()*1.6});
+const mkPike=()=>({x:rx(),y:ry(),a:Math.random()*6.28,rest:200});
+function setPikes(n){while(pikes.length<n)pikes.push(mkPike());pikes.length=n;}
+function reset(){ducks=[];food=[];ripples=[];hist=[];tick=0;hall=null;hallScore=-1;hallGen=1;stats={born:0,eaten:0,gen:1};
+  for(let i=0;i<30;i++)ducks.push(mk(newG(),rx(),ry(),1));for(let i=0;i<70;i++)addFood(rx(),ry());pikes=[];setPikes(pikeN);sample();}
+function die(d){d.dead=true;const sc=d.age/600+(d.kids||0)*2;if(sc>hallScore){hallScore=sc;hall=d.g;hallGen=d.gen;}}
+function move(p,v){p.x+=Math.cos(p.a)*v;p.y+=Math.sin(p.a)*v;if(p.x<10||p.x>W-10){p.a=Math.PI-p.a;p.x=clamp(p.x,10,W-10);}if(p.y<10||p.y>H-10){p.a=-p.a;p.y=clamp(p.y,10,H-10);}}
+function sample(){let s=0,f=0;for(const d of ducks){const r=reflex(d.g);if(r.seek)s++;if(r.flee)f++;}const n=Math.max(1,ducks.length);hist.push({t:tick,seek:s/n*100,flee:f/n*100});if(hist.length>200)hist.shift();}
+function step(){
+  tick++; if(food.length<140&&Math.random()<0.3)addFood(rx(),ry());
+  for(const d of ducks){ if(d.dead)continue;
+    let bf=null,bd=180*180; for(const f of food){const q=(f.x-d.x)**2+(f.y-d.y)**2;if(q<bd){bd=q;bf=f;}}
+    let bp=null,bpd=220*220; for(const p of pikes){const q=(p.x-d.x)**2+(p.y-d.y)**2;if(q<bpd){bpd=q;bp=p;}}
+    inp.fill(0);
+    if(bf){const ra=wrap(Math.atan2(bf.y-d.y,bf.x-d.x)-d.a);inp[0]=Math.sin(ra);inp[1]=Math.cos(ra);inp[2]=1-Math.sqrt(bd)/180;}
+    if(bp){const ra=wrap(Math.atan2(bp.y-d.y,bp.x-d.x)-d.a);inp[3]=Math.sin(ra);inp[4]=Math.cos(ra);inp[5]=1-Math.sqrt(bpd)/220;}
+    const ca=Math.cos(d.a),sa=Math.sin(d.a),tx=ca>0?(W-d.x)/ca:ca<0?-d.x/ca:1e9,ty=sa>0?(H-d.y)/sa:sa<0?-d.y/sa:1e9;
+    inp[6]=Math.max(0,1-Math.min(tx,ty)/90); inp[7]=d.e/d.emax; inp[8]=1;
+    think(d.g.w,inp); d.a+=out[0]*0.15; const v=out[1]*d.vmax; d.x+=Math.cos(d.a)*v; d.y+=Math.sin(d.a)*v;
+    if(d.x<d.r){d.x=d.r;d.a=Math.PI-d.a;} if(d.x>W-d.r){d.x=W-d.r;d.a=Math.PI-d.a;} if(d.y<d.r){d.y=d.r;d.a=-d.a;} if(d.y>H-d.r){d.y=H-d.r;d.a=-d.a;}
+    d.e-=0.0012*d.g.size+0.0035*out[1]*out[1]*d.g.size; d.age++;
+    if(bf&&bd<(d.r+4)**2){d.e=Math.min(d.emax,d.e+0.4);const i=food.indexOf(bf);food[i]=food[food.length-1];food.pop();}
+    if(d.e>d.emax*0.85&&ducks.length<90){d.e-=0.75;d.kids=(d.kids||0)+1;stats.born++;const c=mk(mutate(d.g),d.x-ca*10,d.y-sa*10,d.gen+1);c.e=0.55;ducks.push(c);stats.gen=Math.max(stats.gen,c.gen);}
+    if(d.e<=0||d.age>5000)die(d);
+  }
+  for(const p of pikes){
+    if(p.rest>0){p.rest--;p.a+=(Math.random()-.5)*0.08;move(p,0.6);continue;}
+    let t=null,td=300*300; for(const d of ducks){if(d.dead)continue;const q=(d.x-p.x)**2+(d.y-p.y)**2;if(q<td){td=q;t=d;}}
+    if(t){p.a+=clamp(wrap(Math.atan2(t.y-p.y,t.x-p.x)-p.a),-0.045,0.045);move(p,1.85);
+      if(Math.hypot(t.x-p.x,t.y-p.y)<t.r+10){die(t);stats.eaten++;p.rest=160;ripples.push({x:t.x,y:t.y,t:0,big:true});}}
+    else{p.a+=(Math.random()-.5)*0.1;move(p,0.9);}
+  }
+  ducks=ducks.filter(d=>!d.dead);
+  while(ducks.length<6)ducks.push(mk(hall?mutate(hall,0.2,0.4):newG(),rx(),ry(),hall?hallGen+1:1));
+  if(tick%240===0)sample();
+}
+function resize(){const [,w,h]=fit(cv);W=w;H=h;pads=[];const n=Math.round(W*H/45000)+3;for(let i=0;i<n;i++)pads.push({x:Math.random()*W,y:Math.random()*H,r:16+Math.random()*18,a:Math.random()*6.28});
+  if(ducks){for(const d of ducks){d.x=clamp(d.x,d.r,W-d.r);d.y=clamp(d.y,d.r,H-d.r);}food=food.filter(f=>f.x<W&&f.y<H);for(const p of pikes){p.x=clamp(p.x,10,W-10);p.y=clamp(p.y,10,H-10);}}}
+function draw(){const [x]=fit(cv);LD.water(x,W,H);
+  for(const p of pads){x.fillStyle='#577f47';x.beginPath();x.moveTo(p.x,p.y);x.arc(p.x,p.y,p.r,p.a+0.35,p.a+6.23);x.closePath();x.fill();}
+  for(const p of pikes){x.save();x.translate(p.x,p.y);x.rotate(p.a);LD.pike(x,p.rest>0);x.restore();}
+  x.fillStyle='#ecd291';for(const f of food){x.beginPath();x.arc(f.x,f.y,f.s,0,6.28);x.fill();}
+  for(const d of ducks){const r=d.r,h=d.g.hue;x.save();x.translate(d.x,d.y);x.rotate(d.a);
+    x.fillStyle='rgba(0,20,20,.25)';x.beginPath();x.ellipse(-1,2,r*1.15,r*.75,0,0,6.28);x.fill();
+    x.fillStyle=`hsl(${h},38%,${d.age<300?86:74}%)`;x.beginPath();x.ellipse(0,0,r*1.1,r*.72,0,0,6.28);x.fill();
+    x.fillStyle=`hsl(${h},42%,56%)`;x.beginPath();x.ellipse(-r*.2,0,r*.6,r*.42,0,0,6.28);x.fill();
+    x.fillStyle=`hsl(${h},45%,34%)`;x.beginPath();x.arc(r*.9,0,r*.5,0,6.28);x.fill();
+    x.fillStyle='#d97f22';x.beginPath();x.moveTo(r*1.3,-r*.2);x.lineTo(r*1.8,0);x.lineTo(r*1.3,r*.2);x.closePath();x.fill();x.restore();}
+  for(const rp of ripples){rp.t++;const k=rp.t/(rp.big?50:35);x.strokeStyle=rp.big?`rgba(240,150,70,${1-k})`:`rgba(255,255,255,${.7*(1-k)})`;x.lineWidth=1.5;x.beginPath();x.arc(rp.x,rp.y,4+k*(rp.big?34:22),0,6.28);x.stroke();}
+  ripples=ripples.filter(r=>r.t<(r.big?50:35));}
+function chart(){const c=document.getElementById('e-chart'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
+  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),c1=css('--accent2'),c2=css('--accent');
+  document.getElementById('e-l1').style.background=c1;document.getElementById('e-l2').style.background=c2;
+  const L=34,R=w-8,T=8,B=h-18;x.font='500 10px "IBM Plex Mono", monospace';x.textAlign='right';x.textBaseline='middle';
+  for(const v of [0,25,50,75,100]){const y=B-(B-T)*v/100;x.strokeStyle=bd;x.setLineDash(v===25?[3,3]:[]);x.lineWidth=1;x.beginPath();x.moveTo(L,y);x.lineTo(R,y);x.stroke();x.fillStyle=mut;x.fillText(v+'%',L-6,y);}
+  x.setLineDash([]);x.textAlign='left';x.textBaseline='alphabetic';x.fillStyle=mut;x.fillText('pond time →',L,h-3);
+  x.textAlign='right';x.fillText('25% = random',R,B-(B-T)*0.25-5);
+  if(hist.length<2)return;const t0=hist[0].t,t1=hist[hist.length-1].t,px=t=>L+(R-L)*(t-t0)/Math.max(1,t1-t0);
+  for(const [k,col] of [['seek',c1],['flee',c2]]){x.strokeStyle=col;x.lineWidth=2;x.beginPath();hist.forEach((p,i)=>{const X=px(p.t),Y=B-(B-T)*p[k]/100;i?x.lineTo(X,Y):x.moveTo(X,Y);});x.stroke();
+    const l=hist[hist.length-1];x.fillStyle=col;x.beginPath();x.arc(px(l.t),B-(B-T)*l[k]/100,3,0,6.28);x.fill();}
+  void ink;}
+function ui(){document.getElementById('e-n').textContent=ducks.length;document.getElementById('e-gen').textContent=stats.gen;document.getElementById('e-born').textContent=stats.born;document.getElementById('e-eaten').textContent=stats.eaten;}
+cv.addEventListener('pointerdown',ev=>{const r=cv.getBoundingClientRect(),px=ev.clientX-r.left,py=ev.clientY-r.top;for(let i=0;i<7;i++)addFood(px+randn()*12,py+randn()*12);ripples.push({x:px,y:py,t:0});});
+seg('[data-e-speed]','data-e-speed',v=>speed=+v);
+seg('[data-e-pike]','data-e-pike',v=>{pikeN=+v;setPikes(pikeN);});
+document.getElementById('e-reset').addEventListener('click',()=>{reset();ui();chart();});
+new ResizeObserver(()=>{resize();if(ducks){draw();chart();}}).observe(world);
+resize();reset();for(let i=0;i<720;i++)step();
+let fr=0;function loop(){if(vis.on&&!document.hidden){for(let i=0;i<speed;i++)step();draw();if(++fr%10===0){ui();chart();}}requestAnimationFrame(loop);}
+draw();ui();chart();loop();
+window.ldRedraw1=chart;
+})();
+
+/* ================= LAB 2: Q-learning ================= */
+(() => {
+const {css,randn,wrap,clamp,fit,small,watch,seg}=LD;
+const cv=document.getElementById('q-cv'), world=document.getElementById('q-world'), vis=watch(world);
+const ACOL=['#2c6a96','#86b5d3','#d6d2c4','#e8ab6c','#c25e1c'];
+const TURN=[-0.14,-0.06,0,0.06,0.14],NA=5,NB=12,ND=3,NS=NB*ND,DIST=[60,170],ALPHA=0.2,GAMMA=0.9,SPEED=2.2;
+const CUR={x:0.5,y:0.2},BIAS=0.13,NOISE=0.035;
+let W=600,H=300,Q,Nv,duck,bread,trail,real=false,learning=true,speed=8,eps,episodes,epSteps,epStart,lastState=-1;
+function stateOf(){const dx=bread.x-duck.x,dy=bread.y-duck.y,d=Math.hypot(dx,dy),rel=wrap(Math.atan2(dy,dx)-duck.a);return (d<DIST[0]?0:d<DIST[1]?1:2)*NB+Math.floor((rel+Math.PI)/(2*Math.PI)*NB)%NB;}
+const best=s=>{let a=0;for(let i=1;i<NA;i++)if(Q[s*NA+i]>Q[s*NA+a])a=i;return a;};
+const maxQ=s=>{let m=-1e9;for(let i=0;i<NA;i++)m=Math.max(m,Q[s*NA+i]);return m;};
+function placeBread(x,y){if(x==null){let k=0;do{x=30+Math.random()*(W-60);y=30+Math.random()*(H-60);k++;}while(Math.hypot(x-duck.x,y-duck.y)<120&&k<50);}
+  bread={x:clamp(x,14,W-14),y:clamp(y,14,H-14)};epSteps=0;epStart=Math.hypot(bread.x-duck.x,bread.y-duck.y);}
+function reset(){Q=new Float32Array(NS*NA);Nv=new Uint32Array(NS);duck={x:W/2,y:H/2,a:-Math.PI/2};trail=[];episodes=[];eps=0.3;placeBread();}
+function end(ok){const eff=ok?clamp(Math.max(1,epStart-14)/(epSteps*SPEED),0,1)*100:0;episodes.push({eff,real,learning});if(episodes.length>400)episodes.shift();if(learning)eps=Math.max(0.03,eps*0.985);placeBread();}
+function step(){const s=stateOf();lastState=s;const a=(learning&&Math.random()<eps)?(Math.random()*NA)|0:best(s);
+  const d0=Math.hypot(bread.x-duck.x,bread.y-duck.y);let t=TURN[a];if(real)t+=BIAS+randn()*NOISE;duck.a=wrap(duck.a+t);
+  let vx=Math.cos(duck.a)*SPEED,vy=Math.sin(duck.a)*SPEED;if(real){vx+=CUR.x;vy+=CUR.y;}duck.x+=vx;duck.y+=vy;let r=-0.02;
+  if(duck.x<10||duck.x>W-10){duck.x=clamp(duck.x,10,W-10);duck.a=wrap(Math.PI-duck.a);r-=0.5;}
+  if(duck.y<10||duck.y>H-10){duck.y=clamp(duck.y,10,H-10);duck.a=wrap(-duck.a);r-=0.5;}
+  const d1=Math.hypot(bread.x-duck.x,bread.y-duck.y);r+=(d0-d1)*0.12;const done=d1<14;if(done)r+=5;
+  if(learning){const s2=stateOf(),i=s*NA+a;Q[i]+=ALPHA*(r+(done?0:GAMMA*maxQ(s2))-Q[i]);Nv[s]++;}
+  epSteps++;if(epSteps%2===0){trail.push(duck.x,duck.y);if(trail.length>500)trail.splice(0,2);}
+  if(done)end(true);else if(epSteps>700)end(false);}
+let flow=0;
+function draw(){const [x]=fit(cv);
+  if(!real){x.fillStyle='#24324a';x.fillRect(0,0,W,H);const g=40;x.fillStyle='#2a3a55';for(let y=0;y<H;y+=g)for(let xx=((y/g)%2)*g;xx<W;xx+=2*g)x.fillRect(xx,y,g,g);}
+  else{LD.water(x,W,H);flow++;x.strokeStyle='rgba(220,240,240,.18)';x.lineWidth=1.5;const an=Math.atan2(CUR.y,CUR.x),ca=Math.cos(an),sa=Math.sin(an);
+    for(let i=0;i<40;i++){const px=((i*137.1+flow*ca*7)%(W+80)+W+80)%(W+80)-40,py=((i*71.7+i*i*3.1+flow*sa*7)%(H+80)+H+80)%(H+80)-40;x.beginPath();x.moveTo(px,py);x.lineTo(px+ca*24,py+sa*24);x.stroke();}}
+  x.lineWidth=2;x.lineCap='round';for(let i=2;i<trail.length;i+=2){const k=i/trail.length;x.strokeStyle=real?`rgba(255,226,170,${k*.7})`:`rgba(160,200,255,${k*.7})`;x.beginPath();x.moveTo(trail[i-2],trail[i-1]);x.lineTo(trail[i],trail[i+1]);x.stroke();}
+  x.fillStyle='#ecd291';x.strokeStyle='rgba(120,90,30,.5)';x.lineWidth=1;x.beginPath();x.ellipse(bread.x,bread.y,8,6,.4,0,6.28);x.fill();x.stroke();
+  x.save();x.translate(duck.x,duck.y);x.rotate(duck.a);LD.duck(x,10,real?'real':'wire');x.restore();}
+function brain(){const c=document.getElementById('q-brain'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
+  const empty=css('--surface2'),ink=css('--text'),mut=css('--muted'),bg=css('--surface');
+  const cx=w/2,cy=h/2,R=Math.min(w,h)/2-16,rings=[24,24+(R-24)*.33,24+(R-24)*.66,R],sec=b=>{const a0=-Math.PI*1.5+b*2*Math.PI/NB;return[a0,a0+2*Math.PI/NB];};
+  for(let ri=0;ri<ND;ri++)for(let b=0;b<NB;b++){const s=ri*NB+b,[a0,a1]=sec(b);x.beginPath();x.arc(cx,cy,rings[ri+1],a0,a1);x.arc(cx,cy,rings[ri],a1,a0,true);x.closePath();
+    if(!Nv[s]){x.fillStyle=empty;x.fill();}else{const ba=best(s);let q1=-1e9,q2=-1e9;for(let i=0;i<NA;i++){const q=Q[s*NA+i];if(q>q1){q2=q1;q1=q;}else if(q>q2)q2=q;}
+      x.globalAlpha=.25+.75*Math.min(1,(q1-q2)/.5);x.fillStyle=ACOL[ba];x.fill();x.globalAlpha=1;}x.strokeStyle=bg;x.lineWidth=1.5;x.stroke();}
+  if(lastState>=0){const ri=Math.floor(lastState/NB),[a0,a1]=sec(lastState%NB);x.beginPath();x.arc(cx,cy,rings[ri+1]-1,a0,a1);x.arc(cx,cy,rings[ri]+1,a1,a0,true);x.closePath();x.strokeStyle=ink;x.lineWidth=2.5;x.stroke();}
+  x.save();x.translate(cx,cy);x.rotate(-Math.PI/2);LD.duck(x,8,'real');x.restore();
+  x.font='500 10px "IBM Plex Mono", monospace';x.fillStyle=mut;x.textAlign='center';x.fillText('ahead',cx,10);x.fillText('behind',cx,h-3);x.textAlign='left';x.fillText('L',4,cy+3);x.textAlign='right';x.fillText('R',w-4,cy+3);}
+function chart(){const c=document.getElementById('q-chart'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
+  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),sim=css('--surface2'),rl='rgba(61,158,120,.18)',off='rgba(200,75,47,.14)';
+  document.getElementById('q-k1').style.background=sim;document.getElementById('q-k2').style.background=rl;document.getElementById('q-k3').style.background=off;
+  const L=34,R=w-6,T=6,B=h-18,n=episodes.length,span=Math.max(40,n),px=i=>L+(R-L)*i/span;
+  for(let i=0;i<n;i++){const e=episodes[i];x.fillStyle=!e.learning?off:e.real?rl:sim;x.fillRect(px(i),T,Math.ceil(px(i+1)-px(i))+.5,B-T);}
+  x.font='500 10px "IBM Plex Mono", monospace';x.textAlign='right';x.textBaseline='middle';
+  for(const v of [0,50,100]){const y=B-(B-T)*v/100;x.strokeStyle=bd;x.lineWidth=1;x.beginPath();x.moveTo(L,y);x.lineTo(R,y);x.stroke();x.fillStyle=mut;x.fillText(v+'%',L-5,y);}
+  x.textAlign='left';x.textBaseline='alphabetic';x.fillText('tries →',L,h-3);
+  if(!n){x.textAlign='center';x.fillText('First try in progress…',(L+R)/2,(T+B)/2);return;}
+  x.fillStyle=mut;for(let i=0;i<n;i++){x.globalAlpha=.4;x.beginPath();x.arc(px(i+.5),B-(B-T)*episodes[i].eff/100,1.6,0,6.28);x.fill();}x.globalAlpha=1;
+  x.strokeStyle=ink;x.lineWidth=2;x.beginPath();for(let i=0;i<n;i++){let s=0,k=0;for(let j=Math.max(0,i-9);j<=i;j++){s+=episodes[j].eff;k++;}const y=B-(B-T)*(s/k)/100;i?x.lineTo(px(i+.5),y):x.moveTo(px(i+.5),y);}x.stroke();}
+function resize(){const r=cv.getBoundingClientRect();const ow=W,oh=H;W=Math.max(200,r.width);H=Math.max(160,r.height);if(duck){duck.x=clamp(duck.x*W/ow,10,W-10);duck.y=clamp(duck.y*H/oh,10,H-10);bread.x=clamp(bread.x*W/ow,14,W-14);bread.y=clamp(bread.y*H/oh,14,H-14);trail=[];}}
+document.getElementById('q-mode').addEventListener('click',e=>{real=!real;const b=e.currentTarget;b.setAttribute('aria-pressed',real);b.textContent=real?'Back to simulation':'Switch to real water';
+  document.getElementById('q-tag').textContent=real?'Real water · current and a weak left foot':'Simulation · perfect physics';trail=[];});
+document.getElementById('q-learn').addEventListener('click',e=>{learning=!learning;e.currentTarget.setAttribute('aria-pressed',learning);e.currentTarget.textContent='Learning: '+(learning?'on':'off');});
+seg('[data-q-speed]','data-q-speed',v=>speed=+v);
+document.getElementById('q-reset').addEventListener('click',()=>{reset();chart();});
+cv.addEventListener('pointerdown',ev=>{const r=cv.getBoundingClientRect();placeBread(ev.clientX-r.left,ev.clientY-r.top);});
+new ResizeObserver(()=>{resize();if(duck){draw();brain();chart();}}).observe(world);
+resize();reset();
+let fr=0;function loop(){if(vis.on&&!document.hidden){for(let i=0;i<speed;i++)step();draw();brain();if(++fr%8===0)chart();}requestAnimationFrame(loop);}
+draw();brain();chart();loop();
+window.ldRedraw2=()=>{brain();chart();};
+})();
+
+/* ================= LAB 3: deep Q-network ================= */
+(() => {
+const {css,clamp:_c,fit,small,watch,seg}=LD;
+
+const AW = 800, AH = 520;
+const NR = 7, RAY_LEN = 130, RAY_SPREAD = Math.PI * 0.9;
+const N_IN = NR + 4, N_H = 24, N_A = 4;
+const TURNS = [-0.13, 0, 0.13, 0.28];
+const MOVE  = [1, 1, 1, -0.7];
+const SPEED = 2.4, RAD = 9, WALL_T = 4;
+const GAMMA = 0.95, LR = 0.0005, BATCH = 32, BUF = 20000, SYNC = 600;
+
+const randn = () => { let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+const wrap = a => { while(a>Math.PI)a-=2*Math.PI; while(a<-Math.PI)a+=2*Math.PI; return a; };
+const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+
+function makeNet(){
+  const L = (i,o) => ({ w: Float32Array.from({length:i*o}, () => randn()*Math.sqrt(2/i)), b: new Float32Array(o), i, o });
+  return [L(N_IN,N_H), L(N_H,N_H), L(N_H,N_A)];
+}
+function copyNet(n){ return n.map(l => ({ w: Float32Array.from(l.w), b: Float32Array.from(l.b), i:l.i, o:l.o })); }
+function forward(net, x, acts){
+  let a = x;
+  for(let k=0;k<net.length;k++){
+    const l = net[k], out = new Float32Array(l.o);
+    for(let j=0;j<l.o;j++){ let s=l.b[j]; for(let i=0;i<l.i;i++) s+=l.w[i*l.o+j]*a[i]; out[j] = (k<net.length-1) ? (s>0?s:0) : s; }
+    if(acts) acts[k] = out;
+    a = out;
+  }
+  return a;
+}
+function makeAdam(net){ return net.map(l => ({ mw:new Float32Array(l.w.length), vw:new Float32Array(l.w.length), mb:new Float32Array(l.b.length), vb:new Float32Array(l.b.length) })); }
+
+class Agent{
+  constructor(){ this.reset(); }
+  reset(){
+    this.net = makeNet(); this.tgt = copyNet(this.net); this.opt = makeAdam(this.net); this.t = 0;
+    this.buf = []; this.bi = 0; this.steps = 0; this.eps = 1.0;
+  }
+  act(s, explore){
+    const q = forward(this.net, s);
+    if(explore && Math.random() < this.eps) return { a:(Math.random()*N_A)|0, q };
+    let a=0; for(let i=1;i<N_A;i++) if(q[i]>q[a]) a=i;
+    return { a, q };
+  }
+  remember(tr){ if(this.buf.length<BUF) this.buf.push(tr); else { this.buf[this.bi]=tr; this.bi=(this.bi+1)%BUF; } }
+  train(){
+    if(this.buf.length < 500) return;
+    const net=this.net, G=net.map(l=>({w:new Float32Array(l.w.length), b:new Float32Array(l.b.length)}));
+    for(let n=0;n<BATCH;n++){
+      const tr = this.buf[(Math.random()*this.buf.length)|0];
+      const acts=[]; const q=forward(net, tr.s, acts);
+      let target = tr.r;
+      if(!tr.done){
+
+        const qn=forward(net, tr.s2); let bn=0; for(let i=1;i<N_A;i++) if(qn[i]>qn[bn]) bn=i;
+        target += GAMMA*forward(this.tgt, tr.s2)[bn];
+      }
+      let err = q[tr.a]-target; err = clamp(err,-1,1);
+      let delta = new Float32Array(N_A); delta[tr.a]=err;
+      for(let k=net.length-1;k>=0;k--){
+        const l=net[k], inp = k===0 ? tr.s : acts[k-1], g=G[k];
+        const dIn = new Float32Array(l.i);
+        for(let j=0;j<l.o;j++){ const d=delta[j]; if(!d) continue; g.b[j]+=d; for(let i=0;i<l.i;i++){ g.w[i*l.o+j]+=d*inp[i]; dIn[i]+=d*l.w[i*l.o+j]; } }
+        if(k>0){ const pa=acts[k-1]; for(let i=0;i<l.i;i++) if(pa[i]<=0) dIn[i]=0; }
+        delta = dIn;
+      }
+    }
+
+    this.t++; const b1=0.9,b2=0.999,c1=1-Math.pow(b1,this.t),c2=1-Math.pow(b2,this.t);
+    for(let k=0;k<net.length;k++){
+      const l=net[k], o=this.opt[k], g=G[k];
+      for(let i=0;i<l.w.length;i++){ const gi=g.w[i]/BATCH; o.mw[i]=b1*o.mw[i]+(1-b1)*gi; o.vw[i]=b2*o.vw[i]+(1-b2)*gi*gi; l.w[i]-=LR*(o.mw[i]/c1)/(Math.sqrt(o.vw[i]/c2)+1e-8); }
+      for(let i=0;i<l.b.length;i++){ const gi=g.b[i]/BATCH; o.mb[i]=b1*o.mb[i]+(1-b1)*gi; o.vb[i]=b2*o.vb[i]+(1-b2)*gi*gi; l.b[i]-=LR*(o.mb[i]/c1)/(Math.sqrt(o.vb[i]/c2)+1e-8); }
+    }
+    if(this.t % SYNC === 0) this.tgt = copyNet(this.net);
+  }
+}
+
+function border(){ return [
+  {x1:0,y1:0,x2:AW,y2:0},{x1:AW,y1:0,x2:AW,y2:AH},{x1:AW,y1:AH,x2:0,y2:AH},{x1:0,y1:AH,x2:0,y2:0}]; }
+function box(x,y,w,h){ return [{x1:x,y1:y,x2:x+w,y2:y},{x1:x+w,y1:y,x2:x+w,y2:y+h},{x1:x+w,y1:y+h,x2:x,y2:y+h},{x1:x,y1:y+h,x2:x,y2:y}]; }
+const PRESETS = {
+  aaben: () => [],
+  sivskov: () => [ ...box(150,110,60,60), ...box(380,70,50,90), ...box(600,140,70,50), ...box(250,330,90,50), ...box(500,320,50,110), ...box(110,400,40,60), ...box(670,380,60,60) ],
+  bugter: () => [ {x1:0,y1:175,x2:560,y2:175}, {x1:240,y1:345,x2:AW,y2:345} ],
+  bro: () => [ {x1:400,y1:0,x2:400,y2:200}, {x1:400,y1:300,x2:400,y2:AH}, ...box(170,230,60,60), ...box(570,230,60,60) ],
+};
+
+function segDist(px,py,s){
+  const dx=s.x2-s.x1, dy=s.y2-s.y1, L=dx*dx+dy*dy;
+  let t = L? ((px-s.x1)*dx+(py-s.y1)*dy)/L : 0; t=clamp(t,0,1);
+  return Math.hypot(px-(s.x1+t*dx), py-(s.y1+t*dy));
+}
+function rayHit(ox,oy,dx,dy,maxL,walls){
+  let best=maxL;
+  for(const s of walls){
+    const ex=s.x2-s.x1, ey=s.y2-s.y1, den=dx*ey-dy*ex; if(Math.abs(den)<1e-9) continue;
+    const t=((s.x1-ox)*ey-(s.y1-oy)*ex)/den, u=((s.x1-ox)*dy-(s.y1-oy)*dx)/den;
+    if(t>0 && u>=0 && u<=1 && t<best) best=t;
+  }
+  return best;
+}
+
+const CELL = 10, GW = AW/CELL, GH = AH/CELL;
+function blockedGrid(walls){
+  const blocked = new Uint8Array(GW*GH);
+  for(let gy=0;gy<GH;gy++) for(let gx=0;gx<GW;gx++){
+    const cx=(gx+0.5)*CELL, cy=(gy+0.5)*CELL;
+    for(const s of walls) if(segDist(cx,cy,s)<RAD+WALL_T-2){ blocked[gy*GW+gx]=1; break; }
+  }
+  return blocked;
+}
+function smellField(blocked, bx, by){
+  const dist = new Float32Array(GW*GH).fill(1e9);
+  const sx=clamp(Math.floor(bx/CELL),0,GW-1), sy=clamp(Math.floor(by/CELL),0,GH-1);
+  const q=[sy*GW+sx]; let h=0; dist[sy*GW+sx]=0;
+  const N=[[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,1.414],[1,-1,1.414],[-1,1,1.414],[-1,-1,1.414]];
+  while(h<q.length){
+    const c=q[h++], cx=c%GW, cy=(c/GW)|0;
+    for(const [dx,dy,w] of N){
+      const nx=cx+dx, ny=cy+dy; if(nx<0||ny<0||nx>=GW||ny>=GH) continue;
+      const n=ny*GW+nx; if(blocked[n]) continue;
+      if(dx&&dy&&(blocked[cy*GW+nx]||blocked[ny*GW+cx])) continue;
+      const nd=dist[c]+w; if(nd<dist[n]-1e-6){ dist[n]=nd; q.push(n); }
+    }
+  }
+  return {dist};
+}
+function smellAt(f,x,y){
+  const gx=clamp(Math.floor(x/CELL),0,GW-1), gy=clamp(Math.floor(y/CELL),0,GH-1), c=gy*GW+gx;
+  let d=f.dist[c];
+  if(d>=1e9){ for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){ const nx=gx+dx,ny=gy+dy; if(nx<0||ny<0||nx>=GW||ny>=GH) continue; d=Math.min(d,f.dist[ny*GW+nx]+1.5); } }
+  let vx=0,vy=0;
+  for(let dy=-2;dy<=2;dy++) for(let dx=-2;dx<=2;dx++){
+    if(!dx&&!dy) continue; const nx=gx+dx,ny=gy+dy; if(nx<0||ny<0||nx>=GW||ny>=GH) continue;
+    const nd=f.dist[ny*GW+nx]; if(nd>=1e9||d>=1e9) continue;
+    const gain=(d-nd)/Math.hypot(dx,dy); if(gain>0){ const L=Math.hypot(dx,dy); vx+=gain*dx/L; vy+=gain*dy/L; }
+  }
+  return {d: d>=1e9? 999 : d, dir: Math.atan2(vy,vx), has: (vx||vy)?1:0};
+}
+function rayCircle(ox,oy,dx,dy,cx,cy,r,maxL){
+  const fx=ox-cx, fy=oy-cy, b=fx*dx+fy*dy, c=fx*fx+fy*fy-r*r, disc=b*b-c;
+  if(disc<0) return maxL; const t=-b-Math.sqrt(disc); return (t>0&&t<maxL)?t:maxL;
+}
+
+const CUR = {x:0.9, y:0.35};
+const PIKE_R = 13, PIKE_V = 1.75;
+const BLIND_EYES = [4,5,6];
+
+class World{
+  constructor(){ this.agent=new Agent(); this.ch={current:false,pike:false,flee:false,blind:false,straight:false}; this.pike=null; this.setPreset('sivskov'); this.resetStats(); }
+  resetStats(){ this.total={steps:0,bread:0,hits:0,caught:0}; this.win=[]; this.cur={steps:0,bread:0,hits:0,caught:0}; }
+  setPreset(p){ this.preset=p; this.inner=PRESETS[p](); this.rebuild(); this.placeDuck(); this.placeBread(); if(this.pike) this.pike=this.newPike(); }
+  rebuild(){ this.walls=[...border(), ...this.inner]; this.blocked=blockedGrid(this.walls); }
+  free(x,y,m){ for(const s of this.walls) if(segDist(x,y,s)<m) return false; return true; }
+  setChallenge(k,v){ this.ch[k]=v; if(k==='pike') this.pike=v?this.newPike():null; this.lastS=this.sense(); }
+  newPike(){ let x,y,k=0; do{ x=30+Math.random()*(AW-60); y=30+Math.random()*(AH-60); k++; } while((!this.free(x,y,PIKE_R+WALL_T+4) || Math.hypot(x-this.duck.x,y-this.duck.y)<260) && k<500); return {x,y,a:Math.random()*6.28,rest:120}; }
+  placeDuck(){
+    let x,y,k=0;
+    do{ x=30+Math.random()*(AW-60); y=30+Math.random()*(AH-60); k++; }
+    while((!this.free(x,y,RAD+WALL_T+6) || (this.pike && Math.hypot(x-this.pike.x,y-this.pike.y)<220)) && k<500);
+    this.duck={x,y,a:Math.random()*6.28}; this.trail=[]; this.touch=false;
+  }
+  placeBread(x,y){
+    if(x==null){ let k=0; do{ x=25+Math.random()*(AW-50); y=25+Math.random()*(AH-50); k++; } while((!this.free(x,y,22) || Math.hypot(x-this.duck.x,y-this.duck.y)<160) && k<500); }
+    this.bread={x,y}; this.epSteps=0; this.field=smellField(this.blocked,x,y); this.fieldAt={x,y};
+  }
+  sense(){
+    const d=this.duck, s=new Float32Array(N_IN), p=this.pike; this.rays=[];
+    for(let i=0;i<NR;i++){
+      const a=d.a-RAY_SPREAD/2+RAY_SPREAD*i/(NR-1), dx=Math.cos(a), dy=Math.sin(a);
+      let L=rayHit(d.x,d.y,dx,dy,RAY_LEN,this.walls);
+      if(p) L=rayCircle(d.x,d.y,dx,dy,p.x,p.y,PIKE_R,L);
+      const blind=this.ch.blind && BLIND_EYES.includes(i);
+      this.rays.push({a,L,blind});
+      s[i]=blind?0:1-L/RAY_LEN;
+    }
+    if(this.ch.straight){
+
+      const bx=this.bread.x-d.x, by=this.bread.y-d.y, rel=wrap(Math.atan2(by,bx)-d.a);
+      this.smell={dir:Math.atan2(by,bx),has:1,d:Math.hypot(bx,by)/CELL};
+      s[NR]=Math.sin(rel); s[NR+1]=Math.cos(rel); s[NR+2]=1-Math.min(Math.hypot(bx,by),600)/600;
+    } else {
+      const sm=smellAt(this.field,d.x,d.y), rel=wrap(sm.dir-d.a); this.smell=sm;
+      s[NR]=sm.has?Math.sin(rel):0; s[NR+1]=sm.has?Math.cos(rel):0; s[NR+2]=1-Math.min(sm.d*CELL,600)/600;
+    }
+    s[NR+3]=this.touch?1:0;
+    return s;
+  }
+  distToBread(){ const d=this.duck; return this.ch.straight ? Math.hypot(this.bread.x-d.x,this.bread.y-d.y) : smellAt(this.field,d.x,d.y).d*CELL; }
+  movePike(){
+    const p=this.pike, d=this.duck;
+    let v;
+    if(p.rest>0){ p.rest--; p.a+=(Math.random()-.5)*0.1; v=0.6; }
+    else { const diff=wrap(Math.atan2(d.y-p.y,d.x-p.x)-p.a); p.a+=clamp(diff,-0.05,0.05); v=PIKE_V; }
+    const nx=p.x+Math.cos(p.a)*v, ny=p.y+Math.sin(p.a)*v;
+    if(this.free(nx,ny,PIKE_R+WALL_T)){ p.x=nx; p.y=ny; }
+    else if(this.free(nx,p.y,PIKE_R+WALL_T)) p.x=nx;
+    else if(this.free(p.x,ny,PIKE_R+WALL_T)) p.y=ny;
+    else p.a+=0.6;
+    if(p.rest===0 && Math.hypot(d.x-p.x,d.y-p.y)<PIKE_R+RAD){ p.rest=150; return true; }
+    return false;
+  }
+  moveBread(){
+    const b=this.bread, d=this.duck, dx=b.x-d.x, dy=b.y-d.y, dist=Math.hypot(dx,dy);
+    if(dist>140||dist<1) return;
+    const base=Math.atan2(dy,dx);
+    for(const off of [0,0.6,-0.6,1.2,-1.2,1.8,-1.8]){
+      const nx=b.x+Math.cos(base+off)*1.3, ny=b.y+Math.sin(base+off)*1.3;
+      if(nx>20&&ny>20&&nx<AW-20&&ny<AH-20&&this.free(nx,ny,16)){ b.x=nx; b.y=ny; break; }
+    }
+    if(Math.hypot(b.x-this.fieldAt.x,b.y-this.fieldAt.y)>CELL){ this.field=smellField(this.blocked,b.x,b.y); this.fieldAt={x:b.x,y:b.y}; }
+  }
+  step(learn){
+    const ag=this.agent, d=this.duck;
+    const s=this.lastS || this.sense();
+    const {a,q}=ag.act(s, learn); this.lastQ=q; this.lastA=a;
+    const d0=this.distToBread();
+    d.a=wrap(d.a+TURNS[a]);
+    let mx=Math.cos(d.a)*SPEED*MOVE[a], my=Math.sin(d.a)*SPEED*MOVE[a];
+    if(this.ch.current){ mx+=CUR.x; my+=CUR.y; }
+    const nx=d.x+mx, ny=d.y+my;
+    let r=-0.01, hit=false;
+    if(this.free(nx,ny,RAD+WALL_T)){ d.x=nx; d.y=ny; }
+    else {
+      hit=true; r-=1; this.cur.hits++; this.total.hits++;
+      if(this.free(nx,d.y,RAD+WALL_T)) d.x=nx; else if(this.free(d.x,ny,RAD+WALL_T)) d.y=ny;
+    }
+    const d1=this.distToBread();
+    this.touch=hit;
+    if(!hit) r+=clamp(d0-d1,-4,4)*0.06;
+    const ate=Math.hypot(this.bread.x-d.x,this.bread.y-d.y)<RAD+8;
+    if(ate){ r+=5; this.cur.bread++; this.total.bread++; }
+    let caught=false;
+    if(this.pike){ caught=this.movePike(); if(caught){ r-=3; this.cur.caught++; this.total.caught++; } }
+    if(!ate && this.ch.flee) this.moveBread();
+    const s2=this.sense(), done=ate||caught;
+    if(learn){ ag.remember({s,a,r,s2,done}); ag.steps++; if(ag.steps%2===0) ag.train(); ag.eps=Math.max(0.04, 1-ag.steps/25000); }
+    this.lastS=s2; this.epSteps++; this.cur.steps++; this.total.steps++;
+    if(this.total.steps%3===0){ this.trail.push(d.x,d.y); if(this.trail.length>400) this.trail.splice(0,2); }
+    this.lastEvent=null;
+    if(ate){ this.placeBread(); this.lastS=this.sense(); }
+    else if(caught){ this.lastEvent={type:'caught',x:d.x,y:d.y}; this.placeDuck(); this.epSteps=0; this.lastS=this.sense(); }
+    else if(this.epSteps>900){ this.placeDuck(); this.placeBread(); this.lastS=this.sense(); }
+    if(this.cur.steps>=1000){ this.win.push({bread:this.cur.bread, hits:this.cur.hits, caught:this.cur.caught, learn}); if(this.win.length>300) this.win.shift(); this.cur={steps:0,bread:0,hits:0,caught:0}; }
+    return hit;
+  }
+}
+
+const stage=document.getElementById('d-world'), cv=document.getElementById('d-cv'), vis=watch(stage);
+const world=new World();
+let learning=true,speed=10,showSmell=true,tool='place',SC=1,OX=0,OY=0,W=800,H=520,smellImg=null,smellFor=null,drawing=null,flow=0,flashes=[];
+function resize(){const r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(130,r.height);SC=Math.min(W/AW,H/AH);OX=(W-AW*SC)/2;OY=(H-AH*SC)/2;}
+function buildSmell(){const f=world.field,c=document.createElement('canvas');c.width=GW;c.height=GH;const x=c.getContext('2d'),img=x.createImageData(GW,GH);
+  for(let i=0;i<GW*GH;i++){const d=f.dist[i],k=d>=1e9?0:Math.max(0,1-d*CELL/650);img.data[i*4]=242;img.data[i*4+1]=196;img.data[i*4+2]=90;img.data[i*4+3]=Math.round(k*k*150);}
+  x.putImageData(img,0,0);smellImg=c;smellFor=f;}
+function draw(){const [x]=fit(cv);const d0=Math.min(2,window.devicePixelRatio||1);
+  x.fillStyle='#22383a';x.fillRect(0,0,W,H);x.setTransform(d0*SC,0,0,d0*SC,d0*OX,d0*OY);LD.water(x,AW,AH);
+  if(showSmell){ if(world.ch.straight){const b=world.bread,g=x.createRadialGradient(b.x,b.y,0,b.x,b.y,560);g.addColorStop(0,'rgba(242,196,90,.55)');g.addColorStop(1,'rgba(242,196,90,0)');x.fillStyle=g;x.fillRect(0,0,AW,AH);}
+    else{if(smellFor!==world.field)buildSmell();x.imageSmoothingEnabled=true;x.drawImage(smellImg,0,0,AW,AH);} }
+  if(world.ch.current){flow++;const an=Math.atan2(CUR.y,CUR.x),ca=Math.cos(an),sa=Math.sin(an);x.strokeStyle='rgba(225,242,242,.22)';x.lineWidth=1.5;x.lineCap='round';
+    for(let i=0;i<46;i++){const px=((i*137.1+flow*ca*1.6)%(AW+60)+AW+60)%(AW+60)-30,py=((i*71.7+i*i*3.1+flow*sa*1.6)%(AH+60)+AH+60)%(AH+60)-30;x.beginPath();x.moveTo(px,py);x.lineTo(px+ca*22,py+sa*22);x.stroke();}}
+  x.lineCap='round';x.strokeStyle='#4f6435';x.lineWidth=WALL_T*2;for(const s of world.inner){x.beginPath();x.moveTo(s.x1,s.y1);x.lineTo(s.x2,s.y2);x.stroke();}
+  x.strokeStyle='rgba(160,190,110,.5)';x.lineWidth=2;for(const s of world.inner){x.beginPath();x.moveTo(s.x1,s.y1);x.lineTo(s.x2,s.y2);x.stroke();}
+  if(drawing){x.strokeStyle='rgba(240,240,220,.85)';x.setLineDash([6,6]);x.lineWidth=3;x.beginPath();x.moveTo(drawing.x1,drawing.y1);x.lineTo(drawing.x2,drawing.y2);x.stroke();x.setLineDash([]);}
+  const tr=world.trail;x.lineWidth=2;for(let i=2;i<tr.length;i+=2){x.strokeStyle=`rgba(255,240,200,${.55*i/tr.length})`;x.beginPath();x.moveTo(tr[i-2],tr[i-1]);x.lineTo(tr[i],tr[i+1]);x.stroke();}
+  const b=world.bread;x.fillStyle='#ecd291';x.strokeStyle='rgba(110,80,30,.6)';x.lineWidth=1;x.beginPath();x.ellipse(b.x,b.y,9,6.5,.4,0,6.28);x.fill();x.stroke();
+  const d=world.duck;
+  if(world.rays)for(const r of world.rays){
+    if(r.blind){x.strokeStyle='rgba(20,30,30,.6)';x.setLineDash([3,4]);x.lineWidth=1.2;x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x+Math.cos(r.a)*40,d.y+Math.sin(r.a)*40);x.stroke();x.setLineDash([]);continue;}
+    const k=1-r.L/RAY_LEN;x.strokeStyle=k>.02?`rgba(255,${Math.round(200-120*k)},${Math.round(150-120*k)},${.35+.5*k})`:'rgba(230,245,245,.18)';
+    x.lineWidth=1.2;x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x+Math.cos(r.a)*r.L,d.y+Math.sin(r.a)*r.L);x.stroke();
+    if(k>.02){x.fillStyle=x.strokeStyle;x.beginPath();x.arc(d.x+Math.cos(r.a)*r.L,d.y+Math.sin(r.a)*r.L,2.2,0,6.28);x.fill();}}
+  if(world.smell&&world.smell.has){const a=world.smell.dir;x.strokeStyle='rgba(242,196,90,.95)';x.lineWidth=2.5;x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x+Math.cos(a)*30,d.y+Math.sin(a)*30);x.stroke();}
+  const pk=world.pike;if(pk){x.save();x.translate(pk.x,pk.y);x.rotate(pk.a);LD.pike(x,pk.rest>0);x.restore();}
+  for(const fx of flashes){fx.t++;const k=fx.t/40;x.strokeStyle=`rgba(240,150,70,${1-k})`;x.lineWidth=2;x.beginPath();x.arc(fx.x,fx.y,6+k*36,0,6.28);x.stroke();}flashes=flashes.filter(f=>f.t<40);
+  x.save();x.translate(d.x,d.y);x.rotate(d.a);LD.duck(x,RAD,'real');x.restore();}
+const IN_LABELS=['eye L90°','eye L60°','eye L30°','eye ahead','eye R30°','eye R60°','eye R90°','smell · side','smell · ahead','smell · strength','touch'];
+const OUT_LABELS=['left','straight','right','back up'];
+function brain(){const c=document.getElementById('d-brain'),[x,w,h]=small(c);x.clearRect(0,0,w,h);const s=world.lastS;if(!s)return;
+  const ink=css('--text'),mut=css('--muted'),bg=css('--surface'),off=css('--surface2');
+  const acts=[];const q=forward(world.agent.net,s,acts),net=world.agent.net;
+  const cols=[104,104+(w-160)*.42,104+(w-160)*.84,w-56],ys=(n,i)=>n===N_A?h*.24+i*h*.17:10+i*(h-20)/(n-1);
+  const layers=[s,acts[0],acts[1],q],sizes=[N_IN,N_H,N_H,N_A];
+  for(let k=0;k<3;k++){const l=net[k];for(let i=0;i<l.i;i++)for(let j=0;j<l.o;j++){const wt=l.w[i*l.o+j],a=Math.min(1,Math.abs(wt)/1.2);if(a<.18)continue;
+    x.strokeStyle=wt>0?`rgba(47,138,99,${a*.45})`:`rgba(217,97,34,${a*.45})`;x.lineWidth=.4+a;x.beginPath();x.moveTo(cols[k],ys(sizes[k],i));x.lineTo(cols[k+1],ys(sizes[k+1],j));x.stroke();}}
+  for(let k=0;k<4;k++){const n=sizes[k],v=layers[k];let m=1;if(k===1||k===2)m=Math.max(1e-6,...v);
+    for(let i=0;i<n;i++){const val=k===3?0:v[i]/m,r=k===3?7:k===0?4.5:3.6;x.fillStyle=bg;x.beginPath();x.arc(cols[k],ys(n,i),r,0,6.28);x.fill();
+      x.fillStyle=k===3?(i===world.lastA?ink:off):val>=0?`rgba(47,138,99,${Math.min(1,Math.abs(val))})`:`rgba(217,97,34,${Math.min(1,Math.abs(val))})`;
+      x.beginPath();x.arc(cols[k],ys(n,i),r,0,6.28);x.fill();x.strokeStyle=mut;x.lineWidth=.8;x.stroke();}}
+  x.font='500 9.5px "IBM Plex Mono", monospace';x.textBaseline='middle';x.textAlign='right';x.fillStyle=mut;for(let i=0;i<N_IN;i++)x.fillText(IN_LABELS[i],cols[0]-8,ys(N_IN,i));
+  x.textAlign='left';x.fillStyle=ink;for(let i=0;i<N_A;i++)x.fillText(OUT_LABELS[i],cols[3]+11,ys(N_A,i));}
+function chart(){const c=document.getElementById('d-chart'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
+  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),g=css('--accent2'),o=css('--accent'),off='rgba(200,75,47,.12)';
+  const data=world.win,n=data.length,span=Math.max(30,n),L=30,R=w-6;
+  const panels=[{k:'bread',label:'bread per 1,000 steps',col:g,T:16,B:h*.42},{k:'hits',label:'into reeds per 1,000 steps',col:o,T:h*.42+30,B:h-8}];
+  x.font='500 10px "IBM Plex Mono", monospace';
+  for(const p of panels){const max=Math.max(p.k==='bread'?6:60,...data.map(d=>d[p.k]));
+    for(let i=0;i<n;i++)if(!data[i].learn){x.fillStyle=off;x.fillRect(L+(R-L)*i/span,p.T,(R-L)/span+.5,p.B-p.T);}
+    x.fillStyle=ink;x.textAlign='left';x.textBaseline='alphabetic';x.fillText(p.label,L,p.T-5);
+    x.strokeStyle=bd;x.lineWidth=1;x.textAlign='right';x.textBaseline='middle';x.fillStyle=mut;
+    for(const v of [0,max]){const y=p.B-(p.B-p.T)*v/max;x.beginPath();x.moveTo(L,y);x.lineTo(R,y);x.stroke();x.fillText(Math.round(v),L-5,y);}
+    if(!n){if(p.k==='bread'){x.textAlign='center';x.fillText('First 1,000 steps in progress…',(L+R)/2,(p.T+p.B)/2);}continue;}
+    x.strokeStyle=p.col;x.lineWidth=2;x.beginPath();data.forEach((d,i)=>{let s=0,k=0;for(let j=Math.max(0,i-4);j<=i;j++){s+=data[j][p.k];k++;}const X=L+(R-L)*(i+.5)/span,Y=p.B-(p.B-p.T)*(s/k)/max;i?x.lineTo(X,Y):x.moveTo(X,Y);});x.stroke();}}
+const $=id=>document.getElementById(id);
+function ui(){const t=world.total;$('d-steps').textContent=t.steps>=1e6?(t.steps/1e6).toFixed(1)+'M':t.steps>=1e4?Math.round(t.steps/1000)+'k':t.steps;
+  $('d-bread').textContent=t.bread;$('d-hits').textContent=t.hits;$('d-caught').textContent=t.caught;$('d-eps').textContent=learning?Math.round(world.agent.eps*100)+'%':'0%';
+  const q=world.lastQ;if(q){const mn=Math.min(...q),mx=Math.max(...q);for(let i=0;i<N_A;i++){const row=$('d-q'+i);row.classList.toggle('on',i===world.lastA);
+    row.querySelector('.bar div').style.width=(mx>mn?15+85*(q[i]-mn)/(mx-mn):50)+'%';row.lastElementChild.textContent=q[i].toFixed(2);}}}
+const toArena=ev=>{const r=cv.getBoundingClientRect();return{x:(ev.clientX-r.left-OX)/SC,y:(ev.clientY-r.top-OY)/SC};};
+cv.addEventListener('pointerdown',ev=>{const p=toArena(ev);if(p.x<0||p.y<0||p.x>AW||p.y>AH)return;
+  if(tool==='draw'){drawing={x1:p.x,y1:p.y,x2:p.x,y2:p.y};cv.setPointerCapture(ev.pointerId);}
+  else if(world.free(p.x,p.y,18)){world.placeBread(p.x,p.y);world.lastS=world.sense();}});
+cv.addEventListener('pointermove',ev=>{if(!drawing)return;const p=toArena(ev);drawing.x2=_c(p.x,0,AW);drawing.y2=_c(p.y,0,AH);});
+cv.addEventListener('pointerup',()=>{if(!drawing)return;const d=drawing;drawing=null;if(Math.hypot(d.x2-d.x1,d.y2-d.y1)<15)return;
+  world.inner.push(d);world.rebuild();if(!world.free(world.duck.x,world.duck.y,RAD+WALL_T))world.placeDuck();
+  const b=world.bread;if(world.free(b.x,b.y,18))world.placeBread(b.x,b.y);else world.placeBread();world.lastS=world.sense();
+  document.querySelectorAll('[data-d-preset]').forEach(o=>o.setAttribute('aria-pressed','false'));});
+seg('[data-d-preset]','data-d-preset',v=>{world.setPreset(v);world.lastS=world.sense();});
+seg('[data-d-speed]','data-d-speed',v=>speed=+v);
+$('d-tool').addEventListener('click',e=>{tool=tool==='draw'?'place':'draw';e.currentTarget.setAttribute('aria-pressed',tool==='draw');stage.classList.toggle('draw',tool==='draw');$('d-hint').textContent=tool==='draw'?'Drag to draw a reed':'Click to move the bread';});
+$('d-clear').addEventListener('click',()=>{world.inner=[];world.rebuild();world.placeBread(world.bread.x,world.bread.y);world.lastS=world.sense();document.querySelectorAll('[data-d-preset]').forEach(o=>o.setAttribute('aria-pressed',o.dataset.dPreset==='aaben'));});
+$('d-smell').addEventListener('click',e=>{showSmell=!showSmell;e.currentTarget.setAttribute('aria-pressed',showSmell);e.currentTarget.textContent='Smell: '+(showSmell?'shown':'hidden');});
+$('d-learn').addEventListener('click',e=>{learning=!learning;e.currentTarget.setAttribute('aria-pressed',learning);e.currentTarget.textContent='Learning: '+(learning?'on':'off');});
+document.querySelectorAll('[data-d-ch]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.dCh,v=!world.ch[k];world.setChallenge(k,v);b.setAttribute('aria-pressed',v);}));
+const KEY='pie-learning-duck-v1';
+function save(){try{const ag=world.agent;localStorage.setItem(KEY,JSON.stringify({net:ag.net.map(l=>({w:Array.from(l.w),b:Array.from(l.b)})),steps:ag.steps,eps:ag.eps,total:world.total}));}catch(e){}}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null'),ag=world.agent;
+  if(!j||j.net.length!==ag.net.length||j.net.some((l,k)=>l.w.length!==ag.net[k].w.length||l.b.length!==ag.net[k].b.length))return;
+  j.net.forEach((l,k)=>{ag.net[k].w.set(l.w);ag.net[k].b.set(l.b);});ag.tgt=copyNet(ag.net);ag.steps=j.steps||0;ag.eps=j.eps??0.04;Object.assign(world.total,j.total||{});}catch(e){}}
+$('d-reset').addEventListener('click',()=>{world.agent.reset();world.resetStats();world.placeDuck();world.placeBread();world.lastS=world.sense();try{localStorage.removeItem(KEY);}catch(e){}ui();chart();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)save();});window.addEventListener('pagehide',save);
+new ResizeObserver(()=>{resize();draw();chart();brain();}).observe(stage);
+resize();load();world.lastS=world.sense();
+let fr=0;function loop(){if(vis.on&&!document.hidden){const t0=performance.now();for(let i=0;i<speed;i++){world.step(learning);if(world.lastEvent)flashes.push({x:world.lastEvent.x,y:world.lastEvent.y,t:0});if(performance.now()-t0>14)break;}
+  draw();brain();if(++fr%8===0){ui();chart();}if(fr%600===0)save();}requestAnimationFrame(loop);}
+ui();draw();chart();brain();loop();
+window.ldRedraw3=()=>{chart();brain();};
+})();
+
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', d.getAttribute('data-theme'));
+  ['ldRedraw1','ldRedraw2','ldRedraw3'].forEach(f => window[f] && window[f]());
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => ['ldRedraw1','ldRedraw2','ldRedraw3'].forEach(f => window[f] && window[f]()));
+</script>
+<script defer src="../js/ui-enhance.js?v=36"></script>
+</body>
+</html>
