@@ -4035,7 +4035,7 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
   :root:not([data-theme="light"]) .fchip.active { color: #101216; }
   :root:not([data-theme="light"]) .evidence-badge.heuristic { color: #e2ac4e; }
   :root:not([data-theme="light"]) .lab-part, :root:not([data-theme="light"]) .lab-fail,
-  :root:not([data-theme="light"]) .value-item strong, :root:not([data-theme="light"]) .howto-pitfall strong, :root:not([data-theme="light"]) .empty-state a { color: #8ea2ff; }
+  :root:not([data-theme="light"]) .value-item strong, :root:not([data-theme="light"]) .empty-state a { color: #8ea2ff; }
 }
 :root[data-theme="dark"] .run-bar .run-btn, :root[data-theme="dark"] .trail-start,
 :root[data-theme="dark"] .support-cta, :root[data-theme="dark"] .nf-btn-primary,
@@ -4048,7 +4048,7 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 :root[data-theme="dark"] .fchip.active { color: #101216; }
 :root[data-theme="dark"] .evidence-badge.heuristic { color: #e2ac4e; }
 :root[data-theme="dark"] .lab-part, :root[data-theme="dark"] .lab-fail,
-:root[data-theme="dark"] .value-item strong, :root[data-theme="dark"] .howto-pitfall strong, :root[data-theme="dark"] .empty-state a { color: #8ea2ff; }
+:root[data-theme="dark"] .value-item strong, :root[data-theme="dark"] .empty-state a { color: #8ea2ff; }
 
 /* Home: the secondary destinations, on one quiet line under the universes. */
 .home-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; max-width: 900px; margin: 8px auto 56px; padding: 0 16px;
@@ -4073,3 +4073,27 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 }
 /* The kicker above a section repeated the heading under it. */
 .section-kicker { display: none; }
+
+/* Topic pages: plain sections instead of tinted boxes. A thin neutral rule marks
+   an aside; colour is kept for links, the formula and the chart. */
+.callout, .callout.warn, .callout.info, .callout.bridge {
+  background: none; border: 0; border-left: 2px solid var(--border2); border-radius: 0;
+  padding: 2px 0 2px 16px; color: var(--text); font-size: 14px;
+}
+.callout strong, .callout.warn strong, .callout.info strong, .callout.bridge strong { color: var(--text); }
+.callout.bridge::before { content: none; }
+.howto, .perf-insight, .why-matters, .dataset-card {
+  background: none; border: 0; border-top: 1px solid var(--border); border-radius: 0;
+  padding: 18px 0 0; margin: 28px 0 0;
+}
+.howto-title, .perf-insight-title, .why-matters-title, .dataset-card-title { color: var(--muted); }
+.howto-pitfall, .why-matters .use-when, .why-matters .skip-when {
+  background: none; border-left: 2px solid var(--border2); border-radius: 0; padding: 4px 0 4px 14px;
+}
+.howto-pitfall strong { color: var(--text); }
+.pattern-thread { border-image: none; border-left: 2px solid var(--border2); background: none; }
+.fb, .fb.c2, .fb.c3, .fb.c4 { border-left: 1px solid var(--border); }
+.fb::after { content: none; }
+.howto .howto-pitfall { background: none; }
+.va::before { content: none; }
+.howto ol li::before { background: none; color: var(--muted); border: 1px solid var(--border2); }
