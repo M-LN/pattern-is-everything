@@ -1093,7 +1093,7 @@ function buildHome() {
 function buildConfusionMatrix() {
   return `<div class="topic" id="confusion-matrix">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">01 — Evaluate Your Model</div><h2>Confusion Matrix &amp; <em>Classification Metrics</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">01 · Evaluate Your Model</div><h2>Confusion Matrix &amp; <em>Classification Metrics</em></h2></div>
     <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The foundation of classification evaluation: TP, FP, TN, FN and the metrics built on them</p>
@@ -1103,7 +1103,7 @@ function buildConfusionMatrix() {
   <div class="fb c3"><div class="fm">F1 = 2 &middot; (P &middot; R) / (P + R)</div><div class="fd"><span>F1</span> = harmonic mean of precision and recall. Balanced score when both matter equally.</div></div>
   <div class="va">
     <div class="vl">// Interactive: adjust threshold, see all metrics update</div>
-    <canvas id="cmCanvas" role="img" aria-label="Confusion Matrix &amp; Classification Metrics: Interactive — adjust threshold, see all metrics update" height="260"></canvas>
+    <canvas id="cmCanvas" role="img" aria-label="Confusion Matrix &amp; Classification Metrics: Interactive: adjust threshold, see all metrics update" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Threshold</span><input type="range" aria-label="Threshold" id="cmThresh" min="0" max="100" step="1" value="50"><span class="vd" id="cmThreshV">0.50</span></div>
       <div class="cg"><span class="cl">Precision</span><span class="vd" id="cmPrec" style="color:var(--accent)">—</span></div>
@@ -1121,7 +1121,7 @@ function buildConfusionMatrix() {
       <tr><td>MCC</td><td>(TP&middot;TN&minus;FP&middot;FN)/&radic;(...)</td><td>Imbalanced datasets</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — classification metrics</span>
+  <div class="code-block"><pre><span class="cm"># Python: classification metrics</span>
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
     confusion_matrix, classification_report,
     precision_score, recall_score, f1_score
@@ -1198,7 +1198,7 @@ plt.show()</code></pre>
 function buildROCAUC() {
   return `<div class="topic" id="roc-auc">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">02 — Evaluate Your Model</div><h2>ROC &amp; <em>AUC</em> Curves</h2></div>
+    <div class="topic-meta"><div class="topic-num">02 · Evaluate Your Model</div><h2>ROC &amp; <em>AUC</em> Curves</h2></div>
     <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Visualising model performance across all thresholds</p>
@@ -1207,13 +1207,13 @@ function buildROCAUC() {
   <div class="fb c2"><div class="fm">AUC = &int; TPR(FPR) dFPR &isin; [0, 1]</div><div class="fd"><span>AUC</span> = probability that the model ranks a random positive higher than a random negative</div></div>
   <div class="va">
     <div class="vl">// Interactive ROC: adjust model separability</div>
-    <canvas id="rocCanvas" role="img" aria-label="ROC &amp; AUC Curves: Interactive ROC — adjust model separability" height="260"></canvas>
+    <canvas id="rocCanvas" role="img" aria-label="ROC &amp; AUC Curves: Interactive ROC: adjust model separability" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Separability</span><input type="range" aria-label="Separability" id="rocSep" min="0" max="100" step="1" value="65"><span class="vd" id="rocSepV">0.65</span></div>
       <div class="cg"><span class="cl">AUC</span><span class="vd" id="rocAuc" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — ROC & AUC</span>
+  <div class="code-block"><pre><span class="cm"># Python: ROC & AUC</span>
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_curve, roc_auc_score
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
 
@@ -1236,7 +1236,7 @@ plt.legend(); plt.show()</pre></div>
 function buildRegressionMetrics() {
   return `<div class="topic" id="regression-metrics">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">03 — Evaluate Your Model</div><h2>Regression <em>Metrics</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">03 · Evaluate Your Model</div><h2>Regression <em>Metrics</em></h2></div>
     <span class="topic-badge">Regression</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// MAE, RMSE, R², which metric for which problem and what the numbers actually mean</p>
@@ -1246,7 +1246,7 @@ function buildRegressionMetrics() {
   <div class="fb c3"><div class="fm">R&sup2; = 1 &minus; SS<sub>res</sub> / SS<sub>tot</sub></div><div class="fd"><span>R&sup2;</span> = fraction of variance explained. 1 = perfect, 0 = no better than predicting the mean.</div></div>
   <div class="va">
     <div class="vl">// Interactive: drag points, see metrics update</div>
-    <canvas id="regCanvas" role="img" aria-label="Regression Metrics: Interactive — drag points, see metrics update" height="260"></canvas>
+    <canvas id="regCanvas" role="img" aria-label="Regression Metrics: Interactive: drag points, see metrics update" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Noise</span><input type="range" aria-label="Noise" id="regNoise" min="0" max="100" step="1" value="30"><span class="vd" id="regNoiseV">0.30</span></div>
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="regMAE" style="color:var(--accent)">—</span></div>
@@ -1254,7 +1254,7 @@ function buildRegressionMetrics() {
       <div class="cg"><span class="cl">R&sup2;</span><span class="vd" id="regR2" style="color:#81c784">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — regression metrics</span>
+  <div class="code-block"><pre><span class="cm"># Python: regression metrics</span>
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
     mean_absolute_error, mean_squared_error, r2_score
 )
@@ -1275,7 +1275,7 @@ print(<span class="st">f"MAE: {mae:.3f}  RMSE: {rmse:.3f}  R²: {r2:.3f}"</span>
 function buildCrossValidation() {
   return `<div class="topic" id="cross-validation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">04 — Evaluate Your Model</div><h2>Cross-Validation <em>Done Right</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">04 · Evaluate Your Model</div><h2>Cross-Validation <em>Done Right</em></h2></div>
     <span class="topic-badge">Validation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Splitting your data without leaks: k-fold, stratified, time-series split, and the leakage traps</p>
@@ -1283,7 +1283,7 @@ function buildCrossValidation() {
   <div class="fb"><div class="fm">CV Score = (1/k) &middot; &Sigma; Score(fold&#x1D62;)</div><div class="fd">Average <span>test score</span> across k folds. Standard deviation shows stability.</div></div>
   <div class="va">
     <div class="vl">// Interactive: k folds visualised with train/test splits</div>
-    <canvas id="cvCanvas" role="img" aria-label="Cross-Validation Done Right: Interactive — k folds visualised with train/test splits" height="260"></canvas>
+    <canvas id="cvCanvas" role="img" aria-label="Cross-Validation Done Right: Interactive: k folds visualised with train/test splits" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">K folds</span><input type="range" aria-label="K folds" id="cvK" min="2" max="10" step="1" value="5"><span class="vd" id="cvKv">5</span></div>
       <div class="cg"><span class="cl">Mode</span><button class="btn" id="cvMode" onclick="toggleCVMode()">K-Fold</button></div>
@@ -1299,7 +1299,7 @@ function buildCrossValidation() {
       <tr><td>Nested CV</td><td>Hyperparameter tuning + eval</td><td>Inner loop tunes, outer evaluates</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — cross-validation</span>
+  <div class="code-block"><pre><span class="cm"># Python: cross-validation</span>
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> (
     cross_val_score, StratifiedKFold, TimeSeriesSplit
 )
@@ -1349,7 +1349,7 @@ scores = cross_val_score(model, X, y, cv=tscv)</pre></div>
 function buildComparingRuns() {
   return `<div class="topic" id="comparing-runs">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">05 — Evaluate Your Model</div><h2>Comparing <em>Model Runs</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">05 · Evaluate Your Model</div><h2>Comparing <em>Model Runs</em></h2></div>
     <span class="topic-badge">Testing</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is this improvement real? Statistical tests for comparing model performance across runs</p>
@@ -1358,14 +1358,14 @@ function buildComparingRuns() {
   <div class="fb c2"><div class="fm">McNemar: &chi;&sup2; = (b &minus; c)&sup2; / (b + c)</div><div class="fd"><span>McNemar&rsquo;s test</span>: compares errors on the same test set. b,c = discordant predictions.</div></div>
   <div class="va">
     <div class="vl">// Interactive: two model score distributions, see p-value</div>
-    <canvas id="compCanvas" role="img" aria-label="Comparing Model Runs: Interactive — two model score distributions, see p-value" height="260"></canvas>
+    <canvas id="compCanvas" role="img" aria-label="Comparing Model Runs: Interactive: two model score distributions, see p-value" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model A mean</span><input type="range" aria-label="Model A mean" id="compA" min="70" max="95" step="1" value="85"><span class="vd" id="compAv">0.85</span></div>
       <div class="cg"><span class="cl">Model B mean</span><input type="range" aria-label="Model B mean" id="compB" min="70" max="95" step="1" value="88"><span class="vd" id="compBv">0.88</span></div>
       <div class="cg"><span class="cl">p-value</span><span class="vd" id="compP" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — comparing two models</span>
+  <div class="code-block"><pre><span class="cm"># Python: comparing two models</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> ttest_rel, wilcoxon
 
 <span class="cm"># Paired t-test on k-fold scores</span>
@@ -1387,7 +1387,7 @@ print(<span class="st">f"p = {p_val:.4f}"</span>)</pre></div>
 function buildLearningCurves() {
   return `<div class="topic" id="learning-curves">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">06 — Evaluate Your Model</div><h2>Learning Curves &amp; <em>Overfitting</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">06 · Evaluate Your Model</div><h2>Learning Curves &amp; <em>Overfitting</em></h2></div>
     <span class="topic-badge">Diagnostics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Training vs validation curves: reading the gap to diagnose models</p>
@@ -1395,13 +1395,13 @@ function buildLearningCurves() {
   <div class="fb"><div class="fm">Gap = Score<sub>train</sub> &minus; Score<sub>val</sub></div><div class="fd"><span>Large gap</span> = overfitting (model memorises) &nbsp;|&nbsp; <span>Both low</span> = underfitting (model too simple)</div></div>
   <div class="va">
     <div class="vl">// Interactive: adjust complexity, see the gap</div>
-    <canvas id="lcCanvas" role="img" aria-label="Learning Curves &amp; Overfitting: Interactive — adjust complexity, see the gap" height="260"></canvas>
+    <canvas id="lcCanvas" role="img" aria-label="Learning Curves &amp; Overfitting: Interactive: adjust complexity, see the gap" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model complexity</span><input type="range" aria-label="Model complexity" id="lcComp" min="1" max="100" step="1" value="50"><span class="vd" id="lcCompV">50</span></div>
       <div class="cg"><span class="cl">Diagnosis</span><span class="vd" id="lcDiag" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — learning curves</span>
+  <div class="code-block"><pre><span class="cm"># Python: learning curves</span>
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> learning_curve
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
 
@@ -1451,7 +1451,7 @@ plt.legend(); plt.show()</pre></div>
 function buildSHAPValues() {
   return `<div class="topic" id="shap-values">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">07 — Understand Your Features</div><h2>SHAP <em>Values</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">07 · Understand Your Features</div><h2>SHAP <em>Values</em></h2></div>
     <span class="topic-badge">Explainability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Game-theoretic feature attribution: understand exactly why your model made each prediction</p>
@@ -1460,13 +1460,13 @@ function buildSHAPValues() {
   <div class="fb c2"><div class="fm">f(x) = E[f(X)] + &Sigma; &phi;&#x1D62;</div><div class="fd">Prediction = base value + sum of all SHAP values. <span>Additive:</span> contributions always sum to prediction.</div></div>
   <div class="va">
     <div class="vl">// Interactive: feature contributions to a prediction</div>
-    <canvas id="shapCanvas" role="img" aria-label="SHAP Values: Interactive — feature contributions to a prediction" height="260"></canvas>
+    <canvas id="shapCanvas" role="img" aria-label="SHAP Values: Interactive: feature contributions to a prediction" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Feature count</span><input type="range" aria-label="Feature count" id="shapN" min="3" max="10" step="1" value="6"><span class="vd" id="shapNv">6</span></div>
       <button class="btn" onclick="reshapSHAP()">NEW SAMPLE</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — SHAP waterfall for a single prediction</span>
+  <div class="code-block"><pre><span class="cm"># Python: SHAP waterfall for a single prediction</span>
 <span class="kw">import</span> shap
 
 explainer = shap.TreeExplainer(model)
@@ -1536,7 +1536,7 @@ shap.plots.waterfall(sv[0])       # explain one prediction</code></pre>
 function buildPermutationImportance() {
   return `<div class="topic" id="permutation-importance">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">08 — Understand Your Features</div><h2>Permutation <em>Importance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">08 · Understand Your Features</div><h2>Permutation <em>Importance</em></h2></div>
     <span class="topic-badge">Features</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Shuffle a feature, measure the damage: a model-agnostic way to rank feature importance</p>
@@ -1544,13 +1544,13 @@ function buildPermutationImportance() {
   <div class="fb"><div class="fm">PI&#x1D62; = Score<sub>original</sub> &minus; Score<sub>shuffled(i)</sub></div><div class="fd"><span>PI</span> = importance of feature i. Higher = more important. Negative = feature hurts the model.</div></div>
   <div class="va">
     <div class="vl">// Interactive: shuffle features, see score drop</div>
-    <canvas id="piCanvas" role="img" aria-label="Permutation Importance: Interactive — shuffle features, see score drop" height="260"></canvas>
+    <canvas id="piCanvas" role="img" aria-label="Permutation Importance: Interactive: shuffle features, see score drop" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Features</span><input type="range" aria-label="Features" id="piN" min="3" max="8" step="1" value="5"><span class="vd" id="piNv">5</span></div>
       <button class="btn" onclick="reshufflePerm()">SHUFFLE</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — permutation importance</span>
+  <div class="code-block"><pre><span class="cm"># Python: permutation importance</span>
 <span class="kw">from</span> sklearn.inspection <span class="kw">import</span> permutation_importance
 
 result = permutation_importance(
@@ -1573,7 +1573,7 @@ result = permutation_importance(
 function buildPDPICE() {
   return `<div class="topic" id="pdp-ice">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">09 — Understand Your Features</div><h2>Partial Dependence &amp; <em>ICE</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">09 · Understand Your Features</div><h2>Partial Dependence &amp; <em>ICE</em></h2></div>
     <span class="topic-badge">Explainability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How does changing one feature affect predictions? PDP shows the average, ICE shows every instance</p>
@@ -1581,13 +1581,13 @@ function buildPDPICE() {
   <div class="fb"><div class="fm">PD(x<sub>s</sub>) = (1/n) &middot; &Sigma; f(x<sub>s</sub>, x<sub>c</sub><sup>(i)</sup>)</div><div class="fd"><span>PD</span> = average prediction when feature s is fixed at x<sub>s</sub>, averaging over all other features.</div></div>
   <div class="va">
     <div class="vl">// Interactive: PDP line with individual ICE curves</div>
-    <canvas id="pdpCanvas" role="img" aria-label="Partial Dependence &amp; ICE: Interactive — PDP line with individual ICE curves" height="260"></canvas>
+    <canvas id="pdpCanvas" role="img" aria-label="Partial Dependence &amp; ICE: Interactive: PDP line with individual ICE curves" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Show ICE</span><button class="btn" id="pdpIce" onclick="toggleICE()">ICE ON</button></div>
       <div class="cg"><span class="cl">Instances</span><input type="range" aria-label="Instances" id="pdpN" min="5" max="50" step="5" value="20"><span class="vd" id="pdpNv">20</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — PDP & ICE</span>
+  <div class="code-block"><pre><span class="cm"># Python: PDP & ICE</span>
 <span class="kw">from</span> sklearn.inspection <span class="kw">import</span> PartialDependenceDisplay
 
 <span class="cm"># PDP with ICE</span>
@@ -1608,7 +1608,7 @@ PartialDependenceDisplay.from_estimator(
 function buildFeatureCorrelation() {
   return `<div class="topic" id="feature-correlation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">10 — Understand Your Features</div><h2>Feature Correlation &amp; <em>Multicollinearity</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">10 · Understand Your Features</div><h2>Feature Correlation &amp; <em>Multicollinearity</em></h2></div>
     <span class="topic-badge">Features</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Spotting redundant features: correlation heatmaps, VIF, and deciding what to drop</p>
@@ -1622,7 +1622,7 @@ function buildFeatureCorrelation() {
       <button class="btn" onclick="regenCorr()">REGENERATE</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — correlation & VIF</span>
+  <div class="code-block"><pre><span class="cm"># Python: correlation & VIF</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 <span class="kw">from</span> statsmodels.stats.outliers_influence <span class="kw">import</span> variance_inflation_factor
 
@@ -1646,7 +1646,7 @@ vif[<span class="st">'VIF'</span>] = [variance_inflation_factor(X.values, i)
 function buildInformationGain() {
   return `<div class="topic" id="information-gain">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">11 — Understand Your Features</div><h2>Information Gain &amp; <em>Mutual Information</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">11 · Understand Your Features</div><h2>Information Gain &amp; <em>Mutual Information</em></h2></div>
     <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Beyond linear correlation: information-theoretic measures that capture any kind of dependency</p>
@@ -1655,14 +1655,14 @@ function buildInformationGain() {
   <div class="fb c2"><div class="fm">IG(Y|X) = H(Y) &minus; H(Y|X)</div><div class="fd"><span>Information Gain</span> = entropy before &minus; entropy after splitting. Used in decision trees.</div></div>
   <div class="va">
     <div class="vl">// Interactive: see MI vs correlation for different relationships</div>
-    <canvas id="miCanvas" role="img" aria-label="Information Gain &amp; Mutual Information: Interactive — see MI vs correlation for different relationships" height="260"></canvas>
+    <canvas id="miCanvas" role="img" aria-label="Information Gain &amp; Mutual Information: Interactive: see MI vs correlation for different relationships" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Relationship</span><button class="btn" id="miType" onclick="cycleRelation()">Linear</button></div>
       <div class="cg"><span class="cl">MI</span><span class="vd" id="miVal" style="color:var(--accent)">—</span></div>
       <div class="cg"><span class="cl">Correlation</span><span class="vd" id="miCorr" style="color:#4fc3f7">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — mutual information for feature selection</span>
+  <div class="code-block"><pre><span class="cm"># Python: mutual information for feature selection</span>
 <span class="kw">from</span> sklearn.feature_selection <span class="kw">import</span> mutual_info_classif
 
 mi = mutual_info_classif(X, y, random_state=<span class="st">42</span>)
@@ -1678,7 +1678,7 @@ print(mi_series)</pre></div>
 function buildDistributionShape() {
   return `<div class="topic" id="distribution-shape">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">12 — Analyze Your Data</div><h2>Distribution <em>Shape</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">12 · Analyze Your Data</div><h2>Distribution <em>Shape</em></h2></div>
     <span class="topic-badge">Data Analysis</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Skewness, kurtosis, QQ plots: is your data normal, and does it matter?</p>
@@ -1687,13 +1687,13 @@ function buildDistributionShape() {
   <div class="fb c2"><div class="fm">Kurt = E[(X&minus;&mu;)⁴] / &sigma;⁴ &minus; 3</div><div class="fd"><span>Excess kurtosis</span> = 0 is normal &nbsp;|&nbsp; &gt;0 heavy tails &nbsp;|&nbsp; &lt;0 light tails</div></div>
   <div class="va">
     <div class="vl">// Interactive: adjust skew and kurtosis</div>
-    <canvas id="distCanvas" role="img" aria-label="Distribution Shape: Interactive — adjust skew and kurtosis" height="230"></canvas>
+    <canvas id="distCanvas" role="img" aria-label="Distribution Shape: Interactive: adjust skew and kurtosis" height="230"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Skewness</span><input type="range" aria-label="Skewness" id="distSkew" min="-30" max="30" step="1" value="0"><span class="vd" id="distSkewV">0.0</span></div>
       <div class="cg"><span class="cl">Tail weight</span><input type="range" aria-label="Tail weight" id="distKurt" min="0" max="100" step="1" value="30"><span class="vd" id="distKurtV">3.0</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — distribution diagnostics</span>
+  <div class="code-block"><pre><span class="cm"># Python: distribution diagnostics</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> skew, kurtosis, probplot
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
 
@@ -1715,7 +1715,7 @@ plt.show()</pre></div>
 function buildOutlierDetection() {
   return `<div class="topic" id="outlier-detection">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">13 — Analyze Your Data</div><h2>Outlier <em>Detection</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">13 · Analyze Your Data</div><h2>Outlier <em>Detection</em></h2></div>
     <span class="topic-badge">Data Analysis</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// IQR, Z-score, Isolation Forest: finding extreme values and knowing when they're the signal</p>
@@ -1724,13 +1724,13 @@ function buildOutlierDetection() {
   <div class="fb c2"><div class="fm">Z = (x &minus; &mu;) / &sigma; &nbsp;&nbsp; outlier if |Z| &gt; 3</div><div class="fd"><span>Z-score</span> = standard deviations from mean. Assumes roughly normal data.</div></div>
   <div class="va">
     <div class="vl">// Interactive: scattered points with outlier detection zones</div>
-    <canvas id="outCanvas" role="img" aria-label="Outlier Detection: Interactive — scattered points with outlier detection zones" height="260"></canvas>
+    <canvas id="outCanvas" role="img" aria-label="Outlier Detection: Interactive: scattered points with outlier detection zones" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Method</span><button class="btn" id="outMethod" onclick="cycleOutlier()">IQR</button></div>
       <div class="cg"><span class="cl">Outliers</span><span class="vd" id="outCount" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — outlier detection</span>
+  <div class="code-block"><pre><span class="cm"># Python: outlier detection</span>
 <span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> IsolationForest
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -1752,7 +1752,7 @@ labels = iso.fit_predict(X)  <span class="cm"># -1 = outlier</span></pre></div>
 function buildMissingData() {
   return `<div class="topic" id="missing-data">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">14 — Analyze Your Data</div><h2>Missing Data <em>Strategies</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">14 · Analyze Your Data</div><h2>Missing Data <em>Strategies</em></h2></div>
     <span class="topic-badge">Data Quality</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Imputation, MICE, missingness patterns: handling gaps without corrupting your analysis</p>
@@ -1761,13 +1761,13 @@ function buildMissingData() {
   <div class="fb c2"><div class="fm">MAR: P(missing | observed) &ne; P(missing)</div><div class="fd">Missing <span>at random</span> given observed data. Use MICE, KNN imputation.</div></div>
   <div class="va">
     <div class="vl">// Interactive: missing data patterns and imputation</div>
-    <canvas id="missCanvas" role="img" aria-label="Missing Data Strategies: Interactive — missing data patterns and imputation" height="260"></canvas>
+    <canvas id="missCanvas" role="img" aria-label="Missing Data Strategies: Interactive: missing data patterns and imputation" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">% Missing</span><input type="range" aria-label="% Missing" id="missPct" min="5" max="50" step="5" value="20"><span class="vd" id="missPctV">20%</span></div>
       <div class="cg"><span class="cl">Strategy</span><button class="btn" id="missStrat" onclick="cycleImpute()">Mean</button></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — imputation strategies</span>
+  <div class="code-block"><pre><span class="cm"># Python: imputation strategies</span>
 <span class="kw">from</span> sklearn.impute <span class="kw">import</span> SimpleImputer, KNNImputer
 <span class="kw">from</span> sklearn.experimental <span class="kw">import</span> enable_iterative_imputer
 <span class="kw">from</span> sklearn.impute <span class="kw">import</span> IterativeImputer
@@ -1792,7 +1792,7 @@ X_filled = imp.fit_transform(X)</pre></div>
 function buildDataDrift() {
   return `<div class="topic" id="data-drift">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">15 — Analyze Your Data</div><h2>Data Drift &amp; <em>Distribution Shift</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">15 · Analyze Your Data</div><h2>Data Drift &amp; <em>Distribution Shift</em></h2></div>
     <span class="topic-badge">Monitoring</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is your model still valid? PSI, KS test, and detecting when the world has changed</p>
@@ -1801,13 +1801,13 @@ function buildDataDrift() {
   <div class="fb c2"><div class="fm">KS = max|F<sub>ref</sub>(x) &minus; F<sub>new</sub>(x)|</div><div class="fd"><span>Kolmogorov-Smirnov</span> = maximum distance between two CDFs. p &lt; 0.05 → distributions differ.</div></div>
   <div class="va">
     <div class="vl">// Interactive: reference vs new distribution with drift</div>
-    <canvas id="driftCanvas" role="img" aria-label="Data Drift &amp; Distribution Shift: Interactive — reference vs new distribution with drift" height="260"></canvas>
+    <canvas id="driftCanvas" role="img" aria-label="Data Drift &amp; Distribution Shift: Interactive: reference vs new distribution with drift" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Drift amount</span><input type="range" aria-label="Drift amount" id="driftAmt" min="0" max="100" step="1" value="0"><span class="vd" id="driftAmtV">0.0</span></div>
       <div class="cg"><span class="cl">PSI</span><span class="vd" id="driftPSI" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — PSI & KS test</span>
+  <div class="code-block"><pre><span class="cm"># Python: PSI & KS test</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> ks_2samp
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -1877,7 +1877,7 @@ print({'psi': psi(ref, new), 'ks': ks_stat, 'p_value': p_value})</code></pre>
 function buildClassImbalance() {
   return `<div class="topic" id="class-imbalance">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">16 — Analyze Your Data</div><h2>Sampling &amp; <em>Class Imbalance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">16 · Analyze Your Data</div><h2>Sampling &amp; <em>Class Imbalance</em></h2></div>
     <span class="topic-badge">Data Prep</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// SMOTE, undersampling, class weights: strategies when your classes are nowhere near 50/50</p>
@@ -1885,13 +1885,13 @@ function buildClassImbalance() {
   <div class="fb"><div class="fm">SMOTE: x<sub>new</sub> = x&#x1D62; + &lambda; &middot; (x<sub>nn</sub> &minus; x&#x1D62;)</div><div class="fd"><span>SMOTE</span> creates synthetic minority samples by interpolating between a sample and its nearest neighbour.</div></div>
   <div class="va">
     <div class="vl">// Interactive: class ratio and resampling effect</div>
-    <canvas id="imbCanvas" role="img" aria-label="Sampling &amp; Class Imbalance: Interactive — class ratio and resampling effect" height="260"></canvas>
+    <canvas id="imbCanvas" role="img" aria-label="Sampling &amp; Class Imbalance: Interactive: class ratio and resampling effect" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Imbalance ratio</span><input type="range" aria-label="Imbalance ratio" id="imbRatio" min="1" max="50" step="1" value="10"><span class="vd" id="imbRatioV">1:10</span></div>
       <div class="cg"><span class="cl">Strategy</span><button class="btn" id="imbStrat" onclick="cycleImbalance()">None</button></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — handling imbalance</span>
+  <div class="code-block"><pre><span class="cm"># Python: handling imbalance</span>
 <span class="kw">from</span> imblearn.over_sampling <span class="kw">import</span> SMOTE
 <span class="kw">from</span> imblearn.under_sampling <span class="kw">import</span> RandomUnderSampler
 <span class="kw">from</span> imblearn.pipeline <span class="kw">import</span> Pipeline
@@ -1931,7 +1931,7 @@ model = RandomForestClassifier(class_weight=<span class="st">'balanced'</span>)<
 function buildSharpeRatio() {
   return `<div class="topic" id="sharpe-ratio">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">17 — Backtest &amp; Validate</div><h2>Sharpe Ratio &amp; <em>Risk-Adjusted Returns</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">17 · Backtest &amp; Validate</div><h2>Sharpe Ratio &amp; <em>Risk-Adjusted Returns</em></h2></div>
     <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Interpreting Sharpe, Sortino, Calmar: return per unit of risk</p>
@@ -1941,14 +1941,14 @@ function buildSharpeRatio() {
   <div class="fb c3"><div class="fm">Calmar = R<sub>annual</sub> / |MaxDrawdown|</div><div class="fd"><span>Calmar</span> = return divided by worst-case loss. Sensitive to tail risk.</div></div>
   <div class="va">
     <div class="vl">// Interactive: adjust return and volatility, see ratios</div>
-    <canvas id="sharpeCanvas" role="img" aria-label="Sharpe Ratio &amp; Risk-Adjusted Returns: Interactive — adjust return and volatility, see ratios" height="260"></canvas>
+    <canvas id="sharpeCanvas" role="img" aria-label="Sharpe Ratio &amp; Risk-Adjusted Returns: Interactive: adjust return and volatility, see ratios" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Return %</span><input type="range" aria-label="Return %" id="sharpeRet" min="0" max="40" step="1" value="12"><span class="vd" id="sharpeRetV">12%</span></div>
       <div class="cg"><span class="cl">Volatility %</span><input type="range" aria-label="Volatility %" id="sharpeVol" min="5" max="40" step="1" value="15"><span class="vd" id="sharpeVolV">15%</span></div>
       <div class="cg"><span class="cl">Sharpe</span><span class="vd" id="sharpeSR" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — risk-adjusted ratios</span>
+  <div class="code-block"><pre><span class="cm"># Python: risk-adjusted ratios</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
 returns = df[<span class="st">'returns'</span>]
@@ -1975,7 +1975,7 @@ calmar = returns.mean() * <span class="st">252</span> / abs(dd)</pre></div>
 function buildMaxDrawdown() {
   return `<div class="topic" id="max-drawdown">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">18 — Backtest &amp; Validate</div><h2>Maximum Drawdown &amp; <em>Recovery</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">18 · Backtest &amp; Validate</div><h2>Maximum Drawdown &amp; <em>Recovery</em></h2></div>
     <span class="topic-badge">Risk</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring worst-case loss from peak: depth, duration, and recovery time</p>
@@ -1990,7 +1990,7 @@ function buildMaxDrawdown() {
       <button class="btn" onclick="regenDD()">NEW PATH</button>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — drawdown analysis</span>
+  <div class="code-block"><pre><span class="cm"># Python: drawdown analysis</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
 cum_returns = (<span class="st">1</span> + returns).cumprod()
@@ -2015,7 +2015,7 @@ recovery_periods = underwater.astype(int).groupby(
 function buildWalkForward() {
   return `<div class="topic" id="walk-forward">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">19 — Backtest &amp; Validate</div><h2>Walk-Forward <em>Validation</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">19 · Backtest &amp; Validate</div><h2>Walk-Forward <em>Validation</em></h2></div>
     <span class="topic-badge">Backtesting</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Rolling window backtesting: the right way to validate strategies on time-ordered data</p>
@@ -2023,13 +2023,13 @@ function buildWalkForward() {
   <div class="fb"><div class="fm">Train: [t&minus;W, t] &rarr; Test: [t+1, t+S]</div><div class="fd"><span>W</span> = training window &nbsp;|&nbsp; <span>S</span> = test step &nbsp;|&nbsp; then slide forward by S and repeat.</div></div>
   <div class="va">
     <div class="vl">// Interactive: rolling vs anchored walk-forward</div>
-    <canvas id="wfCanvas" role="img" aria-label="Walk-Forward Validation: Interactive — rolling vs anchored walk-forward" height="260"></canvas>
+    <canvas id="wfCanvas" role="img" aria-label="Walk-Forward Validation: Interactive: rolling vs anchored walk-forward" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Window size</span><input type="range" aria-label="Window size" id="wfWin" min="3" max="15" step="1" value="8"><span class="vd" id="wfWinV">8</span></div>
       <div class="cg"><span class="cl">Mode</span><button class="btn" id="wfMode" onclick="toggleWFMode()">Rolling</button></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — walk-forward with TimeSeriesSplit</span>
+  <div class="code-block"><pre><span class="cm"># Python: walk-forward with TimeSeriesSplit</span>
 <span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> TimeSeriesSplit
 
 tscv = TimeSeriesSplit(n_splits=<span class="st">5</span>)
@@ -2063,7 +2063,7 @@ print(<span class="st">f"Walk-forward: {np.mean(results):.3f}"</span>)</pre></di
 function buildMonteCarlo() {
   return `<div class="topic" id="monte-carlo">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">20 — Backtest &amp; Validate</div><h2>Monte Carlo <em>Simulation</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">20 · Backtest &amp; Validate</div><h2>Monte Carlo <em>Simulation</em></h2></div>
     <span class="topic-badge">Simulation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Simulating thousands of paths: confidence bands on strategy performance</p>
@@ -2071,14 +2071,14 @@ function buildMonteCarlo() {
   <div class="fb"><div class="fm">Path&#x1D62;(t) = &Pi;<sub>d=1</sub><sup>t</sup> (1 + r<sub>d</sub><sup>(i)</sup>)</div><div class="fd">Each path is a product of randomly sampled daily returns. <span>N paths</span> give a fan of possible outcomes.</div></div>
   <div class="va">
     <div class="vl">// Interactive: simulated equity paths with confidence bands</div>
-    <canvas id="mcCanvas" role="img" aria-label="Monte Carlo Simulation: Interactive — simulated equity paths with confidence bands" height="260"></canvas>
+    <canvas id="mcCanvas" role="img" aria-label="Monte Carlo Simulation: Interactive: simulated equity paths with confidence bands" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Paths</span><input type="range" aria-label="Paths" id="mcPaths" min="10" max="500" step="10" value="100"><span class="vd" id="mcPathsV">100</span></div>
       <button class="btn" onclick="regenMC()">SIMULATE</button>
       <div class="cg"><span class="cl">5th %ile</span><span class="vd" id="mc5" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Monte Carlo equity simulation</span>
+  <div class="code-block"><pre><span class="cm"># Python: Monte Carlo equity simulation</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
 daily_returns = df[<span class="st">'returns'</span>].values
@@ -2104,7 +2104,7 @@ p95 = np.percentile(paths, <span class="st">95</span>, axis=<span class="st">0</
 function buildSurvivorshipBias() {
   return `<div class="topic" id="survivorship-bias">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">21 — Backtest &amp; Validate</div><h2>Survivorship &amp; <em>Look-Ahead Bias</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">21 · Backtest &amp; Validate</div><h2>Survivorship &amp; <em>Look-Ahead Bias</em></h2></div>
     <span class="topic-badge">Bias</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The silent traps that make your backtest a fantasy</p>
@@ -2113,7 +2113,7 @@ function buildSurvivorshipBias() {
   <div class="fb c2"><div class="fm">Look-ahead: f(t) must use only data from [0, t]</div><div class="fd">Earnings announced on day t+3 can't inform a decision on day t, even if your database has it.</div></div>
   <div class="va">
     <div class="vl">// Interactive: survivorship bias impact on backtest returns</div>
-    <canvas id="survCanvas" role="img" aria-label="Survivorship &amp; Look-Ahead Bias: Interactive — survivorship bias impact on backtest returns" height="260"></canvas>
+    <canvas id="survCanvas" role="img" aria-label="Survivorship &amp; Look-Ahead Bias: Interactive: survivorship bias impact on backtest returns" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Delisted %</span><input type="range" aria-label="Delisted %" id="survDel" min="0" max="40" step="1" value="15"><span class="vd" id="survDelV">15%</span></div>
       <div class="cg"><span class="cl">Biased return</span><span class="vd" id="survBias" style="color:var(--accent)">—</span></div>
@@ -2143,7 +2143,7 @@ df = df[df[<span class="st">'report_date'</span>] &lt;= df[<span class="st">'tra
 function buildConfidenceIntervals() {
   return `<div class="topic" id="confidence-intervals">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">22 — Make Decisions</div><h2>Confidence <em>Intervals</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">22 · Make Decisions</div><h2>Confidence <em>Intervals</em></h2></div>
     <span class="topic-badge">Inference</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How sure are you? Bootstrap and parametric CIs, and interpreting their width</p>
@@ -2152,14 +2152,14 @@ function buildConfidenceIntervals() {
   <div class="fb c2"><div class="fm">Bootstrap CI: [&theta;*<sub>2.5%</sub>, &theta;*<sub>97.5%</sub>]</div><div class="fd"><span>Bootstrap CI</span> = percentiles of the resampled distribution. No normality assumption needed.</div></div>
   <div class="va">
     <div class="vl">// Interactive: sample size vs CI width</div>
-    <canvas id="ciCanvas" role="img" aria-label="Confidence Intervals: Interactive — sample size vs CI width" height="260"></canvas>
+    <canvas id="ciCanvas" role="img" aria-label="Confidence Intervals: Interactive: sample size vs CI width" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Sample size</span><input type="range" aria-label="Sample size" id="ciN" min="10" max="500" step="10" value="50"><span class="vd" id="ciNv">50</span></div>
       <div class="cg"><span class="cl">Confidence</span><input type="range" aria-label="Confidence" id="ciConf" min="80" max="99" step="1" value="95"><span class="vd" id="ciConfV">95%</span></div>
       <div class="cg"><span class="cl">Width</span><span class="vd" id="ciWidth" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — confidence intervals</span>
+  <div class="code-block"><pre><span class="cm"># Python: confidence intervals</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> sem, t
 
@@ -2182,7 +2182,7 @@ ci_boot = np.percentile(boots, [<span class="st">2.5</span>, <span class="st">97
 function buildBootstrapMethods() {
   return `<div class="topic" id="bootstrap-methods">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">23 — Make Decisions</div><h2>Bootstrap <em>Methods</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">23 · Make Decisions</div><h2>Bootstrap <em>Methods</em></h2></div>
     <span class="topic-badge">Resampling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Estimate anything with resampling: the nonparametric Swiss army knife for uncertainty</p>
@@ -2190,14 +2190,14 @@ function buildBootstrapMethods() {
   <div class="fb"><div class="fm">&theta;* = statistic(resample(data))</div><div class="fd">Repeat B times &rarr; distribution of &theta;* &rarr; <span>SE</span> = std(&theta;*) &nbsp;|&nbsp; <span>CI</span> = percentiles</div></div>
   <div class="va">
     <div class="vl">// Interactive: bootstrap distribution of the mean</div>
-    <canvas id="bootCanvas" role="img" aria-label="Bootstrap Methods: Interactive — bootstrap distribution of the mean" height="260"></canvas>
+    <canvas id="bootCanvas" role="img" aria-label="Bootstrap Methods: Interactive: bootstrap distribution of the mean" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Resamples</span><input type="range" aria-label="Resamples" id="bootB" min="100" max="5000" step="100" value="1000"><span class="vd" id="bootBv">1000</span></div>
       <button class="btn" onclick="regenBoot()">RESAMPLE</button>
       <div class="cg"><span class="cl">SE</span><span class="vd" id="bootSE" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — bootstrap for any statistic</span>
+  <div class="code-block"><pre><span class="cm"># Python: bootstrap for any statistic</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
 <span class="kw">def</span> <span class="fn">bootstrap</span>(data, stat_fn, B=<span class="st">10000</span>):
@@ -2221,7 +2221,7 @@ se = boots.std()</pre></div>
 function buildBayesianAB() {
   return `<div class="topic" id="bayesian-ab">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">24 — Make Decisions</div><h2>Bayesian <em>A/B Testing</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">24 · Make Decisions</div><h2>Bayesian <em>A/B Testing</em></h2></div>
     <span class="topic-badge">Experimentation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Is version B actually better? Credible intervals and probability of improvement</p>
@@ -2230,14 +2230,14 @@ function buildBayesianAB() {
   <div class="fb c2"><div class="fm">Beta(a + successes, b + failures)</div><div class="fd">For conversion rates, the <span>Beta-Binomial</span> model gives exact posteriors. a=b=1 is a uniform prior.</div></div>
   <div class="va">
     <div class="vl">// Interactive: two posteriors, see probability of B &gt; A</div>
-    <canvas id="abCanvas" role="img" aria-label="Bayesian A/B Testing: Interactive — two posteriors, see probability of B &gt; A" height="260"></canvas>
+    <canvas id="abCanvas" role="img" aria-label="Bayesian A/B Testing: Interactive: two posteriors, see probability of B &gt; A" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">A conversions</span><input type="range" aria-label="A conversions" id="abA" min="5" max="200" step="5" value="50"><span class="vd" id="abAv">50</span></div>
       <div class="cg"><span class="cl">B conversions</span><input type="range" aria-label="B conversions" id="abB" min="5" max="200" step="5" value="60"><span class="vd" id="abBv">60</span></div>
       <div class="cg"><span class="cl">P(B&gt;A)</span><span class="vd" id="abProb" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Bayesian A/B test</span>
+  <div class="code-block"><pre><span class="cm"># Python: Bayesian A/B test</span>
 <span class="kw">from</span> scipy.stats <span class="kw">import</span> beta
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -2263,7 +2263,7 @@ print(<span class="st">f"P(B > A) = {p_b_wins:.3f}"</span>)</pre></div>
 function buildEffectSize() {
   return `<div class="topic" id="effect-size">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">25 — Make Decisions</div><h2>Effect Size &amp; <em>Practical Significance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">25 · Make Decisions</div><h2>Effect Size &amp; <em>Practical Significance</em></h2></div>
     <span class="topic-badge">Significance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Statistically significant &ne; meaningful: Cohen's d and the difference between p-values and impact</p>
@@ -2271,14 +2271,14 @@ function buildEffectSize() {
   <div class="fb"><div class="fm">d = (&mu;<sub>1</sub> &minus; &mu;<sub>2</sub>) / s<sub>pooled</sub></div><div class="fd"><span>Cohen's d</span>: 0.2 = small, 0.5 = medium, 0.8 = large. Tells you the <em>magnitude</em> of the effect.</div></div>
   <div class="va">
     <div class="vl">// Interactive: two distributions, see effect size and overlap</div>
-    <canvas id="esCanvas" role="img" aria-label="Effect Size &amp; Practical Significance: Interactive — two distributions, see effect size and overlap" height="260"></canvas>
+    <canvas id="esCanvas" role="img" aria-label="Effect Size &amp; Practical Significance: Interactive: two distributions, see effect size and overlap" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Mean difference</span><input type="range" aria-label="Mean difference" id="esDiff" min="0" max="200" step="5" value="50"><span class="vd" id="esDiffV">0.50</span></div>
       <div class="cg"><span class="cl">Cohen's d</span><span class="vd" id="esD" style="color:var(--accent)">—</span></div>
       <div class="cg"><span class="cl">Overlap %</span><span class="vd" id="esOverlap" style="color:#4fc3f7">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — effect size</span>
+  <div class="code-block"><pre><span class="cm"># Python: effect size</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
 <span class="kw">def</span> <span class="fn">cohens_d</span>(group1, group2):
@@ -2301,7 +2301,7 @@ print(<span class="st">f"Cohen's d = {d:.3f}"</span>)</pre></div>
 function buildPowerAnalysis() {
   return `<div class="topic" id="power-analysis">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">26 — Make Decisions</div><h2>Power <em>Analysis</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">26 · Make Decisions</div><h2>Power <em>Analysis</em></h2></div>
     <span class="topic-badge">Planning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How much data do you need? Sample size planning for experiments that can actually detect effects</p>
@@ -2309,14 +2309,14 @@ function buildPowerAnalysis() {
   <div class="fb"><div class="fm">Power = 1 &minus; &beta; = P(reject H<sub>0</sub> | H<sub>1</sub> true)</div><div class="fd"><span>Power</span> = 0.80 means 80% chance of detecting a real effect. &beta; = Type II error rate.</div></div>
   <div class="va">
     <div class="vl">// Interactive: sample size vs power curve</div>
-    <canvas id="powCanvas" role="img" aria-label="Power Analysis: Interactive — sample size vs power curve" height="260"></canvas>
+    <canvas id="powCanvas" role="img" aria-label="Power Analysis: Interactive: sample size vs power curve" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Effect size d</span><input type="range" aria-label="Effect size d" id="powD" min="10" max="100" step="5" value="50"><span class="vd" id="powDv">0.50</span></div>
       <div class="cg"><span class="cl">Alpha</span><input type="range" aria-label="Alpha" id="powAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="powAlphaV">0.05</span></div>
       <div class="cg"><span class="cl">N needed</span><span class="vd" id="powN" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — power analysis</span>
+  <div class="code-block"><pre><span class="cm"># Python: power analysis</span>
 <span class="kw">from</span> statsmodels.stats.power <span class="kw">import</span> TTestIndPower
 
 analysis = TTestIndPower()
@@ -2344,7 +2344,7 @@ plt.plot(ns, powers); plt.axhline(<span class="st">0.8</span>, ls=<span class="s
 function buildHypothesisTesting() {
   return `<div class="topic" id="hypothesis-testing">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">27 — Statistical Foundations</div><h2>Hypothesis Testing &amp; <em>p-values</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">27 · Statistical Foundations</div><h2>Hypothesis Testing &amp; <em>p-values</em></h2></div>
     <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Null vs alternative, what a p-value actually means, and the two ways to be wrong</p>
@@ -2354,7 +2354,7 @@ function buildHypothesisTesting() {
   <div class="fb c3"><div class="fm">&alpha; = P(Type I) &nbsp;&nbsp; &beta; = P(Type II) &nbsp;&nbsp; Power = 1 &minus; &beta;</div><div class="fd"><span>Type I</span> = false alarm (reject a true null) &nbsp;|&nbsp; <span>Type II</span> = miss (fail to reject a false null)</div></div>
   <div class="va">
     <div class="vl">// Interactive: slide the observed statistic and &alpha;, watch the p-value and the decision flip</div>
-    <canvas id="hypCanvas" role="img" aria-label="Hypothesis Testing &amp; p-values: Interactive — slide the observed statistic and α, watch the p-value and the decision flip" height="240"></canvas>
+    <canvas id="hypCanvas" role="img" aria-label="Hypothesis Testing &amp; p-values: Interactive: slide the observed statistic and α, watch the p-value and the decision flip" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Observed z</span><input type="range" aria-label="Observed z" id="hypZ" min="-400" max="400" step="5" value="180"><span class="vd" id="hypZV">1.80</span></div>
       <div class="cg"><span class="cl">&alpha;</span><input type="range" aria-label="α" id="hypAlpha" min="1" max="10" step="1" value="5"><span class="vd" id="hypAlphaV">0.05</span></div>
@@ -2369,7 +2369,7 @@ function buildHypothesisTesting() {
       <tr><td>Fail to reject</td><td>Correct</td><td>Type II error (prob &beta;)</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — one-sample and two-sample tests</span>
+  <div class="code-block"><pre><span class="cm"># Python: one-sample and two-sample tests</span>
 <span class="kw">from</span> scipy <span class="kw">import</span> stats
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -2435,7 +2435,7 @@ print(f"t = {t:.2f}, p = {p:.4f}, Cohen's d = {d:.2f}")</code></pre>
 function buildStatTests() {
   return `<div class="topic" id="stat-tests">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">28 — Statistical Foundations</div><h2>Choosing the Right <em>Statistical Test</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">28 · Statistical Foundations</div><h2>Choosing the Right <em>Statistical Test</em></h2></div>
     <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// t-test, chi-square, ANOVA and their nonparametric cousins: a decision map</p>
@@ -2444,7 +2444,7 @@ function buildStatTests() {
   <div class="fb c2"><div class="fm">&chi;&sup2; = &Sigma; (observed &minus; expected)&sup2; / expected</div><div class="fd"><span>Chi-square</span> = for counts and categories: is the observed table compatible with independence?</div></div>
   <div class="va">
     <div class="vl">// Interactive decision map: set your situation, the recommended test lights up</div>
-    <canvas id="testCanvas" role="img" aria-label="Choosing the Right Statistical Test: Interactive decision map — set your situation, the recommended test lights up" height="250"></canvas>
+    <canvas id="testCanvas" role="img" aria-label="Choosing the Right Statistical Test: Interactive decision map: set your situation, the recommended test lights up" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Groups</span><input type="range" aria-label="Groups" id="testGroups" min="2" max="3" step="1" value="2"><span class="vd" id="testGroupsV">2</span></div>
       <div class="cg"><span class="cl">Paired</span><input type="range" aria-label="Paired" id="testPaired" min="0" max="1" step="1" value="0"><span class="vd" id="testPairedV">No</span></div>
@@ -2463,7 +2463,7 @@ function buildStatTests() {
       <tr><td>Sample from this distribution?</td><td colspan="2">Kolmogorov-Smirnov / Shapiro-Wilk</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the whole decision map in scipy</span>
+  <div class="code-block"><pre><span class="cm"># Python: the whole decision map in scipy</span>
 <span class="kw">from</span> scipy <span class="kw">import</span> stats
 
 <span class="cm"># 2 independent groups</span>
@@ -2524,7 +2524,7 @@ print(f"chi2 = {chi2:.1f}, p = {p:.4g}")</code></pre>
 function buildCLTSampling() {
   return `<div class="topic" id="clt-sampling">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">29 — Statistical Foundations</div><h2>Central Limit Theorem &amp; <em>Sampling</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">29 · Statistical Foundations</div><h2>Central Limit Theorem &amp; <em>Sampling</em></h2></div>
     <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Why averages become normal: the theorem underneath every CI and t-test</p>
@@ -2533,14 +2533,14 @@ function buildCLTSampling() {
   <div class="fb c2"><div class="fm">SE = &sigma; / &radic;n</div><div class="fd"><span>Standard error</span> = the standard deviation of the sample mean. Quadruple the sample to halve the error.</div></div>
   <div class="va">
     <div class="vl">// Interactive: skew the population, grow n, watch the sample means turn normal</div>
-    <canvas id="cltCanvas" role="img" aria-label="Central Limit Theorem &amp; Sampling: Interactive — skew the population, grow n, watch the sample means turn normal" height="260"></canvas>
+    <canvas id="cltCanvas" role="img" aria-label="Central Limit Theorem &amp; Sampling: Interactive: skew the population, grow n, watch the sample means turn normal" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Population skew</span><input type="range" aria-label="Population skew" id="cltSkew" min="0" max="100" step="1" value="70"><span class="vd" id="cltSkewV">0.70</span></div>
       <div class="cg"><span class="cl">Sample size n</span><input type="range" aria-label="Sample size n" id="cltN" min="1" max="64" step="1" value="5"><span class="vd" id="cltNV">5</span></div>
       <div class="cg"><span class="cl">SE &prop; 1/&radic;n</span><span class="vd" id="cltSE" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — watch the CLT happen</span>
+  <div class="code-block"><pre><span class="cm"># Python: watch the CLT happen</span>
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
 
@@ -2597,7 +2597,7 @@ plt.tight_layout(); plt.show()</code></pre>
 function buildCorrelationCausation() {
   return `<div class="topic" id="correlation-causation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">30 — Statistical Foundations</div><h2>Correlation, Causation &amp; <em>Simpson's Paradox</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">30 · Statistical Foundations</div><h2>Correlation, Causation &amp; <em>Simpson's Paradox</em></h2></div>
     <span class="topic-badge">Statistics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Confounders, spurious correlations, and trends that reverse when you split the data</p>
@@ -2622,7 +2622,7 @@ function buildCorrelationCausation() {
       <tr><td>Chance</td><td>Any two trending series</td><td>Out-of-sample checks, corrections</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — Simpson's paradox in three lines of groupby</span>
+  <div class="code-block"><pre><span class="cm"># Python: Simpson's paradox in three lines of groupby</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 <span class="cm"># Pooled correlation says one thing…</span>
@@ -2682,7 +2682,7 @@ print(within.round(2))              # all positive</code></pre>
 function buildEDAWorkflow() {
   return `<div class="topic" id="eda-workflow">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">31 — Data Analytics</div><h2>Exploratory <em>Data Analysis</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">31 · Data Analytics</div><h2>Exploratory <em>Data Analysis</em></h2></div>
     <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The first hour with any dataset: a repeatable profiling workflow</p>
@@ -2690,7 +2690,7 @@ function buildEDAWorkflow() {
   <div class="fb"><div class="fm">shape &rarr; types &rarr; missing &rarr; distributions &rarr; relationships</div><div class="fd"><span>The EDA loop</span>: always in this order. Each step decides what the next one means.</div></div>
   <div class="va">
     <div class="vl">// Interactive: skew the data and inject outliers, watch mean vs median diverge</div>
-    <canvas id="edaCanvas" role="img" aria-label="Exploratory Data Analysis (EDA): Interactive — skew the data and inject outliers, watch mean vs median diverge" height="250"></canvas>
+    <canvas id="edaCanvas" role="img" aria-label="Exploratory Data Analysis (EDA): Interactive: skew the data and inject outliers, watch mean vs median diverge" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Skew</span><input type="range" aria-label="Skew" id="edaSkew" min="0" max="100" step="1" value="40"><span class="vd" id="edaSkewV">0.40</span></div>
       <div class="cg"><span class="cl">Outliers %</span><input type="range" aria-label="Outliers %" id="edaOut" min="0" max="10" step="1" value="0"><span class="vd" id="edaOutV">0%</span></div>
@@ -2709,7 +2709,7 @@ function buildEDAWorkflow() {
       <tr><td>Relationships</td><td>df.corr(), scatter_matrix</td><td>Redundancy, leakage candidates, target signal</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the 10-line EDA opener</span>
+  <div class="code-block"><pre><span class="cm"># Python: the 10-line EDA opener</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 df = pd.read_csv(<span class="st">'data.csv'</span>)
@@ -2763,7 +2763,7 @@ plt.show()</code></pre>
 function buildGroupbyAggregation() {
   return `<div class="topic" id="groupby-aggregation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">32 — Data Analytics</div><h2>GroupBy, Pivot &amp; <em>Aggregation</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">32 · Data Analytics</div><h2>GroupBy, Pivot &amp; <em>Aggregation</em></h2></div>
     <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Split-apply-combine: the single most-used pattern in data analytics</p>
@@ -2771,7 +2771,7 @@ function buildGroupbyAggregation() {
   <div class="fb"><div class="fm">split(rows, key) &rarr; apply(agg) &rarr; combine</div><div class="fd"><span>Split-apply-combine</span>: group rows by key, reduce each group with mean/sum/count/…, stack the results.</div></div>
   <div class="va">
     <div class="vl">// Interactive: raw rows on the left, one aggregated bar per group on the right</div>
-    <canvas id="gbCanvas" role="img" aria-label="GroupBy, Pivot &amp; Aggregation: Interactive — raw rows on the left, one aggregated bar per group on the right" height="240"></canvas>
+    <canvas id="gbCanvas" role="img" aria-label="GroupBy, Pivot &amp; Aggregation: Interactive: raw rows on the left, one aggregated bar per group on the right" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Aggregation</span><input type="range" aria-label="Aggregation" id="gbAgg" min="0" max="3" step="1" value="2"><span class="vd" id="gbAggV">mean</span></div>
     </div>
@@ -2786,7 +2786,7 @@ function buildGroupbyAggregation() {
       <tr><td>transform</td><td>Group stat broadcast back to rows</td><td>g['rev'].transform('mean')</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — the aggregation toolbox</span>
+  <div class="code-block"><pre><span class="cm"># Python: the aggregation toolbox</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 <span class="cm"># Multiple metrics per group, named columns</span>
@@ -2846,7 +2846,7 @@ print(tips.pivot_table('total_bill', index='day',
 function buildCohortRetention() {
   return `<div class="topic" id="cohort-retention">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">33 — Data Analytics</div><h2>Cohort &amp; <em>Retention</em> Analysis</h2></div>
+    <div class="topic-meta"><div class="topic-num">33 · Data Analytics</div><h2>Cohort &amp; <em>Retention</em> Analysis</h2></div>
     <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Group users by when they arrived, track them over time: the retention heatmap</p>
@@ -2855,14 +2855,14 @@ function buildCohortRetention() {
   <div class="fb c2"><div class="fm">churn = 1 &minus; retention&nbsp;&nbsp;&middot;&nbsp;&nbsp;LTV &asymp; ARPU / churn</div><div class="fd"><span>Churn</span> is retention's complement, and the denominator of the standard lifetime-value approximation.</div></div>
   <div class="va">
     <div class="vl">// Interactive retention triangle: set churn, then let newer cohorts improve</div>
-    <canvas id="cohortCanvas" role="img" aria-label="Cohort &amp; Retention Analysis: Interactive retention triangle — set churn, then let newer cohorts improve" height="250"></canvas>
+    <canvas id="cohortCanvas" role="img" aria-label="Cohort &amp; Retention Analysis: Interactive retention triangle: set churn, then let newer cohorts improve" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Monthly churn</span><input type="range" aria-label="Monthly churn" id="cohChurn" min="5" max="50" step="1" value="25"><span class="vd" id="cohChurnV">25%</span></div>
       <div class="cg"><span class="cl">Newer cohorts improve</span><input type="range" aria-label="Newer cohorts improve" id="cohImprove" min="0" max="30" step="1" value="0"><span class="vd" id="cohImproveV">0%</span></div>
       <div class="cg"><span class="cl">Month-3 retention (latest)</span><span class="vd" id="cohM3" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — retention triangle in pandas</span>
+  <div class="code-block"><pre><span class="cm"># Python: retention triangle in pandas</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 <span class="cm"># events: user_id, event_date</span>
@@ -2927,7 +2927,7 @@ print((counts.div(counts[0], axis=0) * 100).round(1))</code></pre>
 function buildFunnelAnalysis() {
   return `<div class="topic" id="funnel-analysis">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">34 — Data Analytics</div><h2>Funnel &amp; <em>Conversion</em> Analysis</h2></div>
+    <div class="topic-meta"><div class="topic-num">34 · Data Analytics</div><h2>Funnel &amp; <em>Conversion</em> Analysis</h2></div>
     <span class="topic-badge">Analytics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Where do users leak out? Stage conversions, drop-offs, and fixing the right bottleneck</p>
@@ -2935,14 +2935,14 @@ function buildFunnelAnalysis() {
   <div class="fb"><div class="fm">overall = &prod; stage&#7522; &nbsp;&nbsp;&nbsp; e.g. 0.40 &times; 0.30 &times; 0.60 &times; 0.75 = 5.4%</div><div class="fd"><span>Overall conversion</span> = product of per-stage rates. A 10% relative lift at any stage lifts the whole funnel 10%.</div></div>
   <div class="va">
     <div class="vl">// Interactive funnel: tune two stages, watch the overall conversion and the biggest leak</div>
-    <canvas id="funnelCanvas" role="img" aria-label="Funnel &amp; Conversion Analysis: Interactive funnel — tune two stages, watch the overall conversion and the biggest leak" height="250"></canvas>
+    <canvas id="funnelCanvas" role="img" aria-label="Funnel &amp; Conversion Analysis: Interactive funnel: tune two stages, watch the overall conversion and the biggest leak" height="250"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">View &rarr; Cart</span><input type="range" aria-label="View → Cart" id="funMid" min="5" max="80" step="1" value="30"><span class="vd" id="funMidV">30%</span></div>
       <div class="cg"><span class="cl">Checkout &rarr; Purchase</span><input type="range" aria-label="Checkout → Purchase" id="funCheckout" min="10" max="95" step="1" value="60"><span class="vd" id="funCheckoutV">60%</span></div>
       <div class="cg"><span class="cl">Overall</span><span class="vd" id="funOverall" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — funnel from an event log</span>
+  <div class="code-block"><pre><span class="cm"># Python: funnel from an event log</span>
 <span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 stages = [<span class="st">'visit'</span>, <span class="st">'view_product'</span>, <span class="st">'add_to_cart'</span>, <span class="st">'checkout'</span>, <span class="st">'purchase'</span>]
@@ -3011,7 +3011,7 @@ print("fix first:", (funnel / funnel.shift(1)).idxmin())</code></pre>
 function buildSklearnEval() {
   return `<div class="topic" id="sklearn-eval">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">35 — Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">35 · Python Power Tools</div><h2>scikit-learn <em>Evaluation Suite</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The Swiss army knife: classification_report, cross_val_score, learning_curve, and the metrics module</p>
@@ -3066,7 +3066,7 @@ grid.fit(X_train, y_train)</pre></div>
 function buildSHAPLibrary() {
   return `<div class="topic" id="shap-library">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">36 — Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">36 · Python Power Tools</div><h2>SHAP <em>Library</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// TreeExplainer, force_plot, summary_plot, waterfall: the complete SHAP toolkit</p>
@@ -3114,7 +3114,7 @@ inter = explainer.shap_interaction_values(X_test)</pre></div>
 function buildOptuna() {
   return `<div class="topic" id="optuna">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">37 — Python Power Tools</div><h2><em>Optuna</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">37 · Python Power Tools</div><h2><em>Optuna</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Smart hyperparameter tuning: TPE, pruning, study visualisation, any framework</p>
@@ -3165,7 +3165,7 @@ optuna.visualization.plot_optimization_history(study)</pre></div>
 function buildPandasTA() {
   return `<div class="topic" id="pandas-ta">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">38 — Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">38 · Python Power Tools</div><h2>pandas-ta &amp; <em>yfinance</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Technical indicators + market data in one-liners</p>
@@ -3212,7 +3212,7 @@ print(df[[<span class="st">'Close'</span>, <span class="st">'SMA_20'</span>, <sp
 function buildScipyStatsmodels() {
   return `<div class="topic" id="scipy-statsmodels">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">39 — Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">39 · Python Power Tools</div><h2>scipy.stats &amp; <em>statsmodels</em></h2></div>
     <span class="topic-badge">Python</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Statistical tests, regression diagnostics, time series: the Python stats foundation</p>

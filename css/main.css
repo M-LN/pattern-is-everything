@@ -2273,7 +2273,7 @@ body:has(.portal-header) .layout { margin-top: 0; }
 .perf-insight ul {
   margin: 8px 0 0;
   padding-left: 18px;
-  list-style: '→ ';
+  list-style: disc;
 }
 .perf-insight ul li { margin-bottom: 4px; }
 

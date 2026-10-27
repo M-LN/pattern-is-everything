@@ -23,7 +23,7 @@
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=45">
+  <link rel="stylesheet" href="/css/main.css?v=46">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -111,7 +111,7 @@ print('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().
 below = d[(d.minutes &gt; 0) &amp; (d.kwh &lt; floor)]
 print('part-days below that:', below.kwh.round(1).tolist(),
       '| minutes recorded:', below.minutes.tolist())</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser. Edit the code and run it again.</span></div>
 <pre class="run-static">1442 days | 84 with missing minutes | 9 with none at all
 lowest complete day: 4.2 kWh, on 2008-08-25
 part-days below that: [0.4, 0.2, 2.2, 1.6, 1.8] | minutes recorded: [21, 30, 232, 152, 236]</pre>
@@ -125,7 +125,7 @@ kwh = kwh.interpolate()                                # fill the gaps (model in
 print('scaled days:', (mostly_there &amp; partial).sum(), '| filled days:', (~observed).sum())
 print('mean kWh per day:', round(kwh[observed].mean(), 1),
       '| std:', round(kwh[observed].std(), 1))</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs step 1 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs step 1 first). Edit the code and run it again.</span></div>
 <pre class="run-static">scaled days: 60 | filled days: 24
 mean kWh per day: 26.2 | std: 10.0</pre>
 <p>60 days are scaled up and 24 filled. A typical day uses about 26 kWh, give or take 10: a lot of day-to-day noise for one household.</p>
@@ -135,7 +135,7 @@ mean kWh per day: 26.2 | std: 10.0</pre>
 by_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)
 print('by month (Jan-Dec):', by_month.tolist())
 print('by weekday (Mon-Sun):', by_weekday.tolist())</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–2 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–2 first). Edit the code and run it again.</span></div>
 <pre class="run-static">by month (Jan-Dec): [35.1, 31.2, 29.6, 25.2, 24.7, 21.8, 16.8, 13.7, 23.4, 27.3, 31.0, 35.7]
 by weekday (Mon-Sun): [24.0, 25.7, 26.0, 23.5, 25.0, 29.9, 29.3]</pre>
 <p>Winter days use more than twice as much as August days (35 against 14 kWh) — probably heating and lighting in winter, and most likely the long French summer holiday in August. Weekends are about 19% higher than weekdays, presumably because people are at home.</p>
@@ -154,7 +154,7 @@ test = (kwh.index &gt;= '2009-12-01') &amp; observed
 mae = forecasts[test].sub(kwh[test], axis=0).abs().mean().round(2).sort_values()
 print(mae.to_string())
 print('test days:', test.sum())</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–3 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–3 first). Edit the code and run it again.</span></div>
 <pre class="run-static">mean of last 7 days           4.36
 mean of last 28 days          4.99
 yesterday                     5.19
@@ -184,7 +184,7 @@ for month in pd.date_range('2009-12-01', '2010-11-01', freq='MS'):
     pred[now] = model.predict(X[now])
 ridge_mae = (pred[test] - kwh[test]).abs().mean()
 print('ridge MAE:', round(ridge_mae, 2), '| mean of last 7 days:', mae['mean of last 7 days'])</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–4 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–4 first). Edit the code and run it again.</span></div>
 <pre class="run-static">ridge MAE: 4.29 | mean of last 7 days: 4.36</pre>
 <p>13 features, refitted every month: <strong>4.29 kWh</strong> against 4.36 for the 7-day mean, a 2% improvement. That is the real result for this household: most of tomorrow is unpredictable from the meter alone, and the little that is predictable a moving average already captures. The obvious next input is the weather, which drives heating, rather than a more complex model of the same meter readings.</p>
 <div class="case-box"><h4>What this case shows</h4><ul><li>Before forecasting, find out what a low value means. Missing readings that are summed as zeros look exactly like low demand.</li><li>Fill gaps for model input if you must, but never score a forecast against a filled value.</li><li>Test forecasts walk-forward, each prediction made only from the past, and always against several naive baselines. The best naive forecast is the bar a model has to clear.</li><li>When a model barely beats a moving average, the limit is usually information, not the model. New inputs (here: weather) move the error more than new algorithms.</li></ul></div>

@@ -168,7 +168,7 @@ def page(title, desc, path, body, og):
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=45">
+  <link rel="stylesheet" href="/css/main.css?v=46">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>%(css)s
@@ -244,8 +244,8 @@ def build_case(name):
         parts.append('<div class="code-block" tabindex="0"%s><pre>%s</pre></div>' % (attr, esc(st['code'])))
         if runnable:
             parts.append('<div class="run-bar"><button type="button" class="run-btn">▶ Run</button>'
-                         '<span class="run-hint">Python, in your browser%s — edit the code and run it again</span></div>'
-                         % (' — runs steps 1–%d first' % (i - 1) if i > 2 else ' — runs step 1 first' if i == 2 else ''))
+                         '<span class="run-hint">Python, in your browser%s. Edit the code and run it again.</span></div>'
+                         % (' (runs steps 1–%d first)' % (i - 1) if i > 2 else ' (runs step 1 first)' if i == 2 else ''))
             setup = '\n\n'.join(s['code'] for s in mod.STEPS[:i - 1])
             run[sid] = {'code': st['code'], 'setup': setup, 'show': '',
                         'pkgs': packages(setup + st['code']),

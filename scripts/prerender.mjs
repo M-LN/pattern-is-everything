@@ -217,7 +217,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="${up}css/fonts.css?v=3">
-  <link rel="stylesheet" href="${up}css/main.css?v=45">
+  <link rel="stylesheet" href="${up}css/main.css?v=46">
   <style>
     .crumbs { font-family: var(--sans); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }

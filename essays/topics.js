@@ -364,7 +364,7 @@ function buildEssayMap() {
 function buildEssayFeedback() {
   return `<div class="topic pattern-essay" id="essay-feedback">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E6 — Pattern Essays</div><h2>The Feedback <em>Loop</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E6 · Pattern Essays</div><h2>The Feedback <em>Loop</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// When a system’s output feeds back into its input, small nudges can cascade into enormous change</p>
@@ -397,7 +397,7 @@ function buildEssayFeedback() {
 function buildEssayWalk() {
   return `<div class="topic pattern-essay" id="essay-walk">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E7 — Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E7 · Pattern Essays</div><h2>The Random <em>Walk</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Each step is random, yet the path that emerges has structure</p>
@@ -426,7 +426,7 @@ function buildEssayWalk() {
 function buildEssayThreshold() {
   return `<div class="topic pattern-essay" id="essay-threshold">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E8 — Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E8 · Pattern Essays</div><h2>The <em>Threshold</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
   <p class="sub">// Many systems stay quiet for a long time, then change all at once</p>
@@ -610,7 +610,7 @@ function buildEssayKalman() {
 function buildEssaySpring() {
   return `<div class="topic pattern-essay" id="essay-spring">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E13 — Pattern Essays</div><h2>The Coiled <em>Spring</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E13 · Pattern Essays</div><h2>The Coiled <em>Spring</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// Quiet gathers before loud. A narrowing range warns about size, not direction</p>
@@ -663,7 +663,7 @@ function buildEssaySpring() {
 function buildEssayForking() {
   return `<div class="topic pattern-essay" id="essay-forking">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E14 — Pattern Essays</div><h2>The Garden of <em>Forking Paths</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E14 · Pattern Essays</div><h2>The Garden of <em>Forking Paths</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// Try enough paths and one of them will lead somewhere by luck alone</p>
@@ -716,7 +716,7 @@ function buildEssayForking() {
 function buildEssayMemory() {
   return `<div class="topic pattern-essay" id="essay-memory">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E15 — Pattern Essays</div><h2>How Long Is <em>Memory?</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E15 · Pattern Essays</div><h2>How Long Is <em>Memory?</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// Every model decides how much the past matters, usually with a number nobody looks at</p>
@@ -772,7 +772,7 @@ function buildEssayMemory() {
 function buildEssayBottleneck() {
   return `<div class="topic pattern-essay" id="essay-bottleneck">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E16 — Pattern Essays</div><h2>The <em>Bottleneck</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E16 · Pattern Essays</div><h2>The <em>Bottleneck</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// A system goes no faster than its slowest step, and near full capacity the waiting explodes</p>
@@ -824,7 +824,7 @@ function buildEssayBottleneck() {
 function buildEssayReversible() {
   return `<div class="topic pattern-essay" id="essay-reversible">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">E17 — Pattern Essays</div><h2>Small, Reversible <em>Bets</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">E17 · Pattern Essays</div><h2>Small, Reversible <em>Bets</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span><span class="reading-time">4 min read</span></div>
   </div>
   <p class="sub">// Make mistakes cheap to undo, and size the ones you cannot undo so that being wrong is survivable</p>
