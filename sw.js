@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pattern-v117';
+const CACHE_NAME = 'pattern-v118';
 const OFFLINE_URL = '/404.html';
 const SHELL = [
   '/index.html',
@@ -11,9 +11,8 @@ const SHELL = [
   '/assets/fonts/ibm-plex-mono-400.woff2',
   '/assets/fonts/ibm-plex-mono-500.woff2',
   '/assets/fonts/ibm-plex-mono-300-italic.woff2',
-  '/assets/fonts/playfair-display-var.woff2',
-  '/assets/fonts/playfair-display-400-italic.woff2',
-  '/assets/fonts/inter-var.woff2',
+  '/assets/fonts/ibm-plex-sans-var.woff2',
+  '/assets/fonts/ibm-plex-sans-var-italic.woff2',
   '/js/evidence-taxonomy.js',
   '/js/practical-template.js',
   '/js/market-evidence-warning.js',

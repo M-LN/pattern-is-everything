@@ -37,17 +37,17 @@
     '.sc-q{padding:12px 0;border-top:1px solid var(--border)}' +
     '.sc-q:first-of-type{border-top:0}' +
     '.sc-prompt{margin:0 0 10px;font-size:14.5px;line-height:1.6;color:var(--text)}' +
-    '.sc-num{font-family:var(--mono);color:var(--accent);margin-right:2px}' +
+    '.sc-num{font-family:var(--sans);color:var(--accent);margin-right:2px}' +
     '.sc-options{display:grid;gap:6px}' +
     '.sc-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);font:inherit;font-size:14px;line-height:1.5;cursor:pointer}' +
     '.sc-opt:hover:not([disabled]){border-color:var(--accent)}' +
     '.sc-opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}' +
     '.sc-opt[disabled]{cursor:default}' +
-    '.sc-key{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}' +
+    '.sc-key{font-family:var(--sans);font-size:12px;color:var(--muted);padding-top:2px}' +
     '.sc-opt.is-right{border-color:#2e8b57;background:rgba(46,139,87,.10)}' +
     '.sc-opt.is-wrong{border-color:#c0392b;background:rgba(192,57,43,.08)}' +
     '.sc-why{margin-top:8px;font-size:14px;line-height:1.65;color:var(--text)}' +
-    '.sc-why summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}' +
+    '.sc-why summary{cursor:pointer;font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}' +
     '.sc-why p{margin:8px 0 0}' +
     '.sc-q.is-answered .sc-why summary{display:none}';
   var style = document.createElement('style');

@@ -59,43 +59,43 @@ const TOPIC_NAMES = {
 
 /* ── Full topic data for search ── */
 const TOPIC_DATA = [
-  { id:'vectors', evidence:'mathematical', reviewed:'2026-10-02', num:'01', title:'Vectors & Matrices', category:'Foundations', keywords:['dot product','matrix multiplication','transpose','linear algebra','eigenvector','rank','determinant','inverse'], content:'The language of ML — dot products, matrix multiplication, transpose, and the operations every model relies on.' },
-  { id:'linear', evidence:'mathematical', reviewed:'2026-10-02', num:'02', title:'Linear Regression', category:'Foundations', keywords:['MSE','OLS','weight','bias','least squares','slope','intercept','prediction'], content:'Fitting a line through data — the simplest predictive model using weights and bias to minimize MSE.' },
-  { id:'logistic', evidence:'mathematical', reviewed:'2026-10-02', num:'03', title:'Logistic Regression', category:'Foundations', keywords:['sigmoid','binary classification','decision boundary','log odds','logit'], content:'The bridge between linear regression and neural nets — sigmoid output for binary classification.' },
+  { id:'vectors', evidence:'mathematical', reviewed:'2026-10-02', num:'01', title:'Vectors & Matrices', category:'Foundations', keywords:['dot product','matrix multiplication','transpose','linear algebra','eigenvector','rank','determinant','inverse'], content:'The language of ML: dot products, matrix multiplication, transpose, and the operations every model relies on.' },
+  { id:'linear', evidence:'mathematical', reviewed:'2026-10-02', num:'02', title:'Linear Regression', category:'Foundations', keywords:['MSE','OLS','weight','bias','least squares','slope','intercept','prediction'], content:'Fitting a line through data: the simplest predictive model using weights and bias to minimize MSE.' },
+  { id:'logistic', evidence:'mathematical', reviewed:'2026-10-02', num:'03', title:'Logistic Regression', category:'Foundations', keywords:['sigmoid','binary classification','decision boundary','log odds','logit'], content:'The bridge between linear regression and neural nets: sigmoid output for binary classification.' },
   { id:'gradient', evidence:'mathematical', reviewed:'2026-10-02', num:'04', title:'Gradient Descent', category:'Foundations', keywords:['SGD','stochastic','mini-batch','learning rate','convergence','optimization','loss landscape'], content:'Rolling downhill on the loss landscape to find optimal weights using gradient updates.' },
-  { id:'activation', evidence:'mathematical', reviewed:'2026-10-02', num:'05', title:'Activation Functions', category:'Foundations', keywords:['sigmoid','relu','tanh','gelu','silu','swish','non-linearity','dead neuron'], content:'What makes deep networks more than stacked linear transforms — ReLU, GELU, SiLU, and more.' },
+  { id:'activation', evidence:'mathematical', reviewed:'2026-10-02', num:'05', title:'Activation Functions', category:'Foundations', keywords:['sigmoid','relu','tanh','gelu','silu','swish','non-linearity','dead neuron'], content:'What makes deep networks more than stacked linear transforms: ReLU, GELU, SiLU, and more.' },
   { id:'bias-variance', evidence:'mathematical', reviewed:'2026-10-02', num:'06', title:'Bias-Variance Tradeoff', category:'Foundations', keywords:['underfitting','overfitting','generalization','complexity','U-curve','noise'], content:'The fundamental tension between underfitting and overfitting in model complexity.' },
-  { id:'loss', evidence:'mathematical', reviewed:'2026-10-02', num:'07', title:'Loss Functions', category:'Training', keywords:['MSE','MAE','cross-entropy','BCE','Huber','hinge','focal'], content:'Measuring how wrong the model is — MSE, MAE, Cross-Entropy, and when to use each.' },
-  { id:'backprop', evidence:'mathematical', reviewed:'2026-10-02', num:'08', title:'Backpropagation', category:'Training', keywords:['chain rule','gradient','backward pass','computational graph','automatic differentiation'], content:'Chain rule applied through a network — how every weight gets its gradient.' },
-  { id:'optimizers', evidence:'mathematical', reviewed:'2026-10-02', num:'09', title:'Optimizers', category:'Training', keywords:['adam','adamw','sgd','momentum','rmsprop','adagrad','adaptive learning rate'], content:'Beyond vanilla SGD — momentum, adaptive learning rates, Adam, and AdamW.' },
-  { id:'regularization', evidence:'mathematical', reviewed:'2026-10-02', num:'10', title:'Regularization', category:'Training', keywords:['L1','L2','lasso','ridge','dropout','weight decay','elastic net','early stopping'], content:'Preventing overfitting by constraining model complexity — L1, L2, Dropout.' },
+  { id:'loss', evidence:'mathematical', reviewed:'2026-10-02', num:'07', title:'Loss Functions', category:'Training', keywords:['MSE','MAE','cross-entropy','BCE','Huber','hinge','focal'], content:'Measuring how wrong the model is: MSE, MAE, Cross-Entropy, and when to use each.' },
+  { id:'backprop', evidence:'mathematical', reviewed:'2026-10-02', num:'08', title:'Backpropagation', category:'Training', keywords:['chain rule','gradient','backward pass','computational graph','automatic differentiation'], content:'Chain rule applied through a network: how every weight gets its gradient.' },
+  { id:'optimizers', evidence:'mathematical', reviewed:'2026-10-02', num:'09', title:'Optimizers', category:'Training', keywords:['adam','adamw','sgd','momentum','rmsprop','adagrad','adaptive learning rate'], content:'Beyond vanilla SGD: momentum, adaptive learning rates, Adam, and AdamW.' },
+  { id:'regularization', evidence:'mathematical', reviewed:'2026-10-02', num:'10', title:'Regularization', category:'Training', keywords:['L1','L2','lasso','ridge','dropout','weight decay','elastic net','early stopping'], content:'Preventing overfitting by constraining model complexity: L1, L2, Dropout.' },
   { id:'batchnorm', evidence:'mathematical', reviewed:'2026-10-02', num:'11', title:'Batch Normalization', category:'Training', keywords:['batch norm','layer norm','normalization','internal covariate shift','gamma','beta'], content:'Normalizing activations to keep training stable and fast across layers.' },
   { id:'lr-schedule', evidence:'mathematical', reviewed:'2026-10-02', num:'12', title:'LR Scheduling', category:'Training', keywords:['cosine decay','warmup','cyclic','step decay','one cycle','annealing'], content:'Adjusting the learning rate over training for better convergence.' },
   { id:'weight-init', evidence:'mathematical', reviewed:'2026-10-02', num:'13', title:'Weight Initialization', category:'Training', keywords:['xavier','glorot','he','kaiming','initialization','variance','fan-in','fan-out'], content:'How you initialize weights determines if training starts well or collapses immediately.' },
   { id:'grad-clip', evidence:'mathematical', reviewed:'2026-10-02', num:'14', title:'Gradient Clipping', category:'Training', keywords:['gradient explosion','clip norm','clip value','max norm','gradient scaling'], content:'Preventing exploding gradients by capping gradient magnitude during training.' },
   { id:'softmax', evidence:'mathematical', reviewed:'2026-10-02', num:'15', title:'Softmax', category:'Core Math', keywords:['probability','temperature','logits','classification','distribution','normalize'], content:'Converting raw scores into a probability distribution that sums to 1.' },
-  { id:'mle', evidence:'mathematical', reviewed:'2026-10-02', num:'16', title:'MLE & Gaussian', category:'Core Math', keywords:['maximum likelihood','gaussian','normal distribution','log-likelihood','parameter estimation'], content:'Maximum Likelihood Estimation — why MSE and Cross-Entropy exist.' },
-  { id:'entropy', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'Entropy', category:'Core Math', keywords:['information','bits','shannon entropy','cross-entropy','surprise','uncertainty'], content:'Measuring uncertainty in a distribution — the foundation of information theory.' },
+  { id:'mle', evidence:'mathematical', reviewed:'2026-10-02', num:'16', title:'MLE & Gaussian', category:'Core Math', keywords:['maximum likelihood','gaussian','normal distribution','log-likelihood','parameter estimation'], content:'Maximum Likelihood Estimation: why MSE and Cross-Entropy exist.' },
+  { id:'entropy', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'Entropy', category:'Core Math', keywords:['information','bits','shannon entropy','cross-entropy','surprise','uncertainty'], content:'Measuring uncertainty in a distribution: the foundation of information theory.' },
   { id:'kl-div', evidence:'mathematical', reviewed:'2026-10-02', num:'18', title:'KL Divergence', category:'Core Math', keywords:['relative entropy','distribution distance','forward KL','reverse KL','ELBO','variational'], content:'Measuring how different two probability distributions are.' },
-  { id:'bayes', evidence:'mathematical', reviewed:'2026-10-02', num:'19', title:"Bayes' Theorem", category:'Core Math', keywords:['posterior','prior','likelihood','evidence','conditional probability','base rate'], content:'Updating beliefs with evidence — the foundation of probabilistic ML.' },
+  { id:'bayes', evidence:'mathematical', reviewed:'2026-10-02', num:'19', title:"Bayes' Theorem", category:'Core Math', keywords:['posterior','prior','likelihood','evidence','conditional probability','base rate'], content:'Updating beliefs with evidence: the foundation of probabilistic ML.' },
   { id:'crossval', evidence:'statistical', reviewed:'2026-10-02', num:'20', title:'Cross-Validation', category:'Core Math', keywords:['k-fold','train test split','validation','generalization','stratified','LOOCV'], content:'Reliable model evaluation by rotating which data is used for testing.' },
-  { id:'metrics', evidence:'mathematical', reviewed:'2026-10-02', num:'21', title:'Eval Metrics', category:'Core Math', keywords:['precision','recall','F1','accuracy','ROC','AUC','confusion matrix','TP','FP','FN'], content:'How to actually measure if your model is good — Precision, Recall, F1, ROC-AUC.' },
+  { id:'metrics', evidence:'mathematical', reviewed:'2026-10-02', num:'21', title:'Eval Metrics', category:'Core Math', keywords:['precision','recall','F1','accuracy','ROC','AUC','confusion matrix','TP','FP','FN'], content:'How to actually measure if your model is good: Precision, Recall, F1, ROC-AUC.' },
   { id:'cosine-sim', evidence:'mathematical', reviewed:'2026-10-02', num:'22', title:'Cosine Similarity', category:'Core Math', keywords:['similarity','dot product','angle','embedding distance','vector space','retrieval'], content:'Measuring how similar two vectors are by the angle between them.' },
-  { id:'cnn', evidence:'mathematical', reviewed:'2026-10-02', num:'23', title:'CNN', category:'Deep Learning', keywords:['convolution','kernel','filter','stride','padding','pooling','feature map','translational'], content:'Exploiting spatial structure with shared local filters — convolutions and pooling.' },
+  { id:'cnn', evidence:'mathematical', reviewed:'2026-10-02', num:'23', title:'CNN', category:'Deep Learning', keywords:['convolution','kernel','filter','stride','padding','pooling','feature map','translational'], content:'Exploiting spatial structure with shared local filters: convolutions and pooling.' },
   { id:'embeddings', evidence:'mathematical', reviewed:'2026-10-02', num:'24', title:'Embeddings', category:'Deep Learning', keywords:['word2vec','skip-gram','embedding layer','dense vector','semantic','representation'], content:'Mapping discrete tokens to continuous vector spaces where similarity = proximity.' },
   { id:'attention', evidence:'mathematical', reviewed:'2026-10-02', num:'25', title:'Attention', category:'Deep Learning', keywords:['self-attention','multi-head','query','key','value','scaled dot-product','QKV'], content:'Selectively focusing on relevant parts of the input with learned attention weights.' },
   { id:'transformer', evidence:'mathematical', reviewed:'2026-10-02', num:'26', title:'Transformer', category:'Deep Learning', keywords:['encoder','decoder','positional encoding','feed-forward','residual','layer norm','BERT','GPT'], content:'The architecture behind BERT, GPT, and all modern LLMs.' },
-  { id:'normalization', evidence:'mathematical', reviewed:'2026-10-02', num:'27', title:'Normalization Variants', category:'Deep Learning', keywords:['layer norm','RMSNorm','group norm','instance norm','LLaMA','transformer'], content:'LayerNorm, RMSNorm, GroupNorm — which normalization for which architecture.' },
+  { id:'normalization', evidence:'mathematical', reviewed:'2026-10-02', num:'27', title:'Normalization Variants', category:'Deep Learning', keywords:['layer norm','RMSNorm','group norm','instance norm','LLaMA','transformer'], content:'LayerNorm, RMSNorm, GroupNorm, which normalization for which architecture.' },
   { id:'rnn', evidence:'mathematical', reviewed:'2026-10-02', num:'28', title:'RNN', category:'Sequence Models', keywords:['recurrent','hidden state','sequence','time step','BPTT','vanishing gradient'], content:'Processing sequences by passing hidden state through time.' },
   { id:'lstm', evidence:'mathematical', reviewed:'2026-10-02', num:'29', title:'LSTM', category:'Sequence Models', keywords:['long short-term memory','forget gate','input gate','output gate','cell state','gated'], content:'Gated memory cells that solve the vanishing gradient problem.' },
-  { id:'gru', evidence:'mathematical', reviewed:'2026-10-02', num:'30', title:'GRU', category:'Sequence Models', keywords:['gated recurrent unit','update gate','reset gate','simplified LSTM'], content:'LSTMs streamlined sibling — two gates, one state vector.' },
+  { id:'gru', evidence:'mathematical', reviewed:'2026-10-02', num:'30', title:'GRU', category:'Sequence Models', keywords:['gated recurrent unit','update gate','reset gate','simplified LSTM'], content:'LSTMs streamlined sibling: two gates, one state vector.' },
   { id:'pca', evidence:'mathematical', reviewed:'2026-10-02', num:'31', title:'PCA', category:'Generative & Prob.', keywords:['principal component','eigenvector','eigenvalue','covariance','dimensionality reduction','variance'], content:'Finding the directions of maximum variance for dimensionality reduction.' },
-  { id:'svd', evidence:'mathematical', reviewed:'2026-10-02', num:'32', title:'SVD', category:'Generative & Prob.', keywords:['singular value decomposition','matrix factorization','low rank','recommender','compression'], content:'Decomposing any matrix into rotation, scaling, and rotation — used everywhere.' },
+  { id:'svd', evidence:'mathematical', reviewed:'2026-10-02', num:'32', title:'SVD', category:'Generative & Prob.', keywords:['singular value decomposition','matrix factorization','low rank','recommender','compression'], content:'Decomposing any matrix into rotation, scaling, and rotation: used everywhere.' },
   { id:'vae', evidence:'mathematical', reviewed:'2026-10-02', num:'33', title:'VAE', category:'Generative & Prob.', keywords:['variational autoencoder','ELBO','reparameterization','latent space','encoder decoder','KL'], content:'Learning a structured latent space for generation and interpolation.' },
-  { id:'diffusion', evidence:'mathematical', reviewed:'2026-10-02', num:'34', title:'Diffusion Models', category:'Generative & Prob.', keywords:['DDPM','DDIM','noise schedule','denoising','stable diffusion','score matching'], content:'Generating by learning to reverse a noise process — DDPM, Stable Diffusion.' },
+  { id:'diffusion', evidence:'mathematical', reviewed:'2026-10-02', num:'34', title:'Diffusion Models', category:'Generative & Prob.', keywords:['DDPM','DDIM','noise schedule','denoising','stable diffusion','score matching'], content:'Generating by learning to reverse a noise process: DDPM, Stable Diffusion.' },
   { id:'gan', evidence:'mathematical', reviewed:'2026-10-02', num:'35', title:'GANs', category:'Generative & Prob.', keywords:['generator','discriminator','minimax','mode collapse','wasserstein','adversarial'], content:'Two networks competing: generator vs discriminator in a minimax game.' },
-  { id:'tokenization', evidence:'mathematical', reviewed:'2026-10-02', num:'36', title:'Tokenization (BPE)', category:'Modern / LLM', keywords:['byte pair encoding','subword','vocabulary','merge','token','sentencepiece','tiktoken'], content:'How text becomes numbers — Byte Pair Encoding and subword tokenization.' },
-  { id:'lora', evidence:'mathematical', reviewed:'2026-10-02', num:'37', title:'LoRA', category:'Modern / LLM', keywords:['low rank adaptation','fine-tuning','parameter efficient','adapter','rank','frozen weights'], content:'Training large models with tiny updates — low-rank adaptation for efficient fine-tuning.' },
+  { id:'tokenization', evidence:'mathematical', reviewed:'2026-10-02', num:'36', title:'Tokenization (BPE)', category:'Modern / LLM', keywords:['byte pair encoding','subword','vocabulary','merge','token','sentencepiece','tiktoken'], content:'How text becomes numbers: Byte Pair Encoding and subword tokenization.' },
+  { id:'lora', evidence:'mathematical', reviewed:'2026-10-02', num:'37', title:'LoRA', category:'Modern / LLM', keywords:['low rank adaptation','fine-tuning','parameter efficient','adapter','rank','frozen weights'], content:'Training large models with tiny updates: low-rank adaptation for efficient fine-tuning.' },
   { id:'rlhf', evidence:'mathematical', reviewed:'2026-10-02', num:'38', title:'RLHF', category:'Modern / LLM', keywords:['reinforcement learning','human feedback','reward model','PPO','DPO','alignment','preference'], content:'Aligning language models with human preferences via reward modeling.' },
 ];
 
@@ -136,7 +136,7 @@ function buildNav() {
    worked example is the output of the code shown with it. */
 const TOPIC_DEPTH = {
  "vectors": {
-  "example": "For a = (1, 2, 3) and b = (4, 5, 6) the dot product is <strong>32</strong>; divided by their lengths it gives a cosine of <strong>0.975</strong>, an angle of <strong>12.9°</strong>. A 2×3 matrix times a 3×4 matrix gives a <strong>2×4</strong> result — the inner sizes must match and disappear. And (AB)ᵀ = BᵀAᵀ holds (<strong>True</strong>): transposing a product reverses its order.",
+  "example": "For a = (1, 2, 3) and b = (4, 5, 6) the dot product is <strong>32</strong>; divided by their lengths it gives a cosine of <strong>0.975</strong>, an angle of <strong>12.9°</strong>. A 2×3 matrix times a 3×4 matrix gives a <strong>2×4</strong> result: the inner sizes must match and disappear. And (AB)ᵀ = BᵀAᵀ holds (<strong>True</strong>): transposing a product reverses its order.",
   "fails": [
    "Shape errors are the most common bug in ML code; broadcasting can hide them by silently stretching a vector instead of failing.",
    "The dot product mixes direction and length; for similarity you usually want the cosine.",
@@ -145,7 +145,7 @@ const TOPIC_DEPTH = {
   "code": "a, b = np.array([1, 2, 3]), np.array([4, 5, 6])\ndot = a @ b\ncos = dot / (np.linalg.norm(a) * np.linalg.norm(b))\nangle = np.degrees(np.arccos(cos))\nA, B = np.ones((2, 3)), np.ones((3, 4))\nshape = (A @ B).shape                       # (2,3) x (3,4): inner sizes must match\ntranspose_rule = np.allclose((A @ B).T, B.T @ A.T)",
   "sources": [
    "<em>Introduction to Linear Algebra</em> (5th ed.), G. Strang, Wellesley-Cambridge Press, 2016",
-   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 2"
+   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016: chapter 2"
   ]
  },
  "linear": {
@@ -157,8 +157,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "x = np.array([1, 2, 3, 4, 5, 6], dtype=float)\ny = np.array([2.1, 3.9, 6.2, 7.8, 10.1, 12.2])            # made up, roughly y = 2x\nX = np.column_stack([x, np.ones_like(x)])\n(w, b), *_ = np.linalg.lstsq(X, y, rcond=None)             # least squares, closed form\nmse = np.mean((y - (w * x + b)) ** 2)",
   "sources": [
-   "<em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009 — chapter 3",
-   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006 — chapter 3"
+   "<em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009: chapter 3",
+   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006: chapter 3"
   ]
  },
  "logistic": {
@@ -171,7 +171,7 @@ const TOPIC_DEPTH = {
   "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\nbce = lambda y, p: -(y * np.log(p) + (1 - y) * np.log(1 - p))\nw, b, x = 1.5, -2.0, 3.0\np = sigmoid(w * x + b)                      # P(y = 1 | x)\nloss_right = bce(1, 0.9)                    # confident and right\nloss_wrong = bce(1, 0.1)                    # confident and wrong\ngrad_w = (p - 1) * x                        # dBCE/dw for a true label y = 1",
   "sources": [
    "D. R. Cox, “The Regression Analysis of Binary Sequences”, <em>Journal of the Royal Statistical Society B</em> 20(2), 1958",
-   "<em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009 — chapter 4"
+   "<em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009: chapter 4"
   ]
  },
  "gradient": {
@@ -183,12 +183,12 @@ const TOPIC_DEPTH = {
   ],
   "code": "def descend(lr, steps=10, w=0.0):\n    for _ in range(steps):\n        w -= lr * 2 * (w - 3)               # gradient of (w - 3)^2\n    return w\n\ngood = descend(0.1)                          # converging towards 3\ntoo_big = descend(1.1)                       # each step overshoots further",
   "sources": [
-   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 4",
-   "<em>Convex Optimization</em>, S. Boyd &amp; L. Vandenberghe, Cambridge University Press, 2004 — chapter 9"
+   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016: chapter 4",
+   "<em>Convex Optimization</em>, S. Boyd &amp; L. Vandenberghe, Cambridge University Press, 2004: chapter 9"
   ]
  },
  "activation": {
-  "example": "Two linear layers, 4 → 8 → 3, applied to 100 inputs give the same output as the single matrix W2·W1 — the largest difference is <strong>4×10⁻¹⁵</strong>, rounding error. Put a ReLU between them and outputs differ by up to <strong>15.7</strong>. Without a non-linearity, depth adds nothing.",
+  "example": "Two linear layers, 4 → 8 → 3, applied to 100 inputs give the same output as the single matrix W2·W1: the largest difference is <strong>4×10⁻¹⁵</strong>, rounding error. Put a ReLU between them and outputs differ by up to <strong>15.7</strong>. Without a non-linearity, depth adds nothing.",
   "fails": [
    "ReLU units can “die”: once their input is always negative they output zero and stop learning.",
    "Sigmoid and tanh saturate, giving tiny gradients at large inputs; they were a main cause of vanishing gradients.",
@@ -216,7 +216,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "loss": {
-  "example": "Five targets, 1, 2, 2, 3 and an outlier at 30. The single constant that minimises squared error is <strong>7.6</strong> — the mean, dragged towards the outlier. The constant that minimises absolute error is <strong>2</strong> — the median, which ignores it. Choosing a loss is choosing which summary of the data the model is aiming at.",
+  "example": "Five targets, 1, 2, 2, 3 and an outlier at 30. The single constant that minimises squared error is <strong>7.6</strong>: the mean, dragged towards the outlier. The constant that minimises absolute error is <strong>2</strong>: the median, which ignores it. Choosing a loss is choosing which summary of the data the model is aiming at.",
   "fails": [
    "MSE is right when errors are roughly Gaussian; with heavy tails it is dominated by a few points. Huber’s loss is the compromise.",
    "The loss you train on and the metric you care about are often different; optimising one does not guarantee the other.",
@@ -226,7 +226,7 @@ const TOPIC_DEPTH = {
   "sources": [
    "P. J. Huber, “Robust Estimation of a Location Parameter”, <em>Annals of Mathematical Statistics</em> 35(1), 1964",
    "<em>The Elements of Statistical Learning</em> (2nd ed.), T. Hastie, R. Tibshirani &amp; J. Friedman, Springer, 2009",
-   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 6"
+   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016: chapter 6"
   ]
  },
  "backprop": {
@@ -257,7 +257,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "regularization": {
-  "example": "Two inputs that are almost copies of each other, and a target built from 1 × each. Ordinary least squares returns weights of <strong>0.33</strong> and <strong>1.78</strong> — an arbitrary split that would change with the next sample. Ridge regression with λ = 1 returns <strong>1.05</strong> and <strong>1.05</strong>. The penalty picks the stable answer among many that fit equally well.",
+  "example": "Two inputs that are almost copies of each other, and a target built from 1 × each. Ordinary least squares returns weights of <strong>0.33</strong> and <strong>1.78</strong>: an arbitrary split that would change with the next sample. Ridge regression with λ = 1 returns <strong>1.05</strong> and <strong>1.05</strong>. The penalty picks the stable answer among many that fit equally well.",
   "fails": [
    "Regularization strength is a hyperparameter; too much and the model underfits. Choose it by cross-validation.",
    "L2 and L1 penalties depend on the scale of the inputs; standardize first.",
@@ -271,7 +271,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "batchnorm": {
-  "example": "A batch of 64 activations with mean 5 and standard deviation 3, normalised: every unit now has mean <strong>0</strong> and standard deviation <strong>1</strong>. But the statistics come from the batch. With 64 examples the batch mean is off by about <strong>0.38</strong> on average; with 2 examples by <strong>2.15</strong> — noise as large as the signal. That is why batch norm struggles with small batches.",
+  "example": "A batch of 64 activations with mean 5 and standard deviation 3, normalised: every unit now has mean <strong>0</strong> and standard deviation <strong>1</strong>. But the statistics come from the batch. With 64 examples the batch mean is off by about <strong>0.38</strong> on average; with 2 examples by <strong>2.15</strong>: noise as large as the signal. That is why batch norm struggles with small batches.",
   "fails": [
    "Training uses batch statistics and inference uses running averages; when the two differ, train and test behave differently.",
    "For small batches or sequences, LayerNorm or GroupNorm avoid the dependence on the batch (see Normalization).",
@@ -333,25 +333,25 @@ const TOPIC_DEPTH = {
   ],
   "code": "def softmax(z, T=1.0):\n    z = np.asarray(z, float) / T\n    e = np.exp(z - z.max())                        # subtract the max: same result, no overflow\n    return e / e.sum()\n\np = softmax([2.0, 1.0, 0.1])\ncold, hot = softmax([2.0, 1.0, 0.1], T=0.5), softmax([2.0, 1.0, 0.1], T=2.0)\nwith np.errstate(over='ignore', invalid='ignore'):\n    naive = np.exp([1000.0, 1001.0]) / np.exp([1000.0, 1001.0]).sum()   # overflows\nstable = softmax([1000.0, 1001.0])",
   "sources": [
-   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016 — chapter 6",
+   "<em>Deep Learning</em>, I. Goodfellow, Y. Bengio &amp; A. Courville, MIT Press, 2016: chapter 6",
    "C. Guo, G. Pleiss, Y. Sun &amp; K. Q. Weinberger, “On Calibration of Modern Neural Networks”, <em>ICML</em>, 2017"
   ]
  },
  "mle": {
-  "example": "Seven heads in ten tosses: the probability that makes this most likely is <strong>0.7</strong>. For the values 4, 6, 5, 9 and 6, the maximum-likelihood mean is <strong>6.0</strong> and the maximum-likelihood variance <strong>2.8</strong> — it divides by n. The usual unbiased estimate, dividing by n − 1, is <strong>3.5</strong>. MLE is a principle for estimates, not a guarantee they are unbiased.",
+  "example": "Seven heads in ten tosses: the probability that makes this most likely is <strong>0.7</strong>. For the values 4, 6, 5, 9 and 6, the maximum-likelihood mean is <strong>6.0</strong> and the maximum-likelihood variance <strong>2.8</strong>: it divides by n. The usual unbiased estimate, dividing by n − 1, is <strong>3.5</strong>. MLE is a principle for estimates, not a guarantee they are unbiased.",
   "fails": [
    "With little data MLE overfits: after three heads in three tosses it says the coin never lands tails. Priors (MAP) or smoothing fix this.",
    "The likelihood assumes a model; if the model is wrong, the best fit to it can still be a poor description.",
-   "Minimising MSE is MLE under Gaussian noise, and cross-entropy is MLE for categorical outcomes — useful to know which assumption a loss carries."
+   "Minimising MSE is MLE under Gaussian noise, and cross-entropy is MLE for categorical outcomes: useful to know which assumption a loss carries."
   ],
   "code": "heads, n = 7, 10\np = np.linspace(0.01, 0.99, 99)\nloglik = heads * np.log(p) + (n - heads) * np.log(1 - p)\np_hat = p[loglik.argmax()]                          # the MLE: 7/10\nx = np.array([4.0, 6.0, 5.0, 9.0, 6.0])\nmu_hat = x.mean()\nvar_mle = ((x - mu_hat) ** 2).mean()                # MLE divides by n, not n - 1\nvar_unbiased = x.var(ddof=1)",
   "sources": [
    "R. A. Fisher, “On the Mathematical Foundations of Theoretical Statistics”, <em>Philosophical Transactions of the Royal Society A</em> 222, 1922",
-   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006 — chapters 1–2"
+   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006: chapters 1–2"
   ]
  },
  "entropy": {
-  "example": "A fair coin carries <strong>1 bit</strong> of surprise per toss; a 90/10 coin only <strong>0.47</strong> bits; a fair eight-sided die <strong>3</strong> bits. Encoding the 90/10 coin with a code built for a fair coin costs <strong>1 bit</strong> per toss — the cross-entropy — instead of 0.47. The difference is the waste from using the wrong distribution, which is the KL divergence.",
+  "example": "A fair coin carries <strong>1 bit</strong> of surprise per toss; a 90/10 coin only <strong>0.47</strong> bits; a fair eight-sided die <strong>3</strong> bits. Encoding the 90/10 coin with a code built for a fair coin costs <strong>1 bit</strong> per toss, the cross-entropy, instead of 0.47. The difference is the waste from using the wrong distribution, which is the KL divergence.",
   "fails": [
    "Entropy measures unpredictability, not meaning; a random string has maximum entropy and no information you care about.",
    "Estimating entropy from samples is biased low when the data are few relative to the number of outcomes.",
@@ -368,17 +368,17 @@ const TOPIC_DEPTH = {
   "fails": [
    "KL is not a distance: it is not symmetric and does not obey the triangle inequality.",
    "If Q assigns zero probability to anything P can produce, KL(P‖Q) is infinite; smoothing is needed in practice.",
-   "Minimising KL(P‖Q) or KL(Q‖P) gives different fits — one covers all modes, the other locks onto one (a key choice in variational inference)."
+   "Minimising KL(P‖Q) or KL(Q‖P) gives different fits: one covers all modes, the other locks onto one (a key choice in variational inference)."
   ],
   "code": "kl = lambda p, q: np.sum(p * np.log(p / q))\nP_, Q_ = np.array([0.5, 0.5]), np.array([0.9, 0.1])\nkl_pq, kl_qp = kl(P_, Q_), kl(Q_, P_)               # not symmetric",
   "sources": [
    "S. Kullback &amp; R. A. Leibler, “On Information and Sufficiency”, <em>Annals of Mathematical Statistics</em> 22(1), 1951",
    "<em>Elements of Information Theory</em> (2nd ed.), T. M. Cover &amp; J. A. Thomas, Wiley, 2006",
-   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006 — chapter 10"
+   "<em>Pattern Recognition and Machine Learning</em>, C. M. Bishop, Springer, 2006: chapter 10"
   ]
  },
  "bayes": {
-  "example": "A condition that 1% of people have, and a test that catches 99% of cases with 5% false positives. About <strong>5.9%</strong> of everyone tests positive, but only <strong>16.7%</strong> of positives are sick — the false positives from the healthy 99% outnumber the true ones. A second, independent positive test lifts it to <strong>79.8%</strong>.",
+  "example": "A condition that 1% of people have, and a test that catches 99% of cases with 5% false positives. About <strong>5.9%</strong> of everyone tests positive, but only <strong>16.7%</strong> of positives are sick: the false positives from the healthy 99% outnumber the true ones. A second, independent positive test lifts it to <strong>79.8%</strong>.",
   "fails": [
    "The answer depends heavily on the prior; the same test means different things in a clinic and in a screening of everyone.",
    "Repeated tests are rarely fully independent; the second update assumes they are.",
@@ -458,7 +458,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "attention": {
-  "example": "One query and ten keys of dimension 512. Without scaling, the dot products are large and the softmax puts <strong>99.6%</strong> of the weight on a single key — attention becomes a hard lookup with almost no gradient for the rest. Dividing by √512 brings the largest weight down to <strong>21%</strong>. The √d in the formula is there for exactly this reason.",
+  "example": "One query and ten keys of dimension 512. Without scaling, the dot products are large and the softmax puts <strong>99.6%</strong> of the weight on a single key: attention becomes a hard lookup with almost no gradient for the rest. Dividing by √512 brings the largest weight down to <strong>21%</strong>. The √d in the formula is there for exactly this reason.",
   "fails": [
    "Attention weights are not explanations; high weight on a token does not mean it caused the output.",
    "Full attention costs grow with the square of the sequence length.",
@@ -472,10 +472,10 @@ const TOPIC_DEPTH = {
   ]
  },
  "transformer": {
-  "example": "GPT-2 small: width 768, feed-forward 3,072, 12 layers, 50,257 tokens. Each layer holds <strong>7,087,872</strong> parameters — a third in attention, two thirds in the feed-forward block. With token and position embeddings the total is <strong>124,439,808</strong>, the familiar “124M”. Most of a transformer is its MLPs.",
+  "example": "GPT-2 small: width 768, feed-forward 3,072, 12 layers, 50,257 tokens. Each layer holds <strong>7,087,872</strong> parameters: a third in attention, two thirds in the feed-forward block. With token and position embeddings the total is <strong>124,439,808</strong>, the familiar “124M”. Most of a transformer is its MLPs.",
   "fails": [
    "Parameter counts say little about compute: attention cost grows with sequence length, which is not in the count.",
-   "Small details — where the LayerNorm sits, the positional scheme — matter a lot for training stability (Xiong et al. 2020).",
+   "Small details (where the LayerNorm sits, the positional scheme) matter a lot for training stability (Xiong et al. 2020).",
    "Shared input and output embeddings, as in GPT-2, are counted once here; other models count them twice."
   ],
   "code": "d, ff, layers, vocab = 768, 3072, 12, 50_257          # GPT-2 small\nattn = 4 * d * d + 4 * d                             # Q, K, V and output projections\nmlp = 2 * d * ff + ff + d\nnorms = 2 * 2 * d\nper_layer = attn + mlp + norms\nembeddings = vocab * d + 1024 * d                    # tokens + 1,024 learned positions\ntotal = layers * per_layer + embeddings + 2 * d       # + final LayerNorm",
@@ -528,7 +528,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "gru": {
-  "example": "With 128 inputs and 256 hidden units, an LSTM layer has <strong>394,240</strong> parameters and a GRU layer <strong>295,680</strong> — exactly <strong>75%</strong>, because it has three weight blocks instead of four. Fewer parameters train faster and need less data; whether they do as well is an empirical question for each task.",
+  "example": "With 128 inputs and 256 hidden units, an LSTM layer has <strong>394,240</strong> parameters and a GRU layer <strong>295,680</strong>: exactly <strong>75%</strong>, because it has three weight blocks instead of four. Fewer parameters train faster and need less data; whether they do as well is an empirical question for each task.",
   "fails": [
    "Neither GRU nor LSTM wins consistently; comparisons find them close (Chung et al. 2014).",
    "Parameter count is not speed; implementations and hardware kernels decide that.",
@@ -555,7 +555,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "svd": {
-  "example": "A 50×50 matrix whose singular values fall by 30% each. Keeping the top five captures <strong>97.2%</strong> of its energy with a relative error of <strong>16.8%</strong>, using <strong>505</strong> numbers instead of 2,500. The Eckart–Young theorem says no rank-5 matrix does better — the idea behind LoRA and compressed recommenders.",
+  "example": "A 50×50 matrix whose singular values fall by 30% each. Keeping the top five captures <strong>97.2%</strong> of its energy with a relative error of <strong>16.8%</strong>, using <strong>505</strong> numbers instead of 2,500. The Eckart–Young theorem says no rank-5 matrix does better: the idea behind LoRA and compressed recommenders.",
   "fails": [
    "The approximation is only good when singular values decay; for noise-like matrices every component matters.",
    "Energy captured is not task performance; check the error on what the matrix is used for.",
@@ -583,7 +583,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "diffusion": {
-  "example": "DDPM’s schedule adds noise over 1,000 steps. The share of the original signal left is <strong>0.9999</strong> after one step, <strong>0.947</strong> after 100, <strong>0.280</strong> after 500 and <strong>0.006</strong> after 1,000 — essentially pure noise. The model learns to undo one small step at a time, and generation runs the whole chain backwards.",
+  "example": "DDPM’s schedule adds noise over 1,000 steps. The share of the original signal left is <strong>0.9999</strong> after one step, <strong>0.947</strong> after 100, <strong>0.280</strong> after 500 and <strong>0.006</strong> after 1,000: essentially pure noise. The model learns to undo one small step at a time, and generation runs the whole chain backwards.",
   "fails": [
    "The linear schedule destroys information quickly in the middle; a cosine schedule spreads it more evenly (Nichol &amp; Dhariwal 2021).",
    "A thousand denoising steps make sampling slow; faster samplers trade steps for quality.",
@@ -597,7 +597,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "gan": {
-  "example": "Real data centred at 0 and a generator centred at 3. The best possible discriminator outputs <strong>0.999</strong> at −1, 0.989 at 0, <strong>0.5</strong> at 1.5 and <strong>0.011</strong> at 3 — easy to tell apart. When the generator matches the data it can only say <strong>0.5</strong> everywhere, and the game’s value reaches −log 4 = <strong>−1.386</strong>, the equilibrium.",
+  "example": "Real data centred at 0 and a generator centred at 3. The best possible discriminator outputs <strong>0.999</strong> at −1, 0.989 at 0, <strong>0.5</strong> at 1.5 and <strong>0.011</strong> at 3: easy to tell apart. When the generator matches the data it can only say <strong>0.5</strong> everywhere, and the game’s value reaches −log 4 = <strong>−1.386</strong>, the equilibrium.",
   "fails": [
    "When the discriminator wins too easily, the generator’s gradient vanishes; Wasserstein GANs change the objective to fix this (Arjovsky et al. 2017).",
    "Generators can collapse to a few outputs that fool the discriminator (mode collapse).",
@@ -611,7 +611,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "tokenization": {
-  "example": "Four words with counts: low ×5, lower ×2, newest ×6, widest ×3. BPE merges the most frequent adjacent pair each round: <strong>e+s</strong>, then <strong>es+t</strong>, then <strong>est+&lt;/w&gt;</strong>, then <strong>l+o</strong>. After four merges “newest” is n e w est&lt;/w&gt; — the common ending has become one token, learned from counts alone.",
+  "example": "Four words with counts: low ×5, lower ×2, newest ×6, widest ×3. BPE merges the most frequent adjacent pair each round: <strong>e+s</strong>, then <strong>es+t</strong>, then <strong>est+&lt;/w&gt;</strong>, then <strong>l+o</strong>. After four merges “newest” is n e w est&lt;/w&gt; the common ending has become one token, learned from counts alone.",
   "fails": [
    "Tokens are frequency artefacts, not morphemes; the same word can split differently with a leading space or capital.",
    "Languages and scripts under-represented in the training corpus get more tokens per word, costing more and fitting worse.",
@@ -625,7 +625,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "lora": {
-  "example": "A 4096×4096 weight matrix has <strong>16,777,216</strong> parameters. A rank-16 LoRA update trains two thin matrices with <strong>131,072</strong> — <strong>0.78%</strong> as many. The update B·A can only have rank 16 (in the small check, rank <strong>4</strong> for r = 4), which is the bet: that fine-tuning changes lie in a low-dimensional subspace.",
+  "example": "A 4096×4096 weight matrix has <strong>16,777,216</strong> parameters. A rank-16 LoRA update trains two thin matrices with <strong>131,072</strong>: <strong>0.78%</strong> as many. The update B·A can only have rank 16 (in the small check, rank <strong>4</strong> for r = 4), which is the bet: that fine-tuning changes lie in a low-dimensional subspace.",
   "fails": [
    "The low-rank bet can fail for tasks far from pre-training; full fine-tuning can still win there.",
    "The rank and the scaling factor α interact; changing one without the other changes the effective learning rate.",
@@ -643,7 +643,7 @@ const TOPIC_DEPTH = {
   "fails": [
    "Optimising hard against a learned reward model eventually exploits its errors (reward over-optimisation, Gao et al. 2023); the KL penalty is what holds it back.",
    "Human preferences are noisy and inconsistent; a 73% preference is a weak signal per comparison.",
-   "Preference training improves what raters reward — which can include confident tone over correctness."
+   "Preference training improves what raters reward, which can include confident tone over correctness."
   ],
   "code": "sigmoid = lambda z: 1 / (1 + np.exp(-z))\np_prefer = sigmoid(1.0)                             # Bradley-Terry: reward gap of 1 -&gt; P(chosen beats rejected)\nbeta = 0.1\ndpo_loss = lambda margin: -np.log(sigmoid(beta * margin))   # margin = difference of log-ratios vs the reference\nlosses = {m: round(float(dpo_loss(m)), 3) for m in (0, 10, 30)}",
   "sources": [
@@ -671,8 +671,8 @@ const SELF_CHECK = {
   {
    "q": "When does adding more training data help most?",
    "options": [
-    "When the model has high bias — both errors are high and close.",
-    "When the model has high variance — a large gap between training and validation error.",
+    "When the model has high bias, both errors are high and close.",
+    "When the model has high variance: a large gap between training and validation error.",
     "Always equally, whatever the errors look like."
    ],
    "answer": 1,
@@ -683,7 +683,7 @@ const SELF_CHECK = {
    "options": [
     "Stronger regularisation.",
     "Collecting more data of the same kind.",
-    "A more flexible model or better features — this is high bias (underfitting)."
+    "A more flexible model or better features: this is high bias (underfitting)."
    ],
    "answer": 2,
    "why": "Both errors are high and close together: the model cannot represent the pattern, so more capacity, not more constraint, is needed."
@@ -704,7 +704,7 @@ const SELF_CHECK = {
    "q": "When does the prior matter most in a Bayesian analysis?",
    "options": [
     "When there is a lot of data.",
-    "Never — the likelihood always dominates.",
+    "Never: the likelihood always dominates.",
     "When the evidence is weak or there is little data."
    ],
    "answer": 2,
@@ -718,7 +718,7 @@ const SELF_CHECK = {
     "That the features are independent of each other given the class."
    ],
    "answer": 2,
-   "why": "The assumption is rarely true, yet the classifier often ranks well — its probabilities, though, tend to be overconfident."
+   "why": "The assumption is rarely true, yet the classifier often ranks well: its probabilities, though, tend to be overconfident."
   }
  ],
  "gradient": [
@@ -740,7 +740,7 @@ const SELF_CHECK = {
     "The direction of steepest decrease."
    ],
    "answer": 0,
-   "why": "The negative gradient is the locally steepest way down — not necessarily the shortest way to the minimum."
+   "why": "The negative gradient is the locally steepest way down, not necessarily the shortest way to the minimum."
   },
   {
    "q": "Why scale features before gradient descent?",
@@ -791,7 +791,7 @@ const SELF_CHECK = {
    "options": [
     "The second is much more peaked.",
     "The second overflows and is undefined.",
-    "They are identical — softmax only depends on differences between the inputs."
+    "They are identical: softmax only depends on differences between the inputs."
    ],
    "answer": 2,
    "why": "Adding a constant to every input cancels out. That is why implementations subtract the maximum first, for numerical stability."
@@ -811,7 +811,7 @@ const SELF_CHECK = {
    "options": [
     "Yes, by definition of softmax.",
     "No, softmax outputs are not probabilities at all.",
-    "Only if the model is calibrated — deep networks are often overconfident."
+    "Only if the model is calibrated: deep networks are often overconfident."
    ],
    "answer": 2,
    "why": "Softmax outputs sum to 1, but nothing forces them to match observed frequencies. Temperature scaling on validation data is a common fix (Guo et al. 2017)."
@@ -874,7 +874,7 @@ const SELF_CHECK = {
    "q": "A cosine similarity of 0 means the vectors are…",
    "options": [
     "pointing in opposite directions.",
-    "orthogonal — no linear alignment at all.",
+    "orthogonal: no linear alignment at all.",
     "identical."
    ],
    "answer": 1,
@@ -906,7 +906,7 @@ const SELF_CHECK = {
    "q": "PCA keeps components covering 95% of the variance. Does that keep 95% of the information for predicting y?",
    "options": [
     "Yes, by construction.",
-    "Not necessarily — PCA never looks at y, and a low-variance direction can carry the signal.",
+    "Not necessarily: PCA never looks at y, and a low-variance direction can carry the signal.",
     "Yes, as long as the data are standardised."
    ],
    "answer": 1,
@@ -946,13 +946,8 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>The <em>Mathematics</em><br>of Machine Learning</h2>
-    <p style="margin-top:14px">A complete interactive reference covering 38 topics — from linear
+    <p style="margin-top:14px">A complete interactive reference covering 38 topics: from linear
     algebra to RLHF. Every topic features the core math, visual intuition, and PyTorch code.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">38</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">38</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">7</div><div class="home-stat-label">Sections</div></div>
-    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> arrow keys to navigate &nbsp;·&nbsp;
       <span class="kbd">Ctrl+K</span> to search
@@ -960,37 +955,30 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','vectors')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M6.5 16c4.5 0 6-8 11.5-9"/></svg></div>
       <div class="cat-card-name">Foundations</div>
       <div class="cat-card-count">6 topics · Vectors, regression, gradients, activations</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-training','loss')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5c5 1 7.5 5 9 12"/><circle cx="15" cy="17.5" r="2.4"/></svg></div>
       <div class="cat-card-name">Training</div>
       <div class="cat-card-count">8 topics · Loss, optimizers, regularization, init</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-core','softmax')">
-      <div class="cat-card-icon">∑</div>
       <div class="cat-card-name">Core Math</div>
       <div class="cat-card-count">8 topics · Probability, statistics, similarity</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-deep','cnn')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="12" cy="18" r="1.8"/><circle cx="19" cy="12" r="1.8"/><path d="M6.6 11l3.9-4M6.6 13l3.9 4M13.4 7l4 4M13.4 17l4-4"/></svg></div>
       <div class="cat-card-name">Deep Learning</div>
       <div class="cat-card-count">5 topics · CNNs, attention, transformers</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-sequence','rnn')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3"/></svg></div>
       <div class="cat-card-name">Sequence Models</div>
       <div class="cat-card-count">3 topics · RNN, LSTM, GRU</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-generative','pca')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a1.5 1.5 0 0 0 3 0 4 4 0 0 0-8 0 6.5 6.5 0 0 0 13 0 9 9 0 0 0-18 0"/></svg></div>
       <div class="cat-card-name">Generative & Prob.</div>
       <div class="cat-card-count">5 topics · PCA, SVD, VAE, Diffusion, GANs</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-modern','tokenization')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Modern / LLM</div>
       <div class="cat-card-count">3 topics · BPE, LoRA, RLHF</div>
     </div>
@@ -1009,13 +997,13 @@ function buildVectors() {
     <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2>Vectors & <em>Matrices</em></h2></div>
     <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// The language of ML — every model is matrix multiplication under the hood</p>
+  <p class="sub">// The language of ML, every model is matrix multiplication under the hood</p>
   <p class="prose">Machine learning is built on <strong>linear algebra</strong>. Inputs are vectors, weights are matrices, and the forward pass is matrix multiplication. Understanding dot products, shapes, and transposes is non-negotiable.</p>
   <div class="fb"><div class="fm">a · b = Σᵢ aᵢbᵢ = |a||b|cos(θ)</div><div class="fd"><span>Dot product</span> = sum of element-wise products = measures alignment between vectors</div></div>
   <div class="fb c2"><div class="fm">C = A × B &nbsp;&nbsp; Cᵢⱼ = Σₖ Aᵢₖ · Bₖⱼ</div><div class="fd"><span>Matrix multiply:</span> A is (m×k), B is (k×n) → C is (m×n). Inner dimensions must match.</div></div>
   <div class="fb c3"><div class="fm">(AB)ᵀ = BᵀAᵀ &nbsp;&nbsp; (A⁻¹)⁻¹ = A</div><div class="fd"><span>Transpose</span> reverses multiplication order. Only square, full-rank matrices are invertible.</div></div>
   <div class="va">
-    <div class="vl">// Interactive 2D vectors — drag to change, see dot product</div>
+    <div class="vl">// Interactive 2D vectors: drag to change, see dot product</div>
     <canvas id="vecCanvas" role="img" aria-label="Vectors &amp; Matrices: Interactive 2D vectors — drag to change, see dot product" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Vector A angle</span><input type="range" aria-label="Vector A angle" id="vecA" min="0" max="360" step="1" value="30"><span class="vd" id="vecAv">30°</span></div>
@@ -1055,12 +1043,12 @@ function buildLinear() {
     <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Linear <em>Regression</em></h2></div>
     <span class="topic-badge">Supervised</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Fitting a line through data — the simplest predictive model</p>
+  <p class="sub">// Fitting a line through data: the simplest predictive model</p>
   <p class="prose">Linear regression finds the best-fit line through data. Given input <strong>x</strong>, we predict <strong>ŷ</strong> by learning weight <strong>w</strong> (slope) and bias <strong>b</strong> (intercept) that minimise prediction error.</p>
   <div class="fb"><div class="fm">ŷ = w · x + b</div><div class="fd"><span>ŷ</span> = prediction &nbsp;|&nbsp; <span>w</span> = weight &nbsp;|&nbsp; <span>x</span> = input &nbsp;|&nbsp; <span>b</span> = bias</div></div>
   <div class="fb c2"><div class="fm">MSE = (1/n) · Σ (yᵢ − ŷᵢ)²</div><div class="fd"><span>MSE</span> = Mean Squared Error loss &nbsp;|&nbsp; minimised by gradient descent</div></div>
   <div class="va">
-    <div class="vl">// Interactive — drag sliders to fit the line</div>
+    <div class="vl">// Interactive: drag sliders to fit the line</div>
     <canvas id="linCanvas" role="img" aria-label="Linear Regression: Interactive — drag sliders to fit the line" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" aria-label="Weight w" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
@@ -1083,12 +1071,12 @@ function buildLogistic() {
     <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Logistic <em>Regression</em></h2></div>
     <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// The bridge from regression to classification — sigmoid turns scores into probabilities</p>
-  <p class="prose">Logistic regression wraps a linear model in a <strong>sigmoid function</strong>, producing a probability between 0 and 1. Despite the name, it's a <strong>classifier</strong>, not a regressor. It's the simplest neural network — a single neuron.</p>
+  <p class="sub">// The bridge from regression to classification: sigmoid turns scores into probabilities</p>
+  <p class="prose">Logistic regression wraps a linear model in a <strong>sigmoid function</strong>, producing a probability between 0 and 1. Despite the name, it's a <strong>classifier</strong>, not a regressor. It's the simplest neural network: a single neuron.</p>
   <div class="fb"><div class="fm">P(y=1|x) = σ(w·x + b) = 1/(1 + e^(−(w·x+b)))</div><div class="fd"><span>σ</span> = sigmoid &nbsp;|&nbsp; outputs probability of class 1 &nbsp;|&nbsp; decision boundary at 0.5</div></div>
-  <div class="fb c2"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary Cross-Entropy</span> — penalises confident wrong predictions exponentially</div></div>
+  <div class="fb c2"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary Cross-Entropy</span>: penalises confident wrong predictions exponentially</div></div>
   <div class="va">
-    <div class="vl">// Decision boundary — adjust weight and bias</div>
+    <div class="vl">// Decision boundary: adjust weight and bias</div>
     <canvas id="logCanvas" role="img" aria-label="Logistic Regression: Decision boundary — adjust weight and bias" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" aria-label="Weight w" id="logW" min="-5" max="5" step="0.1" value="2"><span class="vd" id="logWv">2.0</span></div>
@@ -1117,7 +1105,7 @@ function buildGradient() {
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Rolling downhill on the loss landscape to find optimal weights</p>
-  <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong> — opposite the gradient — to reach minimum loss.</p>
+  <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong>, opposite the gradient, to reach minimum loss.</p>
   <div class="fb"><div class="fm">w := w − α · ∂L/∂w</div><div class="fd"><span>α</span> = learning rate &nbsp;|&nbsp; <span>∂L/∂w</span> = gradient (slope of loss w.r.t. weight)</div></div>
   <table class="mt">
     <thead><tr><th>Variant</th><th>Samples/step</th><th>Pros</th><th>Cons</th></tr></thead>
@@ -1128,7 +1116,7 @@ function buildGradient() {
     </tbody>
   </table>
   <div class="va">
-    <div class="vl">// Animated loss landscape — adjust learning rate and run</div>
+    <div class="vl">// Animated loss landscape: adjust learning rate and run</div>
     <canvas id="gdCanvas" role="img" aria-label="Gradient Descent: Animated loss landscape — adjust learning rate and run" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Learning Rate α</span><input type="range" aria-label="Learning Rate α" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
@@ -1138,17 +1126,17 @@ function buildGradient() {
     </div>
   </div>
   <div class="callout warn"><strong>Learning rate:</strong> Too large → overshoot and diverge. Too small → extremely slow convergence. Learning rate warmup + decay schedulers (topic 12) solve this in practice.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc">Rate of Change</a> in markets — both measure slope to decide direction.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Rolling downhill on a loss surface is the same intuition behind <a href="../markets/indicators/#roc">Rate of Change</a> in markets, both measure slope to decide direction.</div>
   <div class="howto">
     <div class="howto-title">How to use this in practice</div>
     <ol>
-      <li>Start with <strong>Adam</strong> optimizer (lr=1e-3) — it handles most cases well out of the box</li>
+      <li>Start with <strong>Adam</strong> optimizer (lr=1e-3): it handles most cases well out of the box</li>
       <li>If training loss plateaus, try <strong>reducing lr by 10x</strong> or use a cosine annealing schedule</li>
-      <li>If training loss oscillates wildly → lr is too high — halve it until stable</li>
+      <li>If training loss oscillates wildly → lr is too high: halve it until stable</li>
       <li>Use <strong>gradient clipping</strong> (<code>max_norm=1.0</code>) for RNNs and transformers to prevent exploding gradients</li>
-      <li>Monitor both <strong>train loss</strong> and <strong>val loss</strong> — divergence means you're overfitting (see <a href="../stats/#learning-curves">Learning Curves</a>)</li>
+      <li>Monitor both <strong>train loss</strong> and <strong>val loss</strong>: divergence means you're overfitting (see <a href="../stats/#learning-curves">Learning Curves</a>)</li>
     </ol>
-    <div class="howto-pitfall"><strong>When gradient descent fails:</strong> Non-convex loss landscapes have local minima and saddle points. SGD with momentum helps escape saddle points; Adam helps with sparse gradients. For very deep networks, poor initialization can cause vanishing gradients — use He or Xavier init.</div>
+    <div class="howto-pitfall"><strong>When gradient descent fails:</strong> Non-convex loss landscapes have local minima and saddle points. SGD with momentum helps escape saddle points; Adam helps with sparse gradients. For very deep networks, poor initialization can cause vanishing gradients: use He or Xavier init.</div>
   </div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
@@ -1162,7 +1150,7 @@ function buildGradient() {
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Training any neural network. Fine-tuning pre-trained models. Logistic regression on large datasets. Any differentiable loss function.</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> Tree models (XGBoost, Random Forest) — they use different optimization. Small linear models where closed-form solutions exist (OLS). Problems where derivative-free optimization (genetic algorithms, Bayesian optimization) is more appropriate.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Tree models (XGBoost, Random Forest). They use different optimization. Small linear models where closed-form solutions exist (OLS). Problems where derivative-free optimization (genetic algorithms, Bayesian optimization) is more appropriate.</div>
   </div>
   <div class="dataset-card">
     <div class="dataset-card-title">Use this pattern on real data</div>
@@ -1170,7 +1158,7 @@ function buildGradient() {
     <div class="ds-note">Train a baseline model, monitor train/validation loss, and compare learning-rate choices against MAE/RMSE.</div>
   </div>
   <div class="dev-export">
-    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <div class="dev-export-title">Quick start: copy to notebook</div>
     <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install torch scikit-learn
 import torch
 
@@ -1199,7 +1187,7 @@ function buildActivation() {
   <p class="sub">// What makes deep networks more than stacked linear transforms</p>
   <p class="prose">Without activations, any stack of linear layers collapses to a single linear transform. Activation functions introduce <strong>non-linearity</strong>, giving networks the power to approximate any function.</p>
   <div class="va">
-    <div class="vl">// Select function — solid = f(x), dashed = derivative f′(x)</div>
+    <div class="vl">// Select function: solid = f(x), dashed = derivative f′(x)</div>
     <div class="ctrl" style="margin:0 0 12px">
       <button class="btn" onclick="showAct('sigmoid')">SIGMOID</button>
       <button class="btn b2" onclick="showAct('relu')">RELU</button>
@@ -1234,10 +1222,10 @@ function buildBiasVariance() {
     <span class="topic-badge">Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The fundamental tension between underfitting and overfitting</p>
-  <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong> — sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
+  <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong>: sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
   <div class="fb"><div class="fm">E[(y−ŷ)²] = Bias² + Variance + Irreducible Noise</div><div class="fd">Total expected error decomposes into these three independent terms</div></div>
   <div class="va">
-    <div class="vl">// Model complexity vs. error — the classic U-curve</div>
+    <div class="vl">// Model complexity vs. error: the classic U-curve</div>
     <canvas id="bvCanvas" role="img" aria-label="Bias-Variance Tradeoff: Model complexity vs. error — the classic U-curve" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model Complexity</span><input type="range" aria-label="Model Complexity" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
@@ -1246,8 +1234,8 @@ function buildBiasVariance() {
     </div>
   </div>
   <div class="steps">
-    <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple — misses real patterns. Both train and test error are high.</p></div></div>
-    <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex — memorises noise. Low train error, high test error.</p></div></div>
+    <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple: misses real patterns. Both train and test error are high.</p></div></div>
+    <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex: memorises noise. Low train error, high test error.</p></div></div>
     <div class="step"><div class="sn">✓</div><div><h4>Sweet Spot</h4><p>Regularization, dropout, cross-validation help find the optimal complexity.</p></div></div>
   </div>
   <div class="howto">
@@ -1261,7 +1249,7 @@ function buildBiasVariance() {
     </ol>
     <div class="howto-pitfall"><strong>Common pitfall — tuning to the test set:</strong> If you keep checking the final test set while reducing variance, you are training on it indirectly. Keep one final holdout untouched.</div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The U-curve of bias vs. variance is the same tradeoff between <a href="../stats/#confidence-intervals">confidence interval width</a> and precision in statistics. In markets, <a href="../markets/psychology/#overconfidence">overconfidence</a> is low bias, high variance — the model fits noise.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The U-curve of bias vs. variance is the same tradeoff between <a href="../stats/#confidence-intervals">confidence interval width</a> and precision in statistics. In markets, <a href="../markets/psychology/#overconfidence">overconfidence</a> is low bias, high variance: the model fits noise.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
@@ -1288,14 +1276,14 @@ function buildLoss() {
     <div class="topic-meta"><div class="topic-num">07 — Training</div><h2>Loss <em>Functions</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Measuring how wrong the model is — the objective being minimised</p>
+  <p class="sub">// Measuring how wrong the model is: the objective being minimised</p>
   <p class="prose">The loss function defines what the model is optimising. Different tasks need different loss functions. Getting this wrong is one of the most common ML mistakes.</p>
-  <div class="fb"><div class="fm">MSE = (1/n)·Σ(y−ŷ)²</div><div class="fd"><span>Regression</span> — squared penalty, sensitive to outliers</div></div>
-  <div class="fb c2"><div class="fm">MAE = (1/n)·Σ|y−ŷ|</div><div class="fd"><span>Robust regression</span> — linear penalty, outlier-resistant</div></div>
-  <div class="fb c3"><div class="fm">CE = −Σ yᵢ·log(ŷᵢ)</div><div class="fd"><span>Classification</span> — penalises confident wrong predictions exponentially</div></div>
-  <div class="fb c4"><div class="fm">Huber = { ½(y−ŷ)² if |y−ŷ|≤δ, δ|y−ŷ|−½δ² otherwise }</div><div class="fd"><span>Huber</span> — smooth MSE near zero, MAE for large errors. Best of both.</div></div>
+  <div class="fb"><div class="fm">MSE = (1/n)·Σ(y−ŷ)²</div><div class="fd"><span>Regression</span>: squared penalty, sensitive to outliers</div></div>
+  <div class="fb c2"><div class="fm">MAE = (1/n)·Σ|y−ŷ|</div><div class="fd"><span>Robust regression</span>: linear penalty, outlier-resistant</div></div>
+  <div class="fb c3"><div class="fm">CE = −Σ yᵢ·log(ŷᵢ)</div><div class="fd"><span>Classification</span>: penalises confident wrong predictions exponentially</div></div>
+  <div class="fb c4"><div class="fm">Huber = { ½(y−ŷ)² if |y−ŷ|≤δ, δ|y−ŷ|−½δ² otherwise }</div><div class="fd"><span>Huber</span>: smooth MSE near zero, MAE for large errors. Best of both.</div></div>
   <div class="va">
-    <div class="vl">// MSE vs MAE vs Huber — drag to see how penalty scales with error</div>
+    <div class="vl">// MSE vs MAE vs Huber: drag to see how penalty scales with error</div>
     <canvas id="lossCanvas" role="img" aria-label="Loss Functions: MSE vs MAE vs Huber — drag to see how penalty scales with error" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Error magnitude</span><input type="range" aria-label="Error magnitude" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
@@ -1303,7 +1291,7 @@ function buildLoss() {
       <div class="cg"><span class="cl">MAE</span><span class="vd" id="maeP" style="color:var(--accent2)">1.000</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth — like <a href="../markets/indicators/#standard-deviation">variance</a> measures distance from the mean.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Loss functions measure distance from truth, like <a href="../markets/indicators/#standard-deviation">variance</a> measures distance from the mean.</div>
   ${depthHtml('loss')}
   <div class="topic-nav" id="nav-loss"></div>
 </div>`;
@@ -1316,7 +1304,7 @@ function buildBackprop() {
     <div class="topic-meta"><div class="topic-num">08 — Training</div><h2><em>Back</em>propagation</h2></div>
     <span class="topic-badge">Algorithm</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Chain rule applied through a network — how every weight gets its gradient</p>
+  <p class="sub">// Chain rule applied through a network: how every weight gets its gradient</p>
   <p class="prose">Backprop answers: <strong>"how much did each weight contribute to the error?"</strong> It uses the chain rule to propagate gradients backward from the loss to every parameter.</p>
   <div class="fb"><div class="fm">∂L/∂w₁ = ∂L/∂ŷ · ∂ŷ/∂h · ∂h/∂w₁</div><div class="fd"><span>Chain Rule:</span> multiply local gradients along the path from loss back to each weight</div></div>
   <div class="va">
@@ -1342,10 +1330,10 @@ function buildOptimizers() {
     <div class="topic-meta"><div class="topic-num">09 — Training</div><h2><em>Optimizers</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Beyond vanilla SGD — momentum, adaptive learning rates, Adam</p>
+  <p class="sub">// Beyond vanilla SGD: momentum, adaptive learning rates, Adam</p>
   <p class="prose">Modern optimizers improve on vanilla gradient descent by adding <strong>momentum</strong> (using past gradients) and <strong>adaptive rates</strong> (different step size per parameter).</p>
-  <div class="fb"><div class="fm">SGD+Momentum: v := βv − α·∇L &nbsp;&nbsp; w := w + v</div><div class="fd"><span>β</span> = momentum (typically 0.9) — accumulates velocity across steps</div></div>
-  <div class="fb c2"><div class="fm">RMSProp: s := ρs + (1−ρ)·(∇L)² &nbsp;&nbsp; w := w − α·∇L/√(s+ε)</div><div class="fd">Divides by RMS of recent gradients — large gradients get smaller steps</div></div>
+  <div class="fb"><div class="fm">SGD+Momentum: v := βv − α·∇L &nbsp;&nbsp; w := w + v</div><div class="fd"><span>β</span> = momentum (typically 0.9): accumulates velocity across steps</div></div>
+  <div class="fb c2"><div class="fm">RMSProp: s := ρs + (1−ρ)·(∇L)² &nbsp;&nbsp; w := w − α·∇L/√(s+ε)</div><div class="fd">Divides by RMS of recent gradients: large gradients get smaller steps</div></div>
   <div class="fb c3"><div class="fm">Adam: m̂ = m/(1−β₁ᵗ) &nbsp;&nbsp; v̂ = v/(1−β₂ᵗ) &nbsp;&nbsp; w := w − α·m̂/√(v̂+ε)</div><div class="fd"><span>Adam</span> = momentum + RMSProp + bias correction. Default: β₁=0.9, β₂=0.999, ε=1e-8</div></div>
   <div class="va">
     <div class="vl">// Optimizer comparison on a saddle point surface</div>
@@ -1378,10 +1366,10 @@ function buildRegularization() {
   <p class="sub">// Preventing overfitting by constraining model complexity</p>
   <p class="prose">Regularization adds a <strong>penalty for complexity</strong> to the loss, discouraging the model from memorising noise and improving generalisation to unseen data.</p>
   <div class="fb"><div class="fm">L_total = L_data + λ·||w||²₂ &nbsp;&nbsp; (L2 / Ridge)</div><div class="fd"><span>λ</span> = regularization strength &nbsp;|&nbsp; drives weights toward zero but not exactly zero</div></div>
-  <div class="fb c2"><div class="fm">L_total = L_data + λ·||w||₁ &nbsp;&nbsp; (L1 / Lasso)</div><div class="fd">L1 produces <span>sparse</span> weights — many exactly zero (implicit feature selection)</div></div>
+  <div class="fb c2"><div class="fm">L_total = L_data + λ·||w||₁ &nbsp;&nbsp; (L1 / Lasso)</div><div class="fd">L1 produces <span>sparse</span> weights: many exactly zero (implicit feature selection)</div></div>
   <div class="fb c3"><div class="fm">Dropout: h̃ = h ⊙ mask/p &nbsp;&nbsp; mask ~ Bernoulli(p)</div><div class="fd">Each neuron zeroed with prob (1−p) during training; scaled by 1/p to preserve expected value</div></div>
   <div class="va">
-    <div class="vl">// L1 vs L2 penalty contours — see how they constrain weights differently</div>
+    <div class="vl">// L1 vs L2 penalty contours: see how they constrain weights differently</div>
     <canvas id="regCanvas" role="img" aria-label="Regularization: L1 vs L2 penalty contours — see how they constrain weights differently" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawReg('l2')">L2 (RIDGE)</button>
@@ -1421,7 +1409,7 @@ model.train()  <span class="cm"># re-enables dropout</span></pre></div>
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Train loss is much lower than val loss (classic overfitting). Small dataset relative to model capacity. Fine-tuning a large model on a small domain dataset.</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> Model is underfitting (both train and val loss high) — you need more capacity, not less. Very large datasets where overfitting is unlikely (e.g. training CLIP on 400M image-text pairs).</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Model is underfitting (both train and val loss high). You need more capacity, not less. Very large datasets where overfitting is unlikely (e.g. training CLIP on 400M image-text pairs).</div>
   </div>
   <div class="playground">
     <div class="playground-title">Experiment — regularization strength</div>
@@ -1450,7 +1438,7 @@ function buildBatchnorm() {
   <p class="prose">Batch Normalization normalises each layer's activations to have <strong>zero mean and unit variance</strong> across the mini-batch, then scales/shifts with learned parameters γ and β.</p>
   <div class="fb"><div class="fm">μ_B = (1/m)·Σxᵢ &nbsp;&nbsp; σ²_B = (1/m)·Σ(xᵢ−μ_B)²</div><div class="fd">Compute batch mean and variance</div></div>
   <div class="fb c2"><div class="fm">x̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)</div><div class="fd">Normalise: <span>ε</span> = small constant for numerical stability (1e-5)</div></div>
-  <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift — restores representational power</div></div>
+  <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift: restores representational power</div></div>
   <div class="va">
     <div class="vl">// Effect of batch norm on activation distributions across layers</div>
     <canvas id="bnCanvas" role="img" aria-label="Batch Normalization: Effect of batch norm on activation distributions across layers" height="240"></canvas>
@@ -1478,7 +1466,7 @@ function buildLRSchedule() {
   <div class="fb"><div class="fm">Cosine Decay: αₜ = αₘᵢₙ + ½(αₘₐₓ−αₘᵢₙ)(1 + cos(πt/T))</div><div class="fd"><span>T</span> = total steps &nbsp;|&nbsp; smoothly decays from αₘₐₓ to αₘᵢₙ</div></div>
   <div class="fb c2"><div class="fm">Warmup: α = αₘₐₓ · (t/t_warmup) &nbsp; for t &lt; t_warmup</div><div class="fd">Linear ramp-up prevents large gradient updates from poorly-initialised weights</div></div>
   <div class="va">
-    <div class="vl">// Learning rate schedules — click to compare</div>
+    <div class="vl">// Learning rate schedules: click to compare</div>
     <canvas id="lrCanvas" role="img" aria-label="LR Scheduling: Learning rate schedules — click to compare" height="230"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawLR('step')">STEP DECAY</button>
@@ -1505,10 +1493,10 @@ function buildWeightInit() {
     <div class="topic-meta"><div class="topic-num">13 — Training</div><h2>Weight <em>Initialization</em></h2></div>
     <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// How you start determines if you converge — Xavier, He, and why they matter</p>
+  <p class="sub">// How you start determines if you converge: Xavier, He, and why they matter</p>
   <p class="prose">Bad initialization → activations explode or vanish → gradients die → training fails. The goal: keep <strong>variance of activations stable</strong> across layers.</p>
-  <div class="fb"><div class="fm">Xavier/Glorot: W ~ N(0, 2/(fan_in + fan_out))</div><div class="fd">Designed for <span>tanh/sigmoid</span> — keeps variance ≈1 going forward and backward</div></div>
-  <div class="fb c2"><div class="fm">He/Kaiming: W ~ N(0, 2/fan_in)</div><div class="fd">Designed for <span>ReLU</span> — compensates for ReLU killing half the activations</div></div>
+  <div class="fb"><div class="fm">Xavier/Glorot: W ~ N(0, 2/(fan_in + fan_out))</div><div class="fd">Designed for <span>tanh/sigmoid</span>: keeps variance ≈1 going forward and backward</div></div>
+  <div class="fb c2"><div class="fm">He/Kaiming: W ~ N(0, 2/fan_in)</div><div class="fd">Designed for <span>ReLU</span>: compensates for ReLU killing half the activations</div></div>
   <div class="va">
     <div class="vl">// Activation variance through 10 layers with different initializations</div>
     <canvas id="initCanvas" role="img" aria-label="Weight Initialization: Activation variance through 10 layers with different initializations" height="240"></canvas>
@@ -1541,7 +1529,7 @@ function buildGradClip() {
   <div class="fb"><div class="fm">Clip by norm: if ||g|| > max_norm → g := g · max_norm / ||g||</div><div class="fd">Rescales the entire gradient vector to have norm ≤ max_norm. Preserves direction.</div></div>
   <div class="fb c2"><div class="fm">Clip by value: gᵢ := clamp(gᵢ, −clip_val, +clip_val)</div><div class="fd">Clips each element independently. Faster but can change gradient direction.</div></div>
   <div class="va">
-    <div class="vl">// Gradient norm over training — with and without clipping</div>
+    <div class="vl">// Gradient norm over training: with and without clipping</div>
     <canvas id="clipCanvas" role="img" aria-label="Gradient Clipping: Gradient norm over training — with and without clipping" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Max Norm</span><input type="range" aria-label="Max Norm" id="clipMax" min="0.1" max="5" step="0.1" value="1" oninput="drawClip()"><span class="vd" id="clipMaxV">1.0</span></div>
@@ -1553,7 +1541,7 @@ loss.backward()
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="st">1.0</span>)  <span class="cm"># clip by norm</span>
 optimizer.step()</pre></div>
   <div class="callout"><strong>When to use:</strong> Almost always for RNNs/LSTMs. Common in transformer training too (GPT uses max_norm=1.0). The max_norm value of 1.0 is a good default.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail — like <a href="../markets/indicators/#atr">ATR-based stops</a> that cap how much a position can move against you.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Capping gradient magnitude is a guardrail, like <a href="../markets/indicators/#atr">ATR-based stops</a> that cap how much a position can move against you.</div>
   ${depthHtml('grad-clip')}
   <div class="topic-nav" id="nav-grad-clip"></div>
 </div>`;
@@ -1570,12 +1558,12 @@ function buildSoftmax() {
   <p class="prose">Softmax maps a vector of real-valued logits to probabilities that <strong>sum to 1</strong>. It amplifies the largest logit, making the winner more decisive.</p>
   <div class="fb"><div class="fm">σ(zᵢ) = e^zᵢ / Σⱼ e^zⱼ</div><div class="fd"><span>zᵢ</span> = logit for class i &nbsp;|&nbsp; numerator = exponentiated score &nbsp;|&nbsp; denominator = normalisation</div></div>
   <div class="va">
-    <div class="vl">// Adjust logits — watch probabilities redistribute</div>
+    <div class="vl">// Adjust logits: watch probabilities redistribute</div>
     <canvas id="smCanvas" role="img" aria-label="Softmax: Adjust logits — watch probabilities redistribute" height="200"></canvas>
     <div class="ctrl" id="smCtrl"></div>
   </div>
   <div class="callout"><strong>Temperature scaling:</strong> σ(z/T). T&lt;1 → sharper (more confident). T&gt;1 → softer (more uniform). Used in knowledge distillation and language model sampling.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../llm/#sampling">probability distribution</a> in action. Temperature scaling changes the "confidence" — hot = uniform = <a href="../markets/psychology/#fear-and-greed">uncertain market</a>, cold = peaked = consensus. Sampling from these probabilities, with temperature, top-k or top-p, is the subject of <a href="../llm/#decoding-strategies">decoding strategies</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Converting logits to probabilities that sum to 1 is a <a href="../llm/#sampling">probability distribution</a> in action. Temperature scaling changes the "confidence": hot = uniform = <a href="../markets/psychology/#fear-and-greed">uncertain market</a>, cold = peaked = consensus. Sampling from these probabilities, with temperature, top-k or top-p, is the subject of <a href="../llm/#decoding-strategies">decoding strategies</a>.</div>
   ${depthHtml('softmax')}
   <div class="topic-nav" id="nav-softmax"></div>
 </div>`;
@@ -1588,12 +1576,12 @@ function buildMLE() {
     <div class="topic-meta"><div class="topic-num">16 — Core Math</div><h2>MLE & <em>Gaussian</em></h2></div>
     <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Maximum Likelihood Estimation — why MSE and Cross-Entropy exist</p>
+  <p class="sub">// Maximum Likelihood Estimation: why MSE and Cross-Entropy exist</p>
   <p class="prose">MLE asks: <strong>what parameters make the observed data most probable?</strong> Most ML training objectives are secretly MLE under a particular assumed distribution.</p>
   <div class="fb"><div class="fm">θ* = argmax_θ Σ log p(xᵢ | θ)</div><div class="fd">Maximise log-likelihood (summing logs avoids numerical underflow with tiny probabilities)</div></div>
   <div class="fb c2"><div class="fm">Gaussian: p(x|μ,σ) = (1/√2πσ²) · exp(−(x−μ)²/2σ²)</div><div class="fd">MLE on Gaussian noise assumption → MSE loss. MLE on Bernoulli → Cross-Entropy loss.</div></div>
   <div class="va">
-    <div class="vl">// Gaussian distribution — adjust mean and variance</div>
+    <div class="vl">// Gaussian distribution: adjust mean and variance</div>
     <canvas id="gaussCanvas" role="img" aria-label="MLE &amp; Gaussian: Gaussian distribution — adjust mean and variance" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Mean μ</span><input type="range" aria-label="Mean μ" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
@@ -1601,7 +1589,7 @@ function buildMLE() {
     </div>
   </div>
   <div class="callout info"><strong>Key insight:</strong> Training with MSE loss = assuming your errors are Gaussian distributed. Training with Cross-Entropy = assuming Bernoulli/Categorical outputs. The loss function encodes your distributional assumption.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Maximum likelihood estimation is the mathematical foundation of <a href="../stats/#distribution-shape">fitting a normal distribution</a> to data. The same principle drives <a href="../markets/indicators/#standard-deviation">volatility estimation</a> in markets — finding the parameters that best explain observed returns.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Maximum likelihood estimation is the mathematical foundation of <a href="../stats/#distribution-shape">fitting a normal distribution</a> to data. The same principle drives <a href="../markets/indicators/#standard-deviation">volatility estimation</a> in markets: finding the parameters that best explain observed returns.</div>
   ${depthHtml('mle')}
   <div class="topic-nav" id="nav-mle"></div>
 </div>`;
@@ -1614,13 +1602,13 @@ function buildEntropy() {
     <div class="topic-meta"><div class="topic-num">17 — Core Math</div><h2><em>Entropy</em></h2></div>
     <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Measuring uncertainty — how much "surprise" is in a distribution</p>
+  <p class="sub">// Measuring uncertainty: how much "surprise" is in a distribution</p>
   <p class="prose"><strong>Entropy</strong> measures the average amount of information (surprise) in a distribution. A fair coin has maximum entropy (1 bit). A loaded coin has lower entropy. Cross-entropy extends this to compare two distributions.</p>
-  <div class="fb"><div class="fm">H(P) = −Σ P(x) · log₂P(x)</div><div class="fd"><span>Shannon Entropy</span> — measured in bits (log₂) or nats (ln). Maximum when uniform, zero when deterministic.</div></div>
-  <div class="fb c2"><div class="fm">H(P,Q) = −Σ P(x) · log Q(x)</div><div class="fd"><span>Cross-Entropy</span> — expected surprise when using Q to encode events from P. Always ≥ H(P).</div></div>
+  <div class="fb"><div class="fm">H(P) = −Σ P(x) · log₂P(x)</div><div class="fd"><span>Shannon Entropy</span>: measured in bits (log₂) or nats (ln). Maximum when uniform, zero when deterministic.</div></div>
+  <div class="fb c2"><div class="fm">H(P,Q) = −Σ P(x) · log Q(x)</div><div class="fd"><span>Cross-Entropy</span>: expected surprise when using Q to encode events from P. Always ≥ H(P).</div></div>
   <div class="fb c3"><div class="fm">H(P,Q) = H(P) + KL(P||Q)</div><div class="fd">Cross-entropy = entropy of P + extra bits from approximation error. Minimising CE ≡ minimising KL.</div></div>
   <div class="va">
-    <div class="vl">// Binary entropy — adjust probability of heads</div>
+    <div class="vl">// Binary entropy: adjust probability of heads</div>
     <canvas id="entropyCanvas" role="img" aria-label="Entropy: Binary entropy — adjust probability of heads" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">P(heads)</span><input type="range" aria-label="P(heads)" id="entP" min="0.01" max="0.99" step="0.01" value="0.5" oninput="drawEntropy()"><span class="vd" id="entPV">0.50</span></div>
@@ -1642,7 +1630,7 @@ function buildKLDiv() {
     <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how different two probability distributions are</p>
-  <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric — KL(P||Q) ≠ KL(Q||P).</p>
+  <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric: KL(P||Q) ≠ KL(Q||P).</p>
   <div class="fb"><div class="fm">KL(P||Q) = Σ P(x) · log(P(x)/Q(x))</div><div class="fd">Always ≥ 0 &nbsp;|&nbsp; = 0 only when P = Q exactly</div></div>
   <div class="fb c2"><div class="fm">KL(P||Q) = ∫ p(x) · log(p(x)/q(x)) dx</div><div class="fd">Continuous case &nbsp;|&nbsp; used in VAE loss, RLHF, variational inference</div></div>
   <div class="va">
@@ -1666,11 +1654,11 @@ function buildBayes() {
     <div class="topic-meta"><div class="topic-num">19 — Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
     <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Updating beliefs with evidence — the foundation of probabilistic ML</p>
+  <p class="sub">// Updating beliefs with evidence: the foundation of probabilistic ML</p>
   <p class="prose">Bayes' Theorem tells us how to <strong>update a prior belief</strong> when we observe new evidence.</p>
   <div class="fb"><div class="fm">P(A|B) = P(B|A) · P(A) / P(B)</div><div class="fd"><span>P(A|B)</span> = posterior &nbsp;|&nbsp; <span>P(B|A)</span> = likelihood &nbsp;|&nbsp; <span>P(A)</span> = prior &nbsp;|&nbsp; <span>P(B)</span> = evidence</div></div>
   <div class="va">
-    <div class="vl">// Medical test — posterior probability after positive result</div>
+    <div class="vl">// Medical test: posterior probability after positive result</div>
     <canvas id="bayesCanvas" role="img" aria-label="Bayes' Theorem: Medical test — posterior probability after positive result" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" aria-label="Prior P(disease) %" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
@@ -1679,7 +1667,7 @@ function buildBayes() {
     </div>
   </div>
   <div class="callout warn"><strong>Base rate fallacy:</strong> 1% disease prevalence + 95% accurate test = only ~16% chance you're actually sick after a positive. Low priors dominate!</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Updating beliefs with evidence is the core of <a href="../stats/#bayesian-ab">Bayesian statistics</a>. Traders do it intuitively: new data shifts the <a href="../markets/psychology/#confirmation-bias">prior belief</a> — or doesn’t, when confirmation bias blocks the update.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Updating beliefs with evidence is the core of <a href="../stats/#bayesian-ab">Bayesian statistics</a>. Traders do it intuitively: new data shifts the <a href="../markets/psychology/#confirmation-bias">prior belief</a>, or doesn’t, when confirmation bias blocks the update.</div>
   ${depthHtml('bayes')}
   <div class="topic-nav" id="nav-bayes"></div>
 </div>`;
@@ -1696,7 +1684,7 @@ function buildCrossval() {
   <p class="prose"><strong>k-fold cross-validation</strong> averages performance over k splits for a more reliable estimate than a single train/test split.</p>
   <div class="fb"><div class="fm">CV Score = (1/k) · Σᵢ score(model_i, fold_i)</div><div class="fd">Train k models, each evaluated on a different held-out fold</div></div>
   <div class="va">
-    <div class="vl">// k-fold cross-validation — click to cycle through folds</div>
+    <div class="vl">// k-fold cross-validation: click to cycle through folds</div>
     <canvas id="cvCanvas" role="img" aria-label="Cross-Validation: k-fold cross-validation — click to cycle through folds" height="200"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">k folds</span><input type="range" aria-label="k folds" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
@@ -1725,7 +1713,7 @@ function buildMetrics() {
   <p class="sub">// How to actually measure if your model is good</p>
   <p class="prose">Accuracy alone is misleading for imbalanced classes. <strong>Precision, Recall, F1 and ROC-AUC</strong> give a complete picture.</p>
   <div class="fb"><div class="fm">Precision = TP/(TP+FP) &nbsp;&nbsp; Recall = TP/(TP+FN)</div><div class="fd"><span>Precision</span> = of predicted positives, how many real? &nbsp;|&nbsp; <span>Recall</span> = of real positives, how many found?</div></div>
-  <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean — punishes models that sacrifice one for the other</div></div>
+  <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean: punishes models that sacrifice one for the other</div></div>
   <div class="va">
     <div class="vl">// Interactive confusion matrix</div>
     <canvas id="metricsCanvas" role="img" aria-label="Eval Metrics: Interactive confusion matrix" height="260"></canvas>
@@ -1748,12 +1736,12 @@ function buildCosineSim() {
     <div class="topic-meta"><div class="topic-num">22 — Core Math</div><h2>Cosine <em>Similarity</em></h2></div>
     <span class="topic-badge">Distance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Measuring angular similarity between vectors — the backbone of retrieval</p>
+  <p class="sub">// Measuring angular similarity between vectors: the backbone of retrieval</p>
   <p class="prose">Cosine similarity measures the <strong>angle between two vectors</strong>, ignoring magnitude. Two vectors pointing the same direction have similarity 1, opposite = −1, perpendicular = 0. It's the standard metric for embeddings and RAG retrieval.</p>
   <div class="fb"><div class="fm">cos(θ) = (a · b) / (||a|| · ||b||)</div><div class="fd"><span>a · b</span> = dot product &nbsp;|&nbsp; <span>||a||</span> = L2 norm &nbsp;|&nbsp; Range: [−1, 1]</div></div>
   <div class="fb c2"><div class="fm">Cosine Distance = 1 − cos(θ)</div><div class="fd">Converts similarity to distance &nbsp;|&nbsp; Range: [0, 2] &nbsp;|&nbsp; 0 = identical direction</div></div>
   <div class="va">
-    <div class="vl">// Two vectors — adjust angle to see similarity change</div>
+    <div class="vl">// Two vectors: adjust angle to see similarity change</div>
     <canvas id="cosCanvas" role="img" aria-label="Cosine Similarity: Two vectors — adjust angle to see similarity change" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Angle between vectors</span><input type="range" aria-label="Angle between vectors" id="cosAngle" min="0" max="180" step="1" value="30" oninput="drawCosSim()"><span class="vd" id="cosAngleV">30°</span></div>
@@ -1782,11 +1770,11 @@ function buildCNN() {
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exploiting spatial structure with shared local filters</p>
-  <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input — translational equivariance.</p>
+  <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input: translational equivariance.</p>
   <div class="fb"><div class="fm">(f * g)[i,j] = Σₘ Σₙ f[m,n] · g[i−m, j−n]</div><div class="fd"><span>f</span> = filter/kernel &nbsp;|&nbsp; <span>g</span> = input &nbsp;|&nbsp; slide filter, compute dot product at each position</div></div>
   <div class="fb c2"><div class="fm">Output size = ⌊(W − K + 2P)/S⌋ + 1</div><div class="fd"><span>W</span> = input width &nbsp;|&nbsp; <span>K</span> = kernel size &nbsp;|&nbsp; <span>P</span> = padding &nbsp;|&nbsp; <span>S</span> = stride</div></div>
   <div class="va">
-    <div class="vl">// Convolution operation — kernel sliding over input</div>
+    <div class="vl">// Convolution operation: kernel sliding over input</div>
     <canvas id="cnnCanvas" role="img" aria-label="CNN: Convolution operation — kernel sliding over input" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Kernel Size</span><input type="range" aria-label="Kernel Size" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
@@ -1812,15 +1800,15 @@ function buildEmbeddings() {
   </div>
   <p class="sub">// Mapping discrete tokens to continuous vector spaces</p>
   <p class="prose">An embedding maps each discrete token to a dense vector where <strong>semantic similarity = geometric proximity</strong>.</p>
-  <div class="fb"><div class="fm">Skip-gram: max Σ Σ log P(wₒ | wᵢ)</div><div class="fd">Predict surrounding words from centre word — forces similar words to nearby vectors</div></div>
+  <div class="fb"><div class="fm">Skip-gram: max Σ Σ log P(wₒ | wᵢ)</div><div class="fd">Predict surrounding words from centre word: forces similar words to nearby vectors</div></div>
   <div class="fb c2"><div class="fm">king − man + woman ≈ queen</div><div class="fd">Learned embeddings encode <span>analogical relationships</span> as linear vector arithmetic</div></div>
   <div class="va">
-    <div class="vl">// 2D embedding space — semantic clusters</div>
+    <div class="vl">// 2D embedding space: semantic clusters</div>
     <canvas id="embCanvas" role="img" aria-label="Embeddings: 2D embedding space — semantic clusters" height="240"></canvas>
   </div>
   <div class="code-block"><pre>self.embed = nn.Embedding(vocab_size=<span class="st">50000</span>, embedding_dim=<span class="st">256</span>)
 x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)</span></pre></div>
-  <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the ancestor. Today BERT/GPT produce <em>contextual</em> embeddings — the same word gets different vectors depending on context.</div>
+  <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the ancestor. Today BERT/GPT produce <em>contextual</em> embeddings: the same word gets different vectors depending on context.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Mapping tokens to vectors where distance = meaning is the same idea behind <a href="../llm/#embeddings">LLM token embeddings</a>.</div>
   ${depthHtml('embeddings')}
   <div class="topic-nav" id="nav-embeddings"></div>
@@ -1838,7 +1826,7 @@ function buildAttention() {
   <p class="prose">Each token asks: <strong>"which other tokens are most relevant to me?"</strong> via dot-product similarity between queries and keys.</p>
   <div class="fb"><div class="fm">Attention(Q,K,V) = softmax(QKᵀ / √d) · V</div><div class="fd"><span>Q</span> = Query &nbsp;|&nbsp; <span>K</span> = Key &nbsp;|&nbsp; <span>V</span> = Value &nbsp;|&nbsp; <span>√d</span> = scaling to prevent saturation</div></div>
   <div class="va">
-    <div class="vl">// Attention heatmap — click cells to boost connections</div>
+    <div class="vl">// Attention heatmap: click cells to boost connections</div>
     <canvas id="attCanvas" role="img" aria-label="Attention heatmap — click cells to boost connections" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="rndAtt()">↺ RANDOMIZE</button>
@@ -1861,9 +1849,9 @@ function buildTransformer() {
   </div>
   <p class="sub">// The architecture behind BERT, GPT, and all modern LLMs</p>
   <p class="prose">The Transformer combines <strong>multi-head self-attention</strong> with position-wise feed-forward networks, residual connections, and layer normalisation.</p>
-  <div class="fb"><div class="fm">PE(pos, 2i) = sin(pos/10000^(2i/d))</div><div class="fd"><span>Positional Encoding</span> — sine/cosine waves encode token position</div></div>
+  <div class="fb"><div class="fm">PE(pos, 2i) = sin(pos/10000^(2i/d))</div><div class="fd"><span>Positional Encoding</span>: sine/cosine waves encode token position</div></div>
   <div class="fb c2"><div class="fm">FFN(x) = max(0, xW₁+b₁)W₂+b₂</div><div class="fd">Position-wise feed-forward: two linear layers with ReLU/GELU</div></div>
-  <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span> — applied around every sublayer</div></div>
+  <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span>: applied around every sublayer</div></div>
   <div class="va">
     <div class="vl">// Transformer block diagram</div>
     <canvas id="transCanvas" role="img" aria-label="Transformer block diagram" height="280"></canvas>
@@ -1873,7 +1861,7 @@ function buildTransformer() {
     dropout=<span class="st">0.1</span>, norm_first=<span class="st">True</span>  <span class="cm"># Pre-LN (modern default)</span>
 )
 transformer = nn.TransformerEncoder(encoder_layer, num_layers=<span class="st">6</span>)</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block — attention + feed-forward + residual — is now the backbone of <a href="../llm/#transformer-block">every modern LLM</a>. GPT-2, counted in the worked example, is a <a href="../llm/#decoder-only">decoder-only</a> model: the original transformer without its encoder.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The transformer block, attention + feed-forward + residual, is now the backbone of <a href="../llm/#transformer-block">every modern LLM</a>. GPT-2, counted in the worked example, is a <a href="../llm/#decoder-only">decoder-only</a> model: the original transformer without its encoder.</div>
   ${depthHtml('transformer')}
   <div class="topic-nav" id="nav-transformer"></div>
 </div>`;
@@ -1886,10 +1874,10 @@ function buildNormalization() {
     <div class="topic-meta"><div class="topic-num">27 — Deep Learning</div><h2>Normalization <em>Variants</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// LayerNorm, RMSNorm, GroupNorm — which normalisation for which architecture</p>
+  <p class="sub">// LayerNorm, RMSNorm, GroupNorm, which normalisation for which architecture</p>
   <p class="prose">Different architectures need different normalisation. <strong>BatchNorm</strong> works for CNNs, <strong>LayerNorm</strong> for transformers, <strong>RMSNorm</strong> for modern LLMs (faster, no mean subtraction).</p>
-  <div class="fb"><div class="fm">LayerNorm: x̂ = (x − μ) / √(σ² + ε) · γ + β</div><div class="fd">Normalises over <span>features (last dim)</span> — independent of batch size. Standard for transformers.</div></div>
-  <div class="fb c2"><div class="fm">RMSNorm: x̂ = x / RMS(x) · γ &nbsp;&nbsp; RMS(x) = √(Σxᵢ²/n)</div><div class="fd">Skips mean subtraction — <span>faster</span> than LayerNorm (7–64% in its authors’ tests). Used in LLaMA, Mistral, Gemma.</div></div>
+  <div class="fb"><div class="fm">LayerNorm: x̂ = (x − μ) / √(σ² + ε) · γ + β</div><div class="fd">Normalises over <span>features (last dim)</span>: independent of batch size. Standard for transformers.</div></div>
+  <div class="fb c2"><div class="fm">RMSNorm: x̂ = x / RMS(x) · γ &nbsp;&nbsp; RMS(x) = √(Σxᵢ²/n)</div><div class="fd">Skips mean subtraction: <span>faster</span> than LayerNorm (7–64% in its authors’ tests). Used in LLaMA, Mistral, Gemma.</div></div>
   <div class="fb c3"><div class="fm">GroupNorm: split channels into G groups, normalise each</div><div class="fd">Works with any batch size. <span>G=32</span> is common. Used in diffusion models (U-Net).</div></div>
   <table class="mt">
     <thead><tr><th>Method</th><th>Normalises Over</th><th>Batch-Dependent</th><th>Used In</th></tr></thead>
@@ -1938,7 +1926,7 @@ function buildRNN() {
     </div>
   </div>
   <div class="callout warn"><strong>Vanishing gradient:</strong> Gradients shrink exponentially over many timesteps. LSTM and GRU solve this with gated memory.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Hidden state flowing through time steps is sequential memory — like <a href="../markets/indicators/#ema">exponential moving averages</a> where each value inherits from the past.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hidden state flowing through time steps is sequential memory, like <a href="../markets/indicators/#ema">exponential moving averages</a> where each value inherits from the past.</div>
   ${depthHtml('rnn')}
   <div class="topic-nav" id="nav-rnn"></div>
 </div>`;
@@ -1952,7 +1940,7 @@ function buildLSTM() {
     <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Gated memory cells that solve the vanishing gradient problem</p>
-  <p class="prose">LSTMs add a <strong>cell state c</strong> — a "memory highway" — alongside the hidden state. Three gates control information flow.</p>
+  <p class="prose">LSTMs add a <strong>cell state c</strong>, a "memory highway", alongside the hidden state. Three gates control information flow.</p>
   <div class="fb"><div class="fm">fₜ=σ(Wf·[hₜ₋₁,xₜ]) &nbsp; iₜ=σ(Wi·[hₜ₋₁,xₜ]) &nbsp; oₜ=σ(Wo·[hₜ₋₁,xₜ])</div><div class="fd"><span>f</span> = forget &nbsp;|&nbsp; <span>i</span> = input &nbsp;|&nbsp; <span>o</span> = output gates</div></div>
   <div class="fb c2"><div class="fm">cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ tanh(Wc·[hₜ₋₁,xₜ])</div><div class="fd">Cell state update: forget old + write new candidate</div></div>
   <div class="fb c3"><div class="fm">hₜ = oₜ ⊙ tanh(cₜ)</div><div class="fd">Hidden state = filtered cell state</div></div>
@@ -1982,16 +1970,16 @@ function buildGRU() {
     <div class="topic-meta"><div class="topic-num">30 — Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
     <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// LSTM's streamlined sibling — two gates, one state vector</p>
+  <p class="sub">// LSTM's streamlined sibling: two gates, one state vector</p>
   <p class="prose">GRU simplifies LSTM by merging cell+hidden state and using only <strong>two gates</strong>: update and reset.</p>
   <div class="fb"><div class="fm">zₜ = σ(Wz·[hₜ₋₁,xₜ]) &nbsp;&nbsp; rₜ = σ(Wr·[hₜ₋₁,xₜ])</div><div class="fd"><span>z</span> = update gate &nbsp;|&nbsp; <span>r</span> = reset gate</div></div>
-  <div class="fb c2"><div class="fm">h̃ₜ = tanh(W·[rₜ⊙hₜ₋₁, xₜ])</div><div class="fd">Candidate hidden state — gated by reset</div></div>
+  <div class="fb c2"><div class="fm">h̃ₜ = tanh(W·[rₜ⊙hₜ₋₁, xₜ])</div><div class="fd">Candidate hidden state: gated by reset</div></div>
   <div class="fb c3"><div class="fm">hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ</div><div class="fd">Interpolate between old and new state via update gate</div></div>
   <div class="va">
-    <div class="vl">// RNN vs GRU vs LSTM — parameter count comparison</div>
+    <div class="vl">// RNN vs GRU vs LSTM: parameter count comparison</div>
     <canvas id="gruCanvas" role="img" aria-label="GRU: RNN vs GRU vs LSTM — parameter count comparison" height="230"></canvas>
   </div>
-  <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline. <strong style="color:var(--accent2)">GRU</strong> — best default for seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range deps. <strong style="color:var(--accent4)">Transformer</strong> — lots of data + GPU.</div>
+  <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline. <strong style="color:var(--accent2)">GRU</strong>: best default for seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range deps. <strong style="color:var(--accent4)">Transformer</strong>: lots of data + GPU.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> GRU merges forget and input into a single update gate — elegant reduction. In markets, <a href="../markets/indicators/#rsi">RSI</a> compresses momentum into one number.</div>
   ${depthHtml('gru')}
   <div class="topic-nav" id="nav-gru"></div>
@@ -2009,7 +1997,7 @@ function buildPCA() {
   <p class="prose">PCA finds the axes along which data <strong>varies the most</strong>. These are the eigenvectors of the covariance matrix.</p>
   <div class="fb"><div class="fm">C = (1/n)·XᵀX &nbsp;&nbsp;&nbsp; Cv = λv</div><div class="fd"><span>C</span> = covariance matrix &nbsp;|&nbsp; <span>v</span> = eigenvector &nbsp;|&nbsp; <span>λ</span> = eigenvalue (variance explained)</div></div>
   <div class="va">
-    <div class="vl">// 2D data with principal components — adjust correlation</div>
+    <div class="vl">// 2D data with principal components: adjust correlation</div>
     <canvas id="pcaCanvas" role="img" aria-label="PCA: 2D data with principal components — adjust correlation" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Correlation</span><input type="range" aria-label="Correlation" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
@@ -2031,11 +2019,11 @@ function buildSVD() {
     <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Decomposing any matrix into rotation, scaling, and rotation</p>
-  <p class="prose">SVD factors <strong>any matrix</strong> into three parts: A = UΣVᵀ. It's the Swiss Army knife of linear algebra — used in PCA, compression, recommenders, and the mathematical foundation of LoRA.</p>
+  <p class="prose">SVD factors <strong>any matrix</strong> into three parts: A = UΣVᵀ. It's the Swiss Army knife of linear algebra: used in PCA, compression, recommenders, and the mathematical foundation of LoRA.</p>
   <div class="fb"><div class="fm">A = UΣVᵀ</div><div class="fd"><span>U</span> = left singular vectors (m×m) &nbsp;|&nbsp; <span>Σ</span> = diagonal singular values &nbsp;|&nbsp; <span>Vᵀ</span> = right singular vectors (n×n)</div></div>
   <div class="fb c2"><div class="fm">A ≈ U_r · Σ_r · V_r^T &nbsp;&nbsp; (rank-r approximation)</div><div class="fd">Keep only top-r singular values → best rank-r approximation (Eckart-Young theorem)</div></div>
   <div class="va">
-    <div class="vl">// Low-rank approximation — how many singular values do you need?</div>
+    <div class="vl">// Low-rank approximation: how many singular values do you need?</div>
     <canvas id="svdCanvas" role="img" aria-label="SVD: Low-rank approximation — how many singular values do you need?" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Rank r</span><input type="range" aria-label="Rank r" id="svdR" min="1" max="10" step="1" value="3" oninput="drawSVD()"><span class="vd" id="svdRV">3</span></div>
@@ -2079,7 +2067,7 @@ function buildVAE() {
     recon = F.mse_loss(recon_x, x)
     kl    = <span class="st">-0.5</span> * torch.mean(<span class="st">1</span> + log_var - mu**<span class="st">2</span> - log_var.exp())
     <span class="kw">return</span> recon + kl</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../essays/#essay-bell">normal distribution</a> regularizer — pulling the latent space toward Gaussian structure.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Encoding data into a structured latent space, then decoding it. The KL term is a <a href="../essays/#essay-bell">normal distribution</a> regularizer: pulling the latent space toward Gaussian structure.</div>
   ${depthHtml('vae')}
   <div class="topic-nav" id="nav-vae"></div>
 </div>`;
@@ -2098,14 +2086,14 @@ function buildDiffusion() {
   <div class="fb c2"><div class="fm">xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε &nbsp;&nbsp; ε~N(0,I)</div><div class="fd">Closed form for any timestep t.</div></div>
   <div class="fb c3"><div class="fm">L = E[||ε − εθ(xₜ,t)||²]</div><div class="fd">Training: predict the noise ε that was added.</div></div>
   <div class="va">
-    <div class="vl">// Forward diffusion — noise being added over timesteps</div>
+    <div class="vl">// Forward diffusion: noise being added over timesteps</div>
     <canvas id="diffCanvas" role="img" aria-label="Diffusion Models: Forward diffusion — noise being added over timesteps" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Timestep t</span><input type="range" aria-label="Timestep t" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
       <button class="btn" onclick="animDiff()">▶ FORWARD PROCESS</button>
     </div>
   </div>
-  <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in compressed latent space — enabling image generation on consumer GPUs.</div>
+  <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in compressed latent space: enabling image generation on consumer GPUs.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Adding noise then learning to reverse it mirrors <a href="../stats/#clt-sampling">the central limit theorem</a> in reverse — from Gaussian noise back to structured signal. In markets, <a href="../markets/psychology/#euphoria-panic">euphoria and panic</a> inject noise that mean-reverts to equilibrium.</div>
   ${depthHtml('diffusion')}
   <div class="topic-nav" id="nav-diffusion"></div>
@@ -2145,12 +2133,12 @@ function buildTokenization() {
     <div class="topic-meta"><div class="topic-num">36 — Modern / LLM</div><h2>Tokenization <em>(BPE)</em></h2></div>
     <span class="topic-badge">NLP</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// How text becomes numbers — the first step in every language model</p>
-  <p class="prose">Byte Pair Encoding (BPE) builds a vocabulary by <strong>iteratively merging the most frequent pair</strong> of tokens. It handles unseen words via subword splitting — no unknown tokens needed.</p>
+  <p class="sub">// How text becomes numbers: the first step in every language model</p>
+  <p class="prose">Byte Pair Encoding (BPE) builds a vocabulary by <strong>iteratively merging the most frequent pair</strong> of tokens. It handles unseen words via subword splitting: no unknown tokens needed.</p>
   <div class="fb"><div class="fm">BPE: repeatedly merge most frequent adjacent pair</div><div class="fd">"lowest" → ["low", "est"] or ["l", "ow", "est"] depending on learned merges</div></div>
   <div class="fb c2"><div class="fm">Vocab size: typically 32k–128k tokens</div><div class="fd">GPT-2: 50,257 &nbsp;|&nbsp; LLaMA: 32,000 &nbsp;|&nbsp; GPT-4: ~100,000</div></div>
   <div class="va">
-    <div class="vl">// BPE merge process — watch vocabulary build up</div>
+    <div class="vl">// BPE merge process: watch vocabulary build up</div>
     <canvas id="bpeCanvas" role="img" aria-label="Tokenization (BPE): BPE merge process — watch vocabulary build up" height="220"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animBPE()">▶ RUN MERGES</button>
@@ -2192,7 +2180,7 @@ function buildLoRA() {
   <div class="fb"><div class="fm">W' = W + ΔW = W + B·A &nbsp;&nbsp; B ∈ ℝ^(d×r), A ∈ ℝ^(r×d)</div><div class="fd"><span>W</span> = frozen original weights &nbsp;|&nbsp; <span>B·A</span> = low-rank update &nbsp;|&nbsp; <span>r</span> = rank (4–64 typical)</div></div>
   <div class="fb c2"><div class="fm">Params: d² → 2·d·r &nbsp;&nbsp; (e.g., 4096² = 16.7M → 2·4096·16 = 131K)</div><div class="fd">A 99.2% reduction in trainable parameters for rank r=16</div></div>
   <div class="va">
-    <div class="vl">// Parameter savings — full fine-tuning vs LoRA</div>
+    <div class="vl">// Parameter savings: full fine-tuning vs LoRA</div>
     <canvas id="loraCanvas" role="img" aria-label="LoRA: Parameter savings — full fine-tuning vs LoRA" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model dim d</span><input type="range" aria-label="Model dim d" id="loraD" min="256" max="8192" step="256" value="4096" oninput="drawLoRA()"><span class="vd" id="loraDV">4096</span></div>
@@ -2230,9 +2218,9 @@ function buildRLHF() {
   <div class="fb"><div class="fm">Stage 1: SFT — fine-tune on high-quality demonstrations</div><div class="fd">Supervised fine-tuning on curated instruction-response pairs</div></div>
   <div class="fb c2"><div class="fm">Stage 2: Reward Model — R(x,y) trained on human preferences</div><div class="fd">Human annotators rank outputs; model learns to predict which response humans prefer</div></div>
   <div class="fb c3"><div class="fm">Stage 3: PPO — max E[R(x,y)] − β·KL(π||π_ref)</div><div class="fd">Optimise policy to maximise reward while staying close to SFT model (prevents reward hacking)</div></div>
-  <div class="fb c4"><div class="fm">DPO: L = −log σ(β(log π(y_w|x)/π_ref(y_w|x) − log π(y_l|x)/π_ref(y_l|x)))</div><div class="fd"><span>DPO</span> = Direct Preference Optimization — no reward model needed. Simpler, more stable.</div></div>
+  <div class="fb c4"><div class="fm">DPO: L = −log σ(β(log π(y_w|x)/π_ref(y_w|x) − log π(y_l|x)/π_ref(y_l|x)))</div><div class="fd"><span>DPO</span> = Direct Preference Optimization: no reward model needed. Simpler, more stable.</div></div>
   <div class="va">
-    <div class="vl">// RLHF pipeline — three-stage process</div>
+    <div class="vl">// RLHF pipeline: three-stage process</div>
     <canvas id="rlhfCanvas" role="img" aria-label="RLHF pipeline — three-stage process" height="260"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animRLHF()">▶ WALK THROUGH</button>
@@ -2241,7 +2229,7 @@ function buildRLHF() {
     </div>
   </div>
   <div class="callout info"><strong>DPO vs RLHF:</strong> DPO reformulates RLHF as a simple classification loss on preference pairs — no reward model, no PPO, no RL instability. LLaMA 2, Zephyr, and many modern models use DPO.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Training a reward model from human preferences connects to <a href="../llm/#rlhf">RLHF in LLM alignment</a> and <a href="../stats/#hypothesis-testing">preference testing</a> in statistics. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal. The one-step alternative has its own topic: <a href="../llm/#dpo">DPO</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Training a reward model from human preferences connects to <a href="../llm/#rlhf">RLHF in LLM alignment</a> and <a href="../stats/#hypothesis-testing">preference testing</a> in statistics. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price: the market’s reward signal. The one-step alternative has its own topic: <a href="../llm/#dpo">DPO</a>.</div>
   ${depthHtml('rlhf')}
   <div class="topic-nav" id="nav-rlhf"></div>
 </div>`;

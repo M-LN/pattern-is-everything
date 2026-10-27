@@ -43,31 +43,31 @@ const TOPIC_NAMES = {
 };
 
 const TOPIC_DATA = [
-  { id:'confirmation-bias', evidence:'statistical', reviewed:'2026-10-02', num:'01', title:'Confirmation Bias', category:'Cognitive Biases', keywords:['selective','seeking evidence','ignoring contrary','belief','filter','echo chamber'], content:'The tendency to search for, interpret, and remember information that confirms your existing beliefs — while ignoring contradictory evidence. In trading: you\'re bullish, so you only read bullish analysis.' },
+  { id:'confirmation-bias', evidence:'statistical', reviewed:'2026-10-02', num:'01', title:'Confirmation Bias', category:'Cognitive Biases', keywords:['selective','seeking evidence','ignoring contrary','belief','filter','echo chamber'], content:'The tendency to search for, interpret, and remember information that confirms your existing beliefs, while ignoring contradictory evidence. In trading: you\'re bullish, so you only read bullish analysis.' },
   { id:'anchoring', evidence:'statistical', reviewed:'2026-10-02', num:'02', title:'Anchoring', category:'Cognitive Biases', keywords:['reference point','first number','price anchor','adjustment','insufficient','52-week high'], content:'Over-relying on the first piece of information encountered (the "anchor"). In markets: traders anchor to purchase price, 52-week highs, or round numbers — leading to irrational support/resistance behavior.' },
   { id:'recency-bias', evidence:'statistical', reviewed:'2026-10-02', num:'03', title:'Recency Bias', category:'Cognitive Biases', keywords:['recent events','extrapolation','short memory','trend chasing','last quarter','performance'], content:'Weighting recent events more heavily than historical ones. After a bull run, investors expect it to continue. After a crash, they expect more pain. The recent past feels like the permanent future.' },
   { id:'availability-heuristic', evidence:'statistical', reviewed:'2026-10-02', num:'04', title:'Availability Heuristic', category:'Cognitive Biases', keywords:['vivid memories','media','dramatic events','probability','overweight','Tversky','Kahneman'], content:'Judging probability by how easily examples come to mind. Dramatic crashes (1929, 2008) are vivid, so risk feels higher after media coverage. Quiet, steady gains are forgotten because they\'re not dramatic.' },
-  { id:'hindsight-bias', evidence:'statistical', reviewed:'2026-10-02', pattern:'Once the outcome is known it feels as if it was predictable all along, and memory quietly rewrites the odds', num:'05', title:'Hindsight Bias', category:'Cognitive Biases', keywords:['knew it all along','predictable','retroactive','overestimate','narrative fallacy','obvious'], content:'"I knew it all along." After an event, people believe they predicted it. This prevents learning from mistakes — if you "knew" the crash was coming, there\'s nothing to learn. Dangerous for improving trading decisions.' },
-  { id:'fear-and-greed', evidence:'heuristic', reviewed:'2026-10-02', num:'06', title:'Fear & Greed', category:'Emotional Drivers', keywords:['emotion cycle','index','extreme fear','extreme greed','Buffett','pendulum','sentiment'], content:'The two dominant market emotions. Greed drives bubbles — "I need to get in before it\'s too late." Fear drives crashes — "I need to get out before I lose everything." Buffett: "Be fearful when others are greedy, greedy when others are fearful."' },
+  { id:'hindsight-bias', evidence:'statistical', reviewed:'2026-10-02', pattern:'Once the outcome is known it feels as if it was predictable all along, and memory rewrites the odds', num:'05', title:'Hindsight Bias', category:'Cognitive Biases', keywords:['knew it all along','predictable','retroactive','overestimate','narrative fallacy','obvious'], content:'"I knew it all along." After an event, people believe they predicted it. This prevents learning from mistakes, if you "knew" the crash was coming, there\'s nothing to learn. Dangerous for improving trading decisions.' },
+  { id:'fear-and-greed', evidence:'heuristic', reviewed:'2026-10-02', num:'06', title:'Fear & Greed', category:'Emotional Drivers', keywords:['emotion cycle','index','extreme fear','extreme greed','Buffett','pendulum','sentiment'], content:'The two dominant market emotions. Greed drives bubbles, "I need to get in before it\'s too late." Fear drives crashes, "I need to get out before I lose everything." Buffett: "Be fearful when others are greedy, greedy when others are fearful."' },
   { id:'loss-aversion', evidence:'statistical', reviewed:'2026-10-02', num:'07', title:'Loss Aversion', category:'Emotional Drivers', keywords:['Kahneman','Tversky','prospect theory','2x pain','losses loom larger','risk averse gains','risk seeking losses'], content:'Losses hurt ~2× more than equivalent gains feel good (Kahneman & Tversky, Prospect Theory). This causes traders to hold losers too long (hoping to avoid realizing the loss) and sell winners too quickly (locking in gains).' },
   { id:'regret-aversion', evidence:'heuristic', reviewed:'2026-10-02', num:'08', title:'Regret Aversion', category:'Emotional Drivers', keywords:['anticipated regret','inaction','omission','commission','paralysis','should have'], content:'Fear of making a decision you\'ll regret. Leads to inaction (paralysis) or following the crowd (if everyone else does it, at least I won\'t regret alone). People regret actions (commission) more than inactions (omission) short-term, but the reverse long-term.' },
   { id:'overconfidence', evidence:'statistical', reviewed:'2026-10-02', num:'09', title:'Overconfidence', category:'Emotional Drivers', keywords:['illusion of control','above average','excessive trading','Barber','Odean','prediction','calibration'], content:'Believing you know more than you do. Overconfident traders trade too frequently (Barber & Odean: higher turnover = lower returns), underestimate risk, and use insufficient diversification. In one U.S. student sample, 93% rated themselves above-median drivers.' },
-  { id:'disposition-effect', evidence:'statistical', reviewed:'2026-10-02', num:'10', title:'Disposition Effect', category:'Emotional Drivers', keywords:['sell winners','hold losers','Shefrin','Statman','tax inefficient','loss aversion','pride'], content:'The tendency to sell winning positions too early (pride) and hold losing positions too long (hope). Documented by Shefrin & Statman (1985). It\'s tax-inefficient and performance-destroying — the mirror of what rational investors should do.' },
+  { id:'disposition-effect', evidence:'statistical', reviewed:'2026-10-02', num:'10', title:'Disposition Effect', category:'Emotional Drivers', keywords:['sell winners','hold losers','Shefrin','Statman','tax inefficient','loss aversion','pride'], content:'The tendency to sell winning positions too early (pride) and hold losing positions too long (hope). Documented by Shefrin & Statman (1985). It\'s tax-inefficient and performance-destroying: the mirror of what rational investors should do.' },
   { id:'herd-behavior', evidence:'debated', reviewed:'2026-10-02', num:'11', title:'Herd Behavior', category:'Herd & Social', keywords:['crowd','following','momentum','bubble','crash','safety in numbers','collective irrationality'], content:'Following the crowd\'s actions rather than your own analysis. Evolutionary — safety in numbers. In markets, herding creates momentum, inflates bubbles, and accelerates crashes. "The market can remain irrational longer than you can remain solvent."' },
-  { id:'fomo', evidence:'heuristic', reviewed:'2026-10-02', num:'12', title:'FOMO', category:'Herd & Social', keywords:['fear of missing out','buying tops','late entry','anxiety','social media','parabolic','mania'], content:'Fear Of Missing Out — the anxiety that others are profiting while you\'re not. Drives investors to buy at tops, chase parabolic moves, and abandon risk management. Social media amplifies FOMO by making others\' gains hyper-visible.' },
+  { id:'fomo', evidence:'heuristic', reviewed:'2026-10-02', num:'12', title:'FOMO', category:'Herd & Social', keywords:['fear of missing out','buying tops','late entry','anxiety','social media','parabolic','mania'], content:'Fear Of Missing Out: the anxiety that others are profiting while you\'re not. Drives investors to buy at tops, chase parabolic moves, and abandon risk management. Social media amplifies FOMO by making others\' gains hyper-visible.' },
   { id:'social-proof', evidence:'heuristic', reviewed:'2026-10-02', num:'13', title:'Social Proof', category:'Herd & Social', keywords:['Cialdini','mimicry','influencer','expert opinion','crowd wisdom','bandwagon','consensus'], content:'Using others\' behavior as evidence of the "correct" action (Cialdini). In markets: "If everyone is buying, it must be good." Works in stable environments but catastrophically fails when the crowd is wrong at extremes.' },
-  { id:'contrarian-thinking', evidence:'debated', reviewed:'2026-10-02', num:'14', title:'Contrarian Thinking', category:'Herd & Social', keywords:['opposite','against the crowd','buy fear','sell greed','value investing','extreme sentiment','uncomfortable'], content:'Deliberately going against prevailing market sentiment. Buy when others panic, sell when others are euphoric. Requires emotional discipline — being contrarian FEELS wrong because humans are social. Not about always opposing — only at sentiment extremes.' },
-  { id:'information-cascades', evidence:'mathematical', reviewed:'2026-10-02', num:'15', title:'Information Cascades', category:'Herd & Social', keywords:['sequential decisions','ignore private signal','rational herding','domino','Banerjee','Bikhchandani','fragile'], content:'When individuals rationally ignore their own private information and follow predecessors\' actions. Each person infers from others\' choices. The cascade is informational — and fragile: a small piece of contrary information can shatter it, causing sudden reversals.' },
-  { id:'sunk-cost-fallacy', evidence:'statistical', reviewed:'2026-10-02', num:'16', title:'Sunk Cost Fallacy', category:'Decision Traps', keywords:['throwing good money after bad','past investment','irreversible','doubling down','committed','escalation'], content:'Continuing an action because of previously invested resources (time, money, effort) rather than future value. "I\'ve already lost $5K, I can\'t sell now." The $5K is gone regardless — only future expected value should drive the decision.' },
-  { id:'gambler-fallacy', evidence:'statistical', reviewed:'2026-10-02', num:'17', title:'Gambler\'s Fallacy', category:'Decision Traps', keywords:['hot hand','due','independent events','pattern','randomness','streaks','Monte Carlo'], content:'Believing that past random events affect future probabilities. "The stock has fallen 5 days in a row — it\'s due for a bounce." Each day is (largely) independent. Also called the Monte Carlo fallacy — in 1913, black came up 26 times in roulette.' },
-  { id:'framing-effect', evidence:'statistical', reviewed:'2026-10-02', num:'18', title:'Framing Effect', category:'Decision Traps', keywords:['presentation','wording','gain frame','loss frame','Tversky','Kahneman','choice architecture'], content:'Decisions change based on how information is presented. "90% survival rate" vs. "10% mortality rate" — same fact, different emotional impact. In investing: a "20% discount from highs" vs. "this stock fell 20%" trigger different reactions.' },
-  { id:'mental-accounting', evidence:'statistical', reviewed:'2026-10-02', num:'19', title:'Mental Accounting', category:'Decision Traps', keywords:['Thaler','separate buckets','house money','found money','fungibility','treat differently','risk'], content:'Treating money differently based on its source or intended use (Richard Thaler). "House money effect" — profits from winning trades are risked more freely than original capital. But a dollar is a dollar regardless of where it came from.' },
-  { id:'status-quo-bias', evidence:'statistical', reviewed:'2026-10-02', num:'20', title:'Status Quo Bias', category:'Decision Traps', keywords:['inertia','default option','endowment','change aversion','rebalancing','portfolio drift'], content:'Preference for the current state. In investing, this means failing to rebalance, sticking with underperforming funds, and not adapting to changed conditions. The "default option" in retirement plans exploits this — most people never change it.' },
+  { id:'contrarian-thinking', evidence:'debated', reviewed:'2026-10-02', num:'14', title:'Contrarian Thinking', category:'Herd & Social', keywords:['opposite','against the crowd','buy fear','sell greed','value investing','extreme sentiment','uncomfortable'], content:'Deliberately going against prevailing market sentiment. Buy when others panic, sell when others are euphoric. Requires emotional discipline: being contrarian FEELS wrong because humans are social. Not about always opposing: only at sentiment extremes.' },
+  { id:'information-cascades', evidence:'mathematical', reviewed:'2026-10-02', num:'15', title:'Information Cascades', category:'Herd & Social', keywords:['sequential decisions','ignore private signal','rational herding','domino','Banerjee','Bikhchandani','fragile'], content:'When individuals rationally ignore their own private information and follow predecessors\' actions. Each person infers from others\' choices. The cascade is informational, and fragile: a small piece of contrary information can shatter it, causing sudden reversals.' },
+  { id:'sunk-cost-fallacy', evidence:'statistical', reviewed:'2026-10-02', num:'16', title:'Sunk Cost Fallacy', category:'Decision Traps', keywords:['throwing good money after bad','past investment','irreversible','doubling down','committed','escalation'], content:'Continuing an action because of previously invested resources (time, money, effort) rather than future value. "I\'ve already lost $5K, I can\'t sell now." The $5K is gone regardless: only future expected value should drive the decision.' },
+  { id:'gambler-fallacy', evidence:'statistical', reviewed:'2026-10-02', num:'17', title:'Gambler\'s Fallacy', category:'Decision Traps', keywords:['hot hand','due','independent events','pattern','randomness','streaks','Monte Carlo'], content:'Believing that past random events affect future probabilities. "The stock has fallen 5 days in a row: it\'s due for a bounce." Each day is (largely) independent. Also called the Monte Carlo fallacy: in 1913, black came up 26 times in roulette.' },
+  { id:'framing-effect', evidence:'statistical', reviewed:'2026-10-02', num:'18', title:'Framing Effect', category:'Decision Traps', keywords:['presentation','wording','gain frame','loss frame','Tversky','Kahneman','choice architecture'], content:'Decisions change based on how information is presented. "90% survival rate" vs. "10% mortality rate": same fact, different emotional impact. In investing: a "20% discount from highs" vs. "this stock fell 20%" trigger different reactions.' },
+  { id:'mental-accounting', evidence:'statistical', reviewed:'2026-10-02', num:'19', title:'Mental Accounting', category:'Decision Traps', keywords:['Thaler','separate buckets','house money','found money','fungibility','treat differently','risk'], content:'Treating money differently based on its source or intended use (Richard Thaler). "House money effect": profits from winning trades are risked more freely than original capital. But a dollar is a dollar regardless of where it came from.' },
+  { id:'status-quo-bias', evidence:'statistical', reviewed:'2026-10-02', num:'20', title:'Status Quo Bias', category:'Decision Traps', keywords:['inertia','default option','endowment','change aversion','rebalancing','portfolio drift'], content:'Preference for the current state. In investing, this means failing to rebalance, sticking with underperforming funds, and not adapting to changed conditions. The "default option" in retirement plans exploits this: most people never change it.' },
   { id:'market-sentiment-cycle', evidence:'heuristic', reviewed:'2026-10-02', num:'21', title:'Market Sentiment Cycle', category:'Market Cycles', keywords:['disbelief','hope','optimism','euphoria','anxiety','denial','panic','capitulation','depression','relief'], content:'Markets cycle through emotional phases: Disbelief → Hope → Optimism → Euphoria (buy here at maximum risk) → Anxiety → Denial → Panic → Capitulation (sell here at maximum opportunity) → Depression → Relief → back to Hope.' },
   { id:'accumulation-distribution', evidence:'heuristic', reviewed:'2026-10-02', num:'22', title:'Accumulation & Distribution', category:'Market Cycles', keywords:['Wyckoff','smart money','phases','markup','markdown','trading range','composite man'], content:'Richard Wyckoff\'s four market phases: Accumulation (smart money buys quietly), Markup (trend up, public joins), Distribution (smart money sells to public), Markdown (trend down, public panics). The "Composite Man" narrative.' },
   { id:'euphoria-panic', evidence:'heuristic', reviewed:'2026-10-02', num:'23', title:'Euphoria & Panic', category:'Market Cycles', keywords:['mania','bubble','crash','capitulation','extreme emotion','maximum risk','maximum opportunity','irrational'], content:'The two emotional extremes of market cycles. Euphoria: "This time is different," P/E ratios don\'t matter, taxi drivers give stock tips. Panic: "The world is ending," selling at any price, margin calls cascade. Both are brief but violent.' },
   { id:'smart-money-dumb-money', evidence:'debated', reviewed:'2026-10-02', num:'24', title:'Smart Money vs. Dumb Money', category:'Market Cycles', keywords:['institutional','retail','COT report','insider buying','late buyers','early movers','accumulation','distribution'], content:'"Smart money" (institutions, insiders) tends to buy during fear and sell during euphoria. "Dumb money" (retail, latecomers) does the opposite. COT (Commitment of Traders) reports and insider buying/selling data track this divergence.' },
-  { id:'mean-reversion-psychology', evidence:'debated', reviewed:'2026-10-02', num:'25', title:'Mean Reversion Psychology', category:'Market Cycles', keywords:['regression to mean','overshoot','undershoot','extremes revert','patience','contrarian','equilibrium'], content:'Extremes revert to the mean — in statistics AND in psychology. After euphoria, sentiment (and prices) revert down. After panic, they revert up. Understanding this principle provides patience to wait for extremes and confidence to act when they arrive.' },
+  { id:'mean-reversion-psychology', evidence:'debated', reviewed:'2026-10-02', num:'25', title:'Mean Reversion Psychology', category:'Market Cycles', keywords:['regression to mean','overshoot','undershoot','extremes revert','patience','contrarian','equilibrium'], content:'Extremes revert to the mean: in statistics AND in psychology. After euphoria, sentiment (and prices) revert down. After panic, they revert up. Understanding this principle provides patience to wait for extremes and confidence to act when they arrive.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -101,24 +101,24 @@ function buildNav() {
 const PATTERN_BRIDGES = {
   'confirmation-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Seeing what you expect to see is <a href="../../ml-math/#bias-variance">high bias</a> in ML — the model only fits its prior assumption.</div>',
   'anchoring': '<div class="callout bridge"><strong>Pattern bridge:</strong> Anchoring to a reference price is the psychological cousin of <a href="../../essays/#essay-mean">the mean</a> — a central value everything is measured from. In ML, <a href="../../ml-math/#weight-init">weight initialization</a> anchors where training begins.</div>',
-  'recency-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Overweighting recent events is the human version of <a href="../../markets/indicators/#ema">exponential moving averages</a>. In ML, <a href="../../ml-math/#crossval">cross-validation</a> exists specifically to prevent this — don’t just test on the latest fold.</div>',
+  'recency-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Overweighting recent events is the human version of <a href="../../markets/indicators/#ema">exponential moving averages</a>. In ML, <a href="../../ml-math/#crossval">cross-validation</a> exists specifically to prevent this: don’t just test on the latest fold.</div>',
   'availability-heuristic': '<div class="callout bridge"><strong>Pattern bridge:</strong> Judging probability by what comes to mind is <a href="../../ml-math/#bayes">probability estimation</a> gone wrong — confusing salience with frequency. In ML, <a href="../../ml-math/#metrics">accuracy vs. recall</a> captures the same distortion.</div>',
   'hindsight-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Believing you knew it all along is <a href="../../ml-math/#bias-variance">overfitting to the training set</a> — perfect past fit, no future predictive power. In statistics, <a href="../../stats/#hypothesis-testing">p-hacking</a> manufactures the same false certainty.</div>',
   'fear-and-greed': '<div class="callout bridge"><strong>Pattern bridge:</strong> The cycle between fear and greed drives volatility — the emotional driver behind <a href="../indicators/#standard-deviation">variance</a>. In ML, <a href="../../ml-math/#softmax">softmax temperature</a> mimics this: cold = greedy certainty, hot = fearful uniformity.</div>',
   'loss-aversion': '<div class="callout bridge"><strong>Pattern bridge:</strong> Losses hurt twice as much as equivalent gains — an asymmetric <a href="../../ml-math/#loss">loss function</a>. In statistics, it’s why <a href="../../stats/#distribution-shape">skewness</a> matters: symmetric distributions don’t capture human perception.</div>',
   'regret-aversion': '<div class="callout bridge"><strong>Pattern bridge:</strong> Avoiding regret over avoiding loss is a second-order bias. In ML, <a href="../../ml-math/#regularization">regularization</a> trades some training error for less regret on unseen data.</div>',
-  'overconfidence': '<div class="callout bridge"><strong>Pattern bridge:</strong> Too-narrow confidence intervals from too much certainty. In statistics, this is literally <a href="../../stats/#confidence-intervals">miscalibrated confidence intervals</a>. In ML, <a href="../../ml-math/#bias-variance">low bias, high variance</a> — the overfit model that’s sure it’s right.</div>',
+  'overconfidence': '<div class="callout bridge"><strong>Pattern bridge:</strong> Too-narrow confidence intervals from too much certainty. In statistics, this is literally <a href="../../stats/#confidence-intervals">miscalibrated confidence intervals</a>. In ML, <a href="../../ml-math/#bias-variance">low bias, high variance</a>: the overfit model that’s sure it’s right.</div>',
   'disposition-effect': '<div class="callout bridge"><strong>Pattern bridge:</strong> Selling winners too early, holding losers too long. In ML, <a href="../../ml-math/#lr-schedule">learning rate scheduling</a> fights the same instinct: slow down on gains, keep going through losses.</div>',
   'herd-behavior': '<div class="callout bridge"><strong>Pattern bridge:</strong> Following the crowd is a <a href="../../ml-math/#rlhf">collective reward signal</a> — the market’s version of RLHF. In statistics, it produces <a href="../../stats/#correlation-causation">spurious correlation</a> as everyone moves together. The individual version, taking others’ choices as evidence, is <a href="#social-proof">social proof</a>.</div>',
-  'fomo': '<div class="callout bridge"><strong>Pattern bridge:</strong> Fear of missing out drives late entries at peaks. In ML, <a href="../../ml-math/#optimizers">momentum overshoot</a> is the same — too much velocity past the optimum.</div>',
-  'social-proof': '<div class="callout bridge"><strong>Pattern bridge:</strong> Copying others as a decision shortcut is an <a href="../../ml-math/#embeddings">embedding heuristic</a> — if nearby vectors do it, so should I. In statistics, it’s the <a href="../../stats/#clt-sampling">law of large numbers</a> misapplied: consensus ≠ correctness.</div>',
+  'fomo': '<div class="callout bridge"><strong>Pattern bridge:</strong> Fear of missing out drives late entries at peaks. In ML, <a href="../../ml-math/#optimizers">momentum overshoot</a> is the same: too much velocity past the optimum.</div>',
+  'social-proof': '<div class="callout bridge"><strong>Pattern bridge:</strong> Copying others as a decision shortcut is an <a href="../../ml-math/#embeddings">embedding heuristic</a>, if nearby vectors do it, so should I. In statistics, it’s the <a href="../../stats/#clt-sampling">law of large numbers</a> misapplied: consensus ≠ correctness.</div>',
   'contrarian-thinking': '<div class="callout bridge"><strong>Pattern bridge:</strong> Going against the crowd is the <a href="../../ml-math/#gan">discriminator in a GAN</a> — an adversary that bets against the prevailing signal.</div>',
   'information-cascades': '<div class="callout bridge"><strong>Pattern bridge:</strong> Sequential decisions amplifying a signal regardless of private information. In ML, this mirrors <a href="../../ml-math/#backprop">gradient cascading</a> in deep networks.</div>',
   'sunk-cost-fallacy': '<div class="callout bridge"><strong>Pattern bridge:</strong> Weighting past investment that can’t be recovered. In ML, <a href="../../ml-math/#regularization">early stopping</a> fights sunk-cost thinking: stop training even though you’ve invested epochs.</div>',
   'gambler-fallacy': '<div class="callout bridge"><strong>Pattern bridge:</strong> Expecting past outcomes to influence independent future ones. In statistics, this is misunderstanding <a href="../../essays/#essay-walk">independent probability</a>. In ML, each <a href="../../ml-math/#crossval">cross-validation fold</a> is an independent trial.</div>',
   'framing-effect': '<div class="callout bridge"><strong>Pattern bridge:</strong> How information is presented changes the decision — the same data, different conclusions. In statistics, <a href="../../stats/#distribution-shape">mean vs. median</a> can frame the same dataset differently.</div>',
   'mental-accounting': '<div class="callout bridge"><strong>Pattern bridge:</strong> Treating money differently based on its source or bucket. In ML, <a href="../../ml-math/#batchnorm">batch normalization</a> per-group treats each layer’s activations as separate accounts. In statistics, <a href="../../essays/#essay-simpson">Simpson’s paradox</a> shows how grouping changes conclusions.</div>',
-  'status-quo-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Preferring the current state over change. In ML, <a href="../../ml-math/#regularization">L2 regularization</a> pulls weights toward zero — a mathematical preference for the status quo. The mechanical cure for drift is a <a href="../risk/#rebalancing">rebalancing rule</a>.</div>',
+  'status-quo-bias': '<div class="callout bridge"><strong>Pattern bridge:</strong> Preferring the current state over change. In ML, <a href="../../ml-math/#regularization">L2 regularization</a> pulls weights toward zero: a mathematical preference for the status quo. The mechanical cure for drift is a <a href="../risk/#rebalancing">rebalancing rule</a>.</div>',
   'market-sentiment-cycle': '<div class="callout bridge"><strong>Pattern bridge:</strong> The emotional arc from optimism to euphoria to panic to hope is a distribution cycle. In ML, <a href="../../ml-math/#lr-schedule">cyclic learning rates</a> deliberately walk through this arc.</div>',
   'accumulation-distribution': '<div class="callout bridge"><strong>Pattern bridge:</strong> Smart money quietly building positions before the crowd notices. In ML, <a href="../../ml-math/#optimizers">gradient accumulation</a> before an optimizer step is the same: gather signals silently, then act.</div>',
   'euphoria-panic': '<div class="callout bridge"><strong>Pattern bridge:</strong> Extreme sentiment at both ends of the <a href="../../essays/#essay-tail">distribution tails</a>. In ML, <a href="../../ml-math/#diffusion">diffusion models</a> add noise (panic) then learn to reverse it (recovery).</div>',
@@ -133,11 +133,11 @@ const TOPIC_EXTRAS = {
       <li>Pre-committed stop-losses and systematic exit rules are a common defence, because they take the decision away from the moment of loss</li>
     </ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Designing your trading plan — set exit rules before entering. Portfolio review to check if you're holding "hope trades." Understanding why you feel worse about losses than good about wins.</div><div class="skip-when">✗ <strong>Skip when:</strong> You have a fully systematic/algorithmic approach with pre-defined rules. Long-term index investing where short-term losses are irrelevant to the strategy.</div></div>`,
   'fear-and-greed': `<div class="perf-insight"><div class="perf-insight-title">Performance in practice</div><ul>
-      <li>Sentiment measures carry some information about future returns — mostly for small, hard-to-value stocks, and modestly (Baker &amp; Wurgler 2006, 2007)</li>
-      <li>The CNN Fear &amp; Greed Index is recent, so long backtests of it are not possible. The VIX goes further back: readings above 30 coincided with the sell-offs of 2008, 2011 and 2020 — and in 2008–09 it stayed above 30 for months, before and after the bottom</li>
-      <li>“Extreme greed” is a weak sell signal on its own — euphoric markets can keep rising for a long time</li>
-    </ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Timing lump-sum additions to a portfolio. Gauging whether a sell-off is panic-driven or fundamentally justified. As a contrarian filter — consider buying when others are fearful.</div><div class="skip-when">✗ <strong>Skip when:</strong> Day trading — sentiment indices update too slowly. Ignoring in a disciplined DCA strategy where emotions shouldn't affect contributions. As a standalone timing signal — always combine with price/volume.</div></div>`,
-  'herd-behavior': `<div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> You notice everyone around you talking about the same trade. Social media is flooded with one-directional conviction. Volume spikes massively with no fundamental catalyst. A contrarian position has become very painful.</div><div class="skip-when">✗ <strong>Skip when:</strong> The "herd" is responding to genuine fundamental changes (earnings beat, regulatory approval). Early in a trend — herding is most dangerous at extremes, not at the start. In highly efficient markets (large-cap liquid stocks) where herding is arbitraged away quickly.</div></div>`
+      <li>Sentiment measures carry some information about future returns: mostly for small, hard-to-value stocks, and modestly (Baker &amp; Wurgler 2006, 2007)</li>
+      <li>The CNN Fear &amp; Greed Index is recent, so long backtests of it are not possible. The VIX goes further back: readings above 30 coincided with the sell-offs of 2008, 2011 and 2020, and in 2008–09 it stayed above 30 for months, before and after the bottom</li>
+      <li>“Extreme greed” is a weak sell signal on its own: euphoric markets can keep rising for a long time</li>
+    </ul></div><div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> Timing lump-sum additions to a portfolio. Gauging whether a sell-off is panic-driven or fundamentally justified. As a contrarian filter: consider buying when others are fearful.</div><div class="skip-when">✗ <strong>Skip when:</strong> Day trading — sentiment indices update too slowly. Ignoring in a disciplined DCA strategy where emotions shouldn't affect contributions. As a standalone timing signal: always combine with price/volume.</div></div>`,
+  'herd-behavior': `<div class="why-matters"><div class="why-matters-title">When to use this</div><div class="use-when">✓ <strong>Use when:</strong> You notice everyone around you talking about the same trade. Social media is flooded with one-directional conviction. Volume spikes massively with no fundamental catalyst. A contrarian position has become very painful.</div><div class="skip-when">✗ <strong>Skip when:</strong> The "herd" is responding to genuine fundamental changes (earnings beat, regulatory approval). Early in a trend: herding is most dangerous at extremes, not at the start. In highly efficient markets (large-cap liquid stocks) where herding is arbitraged away quickly.</div></div>`
 };
 
 /* Canvas visualizations carry no text of their own, so each one is given an
@@ -152,7 +152,7 @@ function ariaAttr(s) {
    worked example is the output of the code shown with it. */
 const TOPIC_DEPTH = {
  "confirmation-bias": {
-  "example": "You start 60% sure of a bullish thesis and then meet six pieces of evidence: three for it and three just as strong against. Weighed fairly they cancel, and you should end where you began: <strong>60%</strong>. Give the contrary evidence half its weight and the same pile leaves you at <strong>73%</strong>. Five rounds of the same balanced news later you are <strong>97%</strong> sure — certainty built entirely from the filter, not from the evidence.",
+  "example": "You start 60% sure of a bullish thesis and then meet six pieces of evidence: three for it and three just as strong against. Weighed fairly they cancel, and you should end where you began: <strong>60%</strong>. Give the contrary evidence half its weight and the same pile leaves you at <strong>73%</strong>. Five rounds of the same balanced news later you are <strong>97%</strong> sure: certainty built entirely from the filter, not from the evidence.",
   "fails": [
    "Not every strong prior is a bias. Discounting a weak or unreliable source is correct; the bias is discounting evidence <em>because</em> it disagrees.",
    "Searching for confirming cases can be an efficient test when the hypothesis is rare (Klayman &amp; Ha 1987); the trouble is treating the search as proof.",
@@ -161,7 +161,7 @@ const TOPIC_DEPTH = {
   "code": "prior = 0.60                                    # how sure you are the bullish thesis is right\nlr = [1.5, 1.5, 1.5, 1 / 1.5, 1 / 1.5, 1 / 1.5]  # three pieces of evidence for it, three equally strong against\n\ndef update(p, lrs, w_against=1.0):               # Bayes in log-odds; w_against &lt; 1 discounts contrary evidence\n    logit = np.log(p / (1 - p))\n    for x in lrs:\n        logit += np.log(x) * (w_against if x &lt; 1 else 1)\n    return 1 / (1 + np.exp(-logit))\n\nfair = update(prior, lr)\nbiased = update(prior, lr, w_against=0.5)\nbiased_after_5_rounds = update(prior, lr * 5, w_against=0.5)",
   "sources": [
    "R. S. Nickerson, “Confirmation Bias: A Ubiquitous Phenomenon in Many Guises”, <em>Review of General Psychology</em> 2(2), 1998",
-   "P. C. Wason, “On the Failure to Eliminate Hypotheses in a Conceptual Task”, <em>Quarterly Journal of Experimental Psychology</em> 12(3), 1960 — the 2-4-6 task",
+   "P. C. Wason, “On the Failure to Eliminate Hypotheses in a Conceptual Task”, <em>Quarterly Journal of Experimental Psychology</em> 12(3), 1960: the 2-4-6 task",
    "J. Klayman &amp; Y.-W. Ha, “Confirmation, Disconfirmation, and Information in Hypothesis Testing”, <em>Psychological Review</em> 94(2), 1987",
    "J. Park, P. Konana, B. Gu, A. Kumar &amp; R. Raghunathan, “Information Valuation and Confirmation Bias in Virtual Communities: Evidence from Stock Message Boards”, <em>Information Systems Research</em> 24(4), 2013"
   ]
@@ -170,7 +170,7 @@ const TOPIC_DEPTH = {
   "example": "The stock’s 52-week high is 80 and it now trades at 62: <strong>0.775</strong> of the high, or “22.5% off”. To someone who bought at 75 it is also <strong>17.3% below cost</strong>. Both numbers feel like information about value; neither is. The 80 is where other people traded last year, and the 75 is where you did.",
   "fails": [
    "Anchors are not always irrational: the 52-week high is watched by so many traders that it can matter for behaviour around it, even though it says nothing about value.",
-   "George &amp; Hwang (2004) found that stocks near their 52-week high go on to <em>outperform</em> — investors anchor and underreact to good news, so “too close to the high” is not a sell signal.",
+   "George &amp; Hwang (2004) found that stocks near their 52-week high go on to <em>outperform</em>: investors anchor and underreact to good news, so “too close to the high” is not a sell signal.",
    "Replacing one anchor with another (an analyst’s target) is not a cure. A valuation built from expected cash flows is."
   ],
   "code": "close = pd.Series([80, 78, 74, 70, 66, 63, 61, 64, 62, 60, 63, 62])   # twelve month-end closes, made up\nhigh52 = close.max()                     # the anchor: the 52-week high\nratio = close.iloc[-1] / high52          # George &amp; Hwang's measure, price over its 52-week high\noff_high = 1 - ratio\ncost = 75                                # where this holder bought: a second anchor\nvs_cost = close.iloc[-1] / cost - 1",
@@ -181,10 +181,10 @@ const TOPIC_DEPTH = {
   ]
  },
  "recency-bias": {
-  "example": "Ten years of returns average <strong>9.6%</strong>. The last three averaged <strong>22.3%</strong>, and an expectation that halves the weight of each older year lands at <strong>18.4%</strong> — nearly double the long-run figure, just after the best stretch in the sample.",
+  "example": "Ten years of returns average <strong>9.6%</strong>. The last three averaged <strong>22.3%</strong>, and an expectation that halves the weight of each older year lands at <strong>18.4%</strong>, nearly double the long-run figure, just after the best stretch in the sample.",
   "fails": [
    "Recent data is not worthless: volatility really does cluster, so recent volatility is a better guide to next month’s than a ten-year average is. The bias is extrapolating <em>returns</em>.",
-   "Surveys show investors expect high returns after high returns (Greenwood &amp; Shleifer 2014) — and those are the periods followed by lower returns on average.",
+   "Surveys show investors expect high returns after high returns (Greenwood &amp; Shleifer 2014), and those are the periods followed by lower returns on average.",
    "A long-run mean is itself an estimate; ten years is a short sample, and the “base rate” can be just as wrong in a different way."
   ],
   "code": "r = pd.Series([0.12, 0.08, -0.05, 0.15, 0.10, 0.07, -0.18, 0.22, 0.25, 0.20])   # ten years of returns, made up\nlong_run = r.mean()\nlast_three = r.tail(3).mean()\nfelt = r.ewm(alpha=0.5).mean().iloc[-1]  # each year counts half as much as the one after it",
@@ -195,10 +195,10 @@ const TOPIC_DEPTH = {
   ]
  },
  "availability-heuristic": {
-  "example": "Thirty years with two crash years: a base rate of <strong>6.7%</strong>. Now let a crash year come to mind five times as easily as a quiet one, and let memories fade by 10% a year. The latest crash is three years old and still vivid, so the probability that <em>feels</em> right is <strong>34.7%</strong> — five times the record. The weights are made up; the shape is the point.",
+  "example": "Thirty years with two crash years: a base rate of <strong>6.7%</strong>. Now let a crash year come to mind five times as easily as a quiet one, and let memories fade by 10% a year. The latest crash is three years old and still vivid, so the probability that <em>feels</em> right is <strong>34.7%</strong>: five times the record. The weights are made up; the shape is the point.",
   "fails": [
    "Ease of recall is a decent cue when what you remember is a fair sample; it fails when media and memory over-select the dramatic.",
-   "Barber &amp; Odean (2008) found individual investors are net buyers of attention-grabbing stocks — those in the news, with high volume or extreme returns. Attention drives the trade, not the odds.",
+   "Barber &amp; Odean (2008) found individual investors are net buyers of attention-grabbing stocks: those in the news, with high volume or extreme returns. Attention drives the trade, not the odds.",
    "The cure is not “ignore crashes”: tail risk is real (see Risk &amp; Portfolio). The cure is to count them."
   ],
   "code": "years = 30\ncrash = np.zeros(years); crash[[8, 27]] = 1       # two crash years in thirty, the latest three years ago\nbase_rate = crash.mean()\n\nvivid = np.where(crash == 1, 5.0, 1.0)            # a crash year comes to mind five times as easily\nfresh = 0.9 ** np.arange(years)[::-1]             # and memories fade by 10% a year\nw = vivid * fresh\nfelt = (w * crash).sum() / w.sum()                # the probability that \"feels\" right",
@@ -209,11 +209,11 @@ const TOPIC_DEPTH = {
   ]
  },
  "hindsight-bias": {
-  "example": "Five forecasts written down beforehand, then recalled after the outcome. On average the remembered forecast moved <strong>22 points</strong> toward what happened. Scored honestly the forecasts have a Brier score of <strong>0.35</strong> (0 is perfect, 0.25 is a coin); the remembered ones score <strong>0.14</strong>. Memory turned a below-coin forecaster into a good one.",
+  "example": "Five forecasts written down beforehand, then recalled after the outcome. On average the remembered forecast moved <strong>22 points</strong> toward what happened. Scored properly, the forecasts have a Brier score of <strong>0.35</strong> (0 is perfect, 0.25 is a coin); the remembered ones score <strong>0.14</strong>. Memory turned a below-coin forecaster into a good one.",
   "fails": [
    "It is invisible from the inside. Only a record made <em>before</em> the outcome can show it, which is why a decision journal works and reflection alone does not.",
    "The opposite mistake exists too: judging a good decision by a bad outcome. Some bets are right and still lose.",
-   "Biais &amp; Weber (2009) found investment bankers with more hindsight bias earned less — it blocks learning, not just pride."
+   "Biais &amp; Weber (2009) found investment bankers with more hindsight bias earned less: it blocks learning, not just pride."
   ],
   "code": "log = pd.DataFrame({\n    'event':      ['rate cut', 'earnings beat', 'recession', 'oil above 100', 'index new high'],\n    'said':       [0.30, 0.55, 0.20, 0.40, 0.60],      # written down beforehand\n    'happened':   [1, 0, 1, 0, 1],\n    'remembered': [0.60, 0.35, 0.45, 0.25, 0.80]})     # what you later recall having said\ntoward_outcome = np.where(log.happened == 1, log.remembered - log.said, log.said - log.remembered)\nbrier_said = ((log.said - log.happened) ** 2).mean()   # lower is better\nbrier_remembered = ((log.remembered - log.happened) ** 2).mean()",
   "sources": [
@@ -223,7 +223,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "fear-and-greed": {
-  "example": "Three readings — the VIX, the put/call ratio and the share of stocks above their 200-day average — turned into z-scores and averaged, with the last one flipped. Week 2 scores <strong>−1.10</strong> (extreme greed); weeks 5 and 6 score <strong>1.31</strong> and <strong>1.74</strong> (extreme fear). Everything else is neutral. That is all a fear-and-greed index is: a few market measures scaled and added up.",
+  "example": "Three readings (the VIX, the put/call ratio and the share of stocks above their 200-day average) turned into z-scores and averaged, with the last one flipped. Week 2 scores <strong>−1.10</strong> (extreme greed); weeks 5 and 6 score <strong>1.31</strong> and <strong>1.74</strong> (extreme fear). Everything else is neutral. That is all a fear-and-greed index is: a few market measures scaled and added up.",
   "fails": [
    "The scale is relative to the window: “extreme” here means extreme for these ten weeks. In 2008 fear readings that looked extreme were followed by more extreme ones.",
    "The ingredients are partly the price itself, so the index often just restates what the market already did.",
@@ -234,7 +234,7 @@ const TOPIC_DEPTH = {
    "R. E. Whaley, “The Investor Fear Gauge”, <em>Journal of Portfolio Management</em> 26(3), 2000",
    "M. Baker &amp; J. Wurgler, “Investor Sentiment and the Cross-Section of Stock Returns”, <em>Journal of Finance</em> 61(4), 2006",
    "M. Baker &amp; J. Wurgler, “Investor Sentiment in the Stock Market”, <em>Journal of Economic Perspectives</em> 21(2), 2007",
-   "W. E. Buffett, letter to Berkshire Hathaway shareholders, 1986 — “fearful when others are greedy”"
+   "W. E. Buffett, letter to Berkshire Hathaway shareholders, 1986: “fearful when others are greedy”"
   ]
  },
  "loss-aversion": {
@@ -253,11 +253,11 @@ const TOPIC_DEPTH = {
   ]
  },
  "regret-aversion": {
-  "example": "Three choices for a position you are up on, scored in a rally, a flat market and a drop. By expected profit, holding wins: <strong>6.25</strong>, against 3.13 for selling half and 0 for selling now. Now score each by its worst regret — how far it falls short of the best choice in hindsight. Selling now can miss 30, holding can miss 20, selling half at most <strong>15</strong>. The regret-minimiser sells half, giving up half the expected profit to never feel too foolish.",
+  "example": "Three choices for a position you are up on, scored in a rally, a flat market and a drop. By expected profit, holding wins: <strong>6.25</strong>, against 3.13 for selling half and 0 for selling now. Now score each by its worst regret: how far it falls short of the best choice in hindsight. Selling now can miss 30, holding can miss 20, selling half at most <strong>15</strong>. The regret-minimiser sells half, giving up half the expected profit to never feel too foolish.",
   "fails": [
    "Splitting a decision is not always regret-dodging; it can be sensible sizing when you are unsure. The question is whether the split is chosen for the odds or for the feelings.",
    "People regret actions more in the short run and inactions more in the long run (Gilovich &amp; Medvec 1995), so the same rule pushes in different directions over time.",
-   "Rules set in advance — when to sell, how much — remove most of the room regret has to work in."
+   "Rules set in advance (when to sell, how much) remove most of the room regret has to work in."
   ],
   "code": "pay = pd.DataFrame({'sell now': [0, 0, 0], 'sell half': [15, 2.5, -10], 'hold': [30, 5, -20]},\n                   index=['rally', 'flat', 'drop'])      # profit from here in each outcome\np = np.array([0.35, 0.35, 0.30])                         # your odds for the three outcomes\nev = pay.T @ p\nregret = pay.max(axis=1).values[:, None] - pay.values    # best choice in hindsight minus yours\nworst_regret = pd.Series(regret.max(axis=0), index=pay.columns)",
   "sources": [
@@ -269,7 +269,7 @@ const TOPIC_DEPTH = {
  "overconfidence": {
   "example": "Ten price ranges, each one given with “90% confidence”. Only <strong>5 of 10</strong> contained the actual value. A calibrated forecaster would hit about nine; hitting half means the ranges should have been much wider. This is overprecision, the most robust form of overconfidence, and you only see it by scoring a batch of forecasts.",
   "fails": [
-   "Barber &amp; Odean (2000) found the 20% of households that traded most earned 11.4% a year net, against 17.9% for the market — but trading costs, not bad picks alone, did much of the damage.",
+   "Barber &amp; Odean (2000) found the 20% of households that traded most earned 11.4% a year net, against 17.9% for the market, but trading costs, not bad picks alone, did much of the damage.",
    "“93% think they are above-average drivers” comes from a small U.S. student sample (Svenson 1981); the Swedish sample was 69%. The effect is real, the number is not universal.",
    "Confidence is useful when it is earned and calibrated; the fix is scoring, not self-doubt."
   ],
@@ -282,7 +282,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "disposition-effect": {
-  "example": "Odean’s measure: on each day something was sold, look at every position held. Here 4 of 8 positions in profit were sold — a proportion of gains realized of <strong>0.50</strong>. Only 1 of 9 in loss was sold: <strong>0.11</strong>. Gains were realized <strong>4.5 times</strong> as readily as losses. In 10,000 real brokerage accounts Odean (1998) found 0.148 against 0.098.",
+  "example": "Odean’s measure: on each day something was sold, look at every position held. Here 4 of 8 positions in profit were sold: a proportion of gains realized of <strong>0.50</strong>. Only 1 of 9 in loss was sold: <strong>0.11</strong>. Gains were realized <strong>4.5 times</strong> as readily as losses. In 10,000 real brokerage accounts Odean (1998) found 0.148 against 0.098.",
   "fails": [
    "Taxes push the other way: in most countries a realized loss lowers your tax, which makes holding losers more costly still.",
    "Some selling of winners is rebalancing, which is a good habit; the test is whether the sell would happen with the gain removed.",
@@ -299,7 +299,7 @@ const TOPIC_DEPTH = {
   "example": "Five stocks, with the funds buying and selling each in one quarter. Across all of them 57% of trades were buys. Lakonishok, Shleifer and Vishny measure herding as how far each stock’s buy share sits from 57%, minus how far it would sit by chance. Stock A (18 buyers, 2 sellers) scores <strong>0.24</strong>, stock D (5 and 15) <strong>0.23</strong>; E scores <strong>−0.07</strong>, no more lopsided than chance. The average is <strong>0.09</strong>.",
   "fails": [
    "Trading together is not proof of copying: funds reacting to the same news will look like a herd.",
-   "Using the same measure, LSV (1992) found only a little herding among U.S. pension fund managers — far less than the stories suggest.",
+   "Using the same measure, LSV (1992) found only a little herding among U.S. pension fund managers, far less than the stories suggest.",
    "Herding can be rational for each person (see Information Cascades); it is the collective result that goes wrong."
   ],
   "code": "from math import comb\nq = pd.DataFrame({'buyers': [18, 9, 14, 5, 11], 'sellers': [2, 11, 6, 15, 9]},\n                 index=list('ABCDE'))            # funds buying and selling five stocks in one quarter, made up\nn = q.buyers + q.sellers\np = q.buyers / n\np_all = q.buyers.sum() / n.sum()                 # share of all trades that are buys\n\ndef af(n, p):                                    # |p_i - p_all| expected by chance alone\n    return sum(comb(n, k) * p**k * (1 - p)**(n - k) * abs(k / n - p) for k in range(n + 1))\n\nH = (p - p_all).abs() - n.apply(af, p=p_all)     # Lakonishok, Shleifer &amp; Vishny's herding measure",
@@ -313,7 +313,7 @@ const TOPIC_DEPTH = {
   "example": "A stock runs from 10 to 21 in seven months and then unwinds to 13. The buyer who waits until it has doubled gets in at <strong>21</strong>, the top, and ends <strong>−38%</strong>. Someone who bought at the start and did nothing ends <strong>+30%</strong> on the same stock. The fear was of missing a gain that had already happened.",
   "fails": [
    "Strong past performance is not in itself a reason to stay out: momentum over 3–12 months is one of the better-documented patterns. FOMO is about how you enter, not whether.",
-   "The danger is in what FOMO does to process — skipping sizing and stops — more than in the entry price alone.",
+   "The danger is in what FOMO does to process, skipping sizing and stops, more than in the entry price alone.",
    "Barber, Huang, Odean &amp; Schwarz (2022) found that stocks heavily bought by attention-driven retail traders had negative returns afterwards on average."
   ],
   "code": "close = pd.Series([10, 10.5, 11, 12, 13.5, 15.5, 18, 21, 19, 16, 14, 13])   # a run-up and its unwind, made up\nentry = close[close &gt;= 2 * close.iloc[0]].index[0]   # the FOMO buyer waits until it has doubled\nfomo = close.iloc[-1] / close[entry] - 1\nearly = close.iloc[-1] / close.iloc[0] - 1",
@@ -324,7 +324,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "social-proof": {
-  "example": "Ten songs of equal quality and 2,000 listeners, run five times. When each listener picks at random, the top song gets <strong>11–12%</strong> of plays every time. When each picks in proportion to plays so far, the top song gets <strong>18–46%</strong> — and a different song wins in every run. Popularity says more about who went first than about quality. Salganik, Dodds &amp; Watts (2006) found the same in a real music market.",
+  "example": "Ten songs of equal quality and 2,000 listeners, run five times. When each listener picks at random, the top song gets <strong>11–12%</strong> of plays every time. When each picks in proportion to plays so far, the top song gets <strong>18–46%</strong>, and a different song wins in every run. Popularity says more about who went first than about quality. Salganik, Dodds &amp; Watts (2006) found the same in a real music market.",
   "fails": [
    "Copying others is often a good shortcut: when they know more than you and decide independently, the crowd is informative.",
    "It breaks when the crowd is copying itself, as in the simulation; then the signal is mostly noise amplified.",
@@ -366,7 +366,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "sunk-cost-fallacy": {
-  "example": "100 shares bought at 50, now at 35: <strong>1,500</strong> is gone whether you sell or not. The only live question is where the 3,500 should sit. If your honest expectation for the stock is 4% a year and an index fund’s is 7%, holding costs about <strong>105</strong> a year in expected return. “Waiting to get back to even” needs a <strong>43%</strong> rise — a target set by the past, not by the stock.",
+  "example": "100 shares bought at 50, now at 35: <strong>1,500</strong> is gone whether you sell or not. The only live question is where the 3,500 should sit. If your realistic expectation for the stock is 4% a year and an index fund’s is 7%, holding costs about <strong>105</strong> a year in expected return. “Waiting to get back to even” needs a <strong>43%</strong> rise: a target set by the past, not by the stock.",
   "fails": [
    "Past costs can still carry information: why you bought, and whether that reason still holds, is relevant; what you paid is not.",
    "Taxes can make the price paid matter: a realized loss may be deductible, which favours selling.",
@@ -380,7 +380,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "gambler-fallacy": {
-  "example": "100,000 independent up/down days, each a coin flip. After five down days in a row (3,153 cases) the next day is up <strong>50.5%</strong> of the time — no bounce is due. A twist: flip a coin four times and record the share of heads right after a head. Averaged over many four-flip samples it is <strong>0.41</strong>, not 0.5 (Miller &amp; Sanjurjo 2018). In short samples even a fair coin looks as if it avoids streaks.",
+  "example": "100,000 independent up/down days, each a coin flip. After five down days in a row (3,153 cases) the next day is up <strong>50.5%</strong> of the time: no bounce is due. A twist: flip a coin four times and record the share of heads right after a head. Averaged over many four-flip samples it is <strong>0.41</strong>, not 0.5 (Miller &amp; Sanjurjo 2018). In short samples even a fair coin looks as if it avoids streaks.",
   "fails": [
    "Markets are not coins. Daily returns show weak short-term reversal and medium-term momentum, so “independent” is an approximation.",
    "The famous hot-hand “fallacy” study (Gilovich, Vallone &amp; Tversky 1985) used the very statistic Miller &amp; Sanjurjo showed is biased; corrected, some hot-hand effect reappears.",
@@ -394,7 +394,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "framing-effect": {
-  "example": "Tversky &amp; Kahneman’s 600 lives: both programmes save 200 in expectation. Framed as lives saved, the sure option values at <strong>105.9</strong> against <strong>92.8</strong> for the gamble, so the sure thing wins — 72% chose it in the study. Framed as deaths, the sure loss values at <strong>−438.5</strong> against <strong>−417.7</strong> for the gamble, so the gamble wins — 78% chose it. Same facts; the reference point moved.",
+  "example": "Tversky &amp; Kahneman’s 600 lives: both programmes save 200 in expectation. Framed as lives saved, the sure option values at <strong>105.9</strong> against <strong>92.8</strong> for the gamble, so the sure thing wins: 72% chose it in the study. Framed as deaths, the sure loss values at <strong>−438.5</strong> against <strong>−417.7</strong> for the gamble, so the gamble wins: 78% chose it. Same facts; the reference point moved.",
   "fails": [
    "A frame can carry real information: what a seller chooses to emphasise tells you something about them.",
    "Effects are strongest in one-off hypothetical choices; experience and incentives shrink them.",
@@ -403,7 +403,7 @@ const TOPIC_DEPTH = {
   "code": "def v(x, a=0.88, lam=2.25):                      # prospect theory's value function\n    return np.where(x &gt;= 0, np.abs(x) ** a, -lam * np.abs(x) ** a)\n\n# Tversky &amp; Kahneman (1981): 600 lives at stake, the same two programmes described two ways\nsaved_sure, saved_gamble = v(200), (1 / 3) * v(600)        # \"200 will be saved\" vs \"1/3 chance all 600 are saved\"\ndie_sure, die_gamble = v(-400), (2 / 3) * v(-600)          # \"400 will die\" vs \"2/3 chance all 600 die\"\nexpected_saved = (200, 600 / 3)",
   "sources": [
    "A. Tversky &amp; D. Kahneman, “The Framing of Decisions and the Psychology of Choice”, <em>Science</em> 211(4481), 1981",
-   "B. J. McNeil, S. G. Pauker, H. C. Sox &amp; A. Tversky, “On the Elicitation of Preferences for Alternative Therapies”, <em>New England Journal of Medicine</em> 306(21), 1982 — survival versus mortality",
+   "B. J. McNeil, S. G. Pauker, H. C. Sox &amp; A. Tversky, “On the Elicitation of Preferences for Alternative Therapies”, <em>New England Journal of Medicine</em> 306(21), 1982: survival versus mortality",
    "D. Kahneman &amp; A. Tversky, “Prospect Theory: An Analysis of Decision under Risk”, <em>Econometrica</em> 47(2), 1979"
   ]
  },
@@ -426,7 +426,7 @@ const TOPIC_DEPTH = {
   "fails": [
    "Inaction is sometimes optimal: trading costs and taxes make small adjustments not worth it (see Rebalancing in Risk &amp; Portfolio).",
    "A default can be a quiet recommendation; following it is not always bias.",
-   "The same force can be used for good — automatic escalation of savings works because people stay put (Thaler &amp; Benartzi 2004)."
+   "The same force can be used for good: automatic escalation of savings works because people stay put (Thaler &amp; Benartzi 2004)."
   ],
   "code": "w0 = np.array([0.60, 0.40])                       # target: 60% stocks, 40% bonds\nr = np.array([[0.20, 0.02], [0.15, 0.03], [0.25, -0.01], [0.10, 0.04], [0.18, 0.02]])   # five years, made up\ngrown = w0 * np.prod(1 + r, axis=0)\nw_now = grown / grown.sum()                      # what you hold after five years of doing nothing",
   "sources": [
@@ -436,7 +436,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "market-sentiment-cycle": {
-  "example": "A mechanical version of the cycle: price above or below its six-month average, and rising or falling. On 22 made-up months it reads optimism from the 6th month (130), anxiety for one month at 132, panic from the 10th month (129) all the way down, hope for one month at 85, and optimism again from 88. The eleven-phase chart collapses to four, and the in-between phases last a single month — which is why they are so hard to spot live.",
+  "example": "A mechanical version of the cycle: price above or below its six-month average, and rising or falling. On 22 made-up months it reads optimism from the 6th month (130), anxiety for one month at 132, panic from the 10th month (129) all the way down, hope for one month at 85, and optimism again from 88. The eleven-phase chart collapses to four, and the in-between phases last a single month, which is why they are so hard to spot live.",
   "fails": [
    "The popular cycle chart is an illustration, not a finding; no study fixes the phases, their order or their length.",
    "Real cycles skip phases, repeat them, and stall for years. Labelling the present is far harder than labelling the past.",
@@ -481,7 +481,7 @@ const TOPIC_DEPTH = {
   "example": "A fund returns +30%, +25%, −20%, −10% and +15%: <strong>6.1%</strong> a year. Its investors put in 100, then 200 and 400 after the two good years, and take out 300 and 100 after the bad ones. Their money-weighted return is <strong>−3.1%</strong> a year, and they end with 247 for a net 300 put in. Same fund, opposite results; the difference is timing the flows. Dichev (2007) found this gap in market-wide data.",
   "fails": [
    "“Smart” and “dumb” are labels for after the fact. Institutions herd and chase too; retail flows are not always wrong.",
-   "Insider purchases are informative on average (Lakonishok &amp; Lee 2001), insider sales much less so — many sales are for diversification or tax.",
+   "Insider purchases are informative on average (Lakonishok &amp; Lee 2001), insider sales much less so: many sales are for diversification or tax.",
    "Commercials in the COT report are mostly hedgers; their positions reflect hedging needs as well as views."
   ],
   "code": "r = np.array([0.30, 0.25, -0.20, -0.10, 0.15])   # a fund's return each year, made up\nflow = np.array([100, 200, 400, -300, -100])     # money investors put in (+) or take out (-) at each year's start\n\nvalue = 0.0\nfor f, x in zip(flow, r):\n    value = (value + f) * (1 + x)\nfund = np.prod(1 + r) ** (1 / len(r)) - 1        # time-weighted: what the fund earned\n\ncash = np.append(-flow, value)                   # the investors' own cash flows\nroots = np.roots(cash[::-1])                     # money-weighted: the IRR of those flows\nirr = [z.real - 1 for z in 1 / roots if abs(z.imag) &lt; 1e-9 and z.real &gt; 0]   # per-year rate",
@@ -492,7 +492,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "mean-reversion-psychology": {
-  "example": "10,000 managers whose results are a little skill and a lot of luck. Last year’s top 10% averaged <strong>3.93</strong>; the same managers average <strong>0.83</strong> this year. They kept <strong>21%</strong> of their lead, close to the theoretical one in five — the share of the variation that is skill. Nobody lost their touch; most of the lead was luck, and luck does not repeat.",
+  "example": "10,000 managers whose results are a little skill and a lot of luck. Last year’s top 10% averaged <strong>3.93</strong>; the same managers average <strong>0.83</strong> this year. They kept <strong>21%</strong> of their lead, close to the theoretical one in five: the share of the variation that is skill. Nobody lost their touch; most of the lead was luck, and luck does not repeat.",
   "fails": [
    "Regression to the mean is about noisy measurements, not a force pulling prices back. A price has no fixed mean to return to.",
    "Evidence for mean reversion in stock prices is weak over short horizons and debated over long ones (Poterba &amp; Summers 1988; Fama &amp; French 1988).",
@@ -546,7 +546,7 @@ const SELF_CHECK = {
   {
    "q": "A roulette wheel has come up red five times in a row. The chance of black on the next spin is…",
    "options": [
-    "unchanged — each spin is independent.",
+    "unchanged, each spin is independent.",
     "higher, because black is due.",
     "lower, because red is on a streak."
    ],
@@ -556,7 +556,7 @@ const SELF_CHECK = {
   {
    "q": "“The stock fell five days in a row, so it must bounce.” What is wrong with that reasoning?",
    "options": [
-    "Nothing — streaks always end with a bounce.",
+    "Nothing: streaks always end with a bounce.",
     "The streak shows a downtrend, so it will keep falling.",
     "Without evidence of mean reversion at that horizon, a streak says little about the next day."
    ],
@@ -566,7 +566,7 @@ const SELF_CHECK = {
   {
    "q": "What does the law of large numbers actually say?",
    "options": [
-    "The proportion settles down as trials accumulate — early deviations are diluted, not corrected.",
+    "The proportion settles down as trials accumulate: early deviations are diluted, not corrected.",
     "Outcomes balance out, so an excess of reds must be followed by blacks.",
     "Small samples look like the whole population."
    ],
@@ -593,14 +593,14 @@ const SELF_CHECK = {
     "The winners sold went on to beat the losers kept over the following year."
    ],
    "answer": 2,
-   "why": "The difference was about 3.4 percentage points over the next year — the habit cost money, not just taxes."
+   "why": "The difference was about 3.4 percentage points over the next year: the habit cost money, not just taxes."
   },
   {
    "q": "Why is the disposition effect costly for taxes too?",
    "options": [
     "Losses are taxed more heavily than gains.",
     "Selling winners realises taxable gains, while held losses could have offset them.",
-    "It is not — taxes are the same either way."
+    "It is not: taxes are the same either way."
    ],
    "answer": 1,
    "why": "Tax rules usually reward the opposite: realise losses, defer gains."
@@ -622,7 +622,7 @@ const SELF_CHECK = {
    "options": [
     "about 90% of the time.",
     "more than 90% of the time.",
-    "far less than 90% of the time — often only about half."
+    "far less than 90% of the time: often only about half."
    ],
    "answer": 2,
    "why": "Intervals are too narrow: people are more sure than their knowledge justifies."
@@ -695,7 +695,7 @@ const SELF_CHECK = {
    "q": "Buying more of a losing position to “win back” what was lost is…",
    "options": [
     "always a sound strategy.",
-    "sunk-cost reasoning — the decision should rest on expected future returns.",
+    "sunk-cost reasoning: the decision should rest on expected future returns.",
     "required by risk management."
    ],
    "answer": 1,
@@ -743,12 +743,7 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>Market <em>Psychology</em></h2>
-    <p style="margin-top:14px">25 behavioral patterns across cognitive biases, emotional drivers, herd dynamics, decision traps, and market cycles — the human side of price action.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
-    </div>
+    <p style="margin-top:14px">25 behavioral patterns across cognitive biases, emotional drivers, herd dynamics, decision traps, and market cycles: the human side of price action.</p>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> navigate &nbsp;·&nbsp;
       <span class="kbd">Ctrl+K</span> search
@@ -756,27 +751,22 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-biases','confirmation-bias')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 12h2l1-3 2 6 1-3h3"/></svg></div>
       <div class="cat-card-name">Cognitive Biases</div>
       <div class="cat-card-count">5 topics · Confirmation, Anchoring, Recency</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-emotional','fear-and-greed')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.8-9.3-9.2A5 5 0 0 1 12 7a5 5 0 0 1 9.3 3.8C19.5 15.2 12 20 12 20z"/></svg></div>
       <div class="cat-card-name">Emotional Drivers</div>
       <div class="cat-card-count">5 topics · Fear & Greed, Loss Aversion</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-herd','herd-behavior')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="2.6"/><circle cx="16.5" cy="10.5" r="2.2"/><path d="M3.5 19a4.8 4.8 0 0 1 9 0M13.5 19a4 4 0 0 1 7 0"/></svg></div>
       <div class="cat-card-name">Herd & Social</div>
       <div class="cat-card-count">5 topics · Herding, FOMO, Social Proof</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-decision','sunk-cost-fallacy')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><line x1="12" y1="10" x2="12" y2="14"/><circle cx="12" cy="16.6" r=".6" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Decision Traps</div>
       <div class="cat-card-count">5 topics · Sunk Cost, Gambler's, Framing</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-cycles','market-sentiment-cycle')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><polyline points="20.5 2.5 20.5 7 16 7"/></svg></div>
       <div class="cat-card-name">Market Cycles</div>
       <div class="cat-card-count">5 topics · Sentiment, Euphoria & Panic</div>
     </div>
@@ -795,103 +785,103 @@ builders['confirmation-bias'] = () => `
 <p><strong>Mitigation:</strong> Actively seek the strongest opposing argument. Write down <em>what would make me wrong</em> before every trade. Track whether your "confirming" sources were actually predictive.</p>`;
 
 builders['anchoring'] = () => `
-<p><strong>Anchoring</strong> — over-relying on the first or most prominent piece of information as a reference point.</p>
+<p><strong>Anchoring</strong>: over-relying on the first or most prominent piece of information as a reference point.</p>
 <div class="fb">Your buy price ($50) → stock drops to $30 → "it's cheap" ← anchored to $50, not to intrinsic value</div>
-<div class="callout"><strong>Common anchors:</strong><br>• Purchase price ("I'll sell when I get back to even")<br>• 52-week highs ("it was $100, now $60 — bargain!")<br>• Round numbers ($100, $10,000 Bitcoin)<br>• Analyst price targets</div>
+<div class="callout"><strong>Common anchors:</strong><br>• Purchase price ("I'll sell when I get back to even")<br>• 52-week highs ("it was $100, now $60: bargain!")<br>• Round numbers ($100, $10,000 Bitcoin)<br>• Analyst price targets</div>
 <p>Solution: value assets on future fundamentals, not past prices.</p>`;
 
 builders['recency-bias'] = () => `
-<p><strong>Recency bias</strong> — weighting recent events disproportionately when forming expectations.</p>
+<p><strong>Recency bias</strong>: weighting recent events disproportionately when forming expectations.</p>
 <div class="callout"><strong>Mechanism:</strong><br>• Bull market for 5 years → "stocks always go up" (extrapolation)<br>• Crash last month → "the market is too dangerous" (fear persistence)<br>• Recent quarter's earnings → overshadows decade of data</div>
-<p>Historical base rates are more reliable than recent anecdotes. The recent past <em>feels</em> like the permanent future — it isn't.</p>`;
+<p>Historical base rates are more reliable than recent anecdotes. The recent past <em>feels</em> like the permanent future: it isn't.</p>`;
 
 builders['availability-heuristic'] = () => `
-<p>The <strong>availability heuristic</strong> (Tversky & Kahneman, 1973) — judging probability by how easily examples come to mind.</p>
+<p>The <strong>availability heuristic</strong> (Tversky & Kahneman, 1973): judging probability by how easily examples come to mind.</p>
 <div class="callout"><strong>Why it distorts:</strong><br>• Dramatic events (crashes, bankruptcies) are <em>vivid</em> and <em>memorable</em><br>• Steady compounding is <em>boring</em> and <em>forgettable</em><br>• Media amplifies dramatic events → they feel more probable<br>• Result: overestimate crash risk, underestimate steady-growth scenarios</div>
 <p>Counter: use <strong>base rates</strong> (actual historical frequencies) not <strong>vivid memories</strong>.</p>`;
 
 builders['hindsight-bias'] = () => `
-<p><strong>Hindsight bias</strong> — "I knew it all along." After an outcome, people believe they predicted it.</p>
-<div class="callout"><strong>The damage:</strong><br>1. Prevents learning — if you "knew," there's nothing to improve<br>2. Creates overconfidence in future predictions<br>3. Makes past decisions look obvious when they weren't<br>4. Leads to unfair self-criticism ("how could I miss that?")</div>
+<p><strong>Hindsight bias</strong>: "I knew it all along." After an outcome, people believe they predicted it.</p>
+<div class="callout"><strong>The damage:</strong><br>1. Prevents learning, if you "knew," there's nothing to improve<br>2. Creates overconfidence in future predictions<br>3. Makes past decisions look obvious when they weren't<br>4. Leads to unfair self-criticism ("how could I miss that?")</div>
 <p><strong>Fix:</strong> Keep a <em>decision journal</em>. Record your reasoning <em>before</em> the outcome. Compare predictions to results. Humbling — and educational.</p>`;
 
 builders['fear-and-greed'] = () => `
-<p>The two primal market emotions — <strong>fear</strong> and <strong>greed</strong> — drive the pendulum of market psychology.</p>
+<p>The two primal market emotions, <strong>fear</strong> and <strong>greed</strong>, drive the pendulum of market psychology.</p>
 <div class="callout"><strong>Greed cycle:</strong> opportunity → interest → excitement → euphoria → "I can't lose"<br><strong>Fear cycle:</strong> concern → worry → anxiety → panic → "I must get out at any price"</div>
 <p>Warren Buffett's famous rule: <em>"Be fearful when others are greedy, and greedy when others are fearful."</em></p>
 <p>The CNN Fear & Greed Index aggregates 7 market signals into a 0–100 scale measuring current dominant emotion.</p>`;
 
 builders['loss-aversion'] = () => `
-<p><strong>Loss aversion</strong> (Kahneman & Tversky, Prospect Theory, 1979) — losses are felt approximately <strong>2× more strongly</strong> than equivalent gains.</p>
+<p><strong>Loss aversion</strong> (Kahneman & Tversky, Prospect Theory, 1979): losses are felt approximately <strong>2× more strongly</strong> than equivalent gains.</p>
 <div class="fb">Utility of losing $100 ≈ −2 × Utility of gaining $100</div>
 <div class="callout"><strong>Trading consequences:</strong><br>• Hold losers too long (to avoid realizing the painful loss)<br>• Sell winners too quickly (to lock in the pleasurable gain)<br>• Refuse to take small calculated losses → small loss becomes catastrophic<br>• Trading costs and overtrading explain much of retail underperformance (Barber &amp; Odean 2000); loss aversion adds to it</div>`;
 
 builders['regret-aversion'] = () => `
-<p><strong>Regret aversion</strong> — making decisions to minimize future regret rather than maximize expected value.</p>
+<p><strong>Regret aversion</strong>: making decisions to minimize future regret rather than maximize expected value.</p>
 <div class="callout"><strong>Two forms:</strong><br>• <strong>Errors of commission:</strong> "I bought → it crashed → I regret acting"<br>• <strong>Errors of omission:</strong> "I didn't buy → it soared → I regret NOT acting"<br><br>Short-term: we regret actions more. Long-term: we regret inactions more.</div>
 <p>In markets, regret aversion causes paralysis, herd-following ("at least I won't be the only one who's wrong"), and excessive conservatism.</p>`;
 
 builders['overconfidence'] = () => `
-<p><strong>Overconfidence</strong> — systematically overestimating one's ability to predict, analyze, and control outcomes.</p>
-<div class="callout"><strong>Three types:</strong><br>1. <strong>Overestimation:</strong> "I'll beat the market" (in one U.S. student sample, 93% rated themselves above-median drivers — Svenson 1981)<br>2. <strong>Overprecision:</strong> Confidence intervals too narrow ("I'm 95% sure it'll hit $50" — it won't)<br>3. <strong>Overplacement:</strong> "I'm a better trader than most people"</div>
+<p><strong>Overconfidence</strong>: systematically overestimating one's ability to predict, analyze, and control outcomes.</p>
+<div class="callout"><strong>Three types:</strong><br>1. <strong>Overestimation:</strong> "I'll beat the market" (in one U.S. student sample, 93% rated themselves above-median drivers; Svenson 1981)<br>2. <strong>Overprecision:</strong> Confidence intervals too narrow ("I'm 95% sure it'll hit $50", and it won't)<br>3. <strong>Overplacement:</strong> "I'm a better trader than most people"</div>
 <p>Barber & Odean (2000): the most active fifth of households earned <strong>7.1 percentage points a year less</strong>, after costs, than the least active fifth. Overconfidence → overtrading → underperformance.</p>`;
 
 builders['disposition-effect'] = () => `
-<p>The <strong>disposition effect</strong> (Shefrin & Statman, 1985) — selling winners too early and holding losers too long.</p>
+<p>The <strong>disposition effect</strong> (Shefrin & Statman, 1985): selling winners too early and holding losers too long.</p>
 <div class="callout"><strong>Mechanism:</strong><br>• Winner: feels good → sell to "lock in" pleasure → miss further gains<br>• Loser: feels painful → hold to avoid realizing pain → loss deepens<br><br><strong>Result:</strong> The exact opposite of the rational strategy — let winners run, cut losers short.</div>
 <p>It's also tax-inefficient: you pay capital gains tax on winners early but can't deduct unrealized losses.</p>`;
 
 builders['herd-behavior'] = () => `
-<p><strong>Herd behavior</strong> — following the crowd's actions regardless of your own analysis.</p>
+<p><strong>Herd behavior</strong>: following the crowd's actions regardless of your own analysis.</p>
 <div class="callout"><strong>Why we herd:</strong><br>• <strong>Evolutionary:</strong> safety in numbers (wildebeest at the river)<br>• <strong>Informational:</strong> "They must know something I don't"<br>• <strong>Social:</strong> fear of standing out, career risk ("no one got fired for buying IBM")<br><br><strong>Market impact:</strong> Creates momentum that overshoots fair value in both directions</div>
 <p>Keynes: <em>"It is better for reputation to fail conventionally than to succeed unconventionally."</em></p>`;
 
 builders['fomo'] = () => `
-<p><strong>FOMO</strong> (Fear Of Missing Out) — the anxiety that others are profiting from an opportunity you're not participating in.</p>
-<div class="callout"><strong>FOMO escalation spiral:</strong><br>1. See others posting gains on social media<br>2. Anxiety builds — "I'm missing the move"<br>3. Abandon risk management and buy at elevated prices<br>4. Price reverses — you bought the top<br>5. Now you're both losing money AND regretting the decision</div>
-<p>FOMO is strongest at <em>market tops</em> — exactly when risk is highest.</p>`;
+<p><strong>FOMO</strong> (Fear Of Missing Out): the anxiety that others are profiting from an opportunity you're not participating in.</p>
+<div class="callout"><strong>FOMO escalation spiral:</strong><br>1. See others posting gains on social media<br>2. Anxiety builds: "I'm missing the move"<br>3. Abandon risk management and buy at elevated prices<br>4. Price reverses: you bought the top<br>5. Now you're both losing money AND regretting the decision</div>
+<p>FOMO is strongest at <em>market tops</em>: exactly when risk is highest.</p>`;
 
 builders['social-proof'] = () => `
-<p><strong>Social proof</strong> (Cialdini, 1984) — using others' behavior as evidence of the correct action.</p>
-<div class="callout"><strong>Market expressions:</strong><br>• "Everyone is buying crypto — it must be good"<br>• Following influencer/expert recommendations blindly<br>• Popularity of a stock = perceived quality<br>• Crowded trades feel safe — until they reverse simultaneously</div>
-<p>Social proof works well in <strong>stable, familiar</strong> environments. It fails catastrophically in <strong>uncertain, novel</strong> situations — exactly when you need independent thinking most.</p>`;
+<p><strong>Social proof</strong> (Cialdini, 1984): using others' behavior as evidence of the correct action.</p>
+<div class="callout"><strong>Market expressions:</strong><br>• "Everyone is buying crypto: it must be good"<br>• Following influencer/expert recommendations blindly<br>• Popularity of a stock = perceived quality<br>• Crowded trades feel safe, until they reverse simultaneously</div>
+<p>Social proof works well in <strong>stable, familiar</strong> environments. It fails catastrophically in <strong>uncertain, novel</strong> situations: exactly when you need independent thinking most.</p>`;
 
 builders['contrarian-thinking'] = () => `
-<p><strong>Contrarian thinking</strong> — deliberately going against prevailing consensus at sentiment extremes.</p>
-<div class="callout"><strong>Not simply "always disagree":</strong><br>• Contrarian ≠ always opposite<br>• Only at <em>sentiment extremes</em> (extreme fear or greed)<br>• Requires: measuring sentiment objectively + having a thesis + emotional discipline<br>• Feels deeply uncomfortable — humans are hardwired for social conformity</div>
+<p><strong>Contrarian thinking</strong>: deliberately going against prevailing consensus at sentiment extremes.</p>
+<div class="callout"><strong>Not simply "always disagree":</strong><br>• Contrarian ≠ always opposite<br>• Only at <em>sentiment extremes</em> (extreme fear or greed)<br>• Requires: measuring sentiment objectively + having a thesis + emotional discipline<br>• Feels deeply uncomfortable: humans are hardwired for social conformity</div>
 <p>Howard Marks’s point, in paraphrase: superior results need views that differ from the consensus <em>and</em> turn out to be right.</p>`;
 
 builders['information-cascades'] = () => `
-<p><strong>Information cascades</strong> (Banerjee, 1992; Bikhchandani et al., 1992) — when individuals rationally follow others, ignoring their own private signals.</p>
-<div class="callout"><strong>How a cascade forms:</strong><br>1. Person A acts on their signal → buys<br>2. Person B sees A buy, combines with own signal → buys too<br>3. Person C infers from A+B → buys regardless of own signal<br>4. Everyone follows — even though total information is thin<br><br><strong>Key insight:</strong> Cascades are <em>fragile</em>. A small credible contrary signal can shatter them → sudden reversal.</div>`;
+<p><strong>Information cascades</strong> (Banerjee, 1992; Bikhchandani et al., 1992), when individuals rationally follow others, ignoring their own private signals.</p>
+<div class="callout"><strong>How a cascade forms:</strong><br>1. Person A acts on their signal → buys<br>2. Person B sees A buy, combines with own signal → buys too<br>3. Person C infers from A+B → buys regardless of own signal<br>4. Everyone follows, even though total information is thin<br><br><strong>Key insight:</strong> Cascades are <em>fragile</em>. A small credible contrary signal can shatter them → sudden reversal.</div>`;
 
 builders['sunk-cost-fallacy'] = () => `
-<p>The <strong>sunk cost fallacy</strong> — continuing a course of action because of past investment, rather than future expected value.</p>
+<p>The <strong>sunk cost fallacy</strong>: continuing a course of action because of past investment, rather than future expected value.</p>
 <div class="fb">Past cost = irrelevant → Only future costs and benefits should drive decisions</div>
-<div class="callout"><strong>In trading:</strong><br>• "I've already lost $5K — I can't sell now" → the $5K is gone either way<br>• "I've spent 6 months researching this company" → past time doesn't change future outlook<br>• Doubling down on a loser to "make it back" → escalation of commitment</div>
+<div class="callout"><strong>In trading:</strong><br>• "I've already lost $5K: I can't sell now" → the $5K is gone either way<br>• "I've spent 6 months researching this company" → past time doesn't change future outlook<br>• Doubling down on a loser to "make it back" → escalation of commitment</div>
 <p>Rational rule: ignore what you can't change (past), decide based on what you can (future).</p>`;
 
 builders['gambler-fallacy'] = () => `
-<p>The <strong>gambler's fallacy</strong> — believing past random events affect future probabilities.</p>
-<div class="callout"><strong>Classic example:</strong> Monte Carlo, 1913 — black came up 26 times in a row. Gamblers bet massively on red, believing it was "due."<br><br><strong>In markets:</strong><br>• "It's fallen 5 days — it's due for a bounce" (each day is largely independent)<br>• "This strategy has lost 3 times — the next one must win"<br>• Confusing <em>statistical expectation over many trials</em> with <em>the next single event</em></div>
+<p>The <strong>gambler's fallacy</strong>: believing past random events affect future probabilities.</p>
+<div class="callout"><strong>Classic example:</strong> Monte Carlo, 1913 — black came up 26 times in a row. Gamblers bet massively on red, believing it was "due."<br><br><strong>In markets:</strong><br>• "It's fallen 5 days: it's due for a bounce" (each day is largely independent)<br>• "This strategy has lost 3 times: the next one must win"<br>• Confusing <em>statistical expectation over many trials</em> with <em>the next single event</em></div>
 <p>Independent events have no memory. Previous outcomes don't affect future outcomes.</p>`;
 
 builders['framing-effect'] = () => `
-<p>The <strong>framing effect</strong> (Tversky & Kahneman, 1981) — identical information presented differently leads to different decisions.</p>
+<p>The <strong>framing effect</strong> (Tversky & Kahneman, 1981): identical information presented differently leads to different decisions.</p>
 <div class="callout"><strong>Gain frame:</strong> "This trade has a 70% success rate" → people take it<br><strong>Loss frame:</strong> "This trade has a 30% failure rate" → people avoid it<br><br><strong>Same fact, different emotions, different decisions.</strong></div>
-<p>In investing: "stock is 20% off its highs" (bargain frame) vs. "stock fell 20%" (danger frame). Reframing a situation always changes your emotional response — be aware of which frame you're in.</p>`;
+<p>In investing: "stock is 20% off its highs" (bargain frame) vs. "stock fell 20%" (danger frame). Reframing a situation always changes your emotional response: be aware of which frame you're in.</p>`;
 
 builders['mental-accounting'] = () => `
-<p><strong>Mental accounting</strong> (Richard Thaler, 1985) — treating money differently based on arbitrary categories.</p>
-<div class="callout"><strong>Examples:</strong><br>• <strong>House money effect:</strong> Profits from winning trades are risked more freely — "it's house money"<br>• <strong>Found money:</strong> A tax refund or bonus spent more frivolously than salary<br>• <strong>Separate buckets:</strong> "My retirement account" vs. "my trading account" — but it's all your wealth<br><br>Money is fungible. A dollar of profit = a dollar of salary = a dollar of savings.</div>`;
+<p><strong>Mental accounting</strong> (Richard Thaler, 1985): treating money differently based on arbitrary categories.</p>
+<div class="callout"><strong>Examples:</strong><br>• <strong>House money effect:</strong> Profits from winning trades are risked more freely — "it's house money"<br>• <strong>Found money:</strong> A tax refund or bonus spent more frivolously than salary<br>• <strong>Separate buckets:</strong> "My retirement account" vs. "my trading account", but it's all your wealth<br><br>Money is fungible. A dollar of profit = a dollar of salary = a dollar of savings.</div>`;
 
 builders['status-quo-bias'] = () => `
-<p><strong>Status quo bias</strong> — preference for the current state of affairs; any change is perceived as a loss.</p>
+<p><strong>Status quo bias</strong>: preference for the current state of affairs; any change is perceived as a loss.</p>
 <div class="callout"><strong>In investing:</strong><br>• Never rebalancing a portfolio → allocation drifts far from target<br>• Sticking with an underperforming fund because switching feels risky<br>• Default 401(k) allocation → most employees never change it<br>• Holding inherited stocks forever regardless of fundamentals</div>
 <p>Related to <strong>loss aversion</strong>: changing feels like a potential loss (of the current state), while the current state feels "free." It isn't.</p>`;
 
 builders['market-sentiment-cycle'] = () => `
-<p>The <strong>market sentiment cycle</strong> — the emotional journey investors collectively experience through a full market cycle.</p>
+<p>The <strong>market sentiment cycle</strong>: the emotional journey investors collectively experience through a full market cycle.</p>
 <div class="callout"><strong>The phases:</strong><br>
 <strong>Bottoming:</strong> Disbelief → Hope → Relief<br>
 <strong>Rising:</strong> Optimism → Excitement → Thrill<br>
@@ -902,20 +892,20 @@ builders['market-sentiment-cycle'] = () => `
 <p>Maximum risk arrives at the point of maximum emotional comfort. Maximum opportunity arrives at maximum discomfort.</p>`;
 
 builders['accumulation-distribution'] = () => `
-<p><strong>Accumulation & Distribution</strong> — Wyckoff's framework for understanding market phases through the lens of "smart money" behavior.</p>
+<p><strong>Accumulation & Distribution</strong>: Wyckoff's framework for understanding market phases through the lens of "smart money" behavior.</p>
 <div class="callout"><strong>Four phases:</strong><br>1. <strong>Accumulation:</strong> Smart money quietly buys. Volume low. Public uninterested.<br>2. <strong>Markup:</strong> Price rises. Public notices. Volume increases. FOMO begins.<br>3. <strong>Distribution:</strong> Smart money sells to eager public. High volume. Media attention peaks.<br>4. <strong>Markdown:</strong> Price falls. Public panics. Smart money waits to re-accumulate.</div>
 <p>Wyckoff's "Composite Man" = the aggregate of well-informed money deliberately accumulating or distributing.</p>`;
 
 builders['euphoria-panic'] = () => `
-<p><strong>Euphoria and Panic</strong> — the two emotional extremes that mark market tops and bottoms.</p>
-<div class="callout"><strong>Signs of euphoria:</strong><br>• "This time is different" — the four most expensive words<br>• Retail investor participation surges<br>• IPOs of marginal companies succeed wildly<br>• Taxi drivers / neighbors give stock tips<br><br><strong>Signs of panic:</strong><br>• "I can't take it anymore" — capitulation<br>• Margin calls force selling at any price<br>• VIX spikes to 40+<br>• "Stocks are dead" headlines</div>`;
+<p><strong>Euphoria and Panic</strong>: the two emotional extremes that mark market tops and bottoms.</p>
+<div class="callout"><strong>Signs of euphoria:</strong><br>• "This time is different": the four most expensive words<br>• Retail investor participation surges<br>• IPOs of marginal companies succeed wildly<br>• Taxi drivers / neighbors give stock tips<br><br><strong>Signs of panic:</strong><br>• "I can't take it anymore": capitulation<br>• Margin calls force selling at any price<br>• VIX spikes to 40+<br>• "Stocks are dead" headlines</div>`;
 
 builders['smart-money-dumb-money'] = () => `
-<p><strong>Smart Money vs. Dumb Money</strong> — the persistent pattern of institutional (informed) and retail (uninformed) behavior.</p>
+<p><strong>Smart Money vs. Dumb Money</strong>: the persistent pattern of institutional (informed) and retail (uninformed) behavior.</p>
 <div class="callout"><strong>Tracking tools:</strong><br>• <strong>COT Report:</strong> Commitment of Traders — shows positioning of commercials (hedgers) vs. speculators<br>• <strong>Insider buying/selling:</strong> Insider purchases have been followed by above-average returns on average (Lakonishok &amp; Lee 2001); insider sales say much less<br>• <strong>Put/Call ratio:</strong> often read as a contrarian gauge — very high readings tend to occur in sell-offs<br>• <strong>Fund flows:</strong> Money tends to arrive after strong returns and leave after weak ones; stocks that flows chase go on to underperform (Frazzini &amp; Lamont 2008)</div>
 <p>The key insight: smart money acts <em>before</em> the move; dumb money reacts <em>after</em> the move is largely complete.</p>`;
 
 builders['mean-reversion-psychology'] = () => `
-<p><strong>Mean reversion psychology</strong> — the principle that extremes in both price and sentiment revert toward their long-term average.</p>
-<div class="callout"><strong>Statistical basis:</strong> Regression to the mean (Galton, 1886). Extreme observations are followed by less extreme ones — not by "correction" but by probability.<br><br><strong>Market application:</strong><br>• Extreme euphoria → sentiment reverts toward neutral (prices fall)<br>• Extreme panic → sentiment reverts toward neutral (prices rise)<br>• The VIX and credit spreads tend to mean-revert; valuation ratios such as P/E do too, but slowly, and where their “mean” lies is debated</div>
+<p><strong>Mean reversion psychology</strong>: the principle that extremes in both price and sentiment revert toward their long-term average.</p>
+<div class="callout"><strong>Statistical basis:</strong> Regression to the mean (Galton, 1886). Extreme observations are followed by less extreme ones, not by "correction" but by probability.<br><br><strong>Market application:</strong><br>• Extreme euphoria → sentiment reverts toward neutral (prices fall)<br>• Extreme panic → sentiment reverts toward neutral (prices rise)<br>• The VIX and credit spreads tend to mean-revert; valuation ratios such as P/E do too, but slowly, and where their “mean” lies is debated</div>
 <p>Patience is the key: wait for the extreme, then let mean reversion work in your favor.</p>`;

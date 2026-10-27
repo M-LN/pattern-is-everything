@@ -78,7 +78,7 @@
     }
     else if (m.type === 'out' || m.type === 'err') write(s, m.text, m.type);
     else if (m.type === 'done' || m.type === 'fail') {
-      if (!s.out.firstChild) write(s, '(no output — add a print() to see a value)\n');
+      if (!s.out.firstChild) write(s, '(no output: add a print() to see a value)\n');
       finish(s, m.type === 'done');
     }
   }
@@ -92,7 +92,7 @@
     s.stop.hidden = false;
     s.t0 = performance.now();
     s.runId = ++seq;
-    setStatus(s, worker ? 'Starting…' : 'Loading Python — the first run downloads 10–40 MB, then the browser keeps it…');
+    setStatus(s, worker ? 'Starting…' : 'Loading Python: the first run downloads 10–40 MB, then the browser keeps it…');
     getWorker().postMessage({ id: s.runId, pkgs: s.r.pkgs, setup: s.r.setup, code: s.ed.value, files: s.r.files || [] });
     if (!tracked[s.id] && typeof window.ppTrack === 'function') {
       tracked[s.id] = 1;
@@ -121,7 +121,7 @@
 
       if (r.setup) {   // on a case page, the steps before this one
         var setup = el('details', 'run-setup');
-        setup.appendChild(el('summary', null, r.files ? 'Earlier steps, run first' : 'Setup — imports and data, run first'));
+        setup.appendChild(el('summary', null, r.files ? 'Earlier steps, run first' : 'Setup: imports and data, run first'));
         setup.appendChild(el('pre', null, r.setup));
         block.parentNode.insertBefore(setup, block);
       }
@@ -132,7 +132,7 @@
       ed.spellcheck = false;
       ed.setAttribute('autocapitalize', 'off');
       ed.setAttribute('autocomplete', 'off');
-      ed.setAttribute('aria-label', 'Python code — edit and run');
+      ed.setAttribute('aria-label', 'Python code: edit and run');
       ed.value = initial;
       pre.replaceWith(ed);
       block.classList.add('is-editing');

@@ -1,4 +1,4 @@
-/* Self-hosted fonts — latin subset of IBM Plex Mono, Playfair Display, Inter.
+/* Self-hosted fonts — latin subset of IBM Plex Sans and IBM Plex Mono.
    Downloaded from Google Fonts (variable woff2 where available); files live in /assets/fonts/. */
 
 @font-face {
@@ -33,28 +33,21 @@
   src: url('/assets/fonts/ibm-plex-mono-300-italic.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'IBM Plex Sans';
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 100 700;
   font-display: swap;
-  src: url('/assets/fonts/playfair-display-var.woff2') format('woff2');
+  src: url('/assets/fonts/ibm-plex-sans-var.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'IBM Plex Sans';
   font-style: italic;
-  font-weight: 400;
+  font-weight: 100 700;
   font-display: swap;
-  src: url('/assets/fonts/playfair-display-400-italic.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url('/assets/fonts/inter-var.woff2') format('woff2');
+  src: url('/assets/fonts/ibm-plex-sans-var-italic.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -95,32 +88,15 @@
 /* Metric-matched fallbacks. Until a web font arrives (font-display: swap) the
    text is set in a local font scaled to the same width and line metrics, so
    the swap does not reflow the page (it was the main source of layout shift).
-   Values measured in Chrome against Arial, Georgia and Courier New:
+   Values measured in Chrome against Arial and Courier New:
    size-adjust = web width / fallback width over a sample sentence, and the
    overrides = the web font's ascent and descent divided by size-adjust. */
 @font-face {
-  font-family: 'Inter Fallback';
+  font-family: 'IBM Plex Sans Fallback';
   src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('Roboto');
-  size-adjust: 107.03%;
-  ascent-override: 90.63%;
-  descent-override: 22.42%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Playfair Display Fallback';
-  src: local('Georgia');
-  size-adjust: 101.73%;
-  ascent-override: 106.16%;
-  descent-override: 24.57%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Playfair Display Fallback';
-  font-style: italic;
-  src: local('Georgia Italic'), local('Georgia-Italic');
-  size-adjust: 101.73%;
-  ascent-override: 106.16%;
-  descent-override: 24.57%;
+  size-adjust: 101.1%;
+  ascent-override: 101.39%;
+  descent-override: 27.2%;
   line-gap-override: 0%;
 }
 @font-face {

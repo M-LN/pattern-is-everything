@@ -46,7 +46,7 @@ const TOPIC_DATA = [
   { id:'value-at-risk', evidence:'statistical', reviewed:'2026-10-02', num:'01', title:'Value at Risk (VaR)', category:'Risk Measures', keywords:['var','value at risk','confidence','loss','parametric','historical','monte carlo'], content:'Maximum expected loss over a holding period at a given confidence level.' },
   { id:'expected-shortfall', evidence:'statistical', reviewed:'2026-10-02', num:'02', title:'Expected Shortfall (CVaR)', category:'Risk Measures', keywords:['cvar','expected shortfall','conditional','tail','average','beyond'], content:'Average loss in the worst tail scenarios beyond the VaR threshold.' },
   { id:'volatility-modeling', evidence:'statistical', reviewed:'2026-10-02', num:'03', title:'Volatility Modeling', category:'Risk Measures', keywords:['garch','ewma','realized','implied','stochastic','vol','variance'], content:'Forecasting asset volatility using GARCH, EWMA, and realized measures.' },
-  { id:'correlation-risk', evidence:'statistical', reviewed:'2026-10-02', num:'04', title:'Correlation Risk', category:'Risk Measures', keywords:['correlation','covariance','regime','breakdown','contagion','copula'], content:'Portfolio correlations shift in crises — diversification can vanish when needed most.' },
+  { id:'correlation-risk', evidence:'statistical', reviewed:'2026-10-02', num:'04', title:'Correlation Risk', category:'Risk Measures', keywords:['correlation','covariance','regime','breakdown','contagion','copula'], content:'Portfolio correlations shift in crises: diversification can vanish when needed most.' },
   { id:'tail-risk', evidence:'statistical', reviewed:'2026-10-02', num:'05', title:'Tail Risk', category:'Risk Measures', keywords:['tail','kurtosis','fat tails','black swan','extreme','GPD'], content:'Extreme events beyond normal distribution assumptions drive outsized losses.' },
   { id:'mean-variance', evidence:'mathematical', reviewed:'2026-10-02', num:'06', title:'Mean-Variance Optimization', category:'Portfolio Construction', keywords:['markowitz','efficient frontier','optimization','sharpe','quadratic','mvo'], content:'Classic Markowitz framework balancing expected return against portfolio variance.' },
   { id:'risk-parity', evidence:'statistical', reviewed:'2026-10-02', num:'07', title:'Risk Parity', category:'Portfolio Construction', keywords:['risk parity','equal risk','contribution','all weather','bridgewater'], content:'Weight assets so each contributes equally to total portfolio risk.' },
@@ -59,14 +59,14 @@ const TOPIC_DATA = [
   { id:'pyramiding', evidence:'heuristic', reviewed:'2026-10-02', num:'14', title:'Pyramiding', category:'Position Sizing', keywords:['pyramid','add','scale in','winner','trend','momentum'], content:'Add to winning positions in tiers as the trade moves in your favor.' },
   { id:'max-position', evidence:'heuristic', reviewed:'2026-10-02', num:'15', title:'Maximum Position Limits', category:'Position Sizing', keywords:['max position','concentration','limit','exposure','single name','cap'], content:'Hard caps on single-name and sector exposure to prevent catastrophic concentration.' },
   { id:'options-hedging', evidence:'statistical', reviewed:'2026-10-02', num:'16', title:'Options Hedging', category:'Hedging & Protection', keywords:['options','put','collar','protective','delta','hedge','premium'], content:'Protective puts, collars, and delta-neutral overlays to cap downside risk.' },
-  { id:'stop-losses', evidence:'debated', reviewed:'2026-10-02', num:'17', title:'Stop-Loss Strategies', category:'Hedging & Protection', keywords:['stop loss','trailing','hard stop','percentage','atr stop','exit'], content:'Mechanical exit rules — fixed, trailing, or volatility-adjusted — to limit drawdowns.' },
+  { id:'stop-losses', evidence:'debated', reviewed:'2026-10-02', num:'17', title:'Stop-Loss Strategies', category:'Hedging & Protection', keywords:['stop loss','trailing','hard stop','percentage','atr stop','exit'], content:'Mechanical exit rules (fixed, trailing, or volatility-adjusted) to limit drawdowns.' },
   { id:'pairs-trading', evidence:'statistical', reviewed:'2026-10-02', num:'18', title:'Pairs Trading', category:'Hedging & Protection', keywords:['pairs','spread','cointegration','mean reversion','market neutral','long short'], content:'Long/short correlated pairs to profit from spread convergence while hedging market risk.' },
   { id:'portfolio-insurance', evidence:'statistical', reviewed:'2026-10-02', num:'19', title:'Portfolio Insurance', category:'Hedging & Protection', keywords:['cppi','obpi','insurance','floor','cushion','dynamic','protection'], content:'CPPI and OBPI strategies that dynamically shift between risky and safe assets.' },
   { id:'currency-hedging', evidence:'statistical', reviewed:'2026-10-02', num:'20', title:'Currency Hedging', category:'Hedging & Protection', keywords:['currency','fx','forward','cross-currency','unhedged','hedge ratio'], content:'Forward contracts and options to neutralize foreign exchange exposure in global portfolios.' },
   { id:'return-attribution', evidence:'statistical', reviewed:'2026-10-02', num:'21', title:'Return Attribution', category:'Performance & Attribution', keywords:['attribution','brinson','allocation','selection','interaction','sector'], content:'Brinson decomposition of returns into allocation, selection, and interaction effects.' },
   { id:'benchmark-tracking', evidence:'statistical', reviewed:'2026-10-02', num:'22', title:'Benchmark Tracking', category:'Performance & Attribution', keywords:['tracking error','benchmark','index','passive','active share','deviation'], content:'Tracking error measures how closely a portfolio mirrors its benchmark.' },
   { id:'alpha-generation', evidence:'debated', reviewed:'2026-10-02', num:'23', title:'Alpha Generation', category:'Performance & Attribution', keywords:['alpha','excess return','skill','information ratio','active management'], content:'Identifying and capturing risk-adjusted excess returns above the benchmark.' },
-  { id:'risk-adjusted-perf', evidence:'statistical', reviewed:'2026-10-02', num:'24', title:'Risk-Adjusted Performance', category:'Performance & Attribution', keywords:['sharpe','sortino','calmar','treynor','information ratio','risk-adjusted'], content:'Ratios that normalize returns by risk — Sharpe, Sortino, Calmar, Treynor.' },
+  { id:'risk-adjusted-perf', evidence:'statistical', reviewed:'2026-10-02', num:'24', title:'Risk-Adjusted Performance', category:'Performance & Attribution', keywords:['sharpe','sortino','calmar','treynor','information ratio','risk-adjusted'], content:'Ratios that normalize returns by risk: Sharpe, Sortino, Calmar, Treynor.' },
   { id:'drawdown-analysis', evidence:'statistical', reviewed:'2026-10-02', num:'25', title:'Drawdown Analysis', category:'Performance & Attribution', keywords:['drawdown','maximum drawdown','recovery','underwater','peak to trough','mdd'], content:'Peak-to-trough loss analysis and recovery time for assessing strategy resilience.' },
 ];
 
@@ -101,7 +101,7 @@ function buildNav() {
    worked example is the output of the code shown with it. */
 const TOPIC_DEPTH = {
  "value-at-risk": {
-  "example": "Twenty daily returns on a 1,000,000 portfolio. Historical 95% VaR reads the 5% quantile straight off the data: <strong>28,400</strong>. Parametric VaR assumes a normal distribution with the same mean and standard deviation: <strong>23,512</strong>. The two worst days (−3.6% and −2.8%) drive the gap — the normal curve says such days are rarer than the data does.",
+  "example": "Twenty daily returns on a 1,000,000 portfolio. Historical 95% VaR reads the 5% quantile straight off the data: <strong>28,400</strong>. Parametric VaR assumes a normal distribution with the same mean and standard deviation: <strong>23,512</strong>. The two worst days (−3.6% and −2.8%) drive the gap: the normal curve says such days are rarer than the data does.",
   "fails": [
    "With 20 days the 5% quantile sits between the two worst observations; one more bad day moves it a lot. Historical VaR needs hundreds of days to be stable.",
    "VaR says nothing about how bad the bad days are beyond the cutoff, and it is not sub-additive: two portfolios’ VaR can add up to less than the VaR of the two combined (Artzner et al. 1999).",
@@ -110,14 +110,14 @@ const TOPIC_DEPTH = {
   "code": "r = pd.Series([0.4, -1.2, 0.8, 0.1, -0.6, 1.5, -2.8, 0.3, 0.9, -0.4,\n               0.2, -1.7, 0.6, 1.1, -0.9, 0.5, -3.6, 0.7, 0.0, -0.3]) / 100   # 20 daily returns, made up\nvalue = 1_000_000\nhistorical = -np.quantile(r, 0.05) * value                 # read the 5% quantile off the data\nparametric = -(r.mean() - 1.645 * r.std()) * value         # assume a normal distribution",
   "sources": [
    "<em>Value at Risk: The New Benchmark for Managing Financial Risk</em>, P. Jorion, McGraw-Hill, 3rd ed. 2007",
-   "J.P. Morgan/Reuters, <em>RiskMetrics — Technical Document</em>, 4th ed., 1996",
+   "J.P. Morgan/Reuters, <em>RiskMetrics: Technical Document</em>, 4th ed., 1996",
    "P. Artzner, F. Delbaen, J.-M. Eber &amp; D. Heath, “Coherent Measures of Risk”, <em>Mathematical Finance</em> 9(3), 1999"
   ]
  },
  "expected-shortfall": {
-  "example": "10,000 days of fat-tailed returns with 1% daily volatility. At 97.5% the VaR is <strong>1.83%</strong> — <em>below</em> the 1.96% a normal distribution would give. Expected Shortfall, the average loss beyond the VaR, is <strong>2.92%</strong>, against <strong>2.34%</strong> for the normal. Fat tails can make VaR look safer while the losses past it are bigger; ES sees what VaR misses.",
+  "example": "10,000 days of fat-tailed returns with 1% daily volatility. At 97.5% the VaR is <strong>1.83%</strong>: <em>below</em> the 1.96% a normal distribution would give. Expected Shortfall, the average loss beyond the VaR, is <strong>2.92%</strong>, against <strong>2.34%</strong> for the normal. Fat tails can make VaR look safer while the losses past it are bigger; ES sees what VaR misses.",
   "fails": [
-   "ES averages very few observations — 2.5% of the sample — so it is noisier than VaR and needs a long history or a model of the tail.",
+   "ES averages very few observations, 2.5% of the sample, so it is noisier than VaR and needs a long history or a model of the tail.",
    "It is harder to backtest than VaR, because there is no simple count of breaches to check.",
    "Like VaR it is only as good as the data behind it: a sample without a crisis gives an ES without one."
   ],
@@ -125,11 +125,11 @@ const TOPIC_DEPTH = {
   "sources": [
    "P. Artzner, F. Delbaen, J.-M. Eber &amp; D. Heath, “Coherent Measures of Risk”, <em>Mathematical Finance</em> 9(3), 1999",
    "C. Acerbi &amp; D. Tasche, “On the Coherence of Expected Shortfall”, <em>Journal of Banking &amp; Finance</em> 26(7), 2002",
-   "Basel Committee on Banking Supervision, <em>Minimum Capital Requirements for Market Risk</em>, 2019 — ES at 97.5% for the trading book"
+   "Basel Committee on Banking Supervision, <em>Minimum Capital Requirements for Market Risk</em>, 2019: ES at 97.5% for the trading book"
   ]
  },
  "volatility-modeling": {
-  "example": "Thirty calm days of ±0.5%, then one −4% day, then calm again. EWMA with λ = 0.94 estimates <strong>7.9%</strong> annualized volatility before the shock, <strong>17.4%</strong> the day after, and <strong>14.1%</strong> nine days later as it decays. A 20-day equal-weight window jumps from 8.1% to <strong>16.2%</strong> and is still at <strong>16.3%</strong> nine days later — it will stay high until the shock leaves the window, then drop all at once.",
+  "example": "Thirty calm days of ±0.5%, then one −4% day, then calm again. EWMA with λ = 0.94 estimates <strong>7.9%</strong> annualized volatility before the shock, <strong>17.4%</strong> the day after, and <strong>14.1%</strong> nine days later as it decays. A 20-day equal-weight window jumps from 8.1% to <strong>16.2%</strong> and is still at <strong>16.3%</strong> nine days later: it will stay high until the shock leaves the window, then drop all at once.",
   "fails": [
    "EWMA has no long-run level: after a quiet spell its estimate keeps falling toward zero. GARCH adds a pull back to an average (the ω term).",
    "λ = 0.94 was chosen for daily data across many markets in 1994; it is a convention, not a fitted value for your asset.",
@@ -139,11 +139,11 @@ const TOPIC_DEPTH = {
   "sources": [
    "R. F. Engle, “Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation”, <em>Econometrica</em> 50(4), 1982",
    "T. Bollerslev, “Generalized Autoregressive Conditional Heteroskedasticity”, <em>Journal of Econometrics</em> 31(3), 1986",
-   "J.P. Morgan/Reuters, <em>RiskMetrics — Technical Document</em>, 4th ed., 1996"
+   "J.P. Morgan/Reuters, <em>RiskMetrics: Technical Document</em>, 4th ed., 1996"
   ]
  },
  "correlation-risk": {
-  "example": "Two assets, each 20% volatile, held 50/50. At a correlation of 0.2 the portfolio’s volatility is <strong>15.5%</strong>. If the correlation rises to 0.9 in a crisis it is <strong>19.5%</strong> — almost the volatility of either asset alone. The diversification you counted on in calm markets is mostly gone exactly when losses come.",
+  "example": "Two assets, each 20% volatile, held 50/50. At a correlation of 0.2 the portfolio’s volatility is <strong>15.5%</strong>. If the correlation rises to 0.9 in a crisis it is <strong>19.5%</strong>, almost the volatility of either asset alone. The diversification you counted on in calm markets is mostly gone exactly when losses come.",
   "fails": [
    "Correlations measured in high-volatility periods are biased upwards even if the underlying link has not changed (Forbes &amp; Rigobon 2002); some of the “breakdown” is a measurement effect.",
    "The rise is real in the tails, though: equity markets are more correlated in big down-moves than in big up-moves (Longin &amp; Solnik 2001; Ang &amp; Chen 2002).",
@@ -157,7 +157,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "tail-risk": {
-  "example": "How often should a five-standard-deviation down day happen? Under a normal distribution the probability is <strong>2.9 in 10 million</strong> — about once every <strong>13,800 years</strong> of trading. Under a Student-t with 3 degrees of freedom, scaled to the same volatility, it is <strong>0.16%</strong> — roughly once every <strong>2.5 years</strong>. Same volatility, a different tail, and a different world.",
+  "example": "How often should a five-standard-deviation down day happen? Under a normal distribution the probability is <strong>2.9 in 10 million</strong>, about once every <strong>13,800 years</strong> of trading. Under a Student-t with 3 degrees of freedom, scaled to the same volatility, it is <strong>0.16%</strong>, roughly once every <strong>2.5 years</strong>. Same volatility, a different tail, and a different world.",
   "fails": [
    "The tail shape is hard to estimate: by definition there are few tail observations, and the choice of model (t, GPD threshold) drives the answer.",
    "Fat tails partly come from changing volatility; scaling returns by a GARCH estimate makes them look much less extreme (McNeil &amp; Frey 2000).",
@@ -171,7 +171,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "mean-variance": {
-  "example": "Three assets: stocks (7% expected, 16% volatile), bonds (3%, 5%) and real estate (5%, 12%). The maximum-Sharpe portfolio holds <strong>29% / 57% / 14%</strong>. Raise the stocks’ expected return by a single point — well inside anyone’s margin of error — and it becomes <strong>37% / 55% / 8%</strong>: real estate nearly halves. The optimizer treats guesses as facts.",
+  "example": "Three assets: stocks (7% expected, 16% volatile), bonds (3%, 5%) and real estate (5%, 12%). The maximum-Sharpe portfolio holds <strong>29% / 57% / 14%</strong>. Raise the stocks’ expected return by a single point, well inside anyone’s margin of error, and it becomes <strong>37% / 55% / 8%</strong>: real estate nearly halves. The optimizer treats guesses as facts.",
   "fails": [
    "Small errors in expected returns produce large swings in weights (Best &amp; Grauer 1991); Michaud (1989) called optimizers “estimation-error maximizers”.",
    "Out of sample, simple 1/N weights are hard to beat with sample estimates (DeMiguel, Garlappi &amp; Uppal 2009).",
@@ -186,7 +186,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "risk-parity": {
-  "example": "A 60/40 portfolio of stocks (16% volatile) and bonds (5%) looks balanced by money, but stocks supply <strong>94%</strong> of its risk. Weighting by inverse volatility gives <strong>24% stocks, 76% bonds</strong>, with each contributing <strong>50%</strong> of the risk. That portfolio is much less volatile, so to match 60/40’s risk it needs about <strong>1.77×</strong> leverage — which is where the bond leverage in risk parity comes from.",
+  "example": "A 60/40 portfolio of stocks (16% volatile) and bonds (5%) looks balanced by money, but stocks supply <strong>94%</strong> of its risk. Weighting by inverse volatility gives <strong>24% stocks, 76% bonds</strong>, with each contributing <strong>50%</strong> of the risk. That portfolio is much less volatile, so to match 60/40’s risk it needs about <strong>1.77×</strong> leverage, which is where the bond leverage in risk parity comes from.",
   "fails": [
    "Inverse volatility only equalizes risk for two assets or when correlations are equal; with more assets you need to solve for equal contributions.",
    "It relies on leverage being cheap and available; the bet is that low-volatility assets pay more per unit of risk (Asness, Frazzini &amp; Pedersen 2012).",
@@ -200,7 +200,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "factor-models": {
-  "example": "Five years of simulated monthly returns for a fund that is 1.1 × the market plus 0.4 × a size factor, and <em>no</em> alpha. Regressing on both factors recovers betas of <strong>1.08</strong> and <strong>0.33</strong>, an R² of <strong>0.97</strong> and an annual alpha of just <strong>0.3%</strong>. Leave out the size factor and the same fund shows an alpha of <strong>1.5%</strong> a year — skill invented by a missing factor.",
+  "example": "Five years of simulated monthly returns for a fund that is 1.1 × the market plus 0.4 × a size factor, and <em>no</em> alpha. Regressing on both factors recovers betas of <strong>1.08</strong> and <strong>0.33</strong>, an R² of <strong>0.97</strong> and an annual alpha of just <strong>0.3%</strong>. Leave out the size factor and the same fund shows an alpha of <strong>1.5%</strong> a year: skill invented by a missing factor.",
   "fails": [
    "Alpha is defined relative to the factors you include; change the model and the “skill” changes.",
    "Hundreds of factors have been published; many are likely false discoveries, and Harvey, Liu &amp; Zhu (2016) argue for a t-statistic above 3 for new ones.",
@@ -214,7 +214,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "rebalancing": {
-  "example": "Ten years of simulated monthly returns on a 60/40 portfolio. A threshold rule — trade back to 60/40 only when stocks drift more than 5 points away — trades just <strong>3 times</strong>. Left alone, the same portfolio ends at <strong>45/55</strong>: in this run stocks lagged, and doing nothing would have quietly halved the gap between them and bonds. Drift can go either way; the point is that it is not a choice.",
+  "example": "Ten years of simulated monthly returns on a 60/40 portfolio. A threshold rule, trade back to 60/40 only when stocks drift more than 5 points away, trades just <strong>3 times</strong>. Left alone, the same portfolio ends at <strong>45/55</strong>: in this run stocks lagged, and doing nothing would have halved the gap between them and bonds. Drift can go either way; the point is that it is not a choice.",
   "fails": [
    "Rebalancing controls risk; it does not reliably add return. When one asset trends for years, it sells the winner all the way up.",
    "The “diversification return” from rebalancing is real but small, and depends on volatility and low correlation (Booth &amp; Fama 1992).",
@@ -227,7 +227,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "diversification": {
-  "example": "Stocks that are each 30% volatile, with an average correlation of 0.3, held in equal weights. One stock: <strong>30%</strong>. Five: <strong>19.9%</strong>. Twenty: <strong>17.4%</strong>. A hundred: <strong>16.6%</strong>. Ten thousand: <strong>16.4%</strong>. The 1/√N rule only holds for uncorrelated assets; with correlation there is a floor — σ√ρ, here 16.4% — that no number of similar stocks removes.",
+  "example": "Stocks that are each 30% volatile, with an average correlation of 0.3, held in equal weights. One stock: <strong>30%</strong>. Five: <strong>19.9%</strong>. Twenty: <strong>17.4%</strong>. A hundred: <strong>16.6%</strong>. Ten thousand: <strong>16.4%</strong>. The 1/√N rule only holds for uncorrelated assets; with correlation there is a floor (σ√ρ, here 16.4%) that no number of similar stocks removes.",
   "fails": [
    "“15–20 stocks is enough” comes from the 1960s and 80s (Evans &amp; Archer 1968; Statman 1987). As individual stocks became more volatile, more were needed for the same effect (Campbell et al. 2001).",
    "Volatility is not the only risk: a portfolio of 30 stocks can still miss the few big winners that drive index returns.",
@@ -241,7 +241,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "kelly-criterion": {
-  "example": "Even-money bets you win 55% of the time: Kelly says bet <strong>10%</strong>. Expected log growth per bet is <strong>0.00501</strong> at full Kelly and <strong>0.00375</strong> at half Kelly — three-quarters of the growth for half the risk. At double Kelly growth is <strong>−0.00014</strong>, already shrinking, and at 2.5× it is clearly negative. Betting too little only slows growth; betting more than about twice Kelly turns a winning edge into a losing strategy.",
+  "example": "Even-money bets you win 55% of the time: Kelly says bet <strong>10%</strong>. Expected log growth per bet is <strong>0.00501</strong> at full Kelly and <strong>0.00375</strong> at half Kelly: three-quarters of the growth for half the risk. At double Kelly growth is <strong>−0.00014</strong>, already shrinking, and at 2.5× it is clearly negative. Betting too little only slows growth; betting more than about twice Kelly turns a winning edge into a losing strategy.",
   "fails": [
    "Kelly assumes you know p and b. With an estimated edge, an overestimate pushes you past the peak, which is why practitioners use half Kelly or less (Thorp 2006).",
    "Full Kelly has deep drawdowns: there is a 50% chance of halving your capital at some point.",
@@ -255,7 +255,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "fixed-fractional": {
-  "example": "50,000 of equity, 1% risk per trade, entry 40 and stop 37: <strong>166 shares</strong>, so a stopped-out trade loses about 500. Because each bet is 1% of what is left, losses shrink as equity falls. Twenty losers in a row leave <strong>40,895</strong> (82%); even a hundred leave <strong>18,302</strong>. You never quite reach zero — but you do need ever larger gains to climb back.",
+  "example": "50,000 of equity, 1% risk per trade, entry 40 and stop 37: <strong>166 shares</strong>, so a stopped-out trade loses about 500. Because each bet is 1% of what is left, losses shrink as equity falls. Twenty losers in a row leave <strong>40,895</strong> (82%); even a hundred leave <strong>18,302</strong>. You never quite reach zero, but you do need ever larger gains to climb back.",
   "fails": [
    "The stop is assumed to fill at 37. Gaps and fast markets fill below it, so the real risk per trade is higher than 1%.",
    "Correlated positions are one bet: five trades at 1% on the same theme risk closer to 5%.",
@@ -305,8 +305,8 @@ const TOPIC_DEPTH = {
   ],
   "code": "w = pd.Series({'A': 0.30, 'B': 0.20, 'C': 0.15, 'D': 0.10, 'E': 0.10, 'F': 0.08, 'G': 0.07})\ncap = 0.15\nwhile (w &gt; cap + 1e-12).any():                             # trim to the cap, share the excess pro rata\n    excess = (w - cap).clip(lower=0).sum()\n    w = w.clip(upper=cap)\n    room = w &lt; cap\n    w[room] += excess * w[room] / w[room].sum()\nhit_before = 0.30 * 0.5                                    # the top name halves\nhit_after = w.max() * 0.5",
   "sources": [
-   "Directive 2009/65/EC (UCITS), Article 52 — the 5/10/40 rule",
-   "Investment Company Act of 1940, Section 5(b)(1) — the 75-5-10 test for a diversified fund",
+   "Directive 2009/65/EC (UCITS), Article 52: the 5/10/40 rule",
+   "Investment Company Act of 1940, Section 5(b)(1): the 75-5-10 test for a diversified fund",
    "Paul, Weiss, <em>Credit Suisse Group Special Committee of the Board of Directors Report on Archegos Capital Management</em>, 2021"
   ]
  },
@@ -339,7 +339,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "pairs-trading": {
-  "example": "Two simulated log prices that share a random walk, with a mean-reverting gap between them. Regression recovers the hedge ratio: <strong>1.21</strong> (the true value is 1.2). Today the spread sits <strong>0.54</strong> standard deviations below its mean — no trade at a usual entry of 2. The spread’s half-life is <strong>7.2 days</strong>, a guide to how long a trade should take.",
+  "example": "Two simulated log prices that share a random walk, with a mean-reverting gap between them. Regression recovers the hedge ratio: <strong>1.21</strong> (the true value is 1.2). Today the spread sits <strong>0.54</strong> standard deviations below its mean: no trade at a usual entry of 2. The spread’s half-life is <strong>7.2 days</strong>, a guide to how long a trade should take.",
   "fails": [
    "A good fit in the past is not cointegration in the future; mergers, new business lines or regulation can break a pair for good.",
    "Testing many pairs and keeping the best guarantees some false ones. Use a proper test (Engle–Granger) and out-of-sample data.",
@@ -356,7 +356,7 @@ const TOPIC_DEPTH = {
   "example": "CPPI on 100 with a floor of 80 and a multiplier of 4: start with 80 in the risky asset. After +5% and +3% the exposure grows to 96 and the value to 106.9; after −10% the value is 96.2. Then a one-day −30% crash: exposure was 64.8, the loss is 19.4, and the value ends at <strong>76.8</strong> — <strong>below the 80 floor</strong>. CPPI protects the floor only if prices move smoothly enough to sell in time.",
   "fails": [
    "The floor breaks in a gap larger than 1/m (here 25%); with a higher multiplier the crash needed is smaller.",
-   "It sells after falls and buys after rises. When many follow the same rule, the selling feeds the fall — the Brady Commission pointed to portfolio insurance in the 1987 crash.",
+   "It sells after falls and buys after rises. When many follow the same rule, the selling feeds the fall: the Brady Commission pointed to portfolio insurance in the 1987 crash.",
    "After a fall it can lock into cash and miss the recovery: the cushion is gone."
   ],
   "code": "value, floor, m = 100.0, 80.0, 4                          # CPPI: risky exposure = 4 x cushion\nfor move in [0.05, 0.03, -0.10, -0.30]:                    # the last day is a crash\n    risky = min(m * (value - floor), value)\n    value = value + risky * move\n    print(f\"{move:+.0%}  exposure {risky:5.1f}  value {value:5.1f}  floor {floor}\")",
@@ -367,7 +367,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "currency-hedging": {
-  "example": "A U.S. investor buys 100 euros of European stocks at 1.10. The stocks gain 8% in euros, but the euro falls 10% to 0.99. Unhedged the return in dollars is <strong>−2.8%</strong>. Selling 100 euros forward at the start — at <strong>1.1214</strong>, set by U.S. and euro rates of 5% and 3% — turns it into <strong>+9.1%</strong>: the stock return plus the rate difference, minus a small mismatch on the 8 euros of gain left unhedged.",
+  "example": "A U.S. investor buys 100 euros of European stocks at 1.10. The stocks gain 8% in euros, but the euro falls 10% to 0.99. Unhedged the return in dollars is <strong>−2.8%</strong>. Selling 100 euros forward at the start (at <strong>1.1214</strong>, set by U.S. and euro rates of 5% and 3%) turns it into <strong>+9.1%</strong>: the stock return plus the rate difference, minus a small mismatch on the 8 euros of gain left unhedged.",
   "fails": [
    "The hedge has a cost or a gain set by the interest-rate difference; hedging a high-rate currency back to a low-rate one costs every year.",
    "Over long horizons currency moves partly cancel, and some currencies (the dollar, the yen, the Swiss franc) tend to rise in crises, so leaving them unhedged can reduce risk (Campbell, Serfaty-de Medeiros &amp; Viceira 2010).",
@@ -381,7 +381,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "return-attribution": {
-  "example": "Three sectors. The portfolio overweights tech (50% against 40%), which beat the benchmark, and picks better stocks in tech and energy. Brinson–Fachler splits the <strong>1.2%</strong> active return into allocation <strong>0.3%</strong>, selection <strong>0.6%</strong> and interaction <strong>0.3%</strong> — and the three add up exactly.",
+  "example": "Three sectors. The portfolio overweights tech (50% against 40%), which beat the benchmark, and picks better stocks in tech and energy. Brinson–Fachler splits the <strong>1.2%</strong> active return into allocation <strong>0.3%</strong>, selection <strong>0.6%</strong> and interaction <strong>0.3%</strong>, and the three add up exactly.",
   "fails": [
    "Interaction has no natural owner; many reports fold it into selection, which changes the story.",
    "Over several periods the effects do not add up without a linking method, and different methods give different splits (Bacon 2008).",
@@ -395,7 +395,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "benchmark-tracking": {
-  "example": "Twelve months of portfolio and benchmark returns. The portfolio is ahead by <strong>1.9%</strong> a year with a tracking error of <strong>0.94%</strong>: an information ratio of <strong>2.0</strong>. That looks superb, but it is one year — twelve numbers — and an IR estimated from twelve months has a standard error of about 1.",
+  "example": "Twelve months of portfolio and benchmark returns. The portfolio is ahead by <strong>1.9%</strong> a year with a tracking error of <strong>0.94%</strong>: an information ratio of <strong>2.0</strong>. That looks superb, but it is one year, twelve numbers, and an IR estimated from twelve months has a standard error of about 1.",
   "fails": [
    "Low tracking error can mean a closet indexer charging active fees; active share (Cremers &amp; Petajisto 2009) shows how different the holdings really are.",
    "Tracking error from the past understates future risk if the portfolio’s bets have changed.",
@@ -412,7 +412,7 @@ const TOPIC_DEPTH = {
   "example": "A manager beats the benchmark by 2% a year with 5% tracking error: an information ratio of <strong>0.4</strong>, which is good. To show that alpha is not luck at the usual t-statistic of 2 takes <strong>25 years</strong> of data. Grinold’s fundamental law says where IR comes from: a small edge per bet (an IC of 0.05) across 100 independent bets a year gives <strong>0.5</strong>.",
   "fails": [
    "Most measured alpha in mutual funds is what luck would produce (Fama &amp; French 2010).",
-   "Published anomalies earn much less after publication — over half less on average (McLean &amp; Pontiff 2016); alpha decays as others find and trade it.",
+   "Published anomalies earn much less after publication: over half less on average (McLean &amp; Pontiff 2016); alpha decays as others find and trade it.",
    "Breadth is the number of <em>independent</em> bets; 100 positions on one theme are not 100 bets."
   ],
   "code": "alpha, te = 0.02, 0.05                                   # 2% a year above the benchmark, 5% tracking error\nir = alpha / te\nyears_for_t2 = (2 / ir) ** 2                               # t-stat = IR x sqrt(years); 2 is the usual bar\nic, breadth = 0.05, 100                                    # Grinold: skill per bet and independent bets a year\nir_fundamental = ic * np.sqrt(breadth)",
@@ -463,7 +463,7 @@ const SELF_CHECK = {
    "options": [
     "The most the portfolio can lose in a day is $1 million.",
     "There is a 99% chance of losing $1 million.",
-    "On 99% of days the loss should not exceed $1 million — it says nothing about how large the other 1% can be."
+    "On 99% of days the loss should not exceed $1 million: it says nothing about how large the other 1% can be."
    ],
    "answer": 2,
    "why": "VaR is a threshold, not a worst case. Expected shortfall measures what lies beyond it."
@@ -483,7 +483,7 @@ const SELF_CHECK = {
    "options": [
     "VaR is overestimated.",
     "Extreme losses are underestimated.",
-    "Nothing — the normal distribution is conservative."
+    "Nothing: the normal distribution is conservative."
    ],
    "answer": 1,
    "why": "Fat tails put more probability on large moves than the normal curve does, especially at high confidence levels."
@@ -568,7 +568,7 @@ const SELF_CHECK = {
    "q": "If every pair of assets has correlation ρ, what does portfolio variance approach as N grows?",
    "options": [
     "Zero.",
-    "ρσ² — the shared part cannot be diversified away.",
+    "ρσ²: the shared part cannot be diversified away.",
     "σ²"
    ],
    "answer": 1,
@@ -601,7 +601,7 @@ const SELF_CHECK = {
    "options": [
     "Longer backtests use riskier strategies.",
     "A longer period gives more chances for a bad run, so compare drawdowns over periods of the same length.",
-    "It does not — it tends to be smaller."
+    "It does not: it tends to be smaller."
    ],
    "answer": 1,
    "why": "Maximum drawdown is an extreme, and extremes grow with sample length."
@@ -654,8 +654,8 @@ const SELF_CHECK = {
    "q": "Your stop is at $95. The stock opens at $88 after bad news overnight. Where are you filled?",
    "options": [
     "At $95.",
-    "Near $88 — the stop becomes a market order once triggered; it does not guarantee $95.",
-    "Not at all — the stop is cancelled."
+    "Near $88: the stop becomes a market order once triggered; it does not guarantee $95.",
+    "Not at all: the stop is cancelled."
    ],
    "answer": 1,
    "why": "Gaps jump over stop levels. A stop limits losses in orderly markets only."
@@ -716,12 +716,7 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>Risk &amp; <em>Portfolio</em></h2>
-    <p style="margin-top:14px">25 interactive topics &mdash; quantify risk, construct portfolios, size positions, hedge exposure, and measure performance.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
-    </div>
+    <p style="margin-top:14px">25 interactive topics: quantify risk, construct portfolios, size positions, hedge exposure, and measure performance.</p>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> search
@@ -729,27 +724,22 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-risk','value-at-risk')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 21 19.5H3z"/><line x1="12" y1="10" x2="12" y2="14"/><circle cx="12" cy="16.6" r=".6" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Risk Measures</div>
       <div class="cat-card-count">5 topics &middot; VaR, CVaR, GARCH, Correlation, Tail</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-port','mean-variance')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="10" x2="10" y2="19"/></svg></div>
       <div class="cat-card-name">Portfolio Construction</div>
       <div class="cat-card-count">5 topics &middot; MVO, Risk Parity, Factors, Rebalancing</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-size','kelly-criterion')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></div>
       <div class="cat-card-name">Position Sizing</div>
       <div class="cat-card-count">5 topics &middot; Kelly, Fractional, Volatility, Pyramiding</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-hedge','options-hedging')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V6z"/></svg></div>
       <div class="cat-card-name">Hedging &amp; Protection</div>
       <div class="cat-card-count">5 topics &middot; Options, Stops, Pairs, Insurance, FX</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-perf','return-attribution')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="15"/></svg></div>
       <div class="cat-card-name">Performance &amp; Attribution</div>
       <div class="cat-card-count">5 topics &middot; Brinson, Tracking, Alpha, Sharpe, Drawdown</div>
     </div>
@@ -766,9 +756,9 @@ function buildValueAtRisk() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Risk Measures</div><h2>Value at <em>Risk</em> (VaR)</h2></div><span class="topic-badge">Quantile Loss</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Maximum expected loss at a chosen confidence level over a given horizon</p>
   <p class="prose">VaR answers one question: <em>"What is the worst loss I should expect on a normal day?"</em> Three methods dominate — parametric (variance-covariance), historical simulation, and Monte Carlo. Parametric VaR assumes normally distributed returns:</p>
-  <div class="fb"><div class="fm">VaR<sub>&alpha;</sub> = &mu; &minus; z<sub>&alpha;</sub> &middot; &sigma;</div><div class="fd"><span>z<sub>&alpha;</sub></span> is the inverse-normal quantile (e.g. 1.645 for 95 %). Historical simulation makes no distributional assumption — it ranks past P&amp;L and reads the quantile directly.</div></div>
+  <div class="fb"><div class="fm">VaR<sub>&alpha;</sub> = &mu; &minus; z<sub>&alpha;</sub> &middot; &sigma;</div><div class="fd"><span>z<sub>&alpha;</sub></span> is the inverse-normal quantile (e.g. 1.645 for 95 %). Historical simulation makes no distributional assumption: it ranks past P&amp;L and reads the quantile directly.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — confidence level vs. VaR threshold</div>
+    <div class="vl">// Interactive: confidence level vs. VaR threshold</div>
     <canvas id="cvs-value-at-risk" role="img" aria-label="Value at Risk (VaR): Interactive — confidence level vs. VaR threshold" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Confidence %</span><input type="range" aria-label="Confidence %" min="90" max="99" value="95" data-ctrl="varConf"></div>
@@ -782,7 +772,7 @@ function buildValueAtRisk() {
       <tr><td>Monte Carlo</td><td>Model-dependent</td><td>Flexible payoff profiles</td></tr>
     </tbody>
   </table>
-  <div class="callout info"><strong>Limitation.</strong> VaR says nothing about the <em>magnitude</em> of losses beyond the threshold — Expected Shortfall fills that gap.</div>
+  <div class="callout info"><strong>Limitation.</strong> VaR says nothing about the <em>magnitude</em> of losses beyond the threshold: Expected Shortfall fills that gap.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Confidence intervals and quantiles are foundational in <a href="../../stats/index.html#confidence-intervals">The Toolkit — Confidence Intervals</a>.</div>
   <div class="playground">
     <div class="playground-title">Experiment — your portfolio's VaR</div>
@@ -799,7 +789,7 @@ function buildValueAtRisk() {
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
       <li>Under the 1996 Basel Market Risk Amendment, market-risk capital was based on 99% 10-day VaR times a multiplier of at least 3. Basel III’s FRTB replaces it with 97.5% Expected Shortfall</li>
-      <li>In 2008 many banks saw far more days with losses beyond VaR than their models allowed — normal assumptions and calm-period data understated the tails</li>
+      <li>In 2008 many banks saw far more days with losses beyond VaR than their models allowed: normal assumptions and calm-period data understated the tails</li>
       <li>J.P. Morgan’s RiskMetrics (1994) popularised VaR, modelling returns as conditionally normal with EWMA volatility (λ = 0.94)</li>
       <li>Modern practice: run all three methods and report the worst case. If they disagree significantly, your risk model has a blind spot</li>
     </ul>
@@ -810,7 +800,7 @@ function buildValueAtRisk() {
     <div class="skip-when">✗ <strong>Skip when:</strong> You need to understand tail risk severity (use Expected Shortfall). Illiquid positions where you can't exit at market price. Options/derivatives with non-linear payoffs (use Monte Carlo or stress tests instead).</div>
   </div>
   <div class="dev-export">
-    <div class="dev-export-title">Quick start — copy to notebook</div>
+    <div class="dev-export-title">Quick start: copy to notebook</div>
     <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install numpy pandas yfinance scipy
 # ────────────────────────────────────────
 import numpy as np, pandas as pd, yfinance as yf
@@ -841,10 +831,10 @@ function buildExpectedShortfall() {
   return `<div class="topic" id="expected-shortfall">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Risk Measures</div><h2>Expected <em>Shortfall</em> (CVaR)</h2></div><span class="topic-badge">Tail Average</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Average loss in the worst &alpha; % of scenarios</p>
-  <p class="prose">Expected Shortfall (ES), also called Conditional VaR, is the <em>mean</em> of all losses exceeding the VaR cutoff. It is <strong>sub-additive</strong> — the ES of a combined portfolio is never more than the sum of the parts’ ES — so regulators prefer it to VaR.</p>
+  <p class="prose">Expected Shortfall (ES), also called Conditional VaR, is the <em>mean</em> of all losses exceeding the VaR cutoff. It is <strong>sub-additive</strong>, the ES of a combined portfolio is never more than the sum of the parts’ ES, so regulators prefer it to VaR.</p>
   <div class="fb"><div class="fm">ES<sub>&alpha;</sub> = E[ L | L &gt; VaR<sub>&alpha;</sub> ]</div><div class="fd"><span>For a normal distribution</span> ES has a closed-form: ES = &mu; + &sigma; &middot; &phi;(z<sub>&alpha;</sub>) / (1 &minus; &alpha;). For fat-tailed distributions Monte Carlo or historical methods are used.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — tail threshold and expected shortfall region</div>
+    <div class="vl">// Interactive: tail threshold and expected shortfall region</div>
     <canvas id="cvs-expected-shortfall" role="img" aria-label="Expected Shortfall (CVaR): Interactive — tail threshold and expected shortfall region" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Tail &alpha; %</span><input type="range" aria-label="Tail α %" min="1" max="10" value="5" data-ctrl="esTail"></div>
@@ -861,10 +851,10 @@ function buildVolatilityModeling() {
   return `<div class="topic" id="volatility-modeling">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 — Risk Measures</div><h2>Volatility <em>Modeling</em></h2></div><span class="topic-badge">Forecasting</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Estimate and forecast return variance with GARCH, EWMA, and realized measures</p>
-  <p class="prose">Volatility clusters — large moves beget large moves. GARCH(1,1) captures this:</p>
+  <p class="prose">Volatility clusters: large moves beget large moves. GARCH(1,1) captures this:</p>
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>t</sub> = &omega; + &alpha; &middot; r&sup2;<sub>t&minus;1</sub> + &beta; &middot; &sigma;&sup2;<sub>t&minus;1</sub></div><div class="fd"><span>EWMA</span> is a special case with &omega; = 0 and &alpha; + &beta; = 1 (RiskMetrics uses &lambda; = 0.94). Realized volatility sums intraday squared returns for a model-free estimate.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — EWMA decay parameter and conditional variance</div>
+    <div class="vl">// Interactive: EWMA decay parameter and conditional variance</div>
     <canvas id="cvs-volatility-modeling" role="img" aria-label="Volatility Modeling: Interactive — EWMA decay parameter and conditional variance" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">EWMA &lambda;</span><input type="range" aria-label="EWMA λ" min="80" max="99" value="94" data-ctrl="ewmaLambda"></div>
@@ -887,11 +877,11 @@ function buildVolatilityModeling() {
 function buildCorrelationRisk() {
   return `<div class="topic" id="correlation-risk">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 — Risk Measures</div><h2>Correlation <em>Risk</em></h2></div><span class="topic-badge">Dependence</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// Correlations shift in crises — diversification can vanish when you need it most</p>
-  <p class="prose">In calm markets, asset correlations are moderate and diversification works. During stress, correlations spike toward 1 — a phenomenon called <strong>correlation breakdown</strong>.</p>
+  <p class="sub">// Correlations shift in crises: diversification can vanish when you need it most</p>
+  <p class="prose">In calm markets, asset correlations are moderate and diversification works. During stress, correlations spike toward 1: a phenomenon called <strong>correlation breakdown</strong>.</p>
   <div class="fb"><div class="fm">&sigma;&sup2;<sub>p</sub> = w&prime; &Sigma; w</div><div class="fd"><span>Copula models</span> separate marginal distributions from the dependence structure, allowing non-linear tail dependence to be modeled explicitly. Regime-switching models capture correlation shifts.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — stress level and correlation regime shift</div>
+    <div class="vl">// Interactive: stress level and correlation regime shift</div>
     <canvas id="cvs-correlation-risk" role="img" aria-label="Correlation Risk: Interactive — stress level and correlation regime shift" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Stress level</span><input type="range" aria-label="Stress level" min="0" max="100" value="20" data-ctrl="stressLevel"></div>
@@ -908,10 +898,10 @@ function buildTailRisk() {
   return `<div class="topic" id="tail-risk">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Risk Measures</div><h2>Tail <em>Risk</em></h2></div><span class="topic-badge">Extremes</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Extreme events beyond normal-distribution assumptions</p>
-  <p class="prose">Financial returns exhibit <strong>fat tails</strong> — extreme moves occur far more often than a Gaussian predicts. Kurtosis &gt; 3 signals leptokurtic behavior. Extreme Value Theory (EVT) models the tail with a Generalized Pareto Distribution (GPD):</p>
+  <p class="prose">Financial returns exhibit <strong>fat tails</strong>: extreme moves occur far more often than a Gaussian predicts. Kurtosis &gt; 3 signals leptokurtic behavior. Extreme Value Theory (EVT) models the tail with a Generalized Pareto Distribution (GPD):</p>
   <div class="fb"><div class="fm">P(X &gt; x | X &gt; u) &asymp; (1 + &xi; &middot; (x&minus;u)/&beta;)<sup>&minus;1/&xi;</sup></div><div class="fd"><span>A positive &xi; &gt; 0</span> indicates a heavy (Pareto-type) tail. EVT lets us extrapolate loss quantiles beyond sample extremes.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — kurtosis and tail weight visualization</div>
+    <div class="vl">// Interactive: kurtosis and tail weight visualization</div>
     <canvas id="cvs-tail-risk" role="img" aria-label="Tail Risk: Interactive — kurtosis and tail weight visualization" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Kurtosis</span><input type="range" aria-label="Kurtosis" min="3" max="12" value="5" data-ctrl="kurtLevel"></div>
@@ -927,11 +917,11 @@ function buildTailRisk() {
 function buildMeanVariance() {
   return `<div class="topic" id="mean-variance">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 — Portfolio Construction</div><h2>Mean-Variance <em>Optimization</em></h2></div><span class="topic-badge">Efficient Frontier</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// Markowitz efficient frontier — balance return against portfolio variance</p>
+  <p class="sub">// Markowitz efficient frontier: balance return against portfolio variance</p>
   <p class="prose">The 1952 Markowitz framework maximizes expected return for a given level of risk (or minimizes variance for a target return). The <strong>efficient frontier</strong> traces optimal portfolios.</p>
-  <div class="fb"><div class="fm">min &frac12; w&prime; &Sigma; w &nbsp; s.t. &nbsp; w&prime; &mu; &ge; r<sub>target</sub>, &nbsp; w&prime; 1 = 1</div><div class="fd"><span>Estimation error</span> in &mu; and &Sigma; makes raw MVO unstable — shrinkage estimators (Ledoit-Wolf) and resampling improve robustness. The tangency portfolio maximizes the Sharpe ratio.</div></div>
+  <div class="fb"><div class="fm">min &frac12; w&prime; &Sigma; w &nbsp; s.t. &nbsp; w&prime; &mu; &ge; r<sub>target</sub>, &nbsp; w&prime; 1 = 1</div><div class="fd"><span>Estimation error</span> in &mu; and &Sigma; makes raw MVO unstable: shrinkage estimators (Ledoit-Wolf) and resampling improve robustness. The tangency portfolio maximizes the Sharpe ratio.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — risk aversion and efficient frontier</div>
+    <div class="vl">// Interactive: risk aversion and efficient frontier</div>
     <canvas id="cvs-mean-variance" role="img" aria-label="Mean-Variance Optimization: Interactive — risk aversion and efficient frontier" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Risk aversion</span><input type="range" aria-label="Risk aversion" min="1" max="20" value="5" data-ctrl="riskAversion"></div>
@@ -958,10 +948,10 @@ function buildRiskParity() {
   <p class="prose">Instead of targeting a return, risk parity targets equal <strong>risk contribution</strong> from each asset. This often leads to leveraged bond allocations to match equity volatility.</p>
   <div class="fb"><div class="fm">RC<sub>i</sub> = w<sub>i</sub> &middot; (&Sigma;w)<sub>i</sub> / &sigma;<sub>p</sub> &nbsp; &rarr; &nbsp; RC<sub>i</sub> = RC<sub>j</sub> &nbsp; &forall; i,j</div><div class="fd"><span>Simplest proxy</span> is inverse-volatility weighting: w<sub>i</sub> &prop; 1/&sigma;<sub>i</sub>. True risk parity requires numerical optimization to equalize marginal risk contributions.</div></div>
   <div class="va">
-    <div class="vl">// Risk parity — equal contribution allocation</div>
+    <div class="vl">// Risk parity: equal contribution allocation</div>
     <canvas id="cvs-risk-parity" role="img" aria-label="Risk parity — equal contribution allocation" width="720" height="340"></canvas>
   </div>
-  <div class="callout info"><strong>All-Weather.</strong> Ray Dalio's All-Weather fund popularized risk parity — bonds carry leverage to match equity risk.</div>
+  <div class="callout info"><strong>All-Weather.</strong> Ray Dalio's All-Weather fund popularized risk parity: bonds carry leverage to match equity risk.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Volatility normalization echoes <a href="../indicators/index.html#atr">Indicators — ATR</a>.</div>
   ${depthHtml('risk-parity')}
   <div class="topic-nav" id="nav-risk-parity"></div>
@@ -973,9 +963,9 @@ function buildFactorModels() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 — Portfolio Construction</div><h2>Factor <em>Models</em></h2></div><span class="topic-badge">Decomposition</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Decompose returns into systematic factor exposures</p>
   <p class="prose">CAPM uses a single factor (market beta). The Fama-French three-factor model adds size and value. Modern models include momentum, quality, and low-volatility.</p>
-  <div class="fb"><div class="fm">r<sub>i</sub> = &alpha;<sub>i</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; + &epsilon;<sub>i</sub></div><div class="fd"><span>Factor tilts</span> explain most of long-only active returns. Pure alpha — returns unexplained by any factor — is exceedingly rare.</div></div>
+  <div class="fb"><div class="fm">r<sub>i</sub> = &alpha;<sub>i</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; + &epsilon;<sub>i</sub></div><div class="fd"><span>Factor tilts</span> explain most of long-only active returns. Pure alpha, returns unexplained by any factor, is exceedingly rare.</div></div>
   <div class="va">
-    <div class="vl">// Factor decomposition — beta exposures</div>
+    <div class="vl">// Factor decomposition: beta exposures</div>
     <canvas id="cvs-factor-models" role="img" aria-label="Factor Models: Factor decomposition — beta exposures" width="720" height="340"></canvas>
   </div>
   <table class="mt">
@@ -997,10 +987,10 @@ function buildRebalancing() {
   return `<div class="topic" id="rebalancing">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Portfolio Construction</div><h2>Rebalancing <em>Strategies</em></h2></div><span class="topic-badge">Maintenance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Maintain target allocations through disciplined rebalancing</p>
-  <p class="prose">As prices move, actual weights drift from targets. Rebalancing is a contrarian mechanism — <em>sell winners, buy losers</em> — that harvests the diversification return. Two approaches: <strong>calendar</strong> (monthly, quarterly) and <strong>threshold</strong> (rebalance when drift exceeds a band).</p>
+  <p class="prose">As prices move, actual weights drift from targets. Rebalancing is a contrarian mechanism (<em>sell winners, buy losers</em>) that harvests the diversification return. Two approaches: <strong>calendar</strong> (monthly, quarterly) and <strong>threshold</strong> (rebalance when drift exceeds a band).</p>
   <div class="fb"><div class="fm">Drift<sub>i</sub> = | w<sub>actual,i</sub> &minus; w<sub>target,i</sub> |</div><div class="fd"><span>Wider bands</span> reduce transaction costs but increase tracking error. The optimal band depends on volatility, expected return differences, and trading costs.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — rebalancing bands and drift over time</div>
+    <div class="vl">// Interactive: rebalancing bands and drift over time</div>
     <canvas id="cvs-rebalancing" role="img" aria-label="Rebalancing Strategies: Interactive — rebalancing bands and drift over time" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Band width %</span><input type="range" aria-label="Band width %" min="1" max="10" value="5" data-ctrl="rebalBand"></div>
@@ -1016,17 +1006,17 @@ function buildRebalancing() {
 function buildDiversification() {
   return `<div class="topic" id="diversification">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 — Portfolio Construction</div><h2><em>Diversification</em></h2></div><span class="topic-badge">Free Lunch</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// The only free lunch in finance — spread risk across uncorrelated bets</p>
-  <p class="prose">Adding N uncorrelated assets reduces portfolio volatility as 1/&radic;N. Effective diversification requires <em>genuine independence</em> — not just different tickers.</p>
+  <p class="sub">// The only free lunch in finance: spread risk across uncorrelated bets</p>
+  <p class="prose">Adding N uncorrelated assets reduces portfolio volatility as 1/&radic;N. Effective diversification requires <em>genuine independence</em>, not just different tickers.</p>
   <div class="fb"><div class="fm">&sigma;<sub>p</sub> = &sigma; / &radic;N &nbsp; (equal weight, zero correlation)</div><div class="fd"><span>True diversification</span> spans asset classes (equity, bonds, commodities, real estate), geographies, strategies, and time horizons. The <strong>diversification ratio</strong> measures how much idiosyncratic risk has been diversified away.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — number of assets vs. portfolio volatility</div>
+    <div class="vl">// Interactive: number of assets vs. portfolio volatility</div>
     <canvas id="cvs-diversification" role="img" aria-label="Diversification: Interactive — number of assets vs. portfolio volatility" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Number of assets</span><input type="range" aria-label="Number of assets" min="1" max="50" value="10" data-ctrl="numAssets"></div>
     </div>
   </div>
-  <div class="callout info"><strong>Diminishing returns.</strong> Most diversification benefit arrives by 15-20 uncorrelated assets — beyond that, marginal reduction is small.</div>
+  <div class="callout info"><strong>Diminishing returns.</strong> Most diversification benefit arrives by 15-20 uncorrelated assets: beyond that, marginal reduction is small.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The law of large numbers formalizes this in <a href="../../stats/index.html#clt-sampling">The Toolkit — CLT</a>. Equalising risk rather than money across assets is <a href="#risk-parity">risk parity</a>.</div>
   ${depthHtml('diversification')}
   <div class="topic-nav" id="nav-diversification"></div>
@@ -1037,10 +1027,10 @@ function buildKellyCriterion() {
   return `<div class="topic" id="kelly-criterion">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 — Position Sizing</div><h2>Kelly <em>Criterion</em></h2></div><span class="topic-badge">Optimal Growth</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Optimal bet size for maximum geometric growth</p>
-  <p class="prose">Kelly sizing maximizes the expected logarithm of wealth — the fastest compounding rate without risking ruin. For a simple win/loss bet:</p>
+  <p class="prose">Kelly sizing maximizes the expected logarithm of wealth: the fastest compounding rate without risking ruin. For a simple win/loss bet:</p>
   <div class="fb"><div class="fm">f* = (p &middot; b &minus; q) / b</div><div class="fd"><span>p = win probability,</span> q = 1&minus;p, b = win/loss ratio. In continuous markets, Kelly fraction = expected excess return / variance. Most practitioners use <strong>half-Kelly</strong> or less to reduce volatility.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — win rate and Kelly fraction</div>
+    <div class="vl">// Interactive: win rate and Kelly fraction</div>
     <canvas id="cvs-kelly-criterion" role="img" aria-label="Kelly Criterion: Interactive — win rate and Kelly fraction" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Win rate %</span><input type="range" aria-label="Win rate %" min="30" max="80" value="55" data-ctrl="kellyWin"></div>
@@ -1066,9 +1056,9 @@ function buildFixedFractional() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 — Position Sizing</div><h2>Fixed Fractional <em>Sizing</em></h2></div><span class="topic-badge">Constant %</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Risk a constant percentage of equity on each trade</p>
   <p class="prose">Fixed fractional sizing sets position size so the <em>dollar risk</em> (distance to stop &times; shares) equals a fixed fraction f of current equity.</p>
-  <div class="fb"><div class="fm">Position = (Equity &times; f) / (Entry &minus; Stop)</div><div class="fd"><span>Typical f values:</span> 0.5 %&ndash;2 %. This keeps risk proportional to equity — positions shrink after losses and grow after gains, providing natural anti-martingale behavior.</div></div>
+  <div class="fb"><div class="fm">Position = (Equity &times; f) / (Entry &minus; Stop)</div><div class="fd"><span>Typical f values:</span> 0.5 %&ndash;2 %. This keeps risk proportional to equity: positions shrink after losses and grow after gains, providing natural anti-martingale behavior.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — risk fraction and equity curve</div>
+    <div class="vl">// Interactive: risk fraction and equity curve</div>
     <canvas id="cvs-fixed-fractional" role="img" aria-label="Fixed Fractional Sizing: Interactive — risk fraction and equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Risk fraction %</span><input type="range" aria-label="Risk fraction %" min="1" max="5" value="2" data-ctrl="ffFrac"></div>
@@ -1088,7 +1078,7 @@ function buildVolatilitySizing() {
   <p class="prose">Different assets have different volatilities. A 100-share position in a 40 % vol stock carries far more risk than in a 10 % vol stock. Volatility sizing equalizes dollar-risk:</p>
   <div class="fb"><div class="fm">Shares = Target $ Risk / (N &times; ATR)</div><div class="fd"><span>N is a multiplier</span> (e.g. 2&times; ATR). The Turtle Traders famously used this approach. Each position contributes roughly equally to portfolio P&amp;L variance.</div></div>
   <div class="va">
-    <div class="vl">// Volatility sizing — equal dollar-risk positions</div>
+    <div class="vl">// Volatility sizing: equal dollar-risk positions</div>
     <canvas id="cvs-volatility-sizing" role="img" aria-label="Volatility-Based Sizing: Volatility sizing — equal dollar-risk positions" width="720" height="340"></canvas>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> ATR computation is explained in <a href="../indicators/index.html#atr">Indicators — ATR</a>.</div>
@@ -1104,13 +1094,13 @@ function buildPyramiding() {
   <p class="prose">Pyramiding builds a full position across multiple entries as a trade moves favorably. Each additional tier is typically <em>smaller</em> than the last so average cost stays well inside the profit zone.</p>
   <div class="fb"><div class="fm">Risk<sub>total</sub> = &Sigma; tier<sub>i</sub> &times; (entry<sub>i</sub> &minus; stop)</div><div class="fd"><span>Common patterns:</span> 4-3-2-1 units, or three equal tiers at predefined price milestones. The stop is usually tightened with each add so that risk on older entries is locked to breakeven.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — pyramid tiers and position build-up</div>
+    <div class="vl">// Interactive: pyramid tiers and position build-up</div>
     <canvas id="cvs-pyramiding" role="img" aria-label="Pyramiding: Interactive — pyramid tiers and position build-up" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Tiers</span><input type="range" aria-label="Tiers" min="1" max="5" value="3" data-ctrl="pyramidTiers"></div>
     </div>
   </div>
-  <div class="callout info"><strong>Trend following.</strong> Pyramiding is a hallmark of trend-following systems — it maximizes exposure to strong moves.</div>
+  <div class="callout info"><strong>Trend following.</strong> Pyramiding is a hallmark of trend-following systems: it maximizes exposure to strong moves.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Adding to winners is a bet that the trend continues, so it needs a trend gauge such as <a href="../../markets/indicators/#adx">ADX</a> and a volatility yardstick such as <a href="../../markets/indicators/#atr">ATR</a> to size each new tier.</div>
   ${depthHtml('pyramiding')}
   <div class="topic-nav" id="nav-pyramiding"></div>
@@ -1133,7 +1123,7 @@ function buildMaxPosition() {
   </table>
   <p class="prose">Regulatory frameworks (UCITS, 40-Act) enforce their own diversification rules. Risk budgeting integrates position limits with volatility and correlation constraints.</p>
   <div class="va">
-    <div class="vl">// Position limits — concentration caps</div>
+    <div class="vl">// Position limits: concentration caps</div>
     <canvas id="cvs-max-position" role="img" aria-label="Maximum Position Limits: Position limits — concentration caps" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Concentration kills.</strong> Archegos lost $20 B+ in days due to massive single-name concentration with leveraged swaps.</div>
@@ -1148,9 +1138,9 @@ function buildOptionsHedging() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 — Hedging &amp; Protection</div><h2>Options <em>Hedging</em></h2></div><span class="topic-badge">Non-Linear</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Protective puts, collars, and delta-neutral overlays</p>
   <p class="prose">Options provide non-linear hedging: a <strong>protective put</strong> caps downside while preserving upside. A <strong>collar</strong> finances the put by selling an upside call, reducing net cost.</p>
-  <div class="fb"><div class="fm">Collar payoff = Stock + Put(K<sub>1</sub>) &minus; Call(K<sub>2</sub>)</div><div class="fd"><span>Delta hedging</span> continuously adjusts the hedge ratio. The cost is realized volatility — if realized vol &lt; implied vol, the hedge is profitable; otherwise it is a drag.</div></div>
+  <div class="fb"><div class="fm">Collar payoff = Stock + Put(K<sub>1</sub>) &minus; Call(K<sub>2</sub>)</div><div class="fd"><span>Delta hedging</span> continuously adjusts the hedge ratio. The cost is realized volatility, if realized vol &lt; implied vol, the hedge is profitable; otherwise it is a drag.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — put strike and payoff profile</div>
+    <div class="vl">// Interactive: put strike and payoff profile</div>
     <canvas id="cvs-options-hedging" role="img" aria-label="Options Hedging: Interactive — put strike and payoff profile" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Put strike %</span><input type="range" aria-label="Put strike %" min="80" max="100" value="95" data-ctrl="putStrike"></div>
@@ -1184,15 +1174,15 @@ function buildStopLosses() {
       <tr><td>Trailing</td><td>Tracks new highs</td><td>Locks profit / whipsaw risk</td></tr>
     </tbody>
   </table>
-  <p class="prose">A 2&times;ATR trailing stop is a popular default — tight enough to limit loss, wide enough to survive normal noise.</p>
+  <p class="prose">A 2&times;ATR trailing stop is a popular default: tight enough to limit loss, wide enough to survive normal noise.</p>
   <div class="va">
-    <div class="vl">// Interactive — ATR multiplier and stop placement</div>
+    <div class="vl">// Interactive: ATR multiplier and stop placement</div>
     <canvas id="cvs-stop-losses" role="img" aria-label="Stop-Loss Strategies: Interactive — ATR multiplier and stop placement" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">ATR multiplier</span><input type="range" aria-label="ATR multiplier" min="10" max="40" value="20" data-ctrl="atrMult"></div>
     </div>
   </div>
-  <div class="callout info"><strong>Mental stops fail.</strong> Paper stops get overridden by emotion — always enter with a hard order.</div>
+  <div class="callout info"><strong>Mental stops fail.</strong> Paper stops get overridden by emotion: always enter with a hard order.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> ATR calculation in <a href="../indicators/index.html#atr">Indicators — ATR</a>. A trailing stop that tightens as a trend matures is the <a href="../indicators/#parabolic-sar">Parabolic SAR</a>.</div>
   ${depthHtml('stop-losses')}
   <div class="topic-nav" id="nav-stop-losses"></div>
@@ -1204,9 +1194,9 @@ function buildPairsTrading() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 — Hedging &amp; Protection</div><h2>Pairs <em>Trading</em></h2></div><span class="topic-badge">Market Neutral</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Long/short correlated pairs to profit from spread convergence</p>
   <p class="prose">Pairs trading exploits temporary mispricings between cointegrated securities. The spread = log(P<sub>A</sub>) &minus; &beta; &middot; log(P<sub>B</sub>) should be stationary.</p>
-  <div class="fb"><div class="fm">z<sub>t</sub> = (spread<sub>t</sub> &minus; &mu;) / &sigma; &nbsp; &rarr; &nbsp; enter at |z| &gt; 2, exit at |z| &lt; 0.5</div><div class="fd"><span>Cointegration</span> (Engle-Granger or Johansen test) is stronger than correlation — it means the spread is mean-reverting. The Augmented Dickey-Fuller test checks stationarity.</div></div>
+  <div class="fb"><div class="fm">z<sub>t</sub> = (spread<sub>t</sub> &minus; &mu;) / &sigma; &nbsp; &rarr; &nbsp; enter at |z| &gt; 2, exit at |z| &lt; 0.5</div><div class="fd"><span>Cointegration</span> (Engle-Granger or Johansen test) is stronger than correlation: it means the spread is mean-reverting. The Augmented Dickey-Fuller test checks stationarity.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — entry z-score and spread convergence</div>
+    <div class="vl">// Interactive: entry z-score and spread convergence</div>
     <canvas id="cvs-pairs-trading" role="img" aria-label="Pairs Trading: Interactive — entry z-score and spread convergence" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Entry z-score</span><input type="range" aria-label="Entry z-score" min="10" max="30" value="20" data-ctrl="pairsZ"></div>
@@ -1222,18 +1212,18 @@ function buildPairsTrading() {
 function buildPortfolioInsurance() {
   return `<div class="topic" id="portfolio-insurance">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 — Hedging &amp; Protection</div><h2>Portfolio <em>Insurance</em></h2></div><span class="topic-badge">Dynamic Floor</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// CPPI and OBPI — dynamic protection with a floor</p>
+  <p class="sub">// CPPI and OBPI: dynamic protection with a floor</p>
   <p class="prose">Constant Proportion Portfolio Insurance (CPPI) dynamically allocates between a risky asset and a safe asset (cash/bonds) to protect a minimum floor:</p>
   <div class="fb"><div class="fm">Risky allocation = m &times; (Portfolio &minus; Floor)</div><div class="fd"><span>m is the multiplier</span> (typically 3&ndash;5). As the portfolio falls toward the floor, the risky allocation shrinks. OBPI uses a put option to guarantee the floor directly. Gap risk is the main danger.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — CPPI multiplier and portfolio path</div>
+    <div class="vl">// Interactive: CPPI multiplier and portfolio path</div>
     <canvas id="cvs-portfolio-insurance" role="img" aria-label="Portfolio Insurance: Interactive — CPPI multiplier and portfolio path" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Multiplier m</span><input type="range" aria-label="Multiplier m" min="2" max="8" value="4" data-ctrl="cppiMult"></div>
     </div>
   </div>
-  <div class="callout info"><strong>1987 crash.</strong> Portfolio-insurance selling through index futures amplified Black Monday, according to the Brady Report — a cautionary tale about mechanical hedging.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> CPPI buys as prices rise and sells as they fall, a mechanical <a href="../../essays/#essay-feedback">feedback loop</a>. In October 1987 portfolio-insurance selling fed the crash it was meant to protect against — an <a href="../../markets/psychology/#information-cascades">information cascade</a> run by rules.</div>
+  <div class="callout info"><strong>1987 crash.</strong> Portfolio-insurance selling through index futures amplified Black Monday, according to the Brady Report: a cautionary tale about mechanical hedging.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> CPPI buys as prices rise and sells as they fall, a mechanical <a href="../../essays/#essay-feedback">feedback loop</a>. In October 1987 portfolio-insurance selling fed the crash it was meant to protect against: an <a href="../../markets/psychology/#information-cascades">information cascade</a> run by rules.</div>
   ${depthHtml('portfolio-insurance')}
   <div class="topic-nav" id="nav-portfolio-insurance"></div>
 </div>`;
@@ -1246,7 +1236,7 @@ function buildCurrencyHedging() {
   <p class="prose">International allocations introduce currency risk. A US investor buying European equities profits (or loses) from EUR/USD moves on top of the equity return.</p>
   <div class="fb"><div class="fm">R<sub>unhedged</sub> &asymp; R<sub>local</sub> + R<sub>FX</sub></div><div class="fd"><span>Forward contracts</span> lock future exchange rates. Full hedging eliminates FX variance but costs the interest-rate differential (covered interest parity). Partial hedging (50 %) is a common compromise.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — hedge ratio and FX exposure</div>
+    <div class="vl">// Interactive: hedge ratio and FX exposure</div>
     <canvas id="cvs-currency-hedging" role="img" aria-label="Currency Hedging: Interactive — hedge ratio and FX exposure" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Hedge ratio %</span><input type="range" aria-label="Hedge ratio %" min="0" max="100" value="50" data-ctrl="hedgeRatio"></div>
@@ -1260,7 +1250,7 @@ function buildCurrencyHedging() {
       <tr><td>Fully hedged</td><td>Interest diff</td><td>Near zero</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Hedging strips out a risk you did not choose to take. How much it matters depends on how volatile the currency is, and that volatility clusters — see <a href="../../timeseries/#garch">GARCH</a> and <a href="../../markets/indicators/#standard-deviation">standard deviation</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Hedging strips out a risk you did not choose to take. How much it matters depends on how volatile the currency is, and that volatility clusters: see <a href="../../timeseries/#garch">GARCH</a> and <a href="../../markets/indicators/#standard-deviation">standard deviation</a>.</div>
   ${depthHtml('currency-hedging')}
   <div class="topic-nav" id="nav-currency-hedging"></div>
 </div>`;
@@ -1269,11 +1259,11 @@ function buildCurrencyHedging() {
 function buildReturnAttribution() {
   return `<div class="topic" id="return-attribution">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 — Performance &amp; Attribution</div><h2>Return <em>Attribution</em></h2></div><span class="topic-badge">Decomposition</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// Brinson decomposition — allocation, selection, interaction</p>
+  <p class="sub">// Brinson decomposition: allocation, selection, interaction</p>
   <p class="prose">Return attribution answers: <em>"Where did excess return come from?"</em> The Brinson-Fachler model splits active return into three effects:</p>
   <div class="fb"><div class="fm">Active Return = Allocation + Selection + Interaction</div><div class="fd"><span>Allocation:</span> over/underweighting sectors that outperform. <strong>Selection:</strong> picking better stocks within sectors. <strong>Interaction:</strong> the cross-term. Multi-period attribution chains single-period results.</div></div>
   <div class="va">
-    <div class="vl">// Return attribution — Brinson decomposition</div>
+    <div class="vl">// Return attribution: Brinson decomposition</div>
     <canvas id="cvs-return-attribution" role="img" aria-label="Return attribution — Brinson decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Daily practice.</strong> Institutional managers report monthly attribution to explain why they beat (or missed) the benchmark.</div>
@@ -1288,15 +1278,15 @@ function buildBenchmarkTracking() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 — Performance &amp; Attribution</div><h2>Benchmark <em>Tracking</em></h2></div><span class="topic-badge">Passive/Active</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Tracking error measures deviation from the benchmark</p>
   <p class="prose">Tracking error (TE) is the standard deviation of the difference between portfolio and benchmark returns:</p>
-  <div class="fb"><div class="fm">TE = &sigma;(R<sub>p</sub> &minus; R<sub>b</sub>)</div><div class="fd"><span>Passive index funds</span> target TE &lt; 10 bps. Active managers accept TE of 2&ndash;8 % depending on mandate. <strong>Active share</strong> measures the fraction of holdings that differ from the benchmark — high active share combined with low TE signals closet indexing.</div></div>
+  <div class="fb"><div class="fm">TE = &sigma;(R<sub>p</sub> &minus; R<sub>b</sub>)</div><div class="fd"><span>Passive index funds</span> target TE &lt; 10 bps. Active managers accept TE of 2&ndash;8 % depending on mandate. <strong>Active share</strong> measures the fraction of holdings that differ from the benchmark: high active share combined with low TE signals closet indexing.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — active share and tracking error</div>
+    <div class="vl">// Interactive: active share and tracking error</div>
     <canvas id="cvs-benchmark-tracking" role="img" aria-label="Benchmark Tracking: Interactive — active share and tracking error" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Active share %</span><input type="range" aria-label="Active share %" min="10" max="90" value="50" data-ctrl="activeShare"></div>
     </div>
   </div>
-  <div class="callout info"><strong>Closet indexing.</strong> A fund with high fees but low active share is a bad deal — pay passive fees for passive exposure.</div>
+  <div class="callout info"><strong>Closet indexing.</strong> A fund with high fees but low active share is a bad deal: pay passive fees for passive exposure.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Standard deviation and variance are core in <a href="../indicators/index.html#standard-deviation">Indicators — Standard Deviation</a>.</div>
   ${depthHtml('benchmark-tracking')}
   <div class="topic-nav" id="nav-benchmark-tracking"></div>
@@ -1307,10 +1297,10 @@ function buildAlphaGeneration() {
   return `<div class="topic" id="alpha-generation">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">23 — Performance &amp; Attribution</div><h2>Alpha <em>Generation</em></h2></div><span class="topic-badge">Excess Return</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Capturing risk-adjusted excess returns</p>
-  <p class="prose">Alpha (&alpha;) is the intercept of a factor regression — the return not explained by systematic risk exposures. Positive alpha means the manager added value beyond factor tilts.</p>
-  <div class="fb"><div class="fm">&alpha; = R<sub>p</sub> &minus; [ R<sub>f</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; ]</div><div class="fd"><span>Sources of alpha:</span> information edges, execution speed, behavioral exploitation, or structural advantages (tax, regulation). Alpha decays — once a signal is widely known, it gets arbitraged away.</div></div>
+  <p class="prose">Alpha (&alpha;) is the intercept of a factor regression: the return not explained by systematic risk exposures. Positive alpha means the manager added value beyond factor tilts.</p>
+  <div class="fb"><div class="fm">&alpha; = R<sub>p</sub> &minus; [ R<sub>f</sub> + &beta;<sub>1</sub>F<sub>1</sub> + &beta;<sub>2</sub>F<sub>2</sub> + &hellip; ]</div><div class="fd"><span>Sources of alpha:</span> information edges, execution speed, behavioral exploitation, or structural advantages (tax, regulation). Alpha decays, once a signal is widely known, it gets arbitraged away.</div></div>
   <div class="va">
-    <div class="vl">// Alpha generation — excess return decomposition</div>
+    <div class="vl">// Alpha generation: excess return decomposition</div>
     <canvas id="cvs-alpha-generation" role="img" aria-label="Alpha generation — excess return decomposition" width="720" height="340"></canvas>
   </div>
   <div class="callout info"><strong>Alpha decay.</strong> Published anomalies lose much of their return once known: on average more than half after publication (McLean &amp; Pontiff 2016).</div>
@@ -1323,7 +1313,7 @@ function buildAlphaGeneration() {
 function buildRiskAdjustedPerf() {
   return `<div class="topic" id="risk-adjusted-perf">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 — Performance &amp; Attribution</div><h2>Risk-Adjusted <em>Performance</em></h2></div><span class="topic-badge">Ratios</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
-  <p class="sub">// Sharpe, Sortino, Calmar — normalize returns by the risk taken</p>
+  <p class="sub">// Sharpe, Sortino, Calmar: normalize returns by the risk taken</p>
   <p class="prose">Raw returns are misleading without context. Risk-adjusted ratios level the playing field:</p>
   <table class="mt">
     <thead><tr><th>Ratio</th><th>Formula</th><th>Risk measure</th></tr></thead>
@@ -1351,9 +1341,9 @@ function buildDrawdownAnalysis() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 — Performance &amp; Attribution</div><h2>Drawdown <em>Analysis</em></h2></div><span class="topic-badge">Peak-to-Trough</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span></div>
   <p class="sub">// Peak-to-trough losses and recovery time</p>
   <p class="prose">Maximum drawdown (MDD) is the largest peak-to-trough decline in portfolio equity. It measures the <em>worst pain</em> an investor endures.</p>
-  <div class="fb"><div class="fm">MDD = max<sub>t</sub> [ (Peak<sub>t</sub> &minus; Trough<sub>t</sub>) / Peak<sub>t</sub> ]</div><div class="fd"><span>Recovery time</span> — how long to regain the prior peak — matters as much as depth. A 50 % drawdown requires a 100 % gain to recover. The <strong>underwater curve</strong> plots drawdown depth over time.</div></div>
+  <div class="fb"><div class="fm">MDD = max<sub>t</sub> [ (Peak<sub>t</sub> &minus; Trough<sub>t</sub>) / Peak<sub>t</sub> ]</div><div class="fd"><span>Recovery time</span>, how long to regain the prior peak, matters as much as depth. A 50 % drawdown requires a 100 % gain to recover. The <strong>underwater curve</strong> plots drawdown depth over time.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — volatility and underwater equity curve</div>
+    <div class="vl">// Interactive: volatility and underwater equity curve</div>
     <canvas id="cvs-drawdown-analysis" role="img" aria-label="Drawdown Analysis: Interactive — volatility and underwater equity curve" width="720" height="340"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Volatility</span><input type="range" aria-label="Volatility" min="5" max="40" value="15" data-ctrl="ddVol"></div>
@@ -1368,7 +1358,7 @@ function buildDrawdownAnalysis() {
       <tr><td>75 %</td><td>300 %</td></tr>
     </tbody>
   </table>
-  <div class="callout info"><strong>Behavioral impact.</strong> Drawdowns are a leading reason investors abandon strategies — even profitable ones.</div>
+  <div class="callout info"><strong>Behavioral impact.</strong> Drawdowns are a leading reason investors abandon strategies, even profitable ones.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawdowns test behaviour as much as capital: <a href="../../markets/psychology/#loss-aversion">loss aversion</a> and <a href="../../markets/psychology/#regret-aversion">regret aversion</a> are why investors sell near the bottom. The measurement itself is in <a href="../../stats/#max-drawdown">maximum drawdown</a>.</div>
   ${depthHtml('drawdown-analysis')}
   <div class="topic-nav" id="nav-drawdown-analysis"></div>

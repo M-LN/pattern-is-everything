@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sandbox — Pattern is Everything</title>
-  <meta name="description" content="Interactive sandbox — hands-on experiments with ML algorithms and market analysis tools. Learn by doing.">
+  <meta name="description" content="Interactive sandbox: hands-on experiments with ML algorithms and market analysis tools. Learn by doing.">
   <meta property="og:title" content="Sandbox — Pattern is Everything">
-  <meta property="og:description" content="Interactive sandbox — hands-on experiments with ML algorithms and market tools.">
+  <meta property="og:description" content="Interactive sandbox: hands-on experiments with ML algorithms and market tools.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://patterniseverything.com/assets/og/og-sandbox.png">
   <meta property="og:image:type" content="image/png">
@@ -14,8 +14,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Pattern is Everything — free interactive ML & markets education">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+  <meta name="theme-color" content="#2a44b8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232a44b8'/><text x='16' y='23' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
   <link rel="canonical" href="https://patterniseverything.com/sandbox/">
@@ -38,8 +38,8 @@
   </script>
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../css/main.css?v=42">
+  <link rel="stylesheet" href="../css/fonts.css?v=3">
+  <link rel="stylesheet" href="../css/main.css?v=43">
   <style>
     .portal-hero {
       max-width: 720px;
@@ -53,7 +53,7 @@
       position: absolute;
       top: 30px; left: 50%; transform: translateX(-50%);
       width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(200,75,47,.06) 0%, transparent 70%);
+      background: none;
       pointer-events: none;
       border-radius: 50%;
     }
@@ -68,7 +68,7 @@
     }
     .portal-hero h2 em { font-style: italic; color: var(--accent); }
     .portal-hero p {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 14px;
       color: var(--muted);
       line-height: 1.8;
@@ -78,7 +78,7 @@
     }
     .portal-content { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
     .portal-section-title {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 10px;
       letter-spacing: .2em;
       text-transform: uppercase;
@@ -99,7 +99,7 @@
       text-align: center;
       padding: 48px 24px;
       border-top: 1px solid var(--border);
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
       position: relative;
@@ -126,7 +126,7 @@
     }
     body { padding-top: var(--hdr-h); }
     .back-link {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
       text-decoration: none;
@@ -194,7 +194,7 @@
     .chaos-card .domain-title em { color: #ff8a65; }
     .dl-card .domain-title em    { color: #4dd0e1; }
     .domain-desc {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 12px;
       color: var(--muted);
       line-height: 1.7;
@@ -206,7 +206,7 @@
       flex-wrap: wrap;
     }
     .domain-tag {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 10px;
       letter-spacing: .08em;
       padding: 4px 12px;
@@ -219,7 +219,7 @@
     .chaos-card .domain-tag { color: #ff8a65; border-color: #ff8a6544; }
     .dl-card .domain-tag    { color: #4dd0e1; border-color: #4dd0e144; }
     .domain-enter {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       letter-spacing: .12em;
       margin-top: 24px;
@@ -244,7 +244,7 @@
       flex-wrap: wrap;
     }
     .info-chip {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
       padding: 6px 14px;
@@ -286,7 +286,7 @@
 <div role="main" id="mainContent">
 <div class="portal-hero">
   <h2>The <em>Sandbox</em></h2>
-  <p>Stop reading, start doing. Place data points, fit models, toggle indicators, spot patterns — learn by interacting with the algorithms and charts hands-on.</p>
+  <p>Stop reading, start doing. Place data points, fit models, toggle indicators, spot patterns: learn by interacting with the algorithms and charts hands-on.</p>
 </div>
 
 <div class="sandbox-info">
@@ -308,7 +308,7 @@
     <a class="domain-card ml-card" href="ml/index.html">
       <div class="domain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M7.5 12h2l1-3 2 6 1-3h3"/></svg></div>
       <div class="domain-title">ML <em>Lab</em></div>
-      <div class="domain-desc">Train models, cluster data, and watch algorithms learn — step through gradient descent, watch K-Means converge, and see how parameters change everything.</div>
+      <div class="domain-desc">Train models, cluster data, and watch algorithms learn: step through gradient descent, watch K-Means converge, and see how parameters change everything.</div>
       <div class="domain-activities">
         <span class="domain-tag">Linear Regression</span>
         <span class="domain-tag">K-Means</span>
@@ -316,13 +316,13 @@
         <span class="domain-tag">PCA</span>
         <span class="domain-tag">+5 more</span>
       </div>
-      <div class="domain-enter">Enter ML Lab — 9 Activities</div>
+      <div class="domain-enter">Enter ML Lab: 9 Activities</div>
     </a>
 
     <a class="domain-card mkt-card" href="markets/index.html">
       <div class="domain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19c4.5 0 4.5-12 9-12s4.5 12 9 12"/></svg></div>
       <div class="domain-title">Markets <em>Lab</em></div>
-      <div class="domain-desc">Apply technical indicators to charts, adjust parameters in real-time, and test your pattern recognition — spot hammers, engulfing candles, and more.</div>
+      <div class="domain-desc">Apply technical indicators to charts, adjust parameters in real-time, and test your pattern recognition: spot hammers, engulfing candles, and more.</div>
       <div class="domain-activities">
         <span class="domain-tag">Indicators</span>
         <span class="domain-tag">Candlesticks</span>
@@ -330,7 +330,7 @@
         <span class="domain-tag">MA Crossover</span>
         <span class="domain-tag">+3 more</span>
       </div>
-      <div class="domain-enter">Enter Markets Lab — 7 Activities</div>
+      <div class="domain-enter">Enter Markets Lab: 7 Activities</div>
     </a>
 
     <a class="domain-card stats-card" href="stats/index.html">
@@ -344,7 +344,7 @@
         <span class="domain-tag">Bootstrap</span>
         <span class="domain-tag">+8 more</span>
       </div>
-      <div class="domain-enter">Enter Stats Lab — 12 Activities</div>
+      <div class="domain-enter">Enter Stats Lab: 12 Activities</div>
     </a>
 
     <a class="domain-card chaos-card" href="chaos/index.html">
@@ -358,13 +358,13 @@
         <span class="domain-tag">Game of Life</span>
         <span class="domain-tag">+2 more</span>
       </div>
-      <div class="domain-enter">Enter Chaos Lab — 6 Activities</div>
+      <div class="domain-enter">Enter Chaos Lab: 6 Activities</div>
     </a>
 
     <a class="domain-card dl-card" href="dl/index.html">
       <div class="domain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="domain-title">Deep Learning <em>Lab</em></div>
-      <div class="domain-desc">Paint on CNN grids, click through transformer attention, walk a VAE latent space, watch a GAN match distributions, and diffuse structure into noise — every major DL architecture family.</div>
+      <div class="domain-desc">Paint on CNN grids, click through transformer attention, walk a VAE latent space, watch a GAN match distributions, and diffuse structure into noise, every major DL architecture family.</div>
       <div class="domain-activities">
         <span class="domain-tag">CNN</span>
         <span class="domain-tag">Transformer</span>
@@ -373,7 +373,7 @@
         <span class="domain-tag">Kalman</span>
         <span class="domain-tag">+6 more</span>
       </div>
-      <div class="domain-enter">Enter DL Lab — 12 Activities</div>
+      <div class="domain-enter">Enter DL Lab: 12 Activities</div>
     </a>
   </div>
 </div>
@@ -381,7 +381,6 @@
 </div>
 <div class="portal-footer" role="contentinfo">
   Pattern is Everything · 2026
-  <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
   <nav class="footer-links" aria-label="Footer">
     <a href="https://github.com/M-LN/pattern-is-everything" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
     <a href="../lite/lab/" target="_blank" rel="noopener">JupyterLite Lab</a>

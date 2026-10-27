@@ -49,36 +49,36 @@ const TOPIC_NAMES = {
 
 /* ── Full topic data for search ── */
 const TOPIC_DATA = [
-  { id:'tokenization', evidence:'mathematical', reviewed:'2026-10-02', num:'01', title:'Tokenization', category:'Foundations', keywords:['bpe','wordpiece','sentencepiece','byte pair encoding','subword','vocabulary','token','merge','unigram'], content:'Breaking text into subword tokens — BPE, WordPiece, and how vocabulary size impacts model performance.' },
-  { id:'embeddings', evidence:'mathematical', reviewed:'2026-10-02', num:'02', title:'Token Embeddings', category:'Foundations', keywords:['embedding table','lookup','vector','dimension','learned','representation','dense','word2vec'], content:'Mapping discrete tokens to dense vectors — the first layer in every language model.' },
-  { id:'positional-encoding', evidence:'mathematical', reviewed:'2026-10-02', num:'03', title:'Positional Encoding', category:'Foundations', keywords:['sinusoidal','rope','alibi','rotary','position','relative','absolute','frequency'], content:'Giving transformers a sense of order — sinusoidal, RoPE, and ALiBi positional encodings.' },
-  { id:'self-attention', evidence:'mathematical', reviewed:'2026-10-02', num:'04', title:'Self-Attention', category:'Foundations', keywords:['query','key','value','qkv','scaled dot product','softmax','attention weights','context'], content:'The core mechanism — how each token attends to every other token via Q, K, V projections.' },
-  { id:'multi-head-attention', evidence:'mathematical', reviewed:'2026-10-02', num:'05', title:'Multi-Head Attention', category:'Foundations', keywords:['heads','parallel','concat','projection','multi-query','grouped-query','gqa','mqa'], content:'Running multiple attention heads in parallel — each one learning different relationship patterns.' },
-  { id:'feed-forward', evidence:'mathematical', reviewed:'2026-10-02', num:'06', title:'Feed-Forward Networks', category:'Foundations', keywords:['ffn','swiglu','gelu','relu','expansion','hidden dimension','mlp','activation'], content:'The point-wise FFN after attention — SwiGLU activations and the 2/3 expansion trick.' },
-  { id:'transformer-block', evidence:'mathematical', reviewed:'2026-10-02', num:'07', title:'Transformer Block', category:'Architecture', keywords:['residual','layernorm','prenorm','postnorm','block','layer','skip connection'], content:'The fundamental building block — residual connections, layer normalization, and data flow.' },
-  { id:'decoder-only', evidence:'mathematical', reviewed:'2026-10-02', num:'08', title:'Decoder-Only Models', category:'Architecture', keywords:['gpt','causal','autoregressive','mask','llama','next token','unidirectional','language model'], content:'The dominant LLM architecture — causal masking and autoregressive next-token prediction.' },
+  { id:'tokenization', evidence:'mathematical', reviewed:'2026-10-02', num:'01', title:'Tokenization', category:'Foundations', keywords:['bpe','wordpiece','sentencepiece','byte pair encoding','subword','vocabulary','token','merge','unigram'], content:'Breaking text into subword tokens: BPE, WordPiece, and how vocabulary size impacts model performance.' },
+  { id:'embeddings', evidence:'mathematical', reviewed:'2026-10-02', num:'02', title:'Token Embeddings', category:'Foundations', keywords:['embedding table','lookup','vector','dimension','learned','representation','dense','word2vec'], content:'Mapping discrete tokens to dense vectors: the first layer in every language model.' },
+  { id:'positional-encoding', evidence:'mathematical', reviewed:'2026-10-02', num:'03', title:'Positional Encoding', category:'Foundations', keywords:['sinusoidal','rope','alibi','rotary','position','relative','absolute','frequency'], content:'Giving transformers a sense of order: sinusoidal, RoPE, and ALiBi positional encodings.' },
+  { id:'self-attention', evidence:'mathematical', reviewed:'2026-10-02', num:'04', title:'Self-Attention', category:'Foundations', keywords:['query','key','value','qkv','scaled dot product','softmax','attention weights','context'], content:'The core mechanism: how each token attends to every other token via Q, K, V projections.' },
+  { id:'multi-head-attention', evidence:'mathematical', reviewed:'2026-10-02', num:'05', title:'Multi-Head Attention', category:'Foundations', keywords:['heads','parallel','concat','projection','multi-query','grouped-query','gqa','mqa'], content:'Running multiple attention heads in parallel, each one learning different relationship patterns.' },
+  { id:'feed-forward', evidence:'mathematical', reviewed:'2026-10-02', num:'06', title:'Feed-Forward Networks', category:'Foundations', keywords:['ffn','swiglu','gelu','relu','expansion','hidden dimension','mlp','activation'], content:'The point-wise FFN after attention: SwiGLU activations and the 2/3 expansion trick.' },
+  { id:'transformer-block', evidence:'mathematical', reviewed:'2026-10-02', num:'07', title:'Transformer Block', category:'Architecture', keywords:['residual','layernorm','prenorm','postnorm','block','layer','skip connection'], content:'The fundamental building block: residual connections, layer normalization, and data flow.' },
+  { id:'decoder-only', evidence:'mathematical', reviewed:'2026-10-02', num:'08', title:'Decoder-Only Models', category:'Architecture', keywords:['gpt','causal','autoregressive','mask','llama','next token','unidirectional','language model'], content:'The dominant LLM architecture: causal masking and autoregressive next-token prediction.' },
   { id:'kv-cache', evidence:'mathematical', reviewed:'2026-10-02', num:'09', title:'KV-Cache', category:'Architecture', keywords:['key value cache','incremental','memory','generation','recompute','prefix','cached'], content:'Caching key-value states to avoid recomputation during autoregressive generation.' },
-  { id:'context-windows', evidence:'mathematical', reviewed:'2026-10-02', num:'10', title:'Context Windows', category:'Architecture', keywords:['context length','sliding window','sparse attention','rope scaling','ntk','yarn','long context','128k'], content:'How much text a model can process — window sizes, sparse attention, and RoPE scaling tricks.' },
-  { id:'mixture-of-experts', evidence:'mathematical', reviewed:'2026-10-02', num:'11', title:'Mixture of Experts', category:'Architecture', keywords:['moe','router','expert','sparse','top-k','gating','switch','mixtral','load balancing'], content:'Sparse activation via expert routing — more parameters, same compute, better scaling.' },
-  { id:'scaling-laws', evidence:'statistical', reviewed:'2026-10-02', num:'12', title:'Scaling Laws', category:'Architecture', keywords:['chinchilla','compute optimal','flops','tokens','parameters','power law','kaplan','loss prediction'], content:'How model performance scales with data, parameters, and compute — the Chinchilla recipe.' },
-  { id:'pre-training', evidence:'mathematical', reviewed:'2026-10-02', num:'13', title:'Pre-Training', category:'Training', keywords:['next token prediction','causal lm','masked lm','autoregressive','loss','cross entropy','corpus','crawl'], content:'Training from scratch on massive text corpora — next-token prediction at scale.' },
-  { id:'fine-tuning', evidence:'practice', reviewed:'2026-10-02', num:'14', title:'Fine-Tuning', category:'Training', keywords:['supervised fine-tuning','sft','instruction tuning','chat','catastrophic forgetting','full fine-tune','downstream'], content:'Adapting a pre-trained model to specific tasks — instruction tuning and alignment.' },
-  { id:'lora-qlora', evidence:'mathematical', reviewed:'2026-10-02', num:'15', title:'LoRA & QLoRA', category:'Training', keywords:['low rank','adapter','rank','alpha','quantized','4-bit','peft','parameter efficient','merge'], content:'Parameter-efficient fine-tuning — low-rank adapters that train <1% of weights.' },
-  { id:'rlhf', evidence:'mathematical', reviewed:'2026-10-02', num:'16', title:'RLHF', category:'Training', keywords:['reinforcement learning','human feedback','reward model','ppo','preference','ranking','helpful','harmless'], content:'Learning from human preferences — reward modeling and PPO optimization.' },
-  { id:'dpo', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'DPO', category:'Training', keywords:['direct preference optimization','implicit reward','chosen','rejected','bradley terry','no reward model','simpler'], content:'Skip the reward model — directly optimizing the policy from preference pairs.' },
-  { id:'data-curation', evidence:'statistical', reviewed:'2026-10-02', num:'18', title:'Data Curation', category:'Training', keywords:['deduplication','quality filtering','data mixing','ratio','synthetic data','contamination','benchmark leakage'], content:'The most underrated part of LLM training — data quality, dedup, and mixing ratios.' },
-  { id:'decoding-strategies', evidence:'mathematical', reviewed:'2026-10-02', num:'19', title:'Decoding Strategies', category:'Inference', keywords:['greedy','beam search','beam width','best first','argmax','sequence score','length penalty'], content:'From greedy argmax to beam search — deterministic approaches to text generation.' },
-  { id:'sampling', evidence:'mathematical', reviewed:'2026-10-02', num:'20', title:'Sampling', category:'Inference', keywords:['temperature','top-k','top-p','nucleus','softmax','logits','diversity','creativity','repetition penalty'], content:'Controlling generation randomness — temperature scaling, top-k, and nucleus sampling.' },
+  { id:'context-windows', evidence:'mathematical', reviewed:'2026-10-02', num:'10', title:'Context Windows', category:'Architecture', keywords:['context length','sliding window','sparse attention','rope scaling','ntk','yarn','long context','128k'], content:'How much text a model can process: window sizes, sparse attention, and RoPE scaling tricks.' },
+  { id:'mixture-of-experts', evidence:'mathematical', reviewed:'2026-10-02', num:'11', title:'Mixture of Experts', category:'Architecture', keywords:['moe','router','expert','sparse','top-k','gating','switch','mixtral','load balancing'], content:'Sparse activation via expert routing: more parameters, same compute, better scaling.' },
+  { id:'scaling-laws', evidence:'statistical', reviewed:'2026-10-02', num:'12', title:'Scaling Laws', category:'Architecture', keywords:['chinchilla','compute optimal','flops','tokens','parameters','power law','kaplan','loss prediction'], content:'How model performance scales with data, parameters, and compute: the Chinchilla recipe.' },
+  { id:'pre-training', evidence:'mathematical', reviewed:'2026-10-02', num:'13', title:'Pre-Training', category:'Training', keywords:['next token prediction','causal lm','masked lm','autoregressive','loss','cross entropy','corpus','crawl'], content:'Training from scratch on massive text corpora: next-token prediction at scale.' },
+  { id:'fine-tuning', evidence:'practice', reviewed:'2026-10-02', num:'14', title:'Fine-Tuning', category:'Training', keywords:['supervised fine-tuning','sft','instruction tuning','chat','catastrophic forgetting','full fine-tune','downstream'], content:'Adapting a pre-trained model to specific tasks: instruction tuning and alignment.' },
+  { id:'lora-qlora', evidence:'mathematical', reviewed:'2026-10-02', num:'15', title:'LoRA & QLoRA', category:'Training', keywords:['low rank','adapter','rank','alpha','quantized','4-bit','peft','parameter efficient','merge'], content:'Parameter-efficient fine-tuning: low-rank adapters that train <1% of weights.' },
+  { id:'rlhf', evidence:'mathematical', reviewed:'2026-10-02', num:'16', title:'RLHF', category:'Training', keywords:['reinforcement learning','human feedback','reward model','ppo','preference','ranking','helpful','harmless'], content:'Learning from human preferences: reward modeling and PPO optimization.' },
+  { id:'dpo', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'DPO', category:'Training', keywords:['direct preference optimization','implicit reward','chosen','rejected','bradley terry','no reward model','simpler'], content:'Skip the reward model: directly optimizing the policy from preference pairs.' },
+  { id:'data-curation', evidence:'statistical', reviewed:'2026-10-02', num:'18', title:'Data Curation', category:'Training', keywords:['deduplication','quality filtering','data mixing','ratio','synthetic data','contamination','benchmark leakage'], content:'The most underrated part of LLM training: data quality, dedup, and mixing ratios.' },
+  { id:'decoding-strategies', evidence:'mathematical', reviewed:'2026-10-02', num:'19', title:'Decoding Strategies', category:'Inference', keywords:['greedy','beam search','beam width','best first','argmax','sequence score','length penalty'], content:'From greedy argmax to beam search: deterministic approaches to text generation.' },
+  { id:'sampling', evidence:'mathematical', reviewed:'2026-10-02', num:'20', title:'Sampling', category:'Inference', keywords:['temperature','top-k','top-p','nucleus','softmax','logits','diversity','creativity','repetition penalty'], content:'Controlling generation randomness: temperature scaling, top-k, and nucleus sampling.' },
   { id:'speculative-decoding', evidence:'mathematical', reviewed:'2026-10-02', num:'21', title:'Speculative Decoding', category:'Inference', keywords:['draft model','verification','speedup','acceptance rate','lookahead','medusa','parallel generation'], content:'Using a small draft model to generate candidates that a large model verifies in parallel.' },
-  { id:'quantization', evidence:'mathematical', reviewed:'2026-10-02', num:'22', title:'Quantization', category:'Inference', keywords:['int8','int4','fp16','bf16','gptq','awq','gguf','precision','weight only','activation','calibration'], content:'Reducing precision to shrink memory and boost speed — INT8, INT4, GPTQ, AWQ.' },
-  { id:'kv-cache-opt', evidence:'mathematical', reviewed:'2026-10-02', num:'23', title:'KV-Cache Optimization', category:'Inference', keywords:['paged attention','vllm','block allocation','memory fragmentation','prefix caching','radix tree'], content:'Managing GPU memory for cached KV states — PagedAttention and prefix sharing.' },
-  { id:'batching', evidence:'practice', reviewed:'2026-10-02', num:'24', title:'Batching & Throughput', category:'Inference', keywords:['continuous batching','dynamic','prefill','decode','TTFT','TPS','throughput','latency','scheduling'], content:'Serving many requests efficiently — continuous batching and prefill/decode separation.' },
-  { id:'prompt-engineering', evidence:'heuristic', reviewed:'2026-10-02', num:'25', title:'Prompt Engineering', category:'Applications', keywords:['system prompt','few-shot','chain of thought','cot','zero-shot','template','instruction','role'], content:'Crafting effective prompts — system messages, few-shot examples, and chain-of-thought.' },
-  { id:'rag', evidence:'practice', reviewed:'2026-10-08', num:'26', title:'RAG', category:'Applications', keywords:['retrieval augmented generation','chunking','reranking','context window','grounding','hallucination','vector store'], content:'Grounding LLM responses in retrieved documents — the RAG pipeline end-to-end.' },
-  { id:'embedding-search', evidence:'mathematical', reviewed:'2026-10-02', num:'27', title:'Embedding Search', category:'Applications', keywords:['vector similarity','cosine','ann','hnsw','faiss','semantic search','nearest neighbor','index'], content:'Finding similar content via embeddings — vector databases, ANN search, and HNSW.' },
-  { id:'function-calling', evidence:'practice', reviewed:'2026-10-02', num:'28', title:'Function Calling', category:'Applications', keywords:['tool use','structured output','json mode','schema','api','parallel calls','tool choice'], content:'Extending LLMs with tools — structured output, JSON schemas, and parallel tool calls.' },
-  { id:'agents', evidence:'practice', reviewed:'2026-10-02', num:'29', title:'Agents & Planning', category:'Applications', keywords:['react','tool chain','memory','planning','reflection','loop','autonomous','multi-step','orchestration'], content:'Autonomous multi-step reasoning — ReAct loops, tool chains, memory, and orchestration.' },
-  { id:'evaluation', evidence:'statistical', reviewed:'2026-10-02', num:'30', title:'Evaluation & Benchmarks', category:'Applications', keywords:['perplexity','mmlu','humaneval','gsm8k','arena','elo','benchmark','leaderboard','contamination'], content:'Measuring LLM quality — perplexity, benchmarks, ELO ratings, and evaluation pitfalls.' },
+  { id:'quantization', evidence:'mathematical', reviewed:'2026-10-02', num:'22', title:'Quantization', category:'Inference', keywords:['int8','int4','fp16','bf16','gptq','awq','gguf','precision','weight only','activation','calibration'], content:'Reducing precision to shrink memory and boost speed: INT8, INT4, GPTQ, AWQ.' },
+  { id:'kv-cache-opt', evidence:'mathematical', reviewed:'2026-10-02', num:'23', title:'KV-Cache Optimization', category:'Inference', keywords:['paged attention','vllm','block allocation','memory fragmentation','prefix caching','radix tree'], content:'Managing GPU memory for cached KV states: PagedAttention and prefix sharing.' },
+  { id:'batching', evidence:'practice', reviewed:'2026-10-02', num:'24', title:'Batching & Throughput', category:'Inference', keywords:['continuous batching','dynamic','prefill','decode','TTFT','TPS','throughput','latency','scheduling'], content:'Serving many requests efficiently: continuous batching and prefill/decode separation.' },
+  { id:'prompt-engineering', evidence:'heuristic', reviewed:'2026-10-02', num:'25', title:'Prompt Engineering', category:'Applications', keywords:['system prompt','few-shot','chain of thought','cot','zero-shot','template','instruction','role'], content:'Crafting effective prompts: system messages, few-shot examples, and chain-of-thought.' },
+  { id:'rag', evidence:'practice', reviewed:'2026-10-08', num:'26', title:'RAG', category:'Applications', keywords:['retrieval augmented generation','chunking','reranking','context window','grounding','hallucination','vector store'], content:'Grounding LLM responses in retrieved documents: the RAG pipeline end-to-end.' },
+  { id:'embedding-search', evidence:'mathematical', reviewed:'2026-10-02', num:'27', title:'Embedding Search', category:'Applications', keywords:['vector similarity','cosine','ann','hnsw','faiss','semantic search','nearest neighbor','index'], content:'Finding similar content via embeddings: vector databases, ANN search, and HNSW.' },
+  { id:'function-calling', evidence:'practice', reviewed:'2026-10-02', num:'28', title:'Function Calling', category:'Applications', keywords:['tool use','structured output','json mode','schema','api','parallel calls','tool choice'], content:'Extending LLMs with tools: structured output, JSON schemas, and parallel tool calls.' },
+  { id:'agents', evidence:'practice', reviewed:'2026-10-02', num:'29', title:'Agents & Planning', category:'Applications', keywords:['react','tool chain','memory','planning','reflection','loop','autonomous','multi-step','orchestration'], content:'Autonomous multi-step reasoning: ReAct loops, tool chains, memory, and orchestration.' },
+  { id:'evaluation', evidence:'statistical', reviewed:'2026-10-02', num:'30', title:'Evaluation & Benchmarks', category:'Applications', keywords:['perplexity','mmlu','humaneval','gsm8k','arena','elo','benchmark','leaderboard','contamination'], content:'Measuring LLM quality: perplexity, benchmarks, ELO ratings, and evaluation pitfalls.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -117,7 +117,7 @@ function buildNav() {
    worked example is the output of the code shown with it. */
 const TOPIC_DEPTH = {
  "tokenization": {
-  "example": "Byte-level BPE starts from UTF-8 bytes. English letters are <strong>1</strong> byte each, Danish text averages <strong>1.19</strong> (æ, ø and å take two), Greek <strong>2</strong>, and Chinese and Hindi <strong>3</strong>. Where the tokenizer saw little of a script, merges are few and text stays close to a token per byte — so the same sentence can cost several times more tokens, context and money in one language than in another.",
+  "example": "Byte-level BPE starts from UTF-8 bytes. English letters are <strong>1</strong> byte each, Danish text averages <strong>1.19</strong> (æ, ø and å take two), Greek <strong>2</strong>, and Chinese and Hindi <strong>3</strong>. Where the tokenizer saw little of a script, merges are few and text stays close to a token per byte, so the same sentence can cost several times more tokens, context and money in one language than in another.",
   "fails": [
    "Token counts, prices and context limits are per token, not per word; compare languages on tokens actually produced (Petrov et al. 2023 measured up to 15× differences).",
    "Tokenizers are frozen with the model; text that is rare in the tokenizer’s training data (code in a new language, a new script) stays expensive.",
@@ -131,7 +131,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "embeddings": {
-  "example": "In GPT-2 small the embedding table — 50,257 tokens × 768 dimensions — is <strong>31%</strong> of all 124M parameters. In Llama 2 70B one 32,000 × 8,192 table is <strong>0.4%</strong>. Tying the input and output tables, as GPT-2 does, saves <strong>38.6M</strong> parameters. In small models the vocabulary is a large share of the budget; in large ones it hardly registers.",
+  "example": "In GPT-2 small the embedding table (50,257 tokens × 768 dimensions) is <strong>31%</strong> of all 124M parameters. In Llama 2 70B one 32,000 × 8,192 table is <strong>0.4%</strong>. Tying the input and output tables, as GPT-2 does, saves <strong>38.6M</strong> parameters. In small models the vocabulary is a large share of the budget; in large ones it hardly registers.",
   "fails": [
    "Embedding geometry reflects co-occurrence in training text, including its biases.",
    "Rare tokens get few updates and poor vectors; “glitch tokens” that almost never appeared in training can produce strange behaviour.",
@@ -160,7 +160,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "self-attention": {
-  "example": "The attention scores for one head in one layer form an n × n matrix. In fp16 that is <strong>0.03 GB</strong> at 4k tokens, <strong>2.1 GB</strong> at 32k and <strong>34 GB</strong> at 128k — for a single head. FlashAttention never stores the matrix: it computes attention in tiles that fit in fast on-chip memory, which is what made long contexts practical.",
+  "example": "The attention scores for one head in one layer form an n × n matrix. In fp16 that is <strong>0.03 GB</strong> at 4k tokens, <strong>2.1 GB</strong> at 32k and <strong>34 GB</strong> at 128k: for a single head. FlashAttention never stores the matrix: it computes attention in tiles that fit in fast on-chip memory, which is what made long contexts practical.",
   "fails": [
    "FlashAttention removes the memory cost, not the compute: the work still grows with n².",
    "Attention weights are not explanations of the output (Jain &amp; Wallace 2019).",
@@ -173,7 +173,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "multi-head-attention": {
-  "example": "Llama 2 70B has 64 query heads. If each had its own keys and values, the KV-cache for one 4k-token request would be <strong>10.7 GB</strong>. Grouped-query attention shares them across groups — 8 KV heads — for <strong>1.34 GB</strong>; a single shared KV head (MQA) would need <strong>0.17 GB</strong>. Fewer KV heads mean more requests per GPU, at a small cost in quality.",
+  "example": "Llama 2 70B has 64 query heads. If each had its own keys and values, the KV-cache for one 4k-token request would be <strong>10.7 GB</strong>. Grouped-query attention shares them across groups, 8 KV heads, for <strong>1.34 GB</strong>; a single shared KV head (MQA) would need <strong>0.17 GB</strong>. Fewer KV heads mean more requests per GPU, at a small cost in quality.",
   "fails": [
    "Not every head matters: many can be pruned after training with little loss (Michel, Levy &amp; Neubig 2019), so head count is not a measure of capability.",
    "Stories about what a head “does” come from a few probes; most heads are hard to interpret.",
@@ -190,7 +190,7 @@ const TOPIC_DEPTH = {
   "example": "With d = 4,096, a classic feed-forward layer with a 4d hidden size has <strong>134,217,728</strong> parameters. SwiGLU uses three matrices instead of two, so it shrinks the hidden size to two thirds of 4d to keep the count equal: <strong>134,221,824</strong>. LLaMA rounds that hidden size to 11,008 for hardware efficiency, giving <strong>135,266,304</strong>.",
   "fails": [
    "Gated variants win in experiments, but the explanation is thin; Shazeer (2020) attributes the success to “divine benevolence”.",
-   "Most of a dense model’s parameters sit here, and so does much of its factual recall (Geva et al. 2021) — which is why editing a fact can have side-effects.",
+   "Most of a dense model’s parameters sit here, and so does much of its factual recall (Geva et al. 2021), which is why editing a fact can have side-effects.",
    "Feed-forward size and depth trade off; parameter count alone does not say which shape is better."
   ],
   "code": "d = 4_096\nclassic = 2 * d * (4 * d)                       # W1 and W2 with a 4d hidden layer\nswiglu_ideal = 3 * d * round(2 / 3 * 4 * d)     # three matrices at 2/3 of 4d keep the count equal\nswiglu_llama = 3 * d * 11_008                   # LLaMA-7B rounds the hidden size to 11,008",
@@ -215,7 +215,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "decoder-only": {
-  "example": "A decoder-only model scores a sequence as a product of next-token probabilities. Four tokens with probabilities 0.5, 0.3, 0.9 and 0.2 have a log-probability of <strong>−3.61</strong>: the sequence as a whole has probability <strong>0.027</strong>, and long texts become astronomically unlikely. The causal mask lets each token see only what came before — <strong>50%</strong> of the full attention pairs for 1,000 tokens.",
+  "example": "A decoder-only model scores a sequence as a product of next-token probabilities. Four tokens with probabilities 0.5, 0.3, 0.9 and 0.2 have a log-probability of <strong>−3.61</strong>: the sequence as a whole has probability <strong>0.027</strong>, and long texts become astronomically unlikely. The causal mask lets each token see only what came before: <strong>50%</strong> of the full attention pairs for 1,000 tokens.",
   "fails": [
    "Low probability is not low quality: long, specific, correct answers are always improbable sequences.",
    "Left-to-right generation cannot revise what it already wrote, which is why planning and self-correction need extra steps.",
@@ -229,7 +229,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "kv-cache": {
-  "example": "Generating 1,000 tokens without a cache recomputes keys and values for the whole prefix at every step: <strong>500×</strong> as many projections as with one. The cache has a price: for Llama 3 8B it is <strong>128 KB</strong> per token, so a 128k-token context holds <strong>16 GB</strong> of cache — as much as the model’s own weights in fp16.",
+  "example": "Generating 1,000 tokens without a cache recomputes keys and values for the whole prefix at every step: <strong>500×</strong> as many projections as with one. The cache has a price: for Llama 3 8B it is <strong>128 KB</strong> per token, so a 128k-token context holds <strong>16 GB</strong> of cache, as much as the model’s own weights in fp16.",
   "fails": [
    "The cache trades compute for memory; on long contexts memory, not arithmetic, limits how many users a GPU can serve.",
    "Reusing cache across requests (prefix caching) only works when the prefix is byte-identical.",
@@ -285,7 +285,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "pre-training": {
-  "example": "A held-out loss of 2.0 nats per token is a perplexity of <strong>7.39</strong>: as uncertain, on average, as choosing among seven equally likely tokens. Training an 8B model on 15T tokens takes about 6 × N × D = <strong>7.2×10²³</strong> FLOPs. At 40% of an H100’s peak that is about <strong>506,000</strong> GPU-hours — before failed runs, restarts and experiments.",
+  "example": "A held-out loss of 2.0 nats per token is a perplexity of <strong>7.39</strong>: as uncertain, on average, as choosing among seven equally likely tokens. Training an 8B model on 15T tokens takes about 6 × N × D = <strong>7.2×10²³</strong> FLOPs. At 40% of an H100’s peak that is about <strong>506,000</strong> GPU-hours, before failed runs, restarts and experiments.",
   "fails": [
    "Perplexity is comparable only between models with the same tokenizer and evaluation text.",
    "Lower pre-training loss does not guarantee better behaviour after fine-tuning, though the two are usually related.",
@@ -299,7 +299,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "fine-tuning": {
-  "example": "50,000 instruction examples of about 500 tokens are <strong>25M</strong> tokens — <strong>0.0002%</strong> of a 15T-token pre-training run. LIMA got a strong assistant from just <strong>1,000</strong> carefully chosen examples. Fine-tuning mostly teaches format and behaviour; the knowledge comes from pre-training.",
+  "example": "50,000 instruction examples of about 500 tokens are <strong>25M</strong> tokens: <strong>0.0002%</strong> of a 15T-token pre-training run. LIMA got a strong assistant from just <strong>1,000</strong> carefully chosen examples. Fine-tuning mostly teaches format and behaviour; the knowledge comes from pre-training.",
   "fails": [
    "Fine-tuning on facts the model does not already know can increase hallucination rather than teach the facts.",
    "Aggressive fine-tuning erodes general abilities (catastrophic forgetting); low learning rates and mixing in general data help.",
@@ -313,7 +313,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "lora-qlora": {
-  "example": "Full fine-tuning of a 65B model with Adam needs about 16 bytes per parameter — fp16 weights and gradients, an fp32 master copy and two Adam moments — about <strong>1,040 GB</strong>. QLoRA freezes the weights at 4 bits (<strong>32.5 GB</strong>) and trains rank-64 adapters on four projections in 80 layers: <strong>336M</strong> parameters, about <strong>5.4 GB</strong> with their optimizer state. That is how a 65B model fits on a single 48 GB GPU.",
+  "example": "Full fine-tuning of a 65B model with Adam needs about 16 bytes per parameter (fp16 weights and gradients, an fp32 master copy and two Adam moments), about <strong>1,040 GB</strong>. QLoRA freezes the weights at 4 bits (<strong>32.5 GB</strong>) and trains rank-64 adapters on four projections in 80 layers: <strong>336M</strong> parameters, about <strong>5.4 GB</strong> with their optimizer state. That is how a 65B model fits on a single 48 GB GPU.",
   "fails": [
    "Activations and the KV-cache also need memory; long sequences can still overflow a GPU that holds the weights.",
    "Low-rank updates are a constraint; tasks far from the base model may need higher rank or full fine-tuning.",
@@ -327,7 +327,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "rlhf": {
-  "example": "A reward model that overrates the third answer (4 points against 1 and 2). A modest policy shift has a KL of <strong>0.085</strong> from the reference; collapsing onto the overrated answer has <strong>1.48</strong>. With a weak penalty, β = 0.1, the collapse scores higher (<strong>3.80</strong> against 2.19) — reward hacking. With β = 2 the modest policy wins (<strong>2.03</strong> against 0.98). The KL term is what keeps the model honest to its starting point.",
+  "example": "A reward model that overrates the third answer (4 points against 1 and 2). A modest policy shift has a KL of <strong>0.085</strong> from the reference; collapsing onto the overrated answer has <strong>1.48</strong>. With a weak penalty, β = 0.1, the collapse scores higher (<strong>3.80</strong> against 2.19): reward hacking. With β = 2 the modest policy wins (<strong>2.03</strong> against 0.98). The KL term is what keeps the model close to its starting point.",
   "fails": [
    "The reward model is a learned proxy; optimising hard against it eventually exploits its errors (Gao et al. 2023).",
    "β is a dial between following the reward and staying close to the reference; there is no principled value.",
@@ -342,7 +342,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "dpo": {
-  "example": "Relative to the reference model, the chosen answer’s log-probability rises by 2 and the rejected one’s falls by 3: with β = 0.1 the DPO loss is <strong>0.474</strong>. If instead the chosen answer <em>falls</em> by 2 while the rejected falls by 6, the loss is <strong>0.513</strong> — still lower than at the start (0.693). DPO rewards the gap, so it can push down the probability of the very answers it prefers.",
+  "example": "Relative to the reference model, the chosen answer’s log-probability rises by 2 and the rejected one’s falls by 3: with β = 0.1 the DPO loss is <strong>0.474</strong>. If instead the chosen answer <em>falls</em> by 2 while the rejected falls by 6, the loss is <strong>0.513</strong>: still lower than at the start (0.693). DPO rewards the gap, so it can push down the probability of the very answers it prefers.",
   "fails": [
    "Falling likelihood of preferred answers is a known failure mode (Pal et al. 2024); monitor the chosen log-probabilities, not just the loss.",
    "DPO assumes the Bradley–Terry preference model; with noisy or deterministic preferences it can overfit (Azar et al. 2024).",
@@ -356,7 +356,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "data-curation": {
-  "example": "Two sentences that differ in two words share <strong>0.817</strong> of their five-character shingles (Jaccard). MinHash estimates this from 256 hash minima as <strong>0.785</strong>, without comparing the texts directly — which is how near-duplicates are found among billions of web pages. Removing them makes models better and less prone to memorising (Lee et al. 2022).",
+  "example": "Two sentences that differ in two words share <strong>0.817</strong> of their five-character shingles (Jaccard). MinHash estimates this from 256 hash minima as <strong>0.785</strong>, without comparing the texts directly, which is how near-duplicates are found among billions of web pages. Removing them makes models better and less prone to memorising (Lee et al. 2022).",
   "fails": [
    "A threshold that removes boilerplate can also remove legitimately similar documents (laws, templates, code).",
    "Quality filters trained on “good” reference text encode its tastes and can under-represent dialects and topics.",
@@ -393,7 +393,7 @@ const TOPIC_DEPTH = {
   "code": "logits = np.array([3.0, 2.5, 2.0, 1.0, 0.5, 0.0, -1.0, -2.0])\n\ndef probs(T):\n    z = np.exp((logits - logits.max()) / T); return z / z.sum()\n\ndef nucleus_size(p, top_p=0.9):\n    return int(np.searchsorted(np.cumsum(np.sort(p)[::-1]), top_p) + 1)\n\nentropy = lambda p: -(p * np.log2(p)).sum()\ntable = {T: (round(entropy(probs(T)), 2), nucleus_size(probs(T))) for T in (0.7, 1.0, 1.3)}",
   "sources": [
    "A. Holtzman, J. Buys, L. Du, M. Forbes &amp; Y. Choi, “The Curious Case of Neural Text Degeneration”, <em>ICLR</em>, 2020",
-   "A. Fan, M. Lewis &amp; Y. Dauphin, “Hierarchical Neural Story Generation”, <em>ACL</em>, 2018 — top-k sampling",
+   "A. Fan, M. Lewis &amp; Y. Dauphin, “Hierarchical Neural Story Generation”, <em>ACL</em>, 2018: top-k sampling",
    "M. N. Nguyen et al., “Turning Up the Heat: Min-p Sampling for Creative and Coherent LLM Outputs”, arXiv:2407.01082, 2024"
   ]
  },
@@ -452,9 +452,9 @@ const TOPIC_DEPTH = {
   ]
  },
  "prompt-engineering": {
-  "example": "If a single answer is right 60% of the time and samples were independent, a majority vote over 5 samples would be right <strong>68.3%</strong> of the time and over 15 samples <strong>78.7%</strong>. That is the idea behind self-consistency. In practice samples share their mistakes, so the real gain is smaller — but the direction holds.",
+  "example": "If a single answer is right 60% of the time and samples were independent, a majority vote over 5 samples would be right <strong>68.3%</strong> of the time and over 15 samples <strong>78.7%</strong>. That is the idea behind self-consistency. In practice samples share their mistakes, so the real gain is smaller, but the direction holds.",
   "fails": [
-   "Results are sensitive to small formatting changes — spacing, separators, option order — sometimes by many points (Sclar et al. 2024).",
+   "Results are sensitive to small formatting changes (spacing, separators, option order) sometimes by many points (Sclar et al. 2024).",
    "A prompt tuned on one model version often does not transfer to the next.",
    "Prompt tweaks evaluated on a handful of examples are a garden of forking paths; test on a held-out set."
   ],
@@ -466,7 +466,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "rag": {
-  "example": "A fact that spans 100 tokens, in a document cut into 512-token chunks. With no overlap, <strong>19.3%</strong> of such facts are split across two chunks, so no single retrieved chunk contains them. With 64 tokens of overlap, <strong>7.8%</strong>; with 128 — more than the fact’s length — <strong>none</strong>. Chunking decides what can be retrieved before any embedding model is involved.",
+  "example": "A fact that spans 100 tokens, in a document cut into 512-token chunks. With no overlap, <strong>19.3%</strong> of such facts are split across two chunks, so no single retrieved chunk contains them. With 64 tokens of overlap, <strong>7.8%</strong>; with 128, more than the fact’s length, <strong>none</strong>. Chunking decides what can be retrieved before any embedding model is involved.",
   "fails": [
    "Retrieval failures look like model failures: if the right passage is not retrieved, the answer cannot be grounded (Barnett et al. 2024 list seven such failure points).",
    "Retrieved text placed in the middle of a long prompt is used less (Liu et al. 2024).",
@@ -480,7 +480,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "embedding-search": {
-  "example": "A million 768-dimensional float32 embeddings take <strong>3.1 GB</strong>, and a brute-force query costs <strong>7.7×10⁸</strong> multiply-adds. Product quantization to 64 one-byte codes per vector stores the same index in <strong>0.064 GB</strong>. And in 768 dimensions unrelated vectors are nearly perpendicular — a mean absolute cosine of <strong>0.029</strong> — so “similar” scores need calibrating on real pairs.",
+  "example": "A million 768-dimensional float32 embeddings take <strong>3.1 GB</strong>, and a brute-force query costs <strong>7.7×10⁸</strong> multiply-adds. Product quantization to 64 one-byte codes per vector stores the same index in <strong>0.064 GB</strong>. And in 768 dimensions unrelated vectors are nearly perpendicular, a mean absolute cosine of <strong>0.029</strong>, so “similar” scores need calibrating on real pairs.",
   "fails": [
    "Approximate indexes trade recall for speed; measure recall against exact search on your data.",
    "Embedding similarity is topical, not logical: negations and numbers are often ignored.",
@@ -494,7 +494,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "function-calling": {
-  "example": "Four tool calls checked against a schema. The first passes. The second is missing the required <code>unit</code> and sends <code>days</code> as a string. The third is not valid JSON (a missing brace). The fourth uses “K”, which is not an allowed unit. Every one of these reaches your code unless you validate — the model proposes a call, your program decides whether to run it.",
+  "example": "Four tool calls checked against a schema. The first passes. The second is missing the required <code>unit</code> and sends <code>days</code> as a string. The third is not valid JSON (a missing brace). The fourth uses “K”, which is not an allowed unit. Every one of these reaches your code unless you validate: the model proposes a call, your program decides whether to run it.",
   "fails": [
    "Constrained decoding (JSON mode) guarantees valid syntax, not correct arguments.",
    "Tool descriptions are part of the prompt; vague descriptions cause wrong tool choice.",
@@ -522,10 +522,10 @@ const TOPIC_DEPTH = {
   ]
  },
  "evaluation": {
-  "example": "86% accuracy on a 1,000-question benchmark has a 95% margin of about <strong>±2.15</strong> points; on MMLU’s 14,042 test questions, <strong>±0.57</strong>. Two models scoring 86.0 and 87.5 on the 1,000 questions differ by <strong>0.97</strong> standard errors — not distinguishable. Leaderboard gaps of a point or two are often within the noise.",
+  "example": "86% accuracy on a 1,000-question benchmark has a 95% margin of about <strong>±2.15</strong> points; on MMLU’s 14,042 test questions, <strong>±0.57</strong>. Two models scoring 86.0 and 87.5 on the 1,000 questions differ by <strong>0.97</strong> standard errors, not distinguishable. Leaderboard gaps of a point or two are often within the noise.",
   "fails": [
    "Both models answer the same questions, so a paired test is more sensitive than this independent one; report it (Miller 2024).",
-   "Contamination — test items in the training data — inflates scores in ways no error bar captures.",
+   "Contamination, test items in the training data, inflates scores in ways no error bar captures.",
    "Benchmarks measure what is easy to score; arena-style human preference captures other things, and has its own biases."
   ],
   "code": "def ci95(acc, n):\n    return 1.96 * np.sqrt(acc * (1 - acc) / n)\n\nsmall = ci95(0.86, 1_000)                       # a 1,000-question benchmark\nmmlu = ci95(0.86, 14_042)                       # MMLU's test set\ngap = 0.875 - 0.86\nse_diff = np.sqrt(2) * small / 1.96             # two independent models on the 1,000 questions\nz = gap / se_diff",
@@ -558,7 +558,7 @@ const SELF_CHECK = {
     "fewer tokens in Danish, because Danish words are longer."
    ],
    "answer": 1,
-   "why": "BPE merges frequent character sequences. Languages that were rare in its training data split into more, shorter pieces — more cost and less context per sentence."
+   "why": "BPE merges frequent character sequences. Languages that were rare in its training data split into more, shorter pieces: more cost and less context per sentence."
   },
   {
    "q": "What is the trade-off of a larger vocabulary?",
@@ -632,7 +632,7 @@ const SELF_CHECK = {
     "shorter."
    ],
    "answer": 0,
-   "why": "A higher temperature flattens the distribution, giving unlikely tokens more chance — good for brainstorming, bad for facts."
+   "why": "A higher temperature flattens the distribution, giving unlikely tokens more chance: good for brainstorming, bad for facts."
   }
  ],
  "rag": [
@@ -649,7 +649,7 @@ const SELF_CHECK = {
   {
    "q": "What goes wrong when chunks are too large?",
    "options": [
-    "Nothing — larger chunks always help.",
+    "Nothing: larger chunks always help.",
     "Each embedding blurs several topics, so retrieval gets less precise and the context fills with irrelevant text.",
     "The model can no longer read the chunk."
    ],
@@ -661,7 +661,7 @@ const SELF_CHECK = {
    "options": [
     "It reduces it, but the model can still ignore, misread or go beyond the retrieved text.",
     "Yes, completely.",
-    "No — it has no effect on hallucination."
+    "No: it has no effect on hallucination."
    ],
    "answer": 0,
    "why": "Evaluate faithfulness (is every claim supported by the retrieved passages?) as well as answer accuracy."
@@ -673,7 +673,7 @@ const SELF_CHECK = {
    "options": [
     "Model size matters far more than data.",
     "Data matters far more than model size.",
-    "Model size and training tokens should grow roughly together — about 20 tokens per parameter."
+    "Model size and training tokens should grow roughly together, about 20 tokens per parameter."
    ],
    "answer": 2,
    "why": "Hoffmann et al. (2022) found earlier large models were undertrained: a smaller model on more data matched them for the same compute."
@@ -692,7 +692,7 @@ const SELF_CHECK = {
    "q": "What do scaling laws predict reliably?",
    "options": [
     "Exactly which benchmarks a model will pass.",
-    "Pre-training loss — not when specific abilities will appear on downstream tasks.",
+    "Pre-training loss, not when specific abilities will appear on downstream tasks.",
     "How safe the model will be."
    ],
    "answer": 1,
@@ -801,13 +801,8 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>LLM <em>Engineering</em></h2>
-    <p style="margin-top:14px">An interactive reference covering 30 topics — from tokenization to agents.
+    <p style="margin-top:14px">An interactive reference covering 30 topics: from tokenization to agents.
     Every topic has the core concepts, visual intuition, and Python code.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">30</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">30</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
-    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">←</span> <span class="kbd">→</span> arrow keys to navigate &nbsp;·&nbsp;
       <span class="kbd">Ctrl+K</span> to search
@@ -815,27 +810,22 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','tokenization')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v11A1.5 1.5 0 0 0 6.5 19H8"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
       <div class="cat-card-name">Foundations</div>
       <div class="cat-card-count">6 topics · Tokenization, attention, embeddings</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-architecture','transformer-block')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Architecture</div>
       <div class="cat-card-count">6 topics · Transformer, MoE, scaling laws</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-training','pre-training')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5c5 1 7.5 5 9 12"/><circle cx="15" cy="17.5" r="2.4"/></svg></div>
       <div class="cat-card-name">Training</div>
       <div class="cat-card-count">6 topics · Pre-training, LoRA, RLHF, DPO</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-inference','decoding-strategies')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></div>
       <div class="cat-card-name">Inference</div>
       <div class="cat-card-count">6 topics · Sampling, quantization, batching</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-applications','prompt-engineering')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.3"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.3"/></svg></div>
       <div class="cat-card-name">Applications</div>
       <div class="cat-card-count">6 topics · RAG, agents, function calling</div>
     </div>
@@ -855,12 +845,12 @@ function buildTokenization() {
     <span class="topic-badge">BPE · WordPiece · Unigram</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Breaking text into the atomic units a model can process</p>
-  <p class="prose">LLMs don't see characters or words — they see <strong>tokens</strong>. A tokenizer maps raw text to integer IDs from a fixed vocabulary. The dominant algorithm is <strong>Byte Pair Encoding (BPE)</strong>: start with individual bytes, iteratively merge the most frequent adjacent pair until the vocabulary reaches the target size (typically 32k–128k).</p>
+  <p class="prose">LLMs don't see characters or words: they see <strong>tokens</strong>. A tokenizer maps raw text to integer IDs from a fixed vocabulary. The dominant algorithm is <strong>Byte Pair Encoding (BPE)</strong>: start with individual bytes, iteratively merge the most frequent adjacent pair until the vocabulary reaches the target size (typically 32k–128k).</p>
   <div class="fb"><div class="fm">BPE: Repeat → find most frequent pair (a, b) → merge into ab → until |V| = target</div><div class="fd">Each merge creates a new subword token. Rare words get split into multiple tokens.</div></div>
-  <div class="fb"><div class="fm">Compression ratio = bytes / tokens ≈ 3–4× for English</div><div class="fd">A good tokenizer compresses text efficiently — fewer tokens per sentence means more context fits in the window.</div></div>
-  <p class="prose"><strong>WordPiece</strong> (BERT) maximizes likelihood instead of frequency. <strong>Unigram</strong> (SentencePiece) starts with a large vocabulary and prunes. <strong>Byte-level BPE</strong> (GPT-2+) operates on UTF-8 bytes, needing no pre-tokenization — handles any language/script.</p>
+  <div class="fb"><div class="fm">Compression ratio = bytes / tokens ≈ 3–4× for English</div><div class="fd">A good tokenizer compresses text efficiently: fewer tokens per sentence means more context fits in the window.</div></div>
+  <p class="prose"><strong>WordPiece</strong> (BERT) maximizes likelihood instead of frequency. <strong>Unigram</strong> (SentencePiece) starts with a large vocabulary and prunes. <strong>Byte-level BPE</strong> (GPT-2+) operates on UTF-8 bytes, needing no pre-tokenization: handles any language/script.</p>
   <div class="callout">Vocab size is a key tradeoff: larger vocab → fewer tokens per text but bigger embedding table. GPT-4 uses ~100k tokens; LLaMA 2 uses ~32k.</div>
-  <div class="va"><div class="vl">Interactive — type text to see BPE tokenization</div><canvas id="tokenCanvas" role="img" aria-label="Tokenization: Interactive — type text to see BPE tokenization" width="700" height="220"></canvas>
+  <div class="va"><div class="vl">Interactive: type text to see BPE tokenization</div><canvas id="tokenCanvas" role="img" aria-label="Tokenization: Interactive — type text to see BPE tokenization" width="700" height="220"></canvas>
   <div class="ctrl"><label>Input: <input type="text" id="tokenInput" value="Hello, tokenization is fascinating!" style="width:260px;font-family:var(--mono);font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)"></label></div></div>
   <h3>Python — BPE from scratch</h3>
   <div class="code-block"><pre><code>def train_bpe(text, vocab_size):
@@ -900,11 +890,11 @@ function buildEmbeddings() {
     <span class="topic-badge">Learned Representations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Mapping discrete token IDs to continuous vector space</p>
-  <p class="prose">Each token ID indexes into a <strong>learned embedding table</strong> of shape <code>(vocab_size, d_model)</code>. The result is a dense vector that captures semantic meaning. Similar tokens end up near each other in this space — "king" and "queen" are close, "cat" and "automobile" are far.</p>
+  <p class="prose">Each token ID indexes into a <strong>learned embedding table</strong> of shape <code>(vocab_size, d_model)</code>. The result is a dense vector that captures semantic meaning. Similar tokens end up near each other in this space: "king" and "queen" are close, "cat" and "automobile" are far.</p>
   <div class="fb"><div class="fm">E = Embedding(token_id) ∈ ℝ^d_model</div><div class="fd">Simple lookup: row token_id from the embedding matrix. No computation, just indexing.</div></div>
   <div class="fb"><div class="fm">Scaled: E' = E · √d_model</div><div class="fd">Some architectures scale embeddings so their magnitude matches positional encodings.</div></div>
   <p class="prose">Typical dimensions: GPT-2 uses d=768 (small) to d=1600 (XL). LLaMA-70B uses d=8192. The embedding table is often <strong>tied</strong> with the output projection (weight tying), reducing parameter count.</p>
-  <div class="callout">For GPT-3 (a 50,257-token vocabulary, d_model = 12,288) the embedding table is about 0.6B parameters — under 0.4% of its 175B. In small models the share is far larger: about 31% in GPT-2 small.</div>
+  <div class="callout">For GPT-3 (a 50,257-token vocabulary, d_model = 12,288) the embedding table is about 0.6B parameters: under 0.4% of its 175B. In small models the share is far larger: about 31% in GPT-2 small.</div>
   <div class="va"><div class="vl">Interactive — 2D embedding projection</div><canvas id="embedCanvas" role="img" aria-label="Token Embeddings: Interactive — 2D embedding projection" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="resetEmbed()">Regenerate</button></div></div>
   <h3>Python — embedding layer</h3>
@@ -936,10 +926,10 @@ function buildPositionalEncoding() {
     <span class="topic-badge">Sinusoidal · RoPE · ALiBi</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Giving transformers a sense of token order</p>
-  <p class="prose">Self-attention is <strong>permutation-equivariant</strong> — it treats "the cat sat" identically to "sat cat the" without positional information. We need to inject position somehow.</p>
+  <p class="prose">Self-attention is <strong>permutation-equivariant</strong>: it treats "the cat sat" identically to "sat cat the" without positional information. We need to inject position somehow.</p>
   <div class="fb"><div class="fm">Sinusoidal: PE(pos,2i) = sin(pos / 10000^(2i/d))  &nbsp;  PE(pos,2i+1) = cos(pos / 10000^(2i/d))</div><div class="fd">Original Transformer (2017). Fixed, not learned. Each dimension has a different frequency.</div></div>
-  <div class="fb"><div class="fm">RoPE: q'ₘ = Rθ,m · qₘ    k'ₙ = Rθ,n · kₙ    →  q'ₘᵀk'ₙ depends on (m−n)</div><div class="fd">Rotary Position Embedding. Rotates Q,K vectors — attention depends on relative distance. Used in LLaMA, Mistral.</div></div>
-  <div class="fb"><div class="fm">ALiBi: attention(i,j) = qᵢᵀkⱼ − m · |i − j|</div><div class="fd">Attention with Linear Biases. No learned parameters — just subtract a slope × distance. Used in BLOOM.</div></div>
+  <div class="fb"><div class="fm">RoPE: q'ₘ = Rθ,m · qₘ    k'ₙ = Rθ,n · kₙ    →  q'ₘᵀk'ₙ depends on (m−n)</div><div class="fd">Rotary Position Embedding. Rotates Q,K vectors: attention depends on relative distance. Used in LLaMA, Mistral.</div></div>
+  <div class="fb"><div class="fm">ALiBi: attention(i,j) = qᵢᵀkⱼ − m · |i − j|</div><div class="fd">Attention with Linear Biases. No learned parameters: just subtract a slope × distance. Used in BLOOM.</div></div>
   <p class="prose"><strong>RoPE</strong> dominates modern LLMs because it encodes relative position and can be extrapolated beyond training length via NTK-aware scaling or YaRN.</p>
   <div class="callout">Learned absolute position embeddings (GPT-2) can't extrapolate beyond training length. Relative methods (RoPE, ALiBi) handle longer sequences naturally.</div>
   <div class="va"><div class="vl">Interactive — positional encoding patterns</div><canvas id="posEncCanvas" role="img" aria-label="Positional Encoding: Interactive — positional encoding patterns" width="700" height="280"></canvas>
@@ -975,7 +965,7 @@ function buildSelfAttention() {
   <p class="prose">Self-attention is the <strong>core operation</strong> of transformers. Each token produces a <strong>Query</strong> (what am I looking for?), a <strong>Key</strong> (what do I contain?), and a <strong>Value</strong> (what do I output?). Attention weights are the softmax of query-key dot products.</p>
   <div class="fb"><div class="fm">Attention(Q, K, V) = softmax(QKᵀ / √d_k) · V</div><div class="fd">Scale by √d_k to prevent softmax saturation as dimension grows. Output is a weighted mix of value vectors.</div></div>
   <div class="fb"><div class="fm">Q = XW_Q    K = XW_K    V = XW_V    where W ∈ ℝ^(d_model × d_k)</div><div class="fd">Linear projections from the input. No bias in most modern architectures.</div></div>
-  <p class="prose">Complexity is <strong>O(n² · d)</strong> — quadratic in sequence length. This is the fundamental bottleneck that drives context window research. Each attention weight tells you how much token i "pays attention to" token j.</p>
+  <p class="prose">Complexity is <strong>O(n² · d)</strong>: quadratic in sequence length. This is the fundamental bottleneck that drives context window research. Each attention weight tells you how much token i "pays attention to" token j.</p>
   <div class="callout">The √d_k scaling is crucial. Without it, dot products grow proportionally with dimension, pushing softmax into regions with tiny gradients.</div>
   <div class="va"><div class="vl">Interactive — attention weight heatmap</div><canvas id="selfAttnCanvas" role="img" aria-label="Self-Attention: Interactive — attention weight heatmap" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawSelfAttn()">New Random Sequence</button> <label>Temperature: <input type="range" id="attnTemp" min="0.1" max="3" step="0.1" value="1" oninput="drawSelfAttn()"></label></div></div>
@@ -992,7 +982,7 @@ def self_attention(x, W_q, W_k, W_v):
     scores = Q @ K.transpose(-2, -1) / d_k**0.5
     weights = F.softmax(scores, dim=-1)
     return weights @ V  # (batch, seq_len, d_v)</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#feature-correlation">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap">VWAP</a> weights each price by volume — attention over the session.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Every token attending to every other token — a complete <a href="../stats/#feature-correlation">correlation matrix</a> computed at each layer. In markets, <a href="../markets/indicators/#vwap">VWAP</a> weights each price by volume: attention over the session.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
@@ -1019,12 +1009,12 @@ function buildMultiHeadAttention() {
     <span class="topic-badge">MHA · MQA · GQA</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Running multiple attention computations in parallel</p>
-  <p class="prose">Instead of one big attention operation, we split into <strong>h heads</strong>, each with dimension d_k = d_model / h. Each head learns different patterns — one might track syntax, another coreference, another positional relationships.</p>
+  <p class="prose">Instead of one big attention operation, we split into <strong>h heads</strong>, each with dimension d_k = d_model / h. Each head learns different patterns: one might track syntax, another coreference, another positional relationships.</p>
   <div class="fb"><div class="fm">MultiHead(Q,K,V) = Concat(head₁, ..., headₕ) · W_O</div><div class="fd">Run h parallel attention ops with different projections, concat results, project back to d_model.</div></div>
   <div class="fb"><div class="fm">MQA: all heads share K,V — only Q varies per head</div><div class="fd">Multi-Query Attention. Massive KV-cache savings (÷ h). Used in PaLM, Falcon.</div></div>
   <div class="fb"><div class="fm">GQA: groups of heads share K,V — middle ground</div><div class="fd">Grouped-Query Attention. G groups, each with h/G query heads. LLaMA 2 70B uses 8 KV heads for 64 query heads.</div></div>
   <p class="prose">Standard MHA with 32 heads and d_model=4096 → d_k=128 per head. <strong>GQA</strong> is now the default for large models: it trades a tiny quality hit for huge inference speedups via smaller KV caches.</p>
-  <div class="va"><div class="vl">Interactive — compare MHA, MQA, GQA head layouts</div><canvas id="mhaCanvas" role="img" aria-label="Multi-Head Attention: Interactive — compare MHA, MQA, GQA head layouts" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: compare MHA, MQA, GQA head layouts</div><canvas id="mhaCanvas" role="img" aria-label="Multi-Head Attention: Interactive — compare MHA, MQA, GQA head layouts" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawMHA('mha')">MHA</button> <button class="btn b2" onclick="drawMHA('mqa')">MQA</button> <button class="btn b3" onclick="drawMHA('gqa')">GQA</button></div></div>
   <h3>Python — grouped-query attention</h3>
   <div class="code-block"><pre><code>import torch, torch.nn as nn, torch.nn.functional as F
@@ -1050,7 +1040,7 @@ class GQA(nn.Module):
         v = v.repeat_interleave(r, dim=1)
         attn = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         return self.W_o(attn.transpose(1,2).reshape(B, T, -1))</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Multiple attention heads capture different relationship types in parallel — like running several <a href="../stats/#feature-correlation">correlation analyses</a> simultaneously. In markets, combining <a href="../markets/indicators/#rsi">RSI</a>, <a href="../markets/indicators/#macd">MACD</a>, and volume is multi-headed analysis.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Multiple attention heads capture different relationship types in parallel, like running several <a href="../stats/#feature-correlation">correlation analyses</a> simultaneously. In markets, combining <a href="../markets/indicators/#rsi">RSI</a>, <a href="../markets/indicators/#macd">MACD</a>, and volume is multi-headed analysis.</div>
   ${depthHtml('multi-head-attention')}
   <div class="topic-nav" id="nav-multi-head-attention"></div>
 </div>`;
@@ -1067,7 +1057,7 @@ function buildFeedForward() {
   <p class="prose">After attention mixes information across tokens, the <strong>feed-forward network (FFN)</strong> processes each token independently. It expands to a higher dimension, applies a nonlinearity, and projects back down. Much of the model’s factual recall appears to live here (Geva et al. 2021).</p>
   <div class="fb"><div class="fm">FFN(x) = W₂ · σ(W₁x + b₁) + b₂    where W₁ ∈ ℝ^(d × 4d)</div><div class="fd">Classic design: expand 4×, activate, contract. About 2/3 of transformer parameters live here.</div></div>
   <div class="fb"><div class="fm">SwiGLU(x) = (W₁x ⊙ Swish(W_gate·x)) · W₂    where W₁,W_gate ∈ ℝ^(d × ⅔·4d)</div><div class="fd">Gated variant used in LLaMA, Mistral, Gemma. ⅔ factor keeps parameter count equal to standard 4d expansion.</div></div>
-  <p class="prose"><strong>SwiGLU</strong> consistently outperforms ReLU and GELU. The gating mechanism lets the network learn to suppress/amplify features multiplicatively — more expressive than additive bias alone.</p>
+  <p class="prose"><strong>SwiGLU</strong> consistently outperforms ReLU and GELU. The gating mechanism lets the network learn to suppress/amplify features multiplicatively: more expressive than additive bias alone.</p>
   <div class="callout">In Llama 2 70B the feed-forward layers hold about 56B of its 69B parameters. They act as massive key-value memories: keys are W₁ rows, values are W₂ columns.</div>
   <div class="va"><div class="vl">Interactive — activation functions comparison</div><canvas id="ffnCanvas" role="img" aria-label="Feed-Forward Networks: Interactive — activation functions comparison" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawFFN('relu')">ReLU</button> <button class="btn b2" onclick="drawFFN('gelu')">GELU</button> <button class="btn b3" onclick="drawFFN('swish')">Swish</button> <button class="btn b4" onclick="drawFFN('swiglu')">SwiGLU gate</button></div></div>
@@ -1100,10 +1090,10 @@ function buildTransformerBlock() {
   <p class="sub">// The fundamental repeating unit of every LLM</p>
   <p class="prose">A transformer block combines attention and FFN with <strong>residual connections</strong> and <strong>layer normalization</strong>. Modern LLMs use <strong>Pre-Norm</strong> (normalize before each sublayer) rather than Post-Norm, which stabilizes training at scale.</p>
   <div class="fb"><div class="fm">Pre-Norm block:  x → x + Attn(LN(x)) → x + FFN(LN(x))</div><div class="fd">LayerNorm before sublayer, residual after. Gradients flow cleanly through the skip connection.</div></div>
-  <div class="fb"><div class="fm">RMSNorm(x) = x / RMS(x) · γ    where RMS(x) = √(mean(x²))</div><div class="fd">Root Mean Square normalization — no mean subtraction. Faster, used in LLaMA, Mistral.</div></div>
-  <p class="prose">A 70B model stacks <strong>80 blocks</strong>. Each block adds about 856M parameters (Llama 2 70B). The residual stream acts as a highway — early layers write features, later layers read and refine them. This is the <strong>residual stream</strong> mental model.</p>
+  <div class="fb"><div class="fm">RMSNorm(x) = x / RMS(x) · γ    where RMS(x) = √(mean(x²))</div><div class="fd">Root Mean Square normalization: no mean subtraction. Faster, used in LLaMA, Mistral.</div></div>
+  <p class="prose">A 70B model stacks <strong>80 blocks</strong>. Each block adds about 856M parameters (Llama 2 70B). The residual stream acts as a highway: early layers write features, later layers read and refine them. This is the <strong>residual stream</strong> mental model.</p>
   <div class="callout">The residual connection is why deep transformers work at all. Without it, gradients vanish through 80+ layers. With it, there's always a direct path from output to any layer.</div>
-  <div class="va"><div class="vl">Interactive — data flow through a transformer block</div><canvas id="tfBlockCanvas" role="img" aria-label="Transformer Block: Interactive — data flow through a transformer block" width="700" height="340"></canvas>
+  <div class="va"><div class="vl">Interactive: data flow through a transformer block</div><canvas id="tfBlockCanvas" role="img" aria-label="Transformer Block: Interactive — data flow through a transformer block" width="700" height="340"></canvas>
   <div class="ctrl"><button class="btn" onclick="animTFBlock()">Animate Forward Pass</button> <button class="btn b2" onclick="drawTFBlock()">Reset</button></div></div>
   <h3>Python — transformer block</h3>
   <div class="code-block"><pre><code>import torch.nn as nn
@@ -1134,12 +1124,12 @@ function buildDecoderOnly() {
     <span class="topic-badge">GPT · LLaMA · Causal LM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The dominant architecture behind GPT, LLaMA, Mistral, and most modern LLMs</p>
-  <p class="prose">Decoder-only models use <strong>causal (left-to-right) masking</strong> so each token can only attend to itself and previous tokens — never the future. This enables <strong>autoregressive generation</strong>: predict next token, append, repeat.</p>
+  <p class="prose">Decoder-only models use <strong>causal (left-to-right) masking</strong> so each token can only attend to itself and previous tokens: never the future. This enables <strong>autoregressive generation</strong>: predict next token, append, repeat.</p>
   <div class="fb"><div class="fm">Causal mask: M_ij = 0 if j ≤ i, else −∞</div><div class="fd">Upper triangle set to −∞ before softmax → zeroes out future attention weights.</div></div>
-  <div class="fb"><div class="fm">P(text) = ∏ P(token_t | token_1, ..., token_{t-1})</div><div class="fd">Autoregressive factorization — the probability of text as a product of conditional probabilities.</div></div>
+  <div class="fb"><div class="fm">P(text) = ∏ P(token_t | token_1, ..., token_{t-1})</div><div class="fd">Autoregressive factorization: the probability of text as a product of conditional probabilities.</div></div>
   <p class="prose">Why decoder-only won: (1) simpler than encoder-decoder, (2) scales better with compute, (3) naturally handles both understanding and generation in a single architecture. The "decoder" name comes from the original Transformer paper where this half decoded outputs.</p>
   <div class="callout">GPT, LLaMA, Mistral, Gemma and most other published LLMs are decoder-only. The encoder-decoder style (T5, BART) is now mainly used for specialized tasks like translation.</div>
-  <div class="va"><div class="vl">Interactive — causal mask & autoregressive generation</div><canvas id="decoderCanvas" role="img" aria-label="Decoder-Only Models: Interactive — causal mask &amp; autoregressive generation" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: causal mask & autoregressive generation</div><canvas id="decoderCanvas" role="img" aria-label="Decoder-Only Models: Interactive — causal mask &amp; autoregressive generation" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDecoder()">Generate Token</button> <button class="btn b2" onclick="resetDecoder()">Reset</button></div></div>
   <h3>Python — causal attention mask</h3>
   <div class="code-block"><pre><code>import torch
@@ -1154,7 +1144,7 @@ scores = Q @ K.T / d_k**0.5
 scores = scores + causal_mask(seq_len)  # mask future
 weights = torch.softmax(scores, dim=-1)
 output = weights @ V</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Autoregressive generation — each token conditioned only on the past. In markets, <a href="../markets/psychology/#recency-bias">recency bias</a> makes traders decode only from recent history.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Autoregressive generation, each token conditioned only on the past. In markets, <a href="../markets/psychology/#recency-bias">recency bias</a> makes traders decode only from recent history.</div>
   ${depthHtml('decoder-only')}
   <div class="topic-nav" id="nav-decoder-only"></div>
 </div>`;
@@ -1167,15 +1157,15 @@ function buildKVCache() {
     <div class="topic-meta"><div class="topic-num">09 — Architecture</div><h2>KV-<em>Cache</em></h2></div>
     <span class="topic-badge">Memory Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Cache once, reuse forever — the key to fast autoregressive generation</p>
-  <p class="prose">During generation, each new token only needs to compute its own Q, K, V — but it attends to <strong>all previous K and V vectors</strong>. Without caching, we'd recompute K,V for all prior tokens at every step. The <strong>KV-cache</strong> stores these, turning generation from O(n²) to O(n) per step.</p>
+  <p class="sub">// Cache once, reuse forever: the key to fast autoregressive generation</p>
+  <p class="prose">During generation, each new token only needs to compute its own Q, K, V, but it attends to <strong>all previous K and V vectors</strong>. Without caching, we'd recompute K,V for all prior tokens at every step. The <strong>KV-cache</strong> stores these, turning generation from O(n²) to O(n) per step.</p>
   <div class="fb"><div class="fm">Step t: K_cache = [K₁, K₂, ..., K_t],  V_cache = [V₁, V₂, ..., V_t]</div><div class="fd">Append new K_t, V_t each step. Only compute attention for the new query against cached K,V.</div></div>
   <div class="fb"><div class="fm">Memory: 2 · n_layers · seq_len · n_kv_heads · d_k · bytes_per_param</div><div class="fd">For Llama 2 70B with 4K context in FP16: about 1.3 GB per request with its 8 KV heads, and 10.7 GB if every head had its own.</div></div>
   <p class="prose">KV-cache is why <strong>batch size</strong> during inference is heavily memory-constrained. GQA (fewer KV heads) directly reduces this cost. This is the main motivation behind MQA and GQA research.</p>
   <div class="callout warn">KV-cache memory scales linearly with sequence length × batch size. For long contexts (128K+), a single request can consume 40+ GB. This dominates GPU memory during serving.</div>
-  <div class="va"><div class="vl">Interactive — KV-cache growth during generation</div><canvas id="kvCacheCanvas" role="img" aria-label="KV-Cache: Interactive — KV-cache growth during generation" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: KV-cache growth during generation</div><canvas id="kvCacheCanvas" role="img" aria-label="KV-Cache: Interactive — KV-cache growth during generation" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animKVCache()">Generate Token</button> <button class="btn b2" onclick="resetKVCache()">Reset</button> <label>Layers: <input type="range" id="kvLayers" min="4" max="32" step="4" value="16" oninput="resetKVCache()"></label></div></div>
-  <h3>Python — KV-cache in generation loop</h3>
+  <h3>Python: KV-cache in generation loop</h3>
   <div class="code-block"><pre><code>def generate_with_cache(model, prompt_ids, max_new=50):
     past_kv = None  # will hold cached K,V tensors
     input_ids = prompt_ids
@@ -1201,13 +1191,13 @@ function buildContextWindows() {
     <div class="topic-meta"><div class="topic-num">10 — Architecture</div><h2>Context <em>Windows</em></h2></div>
     <span class="topic-badge">Long Context · RoPE Scaling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// How much text can a model see at once — and how to push the limits</p>
+  <p class="sub">// How much text can a model see at once, and how to push the limits</p>
   <p class="prose">The context window is the maximum number of tokens a model can process in one forward pass. GPT-3 (2020) had 2K tokens; by 2024 GPT-4 Turbo offered 128K and Gemini 1.5 1M or more. Expanding context is critical for document analysis, code understanding, and long conversations.</p>
   <div class="fb"><div class="fm">Attention cost: O(n²) time, O(n) KV-cache memory</div><div class="fd">Quadratic compute + linear memory = context length is the fundamental bottleneck.</div></div>
   <div class="fb"><div class="fm">RoPE scaling: θ' = θ · α    where α = target_len / train_len</div><div class="fd">NTK-aware interpolation stretches RoPE frequencies to extrapolate beyond training length.</div></div>
-  <p class="prose"><strong>Approaches to longer context:</strong> (1) RoPE scaling (NTK, YaRN) — cheapest, (2) Sliding window attention (Mistral) — each layer sees a local window, (3) Sparse attention patterns — attend to subset, (4) Ring attention — distribute across GPUs, (5) Simply train on more context.</p>
+  <p class="prose"><strong>Approaches to longer context:</strong> (1) RoPE scaling (NTK, YaRN) — cheapest, (2) Sliding window attention (Mistral), each layer sees a local window, (3) Sparse attention patterns — attend to subset, (4) Ring attention — distribute across GPUs, (5) Simply train on more context.</p>
   <div class="callout">Doubling context length quadruples attention compute but only doubles KV-cache memory. Long-context models primarily fight the compute cost, not the memory cost.</div>
-  <div class="va"><div class="vl">Interactive — attention patterns at different context lengths</div><canvas id="ctxCanvas" role="img" aria-label="Context Windows: Interactive — attention patterns at different context lengths" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: attention patterns at different context lengths</div><canvas id="ctxCanvas" role="img" aria-label="Context Windows: Interactive — attention patterns at different context lengths" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawCtx('full')">Full Attention</button> <button class="btn b2" onclick="drawCtx('sliding')">Sliding Window</button> <button class="btn b3" onclick="drawCtx('sparse')">Sparse</button> <label>Context: <input type="range" id="ctxLen" min="16" max="128" step="16" value="32" oninput="drawCtx()"></label></div></div>
   <h3>Python — sliding window attention</h3>
   <div class="code-block"><pre><code>def sliding_window_mask(seq_len, window_size):
@@ -1220,7 +1210,7 @@ function buildContextWindows() {
 
 # Mistral uses window_size=4096: each token attends to
 # the previous 4096 tokens only, regardless of context length</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The finite span of tokens the model can see at once. In statistics, <a href="../stats/#clt-sampling">sample size</a> is the context window of inference — more data, better estimates.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The finite span of tokens the model can see at once. In statistics, <a href="../stats/#clt-sampling">sample size</a> is the context window of inference: more data, better estimates.</div>
   ${depthHtml('context-windows')}
   <div class="topic-nav" id="nav-context-windows"></div>
 </div>`;
@@ -1234,11 +1224,11 @@ function buildMixtureOfExperts() {
     <span class="topic-badge">Sparse · Router · Top-K</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// More parameters without proportionally more compute</p>
-  <p class="prose"><strong>Mixture of Experts (MoE)</strong> replaces the single FFN with multiple "expert" FFNs and a <strong>router</strong> that selects which experts process each token. Only the top-K experts activate per token — typically K=2 out of 8–64 experts.</p>
+  <p class="prose"><strong>Mixture of Experts (MoE)</strong> replaces the single FFN with multiple "expert" FFNs and a <strong>router</strong> that selects which experts process each token. Only the top-K experts activate per token: typically K=2 out of 8–64 experts.</p>
   <div class="fb"><div class="fm">MoE(x) = Σᵢ gᵢ(x) · Expertᵢ(x)    where g(x) = TopK(softmax(W_router · x))</div><div class="fd">Router assigns weights to top-K experts. Each expert is a standard FFN. Inactive experts skip computation entirely.</div></div>
   <div class="fb"><div class="fm">Mixtral 8×7B: 8 experts, top-2 routing → 47B total, ~13B active per token</div><div class="fd">Its authors report it matching or beating Llama 2 70B on most benchmarks, at the compute of a ~13B model.</div></div>
-  <p class="prose"><strong>Key challenges:</strong> (1) <em>Load balancing</em> — prevent all tokens routing to the same expert, fixed with auxiliary loss. (2) <em>Expert collapse</em> — some experts never activate. (3) <em>Communication</em> — experts on different GPUs need token routing across devices.</p>
-  <div class="callout">MoE models need more RAM (all experts loaded) but less compute (only K active). This makes them memory-bound, not compute-bound — great for inference on high-memory hardware.</div>
+  <p class="prose"><strong>Key challenges:</strong> (1) <em>Load balancing</em> — prevent all tokens routing to the same expert, fixed with auxiliary loss. (2) <em>Expert collapse</em>: some experts never activate. (3) <em>Communication</em>: experts on different GPUs need token routing across devices.</p>
+  <div class="callout">MoE models need more RAM (all experts loaded) but less compute (only K active). This makes them memory-bound, not compute-bound: great for inference on high-memory hardware.</div>
   <div class="va"><div class="vl">Interactive — expert routing animation</div><canvas id="moeCanvas" role="img" aria-label="Mixture of Experts: Interactive — expert routing animation" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animMoE()">Route New Token</button> <button class="btn b2" onclick="resetMoE()">Reset</button> <label>Experts: <input type="range" id="moeExperts" min="4" max="16" step="4" value="8" oninput="resetMoE()"></label></div></div>
   <h3>Python — simplified MoE layer</h3>
@@ -1280,12 +1270,12 @@ function buildScalingLaws() {
     <span class="topic-badge">Chinchilla · Power Laws</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Predicting performance before spending millions on compute</p>
-  <p class="prose"><strong>Scaling laws</strong> reveal that LLM loss follows <strong>power laws</strong> in parameters (N), data (D), and compute (C). The <strong>Chinchilla paper</strong> showed that most models were trained on too little data — the optimal ratio is roughly 20 tokens per parameter.</p>
+  <p class="prose"><strong>Scaling laws</strong> reveal that LLM loss follows <strong>power laws</strong> in parameters (N), data (D), and compute (C). The <strong>Chinchilla paper</strong> showed that most models were trained on too little data: the optimal ratio is roughly 20 tokens per parameter.</p>
   <div class="fb"><div class="fm">L(N) ≈ (N_c / N)^α_N    L(D) ≈ (D_c / D)^α_D</div><div class="fd">Loss decreases as a power law. α_N ≈ 0.076, α_D ≈ 0.095 from Kaplan et al.</div></div>
   <div class="fb"><div class="fm">Chinchilla optimal: D_opt ≈ 20 · N</div><div class="fd">For a 70B model, train on ~1.4T tokens. GPT-3 (175B) was undertrained at 300B tokens.</div></div>
   <div class="fb"><div class="fm">Compute: C ≈ 6 · N · D  (FLOPs)</div><div class="fd">Rough approximation: 6 FLOPs per parameter per token for a forward+backward pass.</div></div>
   <p class="prose">In practice, modern models (LLaMA 3, Gemma) train <em>way beyond</em> Chinchilla-optimal because <strong>inference cost matters more</strong>: a smaller model trained on more data is cheap to serve. LLaMA 3 8B trains on 15T tokens (1875× parameter count).</p>
-  <div class="callout">Scaling laws let you predict the loss of a large run from much smaller ones — the GPT-4 report predicted its final loss from runs with up to 10,000× less compute. Run small models, fit the power law, extrapolate — this is how frontier labs plan training.</div>
+  <div class="callout">Scaling laws let you predict the loss of a large run from much smaller ones: the GPT-4 report predicted its final loss from runs with up to 10,000× less compute. Run small models, fit the power law, extrapolate: this is how frontier labs plan training.</div>
   <div class="va"><div class="vl">Interactive — scaling law curves</div><canvas id="scalingCanvas" role="img" aria-label="Scaling Laws: Interactive — scaling law curves" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawScaling('params')">Parameters</button> <button class="btn b2" onclick="drawScaling('data')">Data</button> <button class="btn b3" onclick="drawScaling('compute')">Compute</button></div></div>
   <h3>Python — fit scaling law</h3>
@@ -1303,7 +1293,7 @@ popt, _ = curve_fit(power_law, params, losses)
 # Predict loss at 70B
 predicted = power_law(70e9, *popt)
 print(f"Predicted loss at 70B: {predicted:.3f}")</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle">market cycles</a> follow their own scaling laws — longer trends require proportionally more capitulation to reverse. The laws assume every token is worth training on; <a href="#data-curation">data curation</a> is what makes that true.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Power-law relationships between compute, data, parameters, and loss. The same <a href="../ml-math/#linear">regression curves</a> that describe natural phenomena. In markets, <a href="../markets/psychology/#market-sentiment-cycle">market cycles</a> follow their own scaling laws: longer trends require proportionally more capitulation to reverse. The laws assume every token is worth training on; <a href="#data-curation">data curation</a> is what makes that true.</div>
   ${depthHtml('scaling-laws')}
   <div class="topic-nav" id="nav-scaling-laws"></div>
 </div>`;
@@ -1317,7 +1307,7 @@ function buildPreTraining() {
     <span class="topic-badge">Next-Token Prediction</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Learning language from trillions of tokens</p>
-  <p class="prose">Pre-training is the foundation: train a randomly-initialized transformer to predict the next token on a massive text corpus. The <strong>cross-entropy loss</strong> between predicted and actual next tokens drives all learning. The model develops grammar, facts, reasoning, and code — all from this single objective.</p>
+  <p class="prose">Pre-training is the foundation: train a randomly-initialized transformer to predict the next token on a massive text corpus. The <strong>cross-entropy loss</strong> between predicted and actual next tokens drives all learning. The model develops grammar, facts, reasoning, and code, all from this single objective.</p>
   <div class="fb"><div class="fm">L = −(1/T) Σ log P(token_t | token_1, ..., token_{t−1})</div><div class="fd">Average negative log-likelihood over all positions. Lower loss = better predictions.</div></div>
   <div class="fb"><div class="fm">Perplexity = e^L = 2^(L/ln2)</div><div class="fd">Intuition: average number of "choices" the model is uncertain between. PPL of 10 ≈ choosing among 10 options.</div></div>
   <p class="prose"><strong>Training recipe:</strong> AdamW optimizer (β₁=0.9, β₂=0.95), cosine learning rate schedule with warmup, weight decay 0.1, gradient clipping at 1.0, bf16 mixed precision, sequence packing, batch size ramp-up.</p>
@@ -1359,12 +1349,12 @@ function buildFineTuning() {
     <span class="topic-badge">SFT · Instruction Tuning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Turning a base model into a helpful assistant</p>
-  <p class="prose">A pre-trained model predicts next tokens but doesn't follow instructions. <strong>Supervised Fine-Tuning (SFT)</strong> trains on curated (instruction, response) pairs — teaching the model to converse, follow directions, and output structured answers.</p>
-  <div class="fb"><div class="fm">L_SFT = −Σ log P(response_t | instruction, response_{&lt;t})</div><div class="fd">Only compute loss on the response tokens — the instruction tokens are context, not targets.</div></div>
+  <p class="prose">A pre-trained model predicts next tokens but doesn't follow instructions. <strong>Supervised Fine-Tuning (SFT)</strong> trains on curated (instruction, response) pairs: teaching the model to converse, follow directions, and output structured answers.</p>
+  <div class="fb"><div class="fm">L_SFT = −Σ log P(response_t | instruction, response_{&lt;t})</div><div class="fd">Only compute loss on the response tokens: the instruction tokens are context, not targets.</div></div>
   <div class="fb"><div class="fm">Dataset: ~10K–100K high-quality (instruction, response) pairs</div><div class="fd">Quality >> quantity. Careful curation matters more than scale for SFT.</div></div>
   <p class="prose"><strong>Catastrophic forgetting</strong> is the main risk: fine-tuning too aggressively overwrites pre-training knowledge. Mitigations: low learning rate (1e-5 to 5e-5), few epochs (1–3), mixing pre-training data.</p>
-  <div class="callout">The gap between a base model (random-feeling completions) and a fine-tuned model (helpful assistant) is dramatic — SFT is what makes "chat" models work.</div>
-  <div class="va"><div class="vl">Interactive — fine-tuning effect on output distribution</div><canvas id="finetuneCanvas" role="img" aria-label="Fine-Tuning: Interactive — fine-tuning effect on output distribution" width="700" height="260"></canvas>
+  <div class="callout">The gap between a base model (random-feeling completions) and a fine-tuned model (helpful assistant) is dramatic: SFT is what makes "chat" models work.</div>
+  <div class="va"><div class="vl">Interactive: fine-tuning effect on output distribution</div><canvas id="finetuneCanvas" role="img" aria-label="Fine-Tuning: Interactive — fine-tuning effect on output distribution" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawFinetune('base')">Base Model</button> <button class="btn b2" onclick="drawFinetune('sft')">After SFT</button> <button class="btn b3" onclick="drawFinetune('overfit')">Overfit</button></div></div>
   <h3>Python — SFT with masking</h3>
   <div class="code-block"><pre><code># SFT training: only compute loss on response tokens
@@ -1394,7 +1384,7 @@ def sft_loss(model, input_ids, response_start_idx):
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> You need a model to follow specific output formats. Domain-specific knowledge that the base model doesn't have. Consistent style/tone requirements. Reducing prompt length (teach the model once instead of repeating instructions).</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> Prompt engineering with examples (few-shot) already works well enough. Your data is small (<100 examples) — few-shot is better. You need to switch between many tasks dynamically — keep the generalist model.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Prompt engineering with examples (few-shot) already works well enough. Your data is small (<100 examples): few-shot is better. You need to switch between many tasks dynamically: keep the generalist model.</div>
   </div>
   <div class="dev-export">
     <div class="dev-export-title">Quick start — LoRA fine-tuning</div>
@@ -1485,7 +1475,7 @@ class RewardModel(nn.Module):
 # Bradley-Terry loss
 def reward_loss(chosen_reward, rejected_reward):
     return -F.logsigmoid(chosen_reward - rejected_reward).mean()</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Aligning model outputs with human preferences via reward modeling. The <a href="../ml-math/#rlhf">math of RLHF</a> is a policy gradient over preference pairs. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price — the market’s reward signal.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Aligning model outputs with human preferences via reward modeling. The <a href="../ml-math/#rlhf">math of RLHF</a> is a policy gradient over preference pairs. In markets, <a href="../markets/psychology/#herd-behavior">herd behavior</a> is collective preference shaping price: the market’s reward signal.</div>
   ${depthHtml('rlhf')}
   <div class="topic-nav" id="nav-rlhf"></div>
 </div>`;
@@ -1498,12 +1488,12 @@ function buildDPO() {
     <div class="topic-meta"><div class="topic-num">17 — Training</div><h2><em>DPO</em></h2></div>
     <span class="topic-badge">Direct Preference Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Skip the reward model — optimize preferences directly</p>
+  <p class="sub">// Skip the reward model: optimize preferences directly</p>
   <p class="prose"><strong>DPO</strong> reformulates RLHF as a simple classification problem: given (chosen, rejected) pairs, directly optimize the policy — no reward model, no PPO, no RL. The key insight: the optimal RLHF solution has a closed-form mapping between reward and policy.</p>
   <div class="fb"><div class="fm">L_DPO = −log σ( β · [log π_θ(y_w|x)/π_ref(y_w|x) − log π_θ(y_l|x)/π_ref(y_l|x)] )</div><div class="fd">Increase probability of chosen, decrease rejected, relative to the reference model.</div></div>
-  <div class="fb"><div class="fm">Implicit reward: r(x,y) = β · log[π_θ(y|x) / π_ref(y|x)] + const</div><div class="fd">DPO learns the reward implicitly — the policy IS the reward model.</div></div>
-  <p class="prose"><strong>Why DPO took over:</strong> (1) simpler pipeline — just SFT then DPO, (2) more stable than PPO, (3) cheaper — no separate reward model forward passes, (4) competitive or better quality. Variants: IPO (no sigmoid), KTO (unpaired), ORPO (combines SFT+DPO).</p>
-  <div class="callout">DPO needs a frozen reference model in memory alongside the training model — essentially doubling memory cost. Efficient implementations use LoRA or offload the reference to CPU.</div>
+  <div class="fb"><div class="fm">Implicit reward: r(x,y) = β · log[π_θ(y|x) / π_ref(y|x)] + const</div><div class="fd">DPO learns the reward implicitly: the policy IS the reward model.</div></div>
+  <p class="prose"><strong>Why DPO took over:</strong> (1) simpler pipeline (just SFT then DPO, (2) more stable than PPO, (3) cheaper) no separate reward model forward passes, (4) competitive or better quality. Variants: IPO (no sigmoid), KTO (unpaired), ORPO (combines SFT+DPO).</p>
+  <div class="callout">DPO needs a frozen reference model in memory alongside the training model: essentially doubling memory cost. Efficient implementations use LoRA or offload the reference to CPU.</div>
   <div class="va"><div class="vl">Interactive — DPO preference optimization</div><canvas id="dpoCanvas" role="img" aria-label="DPO: Interactive — DPO preference optimization" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDPO()">Optimization Step</button> <button class="btn b2" onclick="resetDPO()">Reset</button> <label>β: <input type="range" id="dpoBeta" min="0.05" max="0.5" step="0.05" value="0.1" oninput="resetDPO()"></label></div></div>
   <h3>Python — DPO loss</h3>
@@ -1534,7 +1524,7 @@ function buildDataCuration() {
   <div class="fb"><div class="fm">Quality filter pipeline: URL → language ID → perplexity → toxicity → heuristic rules</div><div class="fd">Each stage drops data. Llama 3 was trained on over 15T tokens selected with heuristic filters, deduplication and model-based quality classifiers.</div></div>
   <div class="fb"><div class="fm">Dedup: MinHash + LSH for fuzzy, exact-match for verbatim</div><div class="fd">Duplicates hurt training: models memorize repeated passages, wasting capacity. A large share of web text is near-duplicate (Lee et al. 2022).</div></div>
   <p class="prose"><strong>Data mixing</strong> is critical: model capabilities depend on training data composition. Meta reported Llama 3’s mix as roughly 50% general knowledge, 25% maths and reasoning, 17% code and 8% multilingual text. More code has been linked to better reasoning, though the evidence is mixed.</p>
-  <div class="callout warn">Benchmark contamination is a real problem — if test questions appear in training data, benchmarks are meaningless. Modern data pipelines include decontamination stages that remove known benchmarks.</div>
+  <div class="callout warn">Benchmark contamination is a real problem, if test questions appear in training data, benchmarks are meaningless. Modern data pipelines include decontamination stages that remove known benchmarks.</div>
   <div class="va"><div class="vl">Interactive — data filtering funnel</div><canvas id="dataCanvas" role="img" aria-label="Data Curation: Interactive — data filtering funnel" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animData()">Animate Pipeline</button> <button class="btn b2" onclick="resetData()">Reset</button></div></div>
   <h3>Python — MinHash deduplication</h3>
@@ -1568,11 +1558,11 @@ function buildDecodingStrategies() {
     <span class="topic-badge">Greedy · Beam Search</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Deterministic methods for converting logits to text</p>
-  <p class="prose"><strong>Greedy decoding</strong> picks the highest-probability token at each step. Simple but often suboptimal — it can miss globally better sequences. <strong>Beam search</strong> maintains K candidate sequences (beams) and prunes at each step.</p>
+  <p class="prose"><strong>Greedy decoding</strong> picks the highest-probability token at each step. Simple but often suboptimal: it can miss globally better sequences. <strong>Beam search</strong> maintains K candidate sequences (beams) and prunes at each step.</p>
   <div class="fb"><div class="fm">Greedy: token_t = argmax P(token | context)</div><div class="fd">Fastest, but prone to repetitive or locally-trapped outputs.</div></div>
   <div class="fb"><div class="fm">Beam search: maintain top-K partial sequences ranked by Σ log P</div><div class="fd">At each step, expand all K beams, score, keep top K. Beam width K=4–5 is typical.</div></div>
-  <p class="prose">Beam search was dominant pre-LLM (translation, summarization) but is rarely used for chat/creative generation — it produces <em>too safe</em>, repetitive text. Modern LLMs use <strong>sampling</strong> (next topic) for most tasks.</p>
-  <div class="callout">Beam search still wins for tasks with a "correct" answer — code generation, math, structured output. For open-ended text, sampling produces more natural and diverse output.</div>
+  <p class="prose">Beam search was dominant pre-LLM (translation, summarization) but is rarely used for chat/creative generation: it produces <em>too safe</em>, repetitive text. Modern LLMs use <strong>sampling</strong> (next topic) for most tasks.</p>
+  <div class="callout">Beam search still wins for tasks with a "correct" answer: code generation, math, structured output. For open-ended text, sampling produces more natural and diverse output.</div>
   <div class="va"><div class="vl">Interactive — beam search tree</div><canvas id="decodingCanvas" role="img" aria-label="Decoding Strategies: Interactive — beam search tree" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDecoding()">Next Step</button> <button class="btn b2" onclick="resetDecoding()">Reset</button> <label>Beam width: <input type="range" id="beamWidth" min="1" max="5" step="1" value="3" oninput="resetDecoding()"></label></div></div>
   <h3>Python — beam search</h3>
@@ -1605,7 +1595,7 @@ function buildSampling() {
     <span class="topic-badge">Temperature · Top-K · Top-P</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Controlling creativity by shaping the probability distribution</p>
-  <p class="prose">Instead of argmax, <strong>sample</strong> from the distribution — but shape it first. <strong>Temperature</strong> sharpens or flattens. <strong>Top-K</strong> limits to K most likely tokens. <strong>Top-P (nucleus)</strong> limits to the smallest set that sums to P probability.</p>
+  <p class="prose">Instead of argmax, <strong>sample</strong> from the distribution, but shape it first. <strong>Temperature</strong> sharpens or flattens. <strong>Top-K</strong> limits to K most likely tokens. <strong>Top-P (nucleus)</strong> limits to the smallest set that sums to P probability.</p>
   <div class="fb"><div class="fm">Temperature: P'(token) = softmax(logit / T)</div><div class="fd">T<1 → sharper (more confident). T>1 → flatter (more random). T→0 = greedy.</div></div>
   <div class="fb"><div class="fm">Top-K: zero out all but top K logits, renormalize</div><div class="fd">K=50 is common. Prevents sampling very unlikely tokens (garbage).</div></div>
   <div class="fb"><div class="fm">Top-P (nucleus): keep tokens until cumulative P ≥ p, zero rest</div><div class="fd">Adaptive: for confident predictions, keeps few tokens. For uncertain, keeps many. p=0.9–0.95 typical.</div></div>
@@ -1613,7 +1603,7 @@ function buildSampling() {
   <div class="callout">Temperature 0.0–0.3 for code/math (deterministic). Temperature 0.7–1.0 for creative writing. Top-P 0.9 is a solid default for most tasks.</div>
   <div class="va"><div class="vl">Interactive — probability distribution shaping</div><canvas id="samplingCanvas" role="img" aria-label="Sampling: Interactive — probability distribution shaping" width="700" height="300"></canvas>
   <div class="ctrl"><label>Temp: <input type="range" id="sampTemp" min="0.1" max="2" step="0.1" value="1" oninput="drawSampling()"></label> <label>Top-K: <input type="range" id="sampTopK" min="1" max="50" step="1" value="50" oninput="drawSampling()"></label> <label>Top-P: <input type="range" id="sampTopP" min="0.1" max="1" step="0.05" value="1" oninput="drawSampling()"></label></div></div>
-  <h3>Python — sampling with temperature + top-p</h3>
+  <h3>Python: sampling with temperature + top-p</h3>
   <div class="code-block"><pre><code>def sample(logits, temperature=0.8, top_p=0.9, top_k=50):
     logits = logits / temperature
     # Top-K filtering
@@ -1641,12 +1631,12 @@ function buildSpeculativeDecoding() {
     <div class="topic-meta"><div class="topic-num">21 — Inference</div><h2>Speculative <em>Decoding</em></h2></div>
     <span class="topic-badge">Draft & Verify</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Use a fast model to draft, a large model to verify — 2–3× speedup</p>
+  <p class="sub">// Use a fast model to draft, a large model to verify: 2–3× speedup</p>
   <p class="prose">Autoregressive generation is <strong>memory-bound</strong>: each token requires loading all model weights but does minimal computation. <strong>Speculative decoding</strong> uses a small draft model to generate K candidate tokens, then the large model verifies all K in one forward pass (which is compute-bound, so it's fast).</p>
-  <div class="fb"><div class="fm">Draft: generate K tokens with small model M_s (fast)</div><div class="fd">The draft model is usually much smaller — 10× to 100× — e.g. a 1B draft for a 70B target.</div></div>
+  <div class="fb"><div class="fm">Draft: generate K tokens with small model M_s (fast)</div><div class="fd">The draft model is usually much smaller, 10× to 100×, e.g. a 1B draft for a 70B target.</div></div>
   <div class="fb"><div class="fm">Verify: run target model M_t on all K tokens in parallel → accept/reject each</div><div class="fd">Accept token i if P_target(token_i) ≥ P_draft(token_i). On rejection, resample from adjusted distribution.</div></div>
-  <p class="prose">The key guarantee: speculative decoding produces <strong>exactly the same distribution</strong> as standard generation — it's lossless. Speedup depends on draft model quality (acceptance rate). Leviathan et al. report 2–3× faster generation.</p>
-  <div class="callout">Medusa and Eagle add extra heads to the model itself instead of using a separate draft model — eliminating the need for draft-target distribution matching.</div>
+  <p class="prose">The key guarantee: speculative decoding produces <strong>exactly the same distribution</strong> as standard generation. It's lossless. Speedup depends on draft model quality (acceptance rate). Leviathan et al. report 2–3× faster generation.</p>
+  <div class="callout">Medusa and Eagle add extra heads to the model itself instead of using a separate draft model: eliminating the need for draft-target distribution matching.</div>
   <div class="va"><div class="vl">Interactive — speculative decoding timeline</div><canvas id="specCanvas" role="img" aria-label="Speculative Decoding: Interactive — speculative decoding timeline" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animSpec()">Generate Batch</button> <button class="btn b2" onclick="resetSpec()">Reset</button> <label>Draft tokens K: <input type="range" id="specK" min="2" max="8" step="1" value="4" oninput="resetSpec()"></label></div></div>
   <h3>Python — speculative decoding loop</h3>
@@ -1695,7 +1685,7 @@ function buildQuantization() {
   <div class="fb"><div class="fm">Linear quantization: q = round((x − zero) / scale)    x ≈ q · scale + zero</div><div class="fd">Map continuous weights to discrete integer grid. Scale and zero-point define the mapping.</div></div>
   <div class="fb"><div class="fm">Model sizes: FP16=2B/param → INT8=1B/param → INT4=0.5B/param</div><div class="fd">A 70B model: 140GB (FP16) → 70GB (INT8) → 35GB (INT4). In INT4 it fits on a single 80 GB GPU; FP16 needs at least two.</div></div>
   <p class="prose"><strong>Methods:</strong> (1) <em>GPTQ</em> — weight-only, layer-by-layer with Hessian info, (2) <em>AWQ</em> — activation-aware, protects salient weights, (3) <em>GGUF</em> — CPU-friendly mixed-precision, (4) <em>bitsandbytes</em> — NF4 datatype for QLoRA. Weight-only quantization (activations stay in fp16) is most common for LLMs.</p>
-  <div class="callout">INT8 quantization has virtually no quality loss for most tasks. INT4 shows small degradation but is the sweet spot for serving — 4× memory savings are too compelling to ignore.</div>
+  <div class="callout">INT8 quantization has virtually no quality loss for most tasks. INT4 shows small degradation but is the sweet spot for serving: 4× memory savings are too compelling to ignore.</div>
   <div class="va"><div class="vl">Interactive — precision comparison</div><canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision comparison" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawQuant('fp16')">FP16</button> <button class="btn b2" onclick="drawQuant('int8')">INT8</button> <button class="btn b3" onclick="drawQuant('int4')">INT4</button></div></div>
   <h3>Python — quantize with bitsandbytes</h3>
@@ -1715,20 +1705,20 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 )
 # 70B model now fits in ~35GB VRAM</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values. The production side — calibration, accuracy checks and serving — is in <a href="../mlops/#quantization">quantization for MLOps</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Reducing precision from float32 to int8/int4 is binning applied to weights — discrete approximation of continuous values. The production side (calibration, accuracy checks and serving) is in <a href="../mlops/#quantization">quantization for MLOps</a>.</div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
       <li>Good 4-bit methods (GPTQ, AWQ) usually lose little on standard benchmarks; maths, code and long-context tasks tend to degrade first. llama.cpp’s GGUF format runs 4-bit 70B models on machines with 64 GB of memory</li>
       <li>Memory: FP32→FP16 = 2×, FP16→INT8 = 2×, INT8→INT4 = 2×. A 70B model goes from 280 GB → 35 GB</li>
       <li>Speed: weight-only INT4 can be several times faster than FP16 at small batch sizes, where memory bandwidth is the bottleneck (AWQ reports over 3×; Lin et al. 2024)</li>
-      <li>AWQ protects the most important weights using activation statistics — better quality than naive rounding</li>
+      <li>AWQ protects the most important weights using activation statistics: better quality than naive rounding</li>
     </ul>
   </div>
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> Deploying models locally or on limited hardware. Reducing inference costs in production. Running large models (30B+) on consumer GPUs. Edge deployment on phones/laptops.</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> Using cloud APIs (already optimized). Tasks requiring maximum precision (scientific computation). Small models (<1B) that already fit in memory. Training — quantize for inference only.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> Using cloud APIs (already optimized). Tasks requiring maximum precision (scientific computation). Small models (<1B) that already fit in memory. Training: quantize for inference only.</div>
   </div>
   ${depthHtml('quantization')}
   <div class="topic-nav" id="nav-quantization"></div>
@@ -1743,12 +1733,12 @@ function buildKVCacheOpt() {
     <span class="topic-badge">PagedAttention · vLLM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Eliminating the memory fragmentation that limits batch size</p>
-  <p class="prose">Standard KV-cache allocates a contiguous buffer for the maximum sequence length per request — this wastes memory (most sequences are shorter). <strong>PagedAttention</strong> (vLLM) allocates KV-cache in <em>fixed-size blocks</em> (like OS virtual memory pages), eliminating fragmentation.</p>
+  <p class="prose">Standard KV-cache allocates a contiguous buffer for the maximum sequence length per request: this wastes memory (most sequences are shorter). <strong>PagedAttention</strong> (vLLM) allocates KV-cache in <em>fixed-size blocks</em> (like OS virtual memory pages), eliminating fragmentation.</p>
   <div class="fb"><div class="fm">PagedAttention: KV-cache = non-contiguous blocks of size B tokens each</div><div class="fd">Physical blocks allocated on demand. Block table maps logical → physical. No wasted pre-allocation.</div></div>
   <div class="fb"><div class="fm">Prefix caching: shared prompts → shared KV blocks (copy-on-write)</div><div class="fd">If 100 requests share a system prompt, its KV is stored once instead of 100 times; the saving grows with the prompt’s share of each request.</div></div>
   <p class="prose"><strong>Impact:</strong> vLLM achieves 2–4× higher throughput than naive serving by fitting more requests in the same GPU memory. Additional optimizations: <em>KV-cache quantization</em> (FP8 per KV), <em>sliding window eviction</em>, and <em>radix tree prefix sharing</em>.</p>
   <div class="callout">PagedAttention is one of the most important serving optimisations of recent years; vLLM introduced it, and other serving frameworks have adopted similar paged KV-caches.</div>
-  <div class="va"><div class="vl">Interactive — paged vs contiguous KV-cache allocation</div><canvas id="kvOptCanvas" role="img" aria-label="KV-Cache Optimization: Interactive — paged vs contiguous KV-cache allocation" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: paged vs contiguous KV-cache allocation</div><canvas id="kvOptCanvas" role="img" aria-label="KV-Cache Optimization: Interactive — paged vs contiguous KV-cache allocation" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawKVOpt('contiguous')">Contiguous (naive)</button> <button class="btn b2" onclick="drawKVOpt('paged')">PagedAttention</button> <button class="btn b3" onclick="animKVOpt()">Add Request</button></div></div>
   <h3>Python — vLLM serving</h3>
   <div class="code-block"><pre><code>from vllm import LLM, SamplingParams
@@ -1778,12 +1768,12 @@ function buildBatching() {
     <span class="topic-badge">Continuous Batching · Prefill vs Decode</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Serving hundreds of concurrent requests efficiently</p>
-  <p class="prose">LLM inference has two distinct phases: <strong>prefill</strong> (process the full prompt — compute-bound, fast per token) and <strong>decode</strong> (generate one token — memory-bound, slow per token). <strong>Continuous batching</strong> dynamically adds/removes requests from a batch as they finish, rather than waiting for the longest sequence.</p>
+  <p class="prose">LLM inference has two distinct phases: <strong>prefill</strong> (process the full prompt, compute-bound, fast per token) and <strong>decode</strong> (generate one token, memory-bound, slow per token). <strong>Continuous batching</strong> dynamically adds/removes requests from a batch as they finish, rather than waiting for the longest sequence.</p>
   <div class="fb"><div class="fm">Static batching: all requests padded to same length, wait for slowest</div><div class="fd">Wastes GPU cycles on padding. Throughput = 1/longest_sequence.</div></div>
   <div class="fb"><div class="fm">Continuous batching: new requests join mid-batch, finished ones leave</div><div class="fd">GPU is always busy. Throughput can rise several-fold over static batching (Yu et al. 2022).</div></div>
-  <p class="prose"><strong>Key metrics:</strong> <em>TTFT</em> (time to first token — mainly prefill), <em>TPS</em> (tokens per second — decode speed), <em>throughput</em> (total tokens/sec across all requests). Disaggregating prefill and decode to separate GPU pools (prefill cluster + decode cluster) is the latest frontier.</p>
+  <p class="prose"><strong>Key metrics:</strong> <em>TTFT</em> (time to first token, mainly prefill), <em>TPS</em> (tokens per second, decode speed), <em>throughput</em> (total tokens/sec across all requests). Disaggregating prefill and decode to separate GPU pools (prefill cluster + decode cluster) is the latest frontier.</p>
   <div class="callout">The fundamental LLM serving insight: prefill is compute-bound, decode is memory-bound. They have opposite optimization strategies. Modern serving engines schedule them separately.</div>
-  <div class="va"><div class="vl">Interactive — static vs continuous batching timeline</div><canvas id="batchCanvas" role="img" aria-label="Batching &amp; Throughput: Interactive — static vs continuous batching timeline" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: static vs continuous batching timeline</div><canvas id="batchCanvas" role="img" aria-label="Batching &amp; Throughput: Interactive — static vs continuous batching timeline" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawBatch('static')">Static Batching</button> <button class="btn b2" onclick="drawBatch('continuous')">Continuous Batching</button></div></div>
   <h3>Python — throughput benchmark</h3>
   <div class="code-block"><pre><code>import time, asyncio
@@ -1863,7 +1853,7 @@ function buildRAG() {
   <p class="prose"><strong>RAG</strong> reduces hallucination by retrieving relevant documents before generation. The pipeline: <strong>Chunk</strong> documents → <strong>Embed</strong> chunks → <strong>Store</strong> in vector DB → At query time: <strong>Embed</strong> query → <strong>Retrieve</strong> top-K chunks → <strong>Generate</strong> answer with chunks as context.</p>
   <div class="fb"><div class="fm">Pipeline: Query → Embed → Search → Rerank → Augment Prompt → Generate</div><div class="fd">Each stage has design choices: chunk size, overlap, embedding model, retriever, reranker, prompt template.</div></div>
   <div class="fb"><div class="fm">Chunk size: 256–512 tokens with 10–20% overlap</div><div class="fd">Too small → lost context. Too large → diluted relevance. Semantic chunking (split at paragraph breaks) works better than fixed-size.</div></div>
-  <p class="prose"><strong>Common pitfalls:</strong> (1) Chunking destroys context — tables, lists split mid-content. (2) Embedding model mismatch — query embeddings must match document embeddings. (3) Top-K too small — misses relevant but lower-ranked chunks. (4) No reranking — embedding similarity ≠ answer relevance.</p>
+  <p class="prose"><strong>Common pitfalls:</strong> (1) Chunking destroys context — tables, lists split mid-content. (2) Embedding model mismatch: query embeddings must match document embeddings. (3) Top-K too small: misses relevant but lower-ranked chunks. (4) No reranking: embedding similarity ≠ answer relevance.</p>
   <div class="callout">Reranking is often one of the most effective improvements to a RAG system: a cross-encoder re-scores the top 20–100 retrieved passages more accurately than the first-stage search.</div>
   <div class="va"><div class="vl">Interactive — RAG pipeline flow</div><canvas id="ragCanvas" role="img" aria-label="RAG: Interactive — RAG pipeline flow" width="780" height="420"></canvas>
   <div class="ctrl"><button class="btn" onclick="animRAG()">Run Query</button> <button class="btn b2" onclick="resetRAG()">Reset</button></div></div>
@@ -1901,14 +1891,14 @@ function buildEmbeddingSearch() {
     <span class="topic-badge">Vector DB · ANN · HNSW</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding semantically similar content at scale</p>
-  <p class="prose">Embedding search converts text to vectors and finds nearest neighbors. The embedding model maps text to a dense vector (768–1536 dimensions). <strong>Cosine similarity</strong> or <strong>dot product</strong> measures closeness. For millions of vectors, exact search is too slow — we use <strong>Approximate Nearest Neighbors (ANN)</strong>.</p>
+  <p class="prose">Embedding search converts text to vectors and finds nearest neighbors. The embedding model maps text to a dense vector (768–1536 dimensions). <strong>Cosine similarity</strong> or <strong>dot product</strong> measures closeness. For millions of vectors, exact search is too slow: we use <strong>Approximate Nearest Neighbors (ANN)</strong>.</p>
   <div class="fb"><div class="fm">cosine_sim(a, b) = (a · b) / (‖a‖ · ‖b‖) ∈ [−1, 1]</div><div class="fd">1 = identical direction, 0 = orthogonal, −1 = opposite. Most embedding models are L2-normalized.</div></div>
   <div class="fb"><div class="fm">HNSW: hierarchical navigable small world graph</div><div class="fd">Multi-layer graph: top layers for coarse search, bottom layers for precise. Roughly logarithmic query time, with high recall (often above 95%) at typical settings.</div></div>
   <p class="prose"><strong>Vector databases:</strong> Pinecone (managed), Qdrant (open-source), pgvector (PostgreSQL), Chroma (lightweight), Weaviate (hybrid search). For smaller datasets (<100K vectors), brute-force exact search in FAISS is fast enough.</p>
   <div class="callout">Hybrid search (BM25 keyword + semantic embedding) consistently outperforms either alone. Most production systems combine both with reciprocal rank fusion.</div>
-  <div class="va"><div class="vl">Interactive — vector space nearest neighbor search</div><canvas id="searchCanvas" role="img" aria-label="Embedding Search: Interactive — vector space nearest neighbor search" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: vector space nearest neighbor search</div><canvas id="searchCanvas" role="img" aria-label="Embedding Search: Interactive — vector space nearest neighbor search" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawSearch()">New Query</button> <label>K neighbors: <input type="range" id="searchK" min="1" max="10" step="1" value="3" oninput="drawSearch()"></label></div></div>
-  <h3>Python — embedding search with FAISS</h3>
+  <h3>Python: embedding search with FAISS</h3>
   <div class="code-block"><pre><code>import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -1943,11 +1933,11 @@ function buildFunctionCalling() {
     <span class="topic-badge">Tool Use · Structured Output</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Extending LLMs with real-world capabilities via tool use</p>
-  <p class="prose"><strong>Function calling</strong> lets an LLM request the execution of external functions — APIs, databases, calculations — by outputting structured JSON matching a schema you define. The model decides <em>when</em> to call a function, <em>which</em> function, and with what <em>arguments</em>.</p>
+  <p class="prose"><strong>Function calling</strong> lets an LLM request the execution of external functions (APIs, databases, calculations) by outputting structured JSON matching a schema you define. The model decides <em>when</em> to call a function, <em>which</em> function, and with what <em>arguments</em>.</p>
   <div class="fb"><div class="fm">Input: tools=[{name, description, parameters}] + user message</div><div class="fd">You define available tools as JSON Schema. Model chooses to call one (or more) based on the query.</div></div>
   <div class="fb"><div class="fm">Output: tool_calls=[{function: {name, arguments}}]</div><div class="fd">Structured JSON that your code parses and executes. Return the result as a tool message for the next turn.</div></div>
   <p class="prose"><strong>Parallel function calling:</strong> models can request multiple tool calls in one response. <strong>Structured output / JSON mode:</strong> forces the model to output valid JSON matching a schema — useful even without external tools for data extraction, classification, etc.</p>
-  <div class="callout">Function calling is the foundation of agents. Without it, LLMs can only output text. With it, they can search the web, query databases, send emails, write code — anything with an API.</div>
+  <div class="callout">Function calling is the foundation of agents. Without it, LLMs can only output text. With it, they can search the web, query databases, send emails, write code: anything with an API.</div>
   <div class="va"><div class="vl">Interactive — function call flow</div><canvas id="funcCanvas" role="img" aria-label="Function Calling: Interactive — function call flow" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animFunc()">Simulate Call</button> <button class="btn b2" onclick="resetFunc()">Reset</button></div></div>
   <h3>Python — OpenAI function calling</h3>
@@ -1997,8 +1987,8 @@ function buildAgents() {
   <p class="prose">An <strong>agent</strong> is an LLM that reasons about what to do, takes actions (tool calls), observes results, and iterates. The <strong>ReAct</strong> pattern (Reason + Act) interleaves thinking and tool use: Thought → Action → Observation → Thought → ...</p>
   <div class="fb"><div class="fm">ReAct loop: Thought → Action(tool, args) → Observation → Thought → ... → Final Answer</div><div class="fd">Each iteration: reason about what's needed, call a tool, process the result, decide next step.</div></div>
   <div class="fb"><div class="fm">Planning: Decompose task → subtasks → execute sequentially or in parallel</div><div class="fd">Complex tasks need planning: break "book a trip" into search flights, compare prices, book, confirm.</div></div>
-  <p class="prose"><strong>Memory types:</strong> (1) <em>Short-term</em> — conversation history in context window. (2) <em>Long-term</em> — vector store of past interactions, retrieved as needed. (3) <em>Working memory</em> — scratchpad for current task state. Key challenge: agents can be <em>unreliable</em> — they get stuck in loops, hallucinate tool calls, or lose track of the plan.</p>
-  <div class="callout">The best agent systems use simple, constrained loops — not complex multi-agent frameworks. Simple baselines are often hard to beat, and complex agent setups add cost (Kapoor et al. 2024).</div>
+  <p class="prose"><strong>Memory types:</strong> (1) <em>Short-term</em> — conversation history in context window. (2) <em>Long-term</em>: vector store of past interactions, retrieved as needed. (3) <em>Working memory</em>: scratchpad for current task state. Key challenge: agents can be <em>unreliable</em>. They get stuck in loops, hallucinate tool calls, or lose track of the plan.</p>
+  <div class="callout">The best agent systems use simple, constrained loops, not complex multi-agent frameworks. Simple baselines are often hard to beat, and complex agent setups add cost (Kapoor et al. 2024).</div>
   <div class="va"><div class="vl">Interactive — ReAct agent loop</div><canvas id="agentCanvas" role="img" aria-label="Agents &amp; Planning: Interactive — ReAct agent loop" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animAgent()">Next Step</button> <button class="btn b2" onclick="resetAgent()">Reset Task</button></div></div>
   <h3>Python — ReAct agent</h3>
@@ -2027,7 +2017,7 @@ function buildAgents() {
         else:
             return msg.content  # final answer
     return "Max steps reached"</code></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> LLMs planning, tool-using, and looping is <a href="../ml-math/#optimizers">optimization</a> made autonomous — each step refines the next. In markets, <a href="../markets/psychology/#market-sentiment-cycle">the sentiment cycle</a> is an agent loop: observe, decide, act, observe again. Every tool an agent uses is reached through <a href="#function-calling">function calling</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> LLMs planning, tool-using, and looping is <a href="../ml-math/#optimizers">optimization</a> made autonomous, each step refines the next. In markets, <a href="../markets/psychology/#market-sentiment-cycle">the sentiment cycle</a> is an agent loop: observe, decide, act, observe again. Every tool an agent uses is reached through <a href="#function-calling">function calling</a>.</div>
   ${depthHtml('agents')}
   <div class="topic-nav" id="nav-agents"></div>
 </div>`;
@@ -2040,13 +2030,13 @@ function buildEvaluation() {
     <div class="topic-meta"><div class="topic-num">30 — Applications</div><h2>Evaluation & <em>Benchmarks</em></h2></div>
     <span class="topic-badge">Perplexity · MMLU · Arena</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Measuring what matters — and what doesn't</p>
+  <p class="sub">// Measuring what matters, and what doesn't</p>
   <p class="prose">How do you know if an LLM is good? <strong>Perplexity</strong> measures language modeling quality. <strong>Benchmarks</strong> test specific skills. <strong>Human evaluation</strong> and <strong>arena rankings</strong> capture overall helpfulness. Each has blind spots.</p>
   <div class="fb"><div class="fm">Perplexity = e^(−1/T · Σ log P(token_t))</div><div class="fd">Average surprisal. Lower = better at predicting text. Only measures language modeling, not task ability.</div></div>
   <div class="fb"><div class="fm">MMLU: 57 subjects, multiple choice (humanities, STEM, social sciences)</div><div class="fd">Knowledge breadth. GPT-4: ~86%, LLaMA-3-70B: ~82%. But multiple-choice ≠ open-ended ability.</div></div>
-  <p class="prose"><strong>Key benchmarks:</strong> <em>MMLU</em> (knowledge), <em>HumanEval</em> (code generation), <em>GSM8K</em> (math), <em>HellaSwag</em> (common sense), <em>ARC</em> (reasoning), <em>TruthfulQA</em> (hallucination). <strong>Chatbot Arena</strong> uses live ELO rankings from anonymous human votes — a widely watched evaluation, with biases of its own.</p>
-  <div class="callout warn">Benchmark contamination is rampant — if test questions leak into training data, scores are meaningless. Private held-out test sets and Arena rankings are more reliable than public benchmark scores.</div>
-  <div class="va"><div class="vl">Interactive — benchmark comparison radar chart</div><canvas id="evalCanvas" role="img" aria-label="Evaluation &amp; Benchmarks: Interactive — benchmark comparison radar chart" width="700" height="320"></canvas>
+  <p class="prose"><strong>Key benchmarks:</strong> <em>MMLU</em> (knowledge), <em>HumanEval</em> (code generation), <em>GSM8K</em> (math), <em>HellaSwag</em> (common sense), <em>ARC</em> (reasoning), <em>TruthfulQA</em> (hallucination). <strong>Chatbot Arena</strong> uses live ELO rankings from anonymous human votes: a widely watched evaluation, with biases of its own.</p>
+  <div class="callout warn">Benchmark contamination is rampant, if test questions leak into training data, scores are meaningless. Private held-out test sets and Arena rankings are more reliable than public benchmark scores.</div>
+  <div class="va"><div class="vl">Interactive: benchmark comparison radar chart</div><canvas id="evalCanvas" role="img" aria-label="Evaluation &amp; Benchmarks: Interactive — benchmark comparison radar chart" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawEval('gpt4')">GPT-4</button> <button class="btn b2" onclick="drawEval('llama3')">LLaMA-3-70B</button> <button class="btn b3" onclick="drawEval('mistral')">Mistral-Large</button> <button class="btn b4" onclick="drawEval('compare')">Compare All</button></div></div>
   <h3>Python — evaluation with lm-harness</h3>
   <div class="code-block"><pre><code># Using EleutherAI lm-evaluation-harness

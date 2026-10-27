@@ -11,17 +11,17 @@
       --border: #2a2a2e;
       --text: #e8e6e3;
       --muted: #8a8a8e;
-      --rust: #c84b2f;
+      --rust: #2a44b8;
       --green: #2a7d5f;
-      --blue: #2955a0;
+      --blue: #8a5a00;
       --purple: #8b4fa8;
       --gold: #c8a96e;
-      --serif: 'Playfair Display', Georgia, serif;
+      --serif: 'IBM Plex Sans', sans-serif;
       --mono: 'IBM Plex Mono', 'Courier New', monospace;
-      --sans: 'Inter', system-ui, sans-serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
       --radius: 12px;
     }
-    @import url('/css/fonts.css?v=2');
+    @import url('/css/fonts.css?v=3');
 
     body {
       background: #1a1a1e;
@@ -36,7 +36,7 @@
       margin-bottom: 8px;
     }
     .instructions {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 12px;
       color: var(--muted);
       margin-bottom: 40px;
@@ -49,7 +49,7 @@
       max-width: 1200px;
     }
     .card-label {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
       letter-spacing: .1em;
@@ -88,7 +88,7 @@
       position: absolute;
       top: 60px; right: 60px;
       width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(200,75,47,.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(42,68,184,.12) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -127,7 +127,7 @@
       line-height: 1;
     }
     .card-stat-label {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 12px;
       color: var(--muted);
       letter-spacing: .1em;
@@ -138,7 +138,7 @@
       position: absolute;
       bottom: 40px;
       right: 80px;
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 16px;
       color: #555;
       letter-spacing: .02em;
@@ -147,7 +147,7 @@
       position: absolute;
       bottom: 40px;
       left: 80px;
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 13px;
       color: var(--green);
       letter-spacing: .04em;
@@ -209,14 +209,14 @@
       padding: 16px 24px;
     }
     .card-collection-name {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 13px;
       color: var(--text);
       font-weight: 500;
       margin-bottom: 2px;
     }
     .card-collection-count {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
     }
@@ -265,7 +265,7 @@
       line-height: 1;
     }
     .impact-stat-label {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 13px;
       color: var(--muted);
       letter-spacing: .06em;

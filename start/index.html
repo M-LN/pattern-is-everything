@@ -19,8 +19,8 @@
   }
   </script>
   <meta property="og:url" content="https://patterniseverything.com/start/">
-  <link rel="stylesheet" href="../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../css/main.css?v=42">
+  <link rel="stylesheet" href="../css/fonts.css?v=3">
+  <link rel="stylesheet" href="../css/main.css?v=43">
   <style>
     body { padding-top: var(--hdr-h); }
     .portal-header {
@@ -35,7 +35,7 @@
       backdrop-filter: blur(12px);
     }
     .back-link {
-      font-family: var(--mono);
+      font-family: var(--sans);
       font-size: 11px;
       color: var(--muted);
       text-decoration: none;
@@ -62,7 +62,7 @@
     .start-hero p {
       max-width: 560px;
       margin: 0 auto;
-      font-family: var(--mono);
+      font-family: var(--sans);
       color: var(--muted);
       line-height: 1.8;
       font-size: 13px;
@@ -77,7 +77,7 @@
       box-shadow: var(--shadow-sm);
     }
     .start-map-title {
-      font: 700 11px var(--mono);
+      font: 700 11px var(--sans);
       letter-spacing: .18em;
       text-transform: uppercase;
       color: var(--muted);
@@ -86,7 +86,7 @@
     .start-map ol {
       margin: 0;
       padding-left: 20px;
-      font: 12px/1.8 var(--mono);
+      font: 12px/1.8 var(--sans);
   color: var(--text);
     }
     .path-band {
@@ -107,7 +107,7 @@
       margin-bottom: 14px;
     }
     .path-level {
-      font: 700 10px var(--mono);
+      font: 700 10px var(--sans);
       letter-spacing: .18em;
       text-transform: uppercase;
       color: var(--accent2);
@@ -119,7 +119,7 @@
     }
     .path-title em { color: var(--accent); font-style: italic; }
     .path-time {
-      font: 11px var(--mono);
+      font: 11px var(--sans);
       color: var(--muted);
       white-space: nowrap;
     }
@@ -142,10 +142,10 @@
     }
     .step-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(200,75,47,.35);
+      border-color: rgba(42,68,184,.35);
     }
     .step-num {
-      font: 700 10px var(--mono);
+      font: 700 10px var(--sans);
       color: var(--accent);
       letter-spacing: .14em;
       text-transform: uppercase;
@@ -156,7 +156,7 @@
       margin-bottom: 8px;
     }
     .step-note {
-      font: 12px/1.65 var(--mono);
+      font: 12px/1.65 var(--sans);
       color: var(--muted);
     }
     .build-strip {
@@ -246,7 +246,7 @@
       <a class="step-card" href="../cases/index.html?lp=start-real-data-workflow&lstep=1#housing-regression"><div class="step-num">Case 1</div><div class="step-name">California Housing</div><div class="step-note">20,640 real districts: why random cross-validation flatters a model, and a price cap hidden in the target.</div></a>
       <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=2#bias-variance"><div class="step-num">Step 2</div><div class="step-name">Bias vs Variance</div><div class="step-note">Diagnose underfitting, overfitting, and whether more data will help.</div></a>
       <a class="step-card" href="../ml-math/index.html?lp=start-real-data-workflow&lstep=3#regularization"><div class="step-num">Step 3</div><div class="step-name">Regularization</div><div class="step-note">Control model complexity without blindly tuning the test set.</div></a>
-      <a class="step-card" href="../lite/lab/?path=case-housing-regression.ipynb&lp=start-real-data-workflow&lstep=4" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">The housing case as a notebook, in Jupyter in the browser — or run each step on the case page.</div></a>
+      <a class="step-card" href="../lite/lab/?path=case-housing-regression.ipynb&lp=start-real-data-workflow&lstep=4" target="_blank" rel="noopener"><div class="step-num">Run</div><div class="step-name">JupyterLite Lab</div><div class="step-note">The housing case as a notebook, in Jupyter in the browser, or run each step on the case page.</div></a>
     </div>
   </section>
 
@@ -278,7 +278,7 @@
 
   <section class="build-strip">
     <a class="step-card" href="../guides/"><div class="step-num">Guides</div><div class="step-name">Start From the Problem</div><div class="step-note">Decision guides and checklists: which test, which metric, which forecasting model, is my backtest honest.</div></a>
-    <a class="step-card" href="../cases/index.html"><div class="step-num">Cases</div><div class="step-name">Real-Data Case Studies</div><div class="step-note">Housing, credit, electricity and a century of market returns — every step runnable in the browser.</div></a>
+    <a class="step-card" href="../cases/index.html"><div class="step-num">Cases</div><div class="step-name">Real-Data Case Studies</div><div class="step-note">Housing, credit, electricity and a century of market returns, every step runnable in the browser.</div></a>
     <a class="step-card" href="../sandbox/ml/index.html"><div class="step-num">Sandbox</div><div class="step-name">Build Mode</div><div class="step-note">Save, compare, export JSON, copy Python, and reset interactive experiments.</div></a>
     <a class="step-card" href="../lite/lab/" target="_blank" rel="noopener"><div class="step-num">Lab</div><div class="step-name">JupyterLite</div><div class="step-note">The case notebooks in Jupyter, in the browser, with nothing to install.</div></a>
   </section>

@@ -7,8 +7,8 @@
   <meta name="description" content="One duck, one piece of bread, three ways to learn: evolution, Q-learning and a deep Q-network, running live in your browser. Watch what each learns, and break each one.">
   <link rel="canonical" href="https://patterniseverything.com/learning-duck/">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
-  <meta name="theme-color" content="#c84b2f" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#2a44b8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
   <meta property="og:type" content="article">
@@ -20,10 +20,10 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="../css/fonts.css?v=2">
-  <link rel="stylesheet" href="../css/main.css?v=42">
+  <link rel="stylesheet" href="../css/fonts.css?v=3">
+  <link rel="stylesheet" href="../css/main.css?v=43">
   <style>
-    .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
+    .crumbs { font-family: var(--sans); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
     .crumbs a { color: var(--muted); text-decoration: none; }
     .crumbs a:hover { color: var(--accent); }
@@ -34,14 +34,14 @@
       .topic-badge { white-space: normal; text-align: left; }
       .portal-header + #mainContent.topic-page { padding-left: 16px; padding-right: 16px; }
     }
-    .ld-toc { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12px; margin: 18px 0 8px; }
+    .ld-toc { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--sans); font-size: 12px; margin: 18px 0 8px; }
     .ld-toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); }
     .ld-toc a:hover { color: var(--accent); border-color: var(--accent); }
     .ld-lab { scroll-margin-top: 80px; }
-    .ld-step { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 44px 0 -6px; }
+    .ld-step { font-family: var(--sans); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 44px 0 -6px; }
     .ld-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 10px; }
     .ld-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); padding: 3px; background: var(--surface); }
-    .ld-seg > span { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); align-self: center; padding: 0 6px 0 8px; }
+    .ld-seg > span { font-family: var(--sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); align-self: center; padding: 0 6px 0 8px; }
     .ld-seg button, .ld-btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); background: transparent; border: 0; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
     .ld-seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
     .ld-btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: var(--radius); }
@@ -51,9 +51,9 @@
     .ld-seg button:focus-visible, .ld-btn:focus-visible, .ld-ch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .ld-world { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #2e5658; touch-action: manipulation; }
     .ld-world canvas { display: block; width: 100%; }
-    .ld-world .tag { position: absolute; left: 10px; top: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    .ld-world .tag { position: absolute; left: 10px; top: 10px; font-family: var(--sans); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
       color: #eaf1f3; background: rgba(10,20,25,.55); padding: 5px 9px; border-radius: 6px; pointer-events: none; }
-    .ld-world .hint { position: absolute; left: 10px; bottom: 8px; font-family: var(--mono); font-size: 11px; color: #e9f1ee; background: rgba(10,25,30,.5); padding: 4px 8px; border-radius: 6px; pointer-events: none; }
+    .ld-world .hint { position: absolute; left: 10px; bottom: 8px; font-family: var(--sans); font-size: 11px; color: #e9f1ee; background: rgba(10,25,30,.5); padding: 4px 8px; border-radius: 6px; pointer-events: none; }
     #e-world canvas { height: 340px; } #q-world canvas { height: 300px; }
     @media (max-width: 600px) { #e-world canvas { height: 280px; } #q-world canvas { height: 250px; } }
     #d-world { aspect-ratio: 800 / 520; } #d-world canvas { height: 100%; }
@@ -63,12 +63,12 @@
     .ld-facts.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     @media (max-width: 600px) { .ld-facts, .ld-facts.five { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .ld-facts div { background: var(--surface); padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .ld-facts span { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-    .ld-facts b { font-family: var(--mono); font-weight: 500; font-size: 16px; font-variant-numeric: tabular-nums; }
+    .ld-facts span { font-family: var(--sans); font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .ld-facts b { font-family: var(--sans); font-weight: 500; font-size: 16px; font-variant-numeric: tabular-nums; }
     .ld-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; }
     @media (max-width: 680px) { .ld-two { grid-template-columns: minmax(0, 1fr); } }
     .ld-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 12px 14px; min-width: 0; }
-    .ld-card h4 { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0 0 8px; }
+    .ld-card h4 { font-family: var(--sans); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0 0 8px; }
     .ld-card canvas { display: block; width: 100%; }
     .ld-cap { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin: 8px 0 0; }
     .ld-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
@@ -92,7 +92,7 @@
     .ld-q .bar { height: 9px; border-radius: 5px; background: var(--surface2); overflow: hidden; }
     .ld-q .bar div { height: 100%; width: 50%; background: var(--border2); }
     .ld-q.on { font-weight: 600; } .ld-q.on .bar div { background: var(--text); }
-    .ld-q span:last-child { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .ld-q span:last-child { font-family: var(--sans); font-size: 11px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
     .ld-fail { border-top: 1px solid var(--border); padding-top: 4px; margin-top: 18px; }
     .ld-fail h3 { margin-bottom: 4px; }
     .ld-fail .how { font-size: 14px; color: var(--muted); }
@@ -100,15 +100,15 @@
     .ld-scroll { overflow-x: auto; margin: 14px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
     .ld-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
     .ld-table th, .ld-table td { padding: 9px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
-    .ld-table thead th { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .ld-table thead th { font-family: var(--sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
     .ld-table tbody th { font-weight: 600; white-space: nowrap; }
     .ld-table tr:last-child td, .ld-table tr:last-child th { border-bottom: 0; }
     .ld-cols { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0 0 14px; font-size: 14px; }
-    .ld-cols dt { font-family: var(--mono); font-size: 12px; }
+    .ld-cols dt { font-family: var(--sans); font-size: 12px; }
     .ld-cols dd { margin: 0; color: var(--muted); }
-    .ld-refs { font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--muted); padding-left: 1.2em; }
+    .ld-refs { font-family: var(--sans); font-size: 12px; line-height: 1.7; color: var(--muted); padding-left: 1.2em; }
     .ld-refs a { color: var(--muted); }
-    .ld-foot { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .ld-foot { font-family: var(--sans); font-size: 11px; color: var(--muted); margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); }
     .ld-foot a { color: var(--muted); }
   </style>
 </head>
@@ -521,7 +521,7 @@ function brain(){const c=document.getElementById('q-brain'),[x,w,h]=small(c);x.c
   x.save();x.translate(cx,cy);x.rotate(-Math.PI/2);LD.duck(x,8,'real');x.restore();
   x.font='500 10px "IBM Plex Mono", monospace';x.fillStyle=mut;x.textAlign='center';x.fillText('ahead',cx,10);x.fillText('behind',cx,h-3);x.textAlign='left';x.fillText('L',4,cy+3);x.textAlign='right';x.fillText('R',w-4,cy+3);}
 function chart(){const c=document.getElementById('q-chart'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
-  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),sim=css('--surface2'),rl='rgba(61,158,120,.18)',off='rgba(200,75,47,.14)';
+  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),sim=css('--surface2'),rl='rgba(61,158,120,.18)',off='rgba(42,68,184,.14)';
   document.getElementById('q-k1').style.background=sim;document.getElementById('q-k2').style.background=rl;document.getElementById('q-k3').style.background=off;
   const L=34,R=w-6,T=6,B=h-18,n=episodes.length,span=Math.max(40,n),px=i=>L+(R-L)*i/span;
   for(let i=0;i<n;i++){const e=episodes[i];x.fillStyle=!e.learning?off:e.real?rl:sim;x.fillRect(px(i),T,Math.ceil(px(i+1)-px(i))+.5,B-T);}
@@ -839,7 +839,7 @@ function brain(){const c=document.getElementById('d-brain'),[x,w,h]=small(c);x.c
   x.font='500 9.5px "IBM Plex Mono", monospace';x.textBaseline='middle';x.textAlign='right';x.fillStyle=mut;for(let i=0;i<N_IN;i++)x.fillText(IN_LABELS[i],cols[0]-8,ys(N_IN,i));
   x.textAlign='left';x.fillStyle=ink;for(let i=0;i<N_A;i++)x.fillText(OUT_LABELS[i],cols[3]+11,ys(N_A,i));}
 function chart(){const c=document.getElementById('d-chart'),[x,w,h]=small(c);x.clearRect(0,0,w,h);
-  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),g=css('--accent2'),o=css('--accent'),off='rgba(200,75,47,.12)';
+  const ink=css('--text'),mut=css('--muted'),bd=css('--border'),g=css('--accent2'),o=css('--accent'),off='rgba(42,68,184,.12)';
   const data=world.win,n=data.length,span=Math.max(30,n),L=30,R=w-6;
   const panels=[{k:'bread',label:'bread per 1,000 steps',col:g,T:16,B:h*.42},{k:'hits',label:'into reeds per 1,000 steps',col:o,T:h*.42+30,B:h-8}];
   x.font='500 10px "IBM Plex Mono", monospace';

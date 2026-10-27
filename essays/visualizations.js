@@ -746,8 +746,8 @@ const DRAWS = {
     ctx.fillStyle = 'rgba(139,79,168,.04)';
     ctx.fillRect(0, 0, w, h);
 
-    const C_A = '#2955a0';
-    const C_B = '#c84b2f';
+    const C_A = '#8a5a00';
+    const C_B = '#2a44b8';
     const slope = 0.55;
 
     let seed = 991733;

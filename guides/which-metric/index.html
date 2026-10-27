@@ -4,62 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Which metric should I evaluate my model with? — Pattern is Everything</title>
-  <meta name="description" content="From what your model predicts and what its mistakes cost to the metric that measures it honestly.">
+  <meta name="description" content="From what your model predicts and what its mistakes cost to the metric that measures it fairly.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="canonical" href="https://patterniseverything.com/guides/which-metric/">
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Article", "headline": "Which metric should I evaluate my model with?", "description": "From what your model predicts and what its mistakes cost to the metric that measures it honestly.",
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Which metric should I evaluate my model with?", "description": "From what your model predicts and what its mistakes cost to the metric that measures it fairly.",
     "url": "https://patterniseverything.com/guides/which-metric/", "dateModified": "2026-10-02", "inLanguage": "en",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
   </script>
   <meta property="og:url" content="https://patterniseverything.com/guides/which-metric/">
   <meta property="og:title" content="Which metric should I evaluate my model with?">
-  <meta property="og:description" content="From what your model predicts and what its mistakes cost to the metric that measures it honestly.">
+  <meta property="og:description" content="From what your model predicts and what its mistakes cost to the metric that measures it fairly.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-metric.jpg?v=6db185f0">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-metric.jpg?v=2f789f18">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/css/fonts.css?v=2">
-  <link rel="stylesheet" href="/css/main.css?v=42">
+  <link rel="stylesheet" href="/css/fonts.css?v=3">
+  <link rel="stylesheet" href="/css/main.css?v=43">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
     body { padding-top: var(--hdr-h); }
     .portal-header { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; z-index: 200; backdrop-filter: blur(12px); }
-    .back-link { font-family: var(--mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+    .back-link { font-family: var(--sans); font-size: 11px; color: var(--muted); text-decoration: none; }
     .back-link:hover { color: var(--accent); }
     .guide { width: min(780px, calc(100% - 32px)); margin: 0 auto 80px; }
     .guide-hero { padding: 48px 0 10px; }
-    .crumb { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb { font: 500 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
     .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .guide-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
     .guide-hero p { color: var(--muted); line-height: 1.75; margin: 0; }
     .g-before { margin: 22px 0 26px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; line-height: 1.7; }
     .guide a, .g-read a { color: var(--accent3); text-underline-offset: 2px; }
-    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide a { color: #6fa8ff; } }
-    [data-theme="dark"] .guide a { color: #6fa8ff; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide a { color: #e2ac4e; } }
+    [data-theme="dark"] .guide a { color: #e2ac4e; }
     .g-q { font-family: var(--serif); font-weight: 700; font-size: 21px; margin: 6px 0 12px; }
     .g-opts { display: grid; gap: 8px; }
     .g-opt { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
     .g-opt > summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 40px; position: relative; line-height: 1.5; }
     .g-opt > summary::-webkit-details-marker { display: none; }
-    .g-opt > summary::before { content: '›'; position: absolute; left: 16px; top: 10px; font: 600 18px var(--mono); color: var(--accent); transition: transform .15s; }
+    .g-opt > summary::before { content: '›'; position: absolute; left: 16px; top: 10px; font: 600 18px var(--sans); color: var(--accent); transition: transform .15s; }
     .g-opt[open] > summary::before { transform: rotate(90deg); }
     .g-opt[open] > summary { font-weight: 600; border-bottom: 1px solid var(--border); }
     .g-opt > summary:hover { color: var(--accent); }
     .g-opt > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
     .g-next { padding: 14px 14px 16px; }
     .g-result { border-radius: 10px; padding: 14px 16px; background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
-    .g-kicker { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .g-kicker { font: 500 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
     .g-name { font-family: var(--serif); font-weight: 700; font-size: 22px; margin: 4px 0 8px; line-height: 1.25; }
     .g-code { display: block; font-family: var(--mono); font-size: 12.5px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; margin: 0 0 8px; overflow-x: auto; white-space: pre; }
     .g-result p { margin: 0 0 8px; line-height: 1.7; }
     .g-read { font-size: 14px; line-height: 1.8; }
-    .g-read > span:first-child { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
-    .g-progress { font: 500 12px var(--mono); color: var(--muted); margin: 0 0 10px; }
+    .g-read > span:first-child { font: 500 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .g-progress { font: 500 12px var(--sans); color: var(--muted); margin: 0 0 10px; }
     .g-group { border: 1px solid var(--border); border-radius: 12px; padding: 6px 16px 10px; margin: 0 0 14px; background: var(--surface); }
     .g-group legend { font-family: var(--serif); font-weight: 700; font-size: 19px; padding: 0 6px; }
     .g-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--border); line-height: 1.6; cursor: pointer; }
@@ -68,7 +68,7 @@
     .g-item .g-read { display: block; font-size: 13px; margin-top: 2px; }
     .g-item input:checked + span { color: var(--muted); }
     .g-tools { margin: 16px 0 0; display: flex; gap: 10px; }
-    .g-tools button { font: 500 12px var(--mono); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+    .g-tools button { font: 500 12px var(--sans); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
     .g-tools button:hover { color: var(--accent); border-color: var(--accent); }
     .g-cards { display: grid; gap: 12px; margin: 24px 0; }
     .g-card { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; background: var(--surface); }
@@ -76,7 +76,7 @@
     .g-card .g-kicker { margin-bottom: 4px; }
     .g-card h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 6px; color: var(--text); }
     .g-card p { margin: 0; color: var(--muted); line-height: 1.6; }
-    .reviewed { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 32px; }
+    .reviewed { font-family: var(--sans); font-size: 12px; color: var(--muted); margin-top: 32px; }
     @media (max-width: 600px) { .portal-header { padding: 0 16px; } .g-opt > summary { padding-left: 34px; } .g-opt > summary::before { left: 12px; } }
   </style>
 </head>
@@ -101,7 +101,7 @@
   </div>
 </header>
 <main class="guide" id="mainContent">
-<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which metric should I evaluate my model with?</h2><p>From what your model predicts and what its mistakes cost to the metric that measures it honestly.</p></section>
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which metric should I evaluate my model with?</h2><p>From what your model predicts and what its mistakes cost to the metric that measures it fairly.</p></section>
 <div class="g-before">Pick the metric before you run experiments, compare every model against a simple baseline, and measure on held-out data with a validation scheme that matches how the model will be used.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/stats/cross-validation/">Cross-Validation Done Right</a> · <a href="/stats/sklearn-eval/">scikit-learn Evaluation Suite</a> · <a href="/essays/essay-forking/">The Garden of Forking Paths</a></div></div>
 <section class="g-body" data-guide="which-metric" data-kind="tree">
 <div class="g-node">
@@ -129,14 +129,14 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">Accuracy with the confusion matrix (F1 if errors cost about the same)</div>
   
-  <p>With balanced classes accuracy is meaningful — but always read the matrix behind it.</p>
+  <p>With balanced classes accuracy is meaningful, but always read the matrix behind it.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/confusion-matrix/">Confusion Matrix &amp; Classification Metrics</a> · <a href="/ml-math/metrics/">Eval Metrics</a></div>
 </div></div>
 </details>
 </div>
 </div></div>
 </details>
-<details class="g-opt"><summary>Rare (below 10%) — fraud, failures, disease</summary>
+<details class="g-opt"><summary>Rare (below 10%): fraud, failures, disease</summary>
 <div class="g-next"><div class="g-node">
 <div class="g-q">Which mistake costs more?</div>
 <div class="g-opts">
@@ -182,7 +182,7 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">ROC-AUC</div>
   
-  <p>The probability that a random positive ranks above a random negative — threshold-free.</p>
+  <p>The probability that a random positive ranks above a random negative: threshold-free.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/roc-auc/">ROC &amp; AUC Curves</a></div>
 </div></div>
 </details>
@@ -244,7 +244,7 @@
 <details class="g-opt"><summary>Future values of a time series</summary>
 <div class="g-next"><div class="g-result" data-result="mase-against-seasonal-naive-on-a-rolling-origin-backtest-plu">
   <div class="g-kicker">Use</div>
-  <div class="g-name">MASE against seasonal naive, on a rolling-origin backtest — plus interval coverage</div>
+  <div class="g-name">MASE against seasonal naive, on a rolling-origin backtest, plus interval coverage</div>
   
   <p>Forecasts must beat the obvious baseline across many forecast origins, and their intervals should contain the outcome as often as promised.</p>
   <div class="g-read"><span>Read</span> <a href="/timeseries/backtesting-forecasts/">Backtesting Forecasts</a> · <a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a> · <a href="/timeseries/sarima/">SARIMA</a></div>

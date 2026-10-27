@@ -13,20 +13,20 @@ function T(symbol, def) {
 const NARRATIONS = {
   'linear-regression': [
     'We start with scattered data points and no model yet. Our goal: find the straight line that fits them best.',
-    'A line is placed randomly at slope 0. It\'s a terrible fit right now — that\'s perfectly fine.',
+    'A line is placed randomly at slope 0. It\'s a terrible fit right now: that\'s perfectly fine.',
     'Gradient descent begins. For every data point it measures how wrong the prediction is, then nudges the slope and intercept in the direction that reduces the total error.',
-    'Watch the red dashed lines (residuals) — they show the gap between each real point and the prediction. Gradient descent is shrinking those gaps step by step.',
-    'Converged. The line now minimises the Mean Squared Error — the average of all squared gaps. This is linear regression.',
+    'Watch the red dashed lines (residuals): they show the gap between each real point and the prediction. Gradient descent is shrinking those gaps step by step.',
+    'Converged. The line now minimises the Mean Squared Error: the average of all squared gaps. This is linear regression.',
   ],
   'k-means': [
     'We have a cloud of points with no labels. K-Means will discover natural groups without being told anything about them.',
-    'K random centroids (the large dots) are placed. Think of them as team captains — they don\'t know their teams yet.',
+    'K random centroids (the large dots) are placed. Think of them as team captains: they don\'t know their teams yet.',
     'Step 1 — Assign: every point joins its nearest centroid. The coloured regions show which centroid "owns" each area of the canvas.',
     'Step 2 — Move: each centroid moves to the average position of all points in its group. Now some points may be closer to a different centroid than before.',
     'The algorithm keeps assigning then moving. It stops when no point wants to change teams. That\'s convergence.',
   ],
   'classification-boundary': [
-    'Two labelled classes — blue and red. The task: teach a model where the invisible border between them lies.',
+    'Two labelled classes: blue and red. The task: teach a model where the invisible border between them lies.',
     'KNN (K-Nearest Neighbours) answers "which class does a new point belong to?" by looking at the K closest training points and taking a majority vote.',
     'Low K (1–3) produces a jagged boundary that hugs every training point. It memorises the data instead of learning the pattern.',
     'Higher K (7+) smooths the boundary. It\'s less sensitive to individual outliers and usually generalises better.',
@@ -34,10 +34,10 @@ const NARRATIONS = {
   ],
   'neural-network': [
     'A neural network is just a chain of simple computations. Data flows in, each layer transforms it, and a prediction comes out the other side.',
-    'We\'re training on XOR — a problem no single line can solve. The hidden layer lets the network learn a curved decision boundary.',
+    'We\'re training on XOR: a problem no single line can solve. The hidden layer lets the network learn a curved decision boundary.',
     'Training starts. Each epoch: make a prediction → measure the error (loss) → update every weight slightly via backpropagation. Repeat.',
     'Watch the decision boundary evolve from random noise to a structured shape. The loss curve below tracks how the error drops over time.',
-    'Loss below 0.05 means the network has learned the pattern. More neurons and layers can solve harder problems — but can also overfit.',
+    'Loss below 0.05 means the network has learned the pattern. More neurons and layers can solve harder problems, but can also overfit.',
   ],
   'feature-scaling': [
     'Imagine two features: one measured in millimetres (range: 0–10), one in kilometres (range: 0–10 000). Without scaling, gradient descent almost ignores the small feature.',
@@ -46,30 +46,30 @@ const NARRATIONS = {
     'Result: the scaled version converges in a fraction of the iterations. Feature scaling is one of the easiest performance wins in machine learning.',
   ],
   'timeseries-forecast': [
-    'A time series is any sequence of measurements over time — stock prices, temperature, sales. Forecasting means predicting future values from past patterns.',
-    'Moving Average smooths out noise by averaging the last N values. Simple and fast — but it always lags behind sudden changes.',
+    'A time series is any sequence of measurements over time: stock prices, temperature, sales. Forecasting means predicting future values from past patterns.',
+    'Moving Average smooths out noise by averaging the last N values. Simple and fast, but it always lags behind sudden changes.',
     'Exponential Smoothing weights recent values more heavily. Alpha controls how quickly it forgets the past. High alpha = reactive. Low alpha = smooth.',
     'Holt-Winters adds both trend and seasonality on top of smoothing. It\'s like teaching the model "sales always peak in December and dip in January".',
-    'No single method wins on every dataset. Hit Compare All to see the full leaderboard — the right choice depends on what patterns your data has.',
+    'No single method wins on every dataset. Hit Compare All to see the full leaderboard: the right choice depends on what patterns your data has.',
   ],
   'pca-visualizer': [
-    'PCA finds the directions where your data spreads out the most. Imagine drawing an ellipse around your point cloud — PCA finds the long axis.',
-    'The blue arrow is PC1 — the direction of greatest variance. Most of the "information" in the data lives along this axis.',
-    'The green arrow is PC2 — perpendicular to PC1, capturing the remaining variance. Together they account for 100% of the spread.',
+    'PCA finds the directions where your data spreads out the most. Imagine drawing an ellipse around your point cloud: PCA finds the long axis.',
+    'The blue arrow is PC1: the direction of greatest variance. Most of the "information" in the data lives along this axis.',
+    'The green arrow is PC2: perpendicular to PC1, capturing the remaining variance. Together they account for 100% of the spread.',
     'Toggling the projection collapses all points onto PC1. You lose one dimension but keep most of the information. That\'s dimensionality reduction in one move.',
   ],
   'decision-tree': [
     'A decision tree answers questions with yes/no splits: "Is x > 4.5?" Left branch = yes, right branch = no. It builds up a flowchart.',
-    'Each split is chosen to separate the classes as cleanly as possible — measured by Gini impurity. Gini = 0 means a perfectly pure group.',
+    'Each split is chosen to separate the classes as cleanly as possible: measured by Gini impurity. Gini = 0 means a perfectly pure group.',
     'Depth 1 draws a single line. Depth 2 draws two lines. Each extra level adds splits and creates more rectangular regions.',
-    'Deeper trees fit training data perfectly — but often they\'ve memorised noise rather than learned the true pattern. That\'s overfitting.',
+    'Deeper trees fit training data perfectly, but often they\'ve memorised noise rather than learned the true pattern. That\'s overfitting.',
     'The coloured background shows the tree\'s prediction at every pixel. Axis-aligned splits always produce these characteristic right-angle boundaries.',
   ],
   'anomaly-detection': [
     'Anomaly detection finds the odd ones out. Core assumption: normal data clusters together; anomalies are lonely and far from the crowd.',
     'We fit a Gaussian (bell curve) distribution over the normal points. It estimates the centre and spread of typical behaviour.',
-    'The elliptical contours show equal-probability regions. Mahalanobis distance measures how far a point is from the centre — accounting for the shape of the normal cluster.',
-    'Points beyond the threshold (a chosen percentile) are flagged. Raise the threshold to flag fewer — only the most extreme. Lower it to catch subtler outliers.',
+    'The elliptical contours show equal-probability regions. Mahalanobis distance measures how far a point is from the centre: accounting for the shape of the normal cluster.',
+    'Points beyond the threshold (a chosen percentile) are flagged. Raise the threshold to flag fewer: only the most extreme. Lower it to catch subtler outliers.',
   ],
 };
 
@@ -129,11 +129,11 @@ const TOPIC_NAMES = {
 /* ── Full activity data for search ── */
 const TOPIC_DATA = [
   { id:'linear-regression', num:'01', title:'Linear Regression Playground', category:'ML Lab', keywords:['regression','gradient descent','MSE','loss','slope','intercept','learning rate','fit','line','scatter'], content:'Place data points and watch gradient descent fit a line in real-time. Adjust learning rate and see how it affects convergence.' },
-  { id:'k-means', num:'02', title:'K-Means Clustering', category:'ML Lab', keywords:['clustering','centroids','k-means','unsupervised','voronoi','iteration','convergence','elbow'], content:'Place points, choose K, and step through the K-Means algorithm — watch centroids move and clusters form.' },
+  { id:'k-means', num:'02', title:'K-Means Clustering', category:'ML Lab', keywords:['clustering','centroids','k-means','unsupervised','voronoi','iteration','convergence','elbow'], content:'Place points, choose K, and step through the K-Means algorithm: watch centroids move and clusters form.' },
   { id:'classification-boundary', num:'03', title:'Classification Boundary', category:'ML Lab', keywords:['classification','KNN','logistic regression','decision boundary','supervised','binary','classes'], content:'Place two classes of points and watch how KNN or Logistic Regression draws a decision boundary between them.' },
   { id:'neural-network', num:'04', title:'Neural Network Builder', category:'ML Lab', keywords:['neural network','deep learning','layers','neurons','activation','sigmoid','relu','backpropagation','XOR','spiral'], content:'Build a small neural network, pick a dataset, and watch it learn a decision boundary epoch by epoch.' },
   { id:'feature-scaling', num:'05', title:'Feature Scaling Demo', category:'ML Lab', keywords:['feature scaling','normalization','standardization','min-max','z-score','gradient descent','convergence'], content:'See how feature scaling transforms data and dramatically speeds up gradient descent convergence.' },
-  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','holt-winters','ARIMA','autoregressive','seasonal naive','trend','seasonality','MAE','RMSE','MAPE','compare','projection','kalman filter','gaussian process','RNN','LSTM','neural network','deep learning'], content:'Generate time series with trend, seasonality, or random walks — forecast with 12 methods from naive baselines to LSTM, compare them all, and project into the future.' },
+  { id:'timeseries-forecast', num:'06', title:'Timeseries Forecasting', category:'ML Lab', keywords:['timeseries','forecasting','moving average','exponential smoothing','holt-winters','ARIMA','autoregressive','seasonal naive','trend','seasonality','MAE','RMSE','MAPE','compare','projection','kalman filter','gaussian process','RNN','LSTM','neural network','deep learning'], content:'Generate time series with trend, seasonality, or random walks: forecast with 12 methods from naive baselines to LSTM, compare them all, and project into the future.' },
   { id:'pca-visualizer', num:'07', title:'PCA Visualization', category:'ML Lab', keywords:['PCA','principal component analysis','dimensionality reduction','eigenvector','eigenvalue','covariance','projection','variance'], content:'Plot 2D data, compute principal components, show eigenvectors and project data along the first principal component.' },
   { id:'decision-tree', num:'08', title:'Decision Tree', category:'ML Lab', keywords:['decision tree','classifier','gini impurity','split','depth','leaves','axis-aligned','regions'], content:'Build a simple decision tree classifier, visualize the splits on 2D data with colored regions.' },
   { id:'anomaly-detection', num:'09', title:'Anomaly Detection', category:'ML Lab', keywords:['anomaly','outlier','Gaussian','Mahalanobis','covariance','threshold','envelope','detection'], content:'Place normal and outlier points, fit a Gaussian envelope, see which points get flagged as anomalies.' },
@@ -143,74 +143,74 @@ const TOPIC_DATA = [
 const HINTS = {
   'linear-regression': [
     { id:'lr-first-point',         trigger:'pointCount>=1',  message:'Place at least 5 points to see a meaningful regression fit.' },
-    { id:'lr-high-loss',           trigger:'mse>2',          message:'High loss — try adding more points near the center to anchor the fit.' },
-    { id:'lr-high-lr',             trigger:'learningRate>0.5',message:'A very high learning rate can cause the line to overshoot — watch for oscillation.' },
+    { id:'lr-high-loss',           trigger:'mse>2',          message:'High loss: try adding more points near the center to anchor the fit.' },
+    { id:'lr-high-lr',             trigger:'learningRate>0.5',message:'A very high learning rate can cause the line to overshoot: watch for oscillation.' },
     { id:'lr-low-lr',              trigger:'learningRate<0.01',message:'A very small learning rate converges slowly but precisely.' },
-    { id:'lr-good-fit',            trigger:'mse<0.3',        message:'Nice fit! The MSE is low — this line captures the trend well.' },
+    { id:'lr-good-fit',            trigger:'mse<0.3',        message:'Nice fit! The MSE is low: this line captures the trend well.' },
     { id:'lr-after-fit',           trigger:'fitted',         message:'The line minimizes the total squared vertical distance to all points.' },
   ],
   'k-means': [
     { id:'km-first-points',        trigger:'pointCount>=3',  message:'Place at least 10 points to see interesting clusters form.' },
     { id:'km-high-k',              trigger:'k>pointGroups',  message:'More clusters than natural groups can cause over-splitting.' },
-    { id:'km-converged',           trigger:'converged',      message:'K-Means has converged — the centroids stopped moving.' },
-    { id:'km-rerun',               trigger:'runCount>=2',    message:'Different starting centroids can give different results — that\'s K-Means\' sensitivity to initialization.' },
+    { id:'km-converged',           trigger:'converged',      message:'K-Means has converged: the centroids stopped moving.' },
+    { id:'km-rerun',               trigger:'runCount>=2',    message:'Different starting centroids can give different results: that\'s K-Means\' sensitivity to initialization.' },
     { id:'km-step-explain',        trigger:'stepCount==1',   message:'Each step: 1) assign every point to its nearest centroid, 2) move centroids to the mean of their cluster.' },
   ],
   'classification-boundary': [
-    { id:'cb-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes — click for Class A (blue), Shift+click for Class B (red).' },
-    { id:'cb-imbalanced',    trigger:'imbalanced',       message:'Classes are imbalanced — the boundary may be biased toward the larger class.' },
+    { id:'cb-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes: click for Class A (blue), Shift+click for Class B (red).' },
+    { id:'cb-imbalanced',    trigger:'imbalanced',       message:'Classes are imbalanced: the boundary may be biased toward the larger class.' },
     { id:'cb-knn-high',      trigger:'k>7',              message:'A higher K smooths the boundary but may miss local patterns.' },
-    { id:'cb-knn-low',       trigger:'k==1',             message:'K=1 creates a very jagged boundary — every point is its own neighborhood.' },
+    { id:'cb-knn-low',       trigger:'k==1',             message:'K=1 creates a very jagged boundary, every point is its own neighborhood.' },
     { id:'cb-trained',       trigger:'trained',          message:'The colored regions show where each class is predicted. Points near the boundary are hardest to classify.' },
   ],
   'neural-network': [
-    { id:'nn-first-train',   trigger:'epoch>=1',         message:'Each epoch updates all weights via backpropagation — watch the loss curve decrease.' },
-    { id:'nn-slow',          trigger:'lossHigh',         message:'Loss is still high — try adding more neurons or switching activation functions.' },
-    { id:'nn-xor',           trigger:'datasetXOR',       message:'XOR can\'t be solved with a single layer — you need at least one hidden layer.' },
-    { id:'nn-overfit',       trigger:'epoch>=200',       message:'Many epochs may overfit — watch if the boundary becomes overly complex.' },
-    { id:'nn-relu',          trigger:'activationRelu',   message:'ReLU trains faster but can "die" — neurons stuck at 0 output.' },
+    { id:'nn-first-train',   trigger:'epoch>=1',         message:'Each epoch updates all weights via backpropagation: watch the loss curve decrease.' },
+    { id:'nn-slow',          trigger:'lossHigh',         message:'Loss is still high: try adding more neurons or switching activation functions.' },
+    { id:'nn-xor',           trigger:'datasetXOR',       message:'XOR can\'t be solved with a single layer: you need at least one hidden layer.' },
+    { id:'nn-overfit',       trigger:'epoch>=200',       message:'Many epochs may overfit: watch if the boundary becomes overly complex.' },
+    { id:'nn-relu',          trigger:'activationRelu',   message:'ReLU trains faster but can "die": neurons stuck at 0 output.' },
   ],
   'feature-scaling': [
     { id:'fs-raw',           trigger:'showRaw',          message:'Without scaling, features on larger scales dominate gradient descent.' },
-    { id:'fs-minmax',        trigger:'methodMinmax',     message:'Min-Max scales features to [0,1] — sensitive to outliers.' },
-    { id:'fs-zscore',        trigger:'methodZscore',     message:'Z-score centers data at 0 with s.d.=1 — robust to different ranges.' },
+    { id:'fs-minmax',        trigger:'methodMinmax',     message:'Min-Max scales features to [0,1]: sensitive to outliers.' },
+    { id:'fs-zscore',        trigger:'methodZscore',     message:'Z-score centers data at 0 with s.d.=1: robust to different ranges.' },
     { id:'fs-speedup',       trigger:'bothConverged',    message:'Notice how the scaled version converges in far fewer iterations!' },
   ],
   'timeseries-forecast': [
     { id:'ts-ma',            trigger:'methodMA',         message:'Moving Average smooths noise but lags behind sudden changes.' },
-    { id:'ts-es-low',        trigger:'alphaLow',         message:'Low alpha means heavy smoothing — the forecast reacts slowly to changes.' },
+    { id:'ts-es-low',        trigger:'alphaLow',         message:'Low alpha means heavy smoothing: the forecast reacts slowly to changes.' },
     { id:'ts-es-high',       trigger:'alphaHigh',        message:'High alpha tracks recent values closely but is sensitive to noise.' },
-    { id:'ts-seasonal',      trigger:'hasSeason',        message:'The repeating peaks show seasonality — a pattern that repeats at fixed intervals.' },
-    { id:'ts-hw',            trigger:'methodHW',         message:'Holt-Winters captures both trend and seasonality — three smoothing parameters working together.' },
-    { id:'ts-ar',            trigger:'methodAR',         message:'AR(1) predicts each value from the previous one — works well for correlated series.' },
-    { id:'ts-snaive',        trigger:'methodSNaive',     message:'Seasonal Naive repeats last season\'s values — a surprisingly strong baseline.' },
-    { id:'ts-compare',       trigger:'comparedAll',      message:'The leaderboard ranks all methods — no single method wins on every data type!' },
-    { id:'ts-stock',         trigger:'isStock',          message:'Stock prices follow geometric random walks — methods that assume stationarity often struggle here.' },
-    { id:'ts-crash',         trigger:'isCrash',          message:'Crashes create regime changes — no smooth forecasting method can predict a sudden structural break.' },
-    { id:'ts-kalman',        trigger:'methodKalman',      message:'The Kalman Filter estimates a hidden state from noisy observations — it adapts its gain as certainty grows.' },
-    { id:'ts-gp',            trigger:'methodGP',          message:'Gaussian Process regression fits a flexible non-parametric curve — great for smooth patterns, expensive for long series.' },
-    { id:'ts-rnn',           trigger:'methodRNN',         message:'A recurrent neural network learns sequential dependencies — the hidden state carries memory of past values.' },
-    { id:'ts-lstm',          trigger:'methodLSTM',        message:'LSTM gates control what to remember and forget — designed to capture long-range dependencies that simple RNNs miss.' },
+    { id:'ts-seasonal',      trigger:'hasSeason',        message:'The repeating peaks show seasonality: a pattern that repeats at fixed intervals.' },
+    { id:'ts-hw',            trigger:'methodHW',         message:'Holt-Winters captures both trend and seasonality: three smoothing parameters working together.' },
+    { id:'ts-ar',            trigger:'methodAR',         message:'AR(1) predicts each value from the previous one: works well for correlated series.' },
+    { id:'ts-snaive',        trigger:'methodSNaive',     message:'Seasonal Naive repeats last season\'s values: a surprisingly strong baseline.' },
+    { id:'ts-compare',       trigger:'comparedAll',      message:'The leaderboard ranks all methods: no single method wins on every data type!' },
+    { id:'ts-stock',         trigger:'isStock',          message:'Stock prices follow geometric random walks: methods that assume stationarity often struggle here.' },
+    { id:'ts-crash',         trigger:'isCrash',          message:'Crashes create regime changes: no smooth forecasting method can predict a sudden structural break.' },
+    { id:'ts-kalman',        trigger:'methodKalman',      message:'The Kalman Filter estimates a hidden state from noisy observations: it adapts its gain as certainty grows.' },
+    { id:'ts-gp',            trigger:'methodGP',          message:'Gaussian Process regression fits a flexible non-parametric curve: great for smooth patterns, expensive for long series.' },
+    { id:'ts-rnn',           trigger:'methodRNN',         message:'A recurrent neural network learns sequential dependencies: the hidden state carries memory of past values.' },
+    { id:'ts-lstm',          trigger:'methodLSTM',        message:'LSTM gates control what to remember and forget: designed to capture long-range dependencies that simple RNNs miss.' },
   ],
   'pca-visualizer': [
     { id:'pca-first-points', trigger:'pointCount>=3',    message:'Place at least 8 points in an elongated cluster to see clear principal components.' },
     { id:'pca-computed',     trigger:'computed',          message:'The blue arrow is PC1 (most variance). The green arrow is PC2 (remaining variance).' },
-    { id:'pca-high-var',     trigger:'pc1Pct>=80',       message:'PC1 explains most of the variance — the data has a strong dominant direction.' },
-    { id:'pca-projected',    trigger:'showProjection',   message:'Red dots show each point projected onto PC1 — dimensionality reduction in action.' },
-    { id:'pca-equal',        trigger:'pc1Pct<60',        message:'Variance is spread across both components — the data has no dominant direction.' },
+    { id:'pca-high-var',     trigger:'pc1Pct>=80',       message:'PC1 explains most of the variance: the data has a strong dominant direction.' },
+    { id:'pca-projected',    trigger:'showProjection',   message:'Red dots show each point projected onto PC1: dimensionality reduction in action.' },
+    { id:'pca-equal',        trigger:'pc1Pct<60',        message:'Variance is spread across both components: the data has no dominant direction.' },
   ],
   'decision-tree': [
-    { id:'dt-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes — toggle the class button and click on the canvas.' },
+    { id:'dt-first-points',  trigger:'pointCount>=3',    message:'Place points for both classes: toggle the class button and click on the canvas.' },
     { id:'dt-trained',       trigger:'trained',          message:'Dashed lines show axis-aligned splits. Each colored region is a leaf prediction.' },
-    { id:'dt-deep',          trigger:'depth>=3',         message:'Deeper trees fit training data well but risk overfitting — watch for tiny regions.' },
-    { id:'dt-shallow',       trigger:'depth==1',         message:'A depth-1 tree (decision stump) makes only one split — very simple but limited.' },
-    { id:'dt-perfect',       trigger:'accuracy==100',    message:'100% training accuracy — the tree memorized the data. This may not generalize well.' },
+    { id:'dt-deep',          trigger:'depth>=3',         message:'Deeper trees fit training data well but risk overfitting: watch for tiny regions.' },
+    { id:'dt-shallow',       trigger:'depth==1',         message:'A depth-1 tree (decision stump) makes only one split: very simple but limited.' },
+    { id:'dt-perfect',       trigger:'accuracy==100',    message:'100% training accuracy: the tree memorized the data. This may not generalize well.' },
   ],
   'anomaly-detection': [
     { id:'ad-first-points',  trigger:'pointCount>=5',    message:'Place normal points and outliers using the toggle button, then click on the canvas.' },
     { id:'ad-detected',      trigger:'detected',         message:'Red rings mark flagged anomalies. Points far from the mean in Mahalanobis distance are flagged.' },
-    { id:'ad-high-thresh',   trigger:'threshHigh',       message:'A higher threshold percentile flags fewer points — only the most extreme outliers.' },
-    { id:'ad-low-thresh',    trigger:'threshLow',        message:'A lower threshold flags more points — sensitive detection but more false positives.' },
+    { id:'ad-high-thresh',   trigger:'threshHigh',       message:'A higher threshold percentile flags fewer points: only the most extreme outliers.' },
+    { id:'ad-low-thresh',    trigger:'threshLow',        message:'A lower threshold flags more points: sensitive detection but more false positives.' },
     { id:'ad-contours',      trigger:'detected',         message:'Elliptical contours show equal-distance regions from the Gaussian center.' },
   ],
 };
@@ -230,7 +230,7 @@ const CHALLENGES = {
     { id:'cb-c2', title:'Smooth Boundary',  objective:'Get 90%+ accuracy with K ≥ 5',                        checkFn:'accuracy>=90&&kHigh' },
   ],
   'neural-network': [
-    { id:'nn-c1', title:'XOR Solver',      objective:'Solve XOR — get loss below 0.05',                       checkFn:'loss<0.05&&datasetXOR' },
+    { id:'nn-c1', title:'XOR Solver',      objective:'Solve XOR: get loss below 0.05',                       checkFn:'loss<0.05&&datasetXOR' },
     { id:'nn-c2', title:'Minimal Network',  objective:'Solve Circle with only 3 hidden neurons total',        checkFn:'loss<0.1&&neuronCount<=3' },
   ],
   'feature-scaling': [
@@ -353,14 +353,14 @@ function buildLinearRegression() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Linear Regression &amp; Gradient Descent</h3>
-      <p>Linear regression fits a straight line <strong>y = mx + b</strong> through scattered data by finding the slope (m) and intercept (b) that minimise the total squared error. Gradient descent iteratively adjusts m and b in the direction that reduces error fastest — the learning rate controls step size.</p>
-      <div class="exp-formula">${T('MSE','Mean Squared Error — the average of all squared prediction errors. Lower is better.')} = (${T('1/n','We divide by n to get the average, not the total.')}) ${T('Σ','Capital Sigma: add up all the values that follow.')} (${T('yᵢ','The real (actual) value for data point i.')} − ${T('ŷᵢ','y-hat: the value our line predicts for point i.')})${T('²','Squared so that negative and positive errors don\'t cancel each other out.')}</div>
-      <p>When ${T('MSE','Mean Squared Error — the average of all squared prediction errors.')} stops falling, the line has converged. A low ${T('learning rate','Controls the step size: too high and the line overshoots; too low and it crawls.')} converges slowly but steadily; a high rate may overshoot and diverge.</p>
+      <p>Linear regression fits a straight line <strong>y = mx + b</strong> through scattered data by finding the slope (m) and intercept (b) that minimise the total squared error. Gradient descent iteratively adjusts m and b in the direction that reduces error fastest: the learning rate controls step size.</p>
+      <div class="exp-formula">${T('MSE','Mean Squared Error: the average of all squared prediction errors. Lower is better.')} = (${T('1/n','We divide by n to get the average, not the total.')}) ${T('Σ','Capital Sigma: add up all the values that follow.')} (${T('yᵢ','The real (actual) value for data point i.')} − ${T('ŷᵢ','y-hat: the value our line predicts for point i.')})${T('²','Squared so that negative and positive errors don\'t cancel each other out.')}</div>
+      <p>When ${T('MSE','Mean Squared Error: the average of all squared prediction errors.')} stops falling, the line has converged. A low ${T('learning rate','Controls the step size: too high and the line overshoots; too low and it crawls.')} converges slowly but steadily; a high rate may overshoot and diverge.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>The line rotates and shifts each iteration — watch gradient descent walk downhill on the error surface.</li>
+        <li>The line rotates and shifts each iteration: watch gradient descent walk downhill on the error surface.</li>
         <li>A high learning rate may overshoot and cause the line to jump erratically.</li>
-        <li>Adding noise increases MSE — the line compromises between all data points.</li>
+        <li>Adding noise increases MSE: the line compromises between all data points.</li>
         <li>Slope captures the trend direction; intercept is where the line crosses y = 0.</li>
       </ul>
     </details>
@@ -371,7 +371,7 @@ function buildKMeans() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">K-Means <em style="font-style:italic;color:var(--lab-ink);">Clustering</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Click to place data points on the canvas. Choose K and step through the algorithm — watch centroids move and Voronoi-style regions form.
+      Click to place data points on the canvas. Choose K and step through the algorithm: watch centroids move and Voronoi-style regions form.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -407,15 +407,15 @@ function buildKMeans() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>K-Means Clustering</h3>
-      <p>K-Means partitions data into ${T('K','The number of clusters — you decide this before running. More K = finer groups.')} groups by repeatedly (1) assigning each point to the nearest centroid and (2) moving each centroid to the mean of its assigned points. The algorithm converges when assignments stop changing.</p>
-      <div class="exp-formula">${T('argmin','Find the K arrangement that minimises (makes as small as possible) the value below.')} ${T('Σ','Add up over all clusters k.')} ${T('Σ','Add up over all points i in cluster k.')} ||${T('xᵢ','A data point.')} − ${T('μₖ','The centroid (mean position) of cluster k.')}||${T('²','Squared Euclidean distance — how far the point is from its centroid.')}</div>
-      <p>Choosing K is part of the art — too few clusters merge distinct groups, too many fragment natural clusters. The inertia metric drops as K increases; look for an elbow.</p>
+      <p>K-Means partitions data into ${T('K','The number of clusters: you decide this before running. More K = finer groups.')} groups by repeatedly (1) assigning each point to the nearest centroid and (2) moving each centroid to the mean of its assigned points. The algorithm converges when assignments stop changing.</p>
+      <div class="exp-formula">${T('argmin','Find the K arrangement that minimises (makes as small as possible) the value below.')} ${T('Σ','Add up over all clusters k.')} ${T('Σ','Add up over all points i in cluster k.')} ||${T('xᵢ','A data point.')} − ${T('μₖ','The centroid (mean position) of cluster k.')}||${T('²','Squared Euclidean distance: how far the point is from its centroid.')}</div>
+      <p>Choosing K is part of the art: too few clusters merge distinct groups, too many fragment natural clusters. The inertia metric drops as K increases; look for an elbow.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>Centroids migrate toward cluster centres with each step — watch the Voronoi regions reshape.</li>
-        <li>Higher K values split data into finer groups — but can over-segment.</li>
+        <li>Centroids migrate toward cluster centres with each step: watch the Voronoi regions reshape.</li>
+        <li>Higher K values split data into finer groups, but can over-segment.</li>
         <li>Inertia (total within-cluster distance) decreases with each iteration and with higher K.</li>
-        <li>Initial centroid placement matters — different starts can give different results.</li>
+        <li>Initial centroid placement matters: different starts can give different results.</li>
       </ul>
     </details>
   `;
@@ -468,13 +468,13 @@ function buildClassificationBoundary() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Classification &amp; Decision Boundaries</h3>
-      <p>A classifier learns a boundary that separates classes in feature space. <strong>KNN</strong> assigns a point to the majority class among its ${T('K','The number of neighbours to consult. Low K = sensitive to local noise. High K = smoother boundary.')} nearest neighbours — producing flexible, locally-adaptive boundaries. <strong>Logistic regression</strong> fits a linear boundary using the sigmoid function.</p>
+      <p>A classifier learns a boundary that separates classes in feature space. <strong>KNN</strong> assigns a point to the majority class among its ${T('K','The number of neighbours to consult. Low K = sensitive to local noise. High K = smoother boundary.')} nearest neighbours: producing flexible, locally-adaptive boundaries. <strong>Logistic regression</strong> fits a linear boundary using the sigmoid function.</p>
       <div class="exp-formula">${T('KNN','K-Nearest Neighbours — the simplest classifier there is.')}: ${T('class(x)','The predicted class label for a new input point x.')} = ${T('majority vote','Whichever class appears most often among the K nearest training points wins.')} of ${T('K','The number of neighbours whose votes are counted.')} nearest ${T('neighbours','Training points that are closest to x in feature space.')}</div>
-      <p>K controls the smoothness of the KNN boundary — low K is sensitive to noise, high K smooths the decision region but may under-fit.</p>
+      <p>K controls the smoothness of the KNN boundary: low K is sensitive to noise, high K smooths the decision region but may under-fit.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>Low K (1–3) creates jagged, data-hugging boundaries; high K produces smoother regions.</li>
-        <li>Logistic regression draws a single straight line — it cannot capture nonlinear patterns.</li>
+        <li>Logistic regression draws a single straight line: it cannot capture nonlinear patterns.</li>
         <li>Accuracy rises when classes are well-separated and falls when they overlap.</li>
         <li>Adding points near the boundary zone is where most classification errors occur.</li>
       </ul>
@@ -544,15 +544,15 @@ function buildNeuralNetwork() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Neural Networks &amp; Backpropagation</h3>
-      <p>A neural network chains layers of neurons, each computing <strong>z = ${T('σ','Activation function — squashes any number into a useful range (e.g. 0–1 for sigmoid). Without it, stacking layers is the same as one layer.')}(${T('W','Weight matrix — the numbers the network adjusts during training. They determine how strongly each input influences each neuron.')}x + ${T('b','Bias — a constant added to every neuron. Lets the activation shift left or right.')})</strong>. The ${T('activation function','Introduces a bend or curve into the computation. Without it, no matter how many layers you stack, the output is still a straight line.')} introduces nonlinearity, letting the network learn curved decision boundaries that a single line cannot capture.</p>
-      <div class="exp-formula">${T('Loss','How wrong the network is — we want to minimise this number.')} = −(1/${T('n','Number of training examples.')}) ${T('Σ','Sum over all training examples.')} [ ${T('y','The true label (0 or 1).')} log(${T('ŷ','The network\'s predicted probability.')}) + (1−${T('y','The true label.')}) log(1−${T('ŷ','The network\'s predicted probability.')}) ]</div>
+      <p>A neural network chains layers of neurons, each computing <strong>z = ${T('σ','Activation function: squashes any number into a useful range (e.g. 0–1 for sigmoid). Without it, stacking layers is the same as one layer.')}(${T('W','Weight matrix: the numbers the network adjusts during training. They determine how strongly each input influences each neuron.')}x + ${T('b','Bias: a constant added to every neuron. Lets the activation shift left or right.')})</strong>. The ${T('activation function','Introduces a bend or curve into the computation. Without it, no matter how many layers you stack, the output is still a straight line.')} introduces nonlinearity, letting the network learn curved decision boundaries that a single line cannot capture.</p>
+      <div class="exp-formula">${T('Loss','How wrong the network is: we want to minimise this number.')} = −(1/${T('n','Number of training examples.')}) ${T('Σ','Sum over all training examples.')} [ ${T('y','The true label (0 or 1).')} log(${T('ŷ','The network\'s predicted probability.')}) + (1−${T('y','The true label.')}) log(1−${T('ŷ','The network\'s predicted probability.')}) ]</div>
       <p>Backpropagation computes the gradient of the loss with respect to every weight, then gradient descent updates them. More hidden neurons increase capacity but risk over-fitting on small datasets.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>The decision boundary starts random and progressively carves the correct regions as epochs increase.</li>
-        <li>The loss curve should drop smoothly — plateaus indicate a learning-rate or capacity issue.</li>
+        <li>The loss curve should drop smoothly: plateaus indicate a learning-rate or capacity issue.</li>
         <li>ReLU learns sharp boundaries; Sigmoid and Tanh produce smoother, rounder regions.</li>
-        <li>XOR and Spiral datasets require hidden neurons — a single layer cannot solve them.</li>
+        <li>XOR and Spiral datasets require hidden neurons: a single layer cannot solve them.</li>
       </ul>
     </details>
   `;
@@ -607,7 +607,7 @@ function buildFeatureScaling() {
       <p><strong>Min-Max</strong> maps to [0, 1]. <strong>Z-Score</strong> centres on 0 with unit variance. <strong>Robust</strong> scaling uses the median and IQR, making it resistant to outliers.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>The left canvas shows raw data; the right shows the same data after scaling — compare the axis ranges.</li>
+        <li>The left canvas shows raw data; the right shows the same data after scaling: compare the axis ranges.</li>
         <li>Gradient descent on scaled data converges in a fraction of the iterations.</li>
         <li>The speedup factor shows how many times faster scaling makes optimisation.</li>
         <li>Robust scaling holds up when extreme outliers are present in the data.</li>
@@ -638,10 +638,10 @@ function buildTimeseriesForecast() {
           <option value="seasonal-only">Seasonal Only</option>
           <option value="random-walk">Random Walk</option>
           <option value="noisy-plateau">Noisy Plateau</option>
-          <option value="stock-bull">📈 Stock — Bull Run</option>
-          <option value="stock-volatile">📉 Stock — Volatile</option>
-          <option value="stock-crash">💥 Stock — Crash & Recovery</option>
-          <option value="stock-sideways">↔ Stock — Sideways Channel</option>
+          <option value="stock-bull">📈 Stock: Bull Run</option>
+          <option value="stock-volatile">📉 Stock: Volatile</option>
+          <option value="stock-crash">💥 Stock: Crash & Recovery</option>
+          <option value="stock-sideways">↔ Stock: Sideways Channel</option>
         </select>
       </div>
       <div class="ctrl-row">
@@ -729,15 +729,15 @@ function buildTimeseriesForecast() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Time-Series Forecasting Methods</h3>
-      <p>A time series is a sequence of values ordered by time. Forecasting methods exploit patterns — <strong>trend</strong> (long-term direction), <strong>seasonality</strong> (repeating cycles), and <strong>noise</strong> (random variation) — to project future values.</p>
-      <div class="exp-formula">${T('MAE','Mean Absolute Error — the average gap between predicted and actual, ignoring sign. Easy to interpret: "off by X units on average".')} = (1/n) ${T('Σ','Sum over all time points.')} |${T('yᵢ','The actual value at time step i.')} − ${T('ŷᵢ','The forecast at time step i.')}| &emsp;|&emsp; ${T('RMSE','Root Mean Squared Error — penalises large errors more than MAE. A single bad forecast hurts more.')} = √[(1/n) Σ (yᵢ − ŷᵢ)²]</div>
+      <p>A time series is a sequence of values ordered by time. Forecasting methods exploit patterns (<strong>trend</strong> (long-term direction), <strong>seasonality</strong> (repeating cycles), and <strong>noise</strong> (random variation)) to project future values.</p>
+      <div class="exp-formula">${T('MAE','Mean Absolute Error: the average gap between predicted and actual, ignoring sign. Easy to interpret: "off by X units on average".')} = (1/n) ${T('Σ','Sum over all time points.')} |${T('yᵢ','The actual value at time step i.')} − ${T('ŷᵢ','The forecast at time step i.')}| &emsp;|&emsp; ${T('RMSE','Root Mean Squared Error — penalises large errors more than MAE. A single bad forecast hurts more.')} = √[(1/n) Σ (yᵢ − ŷᵢ)²]</div>
       <p>Simple methods (Moving Average, Exponential Smoothing) are fast and interpretable. Holt adds trend; Holt-Winters adds seasonality. Advanced methods (Kalman, GP, RNN, LSTM) model nonlinear dynamics. Compare All ranks every method on the same data.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>Moving Average lags behind sudden changes — the window parameter controls how much.</li>
+        <li>Moving Average lags behind sudden changes: the window parameter controls how much.</li>
         <li>Holt-Winters excels on data with both trend and seasonal components.</li>
         <li>MAPE gives a percentage error that is easy to interpret across different data scales.</li>
-        <li>The leaderboard reveals which methods suit which data patterns — no single method wins everywhere.</li>
+        <li>The leaderboard reveals which methods suit which data patterns: no single method wins everywhere.</li>
       </ul>
     </details>
   `;
@@ -749,7 +749,7 @@ function buildPcaVisualizer() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">PCA <em style="font-style:italic;color:var(--lab-ink);">Visualization</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Click to place 2D data points. Hit <strong>Compute PCA</strong> to find principal components — eigenvectors show the directions of maximum variance.
+      Click to place 2D data points. Hit <strong>Compute PCA</strong> to find principal components: eigenvectors show the directions of maximum variance.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -781,15 +781,15 @@ function buildPcaVisualizer() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Principal Component Analysis</h3>
-      <p>PCA finds the directions (${T('eigenvectors','A special direction in the data — when you transform the data along it, it only stretches or shrinks, not rotates.')}) along which your data varies the most. The first principal component captures the most variance; the second captures the most remaining variance orthogonal to the first. Projecting data onto these axes reduces dimensionality while preserving structure.</p>
-      <div class="exp-formula">${T('Cov(X)','Covariance matrix — describes how much all pairs of features vary together.')} ${T('v','An eigenvector — the direction of a principal component.')} = ${T('λ','Lambda — the eigenvalue. A bigger λ means this direction explains more variance.')} v &emsp;—&emsp; ${T('λ','Eigenvalue')} = variance explained by ${T('eigenvector','The principal component direction.')} v</div>
-      <p>If PC1 captures 95% of the variance, the data is essentially one-dimensional — the other dimension is mostly noise.</p>
+      <p>PCA finds the directions (${T('eigenvectors','A special direction in the data, when you transform the data along it, it only stretches or shrinks, not rotates.')}) along which your data varies the most. The first principal component captures the most variance; the second captures the most remaining variance orthogonal to the first. Projecting data onto these axes reduces dimensionality while preserving structure.</p>
+      <div class="exp-formula">${T('Cov(X)','Covariance matrix, describes how much all pairs of features vary together.')} ${T('v','An eigenvector, the direction of a principal component.')} = ${T('λ','Lambda, the eigenvalue. A bigger λ means this direction explains more variance.')} v &emsp; &emsp; ${T('λ','Eigenvalue')} = variance explained by ${T('eigenvector','The principal component direction.')} v</div>
+      <p>If PC1 captures 95% of the variance, the data is essentially one-dimensional: the other dimension is mostly noise.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>The eigenvector arrows point along the directions of maximum spread in the data.</li>
         <li>A long, narrow point cloud puts nearly all variance in PC1.</li>
-        <li>Toggling projection collapses points onto the principal axis — see how much information is kept.</li>
-        <li>Circular data splits variance equally between PC1 and PC2 — no dimension reduction is possible.</li>
+        <li>Toggling projection collapses points onto the principal axis: see how much information is kept.</li>
+        <li>Circular data splits variance equally between PC1 and PC2: no dimension reduction is possible.</li>
       </ul>
     </details>
   `;
@@ -841,15 +841,15 @@ function buildDecisionTree() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Decision Trees &amp; Gini Impurity</h3>
-      <p>A decision tree recursively splits the feature space with axis-aligned cuts. At each node it picks the feature and threshold that best separate the classes, measured by <strong>Gini impurity</strong> — a value of 0 means a perfectly pure node.</p>
-      <div class="exp-formula">${T('Gini','Gini Impurity — measures how mixed the classes are in a group. 0 = perfectly pure (one class only). 0.5 = maximally mixed.')} = 1 − ${T('Σ','Sum over all classes in this node.')} ${T('pᵢ²','p is the proportion of class i in the node. Squaring it rewards dominant classes.')}</div>
-      <p>Deeper trees can model complex boundaries but risk over-fitting to noise. Limiting max depth acts as regularisation — the tree generalises better on unseen data.</p>
+      <p>A decision tree recursively splits the feature space with axis-aligned cuts. At each node it picks the feature and threshold that best separate the classes, measured by <strong>Gini impurity</strong>: a value of 0 means a perfectly pure node.</p>
+      <div class="exp-formula">${T('Gini','Gini Impurity: measures how mixed the classes are in a group. 0 = perfectly pure (one class only). 0.5 = maximally mixed.')} = 1 − ${T('Σ','Sum over all classes in this node.')} ${T('pᵢ²','p is the proportion of class i in the node. Squaring it rewards dominant classes.')}</div>
+      <p>Deeper trees can model complex boundaries but risk over-fitting to noise. Limiting max depth acts as regularisation: the tree generalises better on unseen data.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>Each split adds a horizontal or vertical line, carving the plane into rectangles.</li>
         <li>Depth 1 gives a single split; depth 4 can create intricate rectangular regions.</li>
         <li>Accuracy rises with depth but may capture noise rather than the true boundary.</li>
-        <li>Gini drops toward 0 as leaves become purer — perfectly classified data has Gini = 0.</li>
+        <li>Gini drops toward 0 as leaves become purer: perfectly classified data has Gini = 0.</li>
       </ul>
     </details>
   `;
@@ -901,14 +901,14 @@ function buildAnomalyDetection() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Gaussian Anomaly Detection</h3>
-      <p>This method fits a multivariate Gaussian to the normal data, estimating the mean (${T('μ','Mu — the centre of the normal cluster: the average x and y position.')}) and covariance (${T('Σ','Sigma (uppercase) — the covariance matrix: describes the shape and orientation of the cluster.')}). Points falling in the low-probability tail — below a chosen percentile threshold — are flagged as anomalies.</p>
-      <div class="exp-formula">${T('p(x)','The probability that point x belongs to the normal distribution. High = normal. Low = suspicious.')} = ${T('N(x | μ, Σ)','A Gaussian (bell-curve) distribution centred at μ with spread Σ, evaluated at point x.')} &emsp;—&emsp; flag if ${T('p(x)','Probability of x under the normal model.')} &lt; ${T('ε','Epsilon — the probability threshold. Points below this are flagged as anomalies.')}</div>
+      <p>This method fits a multivariate Gaussian to the normal data, estimating the mean (${T('μ','Mu, the centre of the normal cluster: the average x and y position.')}) and covariance (${T('Σ','Sigma (uppercase), the covariance matrix: describes the shape and orientation of the cluster.')}). Points falling in the low-probability tail, below a chosen percentile threshold, are flagged as anomalies.</p>
+      <div class="exp-formula">${T('p(x)','The probability that point x belongs to the normal distribution. High = normal. Low = suspicious.')} = ${T('N(x | μ, Σ)','A Gaussian (bell-curve) distribution centred at μ with spread Σ, evaluated at point x.')} &emsp; (&emsp; flag if ${T('p(x)','Probability of x under the normal model.')} &lt; ${T('ε','Epsilon) the probability threshold. Points below this are flagged as anomalies.')}</div>
       <p>The ellipse on the canvas visualises the probability contour at the threshold. Points outside the ellipse are considered anomalous. A higher percentile threshold makes detection stricter (fewer flags).</p>
       <h3>What to Observe</h3>
       <ul>
         <li>The ellipse expands or contracts as you adjust the threshold percentile.</li>
-        <li>Tightly clustered normal data produces a small ellipse — outliers are easy to spot.</li>
-        <li>Spread-out normal data creates a larger envelope — anomalies must be further from the centre.</li>
+        <li>Tightly clustered normal data produces a small ellipse: outliers are easy to spot.</li>
+        <li>Spread-out normal data creates a larger envelope: anomalies must be further from the centre.</li>
         <li>The detected-percentage metric shows what fraction of all points falls outside the threshold.</li>
       </ul>
     </details>

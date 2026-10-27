@@ -255,7 +255,7 @@
       }
       .learning-path-meta { min-width: 0; }
       .learning-path-kicker {
-        font: 700 9px var(--mono);
+        font: 700 9px var(--sans);
         letter-spacing: .16em;
         text-transform: uppercase;
         color: var(--accent2);
@@ -270,7 +270,7 @@
       }
       .learning-path-title span {
         color: var(--muted);
-        font-family: var(--mono);
+        font-family: var(--sans);
         font-size: 11px;
         font-weight: 400;
       }
@@ -290,7 +290,7 @@
         border: 1px solid var(--border);
         background: var(--surface2);
         color: var(--muted);
-        font: 700 10px var(--mono);
+        font: 700 10px var(--sans);
         text-decoration: none;
       }
       .learning-path-step.is-complete {
@@ -300,7 +300,7 @@
       }
       .learning-path-step.is-current {
         border-color: var(--accent3);
-        box-shadow: 0 0 0 3px rgba(41,85,160,.12);
+        box-shadow: 0 0 0 3px rgba(138,90,0,.12);
       }
       .learning-path-overview-status {
         display: flex;
@@ -322,7 +322,7 @@
       }
       .learning-path-overview-count {
         color: var(--accent2);
-        font: 700 10px var(--mono);
+        font: 700 10px var(--sans);
         letter-spacing: .14em;
         text-transform: uppercase;
         white-space: nowrap;
@@ -341,13 +341,13 @@
         display: inline-flex;
         margin-top: 14px;
         color: var(--accent2);
-        font: 700 10px var(--mono);
+        font: 700 10px var(--sans);
         letter-spacing: .12em;
         text-transform: uppercase;
       }
       .learning-path-inline-check {
         color: var(--accent2);
-        font: 700 10px var(--mono);
+        font: 700 10px var(--sans);
         letter-spacing: .08em;
         text-transform: uppercase;
         white-space: nowrap;
@@ -368,11 +368,11 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font: 700 10px var(--mono);
+        font: 700 10px var(--sans);
         text-decoration: none;
         color: var(--accent3);
-        border: 1px solid rgba(41,85,160,.22);
-        background: rgba(41,85,160,.06);
+        border: 1px solid rgba(138,90,0,.22);
+        background: rgba(138,90,0,.06);
         border-radius: 5px;
         padding: 6px 9px;
         white-space: nowrap;
@@ -431,7 +431,7 @@
     const el = document.createElement('div');
     el.className = 'learning-path-complete-toast';
     el.setAttribute('role', 'status');
-    el.innerHTML = `<strong>&#127881; Path complete!</strong> ${html(title)} &mdash; nicely done.`;
+    el.innerHTML = `<strong>&#127881; Path complete!</strong> ${html(title)}: nicely done.`;
     document.body.appendChild(el);
     requestAnimationFrame(() => el.classList.add('is-visible'));
     setTimeout(() => {
@@ -452,7 +452,7 @@
     canvas.height = Math.round(innerHeight * dpr);
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
-    const colors = ['#c84b2f', '#2a7d5f', '#2955a0', '#8b4fa8', '#e0a63c'];
+    const colors = ['#2a44b8', '#2a7d5f', '#8a5a00', '#8b4fa8', '#e0a63c'];
     const parts = [];
     for (let i = 0; i < 140; i++) {
       parts.push({

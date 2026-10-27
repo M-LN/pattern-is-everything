@@ -649,8 +649,8 @@
       if (!manual) return; // no manual override; let OS media queries decide
       var orig = window.__themeColorOriginals;
       var target = manual === 'dark'
-        ? (orig.dark || '#141210')
-        : (orig.light || orig.plain || '#c84b2f');
+        ? (orig.dark || '#101216')
+        : (orig.light || orig.plain || '#2a44b8');
       var tags = document.querySelectorAll('meta[name="theme-color"]');
       for (var j = 0; j < tags.length; j++) {
         var t = tags[j];

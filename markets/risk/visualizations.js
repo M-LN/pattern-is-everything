@@ -9,7 +9,7 @@ function setupCanvas(id){const c=document.getElementById(id);if(!c)return null;c
 function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
 function lerp(a,b,t){return a+(b-a)*t;}
 function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
-const ACCENT=()=>css('--accent')||'#c84b2f';
+const ACCENT=()=>css('--accent')||'#2a44b8';
 const MUTED=()=>css('--muted')||'#888';
 const BORDER=()=>css('--border')||'#ddd';
 const MONO=()=>css('--mono')||'monospace';
