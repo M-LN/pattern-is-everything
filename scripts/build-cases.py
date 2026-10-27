@@ -106,22 +106,22 @@ CSS = """
     .back-link:hover { color: var(--accent); }
     .case-page { width: min(840px, calc(100% - 32px)); max-width: none; margin: 0 auto 80px; padding: 0; }
     .case-hero { padding: 48px 0 6px; }
-    .crumb { font: 500 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .crumb { font: 500 12px var(--sans); letter-spacing: 0; text-transform: none; color: var(--muted); }
     .crumb a { color: var(--accent); text-underline-offset: 2px; }
     .case-hero h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 5.5vw, 46px); line-height: 1.1; letter-spacing: -.02em; margin: 10px 0 14px; }
     .case-hero h2 em { color: var(--accent); }
     .case-q { font-size: 18px; line-height: 1.7; margin: 0; }
-    .case a { color: var(--accent3); text-underline-offset: 2px; }
+    .case a { color: var(--accent); text-underline-offset: 2px; }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .case a { color: #e2ac4e; } }
     [data-theme="dark"] .case a { color: #e2ac4e; }
     .case-data { margin: 26px 0 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.65; }
-    .case-data b { font: 500 11px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+    .case-data b { font: 500 12px var(--sans); letter-spacing: 0; text-transform: none; color: var(--muted); margin-right: 6px; }
     .case h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; margin: 44px 0 10px; }
     .case h3 .n { font: 500 13px var(--sans); color: var(--accent); margin-right: 8px; vertical-align: 3px; }
     .case p { line-height: 1.8; margin: 0 0 14px; }
     .case .code-block { margin: 12px 0 10px; }
     .run-static { margin: 0 0 14px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); font-family: var(--sans); font-size: 12px; line-height: 1.65; white-space: pre-wrap; overflow-x: auto; }
-    .run-static::before { content: 'Output'; display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .run-static::before { content: 'Output'; display: block; font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-bottom: 4px; }
     .case-fig { margin: 18px 0 20px; }
     .case-chart { width: 100%; height: auto; display: block; color: var(--text); font-family: var(--sans); }
     .case-chart .cl { font-size: 12px; fill: currentColor; }
@@ -133,7 +133,7 @@ CSS = """
     .case-chart .cp1 { stroke: var(--accent); } .case-chart .cp2 { stroke: var(--accent3); } .case-chart .cp3 { stroke: var(--accent2); } .case-chart .cp4 { stroke: var(--accent4); }
     .case-fig figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
     .case-box { margin: 36px 0 0; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; background: var(--surface); }
-    .case-box h4 { font: 500 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+    .case-box h4 { font: 500 12px var(--sans); letter-spacing: 0; text-transform: none; color: var(--accent); margin: 0 0 10px; }
     .case-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.7; }
     .case-box.src ul { font-size: 13px; color: var(--muted); }
     .case-box .t { color: var(--muted); }
@@ -168,7 +168,7 @@ def page(title, desc, path, body, og):
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=44">
+  <link rel="stylesheet" href="/css/main.css?v=45">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>%(css)s

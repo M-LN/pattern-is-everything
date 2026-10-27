@@ -47,7 +47,7 @@
     '.sc-opt.is-right{border-color:#2e8b57;background:rgba(46,139,87,.10)}' +
     '.sc-opt.is-wrong{border-color:#c0392b;background:rgba(192,57,43,.08)}' +
     '.sc-why{margin-top:8px;font-size:14px;line-height:1.65;color:var(--text)}' +
-    '.sc-why summary{cursor:pointer;font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}' +
+    '.sc-why summary{cursor:pointer;font-family:var(--sans);font-size: 12px;letter-spacing: 0;text-transform: none;color:var(--muted)}' +
     '.sc-why p{margin:8px 0 0}' +
     '.sc-q.is-answered .sc-why summary{display:none}';
   var style = document.createElement('style');
