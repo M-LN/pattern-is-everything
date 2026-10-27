@@ -43,7 +43,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-sans-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/ibm-plex-mono-400.woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css?v=3">
-  <link rel="stylesheet" href="css/main.css?v=46">
+  <link rel="stylesheet" href="css/main.css?v=47">
   </head>
 <body>
 
@@ -172,8 +172,7 @@
 <div class="portal-content" id="universes">
   <div class="section-head">
     <div class="section-kicker">Universes</div>
-    <h2>Pick your <em>universe</em></h2>
-    <p class="section-sub">Four worlds, ten collections, 257 interactive topics: machine learning, statistics, markets, and the patterns that connect them.</p>
+    <h2>Collections</h2>
   </div>
 
   <div class="portal-grid">
@@ -224,7 +223,7 @@
 <div class="start-exploring">
   <div class="section-head">
     <div class="section-kicker">Beyond the library</div>
-    <h2>Explore <em>differently</em></h2>
+    <h2>More to try</h2>
   </div>
   <div class="start-grid" style="grid-template-columns:repeat(auto-fit,minmax(185px,1fr));">
     <a class="start-card start-card-plain" href="/universe/">
@@ -543,49 +542,6 @@ fetch('search-index.json')
   new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 
-// Scroll-reveal: below-the-fold homepage sections fade up as they enter view
-if (!PREFERS_REDUCED_MOTION && 'IntersectionObserver' in window) {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
-    });
-  }, { threshold: .08 });
-  const pending = new Set();
-  document.querySelectorAll('#mainContent > div:not(.portal-hero):not(.pattern-of-day)').forEach(el => {
-    if (el.getBoundingClientRect().top > window.innerHeight * .85) {
-      el.classList.add('reveal');
-      io.observe(el);
-      pending.add(el);
-    }
-  });
-  // Instant jumps (anchors, End key) can skip past IO without ever
-  // intersecting — sweep on scroll so nothing stays invisible.
-  const sweep = () => {
-    pending.forEach(el => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * .92 || r.bottom < 0) {
-        el.classList.add('is-in');
-        io.unobserve(el);
-        pending.delete(el);
-      }
-    });
-    if (!pending.size) window.removeEventListener('scroll', sweep);
-  };
-  window.addEventListener('scroll', sweep, { passive: true });
-}
-
-// Gentle 3D tilt on universe cards (pointer devices only)
-if (!PREFERS_REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
-  document.querySelectorAll('.collection-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const rx = ((e.clientY - r.top) / r.height - .5) * -4;
-      const ry = ((e.clientX - r.left) / r.width - .5) * 4;
-      card.style.transform = `perspective(700px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-6px)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
-}
 
 // Ambient hero pattern — three gaussian curves slowly breathing.
 // Static single frame under prefers-reduced-motion; paused when offscreen.

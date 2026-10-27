@@ -1464,17 +1464,6 @@ html, body { overflow-x: clip; }
   letter-spacing: 0;
 }
 
-/* Scroll-reveal — sections fade up as they enter the viewport.
-   Applied by JS only to below-the-fold sections; no-JS pages are unaffected. */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .55s var(--ease), transform .55s var(--ease);
-  }
-  .reveal.is-in { opacity: 1; transform: none; }
-}
-
 /* Ambient generative pattern behind the hero text */
 .hero-pattern {
   position: absolute;
@@ -4097,3 +4086,4 @@ a:hover > .ext-icon { opacity: 1; transform: translate(1px, -1px); }
 .howto .howto-pitfall { background: none; }
 .va::before { content: none; }
 .howto ol li::before { background: none; color: var(--muted); border: 1px solid var(--border2); }
+.portal-footer::before { content: none !important; }
