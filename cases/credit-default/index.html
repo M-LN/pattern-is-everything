@@ -23,7 +23,7 @@
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=45">
+  <link rel="stylesheet" href="/css/main.css?v=46">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -105,7 +105,7 @@ df = pd.read_csv('credit.csv')
 default_rate = df['default'].mean()
 print(len(df), 'clients | default rate:', round(default_rate, 4))
 print('accuracy of always predicting "no default":', round(1 - default_rate, 4))</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser. Edit the code and run it again.</span></div>
 <pre class="run-static">30000 clients | default rate: 0.2212
 accuracy of always predicting "no default": 0.7788</pre>
 <p>About one client in 4.5 defaults. Predicting “no default” for everyone is right <strong>77.9%</strong> of the time and catches nobody. Any accuracy figure for this data has to be read against that.</p>
@@ -119,7 +119,7 @@ odd_marriage = (~df.MARRIAGE.isin([1, 2, 3])).sum()
 print('clients with a -2 or 0 status in some month:', round(undocumented_pay, 3))
 print('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', odd_marriage)
 print('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs step 1 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs step 1 first). Edit the code and run it again.</span></div>
 <pre class="run-static">PAY_0 values: {-2: 2759, -1: 5686, 0: 14737, 1: 3688, 2: 2667, 3: 322, 4: 76, 5: 26, 6: 11, 7: 9, 8: 19}
 clients with a -2 or 0 status in some month: 0.865
 education codes outside 1-4: 345 | marriage outside 1-3: 54
@@ -145,7 +145,7 @@ for name, m in [('logistic', logit), ('boosted trees', boost)]:
     print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '
           f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')
 p = boost.predict_proba(X_te)[:, 1]</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–2 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–2 first). Edit the code and run it again.</span></div>
 <pre class="run-static">logistic       accuracy 0.811  AUC 0.715  recall 0.237  precision 0.724
 boosted trees  accuracy 0.823  AUC 0.775  recall 0.364  precision 0.687</pre>
 <p>The boosted model is <strong>82.3%</strong> accurate: 4.4 points better than never predicting a default, and at a threshold of 0.5 it catches <strong>36%</strong> of the clients who default. Most defaults go unflagged. The AUC of 0.77 says the ranking is reasonable; the threshold is what throws the catches away.</p>
@@ -156,7 +156,7 @@ print('rule PAY_0 &gt;= 1: flags', round(late.mean(), 3), 'of clients',
       '| recall', round(recall_score(y_te, late), 3),
       '| precision', round(precision_score(y_te, late), 3))
 print('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–3 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–3 first). Edit the code and run it again.</span></div>
 <pre class="run-static">rule PAY_0 &gt;= 1: flags 0.222 of clients | recall 0.51 | precision 0.507
 AUC of PAY_0 alone, as a score: 0.688</pre>
 <p>The one-line rule catches <strong>51%</strong> of the defaults: more than the model at 0.5 — with precision 0.51. Last month’s repayment status carries most of the signal; the other 22 columns lift the AUC from 0.69 (that column alone) to 0.77. A baseline like this belongs in every model report, because it tells you what the model adds.</p>
@@ -174,7 +174,7 @@ for th in (0.5, 0.3, 0.2, 1 / 6, 0.1):
     cost = 5 * missed + false_alarm
     costs[round(th, 3)] = cost
     print(f'threshold {th:.3f}: flags {flag.mean():.3f}  recall {recall_score(y_te, flag):.3f}  cost {cost}')</pre></div>
-<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser — runs steps 1–4 first — edit the code and run it again</span></div>
+<div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–4 first). Edit the code and run it again.</span></div>
 <pre class="run-static">               0      1      2      3      4      5      6      7      8      9
 predicted  0.051  0.072  0.094  0.117  0.139  0.161  0.200  0.270  0.409  0.694
 actual     0.049  0.079  0.083  0.120  0.151  0.176  0.172  0.263  0.412  0.707

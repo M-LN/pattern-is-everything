@@ -691,7 +691,7 @@ function buildHome() {
 
 function buildHeadAndShoulders() {
   return `<div class="topic" id="head-and-shoulders">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Reversal Patterns</div><h2>Head & <em>Shoulders</em></h2></div><span class="topic-badge">Bearish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 · Reversal Patterns</div><h2>Head & <em>Shoulders</em></h2></div><span class="topic-badge">Bearish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Three peaks: the classic top reversal</p>
   <p class="prose">The <strong>Head & Shoulders</strong> is the best-known reversal pattern. A left shoulder peak, a higher head peak, then a lower right shoulder. When price breaks below the <strong>neckline</strong> (drawn through the two troughs), the bearish reversal is confirmed.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Head − Neckline)</div><div class="fd"><span>Measured move:</span> the distance from the head to the neckline, projected downward from the breakpoint.</div></div>
@@ -735,7 +735,7 @@ function buildHeadAndShoulders() {
 
 function buildInverseHeadAndShoulders() {
   return `<div class="topic" id="inverse-head-and-shoulders">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Reversal Patterns</div><h2>Inverse <em>H&S</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 · Reversal Patterns</div><h2>Inverse <em>H&S</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// The mirror image: three troughs signaling a bottom</p>
   <p class="prose">The <strong>Inverse Head & Shoulders</strong> is the bullish mirror: left trough, a deeper head trough, then a shallower right trough. Breakout above the neckline confirms the bullish reversal. Often forms at the end of extended downtrends.</p>
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Head)</div><div class="fd"><span>The deeper the head,</span> the larger the potential move. Volume should increase on the breakout.</div></div>
@@ -749,7 +749,7 @@ function buildInverseHeadAndShoulders() {
 
 function buildDoubleTop() {
   return `<div class="topic" id="double-top">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 — Reversal Patterns</div><h2>Double <em>Top</em></h2></div><span class="topic-badge">Bearish — M</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 · Reversal Patterns</div><h2>Double <em>Top</em></h2></div><span class="topic-badge">Bearish — M</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Two peaks at the same level: the "M" formation</p>
   <p class="prose">The <strong>Double Top</strong> forms when price hits resistance twice and fails to break through. The two peaks form an "M" shape. Breakdown below the trough between peaks (the neckline) confirms the bearish reversal.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Peak − Neckline)</div><div class="fd"><span>The two peaks don't need to be identical</span>: a difference of ~3% is acceptable. Time between peaks varies from weeks to months.</div></div>
@@ -763,7 +763,7 @@ function buildDoubleTop() {
 
 function buildDoubleBottom() {
   return `<div class="topic" id="double-bottom">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 — Reversal Patterns</div><h2>Double <em>Bottom</em></h2></div><span class="topic-badge">Bullish — W</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 · Reversal Patterns</div><h2>Double <em>Bottom</em></h2></div><span class="topic-badge">Bullish — W</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Two troughs at the same level: the "W" formation</p>
   <p class="prose">The <strong>Double Bottom</strong> is the bullish mirror of the double top: price tests support twice and bounces. The "W" shape forms with a peak between two troughs. Breakout above the neckline (the middle peak) confirms the reversal.</p>
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Trough)</div><div class="fd"><span>A "spring"</span>, where the second bottom slightly undercuts the first before reversing, can be especially powerful.</div></div>
@@ -777,7 +777,7 @@ function buildDoubleBottom() {
 
 function buildRoundingBottom() {
   return `<div class="topic" id="rounding-bottom">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Reversal Patterns</div><h2>Rounding <em>Bottom</em></h2></div><span class="topic-badge">Saucer</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 · Reversal Patterns</div><h2>Rounding <em>Bottom</em></h2></div><span class="topic-badge">Saucer</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// A slow, gradual reversal: the U-shaped bottom</p>
   <p class="prose">The <strong>Rounding Bottom</strong> (saucer) is a gradual transition from selling to buying pressure, forming a U-shape over weeks or months. Volume mirrors the price pattern: high at the start, low at the bottom, rising on the right side.</p>
   <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. It forms slowly, and is only confirmed by the breakout.</div></div>
@@ -791,7 +791,7 @@ function buildRoundingBottom() {
 
 function buildBullFlag() {
   return `<div class="topic" id="bull-flag">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 — Continuation Patterns</div><h2>Bull <em>Flag</em></h2></div><span class="topic-badge">Bullish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">06 · Continuation Patterns</div><h2>Bull <em>Flag</em></h2></div><span class="topic-badge">Bullish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Sharp rally + downward-sloping channel = continuation</p>
   <p class="prose">The <strong>Bull Flag</strong> starts with a sharp rally (the pole), followed by a gentle downward-sloping consolidation channel (the flag). Breakout above the flag's upper trendline continues the uptrend. A widely used continuation pattern.</p>
   <div class="fb"><div class="fm">Target = Breakout point + Pole length</div><div class="fd"><span>The pole measures the initial move;</span> project that distance from the breakout point for the target.</div></div>
@@ -805,7 +805,7 @@ function buildBullFlag() {
 
 function buildBearFlag() {
   return `<div class="topic" id="bear-flag">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">07 — Continuation Patterns</div><h2>Bear <em>Flag</em></h2></div><span class="topic-badge">Bearish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">07 · Continuation Patterns</div><h2>Bear <em>Flag</em></h2></div><span class="topic-badge">Bearish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Sharp decline + upward-sloping channel = continuation down</p>
   <p class="prose">The <strong>Bear Flag</strong> is the bearish mirror: a sharp decline (pole) followed by a gentle upward-sloping consolidation (flag). Breakdown below the lower trendline continues the downtrend.</p>
   <div class="fb"><div class="fm">Target = Breakdown point − Pole length</div><div class="fd"><span>Bear flags in strong downtrends</span> can resolve very quickly: the consolidation may be brief.</div></div>
@@ -819,7 +819,7 @@ function buildBearFlag() {
 
 function buildPennant() {
   return `<div class="topic" id="pennant">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 — Continuation Patterns</div><h2><em>Pennant</em></h2></div><span class="topic-badge">Continuation</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 · Continuation Patterns</div><h2><em>Pennant</em></h2></div><span class="topic-badge">Continuation</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Small symmetrical triangle on a pole: brief pause before continuation</p>
   <p class="prose">A <strong>Pennant</strong> is a small symmetrical triangle that forms after a strong move (the pole). Converging trendlines create a brief pause. Breakout continues in the direction of the pole. Typically resolves within 1-3 weeks.</p>
   <div class="fb"><div class="fm">Target = Breakout + Pole length</div><div class="fd"><span>Key difference from flags:</span> pennants have converging trendlines (triangle), flags have parallel trendlines (channel).</div></div>
@@ -833,7 +833,7 @@ function buildPennant() {
 
 function buildAscendingTriangle() {
   return `<div class="topic" id="ascending-triangle">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Continuation Patterns</div><h2>Ascending <em>Triangle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 · Continuation Patterns</div><h2>Ascending <em>Triangle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Flat resistance + rising lows = buyers pressing higher</p>
   <p class="prose">The <strong>Ascending Triangle</strong> has a flat resistance level and a rising lower trendline. Buyers are willing to pay increasingly higher prices. When resistance finally breaks, the measured move equals the triangle's height at its widest point.</p>
   <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>Usually read as bullish</span>, but published success rates vary, so wait for a close above resistance.</div></div>
@@ -847,7 +847,7 @@ function buildAscendingTriangle() {
 
 function buildDescendingTriangle() {
   return `<div class="topic" id="descending-triangle">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 — Continuation Patterns</div><h2>Descending <em>Triangle</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 · Continuation Patterns</div><h2>Descending <em>Triangle</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Flat support + falling highs = sellers pressing lower</p>
   <p class="prose">The <strong>Descending Triangle</strong> has a flat support level and a falling upper trendline. Sellers are accepting lower prices. Breakdown below support triggers the measured move: the triangle's height projected downward.</p>
   <div class="fb"><div class="fm">Target = Breakdown − Height of triangle base</div><div class="fd"><span>The mirror of ascending triangles</span>: sellers weaken support with each touch until it breaks.</div></div>
@@ -861,7 +861,7 @@ function buildDescendingTriangle() {
 
 function buildSymmetricTriangle() {
   return `<div class="topic" id="symmetric-triangle">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 — Bilateral & Wedge</div><h2>Symmetric <em>Triangle</em></h2></div><span class="topic-badge">Bilateral</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 · Bilateral & Wedge</div><h2>Symmetric <em>Triangle</em></h2></div><span class="topic-badge">Bilateral</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Converging trendlines, no bias: the market is deciding</p>
   <p class="prose">The <strong>Symmetric Triangle</strong> has converging trendlines with lower highs and higher lows: the market is compressing, undecided. It can break either way. Most often continues the prior trend direction, but always wait for confirmation.</p>
   <div class="fb"><div class="fm">Target = Breakout point ± Width at base</div><div class="fd"><span>Breakout typically occurs</span> between 50-75% of the way to the apex. Breakouts too close to the apex often fail.</div></div>
@@ -875,7 +875,7 @@ function buildSymmetricTriangle() {
 
 function buildRisingWedge() {
   return `<div class="topic" id="rising-wedge">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 — Bilateral & Wedge</div><h2>Rising <em>Wedge</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 · Bilateral & Wedge</div><h2>Rising <em>Wedge</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Both lines slope up but converge: momentum is dying</p>
   <p class="prose">The <strong>Rising Wedge</strong> has both support and resistance sloping upward, but converging. Price is rising but the range is narrowing: momentum is exhausting. Usually resolves with a bearish breakdown.</p>
   <div class="fb"><div class="fm">Target = Breakdown − Height of wedge at widest</div><div class="fd"><span>Key difference from ascending triangle:</span> both lines slope up in a wedge, only one is flat in a triangle.</div></div>
@@ -889,7 +889,7 @@ function buildRisingWedge() {
 
 function buildFallingWedge() {
   return `<div class="topic" id="falling-wedge">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">13 — Bilateral & Wedge</div><h2>Falling <em>Wedge</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">13 · Bilateral & Wedge</div><h2>Falling <em>Wedge</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Both lines slope down but converge: selling is exhausting</p>
   <p class="prose">The <strong>Falling Wedge</strong> has both lines sloping downward and converging. Price is falling but the range is narrowing: sellers are losing conviction. Usually resolves with a bullish breakout.</p>
   <div class="fb"><div class="fm">Target = Breakout + Height of wedge at widest</div><div class="fd"><span>Falling wedges in downtrends</span> signal reversal; in uptrends, they're continuation patterns (a pullback before resuming).</div></div>
@@ -903,7 +903,7 @@ function buildFallingWedge() {
 
 function buildBroadeningFormation() {
   return `<div class="topic" id="broadening-formation">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">14 — Bilateral & Wedge</div><h2>Broadening <em>Formation</em></h2></div><span class="topic-badge">Megaphone</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">14 · Bilateral & Wedge</div><h2>Broadening <em>Formation</em></h2></div><span class="topic-badge">Megaphone</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Diverging trendlines: expanding volatility, increasing disagreement</p>
   <p class="prose">The <strong>Broadening Formation</strong> (megaphone) has diverging trendlines: higher highs and lower lows. Volatility and disagreement are increasing. It often appears at major market tops and is one of the most difficult patterns to trade.</p>
   <div class="fb"><div class="fm">No clean measured move: trade the swings or wait for breakout</div><div class="fd"><span>Each swing is larger than the last,</span> swinging buyers and sellers into increasingly extreme positions.</div></div>
@@ -917,7 +917,7 @@ function buildBroadeningFormation() {
 
 function buildRectangle() {
   return `<div class="topic" id="rectangle">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">15 — Bilateral & Wedge</div><h2><em>Rectangle</em></h2></div><span class="topic-badge">Range</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">15 · Bilateral & Wedge</div><h2><em>Rectangle</em></h2></div><span class="topic-badge">Range</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Horizontal support and resistance: a consolidation box</p>
   <p class="prose">The <strong>Rectangle</strong> is a horizontal consolidation range: price bounces between parallel support and resistance. It's a pause in the trend. Breakout direction usually follows the prior trend. The measured move is the rectangle's height.</p>
   <div class="fb"><div class="fm">Target = Breakout ± Height of rectangle</div><div class="fd"><span>Can be traded internally</span> (buy support, sell resistance) or by waiting for the breakout.</div></div>
@@ -931,7 +931,7 @@ function buildRectangle() {
 
 function buildDoji() {
   return `<div class="topic" id="doji">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 — Candlestick Patterns</div><h2><em>Doji</em></h2></div><span class="topic-badge">Indecision</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 · Candlestick Patterns</div><h2><em>Doji</em></h2></div><span class="topic-badge">Indecision</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Open ≈ Close: the market is undecided</p>
   <p class="prose">A <strong>Doji</strong> forms when the open and close are nearly equal, creating a cross or plus shape. It signals indecision, neither buyers nor sellers won. Context is everything: at a trend extreme, it suggests reversal; mid-range, it's noise.</p>
   <div class="fb"><div class="fm">Variants: Standard (+), Long-legged, Dragonfly (T), Gravestone (⊥)</div><div class="fd"><span>A doji after a long green candle</span> suggests the uptrend may be stalling: buyers ran out of conviction.</div></div>
@@ -945,7 +945,7 @@ function buildDoji() {
 
 function buildHammer() {
   return `<div class="topic" id="hammer">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">17 — Candlestick Patterns</div><h2><em>Hammer</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">17 · Candlestick Patterns</div><h2><em>Hammer</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Long lower shadow, small body at top: buyers reclaimed</p>
   <p class="prose">The <strong>Hammer</strong> has a small body at the top and a long lower shadow (≥2× body length). Sellers pushed price down during the session, but buyers pulled it back up. At a support level or downtrend base, it signals bullish reversal.</p>
   <div class="fb"><div class="fm">Lower shadow ≥ 2× body length, little or no upper shadow</div><div class="fd"><span>The "Hanging Man"</span> has the same shape but appears at tops: same candle, opposite meaning depending on context.</div></div>
@@ -959,7 +959,7 @@ function buildHammer() {
 
 function buildEngulfing() {
   return `<div class="topic" id="engulfing">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 — Candlestick Patterns</div><h2><em>Engulfing</em></h2></div><span class="topic-badge">Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 · Candlestick Patterns</div><h2><em>Engulfing</em></h2></div><span class="topic-badge">Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// The second candle swallows the first: momentum shift</p>
   <p class="prose">An <strong>Engulfing</strong> pattern is a two-candle reversal. <strong>Bullish:</strong> small red candle followed by a larger green candle that completely covers the red body. <strong>Bearish:</strong> small green followed by a larger red that engulfs it.</p>
   <div class="fb"><div class="fm">Second body completely covers (engulfs) the first body</div><div class="fd"><span>The engulfing candle shows conviction</span>: the larger the second candle relative to the first, the stronger the signal.</div></div>
@@ -973,7 +973,7 @@ function buildEngulfing() {
 
 function buildMorningStar() {
   return `<div class="topic" id="morning-star">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 — Candlestick Patterns</div><h2>Morning <em>Star</em></h2></div><span class="topic-badge">Bullish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 · Candlestick Patterns</div><h2>Morning <em>Star</em></h2></div><span class="topic-badge">Bullish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Long red → small star → long green: dawn after night</p>
   <p class="prose">The <strong>Morning Star</strong> is a three-candle bullish reversal. First, a long red candle (sellers in control). Then a small-bodied "star" (indecision: sellers exhausting). Finally, a long green candle (buyers take over). Named because it appears before dawn: the trend's darkest point.</p>
   <div class="fb"><div class="fm">Red (long) → Star (small, gapped) → Green (long)</div><div class="fd"><span>The star can be a doji</span> (called a "Morning Doji Star"): this strengthens the signal.</div></div>
@@ -987,7 +987,7 @@ function buildMorningStar() {
 
 function buildEveningStar() {
   return `<div class="topic" id="evening-star">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">20 — Candlestick Patterns</div><h2>Evening <em>Star</em></h2></div><span class="topic-badge">Bearish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">20 · Candlestick Patterns</div><h2>Evening <em>Star</em></h2></div><span class="topic-badge">Bearish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Long green → small star → long red: dusk after daylight</p>
   <p class="prose">The <strong>Evening Star</strong> is the bearish mirror. First, a long green candle (buyers confident). Then a small star (indecision at the top). Finally, a long red candle (sellers overwhelm). Named because the evening star appears before nightfall.</p>
   <div class="fb"><div class="fm">Green (long) → Star (small, gapped) → Red (long)</div><div class="fd"><span>The third candle should close</span> below the midpoint of the first candle for a strong signal.</div></div>
@@ -1001,7 +1001,7 @@ function buildEveningStar() {
 
 function buildSupportResistance() {
   return `<div class="topic" id="support-resistance">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 — Structural Analysis</div><h2>Support & <em>Resistance</em></h2></div><span class="topic-badge">Levels</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 · Structural Analysis</div><h2>Support & <em>Resistance</em></h2></div><span class="topic-badge">Levels</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// The floor and ceiling of price, where memory lives</p>
   <p class="prose"><strong>Support</strong> is a price level where buying concentrates (floor). <strong>Resistance</strong> is where selling concentrates (ceiling). These levels have "memory": broken support becomes resistance, and broken resistance becomes support. This polarity principle is fundamental to all chart reading.</p>
   <div class="fb"><div class="fm">More touches = stronger level · Broken support → resistance (and vice versa)</div><div class="fd"><span>S&R levels are zones, not exact prices</span>: think of them as areas where orders cluster, not precise lines.</div></div>
@@ -1015,7 +1015,7 @@ function buildSupportResistance() {
 
 function buildTrendlines() {
   return `<div class="topic" id="trendlines">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 — Structural Analysis</div><h2><em>Trendlines</em></h2></div><span class="topic-badge">Diagonal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 · Structural Analysis</div><h2><em>Trendlines</em></h2></div><span class="topic-badge">Diagonal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Connecting swing points: the direction of price flow</p>
   <p class="prose"><strong>Trendlines</strong> connect swing lows in an uptrend (ascending support) or swing highs in a downtrend (descending resistance). A valid trendline touches at least 3 points. The more touches and the longer the line, the more significant its break.</p>
   <div class="fb"><div class="fm">≥3 touches = valid · Steeper = less sustainable · Break = signal</div><div class="fd"><span>Draw trendlines from body to body</span> (closes not wicks) for more reliable levels, though both methods have advocates.</div></div>
@@ -1029,7 +1029,7 @@ function buildTrendlines() {
 
 function buildChannels() {
   return `<div class="topic" id="channels">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">23 — Structural Analysis</div><h2><em>Channels</em></h2></div><span class="topic-badge">Parallel</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">23 · Structural Analysis</div><h2><em>Channels</em></h2></div><span class="topic-badge">Parallel</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Two parallel trendlines containing price</p>
   <p class="prose">A <strong>Channel</strong> consists of two parallel trendlines between which price oscillates. Ascending channels slope up (bullish), descending channels slope down (bearish), and horizontal channels are ranges. Price bouncing off both lines confirms the channel.</p>
   <div class="fb"><div class="fm">Trade the channel interior · Breakout signals new move</div><div class="fd"><span>Draw the primary trendline first</span> (connecting 3+ points), then create a parallel line through the opposite extreme.</div></div>
@@ -1043,7 +1043,7 @@ function buildChannels() {
 
 function buildGaps() {
   return `<div class="topic" id="gaps">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 — Structural Analysis</div><h2><em>Gaps</em></h2></div><span class="topic-badge">Price Void</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 · Structural Analysis</div><h2><em>Gaps</em></h2></div><span class="topic-badge">Price Void</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Empty space between candles, where no trading happened</p>
   <p class="prose"><strong>Gaps</strong> occur when price opens above the prior close (gap up) or below it (gap down), leaving a void. Four types: <strong>Common</strong> (noise, often fills), <strong>Breakaway</strong> (starts a new move), <strong>Runaway</strong> (continuation), <strong>Exhaustion</strong> (end of move).</p>
   <div class="fb"><div class="fm">Breakaway → starts move · Runaway → continues · Exhaustion → ends</div><div class="fd"><span>"Gaps always fill"</span> is a myth: breakaway and runaway gaps often don't fill for months or years.</div></div>
@@ -1057,7 +1057,7 @@ function buildGaps() {
 
 function buildCupAndHandle() {
   return `<div class="topic" id="cup-and-handle">
-  <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 — Structural Analysis</div><h2>Cup & <em>Handle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
+  <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 · Structural Analysis</div><h2>Cup & <em>Handle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// A rounded bottom with a brief consolidation, then breakout</p>
   <p class="prose">The <strong>Cup & Handle</strong>, popularized by William O'Neil, combines a rounded bottom (the cup) with a brief downward drift or consolidation (the handle) before breaking out to new highs. The cup should be a smooth U-shape, not a sharp V.</p>
   <div class="fb"><div class="fm">Target = Breakout + Depth of cup</div><div class="fd"><span>The handle should retrace</span> no more than 1/3 of the cup depth. Handle pullbacks of 8-12% are ideal (O'Neil guidelines).</div></div>

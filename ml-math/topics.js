@@ -994,7 +994,7 @@ function buildHome() {
 function buildVectors() {
   return `<div class="topic" id="vectors">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2>Vectors & <em>Matrices</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">01 · Foundations</div><h2>Vectors & <em>Matrices</em></h2></div>
     <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The language of ML, every model is matrix multiplication under the hood</p>
@@ -1004,7 +1004,7 @@ function buildVectors() {
   <div class="fb c3"><div class="fm">(AB)ᵀ = BᵀAᵀ &nbsp;&nbsp; (A⁻¹)⁻¹ = A</div><div class="fd"><span>Transpose</span> reverses multiplication order. Only square, full-rank matrices are invertible.</div></div>
   <div class="va">
     <div class="vl">// Interactive 2D vectors: drag to change, see dot product</div>
-    <canvas id="vecCanvas" role="img" aria-label="Vectors &amp; Matrices: Interactive 2D vectors — drag to change, see dot product" height="240"></canvas>
+    <canvas id="vecCanvas" role="img" aria-label="Vectors &amp; Matrices: Interactive 2D vectors: drag to change, see dot product" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Vector A angle</span><input type="range" aria-label="Vector A angle" id="vecA" min="0" max="360" step="1" value="30"><span class="vd" id="vecAv">30°</span></div>
       <div class="cg"><span class="cl">Vector B angle</span><input type="range" aria-label="Vector B angle" id="vecB" min="0" max="360" step="1" value="80"><span class="vd" id="vecBv">80°</span></div>
@@ -1040,7 +1040,7 @@ E = torch.outer(a, b)                 <span class="cm"># outer product</span></p
 function buildLinear() {
   return `<div class="topic" id="linear">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Linear <em>Regression</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">02 · Foundations</div><h2>Linear <em>Regression</em></h2></div>
     <span class="topic-badge">Supervised</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Fitting a line through data: the simplest predictive model</p>
@@ -1049,7 +1049,7 @@ function buildLinear() {
   <div class="fb c2"><div class="fm">MSE = (1/n) · Σ (yᵢ − ŷᵢ)²</div><div class="fd"><span>MSE</span> = Mean Squared Error loss &nbsp;|&nbsp; minimised by gradient descent</div></div>
   <div class="va">
     <div class="vl">// Interactive: drag sliders to fit the line</div>
-    <canvas id="linCanvas" role="img" aria-label="Linear Regression: Interactive — drag sliders to fit the line" height="240"></canvas>
+    <canvas id="linCanvas" role="img" aria-label="Linear Regression: Interactive: drag sliders to fit the line" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" aria-label="Weight w" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
       <div class="cg"><span class="cl">Bias b</span><input type="range" aria-label="Bias b" id="linB" min="-3" max="3" step="0.05" value="0"><span class="vd" id="linBv">0.00</span></div>
@@ -1068,7 +1068,7 @@ function buildLinear() {
 function buildLogistic() {
   return `<div class="topic" id="logistic">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Logistic <em>Regression</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">03 · Foundations</div><h2>Logistic <em>Regression</em></h2></div>
     <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The bridge from regression to classification: sigmoid turns scores into probabilities</p>
@@ -1101,7 +1101,7 @@ loss = loss_fn(model(x), y)</pre></div>
 function buildGradient() {
   return `<div class="topic" id="gradient">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2>Gradient <em>Descent</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">04 · Foundations</div><h2>Gradient <em>Descent</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Rolling downhill on the loss landscape to find optimal weights</p>
@@ -1181,7 +1181,7 @@ for epoch in range(20):
 function buildActivation() {
   return `<div class="topic" id="activation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">05 — Foundations</div><h2>Activation <em>Functions</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">05 · Foundations</div><h2>Activation <em>Functions</em></h2></div>
     <span class="topic-badge">Non-linearity</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// What makes deep networks more than stacked linear transforms</p>
@@ -1218,7 +1218,7 @@ function buildActivation() {
 function buildBiasVariance() {
   return `<div class="topic" id="bias-variance">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">06 — Foundations</div><h2>Bias-Variance <em>Tradeoff</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">06 · Foundations</div><h2>Bias-Variance <em>Tradeoff</em></h2></div>
     <span class="topic-badge">Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The fundamental tension between underfitting and overfitting</p>
@@ -1273,7 +1273,7 @@ function buildBiasVariance() {
 function buildLoss() {
   return `<div class="topic" id="loss">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">07 — Training</div><h2>Loss <em>Functions</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">07 · Training</div><h2>Loss <em>Functions</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how wrong the model is: the objective being minimised</p>
@@ -1301,7 +1301,7 @@ function buildLoss() {
 function buildBackprop() {
   return `<div class="topic" id="backprop">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">08 — Training</div><h2><em>Back</em>propagation</h2></div>
+    <div class="topic-meta"><div class="topic-num">08 · Training</div><h2><em>Back</em>propagation</h2></div>
     <span class="topic-badge">Algorithm</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Chain rule applied through a network: how every weight gets its gradient</p>
@@ -1327,7 +1327,7 @@ function buildBackprop() {
 function buildOptimizers() {
   return `<div class="topic" id="optimizers">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">09 — Training</div><h2><em>Optimizers</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">09 · Training</div><h2><em>Optimizers</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Beyond vanilla SGD: momentum, adaptive learning rates, Adam</p>
@@ -1360,7 +1360,7 @@ optim = torch.optim.AdamW(model.parameters(), lr=<span class="st">1e-3</span>, w
 function buildRegularization() {
   return `<div class="topic" id="regularization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">10 — Training</div><h2><em>Regularization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">10 · Training</div><h2><em>Regularization</em></h2></div>
     <span class="topic-badge">Generalization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Preventing overfitting by constraining model complexity</p>
@@ -1431,7 +1431,7 @@ model.train()  <span class="cm"># re-enables dropout</span></pre></div>
 function buildBatchnorm() {
   return `<div class="topic" id="batchnorm">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">11 — Training</div><h2>Batch <em>Normalization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">11 · Training</div><h2>Batch <em>Normalization</em></h2></div>
     <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Normalizing activations to keep training stable and fast</p>
@@ -1458,7 +1458,7 @@ function buildBatchnorm() {
 function buildLRSchedule() {
   return `<div class="topic" id="lr-schedule">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">12 — Training</div><h2>LR <em>Scheduling</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">12 · Training</div><h2>LR <em>Scheduling</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Adjusting the learning rate over training for better convergence</p>
@@ -1490,7 +1490,7 @@ scheduler.step()</pre></div>
 function buildWeightInit() {
   return `<div class="topic" id="weight-init">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">13 — Training</div><h2>Weight <em>Initialization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">13 · Training</div><h2>Weight <em>Initialization</em></h2></div>
     <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How you start determines if you converge: Xavier, He, and why they matter</p>
@@ -1521,7 +1521,7 @@ nn.init.zeros_(layer.bias)                <span class="cm"># biases → 0</span>
 function buildGradClip() {
   return `<div class="topic" id="grad-clip">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">14 — Training</div><h2>Gradient <em>Clipping</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">14 · Training</div><h2>Gradient <em>Clipping</em></h2></div>
     <span class="topic-badge">Stabilization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Preventing exploding gradients by capping their magnitude</p>
@@ -1551,7 +1551,7 @@ optimizer.step()</pre></div>
 function buildSoftmax() {
   return `<div class="topic" id="softmax">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">15 — Core Math</div><h2>Softmax & <em>Probabilities</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">15 · Core Math</div><h2>Softmax & <em>Probabilities</em></h2></div>
     <span class="topic-badge">Classification</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Converting raw scores into a probability distribution</p>
@@ -1573,7 +1573,7 @@ function buildSoftmax() {
 function buildMLE() {
   return `<div class="topic" id="mle">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">16 — Core Math</div><h2>MLE & <em>Gaussian</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">16 · Core Math</div><h2>MLE & <em>Gaussian</em></h2></div>
     <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Maximum Likelihood Estimation: why MSE and Cross-Entropy exist</p>
@@ -1599,7 +1599,7 @@ function buildMLE() {
 function buildEntropy() {
   return `<div class="topic" id="entropy">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">17 — Core Math</div><h2><em>Entropy</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">17 · Core Math</div><h2><em>Entropy</em></h2></div>
     <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring uncertainty: how much "surprise" is in a distribution</p>
@@ -1626,7 +1626,7 @@ function buildEntropy() {
 function buildKLDiv() {
   return `<div class="topic" id="kl-div">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">18 — Core Math</div><h2>KL <em>Divergence</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">18 · Core Math</div><h2>KL <em>Divergence</em></h2></div>
     <span class="topic-badge">Information Theory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring how different two probability distributions are</p>
@@ -1651,7 +1651,7 @@ function buildKLDiv() {
 function buildBayes() {
   return `<div class="topic" id="bayes">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">19 — Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">19 · Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
     <span class="topic-badge">Probability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Updating beliefs with evidence: the foundation of probabilistic ML</p>
@@ -1677,7 +1677,7 @@ function buildBayes() {
 function buildCrossval() {
   return `<div class="topic" id="crossval">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">20 — Core Math</div><h2>Cross-<em>Validation</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">20 · Core Math</div><h2>Cross-<em>Validation</em></h2></div>
     <span class="topic-badge">Evaluation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Reliable model evaluation by rotating which data is used for testing</p>
@@ -1707,7 +1707,7 @@ function buildCrossval() {
 function buildMetrics() {
   return `<div class="topic" id="metrics">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">21 — Core Math</div><h2>Evaluation <em>Metrics</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">21 · Core Math</div><h2>Evaluation <em>Metrics</em></h2></div>
     <span class="topic-badge">Evaluation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How to actually measure if your model is good</p>
@@ -1733,7 +1733,7 @@ function buildMetrics() {
 function buildCosineSim() {
   return `<div class="topic" id="cosine-sim">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">22 — Core Math</div><h2>Cosine <em>Similarity</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">22 · Core Math</div><h2>Cosine <em>Similarity</em></h2></div>
     <span class="topic-badge">Distance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring angular similarity between vectors: the backbone of retrieval</p>
@@ -1766,7 +1766,7 @@ top_k = sims.topk(<span class="st">10</span>)                             <span 
 function buildCNN() {
   return `<div class="topic" id="cnn">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">23 — Deep Learning</div><h2>CNN — <em>Convolutions</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">23 · Deep Learning</div><h2>CNN — <em>Convolutions</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exploiting spatial structure with shared local filters</p>
@@ -1795,7 +1795,7 @@ self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, 
 function buildEmbeddings() {
   return `<div class="topic" id="embeddings">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">24 — Deep Learning</div><h2>Embeddings & <em>Word2Vec</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">24 · Deep Learning</div><h2>Embeddings & <em>Word2Vec</em></h2></div>
     <span class="topic-badge">Representation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Mapping discrete tokens to continuous vector spaces</p>
@@ -1819,7 +1819,7 @@ x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)
 function buildAttention() {
   return `<div class="topic" id="attention">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">25 — Deep Learning</div><h2>Attention <em>Mechanism</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">25 · Deep Learning</div><h2>Attention <em>Mechanism</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Selectively focusing on relevant parts of the input</p>
@@ -1844,7 +1844,7 @@ function buildAttention() {
 function buildTransformer() {
   return `<div class="topic" id="transformer">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">26 — Deep Learning</div><h2>Transformer <em>Architecture</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">26 · Deep Learning</div><h2>Transformer <em>Architecture</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The architecture behind BERT, GPT, and all modern LLMs</p>
@@ -1871,7 +1871,7 @@ transformer = nn.TransformerEncoder(encoder_layer, num_layers=<span class="st">6
 function buildNormalization() {
   return `<div class="topic" id="normalization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">27 — Deep Learning</div><h2>Normalization <em>Variants</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">27 · Deep Learning</div><h2>Normalization <em>Variants</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// LayerNorm, RMSNorm, GroupNorm, which normalisation for which architecture</p>
@@ -1909,7 +1909,7 @@ function buildNormalization() {
 function buildRNN() {
   return `<div class="topic" id="rnn">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">28 — Sequence Models</div><h2>RNN — <em>Recurrent</em> Networks</h2></div>
+    <div class="topic-meta"><div class="topic-num">28 · Sequence Models</div><h2>RNN — <em>Recurrent</em> Networks</h2></div>
     <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Processing sequences by passing hidden state through time</p>
@@ -1936,7 +1936,7 @@ function buildRNN() {
 function buildLSTM() {
   return `<div class="topic" id="lstm">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">29 — Sequence Models</div><h2>LSTM — <em>Long Short-Term</em> Memory</h2></div>
+    <div class="topic-meta"><div class="topic-num">29 · Sequence Models</div><h2>LSTM — <em>Long Short-Term</em> Memory</h2></div>
     <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Gated memory cells that solve the vanishing gradient problem</p>
@@ -1967,7 +1967,7 @@ out, (hn, cn) = self.lstm(x)</pre></div>
 function buildGRU() {
   return `<div class="topic" id="gru">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">30 — Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
+    <div class="topic-meta"><div class="topic-num">30 · Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
     <span class="topic-badge">Sequential</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// LSTM's streamlined sibling: two gates, one state vector</p>
@@ -1990,7 +1990,7 @@ function buildGRU() {
 function buildPCA() {
   return `<div class="topic" id="pca">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">31 — Generative & Prob.</div><h2>PCA & <em>Eigenvectors</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">31 · Generative & Prob.</div><h2>PCA & <em>Eigenvectors</em></h2></div>
     <span class="topic-badge">Dimensionality</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding the directions of maximum variance for dimensionality reduction</p>
@@ -2015,7 +2015,7 @@ function buildPCA() {
 function buildSVD() {
   return `<div class="topic" id="svd">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">32 — Generative & Prob.</div><h2>SVD — <em>Singular Value</em> Decomposition</h2></div>
+    <div class="topic-meta"><div class="topic-num">32 · Generative & Prob.</div><h2>SVD — <em>Singular Value</em> Decomposition</h2></div>
     <span class="topic-badge">Linear Algebra</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Decomposing any matrix into rotation, scaling, and rotation</p>
@@ -2046,7 +2046,7 @@ U, s, Vt = np.linalg.svd(A, full_matrices=<span class="st">False</span>)</pre></
 function buildVAE() {
   return `<div class="topic" id="vae">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">33 — Generative & Prob.</div><h2>VAE — Variational <em>Autoencoder</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">33 · Generative & Prob.</div><h2>VAE — Variational <em>Autoencoder</em></h2></div>
     <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Learning a structured latent space for generation and interpolation</p>
@@ -2077,7 +2077,7 @@ function buildVAE() {
 function buildDiffusion() {
   return `<div class="topic" id="diffusion">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">34 — Generative & Prob.</div><h2>Diffusion <em>Models</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">34 · Generative & Prob.</div><h2>Diffusion <em>Models</em></h2></div>
     <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Generating by learning to reverse a noise process (DDPM, Stable Diffusion)</p>
@@ -2104,7 +2104,7 @@ function buildDiffusion() {
 function buildGAN() {
   return `<div class="topic" id="gan">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">35 — Generative & Prob.</div><h2>GANs — Generative <em>Adversarial</em> Networks</h2></div>
+    <div class="topic-meta"><div class="topic-num">35 · Generative & Prob.</div><h2>GANs — Generative <em>Adversarial</em> Networks</h2></div>
     <span class="topic-badge">Generative</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Two networks competing: generator vs discriminator</p>
@@ -2130,7 +2130,7 @@ function buildGAN() {
 function buildTokenization() {
   return `<div class="topic" id="tokenization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">36 — Modern / LLM</div><h2>Tokenization <em>(BPE)</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">36 · Modern / LLM</div><h2>Tokenization <em>(BPE)</em></h2></div>
     <span class="topic-badge">NLP</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How text becomes numbers: the first step in every language model</p>
@@ -2172,7 +2172,7 @@ tok = AutoTokenizer.from_pretrained(<span class="st">"meta-llama/Llama-2-7b"</sp
 function buildLoRA() {
   return `<div class="topic" id="lora">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">37 — Modern / LLM</div><h2>LoRA — <em>Low-Rank</em> Adaptation</h2></div>
+    <div class="topic-meta"><div class="topic-num">37 · Modern / LLM</div><h2>LoRA — <em>Low-Rank</em> Adaptation</h2></div>
     <span class="topic-badge">Fine-tuning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Training billion-parameter models by updating only tiny low-rank matrices</p>
@@ -2210,7 +2210,7 @@ model.print_trainable_parameters()  <span class="cm"># "trainable: 0.1% of total
 function buildRLHF() {
   return `<div class="topic" id="rlhf">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">38 — Modern / LLM</div><h2>RLHF — <em>Alignment</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">38 · Modern / LLM</div><h2>RLHF — <em>Alignment</em></h2></div>
     <span class="topic-badge">Alignment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Making language models helpful, harmless, and honest with human feedback</p>

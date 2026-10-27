@@ -841,7 +841,7 @@ function buildHome() {
 function buildTokenization() {
   return `<div class="topic" id="tokenization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">01 — Foundations</div><h2>Token<em>ization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">01 · Foundations</div><h2>Token<em>ization</em></h2></div>
     <span class="topic-badge">BPE · WordPiece · Unigram</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Breaking text into the atomic units a model can process</p>
@@ -850,9 +850,9 @@ function buildTokenization() {
   <div class="fb"><div class="fm">Compression ratio = bytes / tokens ≈ 3–4× for English</div><div class="fd">A good tokenizer compresses text efficiently: fewer tokens per sentence means more context fits in the window.</div></div>
   <p class="prose"><strong>WordPiece</strong> (BERT) maximizes likelihood instead of frequency. <strong>Unigram</strong> (SentencePiece) starts with a large vocabulary and prunes. <strong>Byte-level BPE</strong> (GPT-2+) operates on UTF-8 bytes, needing no pre-tokenization: handles any language/script.</p>
   <div class="callout">Vocab size is a key tradeoff: larger vocab → fewer tokens per text but bigger embedding table. GPT-4 uses ~100k tokens; LLaMA 2 uses ~32k.</div>
-  <div class="va"><div class="vl">Interactive: type text to see BPE tokenization</div><canvas id="tokenCanvas" role="img" aria-label="Tokenization: Interactive — type text to see BPE tokenization" width="700" height="220"></canvas>
+  <div class="va"><div class="vl">Interactive: type text to see BPE tokenization</div><canvas id="tokenCanvas" role="img" aria-label="Tokenization: Interactive: type text to see BPE tokenization" width="700" height="220"></canvas>
   <div class="ctrl"><label>Input: <input type="text" id="tokenInput" value="Hello, tokenization is fascinating!" style="width:260px;font-family:var(--mono);font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text)"></label></div></div>
-  <h3>Python — BPE from scratch</h3>
+  <h3>Python: BPE from scratch</h3>
   <div class="code-block"><pre><code>def train_bpe(text, vocab_size):
     tokens = list(text.encode('utf-8'))
     merges = {}
@@ -886,7 +886,7 @@ function buildTokenization() {
 function buildEmbeddings() {
   return `<div class="topic" id="embeddings">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">02 — Foundations</div><h2>Token <em>Embeddings</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">02 · Foundations</div><h2>Token <em>Embeddings</em></h2></div>
     <span class="topic-badge">Learned Representations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Mapping discrete token IDs to continuous vector space</p>
@@ -895,9 +895,9 @@ function buildEmbeddings() {
   <div class="fb"><div class="fm">Scaled: E' = E · √d_model</div><div class="fd">Some architectures scale embeddings so their magnitude matches positional encodings.</div></div>
   <p class="prose">Typical dimensions: GPT-2 uses d=768 (small) to d=1600 (XL). LLaMA-70B uses d=8192. The embedding table is often <strong>tied</strong> with the output projection (weight tying), reducing parameter count.</p>
   <div class="callout">For GPT-3 (a 50,257-token vocabulary, d_model = 12,288) the embedding table is about 0.6B parameters: under 0.4% of its 175B. In small models the share is far larger: about 31% in GPT-2 small.</div>
-  <div class="va"><div class="vl">Interactive — 2D embedding projection</div><canvas id="embedCanvas" role="img" aria-label="Token Embeddings: Interactive — 2D embedding projection" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: 2D embedding projection</div><canvas id="embedCanvas" role="img" aria-label="Token Embeddings: Interactive: 2D embedding projection" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="resetEmbed()">Regenerate</button></div></div>
-  <h3>Python — embedding layer</h3>
+  <h3>Python: embedding layer</h3>
   <div class="code-block"><pre><code>import torch
 import torch.nn as nn
 
@@ -922,7 +922,7 @@ print(f"Similarity: {sim:.3f}")</code></pre></div>
 function buildPositionalEncoding() {
   return `<div class="topic" id="positional-encoding">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">03 — Foundations</div><h2>Positional <em>Encoding</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">03 · Foundations</div><h2>Positional <em>Encoding</em></h2></div>
     <span class="topic-badge">Sinusoidal · RoPE · ALiBi</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Giving transformers a sense of token order</p>
@@ -932,9 +932,9 @@ function buildPositionalEncoding() {
   <div class="fb"><div class="fm">ALiBi: attention(i,j) = qᵢᵀkⱼ − m · |i − j|</div><div class="fd">Attention with Linear Biases. No learned parameters: just subtract a slope × distance. Used in BLOOM.</div></div>
   <p class="prose"><strong>RoPE</strong> dominates modern LLMs because it encodes relative position and can be extrapolated beyond training length via NTK-aware scaling or YaRN.</p>
   <div class="callout">Learned absolute position embeddings (GPT-2) can't extrapolate beyond training length. Relative methods (RoPE, ALiBi) handle longer sequences naturally.</div>
-  <div class="va"><div class="vl">Interactive — positional encoding patterns</div><canvas id="posEncCanvas" role="img" aria-label="Positional Encoding: Interactive — positional encoding patterns" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: positional encoding patterns</div><canvas id="posEncCanvas" role="img" aria-label="Positional Encoding: Interactive: positional encoding patterns" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawPosEnc('sin')">Sinusoidal</button> <button class="btn b2" onclick="drawPosEnc('rope')">RoPE</button> <button class="btn b3" onclick="drawPosEnc('alibi')">ALiBi</button></div></div>
-  <h3>Python — sinusoidal positional encoding</h3>
+  <h3>Python: sinusoidal positional encoding</h3>
   <div class="code-block"><pre><code>import torch, math
 
 def sinusoidal_pe(max_len, d_model):
@@ -958,7 +958,7 @@ pe = sinusoidal_pe(512, 256)
 function buildSelfAttention() {
   return `<div class="topic" id="self-attention">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">04 — Foundations</div><h2>Self-<em>Attention</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">04 · Foundations</div><h2>Self-<em>Attention</em></h2></div>
     <span class="topic-badge">Scaled Dot-Product</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The mechanism that lets every token look at every other token</p>
@@ -967,9 +967,9 @@ function buildSelfAttention() {
   <div class="fb"><div class="fm">Q = XW_Q    K = XW_K    V = XW_V    where W ∈ ℝ^(d_model × d_k)</div><div class="fd">Linear projections from the input. No bias in most modern architectures.</div></div>
   <p class="prose">Complexity is <strong>O(n² · d)</strong>: quadratic in sequence length. This is the fundamental bottleneck that drives context window research. Each attention weight tells you how much token i "pays attention to" token j.</p>
   <div class="callout">The √d_k scaling is crucial. Without it, dot products grow proportionally with dimension, pushing softmax into regions with tiny gradients.</div>
-  <div class="va"><div class="vl">Interactive — attention weight heatmap</div><canvas id="selfAttnCanvas" role="img" aria-label="Self-Attention: Interactive — attention weight heatmap" width="700" height="320"></canvas>
+  <div class="va"><div class="vl">Interactive: attention weight heatmap</div><canvas id="selfAttnCanvas" role="img" aria-label="Self-Attention: Interactive: attention weight heatmap" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawSelfAttn()">New Random Sequence</button> <label>Temperature: <input type="range" id="attnTemp" min="0.1" max="3" step="0.1" value="1" oninput="drawSelfAttn()"></label></div></div>
-  <h3>Python — self-attention from scratch</h3>
+  <h3>Python: self-attention from scratch</h3>
   <div class="code-block"><pre><code>import torch
 import torch.nn.functional as F
 
@@ -1005,7 +1005,7 @@ def self_attention(x, W_q, W_k, W_v):
 function buildMultiHeadAttention() {
   return `<div class="topic" id="multi-head-attention">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">05 — Foundations</div><h2>Multi-Head <em>Attention</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">05 · Foundations</div><h2>Multi-Head <em>Attention</em></h2></div>
     <span class="topic-badge">MHA · MQA · GQA</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Running multiple attention computations in parallel</p>
@@ -1014,9 +1014,9 @@ function buildMultiHeadAttention() {
   <div class="fb"><div class="fm">MQA: all heads share K,V — only Q varies per head</div><div class="fd">Multi-Query Attention. Massive KV-cache savings (÷ h). Used in PaLM, Falcon.</div></div>
   <div class="fb"><div class="fm">GQA: groups of heads share K,V — middle ground</div><div class="fd">Grouped-Query Attention. G groups, each with h/G query heads. LLaMA 2 70B uses 8 KV heads for 64 query heads.</div></div>
   <p class="prose">Standard MHA with 32 heads and d_model=4096 → d_k=128 per head. <strong>GQA</strong> is now the default for large models: it trades a tiny quality hit for huge inference speedups via smaller KV caches.</p>
-  <div class="va"><div class="vl">Interactive: compare MHA, MQA, GQA head layouts</div><canvas id="mhaCanvas" role="img" aria-label="Multi-Head Attention: Interactive — compare MHA, MQA, GQA head layouts" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: compare MHA, MQA, GQA head layouts</div><canvas id="mhaCanvas" role="img" aria-label="Multi-Head Attention: Interactive: compare MHA, MQA, GQA head layouts" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawMHA('mha')">MHA</button> <button class="btn b2" onclick="drawMHA('mqa')">MQA</button> <button class="btn b3" onclick="drawMHA('gqa')">GQA</button></div></div>
-  <h3>Python — grouped-query attention</h3>
+  <h3>Python: grouped-query attention</h3>
   <div class="code-block"><pre><code>import torch, torch.nn as nn, torch.nn.functional as F
 
 class GQA(nn.Module):
@@ -1050,7 +1050,7 @@ class GQA(nn.Module):
 function buildFeedForward() {
   return `<div class="topic" id="feed-forward">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">06 — Foundations</div><h2>Feed-Forward <em>Networks</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">06 · Foundations</div><h2>Feed-Forward <em>Networks</em></h2></div>
     <span class="topic-badge">SwiGLU · GELU · Expansion</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The per-token MLP after every attention layer</p>
@@ -1059,9 +1059,9 @@ function buildFeedForward() {
   <div class="fb"><div class="fm">SwiGLU(x) = (W₁x ⊙ Swish(W_gate·x)) · W₂    where W₁,W_gate ∈ ℝ^(d × ⅔·4d)</div><div class="fd">Gated variant used in LLaMA, Mistral, Gemma. ⅔ factor keeps parameter count equal to standard 4d expansion.</div></div>
   <p class="prose"><strong>SwiGLU</strong> consistently outperforms ReLU and GELU. The gating mechanism lets the network learn to suppress/amplify features multiplicatively: more expressive than additive bias alone.</p>
   <div class="callout">In Llama 2 70B the feed-forward layers hold about 56B of its 69B parameters. They act as massive key-value memories: keys are W₁ rows, values are W₂ columns.</div>
-  <div class="va"><div class="vl">Interactive — activation functions comparison</div><canvas id="ffnCanvas" role="img" aria-label="Feed-Forward Networks: Interactive — activation functions comparison" width="700" height="260"></canvas>
+  <div class="va"><div class="vl">Interactive: activation functions comparison</div><canvas id="ffnCanvas" role="img" aria-label="Feed-Forward Networks: Interactive: activation functions comparison" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawFFN('relu')">ReLU</button> <button class="btn b2" onclick="drawFFN('gelu')">GELU</button> <button class="btn b3" onclick="drawFFN('swish')">Swish</button> <button class="btn b4" onclick="drawFFN('swiglu')">SwiGLU gate</button></div></div>
-  <h3>Python — SwiGLU FFN</h3>
+  <h3>Python: SwiGLU FFN</h3>
   <div class="code-block"><pre><code>import torch, torch.nn as nn, torch.nn.functional as F
 
 class SwiGLU_FFN(nn.Module):
@@ -1084,7 +1084,7 @@ class SwiGLU_FFN(nn.Module):
 function buildTransformerBlock() {
   return `<div class="topic" id="transformer-block">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">07 — Architecture</div><h2>Transformer <em>Block</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">07 · Architecture</div><h2>Transformer <em>Block</em></h2></div>
     <span class="topic-badge">Pre-Norm · Residuals</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The fundamental repeating unit of every LLM</p>
@@ -1093,9 +1093,9 @@ function buildTransformerBlock() {
   <div class="fb"><div class="fm">RMSNorm(x) = x / RMS(x) · γ    where RMS(x) = √(mean(x²))</div><div class="fd">Root Mean Square normalization: no mean subtraction. Faster, used in LLaMA, Mistral.</div></div>
   <p class="prose">A 70B model stacks <strong>80 blocks</strong>. Each block adds about 856M parameters (Llama 2 70B). The residual stream acts as a highway: early layers write features, later layers read and refine them. This is the <strong>residual stream</strong> mental model.</p>
   <div class="callout">The residual connection is why deep transformers work at all. Without it, gradients vanish through 80+ layers. With it, there's always a direct path from output to any layer.</div>
-  <div class="va"><div class="vl">Interactive: data flow through a transformer block</div><canvas id="tfBlockCanvas" role="img" aria-label="Transformer Block: Interactive — data flow through a transformer block" width="700" height="340"></canvas>
+  <div class="va"><div class="vl">Interactive: data flow through a transformer block</div><canvas id="tfBlockCanvas" role="img" aria-label="Transformer Block: Interactive: data flow through a transformer block" width="700" height="340"></canvas>
   <div class="ctrl"><button class="btn" onclick="animTFBlock()">Animate Forward Pass</button> <button class="btn b2" onclick="drawTFBlock()">Reset</button></div></div>
-  <h3>Python — transformer block</h3>
+  <h3>Python: transformer block</h3>
   <div class="code-block"><pre><code>import torch.nn as nn
 
 class TransformerBlock(nn.Module):
@@ -1120,7 +1120,7 @@ class TransformerBlock(nn.Module):
 function buildDecoderOnly() {
   return `<div class="topic" id="decoder-only">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">08 — Architecture</div><h2>Decoder-Only <em>Models</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">08 · Architecture</div><h2>Decoder-Only <em>Models</em></h2></div>
     <span class="topic-badge">GPT · LLaMA · Causal LM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The dominant architecture behind GPT, LLaMA, Mistral, and most modern LLMs</p>
@@ -1129,9 +1129,9 @@ function buildDecoderOnly() {
   <div class="fb"><div class="fm">P(text) = ∏ P(token_t | token_1, ..., token_{t-1})</div><div class="fd">Autoregressive factorization: the probability of text as a product of conditional probabilities.</div></div>
   <p class="prose">Why decoder-only won: (1) simpler than encoder-decoder, (2) scales better with compute, (3) naturally handles both understanding and generation in a single architecture. The "decoder" name comes from the original Transformer paper where this half decoded outputs.</p>
   <div class="callout">GPT, LLaMA, Mistral, Gemma and most other published LLMs are decoder-only. The encoder-decoder style (T5, BART) is now mainly used for specialized tasks like translation.</div>
-  <div class="va"><div class="vl">Interactive: causal mask & autoregressive generation</div><canvas id="decoderCanvas" role="img" aria-label="Decoder-Only Models: Interactive — causal mask &amp; autoregressive generation" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: causal mask & autoregressive generation</div><canvas id="decoderCanvas" role="img" aria-label="Decoder-Only Models: Interactive: causal mask &amp; autoregressive generation" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDecoder()">Generate Token</button> <button class="btn b2" onclick="resetDecoder()">Reset</button></div></div>
-  <h3>Python — causal attention mask</h3>
+  <h3>Python: causal attention mask</h3>
   <div class="code-block"><pre><code>import torch
 
 def causal_mask(seq_len):
@@ -1154,7 +1154,7 @@ output = weights @ V</code></pre></div>
 function buildKVCache() {
   return `<div class="topic" id="kv-cache">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">09 — Architecture</div><h2>KV-<em>Cache</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">09 · Architecture</div><h2>KV-<em>Cache</em></h2></div>
     <span class="topic-badge">Memory Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Cache once, reuse forever: the key to fast autoregressive generation</p>
@@ -1163,7 +1163,7 @@ function buildKVCache() {
   <div class="fb"><div class="fm">Memory: 2 · n_layers · seq_len · n_kv_heads · d_k · bytes_per_param</div><div class="fd">For Llama 2 70B with 4K context in FP16: about 1.3 GB per request with its 8 KV heads, and 10.7 GB if every head had its own.</div></div>
   <p class="prose">KV-cache is why <strong>batch size</strong> during inference is heavily memory-constrained. GQA (fewer KV heads) directly reduces this cost. This is the main motivation behind MQA and GQA research.</p>
   <div class="callout warn">KV-cache memory scales linearly with sequence length × batch size. For long contexts (128K+), a single request can consume 40+ GB. This dominates GPU memory during serving.</div>
-  <div class="va"><div class="vl">Interactive: KV-cache growth during generation</div><canvas id="kvCacheCanvas" role="img" aria-label="KV-Cache: Interactive — KV-cache growth during generation" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: KV-cache growth during generation</div><canvas id="kvCacheCanvas" role="img" aria-label="KV-Cache: Interactive: KV-cache growth during generation" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animKVCache()">Generate Token</button> <button class="btn b2" onclick="resetKVCache()">Reset</button> <label>Layers: <input type="range" id="kvLayers" min="4" max="32" step="4" value="16" oninput="resetKVCache()"></label></div></div>
   <h3>Python: KV-cache in generation loop</h3>
   <div class="code-block"><pre><code>def generate_with_cache(model, prompt_ids, max_new=50):
@@ -1188,7 +1188,7 @@ function buildKVCache() {
 function buildContextWindows() {
   return `<div class="topic" id="context-windows">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">10 — Architecture</div><h2>Context <em>Windows</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">10 · Architecture</div><h2>Context <em>Windows</em></h2></div>
     <span class="topic-badge">Long Context · RoPE Scaling</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// How much text can a model see at once, and how to push the limits</p>
@@ -1197,9 +1197,9 @@ function buildContextWindows() {
   <div class="fb"><div class="fm">RoPE scaling: θ' = θ · α    where α = target_len / train_len</div><div class="fd">NTK-aware interpolation stretches RoPE frequencies to extrapolate beyond training length.</div></div>
   <p class="prose"><strong>Approaches to longer context:</strong> (1) RoPE scaling (NTK, YaRN) — cheapest, (2) Sliding window attention (Mistral), each layer sees a local window, (3) Sparse attention patterns — attend to subset, (4) Ring attention — distribute across GPUs, (5) Simply train on more context.</p>
   <div class="callout">Doubling context length quadruples attention compute but only doubles KV-cache memory. Long-context models primarily fight the compute cost, not the memory cost.</div>
-  <div class="va"><div class="vl">Interactive: attention patterns at different context lengths</div><canvas id="ctxCanvas" role="img" aria-label="Context Windows: Interactive — attention patterns at different context lengths" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: attention patterns at different context lengths</div><canvas id="ctxCanvas" role="img" aria-label="Context Windows: Interactive: attention patterns at different context lengths" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawCtx('full')">Full Attention</button> <button class="btn b2" onclick="drawCtx('sliding')">Sliding Window</button> <button class="btn b3" onclick="drawCtx('sparse')">Sparse</button> <label>Context: <input type="range" id="ctxLen" min="16" max="128" step="16" value="32" oninput="drawCtx()"></label></div></div>
-  <h3>Python — sliding window attention</h3>
+  <h3>Python: sliding window attention</h3>
   <div class="code-block"><pre><code>def sliding_window_mask(seq_len, window_size):
     """Causal + sliding window: attend to last W tokens only"""
     causal = torch.triu(torch.ones(seq_len, seq_len), diagonal=1)
@@ -1220,7 +1220,7 @@ function buildContextWindows() {
 function buildMixtureOfExperts() {
   return `<div class="topic" id="mixture-of-experts">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">11 — Architecture</div><h2>Mixture of <em>Experts</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">11 · Architecture</div><h2>Mixture of <em>Experts</em></h2></div>
     <span class="topic-badge">Sparse · Router · Top-K</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// More parameters without proportionally more compute</p>
@@ -1229,9 +1229,9 @@ function buildMixtureOfExperts() {
   <div class="fb"><div class="fm">Mixtral 8×7B: 8 experts, top-2 routing → 47B total, ~13B active per token</div><div class="fd">Its authors report it matching or beating Llama 2 70B on most benchmarks, at the compute of a ~13B model.</div></div>
   <p class="prose"><strong>Key challenges:</strong> (1) <em>Load balancing</em> — prevent all tokens routing to the same expert, fixed with auxiliary loss. (2) <em>Expert collapse</em>: some experts never activate. (3) <em>Communication</em>: experts on different GPUs need token routing across devices.</p>
   <div class="callout">MoE models need more RAM (all experts loaded) but less compute (only K active). This makes them memory-bound, not compute-bound: great for inference on high-memory hardware.</div>
-  <div class="va"><div class="vl">Interactive — expert routing animation</div><canvas id="moeCanvas" role="img" aria-label="Mixture of Experts: Interactive — expert routing animation" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: expert routing animation</div><canvas id="moeCanvas" role="img" aria-label="Mixture of Experts: Interactive: expert routing animation" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animMoE()">Route New Token</button> <button class="btn b2" onclick="resetMoE()">Reset</button> <label>Experts: <input type="range" id="moeExperts" min="4" max="16" step="4" value="8" oninput="resetMoE()"></label></div></div>
-  <h3>Python — simplified MoE layer</h3>
+  <h3>Python: simplified MoE layer</h3>
   <div class="code-block"><pre><code>import torch, torch.nn as nn, torch.nn.functional as F
 
 class MoELayer(nn.Module):
@@ -1266,7 +1266,7 @@ class MoELayer(nn.Module):
 function buildScalingLaws() {
   return `<div class="topic" id="scaling-laws">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">12 — Architecture</div><h2>Scaling <em>Laws</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">12 · Architecture</div><h2>Scaling <em>Laws</em></h2></div>
     <span class="topic-badge">Chinchilla · Power Laws</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Predicting performance before spending millions on compute</p>
@@ -1276,9 +1276,9 @@ function buildScalingLaws() {
   <div class="fb"><div class="fm">Compute: C ≈ 6 · N · D  (FLOPs)</div><div class="fd">Rough approximation: 6 FLOPs per parameter per token for a forward+backward pass.</div></div>
   <p class="prose">In practice, modern models (LLaMA 3, Gemma) train <em>way beyond</em> Chinchilla-optimal because <strong>inference cost matters more</strong>: a smaller model trained on more data is cheap to serve. LLaMA 3 8B trains on 15T tokens (1875× parameter count).</p>
   <div class="callout">Scaling laws let you predict the loss of a large run from much smaller ones: the GPT-4 report predicted its final loss from runs with up to 10,000× less compute. Run small models, fit the power law, extrapolate: this is how frontier labs plan training.</div>
-  <div class="va"><div class="vl">Interactive — scaling law curves</div><canvas id="scalingCanvas" role="img" aria-label="Scaling Laws: Interactive — scaling law curves" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: scaling law curves</div><canvas id="scalingCanvas" role="img" aria-label="Scaling Laws: Interactive: scaling law curves" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawScaling('params')">Parameters</button> <button class="btn b2" onclick="drawScaling('data')">Data</button> <button class="btn b3" onclick="drawScaling('compute')">Compute</button></div></div>
-  <h3>Python — fit scaling law</h3>
+  <h3>Python: fit scaling law</h3>
   <div class="code-block"><pre><code>import numpy as np
 from scipy.optimize import curve_fit
 
@@ -1303,7 +1303,7 @@ print(f"Predicted loss at 70B: {predicted:.3f}")</code></pre></div>
 function buildPreTraining() {
   return `<div class="topic" id="pre-training">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">13 — Training</div><h2>Pre-<em>Training</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">13 · Training</div><h2>Pre-<em>Training</em></h2></div>
     <span class="topic-badge">Next-Token Prediction</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Learning language from trillions of tokens</p>
@@ -1312,9 +1312,9 @@ function buildPreTraining() {
   <div class="fb"><div class="fm">Perplexity = e^L = 2^(L/ln2)</div><div class="fd">Intuition: average number of "choices" the model is uncertain between. PPL of 10 ≈ choosing among 10 options.</div></div>
   <p class="prose"><strong>Training recipe:</strong> AdamW optimizer (β₁=0.9, β₂=0.95), cosine learning rate schedule with warmup, weight decay 0.1, gradient clipping at 1.0, bf16 mixed precision, sequence packing, batch size ramp-up.</p>
   <div class="callout">Llama 3 70B: about 15T tokens, roughly 6×10²⁴ FLOPs (6 × N × D), and about 6.4 million H100 GPU-hours as reported by Meta. Frontier pre-training runs cost tens of millions of dollars or more in compute alone.</div>
-  <div class="va"><div class="vl">Interactive — training loss curve</div><canvas id="pretrainCanvas" role="img" aria-label="Pre-Training: Interactive — training loss curve" width="700" height="260"></canvas>
+  <div class="va"><div class="vl">Interactive: training loss curve</div><canvas id="pretrainCanvas" role="img" aria-label="Pre-Training: Interactive: training loss curve" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="animPretrain()">Animate Training</button> <button class="btn b2" onclick="resetPretrain()">Reset</button></div></div>
-  <h3>Python — pre-training loop skeleton</h3>
+  <h3>Python: pre-training loop skeleton</h3>
   <div class="code-block"><pre><code>import torch
 from torch.nn import CrossEntropyLoss
 
@@ -1345,7 +1345,7 @@ for batch in dataloader:
 function buildFineTuning() {
   return `<div class="topic" id="fine-tuning">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">14 — Training</div><h2>Fine-<em>Tuning</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">14 · Training</div><h2>Fine-<em>Tuning</em></h2></div>
     <span class="topic-badge">SFT · Instruction Tuning</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Turning a base model into a helpful assistant</p>
@@ -1354,9 +1354,9 @@ function buildFineTuning() {
   <div class="fb"><div class="fm">Dataset: ~10K–100K high-quality (instruction, response) pairs</div><div class="fd">Quality >> quantity. Careful curation matters more than scale for SFT.</div></div>
   <p class="prose"><strong>Catastrophic forgetting</strong> is the main risk: fine-tuning too aggressively overwrites pre-training knowledge. Mitigations: low learning rate (1e-5 to 5e-5), few epochs (1–3), mixing pre-training data.</p>
   <div class="callout">The gap between a base model (random-feeling completions) and a fine-tuned model (helpful assistant) is dramatic: SFT is what makes "chat" models work.</div>
-  <div class="va"><div class="vl">Interactive: fine-tuning effect on output distribution</div><canvas id="finetuneCanvas" role="img" aria-label="Fine-Tuning: Interactive — fine-tuning effect on output distribution" width="700" height="260"></canvas>
+  <div class="va"><div class="vl">Interactive: fine-tuning effect on output distribution</div><canvas id="finetuneCanvas" role="img" aria-label="Fine-Tuning: Interactive: fine-tuning effect on output distribution" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawFinetune('base')">Base Model</button> <button class="btn b2" onclick="drawFinetune('sft')">After SFT</button> <button class="btn b3" onclick="drawFinetune('overfit')">Overfit</button></div></div>
-  <h3>Python — SFT with masking</h3>
+  <h3>Python: SFT with masking</h3>
   <div class="code-block"><pre><code># SFT training: only compute loss on response tokens
 def sft_loss(model, input_ids, response_start_idx):
     logits = model(input_ids[:, :-1])
@@ -1387,7 +1387,7 @@ def sft_loss(model, input_ids, response_start_idx):
     <div class="skip-when">✗ <strong>Skip when:</strong> Prompt engineering with examples (few-shot) already works well enough. Your data is small (<100 examples): few-shot is better. You need to switch between many tasks dynamically: keep the generalist model.</div>
   </div>
   <div class="dev-export">
-    <div class="dev-export-title">Quick start — LoRA fine-tuning</div>
+    <div class="dev-export-title">Quick start: LoRA fine-tuning</div>
     <pre style="position:relative"><button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">Copy</button><code>pip install transformers peft datasets accelerate bitsandbytes
 # ────────────────────────────────────────
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
@@ -1411,7 +1411,7 @@ trainer.train()</code></pre>
 function buildLoRA() {
   return `<div class="topic" id="lora-qlora">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">15 — Training</div><h2>LoRA & <em>QLoRA</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">15 · Training</div><h2>LoRA & <em>QLoRA</em></h2></div>
     <span class="topic-badge">Parameter-Efficient</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Fine-tune a 70B model on a single GPU</p>
@@ -1420,9 +1420,9 @@ function buildLoRA() {
   <div class="fb"><div class="fm">Trainable params: 2 · d · r per adapter ≪ d²</div><div class="fd">For d=4096, r=16: 131K params per adapter vs 16.7M for the full matrix — 128× reduction.</div></div>
   <p class="prose"><strong>QLoRA</strong> goes further: quantize W₀ to 4-bit (NF4 format), keep adapters in bf16, and use paged optimizers to handle memory spikes. This makes fine-tuning a 65B model possible on a single 48GB GPU.</p>
   <div class="callout">LoRA adapters can be merged back into the base weights for zero-cost inference: W_merged = W₀ + (α/r)·B·A. Multiple LoRA adapters can be served simultaneously by switching the small adapter weights per request.</div>
-  <div class="va"><div class="vl">Interactive — low-rank decomposition</div><canvas id="loraCanvas" role="img" aria-label="LoRA &amp; QLoRA: Interactive — low-rank decomposition" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: low-rank decomposition</div><canvas id="loraCanvas" role="img" aria-label="LoRA &amp; QLoRA: Interactive: low-rank decomposition" width="700" height="280"></canvas>
   <div class="ctrl"><label>Rank r: <input type="range" id="loraRank" min="1" max="32" step="1" value="8" oninput="drawLoRA()"></label> <label>Alpha α: <input type="range" id="loraAlpha" min="1" max="64" step="1" value="16" oninput="drawLoRA()"></label></div></div>
-  <h3>Python — LoRA with PEFT</h3>
+  <h3>Python: LoRA with PEFT</h3>
   <div class="code-block"><pre><code>from peft import LoraConfig, get_peft_model
 
 config = LoraConfig(
@@ -1447,7 +1447,7 @@ model.print_trainable_parameters()
 function buildRLHF() {
   return `<div class="topic" id="rlhf">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">16 — Training</div><h2><em>RLHF</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">16 · Training</div><h2><em>RLHF</em></h2></div>
     <span class="topic-badge">Reward Model · PPO</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Aligning language models with human preferences</p>
@@ -1456,9 +1456,9 @@ function buildRLHF() {
   <div class="fb"><div class="fm">Stage 3 — PPO: max E[r(x,y)] − β · KL(π_θ || π_ref)</div><div class="fd">Maximize reward while staying close to the reference policy. β controls the KL penalty.</div></div>
   <p class="prose">The KL penalty is crucial — without it, the model "reward hacks": finds adversarial outputs that fool the reward model. Typical β values: 0.01–0.2. RLHF produces noticeably better outputs than SFT alone, but adds significant training complexity.</p>
   <div class="callout">RLHF was a key ingredient of ChatGPT. InstructGPT showed that labellers preferred a 1.3B RLHF model's outputs to those of the 175B GPT-3.</div>
-  <div class="va"><div class="vl">Interactive — RLHF pipeline stages</div><canvas id="rlhfCanvas" role="img" aria-label="RLHF: Interactive — RLHF pipeline stages" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: RLHF pipeline stages</div><canvas id="rlhfCanvas" role="img" aria-label="RLHF: Interactive: RLHF pipeline stages" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawRLHF(1)">Stage 1: SFT</button> <button class="btn b2" onclick="drawRLHF(2)">Stage 2: Reward</button> <button class="btn b3" onclick="drawRLHF(3)">Stage 3: PPO</button></div></div>
-  <h3>Python — reward model training</h3>
+  <h3>Python: reward model training</h3>
   <div class="code-block"><pre><code>import torch.nn.functional as F
 
 class RewardModel(nn.Module):
@@ -1485,7 +1485,7 @@ def reward_loss(chosen_reward, rejected_reward):
 function buildDPO() {
   return `<div class="topic" id="dpo">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">17 — Training</div><h2><em>DPO</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">17 · Training</div><h2><em>DPO</em></h2></div>
     <span class="topic-badge">Direct Preference Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Skip the reward model: optimize preferences directly</p>
@@ -1494,9 +1494,9 @@ function buildDPO() {
   <div class="fb"><div class="fm">Implicit reward: r(x,y) = β · log[π_θ(y|x) / π_ref(y|x)] + const</div><div class="fd">DPO learns the reward implicitly: the policy IS the reward model.</div></div>
   <p class="prose"><strong>Why DPO took over:</strong> (1) simpler pipeline (just SFT then DPO, (2) more stable than PPO, (3) cheaper) no separate reward model forward passes, (4) competitive or better quality. Variants: IPO (no sigmoid), KTO (unpaired), ORPO (combines SFT+DPO).</p>
   <div class="callout">DPO needs a frozen reference model in memory alongside the training model: essentially doubling memory cost. Efficient implementations use LoRA or offload the reference to CPU.</div>
-  <div class="va"><div class="vl">Interactive — DPO preference optimization</div><canvas id="dpoCanvas" role="img" aria-label="DPO: Interactive — DPO preference optimization" width="700" height="260"></canvas>
+  <div class="va"><div class="vl">Interactive: DPO preference optimization</div><canvas id="dpoCanvas" role="img" aria-label="DPO: Interactive: DPO preference optimization" width="700" height="260"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDPO()">Optimization Step</button> <button class="btn b2" onclick="resetDPO()">Reset</button> <label>β: <input type="range" id="dpoBeta" min="0.05" max="0.5" step="0.05" value="0.1" oninput="resetDPO()"></label></div></div>
-  <h3>Python — DPO loss</h3>
+  <h3>Python: DPO loss</h3>
   <div class="code-block"><pre><code>def dpo_loss(pi_chosen, pi_rejected, ref_chosen, ref_rejected, beta=0.1):
     """All inputs are log-probabilities of the full sequences"""
     chosen_ratio = pi_chosen - ref_chosen
@@ -1516,7 +1516,7 @@ function buildDPO() {
 function buildDataCuration() {
   return `<div class="topic" id="data-curation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">18 — Training</div><h2>Data <em>Curation</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">18 · Training</div><h2>Data <em>Curation</em></h2></div>
     <span class="topic-badge">Quality · Dedup · Mixing</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The most impactful and least glamorous part of LLM training</p>
@@ -1525,9 +1525,9 @@ function buildDataCuration() {
   <div class="fb"><div class="fm">Dedup: MinHash + LSH for fuzzy, exact-match for verbatim</div><div class="fd">Duplicates hurt training: models memorize repeated passages, wasting capacity. A large share of web text is near-duplicate (Lee et al. 2022).</div></div>
   <p class="prose"><strong>Data mixing</strong> is critical: model capabilities depend on training data composition. Meta reported Llama 3’s mix as roughly 50% general knowledge, 25% maths and reasoning, 17% code and 8% multilingual text. More code has been linked to better reasoning, though the evidence is mixed.</p>
   <div class="callout warn">Benchmark contamination is a real problem, if test questions appear in training data, benchmarks are meaningless. Modern data pipelines include decontamination stages that remove known benchmarks.</div>
-  <div class="va"><div class="vl">Interactive — data filtering funnel</div><canvas id="dataCanvas" role="img" aria-label="Data Curation: Interactive — data filtering funnel" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: data filtering funnel</div><canvas id="dataCanvas" role="img" aria-label="Data Curation: Interactive: data filtering funnel" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animData()">Animate Pipeline</button> <button class="btn b2" onclick="resetData()">Reset</button></div></div>
-  <h3>Python — MinHash deduplication</h3>
+  <h3>Python: MinHash deduplication</h3>
   <div class="code-block"><pre><code>from datasketch import MinHash, MinHashLSH
 
 def minhash_doc(text, num_perm=128):
@@ -1554,7 +1554,7 @@ for doc_id, text in documents:
 function buildDecodingStrategies() {
   return `<div class="topic" id="decoding-strategies">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">19 — Inference</div><h2>Decoding <em>Strategies</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">19 · Inference</div><h2>Decoding <em>Strategies</em></h2></div>
     <span class="topic-badge">Greedy · Beam Search</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Deterministic methods for converting logits to text</p>
@@ -1563,9 +1563,9 @@ function buildDecodingStrategies() {
   <div class="fb"><div class="fm">Beam search: maintain top-K partial sequences ranked by Σ log P</div><div class="fd">At each step, expand all K beams, score, keep top K. Beam width K=4–5 is typical.</div></div>
   <p class="prose">Beam search was dominant pre-LLM (translation, summarization) but is rarely used for chat/creative generation: it produces <em>too safe</em>, repetitive text. Modern LLMs use <strong>sampling</strong> (next topic) for most tasks.</p>
   <div class="callout">Beam search still wins for tasks with a "correct" answer: code generation, math, structured output. For open-ended text, sampling produces more natural and diverse output.</div>
-  <div class="va"><div class="vl">Interactive — beam search tree</div><canvas id="decodingCanvas" role="img" aria-label="Decoding Strategies: Interactive — beam search tree" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: beam search tree</div><canvas id="decodingCanvas" role="img" aria-label="Decoding Strategies: Interactive: beam search tree" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animDecoding()">Next Step</button> <button class="btn b2" onclick="resetDecoding()">Reset</button> <label>Beam width: <input type="range" id="beamWidth" min="1" max="5" step="1" value="3" oninput="resetDecoding()"></label></div></div>
-  <h3>Python — beam search</h3>
+  <h3>Python: beam search</h3>
   <div class="code-block"><pre><code>def beam_search(model, prompt_ids, beam_width=4, max_len=50):
     beams = [(prompt_ids, 0.0)]  # (sequence, log_prob)
     for _ in range(max_len):
@@ -1591,7 +1591,7 @@ function buildDecodingStrategies() {
 function buildSampling() {
   return `<div class="topic" id="sampling">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">20 — Inference</div><h2><em>Sampling</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">20 · Inference</div><h2><em>Sampling</em></h2></div>
     <span class="topic-badge">Temperature · Top-K · Top-P</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Controlling creativity by shaping the probability distribution</p>
@@ -1601,7 +1601,7 @@ function buildSampling() {
   <div class="fb"><div class="fm">Top-P (nucleus): keep tokens until cumulative P ≥ p, zero rest</div><div class="fd">Adaptive: for confident predictions, keeps few tokens. For uncertain, keeps many. p=0.9–0.95 typical.</div></div>
   <p class="prose">In practice, combine them: temperature + top-P is the standard. <strong>Repetition penalty</strong> divides logits of recently-generated tokens by a factor (1.1–1.3) to reduce loops. <strong>Min-P</strong> is a newer approach that scales the threshold with the top token's probability.</p>
   <div class="callout">Temperature 0.0–0.3 for code/math (deterministic). Temperature 0.7–1.0 for creative writing. Top-P 0.9 is a solid default for most tasks.</div>
-  <div class="va"><div class="vl">Interactive — probability distribution shaping</div><canvas id="samplingCanvas" role="img" aria-label="Sampling: Interactive — probability distribution shaping" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: probability distribution shaping</div><canvas id="samplingCanvas" role="img" aria-label="Sampling: Interactive: probability distribution shaping" width="700" height="300"></canvas>
   <div class="ctrl"><label>Temp: <input type="range" id="sampTemp" min="0.1" max="2" step="0.1" value="1" oninput="drawSampling()"></label> <label>Top-K: <input type="range" id="sampTopK" min="1" max="50" step="1" value="50" oninput="drawSampling()"></label> <label>Top-P: <input type="range" id="sampTopP" min="0.1" max="1" step="0.05" value="1" oninput="drawSampling()"></label></div></div>
   <h3>Python: sampling with temperature + top-p</h3>
   <div class="code-block"><pre><code>def sample(logits, temperature=0.8, top_p=0.9, top_k=50):
@@ -1628,7 +1628,7 @@ function buildSampling() {
 function buildSpeculativeDecoding() {
   return `<div class="topic" id="speculative-decoding">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">21 — Inference</div><h2>Speculative <em>Decoding</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">21 · Inference</div><h2>Speculative <em>Decoding</em></h2></div>
     <span class="topic-badge">Draft & Verify</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Use a fast model to draft, a large model to verify: 2–3× speedup</p>
@@ -1637,9 +1637,9 @@ function buildSpeculativeDecoding() {
   <div class="fb"><div class="fm">Verify: run target model M_t on all K tokens in parallel → accept/reject each</div><div class="fd">Accept token i if P_target(token_i) ≥ P_draft(token_i). On rejection, resample from adjusted distribution.</div></div>
   <p class="prose">The key guarantee: speculative decoding produces <strong>exactly the same distribution</strong> as standard generation. It's lossless. Speedup depends on draft model quality (acceptance rate). Leviathan et al. report 2–3× faster generation.</p>
   <div class="callout">Medusa and Eagle add extra heads to the model itself instead of using a separate draft model: eliminating the need for draft-target distribution matching.</div>
-  <div class="va"><div class="vl">Interactive — speculative decoding timeline</div><canvas id="specCanvas" role="img" aria-label="Speculative Decoding: Interactive — speculative decoding timeline" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: speculative decoding timeline</div><canvas id="specCanvas" role="img" aria-label="Speculative Decoding: Interactive: speculative decoding timeline" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="animSpec()">Generate Batch</button> <button class="btn b2" onclick="resetSpec()">Reset</button> <label>Draft tokens K: <input type="range" id="specK" min="2" max="8" step="1" value="4" oninput="resetSpec()"></label></div></div>
-  <h3>Python — speculative decoding loop</h3>
+  <h3>Python: speculative decoding loop</h3>
   <div class="code-block"><pre><code>def speculative_decode(target, draft, prompt, K=4):
     tokens = prompt.clone()
     while len(tokens) < max_len:
@@ -1677,7 +1677,7 @@ function buildSpeculativeDecoding() {
 function buildQuantization() {
   return `<div class="topic" id="quantization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">22 — Inference</div><h2>Quant<em>ization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">22 · Inference</div><h2>Quant<em>ization</em></h2></div>
     <span class="topic-badge">INT8 · INT4 · GPTQ · AWQ</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Shrink models 2–4× with minimal quality loss</p>
@@ -1686,9 +1686,9 @@ function buildQuantization() {
   <div class="fb"><div class="fm">Model sizes: FP16=2B/param → INT8=1B/param → INT4=0.5B/param</div><div class="fd">A 70B model: 140GB (FP16) → 70GB (INT8) → 35GB (INT4). In INT4 it fits on a single 80 GB GPU; FP16 needs at least two.</div></div>
   <p class="prose"><strong>Methods:</strong> (1) <em>GPTQ</em> — weight-only, layer-by-layer with Hessian info, (2) <em>AWQ</em> — activation-aware, protects salient weights, (3) <em>GGUF</em> — CPU-friendly mixed-precision, (4) <em>bitsandbytes</em> — NF4 datatype for QLoRA. Weight-only quantization (activations stay in fp16) is most common for LLMs.</p>
   <div class="callout">INT8 quantization has virtually no quality loss for most tasks. INT4 shows small degradation but is the sweet spot for serving: 4× memory savings are too compelling to ignore.</div>
-  <div class="va"><div class="vl">Interactive — precision comparison</div><canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision comparison" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: precision comparison</div><canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive: precision comparison" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawQuant('fp16')">FP16</button> <button class="btn b2" onclick="drawQuant('int8')">INT8</button> <button class="btn b3" onclick="drawQuant('int4')">INT4</button></div></div>
-  <h3>Python — quantize with bitsandbytes</h3>
+  <h3>Python: quantize with bitsandbytes</h3>
   <div class="code-block"><pre><code>from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 # 4-bit quantization (NF4 for QLoRA)
@@ -1729,7 +1729,7 @@ model = AutoModelForCausalLM.from_pretrained(
 function buildKVCacheOpt() {
   return `<div class="topic" id="kv-cache-opt">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">23 — Inference</div><h2>KV-Cache <em>Optimization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">23 · Inference</div><h2>KV-Cache <em>Optimization</em></h2></div>
     <span class="topic-badge">PagedAttention · vLLM</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Eliminating the memory fragmentation that limits batch size</p>
@@ -1738,9 +1738,9 @@ function buildKVCacheOpt() {
   <div class="fb"><div class="fm">Prefix caching: shared prompts → shared KV blocks (copy-on-write)</div><div class="fd">If 100 requests share a system prompt, its KV is stored once instead of 100 times; the saving grows with the prompt’s share of each request.</div></div>
   <p class="prose"><strong>Impact:</strong> vLLM achieves 2–4× higher throughput than naive serving by fitting more requests in the same GPU memory. Additional optimizations: <em>KV-cache quantization</em> (FP8 per KV), <em>sliding window eviction</em>, and <em>radix tree prefix sharing</em>.</p>
   <div class="callout">PagedAttention is one of the most important serving optimisations of recent years; vLLM introduced it, and other serving frameworks have adopted similar paged KV-caches.</div>
-  <div class="va"><div class="vl">Interactive: paged vs contiguous KV-cache allocation</div><canvas id="kvOptCanvas" role="img" aria-label="KV-Cache Optimization: Interactive — paged vs contiguous KV-cache allocation" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: paged vs contiguous KV-cache allocation</div><canvas id="kvOptCanvas" role="img" aria-label="KV-Cache Optimization: Interactive: paged vs contiguous KV-cache allocation" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawKVOpt('contiguous')">Contiguous (naive)</button> <button class="btn b2" onclick="drawKVOpt('paged')">PagedAttention</button> <button class="btn b3" onclick="animKVOpt()">Add Request</button></div></div>
-  <h3>Python — vLLM serving</h3>
+  <h3>Python: vLLM serving</h3>
   <div class="code-block"><pre><code>from vllm import LLM, SamplingParams
 
 # vLLM handles PagedAttention automatically
@@ -1764,7 +1764,7 @@ print(outputs[0].outputs[0].text)</code></pre></div>
 function buildBatching() {
   return `<div class="topic" id="batching">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">24 — Inference</div><h2>Batching & <em>Throughput</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">24 · Inference</div><h2>Batching & <em>Throughput</em></h2></div>
     <span class="topic-badge">Continuous Batching · Prefill vs Decode</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Serving hundreds of concurrent requests efficiently</p>
@@ -1773,9 +1773,9 @@ function buildBatching() {
   <div class="fb"><div class="fm">Continuous batching: new requests join mid-batch, finished ones leave</div><div class="fd">GPU is always busy. Throughput can rise several-fold over static batching (Yu et al. 2022).</div></div>
   <p class="prose"><strong>Key metrics:</strong> <em>TTFT</em> (time to first token, mainly prefill), <em>TPS</em> (tokens per second, decode speed), <em>throughput</em> (total tokens/sec across all requests). Disaggregating prefill and decode to separate GPU pools (prefill cluster + decode cluster) is the latest frontier.</p>
   <div class="callout">The fundamental LLM serving insight: prefill is compute-bound, decode is memory-bound. They have opposite optimization strategies. Modern serving engines schedule them separately.</div>
-  <div class="va"><div class="vl">Interactive: static vs continuous batching timeline</div><canvas id="batchCanvas" role="img" aria-label="Batching &amp; Throughput: Interactive — static vs continuous batching timeline" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: static vs continuous batching timeline</div><canvas id="batchCanvas" role="img" aria-label="Batching &amp; Throughput: Interactive: static vs continuous batching timeline" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawBatch('static')">Static Batching</button> <button class="btn b2" onclick="drawBatch('continuous')">Continuous Batching</button></div></div>
-  <h3>Python — throughput benchmark</h3>
+  <h3>Python: throughput benchmark</h3>
   <div class="code-block"><pre><code>import time, asyncio
 from openai import AsyncOpenAI
 
@@ -1807,7 +1807,7 @@ async def benchmark(n_concurrent=32):
 function buildPromptEngineering() {
   return `<div class="topic" id="prompt-engineering">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">25 — Applications</div><h2>Prompt <em>Engineering</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">25 · Applications</div><h2>Prompt <em>Engineering</em></h2></div>
     <span class="topic-badge">System · Few-Shot · CoT</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// The craft of asking questions that get the best answers</p>
@@ -1817,9 +1817,9 @@ function buildPromptEngineering() {
   <div class="fb"><div class="fm">Chain-of-Thought: "Think step by step" → reasoning → answer</div><div class="fd">Dramatically improves math, logic, and multi-step reasoning. Model "shows its work."</div></div>
   <p class="prose">Advanced techniques: <em>self-consistency</em> (sample N times, majority vote), <em>tree-of-thought</em> (explore multiple reasoning paths), <em>structured output</em> (ask for JSON with a schema), <em>persona prompting</em> (act as expert in X).</p>
   <div class="callout">Few-shot chain-of-thought prompting raised PaLM 540B’s GSM8K accuracy from about 18% to about 57% (Wei et al. 2022); simply adding “Let’s think step by step” also helps (Kojima et al. 2022).</div>
-  <div class="va"><div class="vl">Interactive — prompt structure diagram</div><canvas id="promptCanvas" role="img" aria-label="Prompt Engineering: Interactive — prompt structure diagram" width="700" height="280"></canvas>
+  <div class="va"><div class="vl">Interactive: prompt structure diagram</div><canvas id="promptCanvas" role="img" aria-label="Prompt Engineering: Interactive: prompt structure diagram" width="700" height="280"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawPrompt('zero')">Zero-Shot</button> <button class="btn b2" onclick="drawPrompt('few')">Few-Shot</button> <button class="btn b3" onclick="drawPrompt('cot')">Chain-of-Thought</button></div></div>
-  <h3>Python — structured prompting</h3>
+  <h3>Python: structured prompting</h3>
   <div class="code-block"><pre><code>from openai import OpenAI
 client = OpenAI()
 
@@ -1846,7 +1846,7 @@ response = client.chat.completions.create(
 function buildRAG() {
   return `<div class="topic" id="rag">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">26 — Applications</div><h2><em>RAG</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">26 · Applications</div><h2><em>RAG</em></h2></div>
     <span class="topic-badge">Retrieval-Augmented Generation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Grounding LLM answers in your own documents</p>
@@ -1855,9 +1855,9 @@ function buildRAG() {
   <div class="fb"><div class="fm">Chunk size: 256–512 tokens with 10–20% overlap</div><div class="fd">Too small → lost context. Too large → diluted relevance. Semantic chunking (split at paragraph breaks) works better than fixed-size.</div></div>
   <p class="prose"><strong>Common pitfalls:</strong> (1) Chunking destroys context — tables, lists split mid-content. (2) Embedding model mismatch: query embeddings must match document embeddings. (3) Top-K too small: misses relevant but lower-ranked chunks. (4) No reranking: embedding similarity ≠ answer relevance.</p>
   <div class="callout">Reranking is often one of the most effective improvements to a RAG system: a cross-encoder re-scores the top 20–100 retrieved passages more accurately than the first-stage search.</div>
-  <div class="va"><div class="vl">Interactive — RAG pipeline flow</div><canvas id="ragCanvas" role="img" aria-label="RAG: Interactive — RAG pipeline flow" width="780" height="420"></canvas>
+  <div class="va"><div class="vl">Interactive: RAG pipeline flow</div><canvas id="ragCanvas" role="img" aria-label="RAG: Interactive: RAG pipeline flow" width="780" height="420"></canvas>
   <div class="ctrl"><button class="btn" onclick="animRAG()">Run Query</button> <button class="btn b2" onclick="resetRAG()">Reset</button></div></div>
-  <h3>Python — RAG with LangChain</h3>
+  <h3>Python: RAG with LangChain</h3>
   <div class="code-block"><pre><code>from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -1887,7 +1887,7 @@ answer = qa.invoke("What is the refund policy?")</code></pre></div>
 function buildEmbeddingSearch() {
   return `<div class="topic" id="embedding-search">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">27 — Applications</div><h2>Embedding <em>Search</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">27 · Applications</div><h2>Embedding <em>Search</em></h2></div>
     <span class="topic-badge">Vector DB · ANN · HNSW</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Finding semantically similar content at scale</p>
@@ -1896,7 +1896,7 @@ function buildEmbeddingSearch() {
   <div class="fb"><div class="fm">HNSW: hierarchical navigable small world graph</div><div class="fd">Multi-layer graph: top layers for coarse search, bottom layers for precise. Roughly logarithmic query time, with high recall (often above 95%) at typical settings.</div></div>
   <p class="prose"><strong>Vector databases:</strong> Pinecone (managed), Qdrant (open-source), pgvector (PostgreSQL), Chroma (lightweight), Weaviate (hybrid search). For smaller datasets (<100K vectors), brute-force exact search in FAISS is fast enough.</p>
   <div class="callout">Hybrid search (BM25 keyword + semantic embedding) consistently outperforms either alone. Most production systems combine both with reciprocal rank fusion.</div>
-  <div class="va"><div class="vl">Interactive: vector space nearest neighbor search</div><canvas id="searchCanvas" role="img" aria-label="Embedding Search: Interactive — vector space nearest neighbor search" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: vector space nearest neighbor search</div><canvas id="searchCanvas" role="img" aria-label="Embedding Search: Interactive: vector space nearest neighbor search" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawSearch()">New Query</button> <label>K neighbors: <input type="range" id="searchK" min="1" max="10" step="1" value="3" oninput="drawSearch()"></label></div></div>
   <h3>Python: embedding search with FAISS</h3>
   <div class="code-block"><pre><code>import faiss
@@ -1929,7 +1929,7 @@ for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
 function buildFunctionCalling() {
   return `<div class="topic" id="function-calling">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">28 — Applications</div><h2>Function <em>Calling</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">28 · Applications</div><h2>Function <em>Calling</em></h2></div>
     <span class="topic-badge">Tool Use · Structured Output</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Extending LLMs with real-world capabilities via tool use</p>
@@ -1938,9 +1938,9 @@ function buildFunctionCalling() {
   <div class="fb"><div class="fm">Output: tool_calls=[{function: {name, arguments}}]</div><div class="fd">Structured JSON that your code parses and executes. Return the result as a tool message for the next turn.</div></div>
   <p class="prose"><strong>Parallel function calling:</strong> models can request multiple tool calls in one response. <strong>Structured output / JSON mode:</strong> forces the model to output valid JSON matching a schema — useful even without external tools for data extraction, classification, etc.</p>
   <div class="callout">Function calling is the foundation of agents. Without it, LLMs can only output text. With it, they can search the web, query databases, send emails, write code: anything with an API.</div>
-  <div class="va"><div class="vl">Interactive — function call flow</div><canvas id="funcCanvas" role="img" aria-label="Function Calling: Interactive — function call flow" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: function call flow</div><canvas id="funcCanvas" role="img" aria-label="Function Calling: Interactive: function call flow" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animFunc()">Simulate Call</button> <button class="btn b2" onclick="resetFunc()">Reset</button></div></div>
-  <h3>Python — OpenAI function calling</h3>
+  <h3>Python: OpenAI function calling</h3>
   <div class="code-block"><pre><code>from openai import OpenAI
 import json
 
@@ -1980,7 +1980,7 @@ args = json.loads(call.function.arguments)</code></pre></div>
 function buildAgents() {
   return `<div class="topic" id="agents">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">29 — Applications</div><h2>Agents & <em>Planning</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">29 · Applications</div><h2>Agents & <em>Planning</em></h2></div>
     <span class="topic-badge">ReAct · Tool Chains · Memory</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Autonomous multi-step reasoning with tools and memory</p>
@@ -1989,9 +1989,9 @@ function buildAgents() {
   <div class="fb"><div class="fm">Planning: Decompose task → subtasks → execute sequentially or in parallel</div><div class="fd">Complex tasks need planning: break "book a trip" into search flights, compare prices, book, confirm.</div></div>
   <p class="prose"><strong>Memory types:</strong> (1) <em>Short-term</em> — conversation history in context window. (2) <em>Long-term</em>: vector store of past interactions, retrieved as needed. (3) <em>Working memory</em>: scratchpad for current task state. Key challenge: agents can be <em>unreliable</em>. They get stuck in loops, hallucinate tool calls, or lose track of the plan.</p>
   <div class="callout">The best agent systems use simple, constrained loops, not complex multi-agent frameworks. Simple baselines are often hard to beat, and complex agent setups add cost (Kapoor et al. 2024).</div>
-  <div class="va"><div class="vl">Interactive — ReAct agent loop</div><canvas id="agentCanvas" role="img" aria-label="Agents &amp; Planning: Interactive — ReAct agent loop" width="700" height="300"></canvas>
+  <div class="va"><div class="vl">Interactive: ReAct agent loop</div><canvas id="agentCanvas" role="img" aria-label="Agents &amp; Planning: Interactive: ReAct agent loop" width="700" height="300"></canvas>
   <div class="ctrl"><button class="btn" onclick="animAgent()">Next Step</button> <button class="btn b2" onclick="resetAgent()">Reset Task</button></div></div>
-  <h3>Python — ReAct agent</h3>
+  <h3>Python: ReAct agent</h3>
   <div class="code-block"><pre><code>def react_agent(query, tools, max_steps=5):
     messages = [
         {"role": "system", "content":
@@ -2027,7 +2027,7 @@ function buildAgents() {
 function buildEvaluation() {
   return `<div class="topic" id="evaluation">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">30 — Applications</div><h2>Evaluation & <em>Benchmarks</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">30 · Applications</div><h2>Evaluation & <em>Benchmarks</em></h2></div>
     <span class="topic-badge">Perplexity · MMLU · Arena</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Measuring what matters, and what doesn't</p>
@@ -2036,9 +2036,9 @@ function buildEvaluation() {
   <div class="fb"><div class="fm">MMLU: 57 subjects, multiple choice (humanities, STEM, social sciences)</div><div class="fd">Knowledge breadth. GPT-4: ~86%, LLaMA-3-70B: ~82%. But multiple-choice ≠ open-ended ability.</div></div>
   <p class="prose"><strong>Key benchmarks:</strong> <em>MMLU</em> (knowledge), <em>HumanEval</em> (code generation), <em>GSM8K</em> (math), <em>HellaSwag</em> (common sense), <em>ARC</em> (reasoning), <em>TruthfulQA</em> (hallucination). <strong>Chatbot Arena</strong> uses live ELO rankings from anonymous human votes: a widely watched evaluation, with biases of its own.</p>
   <div class="callout warn">Benchmark contamination is rampant, if test questions leak into training data, scores are meaningless. Private held-out test sets and Arena rankings are more reliable than public benchmark scores.</div>
-  <div class="va"><div class="vl">Interactive: benchmark comparison radar chart</div><canvas id="evalCanvas" role="img" aria-label="Evaluation &amp; Benchmarks: Interactive — benchmark comparison radar chart" width="700" height="320"></canvas>
+  <div class="va"><div class="vl">Interactive: benchmark comparison radar chart</div><canvas id="evalCanvas" role="img" aria-label="Evaluation &amp; Benchmarks: Interactive: benchmark comparison radar chart" width="700" height="320"></canvas>
   <div class="ctrl"><button class="btn" onclick="drawEval('gpt4')">GPT-4</button> <button class="btn b2" onclick="drawEval('llama3')">LLaMA-3-70B</button> <button class="btn b3" onclick="drawEval('mistral')">Mistral-Large</button> <button class="btn b4" onclick="drawEval('compare')">Compare All</button></div></div>
-  <h3>Python — evaluation with lm-harness</h3>
+  <h3>Python: evaluation with lm-harness</h3>
   <div class="code-block"><pre><code># Using EleutherAI lm-evaluation-harness
 # pip install lm-eval
 

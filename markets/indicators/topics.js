@@ -713,7 +713,7 @@ function buildContent() {
   let html = buildHome();
   TOPIC_DATA.forEach(t => {
     html += `<div class="topic" id="${t.id}">`;
-    html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} — ${t.category}</div><h2>${t.title}</h2></div><span class="evidence-badge proven" title="Mathematically defined formula — interpretation as trading signal is heuristic">✓ Mathematical</span></div>`;
+    html += `<div class="topic-header"><div class="topic-meta"><div class="topic-num">${t.num} · ${t.category}</div><h2>${t.title}</h2></div><span class="evidence-badge proven" title="Mathematically defined formula — interpretation as trading signal is heuristic">✓ Mathematical</span></div>`;
     // The pattern line: a topic's own, cross-collection insight when it has one;
     // otherwise the first sentence of its content (which for a formula-led topic
     // was the formula, cut at its first decimal point).

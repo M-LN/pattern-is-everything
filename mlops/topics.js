@@ -725,7 +725,7 @@ function buildHome() {
 function buildModelPackaging() {
   return `<div class="topic" id="model-packaging">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">01 — Deploy & Serve</div><h2>Model Packaging &amp; <em>Containers</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">01 · Deploy & Serve</div><h2>Model Packaging &amp; <em>Containers</em></h2></div>
     <span class="topic-badge">Deployment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exporting models into portable, versioned artifacts</p>
@@ -733,7 +733,7 @@ function buildModelPackaging() {
   <div class="fb"><div class="fm">Artifact = Model + Dependencies + Inference Code + Config</div><div class="fd"><span>Packaging</span> ensures every deployment gets the exact same model, libraries, and preprocessing: no "works on my machine" surprises.</div></div>
   <div class="va">
     <div class="vl">// Interactive: packaging pipeline flow</div>
-    <canvas id="packCanvas" role="img" aria-label="Model Packaging &amp; Containers: Interactive — packaging pipeline flow" height="260"></canvas>
+    <canvas id="packCanvas" role="img" aria-label="Model Packaging &amp; Containers: Interactive: packaging pipeline flow" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Format</th><th>Pros</th><th>Best for</th></tr></thead>
@@ -745,7 +745,7 @@ function buildModelPackaging() {
       <tr><td>Pickle / Joblib</td><td>Simple, native Python</td><td>Prototyping only</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — export model as ONNX + Docker</span>
+  <div class="code-block"><pre><span class="cm"># Python: export model as ONNX + Docker</span>
 <span class="kw">import</span> onnx, torch
 
 <span class="cm"># Export PyTorch model to ONNX</span>
@@ -770,14 +770,14 @@ torch.onnx.export(model, dummy, <span class="st">"model.onnx"</span>,
 function buildServingPatterns() {
   return `<div class="topic" id="serving-patterns">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">02 — Deploy & Serve</div><h2>Serving <em>Patterns</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">02 · Deploy & Serve</div><h2>Serving <em>Patterns</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Real-time vs batch vs streaming: choosing your inference architecture</p>
   <p class="prose">How you serve predictions matters as much as model accuracy. <strong>Online serving</strong> returns predictions in milliseconds via API calls. <strong>Batch serving</strong> scores entire datasets on a schedule. <strong>Streaming</strong> processes events as they arrive. Each pattern has different latency, cost, and complexity profiles.</p>
   <div class="va">
     <div class="vl">// Interactive: compare serving patterns</div>
-    <canvas id="serveCanvas" role="img" aria-label="Serving Patterns: Interactive — compare serving patterns" height="260"></canvas>
+    <canvas id="serveCanvas" role="img" aria-label="Serving Patterns: Interactive: compare serving patterns" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Request Volume</span><input type="range" aria-label="Request Volume" id="serveVol" min="1" max="100" step="1" value="50"><span class="vd" id="serveVolV">50k/day</span></div>
     </div>
@@ -791,7 +791,7 @@ function buildServingPatterns() {
       <tr><td>Embedded</td><td>&lt;1ms</td><td>On-device, edge inference</td></tr>
     </tbody>
   </table>
-  <div class="code-block"><pre><span class="cm"># Python — FastAPI online serving</span>
+  <div class="code-block"><pre><span class="cm"># Python: FastAPI online serving</span>
 <span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
 <span class="kw">import</span> onnxruntime <span class="kw">as</span> ort
 <span class="kw">import</span> numpy <span class="kw">as</span> np
@@ -814,14 +814,14 @@ session = ort.InferenceSession(<span class="st">"model.onnx"</span>)
 function buildABRollout() {
   return `<div class="topic" id="ab-rollout">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">03 — Deploy & Serve</div><h2>A/B &amp; <em>Canary</em> Rollouts</h2></div>
+    <div class="topic-meta"><div class="topic-num">03 · Deploy & Serve</div><h2>A/B &amp; <em>Canary</em> Rollouts</h2></div>
     <span class="topic-badge">Deployment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Ship models safely with progressive traffic splitting</p>
   <p class="prose">Deploying a new model to 100% of traffic is reckless. <strong>Canary rollouts</strong> send a small fraction (1–5%) of traffic to the new model while monitoring metrics. <strong>Blue-green</strong> deploys keep the old version warm for instant rollback. <strong>A/B tests</strong> run both models simultaneously to measure real-world lift.</p>
   <div class="va">
     <div class="vl">// Interactive: canary traffic split</div>
-    <canvas id="canaryCanvas" role="img" aria-label="A/B &amp; Canary Rollouts: Interactive — canary traffic split" height="260"></canvas>
+    <canvas id="canaryCanvas" role="img" aria-label="A/B &amp; Canary Rollouts: Interactive: canary traffic split" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Canary %</span><input type="range" aria-label="Canary %" id="canaryPct" min="0" max="100" step="1" value="5"><span class="vd" id="canaryPctV">5%</span></div>
     </div>
@@ -849,7 +849,7 @@ function buildABRollout() {
 function buildLatencyThroughput() {
   return `<div class="topic" id="latency-throughput">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">04 — Deploy & Serve</div><h2>Latency &amp; <em>Throughput</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">04 · Deploy & Serve</div><h2>Latency &amp; <em>Throughput</em></h2></div>
     <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// p50, p99, batching, and the tradeoffs that define your SLA</p>
@@ -857,7 +857,7 @@ function buildLatencyThroughput() {
   <div class="fb"><div class="fm">Throughput = Batch Size / Latency</div><div class="fd"><span>Batching</span> amortises fixed overhead (model loading, context switching) across multiple inputs, improving throughput at the cost of per-request latency.</div></div>
   <div class="va">
     <div class="vl">// Interactive: latency distribution with batch size</div>
-    <canvas id="latencyCanvas" role="img" aria-label="Latency &amp; Throughput: Interactive — latency distribution with batch size" height="260"></canvas>
+    <canvas id="latencyCanvas" role="img" aria-label="Latency &amp; Throughput: Interactive: latency distribution with batch size" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Batch Size</span><input type="range" aria-label="Batch Size" id="latBatch" min="1" max="64" step="1" value="1"><span class="vd" id="latBatchV">1</span></div>
       <div class="cg"><span class="cl">p50</span><span class="vd" id="latP50" style="color:var(--accent)">—</span></div>
@@ -874,14 +874,14 @@ function buildLatencyThroughput() {
 function buildGPUInference() {
   return `<div class="topic" id="gpu-inference">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">05 — Deploy & Serve</div><h2>GPU <em>Inference</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">05 · Deploy & Serve</div><h2>GPU <em>Inference</em></h2></div>
     <span class="topic-badge">Hardware</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// VRAM management, TensorRT, and knowing when CPU is enough</p>
   <p class="prose">GPUs accelerate inference through massive parallelism, but they're expensive and tricky to manage. <strong>TensorRT</strong> optimises models for NVIDIA GPUs with layer fusion and kernel auto-tuning. <strong>Triton Inference Server</strong> handles multi-model scheduling and dynamic batching on GPU.</p>
   <div class="va">
     <div class="vl">// Interactive: GPU vs CPU throughput comparison</div>
-    <canvas id="gpuCanvas" role="img" aria-label="GPU Inference: Interactive — GPU vs CPU throughput comparison" height="260"></canvas>
+    <canvas id="gpuCanvas" role="img" aria-label="GPU Inference: Interactive: GPU vs CPU throughput comparison" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model Size (M params)</span><input type="range" aria-label="Model Size (M params)" id="gpuSize" min="1" max="1000" step="10" value="100"><span class="vd" id="gpuSizeV">100M</span></div>
     </div>
@@ -906,7 +906,7 @@ function buildGPUInference() {
 function buildDriftDetection() {
   return `<div class="topic" id="drift-detection">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">06 — Monitor & Observe</div><h2>Drift Detection <em>in Production</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">06 · Monitor & Observe</div><h2>Drift Detection <em>in Production</em></h2></div>
     <span class="topic-badge">Monitoring</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Detecting when the world changes under your model</p>
@@ -914,13 +914,13 @@ function buildDriftDetection() {
   <div class="fb"><div class="fm">PSI = &Sigma; (p<sub>i</sub> &minus; q<sub>i</sub>) &middot; ln(p<sub>i</sub> / q<sub>i</sub>)</div><div class="fd"><span>PSI</span> &lt; 0.1 = stable &nbsp;|&nbsp; 0.1–0.2 = moderate shift &nbsp;|&nbsp; &gt; 0.2 = significant drift</div></div>
   <div class="va">
     <div class="vl">// Interactive: reference vs production distributions</div>
-    <canvas id="driftCanvas" role="img" aria-label="Drift Detection in Production: Interactive — reference vs production distributions" height="260"></canvas>
+    <canvas id="driftCanvas" role="img" aria-label="Drift Detection in Production: Interactive: reference vs production distributions" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Drift Amount</span><input type="range" aria-label="Drift Amount" id="driftAmt" min="0" max="100" step="1" value="10"><span class="vd" id="driftAmtV">0.10</span></div>
       <div class="cg"><span class="cl">PSI</span><span class="vd" id="driftPSI" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — drift detection with Evidently</span>
+  <div class="code-block"><pre><span class="cm"># Python: drift detection with Evidently</span>
 <span class="kw">from</span> evidently.report <span class="kw">import</span> Report
 <span class="kw">from</span> evidently.metric_preset <span class="kw">import</span> DataDriftPreset
 
@@ -938,14 +938,14 @@ report.save_html(<span class="st">"drift_report.html"</span>)</pre></div>
 function buildModelMonitoring() {
   return `<div class="topic" id="model-monitoring">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">07 — Monitor & Observe</div><h2>Model Monitoring <em>Dashboards</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">07 · Monitor & Observe</div><h2>Model Monitoring <em>Dashboards</em></h2></div>
     <span class="topic-badge">Observability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Prediction health, feature drift, and system metrics in one view</p>
   <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana with Prometheus is a common stack.</p>
   <div class="va">
     <div class="vl">// Interactive: monitoring dashboard simulation</div>
-    <canvas id="monitorCanvas" role="img" aria-label="Model Monitoring Dashboards: Interactive — monitoring dashboard simulation" height="260"></canvas>
+    <canvas id="monitorCanvas" role="img" aria-label="Model Monitoring Dashboards: Interactive: monitoring dashboard simulation" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Layer</th><th>Metrics</th><th>Alert When</th></tr></thead>
@@ -965,7 +965,7 @@ function buildModelMonitoring() {
 function buildAlertingSLOs() {
   return `<div class="topic" id="alerting-slos">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">08 — Monitor & Observe</div><h2>Alerting &amp; <em>SLOs</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">08 · Monitor & Observe</div><h2>Alerting &amp; <em>SLOs</em></h2></div>
     <span class="topic-badge">Reliability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Latency budgets, error budgets, and avoiding alert fatigue</p>
@@ -973,7 +973,7 @@ function buildAlertingSLOs() {
   <div class="fb"><div class="fm">Error Budget = 1 &minus; SLO target</div><div class="fd">If your SLO is 99.5% availability, your error budget is 0.5%, roughly 3.6 hours of downtime per month.</div></div>
   <div class="va">
     <div class="vl">// Interactive: error budget burn rate</div>
-    <canvas id="sloCanvas" role="img" aria-label="Alerting &amp; SLOs: Interactive — error budget burn rate" height="260"></canvas>
+    <canvas id="sloCanvas" role="img" aria-label="Alerting &amp; SLOs: Interactive: error budget burn rate" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">SLO Target %</span><input type="range" aria-label="SLO Target %" id="sloTarget" min="90" max="100" step="0.1" value="99.5"><span class="vd" id="sloTargetV">99.5%</span></div>
     </div>
@@ -988,14 +988,14 @@ function buildAlertingSLOs() {
 function buildShadowScoring() {
   return `<div class="topic" id="shadow-scoring">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">09 — Monitor & Observe</div><h2>Shadow Mode &amp; <em>Champion/Challenger</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">09 · Monitor & Observe</div><h2>Shadow Mode &amp; <em>Champion/Challenger</em></h2></div>
     <span class="topic-badge">Validation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Validating new models in production without serving their predictions</p>
   <p class="prose">In <strong>shadow mode</strong>, the new model scores every request alongside the current champion, but only the champion's prediction is served. You collect real production data to compare: without risking user experience. When the challenger wins on key metrics, you promote it.</p>
   <div class="va">
     <div class="vl">// Interactive: champion vs challenger comparison</div>
-    <canvas id="shadowCanvas" role="img" aria-label="Shadow Mode &amp; Champion/Challenger: Interactive — champion vs challenger comparison" height="260"></canvas>
+    <canvas id="shadowCanvas" role="img" aria-label="Shadow Mode &amp; Champion/Challenger: Interactive: champion vs challenger comparison" height="260"></canvas>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Shadow scoring is <a href="../stats/#walk-forward">walk-forward validation</a> running live. In markets, <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> serves the same purpose: test with real data without real consequences.</div>
   ${depthHtml('shadow-scoring')}
@@ -1007,16 +1007,16 @@ function buildShadowScoring() {
 function buildDataQuality() {
   return `<div class="topic" id="data-quality">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">10 — Monitor & Observe</div><h2>Data Quality <em>Gates</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">10 · Monitor & Observe</div><h2>Data Quality <em>Gates</em></h2></div>
     <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Automated checks that stop bad data before it reaches your model</p>
   <p class="prose">Garbage in, garbage out, but in production, garbage arrives silently. <strong>Data quality gates</strong> enforce schema validation, range checks, freshness constraints, and completeness thresholds. They sit in your pipeline before feature engineering and before inference.</p>
   <div class="va">
     <div class="vl">// Interactive: data quality pipeline flow</div>
-    <canvas id="dqCanvas" role="img" aria-label="Data Quality Gates: Interactive — data quality pipeline flow" height="260"></canvas>
+    <canvas id="dqCanvas" role="img" aria-label="Data Quality Gates: Interactive: data quality pipeline flow" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Great Expectations data quality check</span>
+  <div class="code-block"><pre><span class="cm"># Python: Great Expectations data quality check</span>
 <span class="kw">import</span> great_expectations <span class="kw">as</span> gx
 
 context = gx.get_context()
@@ -1038,14 +1038,14 @@ expectations = [
 function buildMLPipelines() {
   return `<div class="topic" id="ml-pipelines">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">11 — Pipeline & Automation</div><h2>ML <em>Pipelines</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">11 · Pipeline & Automation</div><h2>ML <em>Pipelines</em></h2></div>
     <span class="topic-badge">Automation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Composing training, validation, and deployment into reproducible DAGs</p>
   <p class="prose">An <strong>ML pipeline</strong> is a directed acyclic graph (DAG) of steps: data ingestion → preprocessing → training → evaluation → deployment. Each step is versioned, cacheable, and independently retriable. Kubeflow, Airflow, Vertex, and SageMaker Pipelines are the main orchestrators.</p>
   <div class="va">
     <div class="vl">// Interactive: ML pipeline DAG</div>
-    <canvas id="pipeCanvas" role="img" aria-label="ML Pipelines: Interactive — ML pipeline DAG" height="260"></canvas>
+    <canvas id="pipeCanvas" role="img" aria-label="ML Pipelines: Interactive: ML pipeline DAG" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Platform</th><th>Strengths</th><th>Best for</th></tr></thead>
@@ -1066,16 +1066,16 @@ function buildMLPipelines() {
 function buildFeatureStores() {
   return `<div class="topic" id="feature-stores">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">12 — Pipeline & Automation</div><h2>Feature <em>Stores</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">12 · Pipeline & Automation</div><h2>Feature <em>Stores</em></h2></div>
     <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Centralized feature management with online/offline consistency</p>
   <p class="prose">A <strong>feature store</strong> serves two stores from one source of truth: the <strong>offline store</strong> (historical data for training) and the <strong>online store</strong> (low-latency data for serving). This solves the training-serving skew problem: the features your model trains on are identical to what it sees in production.</p>
   <div class="va">
     <div class="vl">// Interactive: feature store architecture</div>
-    <canvas id="featCanvas" role="img" aria-label="Feature Stores: Interactive — feature store architecture" height="260"></canvas>
+    <canvas id="featCanvas" role="img" aria-label="Feature Stores: Interactive: feature store architecture" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Feast feature store</span>
+  <div class="code-block"><pre><span class="cm"># Python: Feast feature store</span>
 <span class="kw">from</span> feast <span class="kw">import</span> FeatureStore
 
 store = FeatureStore(repo_path=<span class="st">"."</span>)
@@ -1102,16 +1102,16 @@ training_df = store.get_historical_features(
 function buildExperimentTracking() {
   return `<div class="topic" id="experiment-tracking">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">13 — Pipeline & Automation</div><h2>Experiment <em>Tracking</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">13 · Pipeline & Automation</div><h2>Experiment <em>Tracking</em></h2></div>
     <span class="topic-badge">Workflow</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Logging every run so you never lose a good result</p>
   <p class="prose"><strong>Experiment tracking</strong> logs hyperparameters, metrics, artifacts, and code versions for every training run. Three months from now, when someone asks "which model was that?" you can answer. MLflow, Weights &amp; Biases, and Neptune are the main tools.</p>
   <div class="va">
     <div class="vl">// Interactive: experiment comparison table</div>
-    <canvas id="expCanvas" role="img" aria-label="Experiment Tracking: Interactive — experiment comparison table" height="260"></canvas>
+    <canvas id="expCanvas" role="img" aria-label="Experiment Tracking: Interactive: experiment comparison table" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — MLflow experiment tracking</span>
+  <div class="code-block"><pre><span class="cm"># Python: MLflow experiment tracking</span>
 <span class="kw">import</span> mlflow
 
 mlflow.set_experiment(<span class="st">"fraud-detection"</span>)
@@ -1131,14 +1131,14 @@ mlflow.set_experiment(<span class="st">"fraud-detection"</span>)
 function buildCICDML() {
   return `<div class="topic" id="ci-cd-ml">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">14 — Pipeline & Automation</div><h2>CI/CD <em>for ML</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">14 · Pipeline & Automation</div><h2>CI/CD <em>for ML</em></h2></div>
     <span class="topic-badge">DevOps</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Automated testing of data, models, and deployments</p>
   <p class="prose">ML CI/CD extends traditional CI/CD with three additional test layers: <strong>data validation</strong> (schema + quality), <strong>model validation</strong> (performance thresholds), and <strong>serving validation</strong> (latency + correctness). A merge should trigger retraining, evaluation, and conditional deployment.</p>
   <div class="va">
     <div class="vl">// Interactive: CI/CD pipeline stages</div>
-    <canvas id="cicdCanvas" role="img" aria-label="CI/CD for ML: Interactive — CI/CD pipeline stages" height="260"></canvas>
+    <canvas id="cicdCanvas" role="img" aria-label="CI/CD for ML: Interactive: CI/CD pipeline stages" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Stage</th><th>Tests</th><th>Gate</th></tr></thead>
@@ -1159,16 +1159,16 @@ function buildCICDML() {
 function buildOrchestration() {
   return `<div class="topic" id="orchestration">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">15 — Pipeline & Automation</div><h2>Orchestration &amp; <em>Scheduling</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">15 · Pipeline & Automation</div><h2>Orchestration &amp; <em>Scheduling</em></h2></div>
     <span class="topic-badge">Infrastructure</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// DAGs, retries, backfills, and trigger strategies</p>
   <p class="prose"><strong>Orchestrators</strong> manage the when, how, and what-if of ML workflows. Airflow, Prefect, and Dagster define DAGs with dependency resolution, automatic retries, and backfill capabilities. Good orchestration means your retraining runs reliably at 2 AM without you.</p>
   <div class="va">
     <div class="vl">// Interactive: DAG dependency graph</div>
-    <canvas id="orchCanvas" role="img" aria-label="Orchestration &amp; Scheduling: Interactive — DAG dependency graph" height="260"></canvas>
+    <canvas id="orchCanvas" role="img" aria-label="Orchestration &amp; Scheduling: Interactive: DAG dependency graph" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Airflow DAG for retraining</span>
+  <div class="code-block"><pre><span class="cm"># Python: Airflow DAG for retraining</span>
 <span class="kw">from</span> airflow <span class="kw">import</span> DAG
 <span class="kw">from</span> airflow.operators.python <span class="kw">import</span> PythonOperator
 <span class="kw">from</span> datetime <span class="kw">import</span> datetime
@@ -1193,7 +1193,7 @@ ingest >> train >> eval_ >> deploy</pre></div>
 function buildModelCompression() {
   return `<div class="topic" id="model-compression">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">16 — Scale & Optimize</div><h2>Model <em>Compression</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">16 · Scale & Optimize</div><h2>Model <em>Compression</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Pruning, distillation, and the lottery ticket hypothesis</p>
@@ -1201,7 +1201,7 @@ function buildModelCompression() {
   <div class="fb"><div class="fm">Compression Ratio = Original Size / Compressed Size</div><div class="fd">A 4× compression ratio means your model is 75% smaller: faster only if the hardware and runtime exploit the compression.</div></div>
   <div class="va">
     <div class="vl">// Interactive: pruning vs accuracy tradeoff</div>
-    <canvas id="compressCanvas" role="img" aria-label="Model Compression: Interactive — pruning vs accuracy tradeoff" height="260"></canvas>
+    <canvas id="compressCanvas" role="img" aria-label="Model Compression: Interactive: pruning vs accuracy tradeoff" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Sparsity %</span><input type="range" aria-label="Sparsity %" id="compSparsity" min="0" max="99" step="1" value="50"><span class="vd" id="compSparsityV">50%</span></div>
       <div class="cg"><span class="cl">Accuracy</span><span class="vd" id="compAcc" style="color:var(--accent)">—</span></div>
@@ -1217,7 +1217,7 @@ function buildModelCompression() {
 function buildQuantization() {
   return `<div class="topic" id="quantization">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">17 — Scale & Optimize</div><h2><em>Quantization</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">17 · Scale & Optimize</div><h2><em>Quantization</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// FP32 → INT8: trading precision for speed</p>
@@ -1225,7 +1225,7 @@ function buildQuantization() {
   <div class="fb"><div class="fm">Memory &prop; bits &times; parameters</div><div class="fd">INT8 uses 4× less memory than FP32, enabling larger batch sizes and faster inference.</div></div>
   <div class="va">
     <div class="vl">// Interactive: precision vs accuracy vs speed</div>
-    <canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision vs accuracy vs speed" height="260"></canvas>
+    <canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive: precision vs accuracy vs speed" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Method</th><th>Accuracy impact (indicative)</th><th>Speed gain (indicative)</th></tr></thead>
@@ -1246,14 +1246,14 @@ function buildQuantization() {
 function buildCachingLayers() {
   return `<div class="topic" id="caching-layers">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">18 — Scale & Optimize</div><h2>Caching &amp; <em>Prediction Stores</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">18 · Scale & Optimize</div><h2>Caching &amp; <em>Prediction Stores</em></h2></div>
     <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Don't predict what you've already predicted</p>
   <p class="prose">If 80% of your requests are repeated inputs (product recommendations, credit scores), a <strong>prediction cache</strong> (Redis, Memcached) can serve them in microseconds. <strong>Prediction stores</strong> precompute scores for all known entities on a schedule. TTL and invalidation strategies keep results fresh.</p>
   <div class="va">
     <div class="vl">// Interactive: cache hit rate vs latency</div>
-    <canvas id="cacheCanvas" role="img" aria-label="Caching &amp; Prediction Stores: Interactive — cache hit rate vs latency" height="260"></canvas>
+    <canvas id="cacheCanvas" role="img" aria-label="Caching &amp; Prediction Stores: Interactive: cache hit rate vs latency" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Cache Hit Rate %</span><input type="range" aria-label="Cache Hit Rate %" id="cacheHit" min="0" max="100" step="1" value="70"><span class="vd" id="cacheHitV">70%</span></div>
       <div class="cg"><span class="cl">Avg Latency</span><span class="vd" id="cacheLatV" style="color:var(--accent)">—</span></div>
@@ -1269,14 +1269,14 @@ function buildCachingLayers() {
 function buildAutoScaling() {
   return `<div class="topic" id="auto-scaling">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">19 — Scale & Optimize</div><h2>Auto-Scaling <em>Endpoints</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">19 · Scale & Optimize</div><h2>Auto-Scaling <em>Endpoints</em></h2></div>
     <span class="topic-badge">Infrastructure</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Scaling with demand, and scaling back to save money</p>
   <p class="prose"><strong>Horizontal Pod Autoscaler (HPA)</strong> adds replicas when CPU/memory/custom metrics exceed thresholds. <strong>Scale-to-zero</strong> (Knative, serverless) eliminates idle costs but adds cold start latency. The right strategy depends on traffic patterns: bursty vs steady, latency-tolerant vs strict SLO.</p>
   <div class="va">
     <div class="vl">// Interactive: replica count vs traffic</div>
-    <canvas id="scaleCanvas" role="img" aria-label="Auto-Scaling Endpoints: Interactive — replica count vs traffic" height="260"></canvas>
+    <canvas id="scaleCanvas" role="img" aria-label="Auto-Scaling Endpoints: Interactive: replica count vs traffic" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Traffic Load</span><input type="range" aria-label="Traffic Load" id="scaleLoad" min="0" max="100" step="1" value="50"><span class="vd" id="scaleLoadV">50%</span></div>
       <div class="cg"><span class="cl">Replicas</span><span class="vd" id="scaleReps" style="color:var(--accent)">—</span></div>
@@ -1292,14 +1292,14 @@ function buildAutoScaling() {
 function buildCostGovernance() {
   return `<div class="topic" id="cost-governance">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">20 — Scale & Optimize</div><h2>Cost <em>Governance</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">20 · Scale & Optimize</div><h2>Cost <em>Governance</em></h2></div>
     <span class="topic-badge">FinOps</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Tracking cost per prediction and eliminating ML waste</p>
   <p class="prose">ML workloads are expensive: GPUs, storage, compute for training and serving. <strong>Cost governance</strong> tracks cost per prediction, GPU utilisation, idle resources, and spot vs reserved savings. The goal: same model quality at lower cost, or better models at the same cost.</p>
   <div class="va">
     <div class="vl">// Interactive: cost breakdown by category</div>
-    <canvas id="costCanvas" role="img" aria-label="Cost Governance: Interactive — cost breakdown by category" height="260"></canvas>
+    <canvas id="costCanvas" role="img" aria-label="Cost Governance: Interactive: cost breakdown by category" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Strategy</th><th>Savings (vendor and practitioner ranges; varies widely)</th><th>Risk</th></tr></thead>
@@ -1320,16 +1320,16 @@ function buildCostGovernance() {
 function buildModelRegistry() {
   return `<div class="topic" id="model-registry">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">21 — Governance & Trust</div><h2>Model Registry &amp; <em>Versioning</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">21 · Governance & Trust</div><h2>Model Registry &amp; <em>Versioning</em></h2></div>
     <span class="topic-badge">Governance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Central catalog with staging, production, and archive states</p>
   <p class="prose">A <strong>model registry</strong> is a versioned catalog where every model has metadata (who trained it, on what data, with which hyperparameters) and a lifecycle stage: <em>staging</em> → <em>production</em> → <em>archived</em>. Approval workflows ensure no model reaches production without review.</p>
   <div class="va">
     <div class="vl">// Interactive: model lifecycle states</div>
-    <canvas id="regCanvas" role="img" aria-label="Model Registry &amp; Versioning: Interactive — model lifecycle states" height="260"></canvas>
+    <canvas id="regCanvas" role="img" aria-label="Model Registry &amp; Versioning: Interactive: model lifecycle states" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — MLflow model registry</span>
+  <div class="code-block"><pre><span class="cm"># Python: MLflow model registry</span>
 <span class="kw">import</span> mlflow
 
 <span class="cm"># Register a new model version</span>
@@ -1355,14 +1355,14 @@ client.transition_model_version_stage(
 function buildLineageTracking() {
   return `<div class="topic" id="lineage-tracking">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">22 — Governance & Trust</div><h2>Lineage <em>Tracking</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">22 · Governance & Trust</div><h2>Lineage <em>Tracking</em></h2></div>
     <span class="topic-badge">Audit</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Tracing every prediction back to its training data and code</p>
   <p class="prose"><strong>Lineage tracking</strong> records the full provenance chain: which data → which features → which code → which model → which prediction. When a model misbehaves, you can trace backwards to find the root cause. Regulatory compliance (GDPR, finance) often requires this.</p>
   <div class="va">
-    <div class="vl">// Interactive — lineage graph</div>
-    <canvas id="lineageCanvas" role="img" aria-label="Lineage Tracking: Interactive — lineage graph" height="260"></canvas>
+    <div class="vl">// Interactive: lineage graph</div>
+    <canvas id="lineageCanvas" role="img" aria-label="Lineage Tracking: Interactive: lineage graph" height="260"></canvas>
   </div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Lineage tracking is the ML equivalent of <a href="../ml-math/#backprop">backpropagation</a> for accountability — tracing effects back to causes. In markets, <a href="../markets/risk/#return-attribution">performance attribution</a> traces returns back to specific decisions.</div>
   ${depthHtml('lineage-tracking')}
@@ -1374,7 +1374,7 @@ function buildLineageTracking() {
 function buildFairnessAudits() {
   return `<div class="topic" id="fairness-audits">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">23 — Governance & Trust</div><h2>Fairness <em>Audits</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">23 · Governance & Trust</div><h2>Fairness <em>Audits</em></h2></div>
     <span class="topic-badge">Ethics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Testing for bias across protected groups</p>
@@ -1382,9 +1382,9 @@ function buildFairnessAudits() {
   <div class="fb"><div class="fm">Disparate Impact = P(ŷ=1|G=a) / P(ŷ=1|G=b)</div><div class="fd">A ratio below 0.8 (the "four-fifths rule") suggests adverse impact against group b.</div></div>
   <div class="va">
     <div class="vl">// Interactive: fairness metrics across groups</div>
-    <canvas id="fairCanvas" role="img" aria-label="Fairness Audits: Interactive — fairness metrics across groups" height="260"></canvas>
+    <canvas id="fairCanvas" role="img" aria-label="Fairness Audits: Interactive: fairness metrics across groups" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — Fairlearn fairness assessment</span>
+  <div class="code-block"><pre><span class="cm"># Python: Fairlearn fairness assessment</span>
 <span class="kw">from</span> fairlearn.metrics <span class="kw">import</span> MetricFrame
 <span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score
 
@@ -1406,16 +1406,16 @@ print(<span class="st">"Ratio:"</span>, mf.ratio())</pre></div>
 function buildReproducibility() {
   return `<div class="topic" id="reproducibility">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">24 — Governance & Trust</div><h2><em>Reproducibility</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">24 · Governance & Trust</div><h2><em>Reproducibility</em></h2></div>
     <span class="topic-badge">Science</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Ensuring any result can be replicated exactly</p>
   <p class="prose"><strong>Reproducibility</strong> means anyone can re-run your experiment and get the same result. This requires pinned dependencies, fixed random seeds, versioned data (DVC), containerised environments, and recorded hardware specs. Without it, your "state of the art" result is just a story.</p>
   <div class="va">
-    <div class="vl">// Interactive — reproducibility checklist</div>
-    <canvas id="reproCanvas" role="img" aria-label="Reproducibility: Interactive — reproducibility checklist" height="260"></canvas>
+    <div class="vl">// Interactive: reproducibility checklist</div>
+    <canvas id="reproCanvas" role="img" aria-label="Reproducibility: Interactive: reproducibility checklist" height="260"></canvas>
   </div>
-  <div class="code-block"><pre><span class="cm"># Python — reproducibility essentials</span>
+  <div class="code-block"><pre><span class="cm"># Python: reproducibility essentials</span>
 <span class="kw">import</span> random, numpy <span class="kw">as</span> np, torch
 
 <span class="cm"># Lock all seeds</span>
@@ -1439,14 +1439,14 @@ torch.backends.cudnn.deterministic = <span class="st">True</span>
 function buildIncidentResponse() {
   return `<div class="topic" id="incident-response">
   <div class="topic-header">
-    <div class="topic-meta"><div class="topic-num">25 — Governance & Trust</div><h2>Incident Response <em>for ML</em></h2></div>
+    <div class="topic-meta"><div class="topic-num">25 · Governance & Trust</div><h2>Incident Response <em>for ML</em></h2></div>
     <span class="topic-badge">Operations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// When models fail in production: rollback, fallback, postmortem</p>
   <p class="prose">ML incidents are different from software bugs: the code runs fine, but predictions are wrong. <strong>Rollback</strong> reverts to the previous model version. <strong>Fallbacks</strong> (rule-based defaults, cached predictions) serve something when the model is down. <strong>Circuit breakers</strong> automatically switch to fallback when error rates spike.</p>
   <div class="va">
     <div class="vl">// Interactive: incident response decision tree</div>
-    <canvas id="incidentCanvas" role="img" aria-label="Incident Response for ML: Interactive — incident response decision tree" height="260"></canvas>
+    <canvas id="incidentCanvas" role="img" aria-label="Incident Response for ML: Interactive: incident response decision tree" height="260"></canvas>
   </div>
   <table class="mt">
     <thead><tr><th>Severity</th><th>Response</th><th>Timeline</th></tr></thead>
