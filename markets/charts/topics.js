@@ -43,30 +43,30 @@ const TOPIC_NAMES = {
 };
 
 const TOPIC_DATA = [
-  { id:'head-and-shoulders', evidence:'heuristic', reviewed:'2026-10-02', num:'01', title:'Head & Shoulders', category:'Reversal Patterns', keywords:['reversal','top','neckline','left shoulder','right shoulder','bearish','breakdown'], content:'A three-peak pattern signaling a trend reversal — left shoulder, higher head, right shoulder. Breakdown below the neckline confirms the reversal.' },
-  { id:'inverse-head-and-shoulders', evidence:'heuristic', reviewed:'2026-10-02', num:'02', title:'Inverse Head & Shoulders', category:'Reversal Patterns', keywords:['reversal','bottom','neckline','bullish','breakout','accumulation'], content:'The mirror image of H&S — three troughs with the middle lowest. A breakout above the neckline signals a bullish reversal.' },
+  { id:'head-and-shoulders', evidence:'heuristic', reviewed:'2026-10-02', num:'01', title:'Head & Shoulders', category:'Reversal Patterns', keywords:['reversal','top','neckline','left shoulder','right shoulder','bearish','breakdown'], content:'A three-peak pattern signaling a trend reversal: left shoulder, higher head, right shoulder. Breakdown below the neckline confirms the reversal.' },
+  { id:'inverse-head-and-shoulders', evidence:'heuristic', reviewed:'2026-10-02', num:'02', title:'Inverse Head & Shoulders', category:'Reversal Patterns', keywords:['reversal','bottom','neckline','bullish','breakout','accumulation'], content:'The mirror image of H&S: three troughs with the middle lowest. A breakout above the neckline signals a bullish reversal.' },
   { id:'double-top', evidence:'heuristic', reviewed:'2026-10-02', num:'03', title:'Double Top', category:'Reversal Patterns', keywords:['reversal','M pattern','resistance','two peaks','bearish','neckline'], content:'Price hits the same resistance twice, forming an "M" shape. Failure to break higher on the second attempt signals bearish reversal.' },
   { id:'double-bottom', evidence:'heuristic', reviewed:'2026-10-02', num:'04', title:'Double Bottom', category:'Reversal Patterns', keywords:['reversal','W pattern','support','two troughs','bullish','neckline'], content:'Price tests the same support twice, forming a "W" shape. The second bounce confirms the support and signals bullish reversal.' },
-  { id:'rounding-bottom', evidence:'heuristic', reviewed:'2026-10-02', num:'05', title:'Rounding Bottom', category:'Reversal Patterns', keywords:['saucer','gradual reversal','accumulation','long-term','bullish','U-shape'], content:'A gradual U-shaped reversal over weeks or months — selling pressure slowly gives way to buying. Signals a long-term bullish reversal.' },
+  { id:'rounding-bottom', evidence:'heuristic', reviewed:'2026-10-02', num:'05', title:'Rounding Bottom', category:'Reversal Patterns', keywords:['saucer','gradual reversal','accumulation','long-term','bullish','U-shape'], content:'A gradual U-shaped reversal over weeks or months: selling pressure slowly gives way to buying. Signals a long-term bullish reversal.' },
   { id:'bull-flag', evidence:'heuristic', reviewed:'2026-10-02', num:'06', title:'Bull Flag', category:'Continuation Patterns', keywords:['continuation','flag','pole','bullish','consolidation','breakout','trend'], content:'A sharp rally (pole) followed by a downward-sloping consolidation (flag). Breakout above the flag continues the uptrend. High reliability.' },
   { id:'bear-flag', evidence:'heuristic', reviewed:'2026-10-02', num:'07', title:'Bear Flag', category:'Continuation Patterns', keywords:['continuation','flag','pole','bearish','consolidation','breakdown','trend'], content:'A sharp decline (pole) followed by an upward-sloping consolidation (flag). Breakdown below continues the downtrend.' },
-  { id:'pennant', evidence:'heuristic', reviewed:'2026-10-02', num:'08', title:'Pennant', category:'Continuation Patterns', keywords:['continuation','triangle','converging','small','brief','breakout','symmetrical'], content:'A small symmetrical triangle after a strong move — converging trendlines over a brief period. Breakout follows the prior trend direction.' },
-  { id:'ascending-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'09', title:'Ascending Triangle', category:'Continuation Patterns', keywords:['continuation','flat top','rising lows','bullish','resistance','breakout'], content:'Flat resistance top with rising lows — buyers are increasingly aggressive. Usually breaks upward with a measured move equal to the triangle height.' },
-  { id:'descending-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'10', title:'Descending Triangle', category:'Continuation Patterns', keywords:['continuation','flat bottom','falling highs','bearish','support','breakdown'], content:'Flat support bottom with falling highs — sellers are increasingly aggressive. Usually breaks downward. The mirror of ascending triangle.' },
-  { id:'symmetric-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'11', title:'Symmetric Triangle', category:'Bilateral & Wedge', keywords:['bilateral','converging','neutral','breakout either way','indecision','apex'], content:'Converging trendlines with lower highs and higher lows — the market is undecided. Can break either direction; watch volume for confirmation.' },
-  { id:'rising-wedge', evidence:'heuristic', reviewed:'2026-10-02', num:'12', title:'Rising Wedge', category:'Bilateral & Wedge', keywords:['bearish','converging up','weakening momentum','breakdown','exhaustion','distribution'], content:'Both trendlines slope upward but converge — the advance is weakening. Usually resolves with a bearish breakdown. Found at tops and in downtrends.' },
-  { id:'falling-wedge', evidence:'heuristic', reviewed:'2026-10-02', num:'13', title:'Falling Wedge', category:'Bilateral & Wedge', keywords:['bullish','converging down','weakening selling','breakout','exhaustion','accumulation'], content:'Both trendlines slope downward but converge — selling pressure is weakening. Usually resolves with a bullish breakout.' },
-  { id:'broadening-formation', evidence:'heuristic', reviewed:'2026-10-02', num:'14', title:'Broadening Formation', category:'Bilateral & Wedge', keywords:['megaphone','expanding range','volatility','diverging trendlines','instability','reversal'], content:'Diverging trendlines — higher highs and lower lows — indicating increasing volatility and disagreement. Often appears at major tops.' },
-  { id:'rectangle', evidence:'heuristic', reviewed:'2026-10-02', num:'15', title:'Rectangle', category:'Bilateral & Wedge', keywords:['range','consolidation','horizontal','support','resistance','breakout either way'], content:'Price bounces between parallel horizontal support and resistance — a consolidation zone. Breakout direction continues the prior trend (usually).' },
-  { id:'doji', evidence:'heuristic', reviewed:'2026-10-02', num:'16', title:'Doji', category:'Candlestick Patterns', keywords:['indecision','equal open close','cross','neutral','reversal signal','context'], content:'Open and close are nearly equal — a "+" shaped candle. It signals indecision. At a trend extreme, it can signal reversal; in a range, it means nothing.' },
-  { id:'hammer', evidence:'heuristic', reviewed:'2026-10-02', num:'17', title:'Hammer', category:'Candlestick Patterns', keywords:['reversal','long lower shadow','bullish','support','rejection','inverted hammer'], content:'Small body at the top, long lower shadow — sellers pushed price down but buyers reclaimed it. At a bottom, it signals bullish reversal. Its inverse (hanging man) appears at tops.' },
+  { id:'pennant', evidence:'heuristic', reviewed:'2026-10-02', num:'08', title:'Pennant', category:'Continuation Patterns', keywords:['continuation','triangle','converging','small','brief','breakout','symmetrical'], content:'A small symmetrical triangle after a strong move: converging trendlines over a brief period. Breakout follows the prior trend direction.' },
+  { id:'ascending-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'09', title:'Ascending Triangle', category:'Continuation Patterns', keywords:['continuation','flat top','rising lows','bullish','resistance','breakout'], content:'Flat resistance top with rising lows: buyers are increasingly aggressive. Usually breaks upward with a measured move equal to the triangle height.' },
+  { id:'descending-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'10', title:'Descending Triangle', category:'Continuation Patterns', keywords:['continuation','flat bottom','falling highs','bearish','support','breakdown'], content:'Flat support bottom with falling highs: sellers are increasingly aggressive. Usually breaks downward. The mirror of ascending triangle.' },
+  { id:'symmetric-triangle', evidence:'heuristic', reviewed:'2026-10-02', num:'11', title:'Symmetric Triangle', category:'Bilateral & Wedge', keywords:['bilateral','converging','neutral','breakout either way','indecision','apex'], content:'Converging trendlines with lower highs and higher lows: the market is undecided. Can break either direction; watch volume for confirmation.' },
+  { id:'rising-wedge', evidence:'heuristic', reviewed:'2026-10-02', num:'12', title:'Rising Wedge', category:'Bilateral & Wedge', keywords:['bearish','converging up','weakening momentum','breakdown','exhaustion','distribution'], content:'Both trendlines slope upward but converge: the advance is weakening. Usually resolves with a bearish breakdown. Found at tops and in downtrends.' },
+  { id:'falling-wedge', evidence:'heuristic', reviewed:'2026-10-02', num:'13', title:'Falling Wedge', category:'Bilateral & Wedge', keywords:['bullish','converging down','weakening selling','breakout','exhaustion','accumulation'], content:'Both trendlines slope downward but converge: selling pressure is weakening. Usually resolves with a bullish breakout.' },
+  { id:'broadening-formation', evidence:'heuristic', reviewed:'2026-10-02', num:'14', title:'Broadening Formation', category:'Bilateral & Wedge', keywords:['megaphone','expanding range','volatility','diverging trendlines','instability','reversal'], content:'Diverging trendlines, higher highs and lower lows, indicating increasing volatility and disagreement. Often appears at major tops.' },
+  { id:'rectangle', evidence:'heuristic', reviewed:'2026-10-02', num:'15', title:'Rectangle', category:'Bilateral & Wedge', keywords:['range','consolidation','horizontal','support','resistance','breakout either way'], content:'Price bounces between parallel horizontal support and resistance: a consolidation zone. Breakout direction continues the prior trend (usually).' },
+  { id:'doji', evidence:'heuristic', reviewed:'2026-10-02', num:'16', title:'Doji', category:'Candlestick Patterns', keywords:['indecision','equal open close','cross','neutral','reversal signal','context'], content:'Open and close are nearly equal: a "+" shaped candle. It signals indecision. At a trend extreme, it can signal reversal; in a range, it means nothing.' },
+  { id:'hammer', evidence:'heuristic', reviewed:'2026-10-02', num:'17', title:'Hammer', category:'Candlestick Patterns', keywords:['reversal','long lower shadow','bullish','support','rejection','inverted hammer'], content:'Small body at the top, long lower shadow: sellers pushed price down but buyers reclaimed it. At a bottom, it signals bullish reversal. Its inverse (hanging man) appears at tops.' },
   { id:'engulfing', evidence:'heuristic', reviewed:'2026-10-02', num:'18', title:'Engulfing', category:'Candlestick Patterns', keywords:['reversal','two candle','bullish engulfing','bearish engulfing','body covers','momentum shift'], content:'A two-candle pattern where the second body completely covers the first. Bullish engulfing: small red → large green. Bearish engulfing: small green → large red.' },
   { id:'morning-star', evidence:'heuristic', reviewed:'2026-10-02', num:'19', title:'Morning Star', category:'Candlestick Patterns', keywords:['reversal','three candle','bullish','bottom','gap down','gap up','hope'], content:'Three-candle bullish reversal: long red → small-bodied candle (the "star") → long green. The star represents the turning point between selling and buying.' },
   { id:'evening-star', evidence:'heuristic', reviewed:'2026-10-02', num:'20', title:'Evening Star', category:'Candlestick Patterns', keywords:['reversal','three candle','bearish','top','gap up','gap down','warning'], content:'Three-candle bearish reversal: long green → small-bodied star → long red. The mirror image of morning star, appearing at trend peaks.' },
-  { id:'support-resistance', evidence:'heuristic', reviewed:'2026-10-02', num:'21', title:'Support & Resistance', category:'Structural Analysis', keywords:['levels','horizontal','price memory','floor','ceiling','breakout','retest'], content:'Price levels where buying (support) or selling (resistance) has historically concentrated. These levels have "memory" — broken support becomes resistance and vice versa.' },
+  { id:'support-resistance', evidence:'heuristic', reviewed:'2026-10-02', num:'21', title:'Support & Resistance', category:'Structural Analysis', keywords:['levels','horizontal','price memory','floor','ceiling','breakout','retest'], content:'Price levels where buying (support) or selling (resistance) has historically concentrated. These levels have "memory": broken support becomes resistance and vice versa.' },
   { id:'trendlines', evidence:'heuristic', reviewed:'2026-10-02', num:'22', title:'Trendlines', category:'Structural Analysis', keywords:['diagonal','connecting lows','connecting highs','slope','trend direction','break'], content:'Diagonal lines connecting swing lows (uptrend) or swing highs (downtrend). A valid trendline touches at least 3 points. More touches = more significant.' },
-  { id:'channels', evidence:'heuristic', reviewed:'2026-10-02', num:'23', title:'Channels', category:'Structural Analysis', keywords:['parallel trendlines','range','ascending channel','descending channel','trade within'], content:'Two parallel trendlines containing price action — an ascending channel for uptrends, descending for downtrends. Price oscillates between the boundaries.' },
-  { id:'gaps', evidence:'heuristic', reviewed:'2026-10-02', num:'24', title:'Gaps', category:'Structural Analysis', keywords:['breakaway','runaway','exhaustion','common','opening gap','price void','fill'], content:'Price voids between closes and opens. Breakaway gaps start moves, runaway gaps continue them, exhaustion gaps end them. "Do gaps always fill?" — some do, some don\'t.' },
+  { id:'channels', evidence:'heuristic', reviewed:'2026-10-02', num:'23', title:'Channels', category:'Structural Analysis', keywords:['parallel trendlines','range','ascending channel','descending channel','trade within'], content:'Two parallel trendlines containing price action: an ascending channel for uptrends, descending for downtrends. Price oscillates between the boundaries.' },
+  { id:'gaps', evidence:'heuristic', reviewed:'2026-10-02', num:'24', title:'Gaps', category:'Structural Analysis', keywords:['breakaway','runaway','exhaustion','common','opening gap','price void','fill'], content:'Price voids between closes and opens. Breakaway gaps start moves, runaway gaps continue them, exhaustion gaps end them. "Do gaps always fill?": some do, some don\'t.' },
   { id:'cup-and-handle', evidence:'heuristic', reviewed:'2026-10-02', num:'25', title:'Cup & Handle', category:'Structural Analysis', keywords:['continuation','rounded bottom','handle','breakout','consolidation','bullish','O\'Neil'], content:'A rounded bottom (cup) followed by a small consolidation (handle) before breakout. Popularized by William O\'Neil. The measured move target equals the cup depth.' },
 ];
 
@@ -101,7 +101,7 @@ function buildNav() {
    worked example is the output of the code shown, run on the data shown with it. */
 const TOPIC_DEPTH = {
  "head-and-shoulders": {
-  "example": "Left shoulder 108 (day 5), head 115 (day 14), right shoulder 109 (day 22), and both troughs between them at 100 — the neckline. The shoulders are within 1% of each other and the head clears both; day 26 closes at 99, below the neckline, which confirms it. Measured move: 100 − (115 − 100) = <strong>85</strong>.",
+  "example": "Left shoulder 108 (day 5), head 115 (day 14), right shoulder 109 (day 22), and both troughs between them at 100: the neckline. The shoulders are within 1% of each other and the head clears both; day 26 closes at 99, below the neckline, which confirms it. Measured move: 100 − (115 − 100) = <strong>85</strong>.",
   "fails": [
    "In real time the right shoulder is just a rally until the neckline breaks, and many necklines never break. The pattern is easiest to see afterwards.",
    "The measured move is a rule of thumb; prices often stop short of it, and a pullback to the neckline after the break is common.",
@@ -110,7 +110,7 @@ const TOPIC_DEPTH = {
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nls, head, rs = highs.iloc[-3:]                       # left shoulder, head, right shoulder\nbetween = lows[(lows.index &gt; highs.index[-3]) &amp; (lows.index &lt; highs.index[-1])]\nneck = between.mean()                                # neckline (flat here)\nis_hs = head &gt; max(ls, rs) and abs(ls - rs) / head &lt; 0.05\ntarget = neck - (head - neck)                        # measured move\nconfirmed = c.iloc[-1] &lt; neck",
   "sources": [
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)",
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "G. Savin, P. Weller &amp; J. Zvingelis, “The Predictive Power of ‘Head-and-Shoulders’ Price Patterns in the U.S. Stock Market”, <em>Journal of Financial Econometrics</em> 5(2), 2007",
    "C. L. Osler &amp; P. H. K. Chang, “Head and Shoulders: Not Just a Flaky Pattern”, Federal Reserve Bank of New York Staff Report 4, 1995"
   ],
@@ -126,7 +126,7 @@ const TOPIC_DEPTH = {
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nls, head, rs = lows.iloc[-3:]                        # the three troughs\nbetween = highs[(highs.index &gt; lows.index[-3]) &amp; (highs.index &lt; lows.index[-1])]\nneck = between.mean()\nis_ihs = head &lt; min(ls, rs) and abs(ls - rs) / head &lt; 0.05\ntarget = neck + (neck - head)\nconfirmed = c.iloc[-1] &gt; neck",
   "sources": [
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)",
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "A. W. Lo, H. Mamaysky &amp; J. Wang, “Foundations of Technical Analysis: Computational Algorithms, Statistical Inference, and Empirical Implementation”, <em>Journal of Finance</em> 55(4), 2000 — patterns found by an algorithm like the one below, tested on U.S. stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>105</td></tr><tr><td>5</td><td>92</td></tr><tr><td>9</td><td>100</td></tr><tr><td>14</td><td>85</td></tr><tr><td>18</td><td>100</td></tr><tr><td>22</td><td>91</td></tr><tr><td>26</td><td>101</td></tr><tr><td>30</td><td>108</td></tr></tbody></table></div></details>"
@@ -140,7 +140,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nt1, t2 = highs.iloc[-2:]\nvalley = lows[(lows.index &gt; highs.index[-2]) &amp; (lows.index &lt; highs.index[-1])].min()\nis_dt = abs(t1 - t2) / max(t1, t2) &lt; 0.02            # tops within 2%\ntarget = valley - (max(t1, t2) - valley)\nconfirmed = c.iloc[-1] &lt; valley",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>90</td></tr><tr><td>6</td><td>110</td></tr><tr><td>11</td><td>100</td></tr><tr><td>17</td><td>109.5</td></tr><tr><td>22</td><td>99</td></tr><tr><td>26</td><td>94</td></tr></tbody></table></div></details>"
@@ -154,7 +154,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nb1, b2 = lows.iloc[-2:]\npeak = highs[(highs.index &gt; lows.index[-2]) &amp; (highs.index &lt; lows.index[-1])].max()\nis_db = abs(b1 - b2) / min(b1, b2) &lt; 0.02\ntarget = peak + (peak - min(b1, b2))\nconfirmed = c.iloc[-1] &gt; peak",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>110</td></tr><tr><td>6</td><td>90</td></tr><tr><td>11</td><td>100</td></tr><tr><td>17</td><td>90.5</td></tr><tr><td>22</td><td>101</td></tr><tr><td>26</td><td>106</td></tr></tbody></table></div></details>"
@@ -168,7 +168,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "y = df['close'].iloc[-41:].values\nx = np.arange(len(y))\na, b, k = np.polyfit(x, y, 2)                         # y ≈ a·x² + b·x + k\nvertex = -b / (2 * a)                                 # where the curve turns\nis_round = a &gt; 0 and 0.3 &lt; vertex / len(x) &lt; 0.7     # a U, bottoming near the middle\nrim, bottom = max(y[0], y[-1]), y.min()\ntarget = rim + (rim - bottom)",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">A U from 110 (day 0) down to 90 (day 20) and back to 110 (day 40), as daily closes; high and low are half a point either side of each bar.</p></details>"
@@ -182,7 +182,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "c = df['close']\npole = c.iloc[-12] - c.iloc[-17]                      # the 5-bar rise\nflag = c.iloc[-12:-1]                                 # the 11 bars after it\nslope = np.polyfit(np.arange(len(flag)), flag.values, 1)[0]\nis_flag = pole / c.iloc[-17] &gt; 0.08 and slope &lt; 0     # sharp rise, then a drift down\nbreakout = c.iloc[-1] &gt; flag.max()\ntarget = flag.max() + pole",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>5</td><td>115</td></tr><tr><td>7</td><td>112</td></tr><tr><td>9</td><td>114</td></tr><tr><td>11</td><td>111</td></tr><tr><td>13</td><td>113</td></tr><tr><td>15</td><td>110</td></tr><tr><td>16</td><td>116</td></tr></tbody></table></div></details>"
@@ -196,7 +196,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "c = df['close']\npole = c.iloc[-17] - c.iloc[-12]                      # the 5-bar fall\nflag = c.iloc[-12:-1]\nslope = np.polyfit(np.arange(len(flag)), flag.values, 1)[0]\nis_flag = pole / c.iloc[-17] &gt; 0.08 and slope &gt; 0     # sharp fall, then a drift up\nbreakdown = c.iloc[-1] &lt; flag.min()\ntarget = flag.min() - pole",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>5</td><td>85</td></tr><tr><td>7</td><td>88</td></tr><tr><td>9</td><td>86</td></tr><tr><td>11</td><td>89</td></tr><tr><td>13</td><td>87</td></tr><tr><td>15</td><td>90</td></tr><tr><td>16</td><td>84</td></tr></tbody></table></div></details>"
@@ -210,13 +210,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\npole = c.iloc[-12] - c.iloc[-17]\nhi, lo = swings(c.iloc[-12:-1], n=1)                 # swings inside the pennant\nconverging = hi.is_monotonic_decreasing and lo.is_monotonic_increasing\nbreakout = c.iloc[-1] &gt; hi.iloc[-1]\ntarget = hi.iloc[-1] + pole",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>5</td><td>115</td></tr><tr><td>7</td><td>110</td></tr><tr><td>9</td><td>114</td></tr><tr><td>11</td><td>111</td></tr><tr><td>13</td><td>113</td></tr><tr><td>15</td><td>112</td></tr><tr><td>16</td><td>117</td></tr></tbody></table></div></details>"
  },
  "ascending-triangle": {
-  "example": "Three swing highs at 110 — a flat ceiling — and rising swing lows at 100, 104 and 107. Day 27 closes at 114, above the ceiling. The widest part is 110 − 100 = 10, so the target is 110 + 10 = <strong>120</strong>.",
+  "example": "Three swing highs at 110, a flat ceiling, and rising swing lows at 100, 104 and 107. Day 27 closes at 114, above the ceiling. The widest part is 110 − 100 = 10, so the target is 110 + 10 = <strong>120</strong>.",
   "fails": [
    "The ceiling can hold; rising lows do not guarantee a break, and a close back under the ceiling after a break is a common failure.",
    "“Flat” needs a tolerance (1% here), and which triangles you find depends on it.",
@@ -224,7 +224,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\ntop, rises = highs.iloc[-3:], lows.iloc[-3:]\nflat_top = (top.max() - top.min()) / top.mean() &lt; 0.01\nrising = rises.is_monotonic_increasing\nheight = top.mean() - rises.iloc[0]\nbreakout = c.iloc[-1] &gt; top.max()\ntarget = top.mean() + height",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>95</td></tr><tr><td>4</td><td>110</td></tr><tr><td>8</td><td>100</td></tr><tr><td>12</td><td>110</td></tr><tr><td>16</td><td>104</td></tr><tr><td>20</td><td>110</td></tr><tr><td>24</td><td>107</td></tr><tr><td>27</td><td>114</td></tr></tbody></table></div></details>"
@@ -238,7 +238,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nfloor, falls = lows.iloc[-3:], highs.iloc[-3:]\nflat_floor = (floor.max() - floor.min()) / floor.mean() &lt; 0.01\nfalling = falls.is_monotonic_decreasing\nheight = falls.iloc[0] - floor.mean()\nbreakdown = c.iloc[-1] &lt; floor.min()\ntarget = floor.mean() - height",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>4</td><td>90</td></tr><tr><td>8</td><td>105</td></tr><tr><td>12</td><td>90</td></tr><tr><td>16</td><td>100</td></tr><tr><td>20</td><td>90</td></tr><tr><td>24</td><td>96</td></tr><tr><td>27</td><td>86</td></tr></tbody></table></div></details>"
@@ -253,7 +253,7 @@ const TOPIC_DEPTH = {
   "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nsymmetric = hi.is_monotonic_decreasing and lo.is_monotonic_increasing\nheight = hi.iloc[0] - lo.iloc[0]                     # the widest part\nbreakout = c.iloc[-1] &gt; hi.iloc[-1]\ntarget = c.iloc[-1] + height",
   "sources": [
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)",
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns"
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>3</td><td>112</td></tr><tr><td>6</td><td>92</td></tr><tr><td>9</td><td>108</td></tr><tr><td>12</td><td>96</td></tr><tr><td>15</td><td>105</td></tr><tr><td>18</td><td>99</td></tr><tr><td>21</td><td>107</td></tr></tbody></table></div></details>"
  },
@@ -266,7 +266,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nhs = np.polyfit(hi.index, hi.values, 1)[0]           # slope of the upper line\nls = np.polyfit(lo.index, lo.values, 1)[0]           # slope of the lower line\nis_wedge = hs &gt; 0 and ls &gt; hs                         # both rise, the lows faster\nbreakdown = c.iloc[-1] &lt; lo.iloc[-1]\ntarget = lo.iloc[0]                                   # back to where the wedge began",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>93</td></tr><tr><td>3</td><td>105</td></tr><tr><td>6</td><td>95</td></tr><tr><td>9</td><td>108</td></tr><tr><td>12</td><td>101</td></tr><tr><td>15</td><td>110</td></tr><tr><td>18</td><td>106</td></tr><tr><td>21</td><td>100</td></tr></tbody></table></div></details>"
@@ -280,13 +280,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nhs = np.polyfit(hi.index, hi.values, 1)[0]\nls = np.polyfit(lo.index, lo.values, 1)[0]\nis_wedge = ls &lt; 0 and hs &lt; ls                         # both fall, the highs faster\nbreakout = c.iloc[-1] &gt; hi.iloc[-1]\ntarget = hi.iloc[0]",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of the Financial Markets</em>, J. J. Murphy, New York Institute of Finance, 1999"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>105</td></tr><tr><td>3</td><td>110</td></tr><tr><td>6</td><td>95</td></tr><tr><td>9</td><td>104</td></tr><tr><td>12</td><td>93</td></tr><tr><td>15</td><td>100</td></tr><tr><td>18</td><td>92</td></tr><tr><td>21</td><td>103</td></tr></tbody></table></div></details>"
  },
  "broadening-formation": {
-  "example": "Swing highs at 105, 108 and 111, swing lows at 95, 92 and 89: each swing reaches further than the last (widths 10, 16 and 22). There is no measured move — the pattern describes growing volatility and disagreement, not a direction.",
+  "example": "Swing highs at 105, 108 and 111, swing lows at 95, 92 and 89: each swing reaches further than the last (widths 10, 16 and 22). There is no measured move: the pattern describes growing volatility and disagreement, not a direction.",
   "fails": [
    "There is no clean entry: by the time three widening swings are visible, the next one is already large.",
    "Widening swings mean wider stops, so position size has to shrink to keep the same risk.",
@@ -295,26 +295,26 @@ const TOPIC_DEPTH = {
   "code": "def swings(s, n=2):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\nhi, lo = highs.iloc[-3:], lows.iloc[-3:]\nbroadening = hi.is_monotonic_increasing and lo.is_monotonic_decreasing\nwidth = (hi.values - lo.values)                       # how far each swing reached",
   "sources": [
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)",
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns"
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>3</td><td>105</td></tr><tr><td>6</td><td>95</td></tr><tr><td>9</td><td>108</td></tr><tr><td>12</td><td>92</td></tr><tr><td>15</td><td>111</td></tr><tr><td>18</td><td>89</td></tr><tr><td>21</td><td>95</td></tr></tbody></table></div></details>"
  },
  "rectangle": {
   "example": "Three highs at 110 and three lows at 100: a 10-point range. Day 27 closes at 112, above the top; the target is 110 + 10 = <strong>120</strong>.",
   "fails": [
-   "Inside the range the opposite trade works — sell the top, buy the bottom — so breakout and range traders take turns being wrong until it breaks.",
+   "Inside the range the opposite trade works (sell the top, buy the bottom), so breakout and range traders take turns being wrong until it breaks.",
    "Breaks that return into the range are common; many traders wait for a second close outside it.",
    "Each test of an edge is also read as weakening it, so the same history supports both “it will hold” and “it will break”."
   ],
   "code": "def swings(s, n=3):                     # a swing high (low) is the extreme of the 2n+1 bars around it\n    w = s.rolling(2 * n + 1, center=True)\n    return s[s == w.max()], s[s == w.min()]\nc = df['close']\nhighs, lows = swings(c)\ntop, bottom = highs.iloc[-3:].mean(), lows.iloc[-3:].mean()\nflat = highs.iloc[-3:].std() / top &lt; 0.01 and lows.iloc[-3:].std() / bottom &lt; 0.01\nheight = top - bottom\nbreakout = c.iloc[-1] &gt; top\ntarget = top + height",
   "sources": [
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns",
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns",
    "<em>Technical Analysis of Stock Trends</em>, R. D. Edwards &amp; J. Magee, 1948 (later editions revised by W. H. C. Bassetti)"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The turning points the daily closes run through, in straight lines between them; high and low are half a point either side of each bar.</p><div class=\"depth-table\"><table><thead><tr><th>Day</th><th>Close</th></tr></thead><tbody><tr><td>0</td><td>100</td></tr><tr><td>4</td><td>110</td></tr><tr><td>8</td><td>100</td></tr><tr><td>12</td><td>110</td></tr><tr><td>16</td><td>100</td></tr><tr><td>20</td><td>110</td></tr><tr><td>24</td><td>100</td></tr><tr><td>27</td><td>112</td></tr></tbody></table></div></details>"
  },
  "doji": {
-  "example": "The last bar opens at 100.2 and closes at 100.0, inside a range of 98 to 102: a body of 0.2 against a range of 4, or 5%. Under the 10% threshold, so a doji — after two down days, a session where neither side won.",
+  "example": "The last bar opens at 100.2 and closes at 100.0, inside a range of 98 to 102: a body of 0.2 against a range of 4, or 5%. Under the 10% threshold, so a doji, after two down days, a session where neither side won.",
   "fails": [
    "It signals indecision, not reversal; the next bar decides, and on its own a doji predicts little.",
    "The 10% threshold is arbitrary, and on quiet days many bars qualify.",
@@ -323,7 +323,7 @@ const TOPIC_DEPTH = {
   "code": "o, h, l, c = df.iloc[-1][['open', 'high', 'low', 'close']]\nbody, rng = abs(c - o), h - l\nis_doji = body &lt;= 0.1 * rng                           # body under 10% of the day's range",
   "sources": [
    "<em>Japanese Candlestick Charting Techniques</em>, S. Nison, New York Institute of Finance, 1991",
-   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006 — they found none on Dow Jones stocks"
+   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006. They found none on Dow Jones stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>103</td><td>104</td><td>101.5</td><td>102</td></tr><tr><td>2</td><td>102</td><td>102.5</td><td>100</td><td>100.5</td></tr><tr><td>3</td><td>100.2</td><td>102</td><td>98</td><td>100</td></tr></tbody></table></div></details>"
  },
@@ -331,13 +331,13 @@ const TOPIC_DEPTH = {
   "example": "After two lower closes the last bar opens at 100, falls to 96, and closes at 100.8 near its high of 101. Body 0.8, lower shadow 4 (five times the body), upper shadow 0.2: a hammer. Sellers pushed the price down 4 points and buyers took it all back.",
   "fails": [
    "It needs a decline before it; the same bar after a rise is a “hanging man” and read the opposite way.",
-   "Most definitions require confirmation — a higher close the next day. Without it the bar is just a long shadow.",
+   "Most definitions require confirmation: a higher close the next day. Without it the bar is just a long shadow.",
    "Tests of candlestick rules on U.S. stocks found no value after costs (Marshall, Young &amp; Rose 2006)."
   ],
   "code": "o, h, l, c = df.iloc[-1][['open', 'high', 'low', 'close']]\nbody = abs(c - o)\nlower = min(o, c) - l                                 # lower shadow\nupper = h - max(o, c)                                 # upper shadow\nafter_fall = df['close'].iloc[-3] &gt; df['close'].iloc[-2]\nis_hammer = after_fall and lower &gt;= 2 * body and upper &lt;= body",
   "sources": [
    "<em>Japanese Candlestick Charting Techniques</em>, S. Nison, New York Institute of Finance, 1991",
-   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006 — they found none on Dow Jones stocks"
+   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006. They found none on Dow Jones stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>104</td><td>104.5</td><td>102</td><td>102.5</td></tr><tr><td>2</td><td>102.5</td><td>103</td><td>100.5</td><td>101</td></tr><tr><td>3</td><td>100</td><td>101</td><td>96</td><td>100.8</td></tr></tbody></table></div></details>"
  },
@@ -351,7 +351,7 @@ const TOPIC_DEPTH = {
   "code": "(o1, c1), (o2, c2) = df[['open', 'close']].iloc[-2], df[['open', 'close']].iloc[-1]\nbullish = c1 &lt; o1 and c2 &gt; o2 and o2 &lt;= c1 and c2 &gt;= o1   # today's body covers yesterday's",
   "sources": [
    "<em>Japanese Candlestick Charting Techniques</em>, S. Nison, New York Institute of Finance, 1991",
-   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006 — they found none on Dow Jones stocks"
+   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006. They found none on Dow Jones stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>103</td><td>103.5</td><td>101.5</td><td>102</td></tr><tr><td>2</td><td>102</td><td>102.5</td><td>99.5</td><td>100</td></tr><tr><td>3</td><td>99.5</td><td>103</td><td>99.2</td><td>102.5</td></tr></tbody></table></div></details>"
  },
@@ -360,12 +360,12 @@ const TOPIC_DEPTH = {
   "fails": [
    "Three bars leave many ways to bend the definition (how long, how small, gap or not), and results depend on the exact rules.",
    "On markets that trade around the clock the required gap rarely exists.",
-   "Nison presents it as a reversal sign in context — at support, after a decline — not as a signal on its own."
+   "Nison presents it as a reversal sign in context (at support, after a decline), not as a signal on its own."
   ],
   "code": "d1, d2, d3 = df.iloc[-3], df.iloc[-2], df.iloc[-1]\nlong_red = d1.open - d1.close &gt; 0.6 * (d1.high - d1.low)\nsmall = abs(d2.close - d2.open) &lt; 0.3 * abs(d1.close - d1.open)\ngap_down = max(d2.open, d2.close) &lt; d1.close\nmid = (d1.open + d1.close) / 2\nstrong_green = d3.close &gt; d3.open and d3.close &gt; mid\nis_morning_star = long_red and small and gap_down and strong_green",
   "sources": [
    "<em>Japanese Candlestick Charting Techniques</em>, S. Nison, New York Institute of Finance, 1991",
-   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006 — they found none on Dow Jones stocks"
+   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006. They found none on Dow Jones stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>105</td><td>105.5</td><td>99.5</td><td>100</td></tr><tr><td>2</td><td>99</td><td>99.8</td><td>98.5</td><td>99.3</td></tr><tr><td>3</td><td>100</td><td>103.8</td><td>99.8</td><td>103.5</td></tr></tbody></table></div></details>"
  },
@@ -379,7 +379,7 @@ const TOPIC_DEPTH = {
   "code": "d1, d2, d3 = df.iloc[-3], df.iloc[-2], df.iloc[-1]\nlong_green = d1.close - d1.open &gt; 0.6 * (d1.high - d1.low)\nsmall = abs(d2.close - d2.open) &lt; 0.3 * abs(d1.close - d1.open)\ngap_up = min(d2.open, d2.close) &gt; d1.close\nmid = (d1.open + d1.close) / 2\nstrong_red = d3.close &lt; d3.open and d3.close &lt; mid\nis_evening_star = long_green and small and gap_up and strong_red",
   "sources": [
    "<em>Japanese Candlestick Charting Techniques</em>, S. Nison, New York Institute of Finance, 1991",
-   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006 — they found none on Dow Jones stocks"
+   "B. R. Marshall, M. R. Young &amp; L. C. Rose, “Candlestick technical trading strategies: Can they create value for investors?”, <em>Journal of Banking &amp; Finance</em> 30(8), 2006. They found none on Dow Jones stocks"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>100</td><td>105.5</td><td>99.5</td><td>105</td></tr><tr><td>2</td><td>106</td><td>106.5</td><td>105.2</td><td>105.7</td></tr><tr><td>3</td><td>105</td><td>105.2</td><td>101.2</td><td>101.5</td></tr></tbody></table></div></details>"
  },
@@ -440,16 +440,16 @@ const TOPIC_DEPTH = {
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">The bars the example is worked on.</p><div class=\"depth-table\"><table><thead><tr><th>Bar</th><th>Open</th><th>High</th><th>Low</th><th>Close</th></tr></thead><tbody><tr><td>1</td><td>101</td><td>102</td><td>100.5</td><td>101.5</td></tr><tr><td>2</td><td>101.5</td><td>104</td><td>101</td><td>103.8</td></tr><tr><td>3</td><td>106.2</td><td>108</td><td>106</td><td>107.5</td></tr><tr><td>4</td><td>107.5</td><td>108.5</td><td>105.5</td><td>106</td></tr><tr><td>5</td><td>106</td><td>106.5</td><td>103.5</td><td>104</td></tr></tbody></table></div></details>"
  },
  "cup-and-handle": {
-  "example": "A 41-day cup from a rim of 110 down to 90 and back: 20 deep. The handle dips to 105, a quarter of the cup’s depth — under the usual one-third limit. Day 50 closes at 112, above the rim; the target is 110 + 20 = <strong>130</strong>.",
+  "example": "A 41-day cup from a rim of 110 down to 90 and back: 20 deep. The handle dips to 105, a quarter of the cup’s depth: under the usual one-third limit. Day 50 closes at 112, above the rim; the target is 110 + 20 = <strong>130</strong>.",
   "fails": [
-   "O’Neil’s version has conditions this code leaves out — a prior uptrend, the cup’s length, volume drying up in the handle — and they change which cups qualify.",
+   "O’Neil’s version has conditions this code leaves out (a prior uptrend, the cup’s length, volume drying up in the handle), and they change which cups qualify.",
    "A deep handle, or one that falls below the cup’s midpoint, usually means the base has failed.",
    "Like every measured move, the target is a rough guide."
   ],
   "code": "c = df['close']\ncup = c.iloc[:41]\nrim, bottom = min(cup.iloc[0], cup.iloc[-1]), cup.min()\ndepth = rim - bottom\nhandle = c.iloc[41:-1]\nshallow = rim - handle.min() &lt; depth / 3              # handle retraces under a third of the cup\nbreakout = c.iloc[-1] &gt; rim\ntarget = rim + depth",
   "sources": [
    "<em>How to Make Money in Stocks</em>, W. J. O’Neil, McGraw-Hill, 1988",
-   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005 — success and failure rates from large counts of patterns"
+   "<em>Encyclopedia of Chart Patterns</em> (2nd ed.), T. N. Bulkowski, Wiley, 2005: success and failure rates from large counts of patterns"
   ],
   "dataHtml": "<details class=\"depth-data\"><summary>The example data</summary><p class=\"depth-note\">A U from 110 (day 0) down to 90 (day 20) and back to 110 (day 40), then a handle down to 105 (day 47) and a close of 112 on day 50, as daily closes; high and low are half a point either side of each bar.</p></details>"
  }
@@ -466,7 +466,7 @@ const SELF_CHECK = {
     "When price closes below the neckline."
    ],
    "answer": 2,
-   "why": "Before the neckline breaks, the shape is just three peaks — and many such shapes resolve upward."
+   "why": "Before the neckline breaks, the shape is just three peaks, and many such shapes resolve upward."
   },
   {
    "q": "How is the classic price target measured?",
@@ -503,7 +503,7 @@ const SELF_CHECK = {
   {
    "q": "Price breaks below support, then closes back above it the next day. What is this called?",
    "options": [
-    "A false breakout — the reason many traders wait for a close beyond the level.",
+    "A false breakout: the reason many traders wait for a close beyond the level.",
     "A confirmed breakdown.",
     "A gap."
    ],
@@ -572,7 +572,7 @@ const SELF_CHECK = {
     "High on the pole, lower during the flag, rising again on the breakout."
    ],
    "answer": 2,
-   "why": "Falling volume during the flag is read as a lack of selling pressure — a heuristic, not a rule."
+   "why": "Falling volume during the flag is read as a lack of selling pressure: a heuristic, not a rule."
   },
   {
    "q": "How is the classic target set?",
@@ -582,7 +582,7 @@ const SELF_CHECK = {
     "The length of the pole, added to the breakout point."
    ],
    "answer": 2,
-   "why": "Measured moves assume the second leg repeats the first — a symmetry with little evidence behind it."
+   "why": "Measured moves assume the second leg repeats the first: a symmetry with little evidence behind it."
   }
  ],
  "gaps": [
@@ -599,7 +599,7 @@ const SELF_CHECK = {
   {
    "q": "What about the saying “gaps always fill”?",
    "options": [
-    "Many gaps do fill eventually, but “eventually” can mean years — it is not a timing rule.",
+    "Many gaps do fill eventually, but “eventually” can mean years: it is not a timing rule.",
     "It is true within a few days.",
     "Gaps never fill."
    ],
@@ -651,12 +651,7 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>Chart <em>Patterns</em></h2>
-    <p style="margin-top:14px">An interactive reference to 25 essential chart patterns — from classic reversal formations to candlestick signals and structural analysis. Each entry includes pattern anatomy, psychology, and a visual breakdown.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
-    </div>
+    <p style="margin-top:14px">An interactive reference to 25 essential chart patterns: from classic reversal formations to candlestick signals and structural analysis. Each entry includes pattern anatomy, psychology, and a visual breakdown.</p>
     <div class="callout warn" style="margin-top:18px;text-align:left;font-size:12px;">
       <strong>Evidence note:</strong> Chart patterns are <strong>heuristic</strong> — widely used by traders but not mathematically proven. Academic evidence on their predictive power is mixed. Topics are labelled: <span class="evidence-badge statistical">Statistical</span> for statistically grounded concepts and <span class="evidence-badge heuristic">◐ Heuristic</span> for pattern-recognition techniques with debated evidence.
     </div>
@@ -667,27 +662,22 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-reversal','head-and-shoulders')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 18 6.5 12 9.5 15 12 6 14.5 15 17.5 12 21 18"/></svg></div>
       <div class="cat-card-name">Reversal Patterns</div>
       <div class="cat-card-count">5 topics · H&S, Double Top/Bottom, Rounding</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-continuation','bull-flag')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/></svg></div>
       <div class="cat-card-name">Continuation Patterns</div>
       <div class="cat-card-count">5 topics · Flags, Pennants, Triangles</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-bilateral','symmetric-triangle')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5l16 5M4 17.5l16-5"/></svg></div>
       <div class="cat-card-name">Bilateral & Wedge</div>
       <div class="cat-card-count">5 topics · Sym Triangle, Wedges, Rectangle</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-candlestick','doji')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="4" x2="8" y2="20"/><rect x="5.5" y="8" width="5" height="7" rx="1"/><line x1="16" y1="6" x2="16" y2="18"/><rect x="13.5" y="10" width="5" height="5" rx="1"/></svg></div>
       <div class="cat-card-name">Candlestick Patterns</div>
       <div class="cat-card-count">5 topics · Doji, Hammer, Engulfing, Stars</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-structure','support-resistance')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Structural Analysis</div>
       <div class="cat-card-count">5 topics · S&R, Trendlines, Gaps, Cup & Handle</div>
     </div>
@@ -702,7 +692,7 @@ function buildHome() {
 function buildHeadAndShoulders() {
   return `<div class="topic" id="head-and-shoulders">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">01 — Reversal Patterns</div><h2>Head & <em>Shoulders</em></h2></div><span class="topic-badge">Bearish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Three peaks — the classic top reversal</p>
+  <p class="sub">// Three peaks: the classic top reversal</p>
   <p class="prose">The <strong>Head & Shoulders</strong> is the best-known reversal pattern. A left shoulder peak, a higher head peak, then a lower right shoulder. When price breaks below the <strong>neckline</strong> (drawn through the two troughs), the bearish reversal is confirmed.</p>
   <div class="fb"><div class="fm">Target = Neckline − (Head − Neckline)</div><div class="fd"><span>Measured move:</span> the distance from the head to the neckline, projected downward from the breakpoint.</div></div>
   <div class="va"><div class="vl">// Head & Shoulders anatomy</div><canvas id="headAndShouldersCanvas" role="img" aria-label="Head &amp; Shoulders anatomy" height="220"></canvas></div>
@@ -711,27 +701,27 @@ function buildHeadAndShoulders() {
   <div class="howto">
     <div class="howto-title">How traders use this (with caveats)</div>
     <ol>
-      <li>Identify three peaks with the middle one highest — the pattern often takes weeks to form</li>
+      <li>Identify three peaks with the middle one highest: the pattern often takes weeks to form</li>
       <li>Draw the <strong>neckline</strong> through the two troughs between the peaks</li>
-      <li>Wait for a close <em>below</em> the neckline on increased volume — don't front-run</li>
-      <li>Measure the distance from head to neckline — project that distance downward for a price target</li>
-      <li>Set a stop-loss above the right shoulder — if price reclaims it, the pattern has failed</li>
+      <li>Wait for a close <em>below</em> the neckline on increased volume: don't front-run</li>
+      <li>Measure the distance from head to neckline: project that distance downward for a price target</li>
+      <li>Set a stop-loss above the right shoulder, if price reclaims it, the pattern has failed</li>
     </ol>
-    <div class="howto-pitfall"><strong>Reality check:</strong> Academic studies show mixed results for chart patterns. A 2000 study by Lo, Mamaysky & Wang found some statistical significance, but later studies with transaction costs often show diminishing edge. Use chart patterns as <em>one input</em> alongside quantitative signals — never as your sole decision tool.</div>
+    <div class="howto-pitfall"><strong>Reality check:</strong> Academic studies show mixed results for chart patterns. A 2000 study by Lo, Mamaysky & Wang found some statistical significance, but later studies with transaction costs often show diminishing edge. Use chart patterns as <em>one input</em> alongside quantitative signals: never as your sole decision tool.</div>
   </div>
   <div class="perf-insight">
     <div class="perf-insight-title">Performance in practice</div>
     <ul>
       <li>Large hand-counted samples (Bulkowski 2005) report that many patterns never reach their measured target; treat the target as an optimistic estimate and published success rates as rough guides</li>
-      <li>Volume confirmation — falling volume into the right shoulder, rising volume on the break — is the classic filter (Edwards &amp; Magee)</li>
-      <li>Failure rate rises in strong trends — a clear H&amp;S in a strong bull market often ends in a failed breakdown and continuation higher</li>
+      <li>Volume confirmation (falling volume into the right shoulder, rising volume on the break) is the classic filter (Edwards &amp; Magee)</li>
+      <li>Failure rate rises in strong trends: a clear H&amp;S in a strong bull market often ends in a failed breakdown and continuation higher</li>
       <li>Tested by algorithm, the pattern carries some information but rarely a trading edge on its own after costs (Lo, Mamaysky &amp; Wang 2000)</li>
     </ul>
   </div>
   <div class="why-matters">
     <div class="why-matters-title">When to use this</div>
     <div class="use-when">✓ <strong>Use when:</strong> You see three clear peaks after an extended uptrend. Volume declines on each successive peak. The pattern is forming on a daily or weekly timeframe (longer timeframes are less noisy). You have other confirming signals (RSI divergence, declining momentum).</div>
-    <div class="skip-when">✗ <strong>Skip when:</strong> The pattern is on an intraday chart (noise dominates). The broader trend is strongly bullish with no momentum divergence. You're relying solely on the pattern without risk management. The "head" is barely higher than the "shoulders" — ambiguous patterns have low reliability.</div>
+    <div class="skip-when">✗ <strong>Skip when:</strong> The pattern is on an intraday chart (noise dominates). The broader trend is strongly bullish with no momentum divergence. You're relying solely on the pattern without risk management. The "head" is barely higher than the "shoulders": ambiguous patterns have low reliability.</div>
   </div>
   <div class="dataset-card">
     <div class="dataset-card-title">Try it on real data</div>
@@ -746,7 +736,7 @@ function buildHeadAndShoulders() {
 function buildInverseHeadAndShoulders() {
   return `<div class="topic" id="inverse-head-and-shoulders">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">02 — Reversal Patterns</div><h2>Inverse <em>H&S</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// The mirror image — three troughs signaling a bottom</p>
+  <p class="sub">// The mirror image: three troughs signaling a bottom</p>
   <p class="prose">The <strong>Inverse Head & Shoulders</strong> is the bullish mirror: left trough, a deeper head trough, then a shallower right trough. Breakout above the neckline confirms the bullish reversal. Often forms at the end of extended downtrends.</p>
   <div class="fb"><div class="fm">Target = Neckline + (Neckline − Head)</div><div class="fd"><span>The deeper the head,</span> the larger the potential move. Volume should increase on the breakout.</div></div>
   <div class="va"><div class="vl">// Inverse Head & Shoulders anatomy</div><canvas id="inverseHeadAndShouldersCanvas" role="img" aria-label="Inverse Head &amp; Shoulders anatomy" height="220"></canvas></div>
@@ -760,12 +750,12 @@ function buildInverseHeadAndShoulders() {
 function buildDoubleTop() {
   return `<div class="topic" id="double-top">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">03 — Reversal Patterns</div><h2>Double <em>Top</em></h2></div><span class="topic-badge">Bearish — M</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Two peaks at the same level — the "M" formation</p>
+  <p class="sub">// Two peaks at the same level: the "M" formation</p>
   <p class="prose">The <strong>Double Top</strong> forms when price hits resistance twice and fails to break through. The two peaks form an "M" shape. Breakdown below the trough between peaks (the neckline) confirms the bearish reversal.</p>
-  <div class="fb"><div class="fm">Target = Neckline − (Peak − Neckline)</div><div class="fd"><span>The two peaks don't need to be identical</span> — a difference of ~3% is acceptable. Time between peaks varies from weeks to months.</div></div>
-  <div class="va"><div class="vl">// Double Top — M formation</div><canvas id="doubleTopCanvas" role="img" aria-label="Double Top — M formation" height="200"></canvas></div>
+  <div class="fb"><div class="fm">Target = Neckline − (Peak − Neckline)</div><div class="fd"><span>The two peaks don't need to be identical</span>: a difference of ~3% is acceptable. Time between peaks varies from weeks to months.</div></div>
+  <div class="va"><div class="vl">// Double Top: M formation</div><canvas id="doubleTopCanvas" role="img" aria-label="Double Top — M formation" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The second peak often shows lower volume than the first — a sign that buying enthusiasm is fading even though price reaches the same level.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Two failed attempts at the same level — like a <a href="../../ml-math/#activation">ReLU-clipped activation</a> hitting a ceiling. In statistics, <a href="../../stats/#hypothesis-testing">repeated failed tests</a> at the same significance level tell you the effect isn’t there.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Two failed attempts at the same level, like a <a href="../../ml-math/#activation">ReLU-clipped activation</a> hitting a ceiling. In statistics, <a href="../../stats/#hypothesis-testing">repeated failed tests</a> at the same significance level tell you the effect isn’t there.</div>
   ${depthHtml('double-top')}
   <div class="topic-nav" id="nav-double-top"></div>
 </div>`;
@@ -774,11 +764,11 @@ function buildDoubleTop() {
 function buildDoubleBottom() {
   return `<div class="topic" id="double-bottom">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">04 — Reversal Patterns</div><h2>Double <em>Bottom</em></h2></div><span class="topic-badge">Bullish — W</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Two troughs at the same level — the "W" formation</p>
-  <p class="prose">The <strong>Double Bottom</strong> is the bullish mirror of the double top — price tests support twice and bounces. The "W" shape forms with a peak between two troughs. Breakout above the neckline (the middle peak) confirms the reversal.</p>
-  <div class="fb"><div class="fm">Target = Neckline + (Neckline − Trough)</div><div class="fd"><span>A "spring"</span> — where the second bottom slightly undercuts the first before reversing — can be especially powerful.</div></div>
-  <div class="va"><div class="vl">// Double Bottom — W formation</div><canvas id="doubleBottomCanvas" role="img" aria-label="Double Bottom — W formation" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> The strongest double bottoms have increasing volume on the second bounce — it shows buyers stepping in more aggressively at the support level.</div>
+  <p class="sub">// Two troughs at the same level: the "W" formation</p>
+  <p class="prose">The <strong>Double Bottom</strong> is the bullish mirror of the double top: price tests support twice and bounces. The "W" shape forms with a peak between two troughs. Breakout above the neckline (the middle peak) confirms the reversal.</p>
+  <div class="fb"><div class="fm">Target = Neckline + (Neckline − Trough)</div><div class="fd"><span>A "spring"</span>, where the second bottom slightly undercuts the first before reversing, can be especially powerful.</div></div>
+  <div class="va"><div class="vl">// Double Bottom: W formation</div><canvas id="doubleBottomCanvas" role="img" aria-label="Double Bottom — W formation" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> The strongest double bottoms have increasing volume on the second bounce. It shows buyers stepping in more aggressively at the support level.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Two bounces off the same floor mirror <a href="../../ml-math/#activation">activation floors</a> in neural nets.</div>
   ${depthHtml('double-bottom')}
   <div class="topic-nav" id="nav-double-bottom"></div>
@@ -788,11 +778,11 @@ function buildDoubleBottom() {
 function buildRoundingBottom() {
   return `<div class="topic" id="rounding-bottom">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">05 — Reversal Patterns</div><h2>Rounding <em>Bottom</em></h2></div><span class="topic-badge">Saucer</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// A slow, gradual reversal — the U-shaped bottom</p>
-  <p class="prose">The <strong>Rounding Bottom</strong> (saucer) is a gradual transition from selling to buying pressure, forming a U-shape over weeks or months. Volume mirrors the price pattern — high at the start, low at the bottom, rising on the right side.</p>
+  <p class="sub">// A slow, gradual reversal: the U-shaped bottom</p>
+  <p class="prose">The <strong>Rounding Bottom</strong> (saucer) is a gradual transition from selling to buying pressure, forming a U-shape over weeks or months. Volume mirrors the price pattern: high at the start, low at the bottom, rising on the right side.</p>
   <div class="fb"><div class="fm">Target = Neckline + Depth of saucer</div><div class="fd"><span>Patience required:</span> this is a long-term pattern. It forms slowly, and is only confirmed by the breakout.</div></div>
-  <div class="va"><div class="vl">// Rounding Bottom — saucer formation</div><canvas id="roundingBottomCanvas" role="img" aria-label="Rounding Bottom — saucer formation" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> The rounding bottom reflects a gradual change in market sentiment — not a panic reversal but a slow shift from distribution to accumulation.</div>
+  <div class="va"><div class="vl">// Rounding Bottom: saucer formation</div><canvas id="roundingBottomCanvas" role="img" aria-label="Rounding Bottom — saucer formation" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> The rounding bottom reflects a gradual change in market sentiment, not a panic reversal but a slow shift from distribution to accumulation.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The slow U-shaped recovery mirrors the <a href="../../ml-math/#lr-schedule">cosine learning rate schedule</a> — gradual cooling, then gradual warm-up. In statistics, it’s the shape of a cumulative distribution function.</div>
   ${depthHtml('rounding-bottom')}
   <div class="topic-nav" id="nav-rounding-bottom"></div>
@@ -805,7 +795,7 @@ function buildBullFlag() {
   <p class="sub">// Sharp rally + downward-sloping channel = continuation</p>
   <p class="prose">The <strong>Bull Flag</strong> starts with a sharp rally (the pole), followed by a gentle downward-sloping consolidation channel (the flag). Breakout above the flag's upper trendline continues the uptrend. A widely used continuation pattern.</p>
   <div class="fb"><div class="fm">Target = Breakout point + Pole length</div><div class="fd"><span>The pole measures the initial move;</span> project that distance from the breakout point for the target.</div></div>
-  <div class="va"><div class="vl">// Bull Flag — pole and flag anatomy</div><canvas id="bullFlagCanvas" role="img" aria-label="Bull Flag — pole and flag anatomy" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Bull Flag: pole and flag anatomy</div><canvas id="bullFlagCanvas" role="img" aria-label="Bull Flag — pole and flag anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The best bull flags have decreasing volume during the flag phase and expanding volume on the breakout — showing sellers exhausting themselves.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A pause in an uptrend before continuation. In ML, <a href="../../ml-math/#lr-schedule">learning rate warmup</a> creates the same pattern: a brief consolidation phase before the model accelerates.</div>
   ${depthHtml('bull-flag')}
@@ -818,8 +808,8 @@ function buildBearFlag() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">07 — Continuation Patterns</div><h2>Bear <em>Flag</em></h2></div><span class="topic-badge">Bearish Cont.</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Sharp decline + upward-sloping channel = continuation down</p>
   <p class="prose">The <strong>Bear Flag</strong> is the bearish mirror: a sharp decline (pole) followed by a gentle upward-sloping consolidation (flag). Breakdown below the lower trendline continues the downtrend.</p>
-  <div class="fb"><div class="fm">Target = Breakdown point − Pole length</div><div class="fd"><span>Bear flags in strong downtrends</span> can resolve very quickly — the consolidation may be brief.</div></div>
-  <div class="va"><div class="vl">// Bear Flag — pole and flag anatomy</div><canvas id="bearFlagCanvas" role="img" aria-label="Bear Flag — pole and flag anatomy" height="220"></canvas></div>
+  <div class="fb"><div class="fm">Target = Breakdown point − Pole length</div><div class="fd"><span>Bear flags in strong downtrends</span> can resolve very quickly: the consolidation may be brief.</div></div>
+  <div class="va"><div class="vl">// Bear Flag: pole and flag anatomy</div><canvas id="bearFlagCanvas" role="img" aria-label="Bear Flag — pole and flag anatomy" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Bear flags tend to resolve faster than bull flags — fear is a stronger emotion than greed, so selling accelerates more quickly.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The mirror of a bull flag. In ML, <a href="../../ml-math/#grad-clip">gradient clipping</a> creates brief pauses in the descent before loss resumes falling.</div>
   ${depthHtml('bear-flag')}
@@ -830,10 +820,10 @@ function buildBearFlag() {
 function buildPennant() {
   return `<div class="topic" id="pennant">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">08 — Continuation Patterns</div><h2><em>Pennant</em></h2></div><span class="topic-badge">Continuation</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Small symmetrical triangle on a pole — brief pause before continuation</p>
+  <p class="sub">// Small symmetrical triangle on a pole: brief pause before continuation</p>
   <p class="prose">A <strong>Pennant</strong> is a small symmetrical triangle that forms after a strong move (the pole). Converging trendlines create a brief pause. Breakout continues in the direction of the pole. Typically resolves within 1-3 weeks.</p>
   <div class="fb"><div class="fm">Target = Breakout + Pole length</div><div class="fd"><span>Key difference from flags:</span> pennants have converging trendlines (triangle), flags have parallel trendlines (channel).</div></div>
-  <div class="va"><div class="vl">// Pennant anatomy — pole + triangle</div><canvas id="pennantCanvas" role="img" aria-label="Pennant anatomy — pole + triangle" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Pennant anatomy: pole + triangle</div><canvas id="pennantCanvas" role="img" aria-label="Pennant anatomy — pole + triangle" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume should contract during the pennant and expand on breakout. A breakout without volume is unreliable.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Converging trendlines compressing volatility before a breakout. In statistics, <a href="../indicators/#standard-deviation">decreasing variance</a> signals the same convergence.</div>
   ${depthHtml('pennant')}
@@ -846,9 +836,9 @@ function buildAscendingTriangle() {
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">09 — Continuation Patterns</div><h2>Ascending <em>Triangle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Flat resistance + rising lows = buyers pressing higher</p>
   <p class="prose">The <strong>Ascending Triangle</strong> has a flat resistance level and a rising lower trendline. Buyers are willing to pay increasingly higher prices. When resistance finally breaks, the measured move equals the triangle's height at its widest point.</p>
-  <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>Usually read as bullish</span> — but published success rates vary, so wait for a close above resistance.</div></div>
-  <div class="va"><div class="vl">// Ascending Triangle — flat top, rising lows</div><canvas id="ascendingTriangleCanvas" role="img" aria-label="Ascending Triangle — flat top, rising lows" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Each touch of resistance weakens it — like repeatedly hitting a wall. The rising lows show buyers becoming more aggressive with each dip.</div>
+  <div class="fb"><div class="fm">Target = Breakout + Height of triangle base</div><div class="fd"><span>Usually read as bullish</span>, but published success rates vary, so wait for a close above resistance.</div></div>
+  <div class="va"><div class="vl">// Ascending Triangle: flat top, rising lows</div><canvas id="ascendingTriangleCanvas" role="img" aria-label="Ascending Triangle — flat top, rising lows" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> Each touch of resistance weakens it, like repeatedly hitting a wall. The rising lows show buyers becoming more aggressive with each dip.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Rising lows against a flat ceiling — pressure building. Same dynamic as <a href="../../ml-math/#optimizers">optimizer momentum</a> accumulating against a loss plateau.</div>
   ${depthHtml('ascending-triangle')}
   <div class="topic-nav" id="nav-ascending-triangle"></div>
@@ -859,9 +849,9 @@ function buildDescendingTriangle() {
   return `<div class="topic" id="descending-triangle">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">10 — Continuation Patterns</div><h2>Descending <em>Triangle</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
   <p class="sub">// Flat support + falling highs = sellers pressing lower</p>
-  <p class="prose">The <strong>Descending Triangle</strong> has a flat support level and a falling upper trendline. Sellers are accepting lower prices. Breakdown below support triggers the measured move — the triangle's height projected downward.</p>
-  <div class="fb"><div class="fm">Target = Breakdown − Height of triangle base</div><div class="fd"><span>The mirror of ascending triangles</span> — sellers weaken support with each touch until it breaks.</div></div>
-  <div class="va"><div class="vl">// Descending Triangle — flat bottom, falling highs</div><canvas id="descendingTriangleCanvas" role="img" aria-label="Descending Triangle — flat bottom, falling highs" height="200"></canvas></div>
+  <p class="prose">The <strong>Descending Triangle</strong> has a flat support level and a falling upper trendline. Sellers are accepting lower prices. Breakdown below support triggers the measured move: the triangle's height projected downward.</p>
+  <div class="fb"><div class="fm">Target = Breakdown − Height of triangle base</div><div class="fd"><span>The mirror of ascending triangles</span>: sellers weaken support with each touch until it breaks.</div></div>
+  <div class="va"><div class="vl">// Descending Triangle: flat bottom, falling highs</div><canvas id="descendingTriangleCanvas" role="img" aria-label="Descending Triangle — flat bottom, falling highs" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> If the prior trend is up, a descending triangle can actually break upward — context matters more than the pattern alone.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Falling highs against a flat floor. In statistics, a <a href="../../stats/#confidence-intervals">narrowing confidence interval</a> compresses uncertainty the same way.</div>
   ${depthHtml('descending-triangle')}
@@ -872,11 +862,11 @@ function buildDescendingTriangle() {
 function buildSymmetricTriangle() {
   return `<div class="topic" id="symmetric-triangle">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">11 — Bilateral & Wedge</div><h2>Symmetric <em>Triangle</em></h2></div><span class="topic-badge">Bilateral</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Converging trendlines, no bias — the market is deciding</p>
-  <p class="prose">The <strong>Symmetric Triangle</strong> has converging trendlines with lower highs and higher lows — the market is compressing, undecided. It can break either way. Most often continues the prior trend direction, but always wait for confirmation.</p>
+  <p class="sub">// Converging trendlines, no bias: the market is deciding</p>
+  <p class="prose">The <strong>Symmetric Triangle</strong> has converging trendlines with lower highs and higher lows: the market is compressing, undecided. It can break either way. Most often continues the prior trend direction, but always wait for confirmation.</p>
   <div class="fb"><div class="fm">Target = Breakout point ± Width at base</div><div class="fd"><span>Breakout typically occurs</span> between 50-75% of the way to the apex. Breakouts too close to the apex often fail.</div></div>
-  <div class="va"><div class="vl">// Symmetric Triangle — converging to apex</div><canvas id="symmetricTriangleCanvas" role="img" aria-label="Symmetric Triangle — converging to apex" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Volume should progressively decrease as the triangle tightens. The breakout direction becomes the prevailing trend — don't try to predict, react.</div>
+  <div class="va"><div class="vl">// Symmetric Triangle: converging to apex</div><canvas id="symmetricTriangleCanvas" role="img" aria-label="Symmetric Triangle — converging to apex" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> Volume should progressively decrease as the triangle tightens. The breakout direction becomes the prevailing trend: don't try to predict, react.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Both sides converge to a point of maximum compression. In ML, the <a href="../../ml-math/#bias-variance">bias-variance sweet spot</a> sits at the convergence of two opposing forces.</div>
   ${depthHtml('symmetric-triangle')}
   <div class="topic-nav" id="nav-symmetric-triangle"></div>
@@ -886,10 +876,10 @@ function buildSymmetricTriangle() {
 function buildRisingWedge() {
   return `<div class="topic" id="rising-wedge">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">12 — Bilateral & Wedge</div><h2>Rising <em>Wedge</em></h2></div><span class="topic-badge">Bearish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Both lines slope up but converge — momentum is dying</p>
-  <p class="prose">The <strong>Rising Wedge</strong> has both support and resistance sloping upward, but converging. Price is rising but the range is narrowing — momentum is exhausting. Usually resolves with a bearish breakdown.</p>
+  <p class="sub">// Both lines slope up but converge: momentum is dying</p>
+  <p class="prose">The <strong>Rising Wedge</strong> has both support and resistance sloping upward, but converging. Price is rising but the range is narrowing: momentum is exhausting. Usually resolves with a bearish breakdown.</p>
   <div class="fb"><div class="fm">Target = Breakdown − Height of wedge at widest</div><div class="fd"><span>Key difference from ascending triangle:</span> both lines slope up in a wedge, only one is flat in a triangle.</div></div>
-  <div class="va"><div class="vl">// Rising Wedge — upward but weakening</div><canvas id="risingWedgeCanvas" role="img" aria-label="Rising Wedge — upward but weakening" height="200"></canvas></div>
+  <div class="va"><div class="vl">// Rising Wedge: upward but weakening</div><canvas id="risingWedgeCanvas" role="img" aria-label="Rising Wedge — upward but weakening" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The rising wedge is deceptive — price is going up, but the narrowing range and declining volume signal that the advance is running out of steam.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Upward slopes narrowing — momentum fading despite higher prices. In ML, <a href="../../ml-math/#gradient">vanishing gradients</a> show the same decaying energy.</div>
   ${depthHtml('rising-wedge')}
@@ -900,11 +890,11 @@ function buildRisingWedge() {
 function buildFallingWedge() {
   return `<div class="topic" id="falling-wedge">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">13 — Bilateral & Wedge</div><h2>Falling <em>Wedge</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Both lines slope down but converge — selling is exhausting</p>
-  <p class="prose">The <strong>Falling Wedge</strong> has both lines sloping downward and converging. Price is falling but the range is narrowing — sellers are losing conviction. Usually resolves with a bullish breakout.</p>
+  <p class="sub">// Both lines slope down but converge: selling is exhausting</p>
+  <p class="prose">The <strong>Falling Wedge</strong> has both lines sloping downward and converging. Price is falling but the range is narrowing: sellers are losing conviction. Usually resolves with a bullish breakout.</p>
   <div class="fb"><div class="fm">Target = Breakout + Height of wedge at widest</div><div class="fd"><span>Falling wedges in downtrends</span> signal reversal; in uptrends, they're continuation patterns (a pullback before resuming).</div></div>
-  <div class="va"><div class="vl">// Falling Wedge — downward but exhausting</div><canvas id="fallingWedgeCanvas" role="img" aria-label="Falling Wedge — downward but exhausting" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> The bullish resolution of a falling wedge is the mirror of the rising wedge's bearish resolution — both show momentum exhaustion.</div>
+  <div class="va"><div class="vl">// Falling Wedge: downward but exhausting</div><canvas id="fallingWedgeCanvas" role="img" aria-label="Falling Wedge — downward but exhausting" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> The bullish resolution of a falling wedge is the mirror of the rising wedge's bearish resolution, both show momentum exhaustion.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Downward slopes narrowing — selling exhaustion. Like <a href="../../ml-math/#lr-schedule">learning rate decay</a> approaching convergence: the steps shrink but the model is almost there.</div>
   ${depthHtml('falling-wedge')}
   <div class="topic-nav" id="nav-falling-wedge"></div>
@@ -914,11 +904,11 @@ function buildFallingWedge() {
 function buildBroadeningFormation() {
   return `<div class="topic" id="broadening-formation">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">14 — Bilateral & Wedge</div><h2>Broadening <em>Formation</em></h2></div><span class="topic-badge">Megaphone</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Diverging trendlines — expanding volatility, increasing disagreement</p>
-  <p class="prose">The <strong>Broadening Formation</strong> (megaphone) has diverging trendlines — higher highs and lower lows. Volatility and disagreement are increasing. It often appears at major market tops and is one of the most difficult patterns to trade.</p>
-  <div class="fb"><div class="fm">No clean measured move — trade the swings or wait for breakout</div><div class="fd"><span>Each swing is larger than the last,</span> swinging buyers and sellers into increasingly extreme positions.</div></div>
-  <div class="va"><div class="vl">// Broadening Formation — diverging trendlines</div><canvas id="broadeningFormationCanvas" role="img" aria-label="Broadening Formation — diverging trendlines" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Broadening formations reflect emotional extremes — they often appear during periods of uncertainty (elections, crises). The expanding range shows the market can't find consensus.</div>
+  <p class="sub">// Diverging trendlines: expanding volatility, increasing disagreement</p>
+  <p class="prose">The <strong>Broadening Formation</strong> (megaphone) has diverging trendlines: higher highs and lower lows. Volatility and disagreement are increasing. It often appears at major market tops and is one of the most difficult patterns to trade.</p>
+  <div class="fb"><div class="fm">No clean measured move: trade the swings or wait for breakout</div><div class="fd"><span>Each swing is larger than the last,</span> swinging buyers and sellers into increasingly extreme positions.</div></div>
+  <div class="va"><div class="vl">// Broadening Formation: diverging trendlines</div><canvas id="broadeningFormationCanvas" role="img" aria-label="Broadening Formation — diverging trendlines" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> Broadening formations reflect emotional extremes. They often appear during periods of uncertainty (elections, crises). The expanding range shows the market can't find consensus.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Expanding volatility — the market can’t agree on a price. In statistics, <a href="../indicators/#standard-deviation">increasing variance</a> signals instability.</div>
   ${depthHtml('broadening-formation')}
   <div class="topic-nav" id="nav-broadening-formation"></div>
@@ -928,8 +918,8 @@ function buildBroadeningFormation() {
 function buildRectangle() {
   return `<div class="topic" id="rectangle">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">15 — Bilateral & Wedge</div><h2><em>Rectangle</em></h2></div><span class="topic-badge">Range</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Horizontal support and resistance — a consolidation box</p>
-  <p class="prose">The <strong>Rectangle</strong> is a horizontal consolidation range — price bounces between parallel support and resistance. It's a pause in the trend. Breakout direction usually follows the prior trend. The measured move is the rectangle's height.</p>
+  <p class="sub">// Horizontal support and resistance: a consolidation box</p>
+  <p class="prose">The <strong>Rectangle</strong> is a horizontal consolidation range: price bounces between parallel support and resistance. It's a pause in the trend. Breakout direction usually follows the prior trend. The measured move is the rectangle's height.</p>
   <div class="fb"><div class="fm">Target = Breakout ± Height of rectangle</div><div class="fd"><span>Can be traded internally</span> (buy support, sell resistance) or by waiting for the breakout.</div></div>
   <div class="va"><div class="vl">// Rectangle — horizontal range</div><canvas id="rectangleCanvas" role="img" aria-label="Rectangle — horizontal range" height="200"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The longer a rectangle persists, the more significant the eventual breakout — energy is building up like a compressed spring.</div>
@@ -942,11 +932,11 @@ function buildRectangle() {
 function buildDoji() {
   return `<div class="topic" id="doji">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">16 — Candlestick Patterns</div><h2><em>Doji</em></h2></div><span class="topic-badge">Indecision</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Open ≈ Close — the market is undecided</p>
-  <p class="prose">A <strong>Doji</strong> forms when the open and close are nearly equal, creating a cross or plus shape. It signals indecision — neither buyers nor sellers won. Context is everything: at a trend extreme, it suggests reversal; mid-range, it's noise.</p>
-  <div class="fb"><div class="fm">Variants: Standard (+), Long-legged, Dragonfly (T), Gravestone (⊥)</div><div class="fd"><span>A doji after a long green candle</span> suggests the uptrend may be stalling — buyers ran out of conviction.</div></div>
+  <p class="sub">// Open ≈ Close: the market is undecided</p>
+  <p class="prose">A <strong>Doji</strong> forms when the open and close are nearly equal, creating a cross or plus shape. It signals indecision, neither buyers nor sellers won. Context is everything: at a trend extreme, it suggests reversal; mid-range, it's noise.</p>
+  <div class="fb"><div class="fm">Variants: Standard (+), Long-legged, Dragonfly (T), Gravestone (⊥)</div><div class="fd"><span>A doji after a long green candle</span> suggests the uptrend may be stalling: buyers ran out of conviction.</div></div>
   <div class="va"><div class="vl">// Doji variants</div><canvas id="dojiCanvas" role="img" aria-label="Doji variants" height="220"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> A single doji means nothing in isolation — it needs context. After a strong move, it's significant. In a sideways range, it's normal.</div>
+  <div class="callout info"><strong>Key insight:</strong> A single doji means nothing in isolation. It needs context. After a strong move, it's significant. In a sideways range, it's normal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Open equals close — perfect indecision, a <a href="../../stats/#distribution-shape">mean equal to median</a> moment. In ML, a <a href="../../ml-math/#loss">loss of zero</a> at a saddle point looks the same: no net direction.</div>
   ${depthHtml('doji')}
   <div class="topic-nav" id="nav-doji"></div>
@@ -956,9 +946,9 @@ function buildDoji() {
 function buildHammer() {
   return `<div class="topic" id="hammer">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">17 — Candlestick Patterns</div><h2><em>Hammer</em></h2></div><span class="topic-badge">Bullish Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Long lower shadow, small body at top — buyers reclaimed</p>
+  <p class="sub">// Long lower shadow, small body at top: buyers reclaimed</p>
   <p class="prose">The <strong>Hammer</strong> has a small body at the top and a long lower shadow (≥2× body length). Sellers pushed price down during the session, but buyers pulled it back up. At a support level or downtrend base, it signals bullish reversal.</p>
-  <div class="fb"><div class="fm">Lower shadow ≥ 2× body length, little or no upper shadow</div><div class="fd"><span>The "Hanging Man"</span> has the same shape but appears at tops — same candle, opposite meaning depending on context.</div></div>
+  <div class="fb"><div class="fm">Lower shadow ≥ 2× body length, little or no upper shadow</div><div class="fd"><span>The "Hanging Man"</span> has the same shape but appears at tops: same candle, opposite meaning depending on context.</div></div>
   <div class="va"><div class="vl">// Hammer vs. Hanging Man</div><canvas id="hammerCanvas" role="img" aria-label="Hammer vs. Hanging Man" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Color matters less than shape — a green hammer is slightly more bullish, but a red hammer at support is still a valid reversal signal.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A long lower shadow rejected by buyers — the distribution of the session is <a href="../../stats/#distribution-shape">heavily skewed</a>. In ML, <a href="../../ml-math/#activation">ReLU</a> similarly rejects negative values, keeping only the upside.</div>
@@ -970,9 +960,9 @@ function buildHammer() {
 function buildEngulfing() {
   return `<div class="topic" id="engulfing">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">18 — Candlestick Patterns</div><h2><em>Engulfing</em></h2></div><span class="topic-badge">Reversal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// The second candle swallows the first — momentum shift</p>
+  <p class="sub">// The second candle swallows the first: momentum shift</p>
   <p class="prose">An <strong>Engulfing</strong> pattern is a two-candle reversal. <strong>Bullish:</strong> small red candle followed by a larger green candle that completely covers the red body. <strong>Bearish:</strong> small green followed by a larger red that engulfs it.</p>
-  <div class="fb"><div class="fm">Second body completely covers (engulfs) the first body</div><div class="fd"><span>The engulfing candle shows conviction</span> — the larger the second candle relative to the first, the stronger the signal.</div></div>
+  <div class="fb"><div class="fm">Second body completely covers (engulfs) the first body</div><div class="fd"><span>The engulfing candle shows conviction</span>: the larger the second candle relative to the first, the stronger the signal.</div></div>
   <div class="va"><div class="vl">// Bullish and Bearish Engulfing</div><canvas id="engulfingCanvas" role="img" aria-label="Engulfing: Bullish and Bearish Engulfing" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Engulfing patterns at key support/resistance levels are far more significant than those in the middle of a range.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> One candle completely contains the prior — a <a href="../indicators/#standard-deviation">variance expansion</a> in a single bar.</div>
@@ -984,11 +974,11 @@ function buildEngulfing() {
 function buildMorningStar() {
   return `<div class="topic" id="morning-star">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">19 — Candlestick Patterns</div><h2>Morning <em>Star</em></h2></div><span class="topic-badge">Bullish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Long red → small star → long green — dawn after night</p>
-  <p class="prose">The <strong>Morning Star</strong> is a three-candle bullish reversal. First, a long red candle (sellers in control). Then a small-bodied "star" (indecision — sellers exhausting). Finally, a long green candle (buyers take over). Named because it appears before dawn — the trend's darkest point.</p>
-  <div class="fb"><div class="fm">Red (long) → Star (small, gapped) → Green (long)</div><div class="fd"><span>The star can be a doji</span> (called a "Morning Doji Star") — this strengthens the signal.</div></div>
+  <p class="sub">// Long red → small star → long green: dawn after night</p>
+  <p class="prose">The <strong>Morning Star</strong> is a three-candle bullish reversal. First, a long red candle (sellers in control). Then a small-bodied "star" (indecision: sellers exhausting). Finally, a long green candle (buyers take over). Named because it appears before dawn: the trend's darkest point.</p>
+  <div class="fb"><div class="fm">Red (long) → Star (small, gapped) → Green (long)</div><div class="fd"><span>The star can be a doji</span> (called a "Morning Doji Star"): this strengthens the signal.</div></div>
   <div class="va"><div class="vl">// Morning Star formation</div><canvas id="morningStarCanvas" role="img" aria-label="Morning Star formation" height="220"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> The gap between the first candle and the star, and between the star and the third candle, adds to the signal's power — but the pattern works without gaps too.</div>
+  <div class="callout info"><strong>Key insight:</strong> The gap between the first candle and the star, and between the star and the third candle, adds to the signal's power, but the pattern works without gaps too.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A three-candle reversal: despair, indecision, hope. In ML, <a href="../../ml-math/#lr-schedule">warmup schedules</a> follow the same cold-start-to-recovery arc.</div>
   ${depthHtml('morning-star')}
   <div class="topic-nav" id="nav-morning-star"></div>
@@ -998,11 +988,11 @@ function buildMorningStar() {
 function buildEveningStar() {
   return `<div class="topic" id="evening-star">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">20 — Candlestick Patterns</div><h2>Evening <em>Star</em></h2></div><span class="topic-badge">Bearish 3-Candle</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Long green → small star → long red — dusk after daylight</p>
+  <p class="sub">// Long green → small star → long red: dusk after daylight</p>
   <p class="prose">The <strong>Evening Star</strong> is the bearish mirror. First, a long green candle (buyers confident). Then a small star (indecision at the top). Finally, a long red candle (sellers overwhelm). Named because the evening star appears before nightfall.</p>
   <div class="fb"><div class="fm">Green (long) → Star (small, gapped) → Red (long)</div><div class="fd"><span>The third candle should close</span> below the midpoint of the first candle for a strong signal.</div></div>
   <div class="va"><div class="vl">// Evening Star formation</div><canvas id="eveningStarCanvas" role="img" aria-label="Evening Star formation" height="220"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are usually read as the stronger signals — they confirm the level and the exhaustion simultaneously.</div>
+  <div class="callout info"><strong>Key insight:</strong> Evening Stars at resistance levels or after extended rallies are usually read as the stronger signals. They confirm the level and the exhaustion simultaneously.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> The bearish mirror of morning star — hope, indecision, despair. In statistics, <a href="../../stats/#distribution-shape">negative skew</a> captures this tail of decline.</div>
   ${depthHtml('evening-star')}
   <div class="topic-nav" id="nav-evening-star"></div>
@@ -1012,10 +1002,10 @@ function buildEveningStar() {
 function buildSupportResistance() {
   return `<div class="topic" id="support-resistance">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">21 — Structural Analysis</div><h2>Support & <em>Resistance</em></h2></div><span class="topic-badge">Levels</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// The floor and ceiling of price — where memory lives</p>
-  <p class="prose"><strong>Support</strong> is a price level where buying concentrates (floor). <strong>Resistance</strong> is where selling concentrates (ceiling). These levels have "memory" — broken support becomes resistance, and broken resistance becomes support. This polarity principle is fundamental to all chart reading.</p>
-  <div class="fb"><div class="fm">More touches = stronger level · Broken support → resistance (and vice versa)</div><div class="fd"><span>S&R levels are zones, not exact prices</span> — think of them as areas where orders cluster, not precise lines.</div></div>
-  <div class="va"><div class="vl">// Support & Resistance — price memory</div><canvas id="supportResistanceCanvas" role="img" aria-label="Support &amp; Resistance — price memory" height="220"></canvas></div>
+  <p class="sub">// The floor and ceiling of price, where memory lives</p>
+  <p class="prose"><strong>Support</strong> is a price level where buying concentrates (floor). <strong>Resistance</strong> is where selling concentrates (ceiling). These levels have "memory": broken support becomes resistance, and broken resistance becomes support. This polarity principle is fundamental to all chart reading.</p>
+  <div class="fb"><div class="fm">More touches = stronger level · Broken support → resistance (and vice versa)</div><div class="fd"><span>S&R levels are zones, not exact prices</span>: think of them as areas where orders cluster, not precise lines.</div></div>
+  <div class="va"><div class="vl">// Support & Resistance: price memory</div><canvas id="supportResistanceCanvas" role="img" aria-label="Support &amp; Resistance — price memory" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Round numbers ($50, $100) and previous highs/lows create natural S&R levels because traders and algorithms place orders there.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Price memory at specific levels is <a href="../../markets/psychology/#anchoring">anchoring bias</a> made visible. In ML, <a href="../../ml-math/#activation">activation clamping</a> (ReLU at 0, sigmoid at 0/1) creates the same floor and ceiling.</div>
   ${depthHtml('support-resistance')}
@@ -1026,11 +1016,11 @@ function buildSupportResistance() {
 function buildTrendlines() {
   return `<div class="topic" id="trendlines">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">22 — Structural Analysis</div><h2><em>Trendlines</em></h2></div><span class="topic-badge">Diagonal</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Connecting swing points — the direction of price flow</p>
+  <p class="sub">// Connecting swing points: the direction of price flow</p>
   <p class="prose"><strong>Trendlines</strong> connect swing lows in an uptrend (ascending support) or swing highs in a downtrend (descending resistance). A valid trendline touches at least 3 points. The more touches and the longer the line, the more significant its break.</p>
   <div class="fb"><div class="fm">≥3 touches = valid · Steeper = less sustainable · Break = signal</div><div class="fd"><span>Draw trendlines from body to body</span> (closes not wicks) for more reliable levels, though both methods have advocates.</div></div>
-  <div class="va"><div class="vl">// Trendline construction — connecting swings</div><canvas id="trendlinesCanvas" role="img" aria-label="Trendlines: Trendline construction — connecting swings" height="200"></canvas></div>
-  <div class="callout info"><strong>Key insight:</strong> Trendlines that are too steep are unsustainable — an angle depends on how the chart is scaled, so there is no “right” slope — but steeper trendlines do break sooner and are replaced by shallower ones.</div>
+  <div class="va"><div class="vl">// Trendline construction: connecting swings</div><canvas id="trendlinesCanvas" role="img" aria-label="Trendlines: Trendline construction — connecting swings" height="200"></canvas></div>
+  <div class="callout info"><strong>Key insight:</strong> Trendlines that are too steep are unsustainable (an angle depends on how the chart is scaled, so there is no “right” slope), but steeper trendlines do break sooner and are replaced by shallower ones.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Drawing a line through successive highs or lows is literally <a href="../../ml-math/#linear">linear regression</a> — the same best fit computed in statistics.</div>
   ${depthHtml('trendlines')}
   <div class="topic-nav" id="nav-trendlines"></div>
@@ -1043,7 +1033,7 @@ function buildChannels() {
   <p class="sub">// Two parallel trendlines containing price</p>
   <p class="prose">A <strong>Channel</strong> consists of two parallel trendlines between which price oscillates. Ascending channels slope up (bullish), descending channels slope down (bearish), and horizontal channels are ranges. Price bouncing off both lines confirms the channel.</p>
   <div class="fb"><div class="fm">Trade the channel interior · Breakout signals new move</div><div class="fd"><span>Draw the primary trendline first</span> (connecting 3+ points), then create a parallel line through the opposite extreme.</div></div>
-  <div class="va"><div class="vl">// Channel types — ascending, descending, horizontal</div><canvas id="channelsCanvas" role="img" aria-label="Channels: Channel types — ascending, descending, horizontal" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Channel types: ascending, descending, horizontal</div><canvas id="channelsCanvas" role="img" aria-label="Channels: Channel types — ascending, descending, horizontal" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Channels provide both direction and range — buy the lower line, sell the upper line, and exit when price breaks through either boundary.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Parallel trendlines bounding price is a visual <a href="../../stats/#confidence-intervals">confidence interval</a> — price stays within 2σ most of the time. In ML, <a href="../../ml-math/#batchnorm">batch normalization</a> keeps activations channeled.</div>
   ${depthHtml('channels')}
@@ -1054,12 +1044,12 @@ function buildChannels() {
 function buildGaps() {
   return `<div class="topic" id="gaps">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">24 — Structural Analysis</div><h2><em>Gaps</em></h2></div><span class="topic-badge">Price Void</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// Empty space between candles — where no trading happened</p>
+  <p class="sub">// Empty space between candles, where no trading happened</p>
   <p class="prose"><strong>Gaps</strong> occur when price opens above the prior close (gap up) or below it (gap down), leaving a void. Four types: <strong>Common</strong> (noise, often fills), <strong>Breakaway</strong> (starts a new move), <strong>Runaway</strong> (continuation), <strong>Exhaustion</strong> (end of move).</p>
-  <div class="fb"><div class="fm">Breakaway → starts move · Runaway → continues · Exhaustion → ends</div><div class="fd"><span>"Gaps always fill"</span> is a myth — breakaway and runaway gaps often don't fill for months or years.</div></div>
+  <div class="fb"><div class="fm">Breakaway → starts move · Runaway → continues · Exhaustion → ends</div><div class="fd"><span>"Gaps always fill"</span> is a myth: breakaway and runaway gaps often don't fill for months or years.</div></div>
   <div class="va"><div class="vl">// Four types of gaps</div><canvas id="gapsCanvas" role="img" aria-label="Gaps: Four types of gaps" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> Volume distinguishes gap types — breakaway gaps have high volume, runaway gaps have moderate volume, and exhaustion gaps have extreme volume followed by a reversal.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> A discontinuity where price jumps past a range. In statistics, <a href="../../stats/#outlier-detection">outliers</a> are the same — data points that break the expected distribution.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> A discontinuity where price jumps past a range. In statistics, <a href="../../stats/#outlier-detection">outliers</a> are the same: data points that break the expected distribution.</div>
   ${depthHtml('gaps')}
   <div class="topic-nav" id="nav-gaps"></div>
 </div>`;
@@ -1068,10 +1058,10 @@ function buildGaps() {
 function buildCupAndHandle() {
   return `<div class="topic" id="cup-and-handle">
   <div class="topic-header"><div class="topic-meta"><div class="topic-num">25 — Structural Analysis</div><h2>Cup & <em>Handle</em></h2></div><span class="topic-badge">Bullish</span><span class="evidence-badge heuristic" title="Pattern-recognition heuristic — widely used but academic evidence is mixed">◐ Heuristic</span></div>
-  <p class="sub">// A rounded bottom with a brief consolidation — then breakout</p>
+  <p class="sub">// A rounded bottom with a brief consolidation, then breakout</p>
   <p class="prose">The <strong>Cup & Handle</strong>, popularized by William O'Neil, combines a rounded bottom (the cup) with a brief downward drift or consolidation (the handle) before breaking out to new highs. The cup should be a smooth U-shape, not a sharp V.</p>
   <div class="fb"><div class="fm">Target = Breakout + Depth of cup</div><div class="fd"><span>The handle should retrace</span> no more than 1/3 of the cup depth. Handle pullbacks of 8-12% are ideal (O'Neil guidelines).</div></div>
-  <div class="va"><div class="vl">// Cup & Handle — anatomy and target</div><canvas id="cupAndHandleCanvas" role="img" aria-label="Cup &amp; Handle — anatomy and target" height="220"></canvas></div>
+  <div class="va"><div class="vl">// Cup & Handle: anatomy and target</div><canvas id="cupAndHandleCanvas" role="img" aria-label="Cup &amp; Handle — anatomy and target" height="220"></canvas></div>
   <div class="callout info"><strong>Key insight:</strong> The handle represents the last group of sellers getting shaken out before the breakout. Its brevity and shallow depth signal strong underlying demand.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> A U-shaped base then a small consolidation — the shape of <a href="../../ml-math/#lr-schedule">cosine annealing</a> with a brief plateau before the final push.</div>
   ${depthHtml('cup-and-handle')}

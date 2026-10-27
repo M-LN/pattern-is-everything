@@ -51,13 +51,13 @@ print('rooms per household: median', round(rooms.median(), 1), '| max', round(ro
         'after': '<strong>{at_value_cap}</strong> districts ({at_value_cap_pct}) sit exactly at $500,001. Their true '
                  'median value is somewhere above it, and no model trained on this column can learn by how much. '
                  'The age and income columns are capped too, and a few districts average over 100 rooms per '
-                 'household — resort towns, where most houses are holiday homes with few permanent households.',
+                 'household: resort towns, where most houses are holiday homes with few permanent households.',
     },
     {
         'title': 'A baseline, then a test that matches the question',
         'before': 'Predicting the average value for every district misses by about ${baseline_mae_k}k on average. '
                   'Two quick models: a linear regression on income and housing features, and k-nearest neighbours '
-                  'that sees nothing but the location — it predicts the average value of the ten nearest districts. '
+                  'that sees nothing but the location: it predicts the average value of the ten nearest districts. '
                   'Each is scored twice: with random 5-fold cross-validation, and with folds made of whole '
                   'regions (1°×1° squares of latitude and longitude, {n_blocks} of them), so the test districts '
                   'lie in areas the model has not seen.',
@@ -97,7 +97,7 @@ print('R² (random folds, new regions)')
 print('  linear, no location:', linear)
 print('  10 nearest districts:', knn)""",
         'after': 'The linear model scores about the same either way (R² {linear[0]:.2f} and {linear[1]:.2f}). The '
-                 'location-only model looks better than it — <strong>R² {knn[0]:.2f}</strong> with random folds — and '
+                 'location-only model looks better than it, <strong>R² {knn[0]:.2f}</strong> with random folds, and '
                  'collapses to <strong>{knn[1]:.2f}</strong> on new regions. With random folds, the nearest neighbours of '
                  'a test district are its own neighbours in the training data; the model is not predicting, it is '
                  'looking up the street. Nearby districts have similar prices (spatial autocorrelation), so random '
@@ -105,7 +105,7 @@ print('  10 nearest districts:', knn)""",
     },
     {
         'title': 'A stronger model, the same gap',
-        'before': 'Gradient-boosted trees on all the features, location included — the kind of model that wins '
+        'before': 'Gradient-boosted trees on all the features, location included: the kind of model that wins '
                   'tabular benchmarks. It is fitted ten times, once per fold of each test.',
         'code': """from sklearn.ensemble import HistGradientBoostingRegressor
 
@@ -113,7 +113,7 @@ boost = r2(HistGradientBoostingRegressor(random_state=0), list(X.columns))
 print('gradient boosting, all features:', boost)""",
         'after': 'R² <strong>{boost[0]:.2f}</strong> with random folds, <strong>{boost[1]:.2f}</strong> on new regions. '
                  'Both numbers are correct; they answer different questions. If the model will value houses in '
-                 'districts like the ones it was trained on — filling gaps on a map it already covers — the random '
+                 'districts like the ones it was trained on, filling gaps on a map it already covers, the random '
                  'score is the right one. If it will be used somewhere new, only the regional score says what to '
                  'expect, and it is {boost_drop} lower.',
         'chart': lambda ns: bars(
@@ -167,7 +167,7 @@ def derive(ns):
 TAKEAWAYS = [
     'Choose the cross-validation split to match how the model will be used. Random folds measure '
     'interpolation; grouped folds (by region, customer, time) measure generalisation to new groups.',
-    'A feature that identifies neighbours — location, user ID, a timestamp — turns random folds into a '
+    'A feature that identifies neighbours (location, user ID, a timestamp) turns random folds into a '
     'lookup. The bigger the gap between random and grouped scores, the more the model leans on it.',
     'Check every column’s maximum before modelling. A top-coded target puts a ceiling on what the model '
     'can learn and concentrates the error where values are highest.',
@@ -180,7 +180,7 @@ PATTERNS = [
     ('ml-math/bias-variance', 'why a flexible model can memorise neighbours'),
 ]
 SOURCES = [
-    'R. K. Pace &amp; R. Barry, “Sparse Spatial Autoregressions”, <em>Statistics &amp; Probability Letters</em> 33(3), 1997 — the data set',
+    'R. K. Pace &amp; R. Barry, “Sparse Spatial Autoregressions”, <em>Statistics &amp; Probability Letters</em> 33(3), 1997: the data set',
     'D. R. Roberts et al., “Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure”, <em>Ecography</em> 40(8), 2017',
     'scikit-learn documentation, “Cross-validation: evaluating estimator performance” (group-wise splits)',
 ]

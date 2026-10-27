@@ -44,31 +44,31 @@ const TOPIC_NAMES = {
 
 /* ── Full topic data for search ── */
 const TOPIC_DATA = [
-  { id:'model-packaging', evidence:'practice', reviewed:'2026-10-02', num:'01', title:'Model Packaging & Containers', category:'Deploy & Serve', keywords:['docker','container','ONNX','pickle','MLflow','BentoML','artifact','image','export','serialization'], content:'Exporting models into portable, versioned artifacts — Docker images, ONNX, MLflow format, and reproducible environments.' },
-  { id:'serving-patterns', evidence:'practice', reviewed:'2026-10-02', num:'02', title:'Serving Patterns', category:'Deploy & Serve', keywords:['REST','gRPC','batch','streaming','online','offline','microservice','endpoint','inference server','real-time'], content:'Real-time vs batch vs streaming inference — choosing the right serving pattern for your latency and throughput needs.' },
+  { id:'model-packaging', evidence:'practice', reviewed:'2026-10-02', num:'01', title:'Model Packaging & Containers', category:'Deploy & Serve', keywords:['docker','container','ONNX','pickle','MLflow','BentoML','artifact','image','export','serialization'], content:'Exporting models into portable, versioned artifacts: Docker images, ONNX, MLflow format, and reproducible environments.' },
+  { id:'serving-patterns', evidence:'practice', reviewed:'2026-10-02', num:'02', title:'Serving Patterns', category:'Deploy & Serve', keywords:['REST','gRPC','batch','streaming','online','offline','microservice','endpoint','inference server','real-time'], content:'Real-time vs batch vs streaming inference: choosing the right serving pattern for your latency and throughput needs.' },
   { id:'ab-rollout', evidence:'statistical', reviewed:'2026-10-02', num:'03', title:'A/B & Canary Rollouts', category:'Deploy & Serve', keywords:['canary','blue-green','traffic split','rollback','gradual','deployment strategy','feature flag','progressive'], content:'Ship models safely with canary deploys, blue-green switches, and traffic-split A/B tests with automatic rollback.' },
   { id:'latency-throughput', evidence:'statistical', reviewed:'2026-10-02', num:'04', title:'Latency & Throughput', category:'Deploy & Serve', keywords:['p50','p99','requests per second','batching','async','queue','SLA','response time','concurrency','benchmark'], content:'Understanding p50/p99 latency, dynamic batching, request queuing, and the tradeoffs that define serving SLAs.' },
   { id:'gpu-inference', evidence:'practice', reviewed:'2026-10-02', num:'05', title:'GPU Inference', category:'Deploy & Serve', keywords:['GPU','TensorRT','CUDA','Triton','multi-model','memory','VRAM','scheduling','mixed precision','accelerator'], content:'GPU memory management, TensorRT optimization, Triton Inference Server, and when CPU is actually enough.' },
-  { id:'drift-detection', evidence:'statistical', reviewed:'2026-10-02', num:'06', title:'Drift Detection in Production', category:'Monitor & Observe', keywords:['PSI','KS test','data drift','concept drift','covariate shift','Evidently','NannyML','population stability','distribution shift'], content:'Detecting when input distributions or model-target relationships shift — PSI, KS test, and continuous monitoring.' },
+  { id:'drift-detection', evidence:'statistical', reviewed:'2026-10-02', num:'06', title:'Drift Detection in Production', category:'Monitor & Observe', keywords:['PSI','KS test','data drift','concept drift','covariate shift','Evidently','NannyML','population stability','distribution shift'], content:'Detecting when input distributions or model-target relationships shift: PSI, KS test, and continuous monitoring.' },
   { id:'model-monitoring', evidence:'practice', reviewed:'2026-10-02', num:'07', title:'Model Monitoring Dashboards', category:'Monitor & Observe', keywords:['Grafana','Prometheus','metrics','accuracy decay','feature distributions','prediction distribution','dashboard','alert'], content:'Building dashboards that track prediction distributions, feature drift, accuracy decay, and system health in one view.' },
-  { id:'alerting-slos', evidence:'practice', reviewed:'2026-10-02', num:'08', title:'Alerting & SLOs', category:'Monitor & Observe', keywords:['SLO','SLA','SLI','error budget','latency budget','alert fatigue','threshold','pager','on-call','reliability'], content:'Defining service-level objectives for ML systems — latency SLOs, accuracy SLOs, error budgets, and alert fatigue.' },
-  { id:'shadow-scoring', evidence:'practice', reviewed:'2026-10-02', num:'09', title:'Shadow Mode & Champion/Challenger', category:'Monitor & Observe', keywords:['shadow','champion','challenger','dark launch','comparison','offline evaluation','production validation','parallel scoring'], content:'Running new models alongside production without serving predictions — validating before you switch.' },
-  { id:'data-quality', evidence:'practice', reviewed:'2026-10-02', num:'10', title:'Data Quality Gates', category:'Monitor & Observe', keywords:['Great Expectations','schema','validation','missing values','type check','freshness','completeness','data contract','anomaly'], content:'Automated checks that prevent bad data from reaching your model — schema validation, freshness, completeness, and anomaly detection.' },
-  { id:'ml-pipelines', evidence:'practice', reviewed:'2026-10-02', num:'11', title:'ML Pipelines', category:'Pipeline & Automation', keywords:['DAG','pipeline','Kubeflow','Airflow','Vertex','SageMaker','step','orchestrate','workflow','retraining'], content:'Composing training, validation, and deployment into reproducible DAGs — Kubeflow, Airflow, Vertex, and SageMaker Pipelines.' },
-  { id:'feature-stores', evidence:'practice', reviewed:'2026-10-02', num:'12', title:'Feature Stores', category:'Pipeline & Automation', keywords:['Feast','Tecton','feature engineering','online store','offline store','point-in-time','feature serving','materialization','entity'], content:'Centralized feature management — offline/online stores, point-in-time correctness, and feature sharing across teams.' },
-  { id:'experiment-tracking', evidence:'practice', reviewed:'2026-10-02', num:'13', title:'Experiment Tracking', category:'Pipeline & Automation', keywords:['MLflow','Weights & Biases','Neptune','experiment','run','metric','hyperparameter','comparison','artifact','log'], content:'Logging every run — hyperparameters, metrics, artifacts, and comparisons that make experiments reproducible.' },
-  { id:'ci-cd-ml', evidence:'practice', reviewed:'2026-10-02', num:'14', title:'CI/CD for ML', category:'Pipeline & Automation', keywords:['continuous integration','continuous deployment','GitHub Actions','testing','model validation','data validation','pipeline trigger','automation'], content:'Extending CI/CD to ML — automated testing of data, model quality gates, and deployment triggers on metric thresholds.' },
-  { id:'orchestration', evidence:'practice', reviewed:'2026-10-02', num:'15', title:'Orchestration & Scheduling', category:'Pipeline & Automation', keywords:['Airflow','Prefect','Dagster','cron','scheduler','dependency','retry','backfill','trigger','DAG'], content:'Scheduling retraining, feature computation, and monitoring jobs — DAG design, retries, backfills, and trigger strategies.' },
-  { id:'model-compression', evidence:'statistical', reviewed:'2026-10-02', num:'16', title:'Model Compression', category:'Scale & Optimize', keywords:['pruning','distillation','knowledge distillation','teacher-student','sparse','structured pruning','lottery ticket','smaller model'], content:'Making models smaller — pruning, knowledge distillation, and the lottery ticket hypothesis for deployable efficiency.' },
-  { id:'quantization', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'Quantization', category:'Scale & Optimize', keywords:['INT8','FP16','mixed precision','post-training quantization','quantization-aware training','ONNX Runtime','TensorRT','dynamic quantization'], content:'Reducing precision from FP32 to INT8/FP16 — post-training vs quantization-aware training and the accuracy-speed tradeoff.' },
+  { id:'alerting-slos', evidence:'practice', reviewed:'2026-10-02', num:'08', title:'Alerting & SLOs', category:'Monitor & Observe', keywords:['SLO','SLA','SLI','error budget','latency budget','alert fatigue','threshold','pager','on-call','reliability'], content:'Defining service-level objectives for ML systems: latency SLOs, accuracy SLOs, error budgets, and alert fatigue.' },
+  { id:'shadow-scoring', evidence:'practice', reviewed:'2026-10-02', num:'09', title:'Shadow Mode & Champion/Challenger', category:'Monitor & Observe', keywords:['shadow','champion','challenger','dark launch','comparison','offline evaluation','production validation','parallel scoring'], content:'Running new models alongside production without serving predictions: validating before you switch.' },
+  { id:'data-quality', evidence:'practice', reviewed:'2026-10-02', num:'10', title:'Data Quality Gates', category:'Monitor & Observe', keywords:['Great Expectations','schema','validation','missing values','type check','freshness','completeness','data contract','anomaly'], content:'Automated checks that prevent bad data from reaching your model: schema validation, freshness, completeness, and anomaly detection.' },
+  { id:'ml-pipelines', evidence:'practice', reviewed:'2026-10-02', num:'11', title:'ML Pipelines', category:'Pipeline & Automation', keywords:['DAG','pipeline','Kubeflow','Airflow','Vertex','SageMaker','step','orchestrate','workflow','retraining'], content:'Composing training, validation, and deployment into reproducible DAGs: Kubeflow, Airflow, Vertex, and SageMaker Pipelines.' },
+  { id:'feature-stores', evidence:'practice', reviewed:'2026-10-02', num:'12', title:'Feature Stores', category:'Pipeline & Automation', keywords:['Feast','Tecton','feature engineering','online store','offline store','point-in-time','feature serving','materialization','entity'], content:'Centralized feature management: offline/online stores, point-in-time correctness, and feature sharing across teams.' },
+  { id:'experiment-tracking', evidence:'practice', reviewed:'2026-10-02', num:'13', title:'Experiment Tracking', category:'Pipeline & Automation', keywords:['MLflow','Weights & Biases','Neptune','experiment','run','metric','hyperparameter','comparison','artifact','log'], content:'Logging every run: hyperparameters, metrics, artifacts, and comparisons that make experiments reproducible.' },
+  { id:'ci-cd-ml', evidence:'practice', reviewed:'2026-10-02', num:'14', title:'CI/CD for ML', category:'Pipeline & Automation', keywords:['continuous integration','continuous deployment','GitHub Actions','testing','model validation','data validation','pipeline trigger','automation'], content:'Extending CI/CD to ML: automated testing of data, model quality gates, and deployment triggers on metric thresholds.' },
+  { id:'orchestration', evidence:'practice', reviewed:'2026-10-02', num:'15', title:'Orchestration & Scheduling', category:'Pipeline & Automation', keywords:['Airflow','Prefect','Dagster','cron','scheduler','dependency','retry','backfill','trigger','DAG'], content:'Scheduling retraining, feature computation, and monitoring jobs: DAG design, retries, backfills, and trigger strategies.' },
+  { id:'model-compression', evidence:'statistical', reviewed:'2026-10-02', num:'16', title:'Model Compression', category:'Scale & Optimize', keywords:['pruning','distillation','knowledge distillation','teacher-student','sparse','structured pruning','lottery ticket','smaller model'], content:'Making models smaller: pruning, knowledge distillation, and the lottery ticket hypothesis for deployable efficiency.' },
+  { id:'quantization', evidence:'mathematical', reviewed:'2026-10-02', num:'17', title:'Quantization', category:'Scale & Optimize', keywords:['INT8','FP16','mixed precision','post-training quantization','quantization-aware training','ONNX Runtime','TensorRT','dynamic quantization'], content:'Reducing precision from FP32 to INT8/FP16: post-training vs quantization-aware training and the accuracy-speed tradeoff.' },
   { id:'caching-layers', evidence:'practice', reviewed:'2026-10-02', num:'18', title:'Caching & Prediction Stores', category:'Scale & Optimize', keywords:['Redis','cache','prediction store','precompute','lookup','hash','TTL','invalidation','memoization','near-line'], content:'Caching repeated predictions, precomputing for known inputs, and TTL strategies that balance freshness with speed.' },
-  { id:'auto-scaling', evidence:'practice', reviewed:'2026-10-02', num:'19', title:'Auto-Scaling Endpoints', category:'Scale & Optimize', keywords:['horizontal scaling','Kubernetes HPA','scale-to-zero','cold start','replica','load balancer','burst','traffic spike','serverless'], content:'Scaling inference endpoints with demand — HPA, scale-to-zero, cold start mitigation, and cost-aware autoscaling.' },
+  { id:'auto-scaling', evidence:'practice', reviewed:'2026-10-02', num:'19', title:'Auto-Scaling Endpoints', category:'Scale & Optimize', keywords:['horizontal scaling','Kubernetes HPA','scale-to-zero','cold start','replica','load balancer','burst','traffic spike','serverless'], content:'Scaling inference endpoints with demand: HPA, scale-to-zero, cold start mitigation, and cost-aware autoscaling.' },
   { id:'cost-governance', evidence:'practice', reviewed:'2026-10-02', num:'20', title:'Cost Governance', category:'Scale & Optimize', keywords:['cloud cost','GPU cost','spot instances','reserved','budget','FinOps','cost per prediction','resource allocation','waste'], content:'Tracking cost per prediction, GPU utilization, spot vs reserved tradeoffs, and FinOps practices for ML workloads.' },
-  { id:'model-registry', evidence:'practice', reviewed:'2026-10-02', num:'21', title:'Model Registry & Versioning', category:'Governance & Trust', keywords:['MLflow registry','model version','staging','production','archive','approval','metadata','catalog','promote'], content:'Central catalog of model versions with staging, production, and archive states — approval workflows and metadata.' },
-  { id:'lineage-tracking', evidence:'practice', reviewed:'2026-10-02', num:'22', title:'Lineage Tracking', category:'Governance & Trust', keywords:['data lineage','model lineage','provenance','upstream','downstream','dependency','audit trail','traceability','metadata'], content:'Tracing every prediction back to its training data, features, code, and hyperparameters — full audit trail.' },
-  { id:'fairness-audits', evidence:'statistical', reviewed:'2026-10-02', num:'23', title:'Fairness Audits', category:'Governance & Trust', keywords:['bias','fairness','disparate impact','equalized odds','demographic parity','Aequitas','Fairlearn','protected attribute','audit'], content:'Testing models for bias across protected groups — disparate impact, equalized odds, and structured audit frameworks.' },
-  { id:'reproducibility', evidence:'practice', reviewed:'2026-10-02', num:'24', title:'Reproducibility', category:'Governance & Trust', keywords:['seed','deterministic','environment','DVC','version','pin','lockfile','container','snapshot','replicate'], content:'Ensuring any result can be reproduced — pinned dependencies, seeds, DVC, containerized environments, and data snapshots.' },
-  { id:'incident-response', evidence:'practice', reviewed:'2026-10-02', num:'25', title:'Incident Response for ML', category:'Governance & Trust', keywords:['rollback','postmortem','runbook','degradation','fallback','circuit breaker','graceful degradation','on-call','triage'], content:'When models fail in production — rollback procedures, fallback strategies, circuit breakers, and postmortem templates.' },
+  { id:'model-registry', evidence:'practice', reviewed:'2026-10-02', num:'21', title:'Model Registry & Versioning', category:'Governance & Trust', keywords:['MLflow registry','model version','staging','production','archive','approval','metadata','catalog','promote'], content:'Central catalog of model versions with staging, production, and archive states: approval workflows and metadata.' },
+  { id:'lineage-tracking', evidence:'practice', reviewed:'2026-10-02', num:'22', title:'Lineage Tracking', category:'Governance & Trust', keywords:['data lineage','model lineage','provenance','upstream','downstream','dependency','audit trail','traceability','metadata'], content:'Tracing every prediction back to its training data, features, code, and hyperparameters: full audit trail.' },
+  { id:'fairness-audits', evidence:'statistical', reviewed:'2026-10-02', num:'23', title:'Fairness Audits', category:'Governance & Trust', keywords:['bias','fairness','disparate impact','equalized odds','demographic parity','Aequitas','Fairlearn','protected attribute','audit'], content:'Testing models for bias across protected groups: disparate impact, equalized odds, and structured audit frameworks.' },
+  { id:'reproducibility', evidence:'practice', reviewed:'2026-10-02', num:'24', title:'Reproducibility', category:'Governance & Trust', keywords:['seed','deterministic','environment','DVC','version','pin','lockfile','container','snapshot','replicate'], content:'Ensuring any result can be reproduced: pinned dependencies, seeds, DVC, containerized environments, and data snapshots.' },
+  { id:'incident-response', evidence:'practice', reviewed:'2026-10-02', num:'25', title:'Incident Response for ML', category:'Governance & Trust', keywords:['rollback','postmortem','runbook','degradation','fallback','circuit breaker','graceful degradation','on-call','triage'], content:'When models fail in production: rollback procedures, fallback strategies, circuit breakers, and postmortem templates.' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -107,7 +107,7 @@ function buildNav() {
    worked example is the output of the code shown with it. */
 const TOPIC_DEPTH = {
  "model-packaging": {
-  "example": "The same six weights packaged with two requirement files that differ in a single pin — NumPy 1.26.4 against 2.0.0 — get different artifact IDs: <strong>e93e1a2e4504</strong> and <strong>c538e448aba7</strong>. That is the point of packaging: a model is not its weights, it is its weights plus everything they need to run, and a change to either is a new version.",
+  "example": "The same six weights packaged with two requirement files that differ in a single pin, NumPy 1.26.4 against 2.0.0, get different artifact IDs: <strong>e93e1a2e4504</strong> and <strong>c538e448aba7</strong>. That is the point of packaging: a model is not its weights, it is its weights plus everything they need to run, and a change to either is a new version.",
   "fails": [
    "A container is only reproducible if its inputs are pinned. A base image tagged <code>latest</code> or an unpinned <code>pip install</code> builds a different artifact next month.",
    "Converting to ONNX or another format can change numerics or drop unsupported operations; compare outputs before and after on real inputs.",
@@ -117,11 +117,11 @@ const TOPIC_DEPTH = {
   "sources": [
    "D. Sculley et al., “Hidden Technical Debt in Machine Learning Systems”, <em>Advances in Neural Information Processing Systems</em> 28, 2015",
    "M. Zaharia et al., “Accelerating the Machine Learning Lifecycle with MLflow”, <em>IEEE Data Engineering Bulletin</em> 41(4), 2018",
-   "Open Neural Network Exchange (ONNX) specification, onnx.ai — the portable model format"
+   "Open Neural Network Exchange (ONNX) specification, onnx.ai: the portable model format"
   ]
  },
  "serving-patterns": {
-  "example": "A million customers could be scored; fifty thousand are looked up each day. A nightly batch scores all <strong>1,000,000</strong>, and the average answer is <strong>12 hours</strong> old when read. Online serving scores only the <strong>50,000</strong> that are asked for, with fresh inputs. Here <strong>95%</strong> of the batch work is never read — but batch needs no low-latency service, and online does.",
+  "example": "A million customers could be scored; fifty thousand are looked up each day. A nightly batch scores all <strong>1,000,000</strong>, and the average answer is <strong>12 hours</strong> old when read. Online serving scores only the <strong>50,000</strong> that are asked for, with fresh inputs. Here <strong>95%</strong> of the batch work is never read, but batch needs no low-latency service, and online does.",
   "fails": [
    "The choice is about freshness and cost, not fashion: a credit limit that changes monthly gains nothing from online serving.",
    "Batch and online paths built separately drift apart (training–serving skew); share the feature code.",
@@ -144,11 +144,11 @@ const TOPIC_DEPTH = {
   "code": "from scipy.stats import norm\np0, p1 = 0.010, 0.015                  # error rate today, and the regression we want to catch\nalpha, power = 0.05, 0.80\nz = norm.ppf(1 - alpha / 2) + norm.ppf(power)\nn = z**2 * (p0 * (1 - p0) + p1 * (1 - p1)) / (p1 - p0) ** 2    # requests needed in each arm\ndaily = 100_000\ndays_at_5pct = n / (0.05 * daily)       # canary gets 5% of traffic",
   "sources": [
    "<em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020",
-   "<em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018 — “Canarying Releases”"
+   "<em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018: “Canarying Releases”"
   ]
  },
  "latency-throughput": {
-  "example": "100,000 simulated requests have a median of <strong>40 ms</strong> and a 99th percentile of <strong>162 ms</strong>. If each request waits on ten backend calls that are each slow 1% of the time, <strong>9.6%</strong> of requests hit at least one slow call — the tail of the parts becomes the body of the whole. And by Little’s law, 200 requests a second at 50 ms means <strong>10</strong> in flight at any moment.",
+  "example": "100,000 simulated requests have a median of <strong>40 ms</strong> and a 99th percentile of <strong>162 ms</strong>. If each request waits on ten backend calls that are each slow 1% of the time, <strong>9.6%</strong> of requests hit at least one slow call: the tail of the parts becomes the body of the whole. And by Little’s law, 200 requests a second at 50 ms means <strong>10</strong> in flight at any moment.",
   "fails": [
    "Averages hide the tail; report percentiles, and know which percentile the SLO is about.",
    "Percentiles cannot be averaged across servers or time windows; aggregate the raw histograms instead.",
@@ -162,7 +162,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "gpu-inference": {
-  "example": "A 7-billion-parameter model in fp16 is <strong>14 GB</strong> of weights. Generating a token reads every weight once, so with about 2 TB/s of memory bandwidth one sequence gets at most about <strong>143 tokens/s</strong>, however fast the arithmetic is. Batching 16 sequences reuses each read, for up to about <strong>2,286 tokens/s</strong> — until the GPU becomes compute-bound or runs out of memory for the KV-cache.",
+  "example": "A 7-billion-parameter model in fp16 is <strong>14 GB</strong> of weights. Generating a token reads every weight once, so with about 2 TB/s of memory bandwidth one sequence gets at most about <strong>143 tokens/s</strong>, however fast the arithmetic is. Batching 16 sequences reuses each read, for up to about <strong>2,286 tokens/s</strong>, until the GPU becomes compute-bound or runs out of memory for the KV-cache.",
   "fails": [
    "These are ceilings, not measurements; kernels, attention and the KV-cache take their share. Benchmark on your own traffic.",
    "Bigger batches raise throughput but also latency per request; the right batch size depends on the SLO.",
@@ -183,13 +183,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "from scipy.stats import ks_2samp\nexpected = np.array([0.10, 0.20, 0.40, 0.20, 0.10])     # share of training data in five score bins\nactual   = np.array([0.05, 0.15, 0.35, 0.25, 0.20])     # the same bins this week\npsi = np.sum((actual - expected) * np.log(actual / expected))\n\nrng = np.random.default_rng(1)                           # a shift too small to matter...\ntrain, live = rng.normal(0, 1, 200_000), rng.normal(0.02, 1, 200_000)\nks_p = ks_2samp(train, live).pvalue                      # ...is still \"significant\" with this much data",
   "sources": [
-   "N. Siddiqi, <em>Credit Risk Scorecards</em>, Wiley, 2006 — the PSI thresholds used in credit scoring",
+   "N. Siddiqi, <em>Credit Risk Scorecards</em>, Wiley, 2006: the PSI thresholds used in credit scoring",
    "J. Gama, I. Žliobaitė, A. Bifet, M. Pechenizkiy &amp; A. Bouchachia, “A Survey on Concept Drift Adaptation”, <em>ACM Computing Surveys</em> 46(4), 2014",
    "S. Rabanser, S. Günnemann &amp; Z. Lipton, “Failing Loudly: An Empirical Study of Methods for Detecting Dataset Shift”, <em>NeurIPS</em>, 2019"
   ]
  },
  "model-monitoring": {
-  "example": "Labels arrive weeks late, so watch the predictions. Over two baseline weeks <strong>8.1%</strong> of 5,000 daily predictions are positive; a p-chart puts the control limits <strong>±1.16 points</strong> away. When the true rate moves to 11% on day 20, the chart flags day <strong>20</strong> itself, and days 21 and 22 after it — weeks before any accuracy number could.",
+  "example": "Labels arrive weeks late, so watch the predictions. Over two baseline weeks <strong>8.1%</strong> of 5,000 daily predictions are positive; a p-chart puts the control limits <strong>±1.16 points</strong> away. When the true rate moves to 11% on day 20, the chart flags day <strong>20</strong> itself, and days 21 and 22 after it: weeks before any accuracy number could.",
   "fails": [
    "A stable prediction rate does not prove a healthy model; the inputs and the outcome can change together.",
    "Watching dozens of charts at three-sigma limits produces false alarms; decide which signals page and which only inform.",
@@ -197,13 +197,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "rng = np.random.default_rng(2)\nn = 5_000                                                 # predictions per day\nrate = np.r_[np.full(20, 0.08), np.full(10, 0.11)]        # share predicted positive; it shifts on day 20\npos = rng.binomial(n, rate) / n\nbase = pos[:14].mean()                                    # two weeks of baseline\nlimit = 3 * np.sqrt(base * (1 - base) / n)                # p-chart control limits\nflagged = np.where(np.abs(pos - base) &gt; limit)[0]",
   "sources": [
-   "D. C. Montgomery, <em>Introduction to Statistical Quality Control</em>, Wiley (any recent edition) — p-charts",
+   "D. C. Montgomery, <em>Introduction to Statistical Quality Control</em>, Wiley (any recent edition): p-charts",
    "E. Breck, S. Cai, E. Nielsen, M. Salib &amp; D. Sculley, “The ML Test Score: A Rubric for ML Production Readiness and Technical Debt Reduction”, <em>IEEE International Conference on Big Data</em>, 2017",
    "<em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022"
   ]
  },
  "alerting-slos": {
-  "example": "An SLO of 99.5% over 30 days and 10 million requests allows <strong>50,000</strong> failures — the error budget. If the error rate is now 2%, the budget burns <strong>4×</strong> faster than allowed and is gone in <strong>7.5 days</strong>. Alerting on burn rate, not on the raw error rate, pages people for what threatens the objective and nothing else.",
+  "example": "An SLO of 99.5% over 30 days and 10 million requests allows <strong>50,000</strong> failures: the error budget. If the error rate is now 2%, the budget burns <strong>4×</strong> faster than allowed and is gone in <strong>7.5 days</strong>. Alerting on burn rate, not on the raw error rate, pages people for what threatens the objective and nothing else.",
   "fails": [
    "An SLO nobody agreed to is just a threshold; the budget only works if it changes decisions, such as freezing risky releases.",
    "For ML, “success” must include quality, not only uptime: a fast, wrong prediction meets a latency SLO.",
@@ -212,11 +212,11 @@ const TOPIC_DEPTH = {
   "code": "slo = 0.995                            # 99.5% of requests succeed within 200 ms, over 30 days\nrequests = 10_000_000\nbudget = (1 - slo) * requests          # failures you are allowed in the window\nerror_rate = 0.02                      # what is happening right now\nburn = error_rate / (1 - slo)          # how many times faster than allowed\ndays_left = 30 / burn                  # budget gone at this pace",
   "sources": [
    "<em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016",
-   "<em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018 — “Alerting on SLOs”"
+   "<em>The Site Reliability Workbook</em>, B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara &amp; S. Thorne (eds.), O’Reilly, 2018: “Alerting on SLOs”"
   ]
  },
  "shadow-scoring": {
-  "example": "Champion at 90% accuracy, challenger at 91%, both scoring the same labelled requests. McNemar’s test looks only at the cases where they disagree. After <strong>2,000</strong> requests the p-value is <strong>0.65</strong> — no evidence either way. After <strong>20,000</strong> it is <strong>0.0009</strong>. Shadow mode is safe, but a one-point improvement needs a lot of traffic to show.",
+  "example": "Champion at 90% accuracy, challenger at 91%, both scoring the same labelled requests. McNemar’s test looks only at the cases where they disagree. After <strong>2,000</strong> requests the p-value is <strong>0.65</strong>: no evidence either way. After <strong>20,000</strong> it is <strong>0.0009</strong>. Shadow mode is safe, but a one-point improvement needs a lot of traffic to show.",
   "fails": [
    "Shadow mode only sees the champion’s world: if the challenger’s decisions would change user behaviour, the shadow comparison cannot see it.",
    "Comparing on the requests that happen to get labels quickly can bias the result.",
@@ -224,7 +224,7 @@ const TOPIC_DEPTH = {
   ],
   "code": "from scipy.stats import binomtest\nrng = np.random.default_rng(3)\n\ndef shadow(n, p_champ=0.90, p_chal=0.91):           # both models score the same n labelled requests\n    champ = rng.random(n) &lt; p_champ\n    chal = np.where(rng.random(n) &lt; 0.5, champ, rng.random(n) &lt; p_chal)   # they agree half the time by construction\n    only_chal, only_champ = (chal &amp; ~champ).sum(), (champ &amp; ~chal).sum()\n    return binomtest(only_chal, only_chal + only_champ).pvalue           # McNemar's exact test\n\np_2k, p_20k = shadow(2_000), shadow(20_000)",
   "sources": [
-   "T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998 — McNemar’s test",
+   "T. G. Dietterich, “Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms”, <em>Neural Computation</em> 10(7), 1998: McNemar’s test",
    "<em>Trustworthy Online Controlled Experiments</em>, R. Kohavi, D. Tang &amp; Y. Xu, Cambridge University Press, 2020",
    "<em>Designing Machine Learning Systems</em>, C. Huyen, O’Reilly, 2022"
   ]
@@ -244,7 +244,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "ml-pipelines": {
-  "example": "Seven steps that take <strong>185</strong> minutes one after another. Run in parallel where dependencies allow, the pipeline still takes <strong>170</strong> — features and labels overlap, but everything waits for training. Reuse cached ingestion, validation and features and a retrain takes <strong>120</strong>. The critical path, not the number of workers, sets the time.",
+  "example": "Seven steps that take <strong>185</strong> minutes one after another. Run in parallel where dependencies allow, the pipeline still takes <strong>170</strong>: features and labels overlap, but everything waits for training. Reuse cached ingestion, validation and features and a retrain takes <strong>120</strong>. The critical path, not the number of workers, sets the time.",
   "fails": [
    "Caching is only safe when the cache key includes the code and data versions; otherwise stale outputs are reused silently.",
    "Pipelines that retrain automatically can also degrade automatically; keep an evaluation gate before deploy.",
@@ -308,13 +308,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "p_fail = 0.20                          # a task fails transiently one time in five\nretries = 3\np_success = 1 - p_fail ** (retries + 1)\nbackoff = [30 * 2 ** k for k in range(retries)]           # seconds between attempts: exponential\nbackfill_runs = 90                                         # a daily DAG re-run for the last 90 days",
   "sources": [
-   "Apache Airflow documentation, airflow.apache.org — retries, scheduling and backfill",
+   "Apache Airflow documentation, airflow.apache.org: retries, scheduling and backfill",
    "M. Brooker, “Exponential Backoff and Jitter”, AWS Architecture Blog, 2015",
    "<em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016"
   ]
  },
  "model-compression": {
-  "example": "Prune 80% of a layer’s weights, keeping the largest fifth, and measure how much its output changes. If the weights are all of similar size, the output error is <strong>59%</strong> — there is nothing small to remove. If a few weights are large and most near zero, the error is <strong>11%</strong>. Compression works when a model is redundant, and how redundant it is has to be measured, not assumed.",
+  "example": "Prune 80% of a layer’s weights, keeping the largest fifth, and measure how much its output changes. If the weights are all of similar size, the output error is <strong>59%</strong>: there is nothing small to remove. If a few weights are large and most near zero, the error is <strong>11%</strong>. Compression works when a model is redundant, and how redundant it is has to be measured, not assumed.",
   "fails": [
    "Output error is not task accuracy; fine-tune after pruning and evaluate on the real task.",
    "Unstructured sparsity rarely speeds up standard hardware; structured pruning (whole channels or heads) or distillation usually pays off more.",
@@ -328,7 +328,7 @@ const TOPIC_DEPTH = {
   ]
  },
  "quantization": {
-  "example": "10,000 weights rounded to 8-bit integers with one scale for the tensor: <strong>4×</strong> less memory, and an average error of <strong>0.9%</strong> of a weight’s size. Add a single outlier 50 standard deviations out and the scale stretches to fit it; the average error jumps to <strong>12%</strong>. Outliers, not the bit-width itself, are what breaks naive quantization — which is why LLM.int8() treats them separately.",
+  "example": "10,000 weights rounded to 8-bit integers with one scale for the tensor: <strong>4×</strong> less memory, and an average error of <strong>0.9%</strong> of a weight’s size. Add a single outlier 50 standard deviations out and the scale stretches to fit it; the average error jumps to <strong>12%</strong>. Outliers, not the bit-width itself, are what breaks naive quantization, which is why LLM.int8() treats them separately.",
   "fails": [
    "Per-tensor scales are the crude version; per-channel or per-group scales handle uneven weights much better.",
    "Activations are often harder to quantize than weights.",
@@ -341,10 +341,10 @@ const TOPIC_DEPTH = {
   ]
  },
  "caching-layers": {
-  "example": "A million keys whose popularity follows Zipf’s law. Caching just the top 1% — 10,000 keys — serves <strong>68%</strong> of requests. At 1 ms from cache and 50 ms from the model, the average falls to <strong>16.7 ms</strong>. Skewed traffic is why small caches work so well.",
+  "example": "A million keys whose popularity follows Zipf’s law. Caching just the top 1% (10,000 keys) serves <strong>68%</strong> of requests. At 1 ms from cache and 50 ms from the model, the average falls to <strong>16.7 ms</strong>. Skewed traffic is why small caches work so well.",
   "fails": [
    "A cached prediction is only as fresh as its TTL; for fast-changing inputs a cache serves stale answers confidently.",
-   "If traffic is not skewed — every request unique — a cache adds cost and gains nothing.",
+   "If traffic is not skewed, every request unique, a cache adds cost and gains nothing.",
    "Cache keys must include the model version, or a rollout keeps serving the old model’s answers."
   ],
   "code": "keys = 1_000_000\nrank = np.arange(1, keys + 1)\nshare = (1 / rank) / (1 / rank).sum()             # Zipf: the k-th most popular key gets traffic ~ 1/k\nhit_rate = share[: keys // 100].sum()             # cache the top 1% of keys\nlatency = hit_rate * 1 + (1 - hit_rate) * 50       # ms: 1 from cache, 50 from the model",
@@ -362,13 +362,13 @@ const TOPIC_DEPTH = {
   ],
   "code": "import math\nrps, latency_s, per_replica = 1_200, 0.080, 8       # traffic, time per request, concurrent requests per replica\nin_flight = rps * latency_s                         # Little's law\nreplicas = math.ceil(in_flight / (per_replica * 0.70))   # target 70% utilisation\ncurrent, cpu, target = 10, 0.92, 0.70\nhpa = math.ceil(current * cpu / target)             # Kubernetes HPA rule",
   "sources": [
-   "Kubernetes documentation, “Horizontal Pod Autoscaling”, kubernetes.io — the replica formula",
+   "Kubernetes documentation, “Horizontal Pod Autoscaling”, kubernetes.io: the replica formula",
    "J. D. C. Little, “A Proof for the Queuing Formula: L = λW”, <em>Operations Research</em> 9(3), 1961",
    "<em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016"
   ]
  },
  "cost-governance": {
-  "example": "A 2.50-dollar-an-hour GPU that can serve 400 predictions a second. At <strong>30%</strong> utilisation each 1,000 predictions cost <strong>$0.0058</strong>; at <strong>80%</strong>, <strong>$0.0022</strong> — <strong>2.7×</strong> cheaper on the same hardware. Utilisation is usually the biggest lever, before any model change.",
+  "example": "A 2.50-dollar-an-hour GPU that can serve 400 predictions a second. At <strong>30%</strong> utilisation each 1,000 predictions cost <strong>$0.0058</strong>; at <strong>80%</strong>, <strong>$0.0022</strong>: <strong>2.7×</strong> cheaper on the same hardware. Utilisation is usually the biggest lever, before any model change.",
   "fails": [
    "Cost per prediction ignores what a prediction is worth; the cheapest model is not the best value.",
    "Pushing utilisation to the limit raises latency sharply (see Latency &amp; Throughput).",
@@ -420,7 +420,7 @@ const TOPIC_DEPTH = {
   "sources": [
    "M. Hardt, E. Price &amp; N. Srebro, “Equality of Opportunity in Supervised Learning”, <em>NeurIPS</em>, 2016",
    "J. Kleinberg, S. Mullainathan &amp; M. Raghavan, “Inherent Trade-Offs in the Fair Determination of Risk Scores”, <em>ITCS</em>, 2017",
-   "Uniform Guidelines on Employee Selection Procedures, 29 CFR § 1607.4(D), 1978 — the four-fifths rule"
+   "Uniform Guidelines on Employee Selection Procedures, 29 CFR § 1607.4(D), 1978: the four-fifths rule"
   ]
  },
  "reproducibility": {
@@ -438,16 +438,16 @@ const TOPIC_DEPTH = {
   ]
  },
  "incident-response": {
-  "example": "A bad model goes live at 50 requests a second. If someone notices after 45 minutes and rolls back in 5 more, <strong>150,000</strong> requests are served by it. A circuit breaker that switches to a fallback when the error rate passes 5% over two minutes limits it to <strong>6,000</strong> — <strong>25×</strong> fewer. Detection time, not repair time, dominates.",
+  "example": "A bad model goes live at 50 requests a second. If someone notices after 45 minutes and rolls back in 5 more, <strong>150,000</strong> requests are served by it. A circuit breaker that switches to a fallback when the error rate passes 5% over two minutes limits it to <strong>6,000</strong>: <strong>25×</strong> fewer. Detection time, not repair time, dominates.",
   "fails": [
-   "ML failures are often silent — predictions are wrong but no error is raised — so breakers on error rates miss them; watch prediction distributions too.",
+   "ML failures are often silent, predictions are wrong but no error is raised, so breakers on error rates miss them; watch prediction distributions too.",
    "A fallback is only safe if it has been tested recently.",
    "Postmortems that end in “be more careful” change nothing; fix the system that let it through."
   ],
   "code": "rps = 50                                   # requests per second\nbad_from = 0                               # a bad model goes live at t = 0\ndetect_manual = 45 * 60                    # someone notices after 45 minutes\ndetect_breaker = 2 * 60                    # error rate &gt; 5% over a 2-minute window trips the breaker\nrollback = 5 * 60                          # manual rollback takes 5 minutes\nhit_manual = rps * (detect_manual + rollback)\nhit_breaker = rps * detect_breaker          # the breaker switches to the fallback at once",
   "sources": [
-   "<em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016 — “Postmortem Culture”",
-   "<em>Release It! Design and Deploy Production-Ready Software</em>, M. T. Nygard, Pragmatic Bookshelf, 2007 — the circuit breaker",
+   "<em>Site Reliability Engineering: How Google Runs Production Systems</em>, B. Beyer, C. Jones, J. Petoff &amp; N. R. Murphy (eds.), O’Reilly, 2016: “Postmortem Culture”",
+   "<em>Release It! Design and Deploy Production-Ready Software</em>, M. T. Nygard, Pragmatic Bookshelf, 2007: the circuit breaker",
    "S. Shankar, R. Garcia, J. M. Hellerstein &amp; A. G. Parameswaran, “Operationalizing Machine Learning: An Interview Study”, arXiv:2209.09125, 2022"
   ]
  }
@@ -459,7 +459,7 @@ const SELF_CHECK = {
   {
    "q": "A drift detector fires on the input data, but measured accuracy has not changed. What does that mean?",
    "options": [
-    "Drift is a warning, not proof of harm — check performance on labelled data before acting.",
+    "Drift is a warning, not proof of harm: check performance on labelled data before acting.",
     "The model must be retrained immediately.",
     "The model has already started to fail."
    ],
@@ -491,9 +491,9 @@ const SELF_CHECK = {
   {
    "q": "A canary on 1% of traffic runs for an hour without alarms. Is the new model safe?",
    "options": [
-    "Yes — an hour without alarms proves it.",
-    "No — canaries never catch anything.",
-    "Only against frequent, fast failures — rare problems and harms seen only when labels arrive need more traffic and time."
+    "Yes: an hour without alarms proves it.",
+    "No: canaries never catch anything.",
+    "Only against frequent, fast failures: rare problems and harms seen only when labels arrive need more traffic and time."
    ],
    "answer": 2,
    "why": "A canary is a smoke test. Size and duration decide which failures it can possibly detect."
@@ -511,7 +511,7 @@ const SELF_CHECK = {
   {
    "q": "You check an A/B test every day and stop as soon as it is significant. What is the problem?",
    "options": [
-    "None — stopping early saves traffic.",
+    "None: stopping early saves traffic.",
     "It lowers the false-positive rate.",
     "Repeated peeking inflates the false-positive rate well beyond the nominal 5%."
    ],
@@ -525,7 +525,7 @@ const SELF_CHECK = {
    "options": [
     "How users react to the challenger.",
     "Only the challenger’s latency.",
-    "The challenger’s predictions on live traffic, without affecting users — not its effect on their behaviour."
+    "The challenger’s predictions on live traffic, without affecting users, not its effect on their behaviour."
    ],
    "answer": 2,
    "why": "Shadow predictions are logged, never served, so any feedback loop through user behaviour stays invisible until an A/B test."
@@ -533,9 +533,9 @@ const SELF_CHECK = {
   {
    "q": "On 2,000 shadowed requests the challenger is right 91% of the time, the champion 90%. Promote it?",
    "options": [
-    "Not yet — a one-point gap on 2,000 requests is within noise; compare paired results on more traffic.",
+    "Not yet: a one-point gap on 2,000 requests is within noise; compare paired results on more traffic.",
     "Yes — it is better.",
-    "No — shadow results can never justify promotion."
+    "No: shadow results can never justify promotion."
    ],
    "answer": 0,
    "why": "The standard error of the difference is about one point here. Paired comparisons (same requests) help, but the sample is still small."
@@ -543,7 +543,7 @@ const SELF_CHECK = {
   {
    "q": "What does shadow scoring cost?",
    "options": [
-    "Nothing — it reuses the champion’s predictions.",
+    "Nothing: it reuses the champion’s predictions.",
     "Extra inference for the shadowed traffic, and care to keep it from adding latency to real responses.",
     "A share of users get worse predictions."
    ],
@@ -553,7 +553,7 @@ const SELF_CHECK = {
  ],
  "reproducibility": [
   {
-   "q": "Same code, same seed, a different GPU — and slightly different results. Why?",
+   "q": "Same code, same seed, a different GPU, and slightly different results. Why?",
    "options": [
     "The seed is ignored on GPUs.",
     "Floating-point addition is not associative, and parallel hardware sums in a different order.",
@@ -575,8 +575,8 @@ const SELF_CHECK = {
   {
    "q": "Your requirements file pins only top-level packages, like numpy&gt;=1.20. What can go wrong?",
    "options": [
-    "Nothing — newer versions are always compatible.",
-    "Nothing — only the listed packages get installed, so nothing else can change.",
+    "Nothing: newer versions are always compatible.",
+    "Nothing: only the listed packages get installed, so nothing else can change.",
     "Unpinned and transitive dependencies change between installs; a lock file fixes every version."
    ],
    "answer": 2,
@@ -589,7 +589,7 @@ const SELF_CHECK = {
    "options": [
     "Only after the model is deployed.",
     "Only in the training notebook.",
-    "At ingestion, before training and before serving — failing the pipeline instead of passing bad data on."
+    "At ingestion, before training and before serving: failing the pipeline instead of passing bad data on."
    ],
    "answer": 2,
    "why": "A gate is useful only if a failure stops something. Checks that just log warnings get ignored."
@@ -599,10 +599,10 @@ const SELF_CHECK = {
    "options": [
     "Impute the missing values and carry on.",
     "Drop the rows with nulls.",
-    "Block and alert — it is most likely an upstream break, not a real change."
+    "Block and alert: it is most likely an upstream break, not a real change."
    ],
    "answer": 2,
-   "why": "Silent imputation turns a broken feed into quietly wrong predictions."
+   "why": "Silent imputation turns a broken feed into wrong predictions that nobody notices."
   },
   {
    "q": "Schema checks pass, but prices arrive in cents instead of euros. What would have caught it?",
@@ -639,9 +639,9 @@ const SELF_CHECK = {
   {
    "q": "Besides latency and errors, what should an ML service’s indicators include?",
    "options": [
-    "Nothing more — ML services are like any other service.",
+    "Nothing more: ML services are like any other service.",
     "Only GPU utilisation.",
-    "Signals of prediction quality — score distributions now, accuracy once labels arrive."
+    "Signals of prediction quality: score distributions now, accuracy once labels arrive."
    ],
    "answer": 2,
    "why": "A model can return fast, valid, wrong answers. Quality indicators catch what availability metrics cannot."
@@ -685,13 +685,8 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>MLOps &amp; <em>Production ML</em></h2>
-    <p style="margin-top:14px">A practical reference covering 25 topics &mdash; from model packaging
+    <p style="margin-top:14px">A practical reference covering 25 topics: from model packaging
     and serving patterns to monitoring, pipelines, and governance. What happens after you train the model.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Topics</div></div>
-      <div class="home-stat"><div class="home-stat-num">25</div><div class="home-stat-label">Visualizations</div></div>
-      <div class="home-stat"><div class="home-stat-num">5</div><div class="home-stat-label">Sections</div></div>
-    </div>
     <p style="margin-top:10px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
@@ -699,27 +694,22 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-serve','model-packaging')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="4.5" rx="1"/><rect x="5" y="10" width="14" height="4.5" rx="1"/><rect x="5" y="16" width="14" height="4.5" rx="1"/></svg></div>
       <div class="cat-card-name">Deploy &amp; Serve</div>
       <div class="cat-card-count">5 topics &middot; Packaging, serving patterns, rollouts, latency, GPU</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-monitor','drift-detection')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/></svg></div>
       <div class="cat-card-name">Monitor &amp; Observe</div>
       <div class="cat-card-count">5 topics &middot; Drift, dashboards, SLOs, shadow mode, data quality</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-pipeline','ml-pipelines')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 4v2.5M12 17.5V20M4 12h2.5M17.5 12H20M6.4 6.4l1.8 1.8M15.8 15.8l1.8 1.8M17.6 6.4l-1.8 1.8M8.2 15.8l-1.8 1.8"/></svg></div>
       <div class="cat-card-name">Pipeline &amp; Automation</div>
       <div class="cat-card-count">5 topics &middot; Pipelines, feature stores, tracking, CI/CD</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-scale','model-compression')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 18 9 12.5 13 15 20 6.5"/></svg></div>
       <div class="cat-card-name">Scale &amp; Optimize</div>
       <div class="cat-card-count">5 topics &middot; Compression, quantization, caching, auto-scaling</div>
     </div>
     <div class="cat-card" onclick="showSection('sec-govern','model-registry')">
-      <div class="cat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V6z"/></svg></div>
       <div class="cat-card-name">Governance &amp; Trust</div>
       <div class="cat-card-count">5 topics &middot; Registry, lineage, fairness, reproducibility</div>
     </div>
@@ -739,10 +729,10 @@ function buildModelPackaging() {
     <span class="topic-badge">Deployment</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Exporting models into portable, versioned artifacts</p>
-  <p class="prose">A trained model sitting in a notebook is not production-ready. <strong>Model packaging</strong> wraps your model, its dependencies, and inference code into a self-contained artifact — a Docker image, an ONNX file, or an MLflow model directory — that can be deployed anywhere identically.</p>
-  <div class="fb"><div class="fm">Artifact = Model + Dependencies + Inference Code + Config</div><div class="fd"><span>Packaging</span> ensures every deployment gets the exact same model, libraries, and preprocessing — no "works on my machine" surprises.</div></div>
+  <p class="prose">A trained model sitting in a notebook is not production-ready. <strong>Model packaging</strong> wraps your model, its dependencies, and inference code into a self-contained artifact (a Docker image, an ONNX file, or an MLflow model directory) that can be deployed anywhere identically.</p>
+  <div class="fb"><div class="fm">Artifact = Model + Dependencies + Inference Code + Config</div><div class="fd"><span>Packaging</span> ensures every deployment gets the exact same model, libraries, and preprocessing: no "works on my machine" surprises.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — packaging pipeline flow</div>
+    <div class="vl">// Interactive: packaging pipeline flow</div>
     <canvas id="packCanvas" role="img" aria-label="Model Packaging &amp; Containers: Interactive — packaging pipeline flow" height="260"></canvas>
   </div>
   <table class="mt">
@@ -770,7 +760,7 @@ torch.onnx.export(model, dummy, <span class="st">"model.onnx"</span>,
 <span class="cm"># RUN pip install -r requirements.txt</span>
 <span class="cm"># CMD ["python", "serve.py"]</span></pre></div>
   <div class="callout info"><strong>Avoid pickle in production:</strong> Pickle files are Python-version-specific, not human-readable, and pose security risks (arbitrary code execution). Use ONNX or framework-native formats for anything beyond prototypes.</div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../stats/#cross-validation">cross-validation</a> — both enforce separation between what you build and where you test it. In markets, <a href="../stats/#walk-forward">backtesting discipline</a> enforces the same boundary.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model packaging is the deployment equivalent of <a href="../stats/#cross-validation">cross-validation</a>, both enforce separation between what you build and where you test it. In markets, <a href="../stats/#walk-forward">backtesting discipline</a> enforces the same boundary.</div>
   ${depthHtml('model-packaging')}
   <div class="topic-nav" id="nav-model-packaging"></div>
 </div>`;
@@ -783,10 +773,10 @@ function buildServingPatterns() {
     <div class="topic-meta"><div class="topic-num">02 — Deploy & Serve</div><h2>Serving <em>Patterns</em></h2></div>
     <span class="topic-badge">Architecture</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Real-time vs batch vs streaming — choosing your inference architecture</p>
+  <p class="sub">// Real-time vs batch vs streaming: choosing your inference architecture</p>
   <p class="prose">How you serve predictions matters as much as model accuracy. <strong>Online serving</strong> returns predictions in milliseconds via API calls. <strong>Batch serving</strong> scores entire datasets on a schedule. <strong>Streaming</strong> processes events as they arrive. Each pattern has different latency, cost, and complexity profiles.</p>
   <div class="va">
-    <div class="vl">// Interactive — compare serving patterns</div>
+    <div class="vl">// Interactive: compare serving patterns</div>
     <canvas id="serveCanvas" role="img" aria-label="Serving Patterns: Interactive — compare serving patterns" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Request Volume</span><input type="range" aria-label="Request Volume" id="serveVol" min="1" max="100" step="1" value="50"><span class="vd" id="serveVolV">50k/day</span></div>
@@ -830,7 +820,7 @@ function buildABRollout() {
   <p class="sub">// Ship models safely with progressive traffic splitting</p>
   <p class="prose">Deploying a new model to 100% of traffic is reckless. <strong>Canary rollouts</strong> send a small fraction (1–5%) of traffic to the new model while monitoring metrics. <strong>Blue-green</strong> deploys keep the old version warm for instant rollback. <strong>A/B tests</strong> run both models simultaneously to measure real-world lift.</p>
   <div class="va">
-    <div class="vl">// Interactive — canary traffic split</div>
+    <div class="vl">// Interactive: canary traffic split</div>
     <canvas id="canaryCanvas" role="img" aria-label="A/B &amp; Canary Rollouts: Interactive — canary traffic split" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Canary %</span><input type="range" aria-label="Canary %" id="canaryPct" min="0" max="100" step="1" value="5"><span class="vd" id="canaryPctV">5%</span></div>
@@ -848,7 +838,7 @@ function buildABRollout() {
 <span class="cm">#         host: model-service</span>
 <span class="cm">#         subset: canary</span>
 <span class="cm">#       weight: 5</span></pre></div>
-  <div class="callout info"><strong>Rollback triggers:</strong> Define automatic rollback criteria before deploying — e.g., if p99 latency exceeds 200ms or error rate exceeds 1%, revert immediately.</div>
+  <div class="callout info"><strong>Rollback triggers:</strong> Define automatic rollback criteria before deploying, e.g., if p99 latency exceeds 200ms or error rate exceeds 1%, revert immediately.</div>
   <div class="callout bridge"><strong>Pattern bridge:</strong> Canary rollouts apply the same risk management as <a href="../markets/risk/#fixed-fractional">position sizing</a> — start small, scale up only when evidence confirms safety. The <a href="../stats/#bayesian-ab">Bayesian A/B framework</a> from The Toolkit directly applies to evaluating canary metrics.</div>
   ${depthHtml('ab-rollout')}
   <div class="topic-nav" id="nav-ab-rollout"></div>
@@ -863,10 +853,10 @@ function buildLatencyThroughput() {
     <span class="topic-badge">Performance</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// p50, p99, batching, and the tradeoffs that define your SLA</p>
-  <p class="prose"><strong>Latency</strong> is the time for a single prediction. <strong>Throughput</strong> is predictions per second. You can often trade one for the other — dynamic batching increases throughput but adds latency. p50 tells you the typical experience; <strong>p99 tells you the worst</strong>.</p>
+  <p class="prose"><strong>Latency</strong> is the time for a single prediction. <strong>Throughput</strong> is predictions per second. You can often trade one for the other: dynamic batching increases throughput but adds latency. p50 tells you the typical experience; <strong>p99 tells you the worst</strong>.</p>
   <div class="fb"><div class="fm">Throughput = Batch Size / Latency</div><div class="fd"><span>Batching</span> amortises fixed overhead (model loading, context switching) across multiple inputs, improving throughput at the cost of per-request latency.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — latency distribution with batch size</div>
+    <div class="vl">// Interactive: latency distribution with batch size</div>
     <canvas id="latencyCanvas" role="img" aria-label="Latency &amp; Throughput: Interactive — latency distribution with batch size" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Batch Size</span><input type="range" aria-label="Batch Size" id="latBatch" min="1" max="64" step="1" value="1"><span class="vd" id="latBatchV">1</span></div>
@@ -890,7 +880,7 @@ function buildGPUInference() {
   <p class="sub">// VRAM management, TensorRT, and knowing when CPU is enough</p>
   <p class="prose">GPUs accelerate inference through massive parallelism, but they're expensive and tricky to manage. <strong>TensorRT</strong> optimises models for NVIDIA GPUs with layer fusion and kernel auto-tuning. <strong>Triton Inference Server</strong> handles multi-model scheduling and dynamic batching on GPU.</p>
   <div class="va">
-    <div class="vl">// Interactive — GPU vs CPU throughput comparison</div>
+    <div class="vl">// Interactive: GPU vs CPU throughput comparison</div>
     <canvas id="gpuCanvas" role="img" aria-label="GPU Inference: Interactive — GPU vs CPU throughput comparison" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model Size (M params)</span><input type="range" aria-label="Model Size (M params)" id="gpuSize" min="1" max="1000" step="10" value="100"><span class="vd" id="gpuSizeV">100M</span></div>
@@ -923,7 +913,7 @@ function buildDriftDetection() {
   <p class="prose"><strong>Data drift</strong> means input distributions have shifted. <strong>Concept drift</strong> means the relationship between inputs and targets has changed. Both silently degrade model performance. Continuous monitoring with PSI, KS tests, and page-based detection catches drift before users notice.</p>
   <div class="fb"><div class="fm">PSI = &Sigma; (p<sub>i</sub> &minus; q<sub>i</sub>) &middot; ln(p<sub>i</sub> / q<sub>i</sub>)</div><div class="fd"><span>PSI</span> &lt; 0.1 = stable &nbsp;|&nbsp; 0.1–0.2 = moderate shift &nbsp;|&nbsp; &gt; 0.2 = significant drift</div></div>
   <div class="va">
-    <div class="vl">// Interactive — reference vs production distributions</div>
+    <div class="vl">// Interactive: reference vs production distributions</div>
     <canvas id="driftCanvas" role="img" aria-label="Drift Detection in Production: Interactive — reference vs production distributions" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Drift Amount</span><input type="range" aria-label="Drift Amount" id="driftAmt" min="0" max="100" step="1" value="10"><span class="vd" id="driftAmtV">0.10</span></div>
@@ -954,7 +944,7 @@ function buildModelMonitoring() {
   <p class="sub">// Prediction health, feature drift, and system metrics in one view</p>
   <p class="prose">A model monitoring dashboard tracks three layers: <strong>system metrics</strong> (latency, errors, throughput), <strong>data metrics</strong> (feature distributions, missing rates), and <strong>model metrics</strong> (prediction distribution, accuracy if labels are available). Grafana with Prometheus is a common stack.</p>
   <div class="va">
-    <div class="vl">// Interactive — monitoring dashboard simulation</div>
+    <div class="vl">// Interactive: monitoring dashboard simulation</div>
     <canvas id="monitorCanvas" role="img" aria-label="Model Monitoring Dashboards: Interactive — monitoring dashboard simulation" height="260"></canvas>
   </div>
   <table class="mt">
@@ -979,10 +969,10 @@ function buildAlertingSLOs() {
     <span class="topic-badge">Reliability</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Latency budgets, error budgets, and avoiding alert fatigue</p>
-  <p class="prose">A <strong>Service Level Objective (SLO)</strong> defines what "good enough" means: "99.5% of predictions return within 200ms." The <strong>error budget</strong> is what's left — you can spend it on risky deployments. Too many alerts and people ignore them; too few and incidents go unnoticed.</p>
-  <div class="fb"><div class="fm">Error Budget = 1 &minus; SLO target</div><div class="fd">If your SLO is 99.5% availability, your error budget is 0.5% — roughly 3.6 hours of downtime per month.</div></div>
+  <p class="prose">A <strong>Service Level Objective (SLO)</strong> defines what "good enough" means: "99.5% of predictions return within 200ms." The <strong>error budget</strong> is what's left. You can spend it on risky deployments. Too many alerts and people ignore them; too few and incidents go unnoticed.</p>
+  <div class="fb"><div class="fm">Error Budget = 1 &minus; SLO target</div><div class="fd">If your SLO is 99.5% availability, your error budget is 0.5%, roughly 3.6 hours of downtime per month.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — error budget burn rate</div>
+    <div class="vl">// Interactive: error budget burn rate</div>
     <canvas id="sloCanvas" role="img" aria-label="Alerting &amp; SLOs: Interactive — error budget burn rate" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">SLO Target %</span><input type="range" aria-label="SLO Target %" id="sloTarget" min="90" max="100" step="0.1" value="99.5"><span class="vd" id="sloTargetV">99.5%</span></div>
@@ -1002,12 +992,12 @@ function buildShadowScoring() {
     <span class="topic-badge">Validation</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Validating new models in production without serving their predictions</p>
-  <p class="prose">In <strong>shadow mode</strong>, the new model scores every request alongside the current champion, but only the champion's prediction is served. You collect real production data to compare — without risking user experience. When the challenger wins on key metrics, you promote it.</p>
+  <p class="prose">In <strong>shadow mode</strong>, the new model scores every request alongside the current champion, but only the champion's prediction is served. You collect real production data to compare: without risking user experience. When the challenger wins on key metrics, you promote it.</p>
   <div class="va">
-    <div class="vl">// Interactive — champion vs challenger comparison</div>
+    <div class="vl">// Interactive: champion vs challenger comparison</div>
     <canvas id="shadowCanvas" role="img" aria-label="Shadow Mode &amp; Champion/Challenger: Interactive — champion vs challenger comparison" height="260"></canvas>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Shadow scoring is <a href="../stats/#walk-forward">walk-forward validation</a> running live. In markets, <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> serves the same purpose — test with real data without real consequences.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Shadow scoring is <a href="../stats/#walk-forward">walk-forward validation</a> running live. In markets, <a href="../sandbox/markets/index.html#paper-trading">paper trading</a> serves the same purpose: test with real data without real consequences.</div>
   ${depthHtml('shadow-scoring')}
   <div class="topic-nav" id="nav-shadow-scoring"></div>
 </div>`;
@@ -1021,9 +1011,9 @@ function buildDataQuality() {
     <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Automated checks that stop bad data before it reaches your model</p>
-  <p class="prose">Garbage in, garbage out — but in production, garbage arrives silently. <strong>Data quality gates</strong> enforce schema validation, range checks, freshness constraints, and completeness thresholds. They sit in your pipeline before feature engineering and before inference.</p>
+  <p class="prose">Garbage in, garbage out, but in production, garbage arrives silently. <strong>Data quality gates</strong> enforce schema validation, range checks, freshness constraints, and completeness thresholds. They sit in your pipeline before feature engineering and before inference.</p>
   <div class="va">
-    <div class="vl">// Interactive — data quality pipeline flow</div>
+    <div class="vl">// Interactive: data quality pipeline flow</div>
     <canvas id="dqCanvas" role="img" aria-label="Data Quality Gates: Interactive — data quality pipeline flow" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — Great Expectations data quality check</span>
@@ -1054,7 +1044,7 @@ function buildMLPipelines() {
   <p class="sub">// Composing training, validation, and deployment into reproducible DAGs</p>
   <p class="prose">An <strong>ML pipeline</strong> is a directed acyclic graph (DAG) of steps: data ingestion → preprocessing → training → evaluation → deployment. Each step is versioned, cacheable, and independently retriable. Kubeflow, Airflow, Vertex, and SageMaker Pipelines are the main orchestrators.</p>
   <div class="va">
-    <div class="vl">// Interactive — ML pipeline DAG</div>
+    <div class="vl">// Interactive: ML pipeline DAG</div>
     <canvas id="pipeCanvas" role="img" aria-label="ML Pipelines: Interactive — ML pipeline DAG" height="260"></canvas>
   </div>
   <table class="mt">
@@ -1066,7 +1056,7 @@ function buildMLPipelines() {
       <tr><td>SageMaker Pipelines</td><td>Managed, AWS-integrated</td><td>AWS shops</td></tr>
     </tbody>
   </table>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> ML pipelines enforce the same disciplined workflow as <a href="../stats/#cross-validation">cross-validation</a> — each step has defined inputs and outputs, preventing data leakage between stages.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> ML pipelines enforce the same disciplined workflow as <a href="../stats/#cross-validation">cross-validation</a>, each step has defined inputs and outputs, preventing data leakage between stages.</div>
   ${depthHtml('ml-pipelines')}
   <div class="topic-nav" id="nav-ml-pipelines"></div>
 </div>`;
@@ -1080,9 +1070,9 @@ function buildFeatureStores() {
     <span class="topic-badge">Data</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Centralized feature management with online/offline consistency</p>
-  <p class="prose">A <strong>feature store</strong> serves two stores from one source of truth: the <strong>offline store</strong> (historical data for training) and the <strong>online store</strong> (low-latency data for serving). This solves the training-serving skew problem — the features your model trains on are identical to what it sees in production.</p>
+  <p class="prose">A <strong>feature store</strong> serves two stores from one source of truth: the <strong>offline store</strong> (historical data for training) and the <strong>online store</strong> (low-latency data for serving). This solves the training-serving skew problem: the features your model trains on are identical to what it sees in production.</p>
   <div class="va">
-    <div class="vl">// Interactive — feature store architecture</div>
+    <div class="vl">// Interactive: feature store architecture</div>
     <canvas id="featCanvas" role="img" aria-label="Feature Stores: Interactive — feature store architecture" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — Feast feature store</span>
@@ -1102,7 +1092,7 @@ training_df = store.get_historical_features(
     entity_df=entity_df,
     features=[<span class="st">"user_stats:avg_purchase"</span>]
 ).to_df()</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Feature stores solve training-serving skew just as <a href="../stats/#survivorship-bias">survivorship bias prevention</a> solves backtesting skew — both ensure the data you test on matches reality.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Feature stores solve training-serving skew just as <a href="../stats/#survivorship-bias">survivorship bias prevention</a> solves backtesting skew, both ensure the data you test on matches reality.</div>
   ${depthHtml('feature-stores')}
   <div class="topic-nav" id="nav-feature-stores"></div>
 </div>`;
@@ -1118,7 +1108,7 @@ function buildExperimentTracking() {
   <p class="sub">// Logging every run so you never lose a good result</p>
   <p class="prose"><strong>Experiment tracking</strong> logs hyperparameters, metrics, artifacts, and code versions for every training run. Three months from now, when someone asks "which model was that?" you can answer. MLflow, Weights &amp; Biases, and Neptune are the main tools.</p>
   <div class="va">
-    <div class="vl">// Interactive — experiment comparison table</div>
+    <div class="vl">// Interactive: experiment comparison table</div>
     <canvas id="expCanvas" role="img" aria-label="Experiment Tracking: Interactive — experiment comparison table" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — MLflow experiment tracking</span>
@@ -1147,7 +1137,7 @@ function buildCICDML() {
   <p class="sub">// Automated testing of data, models, and deployments</p>
   <p class="prose">ML CI/CD extends traditional CI/CD with three additional test layers: <strong>data validation</strong> (schema + quality), <strong>model validation</strong> (performance thresholds), and <strong>serving validation</strong> (latency + correctness). A merge should trigger retraining, evaluation, and conditional deployment.</p>
   <div class="va">
-    <div class="vl">// Interactive — CI/CD pipeline stages</div>
+    <div class="vl">// Interactive: CI/CD pipeline stages</div>
     <canvas id="cicdCanvas" role="img" aria-label="CI/CD for ML: Interactive — CI/CD pipeline stages" height="260"></canvas>
   </div>
   <table class="mt">
@@ -1175,7 +1165,7 @@ function buildOrchestration() {
   <p class="sub">// DAGs, retries, backfills, and trigger strategies</p>
   <p class="prose"><strong>Orchestrators</strong> manage the when, how, and what-if of ML workflows. Airflow, Prefect, and Dagster define DAGs with dependency resolution, automatic retries, and backfill capabilities. Good orchestration means your retraining runs reliably at 2 AM without you.</p>
   <div class="va">
-    <div class="vl">// Interactive — DAG dependency graph</div>
+    <div class="vl">// Interactive: DAG dependency graph</div>
     <canvas id="orchCanvas" role="img" aria-label="Orchestration &amp; Scheduling: Interactive — DAG dependency graph" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — Airflow DAG for retraining</span>
@@ -1207,10 +1197,10 @@ function buildModelCompression() {
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Pruning, distillation, and the lottery ticket hypothesis</p>
-  <p class="prose"><strong>Pruning</strong> removes unimportant weights (structured or unstructured). <strong>Knowledge distillation</strong> trains a small "student" model to mimic a large "teacher." The <strong>lottery ticket hypothesis</strong> suggests sparse subnetworks within large models can match full performance — if you find the right ticket.</p>
-  <div class="fb"><div class="fm">Compression Ratio = Original Size / Compressed Size</div><div class="fd">A 4× compression ratio means your model is 75% smaller — faster only if the hardware and runtime exploit the compression.</div></div>
+  <p class="prose"><strong>Pruning</strong> removes unimportant weights (structured or unstructured). <strong>Knowledge distillation</strong> trains a small "student" model to mimic a large "teacher." The <strong>lottery ticket hypothesis</strong> suggests sparse subnetworks within large models can match full performance, if you find the right ticket.</p>
+  <div class="fb"><div class="fm">Compression Ratio = Original Size / Compressed Size</div><div class="fd">A 4× compression ratio means your model is 75% smaller: faster only if the hardware and runtime exploit the compression.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — pruning vs accuracy tradeoff</div>
+    <div class="vl">// Interactive: pruning vs accuracy tradeoff</div>
     <canvas id="compressCanvas" role="img" aria-label="Model Compression: Interactive — pruning vs accuracy tradeoff" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Sparsity %</span><input type="range" aria-label="Sparsity %" id="compSparsity" min="0" max="99" step="1" value="50"><span class="vd" id="compSparsityV">50%</span></div>
@@ -1230,11 +1220,11 @@ function buildQuantization() {
     <div class="topic-meta"><div class="topic-num">17 — Scale & Optimize</div><h2><em>Quantization</em></h2></div>
     <span class="topic-badge">Optimization</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// FP32 → INT8 — trading precision for speed</p>
-  <p class="prose"><strong>Quantization</strong> reduces weight precision from 32-bit floats to 16-bit or 8-bit integers. <strong>Post-training quantization (PTQ)</strong> is the quick path — just convert. <strong>Quantization-aware training (QAT)</strong> simulates low precision during training for better accuracy at INT8.</p>
+  <p class="sub">// FP32 → INT8: trading precision for speed</p>
+  <p class="prose"><strong>Quantization</strong> reduces weight precision from 32-bit floats to 16-bit or 8-bit integers. <strong>Post-training quantization (PTQ)</strong> is the quick path: just convert. <strong>Quantization-aware training (QAT)</strong> simulates low precision during training for better accuracy at INT8.</p>
   <div class="fb"><div class="fm">Memory &prop; bits &times; parameters</div><div class="fd">INT8 uses 4× less memory than FP32, enabling larger batch sizes and faster inference.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — precision vs accuracy vs speed</div>
+    <div class="vl">// Interactive: precision vs accuracy vs speed</div>
     <canvas id="quantCanvas" role="img" aria-label="Quantization: Interactive — precision vs accuracy vs speed" height="260"></canvas>
   </div>
   <table class="mt">
@@ -1262,14 +1252,14 @@ function buildCachingLayers() {
   <p class="sub">// Don't predict what you've already predicted</p>
   <p class="prose">If 80% of your requests are repeated inputs (product recommendations, credit scores), a <strong>prediction cache</strong> (Redis, Memcached) can serve them in microseconds. <strong>Prediction stores</strong> precompute scores for all known entities on a schedule. TTL and invalidation strategies keep results fresh.</p>
   <div class="va">
-    <div class="vl">// Interactive — cache hit rate vs latency</div>
+    <div class="vl">// Interactive: cache hit rate vs latency</div>
     <canvas id="cacheCanvas" role="img" aria-label="Caching &amp; Prediction Stores: Interactive — cache hit rate vs latency" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Cache Hit Rate %</span><input type="range" aria-label="Cache Hit Rate %" id="cacheHit" min="0" max="100" step="1" value="70"><span class="vd" id="cacheHitV">70%</span></div>
       <div class="cg"><span class="cl">Avg Latency</span><span class="vd" id="cacheLatV" style="color:var(--accent)">—</span></div>
     </div>
   </div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Prediction caching is memoization at system scale. In markets, <a href="../markets/charts/#support-resistance">precomputed support/resistance levels</a> serve the same purpose — calculate once, reference many times.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Prediction caching is memoization at system scale. In markets, <a href="../markets/charts/#support-resistance">precomputed support/resistance levels</a> serve the same purpose: calculate once, reference many times.</div>
   ${depthHtml('caching-layers')}
   <div class="topic-nav" id="nav-caching-layers"></div>
 </div>`;
@@ -1282,10 +1272,10 @@ function buildAutoScaling() {
     <div class="topic-meta"><div class="topic-num">19 — Scale & Optimize</div><h2>Auto-Scaling <em>Endpoints</em></h2></div>
     <span class="topic-badge">Infrastructure</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// Scaling with demand — and scaling back to save money</p>
-  <p class="prose"><strong>Horizontal Pod Autoscaler (HPA)</strong> adds replicas when CPU/memory/custom metrics exceed thresholds. <strong>Scale-to-zero</strong> (Knative, serverless) eliminates idle costs but adds cold start latency. The right strategy depends on traffic patterns — bursty vs steady, latency-tolerant vs strict SLO.</p>
+  <p class="sub">// Scaling with demand, and scaling back to save money</p>
+  <p class="prose"><strong>Horizontal Pod Autoscaler (HPA)</strong> adds replicas when CPU/memory/custom metrics exceed thresholds. <strong>Scale-to-zero</strong> (Knative, serverless) eliminates idle costs but adds cold start latency. The right strategy depends on traffic patterns: bursty vs steady, latency-tolerant vs strict SLO.</p>
   <div class="va">
-    <div class="vl">// Interactive — replica count vs traffic</div>
+    <div class="vl">// Interactive: replica count vs traffic</div>
     <canvas id="scaleCanvas" role="img" aria-label="Auto-Scaling Endpoints: Interactive — replica count vs traffic" height="260"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Traffic Load</span><input type="range" aria-label="Traffic Load" id="scaleLoad" min="0" max="100" step="1" value="50"><span class="vd" id="scaleLoadV">50%</span></div>
@@ -1306,9 +1296,9 @@ function buildCostGovernance() {
     <span class="topic-badge">FinOps</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Tracking cost per prediction and eliminating ML waste</p>
-  <p class="prose">ML workloads are expensive — GPUs, storage, compute for training and serving. <strong>Cost governance</strong> tracks cost per prediction, GPU utilisation, idle resources, and spot vs reserved savings. The goal: same model quality at lower cost, or better models at the same cost.</p>
+  <p class="prose">ML workloads are expensive: GPUs, storage, compute for training and serving. <strong>Cost governance</strong> tracks cost per prediction, GPU utilisation, idle resources, and spot vs reserved savings. The goal: same model quality at lower cost, or better models at the same cost.</p>
   <div class="va">
-    <div class="vl">// Interactive — cost breakdown by category</div>
+    <div class="vl">// Interactive: cost breakdown by category</div>
     <canvas id="costCanvas" role="img" aria-label="Cost Governance: Interactive — cost breakdown by category" height="260"></canvas>
   </div>
   <table class="mt">
@@ -1336,7 +1326,7 @@ function buildModelRegistry() {
   <p class="sub">// Central catalog with staging, production, and archive states</p>
   <p class="prose">A <strong>model registry</strong> is a versioned catalog where every model has metadata (who trained it, on what data, with which hyperparameters) and a lifecycle stage: <em>staging</em> → <em>production</em> → <em>archived</em>. Approval workflows ensure no model reaches production without review.</p>
   <div class="va">
-    <div class="vl">// Interactive — model lifecycle states</div>
+    <div class="vl">// Interactive: model lifecycle states</div>
     <canvas id="regCanvas" role="img" aria-label="Model Registry &amp; Versioning: Interactive — model lifecycle states" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — MLflow model registry</span>
@@ -1355,7 +1345,7 @@ client.transition_model_version_stage(
     version=result.version,
     stage=<span class="st">"Production"</span>
 )</pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Model registries version models the way <a href="#lineage-tracking">lineage tracking</a> versions data — both create audit trails. In markets, <a href="../markets/psychology/#hindsight-bias">strategy journaling</a> serves the same purpose: versioned records of what you deployed and why.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Model registries version models the way <a href="#lineage-tracking">lineage tracking</a> versions data, both create audit trails. In markets, <a href="../markets/psychology/#hindsight-bias">strategy journaling</a> serves the same purpose: versioned records of what you deployed and why.</div>
   ${depthHtml('model-registry')}
   <div class="topic-nav" id="nav-model-registry"></div>
 </div>`;
@@ -1388,10 +1378,10 @@ function buildFairnessAudits() {
     <span class="topic-badge">Ethics</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
   <p class="sub">// Testing for bias across protected groups</p>
-  <p class="prose"><strong>Fairness audits</strong> measure whether your model treats different groups equitably. <strong>Demographic parity</strong> checks if positive rates are equal across groups. <strong>Equalized odds</strong> checks if error rates are equal. No single metric captures all fairness — you must choose which definition matches your context.</p>
+  <p class="prose"><strong>Fairness audits</strong> measure whether your model treats different groups equitably. <strong>Demographic parity</strong> checks if positive rates are equal across groups. <strong>Equalized odds</strong> checks if error rates are equal. No single metric captures all fairness: you must choose which definition matches your context.</p>
   <div class="fb"><div class="fm">Disparate Impact = P(ŷ=1|G=a) / P(ŷ=1|G=b)</div><div class="fd">A ratio below 0.8 (the "four-fifths rule") suggests adverse impact against group b.</div></div>
   <div class="va">
-    <div class="vl">// Interactive — fairness metrics across groups</div>
+    <div class="vl">// Interactive: fairness metrics across groups</div>
     <canvas id="fairCanvas" role="img" aria-label="Fairness Audits: Interactive — fairness metrics across groups" height="260"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># Python — Fairlearn fairness assessment</span>
@@ -1439,7 +1429,7 @@ torch.backends.cudnn.deterministic = <span class="st">True</span>
 <span class="cm"># Pin deps: pip freeze > requirements.txt</span>
 <span class="cm"># Version data: dvc add data/train.csv</span>
 <span class="cm"># Container: docker build -t experiment:v1 .</span></pre></div>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> Reproducibility in ML is the same discipline as <a href="../stats/#walk-forward">walk-forward validation</a> — if you can't reproduce it, you can't trust it. In markets, <a href="../stats/#survivorship-bias">backtest reproducibility</a> faces the same challenge with data versioning.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> Reproducibility in ML is the same discipline as <a href="../stats/#walk-forward">walk-forward validation</a>, if you can't reproduce it, you can't trust it. In markets, <a href="../stats/#survivorship-bias">backtest reproducibility</a> faces the same challenge with data versioning.</div>
   ${depthHtml('reproducibility')}
   <div class="topic-nav" id="nav-reproducibility"></div>
 </div>`;
@@ -1452,10 +1442,10 @@ function buildIncidentResponse() {
     <div class="topic-meta"><div class="topic-num">25 — Governance & Trust</div><h2>Incident Response <em>for ML</em></h2></div>
     <span class="topic-badge">Operations</span><span class="evidence-badge proven" title="Based on mathematical/statistical foundations with peer-reviewed evidence">✓ Mathematical</span>
   </div>
-  <p class="sub">// When models fail in production — rollback, fallback, postmortem</p>
+  <p class="sub">// When models fail in production: rollback, fallback, postmortem</p>
   <p class="prose">ML incidents are different from software bugs: the code runs fine, but predictions are wrong. <strong>Rollback</strong> reverts to the previous model version. <strong>Fallbacks</strong> (rule-based defaults, cached predictions) serve something when the model is down. <strong>Circuit breakers</strong> automatically switch to fallback when error rates spike.</p>
   <div class="va">
-    <div class="vl">// Interactive — incident response decision tree</div>
+    <div class="vl">// Interactive: incident response decision tree</div>
     <canvas id="incidentCanvas" role="img" aria-label="Incident Response for ML: Interactive — incident response decision tree" height="260"></canvas>
   </div>
   <table class="mt">

@@ -538,14 +538,6 @@ body.hub-home .home-hero {
   margin-bottom: 0;
   position: relative;
 }
-body.hub-home .home-hero::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 340px; height: 260px; max-width: 92%;
-  background: radial-gradient(circle, rgba(42,68,184,.07) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
 body.hub-home .home-hero > * { position: relative; z-index: 1; }
 body.hub-home .home-hero h2 {
   font-size: clamp(36px,6vw,60px);
@@ -1149,12 +1141,12 @@ input[type=range]:focus-visible {
   margin-bottom: 14px;
 }
 .cc-meta {
+  margin-top: 14px;
   font-family: var(--sans);
   font-size: 10px; color: var(--muted);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.cc-tags { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
 
 /* ── Tablet ── */
 @media (max-width: 1024px) {
@@ -1410,45 +1402,6 @@ html, body { overflow-x: clip; }
   pointer-events: none;
 }
 
-/* ── Ambient glows — restrained radial light for depth ── */
-.portal-hero::after {
-  content: '';
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(900px, 100vw);
-  height: 440px;
-  background: radial-gradient(ellipse 55% 55% at 50% 38%, rgba(42,68,184,.09), transparent 72%);
-  pointer-events: none;
-  z-index: -1;
-}
-.learning-paths { position: relative; }
-.learning-paths::before {
-  content: '';
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1000px, 100vw);
-  height: 480px;
-  background: radial-gradient(ellipse 55% 55% at 50% 30%, rgba(42,125,95,.06), transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
-#universes { position: relative; }
-#universes::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1050px, 100vw);
-  height: 520px;
-  background: radial-gradient(ellipse 55% 55% at 50% 28%, rgba(42,68,184,.06), transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
 
 /* ── SVG icon sizing for card/chip icon slots ── */
 .cc-icon { color: var(--accent); }
@@ -1531,15 +1484,6 @@ html, body { overflow-x: clip; }
   pointer-events: none;
   opacity: .28;
   z-index: -1;
-}
-.portal-hero::before {
-  content: '';
-  position: absolute;
-  top: 30px; left: 50%; transform: translateX(-50%);
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(42,68,184,.06) 0%, transparent 70%);
-  pointer-events: none;
-  border-radius: 50%;
 }
 .portal-hero h1 {
   font-family: var(--serif);

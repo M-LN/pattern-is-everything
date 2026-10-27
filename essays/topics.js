@@ -37,8 +37,8 @@ const TOPIC_DATA = [
   { id:'essay-tail', reviewed:'2026-10-02', num:'E3', title:'The Long Tail', category:'Pattern Essays', keywords:['power law','Pareto','Zipf','inequality','scale-free','fat tails','rare events','wealth'], content:'Most things are small. A few are enormous. The pattern repeats across domains that seem unrelated.' },
   { id:'essay-signal', reviewed:'2026-10-02', num:'E4', title:'Signal in the Noise', category:'Pattern Essays', keywords:['noise','overfitting','randomness','pattern recognition','apophenia','data','uncertainty'], content:'Every dataset is a mix of pattern and randomness. The hard part is not inventing signal where there is none.' },
   { id:'essay-map', reviewed:'2026-10-02', num:'E5', title:'The Map and the Territory', category:'Pattern Essays', keywords:['model','abstraction','simplification','representation','Borges','assumptions','residuals'], content:'A model is a deliberate simplification. The danger is forgetting what was left out.' },
-  { id:'essay-feedback', reviewed:'2026-10-02', num:'E6', title:'The Feedback Loop', category:'Pattern Essays', keywords:['feedback','compounding','exponential','S-curve','logistic','growth','tipping point','self-reinforcing'], content:'When a system\'s output feeds back into its input, small nudges can cascade into enormous change — or freeze everything in place.' },
-  { id:'essay-walk', reviewed:'2026-10-02', num:'E7', title:'The Random Walk', category:'Pattern Essays', keywords:['random walk','Brownian motion','stock prices','drift','volatility','unpredictability','efficient market','path dependence'], content:'Each step is random, yet the path that emerges is not without structure. Distance grows — just not in the direction you expect.' },
+  { id:'essay-feedback', reviewed:'2026-10-02', num:'E6', title:'The Feedback Loop', category:'Pattern Essays', keywords:['feedback','compounding','exponential','S-curve','logistic','growth','tipping point','self-reinforcing'], content:'When a system\'s output feeds back into its input, small nudges can cascade into enormous change, or freeze everything in place.' },
+  { id:'essay-walk', reviewed:'2026-10-02', num:'E7', title:'The Random Walk', category:'Pattern Essays', keywords:['random walk','Brownian motion','stock prices','drift','volatility','unpredictability','efficient market','path dependence'], content:'Each step is random, yet the path that emerges is not without structure. Distance grows: just not in the direction you expect.' },
   { id:'essay-threshold', reviewed:'2026-10-02', num:'E8', title:'The Threshold', category:'Pattern Essays', keywords:['threshold','tipping point','phase transition','sigmoid','bifurcation','critical point','nonlinear','catastrophe'], content:'Many systems stay quiet for a long time, then change all at once. The threshold is the hidden line that separates gradual from sudden.' },
   { id:'essay-survivor', reviewed:'2026-10-02', num:'E9', title:'Survivorship Bias', category:'Pattern Essays', keywords:['survivorship bias','selection bias','missing data','Wald','bombers','survivors','hidden failures','censored'], content:'We study what survived and forget what did not. The missing data is often where the real lesson hides.' },
   { id:'essay-fractal', reviewed:'2026-10-02', num:'E10', title:'The Fractal', category:'Pattern Essays', keywords:['fractal','self-similarity','scale invariance','Mandelbrot','recursion','coastline','dimension','branching'], content:'Zoom in and the pattern repeats. Self-similarity across scales is one of nature\u2019s most common signatures.' },
@@ -112,11 +112,7 @@ function buildHome() {
   return `<div class="home active" id="home">
   <div class="home-hero">
     <h2>Pattern <em>Essays</em></h2>
-    <p style="margin-top:14px">Short, calm reflections on patterns that appear across the world &mdash; in data, in markets, in everyday life. Each essay is accompanied by a small visualization. No formulas. No code. Just the pattern.</p>
-    <div class="home-stats">
-      <div class="home-stat"><div class="home-stat-num">17</div><div class="home-stat-label">Essays</div></div>
-      <div class="home-stat"><div class="home-stat-num">17</div><div class="home-stat-label">Visualizations</div></div>
-    </div>
+    <p style="margin-top:14px">Short, calm reflections on patterns that appear across the world: in data, in markets, in everyday life. Each essay is accompanied by a small visualization. No formulas. No code. Just the pattern.</p>
     <p style="margin-top:18px;font-size:11px;color:var(--muted)">
       <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> arrow keys to navigate &nbsp;&middot;&nbsp;
       <span class="kbd">Ctrl+K</span> to search
@@ -124,87 +120,70 @@ function buildHome() {
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="show('essay-bell',true)">
-      <div class="cat-card-icon">\ud835\udd4f</div>
       <div class="cat-card-name">The Bell in Everything</div>
       <div class="cat-card-count">Normal distributions emerge wherever many small forces combine</div>
     </div>
     <div class="cat-card" onclick="show('essay-mean',true)">
-      <div class="cat-card-icon">\u21c5</div>
       <div class="cat-card-name">Regression to the Mean</div>
       <div class="cat-card-count">Extreme outcomes pull back toward the centre</div>
     </div>
     <div class="cat-card" onclick="show('essay-tail',true)">
-      <div class="cat-card-icon">\u221e</div>
       <div class="cat-card-name">The Long Tail</div>
       <div class="cat-card-count">Most things are small, and a few are enormous</div>
     </div>
     <div class="cat-card" onclick="show('essay-signal',true)">
-      <div class="cat-card-icon">\u223f</div>
       <div class="cat-card-name">Signal in the Noise</div>
       <div class="cat-card-count">Every dataset mixes pattern and randomness</div>
     </div>
     <div class="cat-card" onclick="show('essay-map',true)">
-      <div class="cat-card-icon">\u25b3</div>
       <div class="cat-card-name">The Map and the Territory</div>
       <div class="cat-card-count">A model is a deliberate simplification</div>
     </div>
     <div class="cat-card" onclick="show('essay-feedback',true)">
-      <div class="cat-card-icon">\u21ba</div>
       <div class="cat-card-name">The Feedback Loop</div>
       <div class="cat-card-count">Small nudges cascade into enormous change</div>
     </div>
     <div class="cat-card" onclick="show('essay-walk',true)">
-      <div class="cat-card-icon">\u223c</div>
       <div class="cat-card-name">The Random Walk</div>
       <div class="cat-card-count">Each step is random, yet the path has structure</div>
     </div>
     <div class="cat-card" onclick="show('essay-threshold',true)">
-      <div class="cat-card-icon">\u26a1</div>
       <div class="cat-card-name">The Threshold</div>
       <div class="cat-card-count">Quiet for a long time, then all at once</div>
     </div>
     <div class="cat-card" onclick="show('essay-survivor',true)">
-      <div class="cat-card-icon">\u2708</div>
       <div class="cat-card-name">Survivorship Bias</div>
       <div class="cat-card-count">We study what survived and forget what did not</div>
     </div>
     <div class="cat-card" onclick="show('essay-fractal',true)">
-      <div class="cat-card-icon">\u2745</div>
       <div class="cat-card-name">The Fractal</div>
       <div class="cat-card-count">Zoom in and the pattern repeats itself</div>
     </div>
     <div class="cat-card" onclick="show('essay-simpson',true)">
-      <div class="cat-card-icon">\u2696</div>
       <div class="cat-card-name">Simpson\u2019s Paradox</div>
       <div class="cat-card-count">Every group says one thing, and the total says another</div>
     </div>
     <div class="cat-card" onclick="show('essay-kalman',true)">
-      <div class="cat-card-icon">\u29bf</div>
       <div class="cat-card-name">The Deep Kalman Filter</div>
       <div class="cat-card-count">Estimating what you cannot measure: predict, then correct</div>
     </div>
     <div class="cat-card" onclick="show('essay-spring',true)">
-      <div class="cat-card-icon">\u2307</div>
       <div class="cat-card-name">The Coiled Spring</div>
       <div class="cat-card-count">Quiet gathers before loud. A squeeze warns about size, not direction</div>
     </div>
     <div class="cat-card" onclick="show('essay-forking',true)">
-      <div class="cat-card-icon">\u2442</div>
       <div class="cat-card-name">The Garden of Forking Paths</div>
       <div class="cat-card-count">Try enough paths and one will work by luck alone</div>
     </div>
     <div class="cat-card" onclick="show('essay-memory',true)">
-      <div class="cat-card-icon">\u21a9</div>
       <div class="cat-card-name">How Long Is Memory?</div>
       <div class="cat-card-count">Every model decides how much the past matters</div>
     </div>
     <div class="cat-card" onclick="show('essay-bottleneck',true)">
-      <div class="cat-card-icon">\u29d7</div>
       <div class="cat-card-name">The Bottleneck</div>
       <div class="cat-card-count">The slowest step sets the pace, and waiting explodes near capacity</div>
     </div>
     <div class="cat-card" onclick="show('essay-reversible',true)">
-      <div class="cat-card-icon">⇄</div>
       <div class="cat-card-name">Small, Reversible Bets</div>
       <div class="cat-card-count">Make mistakes cheap to undo, and survivable when you cannot</div>
     </div>
@@ -225,8 +204,8 @@ function buildEssayBell() {
   </div>
   <p class="sub">// Wherever many small, independent forces combine, the same shape appears</p>
   <p class="prose">Measure the heights of a thousand strangers. Plot them. A bell curve forms. Nobody designed it. Height is the sum of many small genetic and environmental nudges, each roughly independent and each roughly random. The Central Limit Theorem says this will happen whenever you add up enough of these small forces, regardless of what each one looks like individually.</p>
-  <p class="prose">The bell appears in measurement error, in exam scores and roughly in the middle of daily stock-index returns. It does not hold in their tails, which are far fatter than a bell allows. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity. A thousand causes, one shape.</p>
-  <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation. Nothing more, and nothing less.</p>
+  <p class="prose">The bell appears in measurement error, in exam scores and roughly in the middle of daily stock-index returns. It does not hold in their tails, which are far fatter than a bell allows. It is not imposed from above; it <em>emerges</em> from below. That emergence is the pattern: complexity aggregating into simplicity.</p>
+  <p class="prose">The next time you see a histogram clustering around a centre and fading at the edges, you are looking at the arithmetic of accumulation.</p>
   <div class="va">
     <canvas id="bellCanvas" role="img" aria-label="The Bell in Everything — visualization" height="180"></canvas>
     <div class="viz-ctrl">
@@ -258,7 +237,7 @@ function buildEssayMean() {
   </div>
   <p class="sub">// Extreme outcomes are followed by less extreme ones, and the cause is arithmetic</p>
   <p class="prose">Francis Galton measured parents and children in the 1880s and noticed something odd. The tallest parents tended to have children who were tall, though not <em>quite</em> as tall. The shortest parents had children who were short, though not quite as short. He called it &ldquo;regression toward mediocrity.&rdquo;</p>
-  <p class="prose">This is not a biological force pulling everyone to average. It is arithmetic. Any measurement is part signal, part luck. When luck runs extremely high, it is unlikely to run that high again. So the next measurement drifts back toward the centre. A fund manager\u2019s best quarter is followed by a more ordinary one. A student\u2019s worst exam is followed by a better one. Nothing changed except the luck component.</p>
+  <p class="prose">This is not a biological force pulling everyone to average. It follows from the arithmetic. Any measurement is part signal, part luck. When luck runs extremely high, it is unlikely to run that high again. So the next measurement drifts back toward the centre. A fund manager\u2019s best quarter is followed by a more ordinary one. A student\u2019s worst exam is followed by a better one. Nothing changed except the luck component.</p>
   <p class="prose">The pattern: whenever you select on an extreme, the follow-up will be less extreme. Understanding this prevents you from inventing explanations for what is simply reversion.</p>
   <div class="va">
     <canvas id="meanCanvas" role="img" aria-label="Regression to the Mean — visualization" height="180"></canvas>
@@ -357,7 +336,7 @@ function buildEssayMap() {
   </div>
   <p class="sub">// A model is a deliberate simplification, and the danger is forgetting what was left out</p>
   <p class="prose">Jorge Luis Borges imagined an empire whose cartographers drew a map so detailed it was the same size as the empire itself. It was, of course, useless. A map’s value lies in what it <em>leaves out</em>. Drop the irrelevant streets and the unchanged fields, and what remains becomes visible.</p>
-  <p class="prose">Every model you build is a map. A linear regression draws one straight line through a cloud of points and declares, &ldquo;this is the relationship.&rdquo; The cloud disagrees at every point. That disagreement, the residuals, is the honest price of simplification. The danger arrives when you forget the residuals exist, when you treat the line as the territory.</p>
+  <p class="prose">Every model you build is a map. A linear regression draws one straight line through a cloud of points and declares, &ldquo;this is the relationship.&rdquo; The cloud disagrees at every point. That disagreement, the residuals, is the price of simplification. The danger arrives when you forget the residuals exist, when you treat the line as the territory.</p>
   <p class="prose">The best practitioners hold two truths at once: the model is useful <em>and</em> the model is wrong. The gap between the line and the dots is where humility lives.</p>
   <div class="va">
     <canvas id="mapCanvas" role="img" aria-label="The Map and the Territory — visualization" height="180"></canvas>
@@ -483,7 +462,7 @@ function buildEssaySurvivor() {
     <div class="topic-meta"><div class="topic-num">E9 \u2014 Pattern Essays</div><h2>Survivorship <em>Bias</em></h2></div>
     <div class="topic-badge-group"><span class="topic-badge">Essay</span></div>
   </div>
-  <p class="sub">// We study what survived and quietly forget everything that did not</p>
+  <p class="sub">// We study what survived and forget everything that did not</p>
   <p class="prose">During the Second World War, the U.S. military studied bombers returning from missions and mapped where they were riddled with bullet holes: the wings, the fuselage, the tail. The instinct was to reinforce those areas. The statistician Abraham Wald saw it differently: the holes showed where a plane could be hit <em>and still come home</em>. The places with no holes, the engines and the cockpit, were where the lost planes had been struck. Reinforce the gaps, he argued, not the marks.</p>
   <p class="prose">This is survivorship bias: we draw conclusions from the things that made it through the filter and never see the ones that did not. We study successful founders and copy their habits, ignoring the identical habits of thousands who failed. We admire old buildings and call past craftsmanship superior, forgetting the flimsy ones that already collapsed.</p>
   <p class="prose">The pattern is a hole in the data, not in the analysis. The missing observations are invisible by definition. That is exactly why they are so easy to forget and so dangerous to ignore.</p>
@@ -504,7 +483,7 @@ function buildEssaySurvivor() {
     <div class="essay-ref">[3] Brown, S. J., Goetzmann, W., Ibbotson, R. G. &amp; Ross, S. A. (1992). Survivorship Bias in Performance Studies. <em>Review of Financial Studies, 5</em>(4), 553\u2013580. <a href="https://doi.org/10.1093/rfs/5.4.553" target="_blank" rel="noopener">doi:10.1093/rfs/5.4.553</a></div>
   </div>
   <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-survivor')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-survivor')}</p>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic deals with the data you can see, while <a href="../stats/index.html#survivorship-bias">survivorship &amp; look-ahead bias</a> is the backtesting trap built on funds and strategies that quietly disappeared.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The <a href="../stats/index.html#outlier-detection">outlier detection</a> topic deals with the data you can see, while <a href="../stats/index.html#survivorship-bias">survivorship &amp; look-ahead bias</a> is the backtesting trap built on funds and strategies that disappeared.</div>
   <div class="topic-nav" id="nav-essay-survivor"></div>
 </div>`;
 }
@@ -551,7 +530,7 @@ function buildEssaySimpson() {
   </div>
   <p class="sub">// A trend can point one way in every group and the opposite way once they are combined</p>
   <p class="prose">In 1973, Berkeley appeared to admit men at a higher rate than women, hinting at bias. But when admissions were broken down department by department, most departments showed no bias against women, and several slightly favoured them. The reversal was real, not a mistake. Women had applied in larger numbers to the most competitive departments, where everyone\u2019s odds were low. The aggregate hid the structure.</p>
-  <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable, whether department, severity or the way cases were sorted, quietly steers the total.</p>
+  <p class="prose">This is Simpson\u2019s paradox: a relationship that holds within every subgroup can vanish or flip when the subgroups are pooled. A treatment can help both mild and severe patients yet look worse overall, simply because it was given more often to the sicker ones. The lurking variable, whether department, severity or the way cases were sorted, steers the total.</p>
   <p class="prose">The pattern is a warning about aggregation: a single number summarising a mixed population can point in a direction that is true of <em>no one</em> inside it. The fix is to ask what was combined, and why.</p>
   <div class="va">
     <canvas id="simpsonCanvas" role="img" aria-label="Simpson’s Paradox — visualization" height="180"></canvas>
@@ -589,12 +568,12 @@ function buildEssayKalman() {
 
   <div class="essay-case">
     <h4>Case 1 \u2014 The generator\u2019s hidden hotspot</h4>
-    <p>Inside a large generator or power transformer, the part that fails first is the hottest spot in the copper winding, buried under layers of insulation where no thermometer can sit. Run too hot for too long and the insulation ages and cracks. Engineers cannot read that hotspot directly \u2014 instead they measure load current, coolant and oil temperature, and ambient air, then let a thermal model infer the rest. A Kalman-style estimator fuses those noisy outside readings with a model of how heat builds and dissipates to track the unseen hotspot in real time. A deep version learns the messy, nonlinear thermal behaviour of a specific machine \u2014 something the textbook IEC loading curves only approximate \u2014 so operators can push the machine harder when it is safe and back off before insulation life is quietly spent.</p>
+    <p>Inside a large generator or power transformer, the part that fails first is the hottest spot in the copper winding, buried under layers of insulation where no thermometer can sit. Run too hot for too long and the insulation ages and cracks. Engineers cannot read that hotspot directly \u2014 instead they measure load current, coolant and oil temperature, and ambient air, then let a thermal model infer the rest. A Kalman-style estimator fuses those noisy outside readings with a model of how heat builds and dissipates to track the unseen hotspot in real time. A deep version learns the messy, nonlinear thermal behaviour of a specific machine \u2014 something the textbook IEC loading curves only approximate \u2014 so operators can push the machine harder when it is safe and back off before insulation life is used up.</p>
   </div>
 
   <div class="essay-case">
     <h4>Case 2 \u2014 How much charge is really left?</h4>
-    <p>The \u201cstate of charge\u201d on an electric car or laptop is not measured \u2014 it cannot be. There is no fuel gauge inside a lithium-ion cell. The battery management system only sees voltage, current, and temperature, and must <em>estimate</em> the charge from them. The relationship is nonlinear and drifts as the battery ages, so a raw reading jumps around with every change in load. Kalman filters have become the industry workhorse here: predict the charge from current drawn, correct using the measured voltage, and average out the noise. Deep Kalman variants learn the cell\u2019s aging chemistry, giving a steadier, more honest percentage \u2014 the difference between a car that strands you and one you can trust.</p>
+    <p>The \u201cstate of charge\u201d on an electric car or laptop is not measured \u2014 it cannot be. There is no fuel gauge inside a lithium-ion cell. The battery management system only sees voltage, current, and temperature, and must <em>estimate</em> the charge from them. The relationship is nonlinear and drifts as the battery ages, so a raw reading jumps around with every change in load. Kalman filters have become the industry workhorse here: predict the charge from current drawn, correct using the measured voltage, and average out the noise. Deep Kalman variants learn the cell\u2019s aging chemistry, giving a steadier, more accurate percentage \u2014 the difference between a car that strands you and one you can trust.</p>
   </div>
 
   <div class="essay-case">
@@ -639,18 +618,18 @@ function buildEssaySpring() {
   <p class="prose">That memory gives markets a rhythm. A range narrows day by day as buyers and sellers drift towards agreement, positions pile up on both sides of a level, and the news everyone is waiting for has not yet arrived. Then something resolves, and the stored-up disagreement is released at once. The quiet was not the absence of risk. It was risk being wound up.</p>
 
   <div class="essay-case">
-    <h4>On the chart — the shapes of compression</h4>
+    <h4>On the chart: the shapes of compression</h4>
     <p>Most of the classic continuation patterns are drawings of a narrowing range. The <a href="../markets/charts/index.html#symmetric-triangle">symmetric triangle</a> squeezes from both sides; the <a href="../markets/charts/index.html#ascending-triangle">ascending</a> and <a href="../markets/charts/index.html#descending-triangle">descending</a> triangles hold one side flat while the other closes in. <a href="../markets/charts/index.html#bull-flag">Bull flags</a>, <a href="../markets/charts/index.html#bear-flag">bear flags</a> and <a href="../markets/charts/index.html#pennant">pennants</a> are short pauses after a sharp move; <a href="../markets/charts/index.html#rising-wedge">rising</a> and <a href="../markets/charts/index.html#falling-wedge">falling wedges</a> narrow while they drift; the <a href="../markets/charts/index.html#rectangle">rectangle</a> and the <a href="../markets/charts/index.html#channels">channel</a> keep the range steady. The <a href="../markets/charts/index.html#broadening-formation">broadening formation</a> is the same idea run backwards: a range that keeps widening is uncertainty growing, not settling.</p>
   </div>
 
   <div class="essay-case">
-    <h4>Around the price — measuring the squeeze</h4>
+    <h4>Around the price: measuring the squeeze</h4>
     <p>Envelopes turn the eye’s judgement into a number. <a href="../markets/indicators/index.html#keltner-channels">Keltner channels</a> scale with the average true range, <a href="../markets/indicators/index.html#donchian-channels">Donchian channels</a> with the highest high and lowest low, <a href="../markets/indicators/index.html#vwap-bands">VWAP bands</a> with dispersion around the volume-weighted price, and <a href="../markets/indicators/index.html#bollinger-bands">Bollinger Bands</a> with the standard deviation. When the bands pinch together, traders call it a squeeze: the market is unusually quiet compared with its own recent past.</p>
   </div>
 
   <div class="essay-case">
-    <h4>In the model — calm that does not last</h4>
-    <p><a href="../markets/risk/index.html#volatility-modeling">Volatility models</a> such as <a href="../timeseries/index.html#garch">GARCH</a> write the rhythm down. Today’s variance is built from yesterday’s variance and yesterday’s shock, so calm predicts calm — but only for a while, because the model also pulls volatility back towards its long-run level. An unusually quiet market is, in this view, a market that is likely to get louder.</p>
+    <h4>In the model: calm that does not last</h4>
+    <p><a href="../markets/risk/index.html#volatility-modeling">Volatility models</a> such as <a href="../timeseries/index.html#garch">GARCH</a> write the rhythm down. Today’s variance is built from yesterday’s variance and yesterday’s shock, so calm predicts calm, but only for a while, because the model also pulls volatility back towards its long-run level. An unusually quiet market is, in this view, a market that is likely to get louder.</p>
   </div>
 
   <p class="prose">The same shape turns up far from markets. In 1910 the geologist Harry Fielding Reid explained earthquakes as elastic rebound: the ground on either side of a fault creeps past slowly for years while the fault stays locked, strain builds silently, and then it is released in one slip. Stillness on the surface was storage underneath. And like Mandelbrot’s prices, the pattern looks the same whether you watch minutes or months, which makes it a cousin of <a href="index.html#essay-fractal">the fractal</a> and of <a href="index.html#essay-threshold">the threshold</a>.</p>
@@ -698,7 +677,7 @@ function buildEssayForking() {
 
   <div class="essay-case">
     <h4>The oscillator tinkerer</h4>
-    <p>The <a href="../markets/indicators/index.html#stochastic">stochastic oscillator</a>, <a href="../markets/indicators/index.html#williams-r">Williams %R</a>, the <a href="../markets/indicators/index.html#cci">CCI</a> and the <a href="../markets/indicators/index.html#mfi">money flow index</a> all ask much the same question — where is the price within its recent range? — each with a lookback and two thresholds to choose. Change 14 days to 9 and 80/20 to 70/30 until the backtest shines, and you have walked a dozen paths. Sullivan, Timmermann and White tested thousands of simple trading rules together and showed how much of the best rule’s performance disappears once the size of the search is taken into account.</p>
+    <p>The <a href="../markets/indicators/index.html#stochastic">stochastic oscillator</a>, <a href="../markets/indicators/index.html#williams-r">Williams %R</a>, the <a href="../markets/indicators/index.html#cci">CCI</a> and the <a href="../markets/indicators/index.html#mfi">money flow index</a> all ask much the same question, where is the price within its recent range?, each with a lookback and two thresholds to choose. Change 14 days to 9 and 80/20 to 70/30 until the backtest shines, and you have walked a dozen paths. Sullivan, Timmermann and White tested thousands of simple trading rules together and showed how much of the best rule’s performance disappears once the size of the search is taken into account.</p>
   </div>
 
   <div class="essay-case">
@@ -745,23 +724,23 @@ function buildEssayMemory() {
   <p class="prose">Between those two lies a question every model of a sequence has to answer: how far back does the past still matter, and how quickly should it fade? The answer is rarely argued for. It hides in a window length, a decay rate, a lag order or a context size, and it shapes everything the model can see.</p>
 
   <div class="essay-case">
-    <h4>Averages — memory as a window</h4>
-    <p>A moving average is a memory with a fixed shape. The simple average remembers N days equally and then forgets at once; the <a href="../markets/indicators/index.html#wma">weighted moving average</a> lets the weights fall in a straight line; the <a href="../markets/indicators/index.html#ema">exponential average</a> lets them fade without ever quite reaching zero; the <a href="../markets/indicators/index.html#dema">double exponential average</a> leans even harder on the present to cut the lag. Choosing between them is choosing how fast to forget. People make the same choice without noticing — <a href="../markets/psychology/index.html#recency-bias">recency bias</a> is a memory that is too short, and <a href="../markets/psychology/index.html#mean-reversion-psychology">waiting for mean reversion</a> assumes one long enough to know where the mean is.</p>
+    <h4>Averages: memory as a window</h4>
+    <p>A moving average is a memory with a fixed shape. The simple average remembers N days equally and then forgets at once; the <a href="../markets/indicators/index.html#wma">weighted moving average</a> lets the weights fall in a straight line; the <a href="../markets/indicators/index.html#ema">exponential average</a> lets them fade without ever quite reaching zero; the <a href="../markets/indicators/index.html#dema">double exponential average</a> leans even harder on the present to cut the lag. Choosing between them is choosing how fast to forget. People make the same choice without noticing: <a href="../markets/psychology/index.html#recency-bias">recency bias</a> is a memory that is too short, and <a href="../markets/psychology/index.html#mean-reversion-psychology">waiting for mean reversion</a> assumes one long enough to know where the mean is.</p>
   </div>
 
   <div class="essay-case">
-    <h4>Statistics — memory as a correlation</h4>
+    <h4>Statistics: memory as a correlation</h4>
     <p><a href="../timeseries/index.html#autocorrelation">Autocorrelation</a> measures how much a series remembers itself at each lag. The classical models are shapes of that memory: <a href="../timeseries/index.html#ma-models">moving-average models</a> remember each shock for exactly q steps and then drop it; autoregressive models remember forever but ever more faintly; <a href="../timeseries/index.html#sarima">SARIMA</a> adds a second memory one season back; <a href="../timeseries/index.html#var-models">VAR models</a> remember the pasts of other series too. <a href="../timeseries/index.html#feature-engineering">Feature engineering</a> for forecasting is largely the craft of choosing which lags to hand a model.</p>
   </div>
 
   <div class="essay-case">
-    <h4>Networks — memory as a state, or as a search</h4>
-    <p>A <a href="../timeseries/index.html#rnn-for-ts">recurrent network</a> carries a summary of the past forward step by step, and in its plain form the summary fades fast — gradients over long spans vanish. The <a href="../ml-math/index.html#lstm">LSTM</a> added gates that learn what to keep and what to erase. A <a href="../timeseries/index.html#temporal-cnn">temporal CNN</a> sees a fixed horizon set by how its dilations stack; <a href="../timeseries/index.html#nbeats">N-BEATS</a> simply takes a fixed window of history. Transformers changed the question: with <a href="../llm/index.html#multi-head-attention">attention</a>, every position in the context can look at every other, so memory becomes a search rather than a fading trace. The <a href="../llm/index.html#kv-cache">KV-cache</a> keeps that past so it need not be recomputed, <a href="../llm/index.html#kv-cache-opt">KV-cache optimisation</a> decides what to drop when it fills, and <a href="../llm/index.html#rag">retrieval</a> moves memory outside the model altogether.</p>
+    <h4>Networks: memory as a state, or as a search</h4>
+    <p>A <a href="../timeseries/index.html#rnn-for-ts">recurrent network</a> carries a summary of the past forward step by step, and in its plain form the summary fades fast: gradients over long spans vanish. The <a href="../ml-math/index.html#lstm">LSTM</a> added gates that learn what to keep and what to erase. A <a href="../timeseries/index.html#temporal-cnn">temporal CNN</a> sees a fixed horizon set by how its dilations stack; <a href="../timeseries/index.html#nbeats">N-BEATS</a> simply takes a fixed window of history. Transformers changed the question: with <a href="../llm/index.html#multi-head-attention">attention</a>, every position in the context can look at every other, so memory becomes a search rather than a fading trace. The <a href="../llm/index.html#kv-cache">KV-cache</a> keeps that past so it need not be recomputed, <a href="../llm/index.html#kv-cache-opt">KV-cache optimisation</a> decides what to drop when it fills, and <a href="../llm/index.html#rag">retrieval</a> moves memory outside the model altogether.</p>
   </div>
 
   <div class="essay-case">
-    <h4>People and products — memory as retention</h4>
-    <p>A <a href="../stats/index.html#cohort-retention">retention curve</a> is Ebbinghaus’s curve for a product: how many of the people who joined in a given month are still around one, three, twelve months later. It drops steeply and then flattens, and where it flattens is how long the product is remembered. The <a href="index.html#essay-kalman">Kalman filter</a> takes yet another route, keeping no history at all — only a running estimate and its uncertainty, which together carry everything the past has to say.</p>
+    <h4>People and products: memory as retention</h4>
+    <p>A <a href="../stats/index.html#cohort-retention">retention curve</a> is Ebbinghaus’s curve for a product: how many of the people who joined in a given month are still around one, three, twelve months later. It drops steeply and then flattens, and where it flattens is how long the product is remembered. The <a href="index.html#essay-kalman">Kalman filter</a> takes yet another route, keeping no history at all: only a running estimate and its uncertainty, which together carry everything the past has to say.</p>
   </div>
 
   <div class="va">
@@ -802,7 +781,7 @@ function buildEssayBottleneck() {
 
   <div class="essay-case">
     <h4>Serving a model</h4>
-    <p>The tension between <a href="../mlops/index.html#latency-throughput">latency and throughput</a> is the bottleneck in miniature. <a href="../llm/index.html#batching">Batching</a> raises throughput by making requests wait for company; <a href="../mlops/index.html#auto-scaling">auto-scaling</a> adds capacity at the constraint before the queue explodes; <a href="../mlops/index.html#caching-layers">caching</a> skips the slow step entirely for answers already known. Which <a href="../mlops/index.html#serving-patterns">serving pattern</a> fits — online, batch or streaming — depends on where the slow step sits and who is waiting for it, and <a href="../mlops/index.html#gpu-inference">GPU inference</a> is mostly the art of finding out whether the chip is waiting on arithmetic or on memory.</p>
+    <p>The tension between <a href="../mlops/index.html#latency-throughput">latency and throughput</a> is the bottleneck in miniature. <a href="../llm/index.html#batching">Batching</a> raises throughput by making requests wait for company; <a href="../mlops/index.html#auto-scaling">auto-scaling</a> adds capacity at the constraint before the queue explodes; <a href="../mlops/index.html#caching-layers">caching</a> skips the slow step entirely for answers already known. Which <a href="../mlops/index.html#serving-patterns">serving pattern</a> fits (online, batch or streaming) depends on where the slow step sits and who is waiting for it, and <a href="../mlops/index.html#gpu-inference">GPU inference</a> is mostly the art of finding out whether the chip is waiting on arithmetic or on memory.</p>
   </div>
 
   <div class="essay-case">
@@ -853,22 +832,22 @@ function buildEssayReversible() {
   <p class="prose">The same idea has a harder, mathematical edge. When gains and losses compound, the order of events matters and a large enough loss ends the game. A bet can have a positive expected value and still ruin almost everyone who takes it too often at too large a size. The physicist Ole Peters calls this the ergodicity problem: the average over many people is not what any one person experiences over time. Survival is the condition for having any other goal at all.</p>
 
   <div class="essay-case">
-    <h4>Shipping a model — build the way back first</h4>
+    <h4>Shipping a model: build the way back first</h4>
     <p>Mature ML teams spend a surprising share of their effort on undo. <a href="../mlops/index.html#shadow-scoring">Shadow mode</a> lets a new model score live traffic without acting on it, and a champion/challenger setup gives it a small slice before the whole. <a href="../mlops/index.html#ci-cd-ml">CI/CD for ML</a> stops a bad model before it ships; a <a href="../mlops/index.html#model-registry">model registry</a> makes going back to yesterday’s version a one-line change; <a href="../mlops/index.html#model-packaging">packaging in containers</a> makes sure the old version still runs; <a href="../mlops/index.html#reproducibility">reproducibility</a> means it can be rebuilt at all. When something does break, good <a href="../mlops/index.html#incident-response">incident response</a> rolls back first and investigates second.</p>
   </div>
 
   <div class="essay-case">
-    <h4>Sizing a position — stay in the game</h4>
-    <p>The <a href="../markets/risk/index.html#kelly-criterion">Kelly criterion</a> gives the bet size that grows capital fastest, and shows that betting much more than that turns a winning edge into a losing strategy. <a href="../markets/risk/index.html#max-position">Position limits</a> cap what any one mistake can cost. <a href="../markets/risk/index.html#pyramiding">Pyramiding</a> starts small and adds only once the market has said yes. A protective put from <a href="../markets/risk/index.html#options-hedging">options hedging</a> buys a floor, paying a premium so that one outcome is ruled out in advance. <a href="../markets/risk/index.html#portfolio-insurance">Portfolio insurance</a> tried to make the floor dynamic — and in October 1987 showed that an exit everyone plans to use at once is not reversible at all.</p>
+    <h4>Sizing a position: stay in the game</h4>
+    <p>The <a href="../markets/risk/index.html#kelly-criterion">Kelly criterion</a> gives the bet size that grows capital fastest, and shows that betting much more than that turns a winning edge into a losing strategy. <a href="../markets/risk/index.html#max-position">Position limits</a> cap what any one mistake can cost. <a href="../markets/risk/index.html#pyramiding">Pyramiding</a> starts small and adds only once the market has said yes. A protective put from <a href="../markets/risk/index.html#options-hedging">options hedging</a> buys a floor, paying a premium so that one outcome is ruled out in advance. <a href="../markets/risk/index.html#portfolio-insurance">Portfolio insurance</a> tried to make the floor dynamic, and in October 1987 showed that an exit everyone plans to use at once is not reversible at all.</p>
   </div>
 
   <div class="essay-case">
-    <h4>Training a language model — small runs before the big one</h4>
-    <p>Large models are expensive one-way doors, so the field has learned to climb a ladder of cost. <a href="../llm/index.html#prompt-engineering">Prompt engineering</a> is the cheapest change and the easiest to undo; <a href="../llm/index.html#fine-tuning">fine-tuning</a> costs more and changes the weights; <a href="../llm/index.html#pre-training">pre-training</a> is the one-way door. Before walking through it, labs fit <a href="../llm/index.html#scaling-laws">scaling laws</a> to a series of small, cheap runs and extrapolate — many small bets used to size the one big one.</p>
+    <h4>Training a language model: small runs before the big one</h4>
+    <p>Large models are expensive one-way doors, so the field has learned to climb a ladder of cost. <a href="../llm/index.html#prompt-engineering">Prompt engineering</a> is the cheapest change and the easiest to undo; <a href="../llm/index.html#fine-tuning">fine-tuning</a> costs more and changes the weights; <a href="../llm/index.html#pre-training">pre-training</a> is the one-way door. Before walking through it, labs fit <a href="../llm/index.html#scaling-laws">scaling laws</a> to a series of small, cheap runs and extrapolate: many small bets used to size the one big one.</p>
   </div>
 
   <div class="essay-case">
-    <h4>The mind — why reversing is hard</h4>
+    <h4>The mind: why reversing is hard</h4>
     <p>The obstacles are mostly psychological. The <a href="../markets/psychology/index.html#sunk-cost-fallacy">sunk cost fallacy</a> keeps people walking through a door they should back out of; the <a href="../markets/psychology/index.html#disposition-effect">disposition effect</a> reverses the wrong positions, selling winners and keeping losers; <a href="../markets/psychology/index.html#mental-accounting">mental accounting</a> treats recent gains as house money to bet bigger with; and <a href="../markets/psychology/index.html#fomo">FOMO</a> turns many small entries into one large, late one. Each turns a two-way door into a one-way door from the inside.</p>
   </div>
 
@@ -886,7 +865,7 @@ function buildEssayReversible() {
   <div class="essay-takeaway"><strong>What to remember</strong>Prefer decisions you can undo, and size the ones you cannot so that being wrong is survivable. Speed comes from cheap reversals, not from being right the first time.</div>
   <div class="essay-refs">
     <div class="essay-refs-title">References</div>
-    <div class="essay-ref">[1] Bezos, J. P. (2016). <em>2015 Letter to Shareholders.</em> Amazon.com, Inc. — Type 1 and Type 2 decisions.</div>
+    <div class="essay-ref">[1] Bezos, J. P. (2016). <em>2015 Letter to Shareholders.</em> Amazon.com, Inc. Type 1 and Type 2 decisions.</div>
     <div class="essay-ref">[2] Kelly, J. L. (1956). A New Interpretation of Information Rate. <em>Bell System Technical Journal, 35</em>(4), 917–926. <a href="https://doi.org/10.1002/j.1538-7305.1956.tb03809.x" target="_blank" rel="noopener">doi:10.1002/j.1538-7305.1956.tb03809.x</a></div>
     <div class="essay-ref">[3] Peters, O. (2019). The Ergodicity Problem in Economics. <em>Nature Physics, 15</em>, 1216–1221. <a href="https://doi.org/10.1038/s41567-019-0732-0" target="_blank" rel="noopener">doi:10.1038/s41567-019-0732-0</a></div>
     <div class="essay-ref">[4] Sculley, D. et al. (2015). Hidden Technical Debt in Machine Learning Systems. <em>Advances in Neural Information Processing Systems 28.</em></div>
@@ -894,7 +873,7 @@ function buildEssayReversible() {
     <div class="essay-ref">[6] Arkes, H. R. &amp; Blumer, C. (1985). The Psychology of Sunk Cost. <em>Organizational Behavior and Human Decision Processes, 35</em>(1), 124–140. <a href="https://doi.org/10.1016/0749-5978(85)90049-4" target="_blank" rel="noopener">doi:10.1016/0749-5978(85)90049-4</a></div>
   </div>
   <p class="depth-note" style="margin:10px 0 0">Last reviewed ${reviewedOn('essay-reversible')} · <a href="../about/#checked">How this site checks its content</a> · ${reportLink('essay-reversible')}</p>
-  <div class="callout bridge"><strong>Pattern bridge:</strong> The arithmetic of ruin is in <a href="../markets/risk/index.html#drawdown-analysis">drawdown analysis</a> — a 50% loss needs a 100% gain to recover — and the cost of waiting too long to reverse is in <a href="../markets/risk/index.html#stop-losses">stop-loss strategies</a>.</div>
+  <div class="callout bridge"><strong>Pattern bridge:</strong> The arithmetic of ruin is in <a href="../markets/risk/index.html#drawdown-analysis">drawdown analysis</a>, a 50% loss needs a 100% gain to recover, and the cost of waiting too long to reverse is in <a href="../markets/risk/index.html#stop-losses">stop-loss strategies</a>.</div>
   <div class="topic-nav" id="nav-essay-reversible"></div>
 </div>`;
 }

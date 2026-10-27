@@ -121,8 +121,8 @@ console.log('2. Topic counts');
   for (const [hub, u] of [['ml/index.html', 'ml'], ['markets/index.html', 'markets']]) {
     const n = uniTotal(u);
     const src = readFileSync(hub, 'utf8');
-    const stat = src.match(/portal-stat-num">(\d+)</);
-    if (!stat || +stat[1] !== n) fail(`${hub} stat says ${stat?.[1]} topics, actual ${n}`);
+    const stat = src.match(/collections, <em>(\d+) topics<\/em>/);
+    if (!stat || +stat[1] !== n) fail(`${hub} heading says ${stat?.[1]} topics, actual ${n}`);
   }
   if (!failures) ok(`collections ${[...topicsByCol.values()].map(t => t.length).join('/')} · total ${total} · ml ${uniTotal('ml')} · markets ${uniTotal('markets')}`);
 }
@@ -135,7 +135,7 @@ console.log('3. Sandbox activity counts');
   const labels = { ml: 'ML Lab', markets: 'Markets Lab', stats: 'Stats Lab', chaos: 'Chaos Lab', dl: 'DL Lab' };
   let bad = 0;
   for (const [lab, label] of Object.entries(labels)) {
-    const m = hub.match(new RegExp(`Enter ${label} — (\\d+) Activities`));
+    const m = hub.match(new RegExp(`Enter ${label}(?: —|:) (\\d+) Activities`));
     if (m && +m[1] !== actual[lab]) { bad++; fail(`sandbox hub: ${label} says ${m[1]}, actual ${actual[lab]}`); }
   }
   for (const [page, lab] of [['stats/index.html', 'stats'], ['ml/index.html', 'ml'], ['markets/index.html', 'markets']]) {

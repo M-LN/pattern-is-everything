@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Which forecasting model should I start with? — Pattern is Everything</title>
-  <meta name="description" content="Start simple, beat the baseline, then add complexity only where it earns its keep.">
+  <meta name="description" content="Start simple, beat the baseline, then add complexity only where it clearly helps.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="canonical" href="https://patterniseverything.com/guides/which-forecast/">
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Article", "headline": "Which forecasting model should I start with?", "description": "Start simple, beat the baseline, then add complexity only where it earns its keep.",
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Which forecasting model should I start with?", "description": "Start simple, beat the baseline, then add complexity only where it clearly helps.",
     "url": "https://patterniseverything.com/guides/which-forecast/", "dateModified": "2026-10-02", "inLanguage": "en",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
   </script>
   <meta property="og:url" content="https://patterniseverything.com/guides/which-forecast/">
   <meta property="og:title" content="Which forecasting model should I start with?">
-  <meta property="og:description" content="Start simple, beat the baseline, then add complexity only where it earns its keep.">
+  <meta property="og:description" content="Start simple, beat the baseline, then add complexity only where it clearly helps.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-forecast.jpg?v=f507d283">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-forecast.jpg?v=04833e91">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
@@ -101,7 +101,7 @@
   </div>
 </header>
 <main class="guide" id="mainContent">
-<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which forecasting model should I start with?</h2><p>Start simple, beat the baseline, then add complexity only where it earns its keep.</p></section>
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which forecasting model should I start with?</h2><p>Start simple, beat the baseline, then add complexity only where it clearly helps.</p></section>
 <div class="g-before">Before any model: plot the series, forecast it with naive and seasonal-naive methods, and set up a rolling-origin backtest. Every model below has to beat those baselines on it.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/timeseries/decomposition/">Decomposition</a> · <a href="/timeseries/backtesting-forecasts/">Backtesting Forecasts</a> · <a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a></div></div>
 <section class="g-body" data-guide="which-forecast" data-kind="tree">
 <div class="g-node">
@@ -147,7 +147,7 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">Simple exponential smoothing or a low-order ARIMA</div>
   
-  <p>A level that moves slowly is all there is to model — anything more will fit noise.</p>
+  <p>A level that moves slowly is all there is to model: anything more will fit noise.</p>
   <div class="g-read"><span>Read</span> <a href="/timeseries/exponential-smoothing/">Exponential Smoothing</a> · <a href="/timeseries/ar-models/">AR Models</a> · <a href="/timeseries/stationarity/">Stationarity</a></div>
 </div></div>
 </details>
@@ -171,7 +171,7 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">Regression with ARIMA errors, or gradient boosting with those factors as features</div>
   
-  <p>Uses the drivers directly — but only if their future values are known or forecastable at prediction time.</p>
+  <p>Uses the drivers directly, but only if their future values are known or forecastable at prediction time.</p>
   <div class="g-read"><span>Read</span> <a href="/timeseries/arima/">ARIMA</a> · <a href="/timeseries/feature-engineering/">Feature Engineering</a> · <a href="/timeseries/var-models/">VAR Models</a></div>
 </div></div>
 </details>

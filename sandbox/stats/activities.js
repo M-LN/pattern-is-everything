@@ -13,43 +13,43 @@ function T(symbol, def) {
 const NARRATIONS = {
   'distribution-explorer': [
     'A probability distribution describes all possible outcomes of a random experiment and how likely each one is.',
-    'The normal distribution is the famous bell curve. It appears everywhere in nature — heights, test scores, measurement errors. Mean (μ) sets the centre; standard deviation (σ) controls the width.',
+    'The normal distribution is the famous bell curve. It appears everywhere in nature: heights, test scores, measurement errors. Mean (μ) sets the centre; standard deviation (σ) controls the width.',
     'The exponential distribution models wait times: how long until the next bus, the next earthquake. Most waits are short; a few are very long.',
     'The CDF (Cumulative Distribution Function) answers: "What is the probability of getting a value less than or equal to x?" It always starts at 0 and climbs to 1.',
   ],
   'hypothesis-testing': [
     'Hypothesis testing answers the question: "Could this result just be random chance?" We start by assuming nothing is happening — the null hypothesis (H₀).',
-    'We collect data and calculate a p-value — the probability of seeing a result this extreme if H₀ were actually true. A small p-value means the data is hard to explain by chance.',
-    'If p < 0.05 (alpha), the result is "statistically significant". We reject H₀ — but significance does not mean importance.',
+    'We collect data and calculate a p-value: the probability of seeing a result this extreme if H₀ were actually true. A small p-value means the data is hard to explain by chance.',
+    'If p < 0.05 (alpha), the result is "statistically significant". We reject H₀, but significance does not mean importance.',
     'Power is the probability of detecting a real effect when it exists. To increase power: collect more data, look for larger effects, or raise alpha.',
   ],
   'correlation-playground': [
     'Correlation measures how two variables move together. Pearson r ranges from −1 (perfect opposite) through 0 (no pattern) to +1 (perfect together).',
-    'Place points in a diagonal line — r climbs toward 1. Add points going the other way — r drops. Scatter them randomly — r approaches 0.',
+    'Place points in a diagonal line: r climbs toward 1. Add points going the other way: r drops. Scatter them randomly: r approaches 0.',
     'One outlier can dramatically change r. A single extreme point can swing a 0.2 correlation to 0.7.',
-    'Important reminder: correlation does not equal causation. High r means the variables move together — not that one causes the other.',
+    'Important reminder: correlation does not equal causation. High r means the variables move together, not that one causes the other.',
   ],
   'central-limit-theorem': [
     'The Central Limit Theorem (CLT) is one of statistics\' greatest surprises: no matter how weird your population looks, the distribution of sample means always becomes normal.',
     'Draw samples from a skewed or uniform population. Record each sample\'s mean. After enough samples, the histogram of those means becomes a bell curve.',
     'Larger sample sizes make the bell narrower and taller. The standard error (σ/√n) tells you how tight the bell will be.',
-    'This is why averages are so reliable in science and engineering — the CLT is working behind the scenes every time we compute a mean.',
+    'This is why averages are so reliable in science and engineering: the CLT is working behind the scenes every time we compute a mean.',
   ],
   'bayesian-updater': [
     'Bayesian reasoning starts with a belief (prior), collects evidence, and updates to a new belief (posterior). It formalises how we learn from experience.',
-    'We\'re estimating whether a coin is fair. Our starting distribution: equal belief in all fairness values from 0 to 1 — we know nothing yet.',
+    'We\'re estimating whether a coin is fair. Our starting distribution: equal belief in all fairness values from 0 to 1. We know nothing yet.',
     'Each coin flip is evidence. Heads nudges the distribution toward "probably heads-biased"; tails nudges it toward "probably tails-biased".',
     'After many flips, the distribution peaks near the true probability and the uncertainty shrinks. More data = sharper, more confident beliefs.',
   ],
   'regression-diagnostics': [
-    'Fitting a regression line is step one. Step two — just as important — is checking whether the model\'s assumptions actually hold.',
+    'Fitting a regression line is step one. Step two, just as important, is checking whether the model\'s assumptions actually hold.',
     'Residuals vs fitted: the gap between each prediction and the real value. Random scatter = good. A curve = the relationship is not linear.',
     'The Q-Q plot checks if residuals are normally distributed. Points on the diagonal = good. Bends at the ends = heavy tails or skew.',
-    'R² tells you the fraction of variance explained. High R² is good — but always inspect the diagnostic plots too. A high R² can mask serious problems.',
+    'R² tells you the fraction of variance explained. High R² is good, but always inspect the diagnostic plots too. A high R² can mask serious problems.',
   ],
   'probability-calculator': [
     'Bayes\' Theorem calculates the probability of a cause, given observed evidence. Classic question: if a test is positive, what\'s the actual chance of having the condition?',
-    'P(A) is the prior — how common is the condition in the general population? Even a 99%-accurate test can mislead if the condition is rare.',
+    'P(A) is the prior: how common is the condition in the general population? Even a 99%-accurate test can mislead if the condition is rare.',
     'P(B|A) is the true positive rate: how often does the test detect the condition correctly? P(B|¬A) is the false positive rate: how often does it fire when there is no condition?',
     'The result P(A|B) is often surprising. A 1-in-1000 condition can yield only a 1-in-50 true positive rate even with a highly accurate test. This is the base rate fallacy.',
   ],
@@ -57,12 +57,12 @@ const NARRATIONS = {
     'ANOVA tests whether multiple groups have the same mean. For example: does fertiliser A, B, or C produce different crop yields?',
     'The F-statistic compares two things: between-group variance (how much group means differ) vs within-group variance (how spread out points are inside each group).',
     'Large F means the group differences are big relative to the noise. Small F means any observed differences could easily be random.',
-    'p < 0.05 means at least one group differs significantly from the others. But ANOVA doesn\'t tell you which group — you need follow-up tests for that.',
+    'p < 0.05 means at least one group differs significantly from the others. But ANOVA doesn\'t tell you which group: you need follow-up tests for that.',
   ],
   'confidence-intervals': [
     'A 95% confidence interval is a range calculated from sample data. If you repeated the experiment many times, 95% of these intervals would contain the true population mean.',
     'Watch intervals appear one by one. Blue = the interval captured the true mean (μ). Red = it missed.',
-    'After many intervals, about 95% should be blue. This is the frequentist guarantee — not about one specific interval, but about the method over the long run.',
+    'After many intervals, about 95% should be blue. This is the frequentist guarantee, not about one specific interval, but about the method over the long run.',
     'Larger samples → narrower intervals. Higher confidence level (99%) → wider intervals. There is always a tradeoff between precision and certainty.',
   ],
   'chi-square-test': [
@@ -74,13 +74,13 @@ const NARRATIONS = {
   'survival-curves': [
     'Survival analysis models "how long until an event occurs?" The event might be equipment failure, disease recovery, or customer churn.',
     'The Kaplan-Meier curve is a staircase that drops each time an event occurs. It estimates the probability of still "surviving" beyond any given point in time.',
-    'Censored observations (+ marks) are subjects who left the study before the event — we know they survived at least this long, but not beyond.',
+    'Censored observations (+ marks) are subjects who left the study before the event: we know they survived at least this long, but not beyond.',
     'Compare two groups: do their survival curves separate? A wide gap means meaningfully different event rates between the groups.',
   ],
   'bootstrap-resampler': [
     'Bootstrap resampling answers: how reliable is our estimate? The key insight: treat your own sample as if it were the whole population.',
     'Each bootstrap resample draws n values with replacement from your original data. Some points appear twice; some not at all.',
-    'Compute the sample mean for each resample and plot all the means. This histogram approximates the true sampling distribution — without any formulas.',
+    'Compute the sample mean for each resample and plot all the means. This histogram approximates the true sampling distribution: without any formulas.',
     'The 2.5th and 97.5th percentiles of the histogram form a 95% confidence interval. It works for any statistic and any population shape.',
   ],
 };
@@ -143,18 +143,18 @@ const TOPIC_NAMES = {
 
 /* ── Full activity data for search ── */
 const TOPIC_DATA = [
-  { id:'distribution-explorer', num:'01', title:'Distribution Explorer', category:'Stats Lab', keywords:['normal','uniform','exponential','poisson','distribution','probability','histogram','PDF','CDF','mean','variance','standard deviation','bell curve','skew'], content:'Explore different probability distributions — adjust parameters and see how the shape, mean, and variance change in real-time.' },
-  { id:'hypothesis-testing', num:'02', title:'Hypothesis Testing', category:'Stats Lab', keywords:['hypothesis','p-value','significance','null','alternative','type I','type II','alpha','beta','power','t-test','z-test','rejection region'], content:'Simulate hypothesis tests — see how sample size, effect size, and significance level affect p-values and error rates.' },
+  { id:'distribution-explorer', num:'01', title:'Distribution Explorer', category:'Stats Lab', keywords:['normal','uniform','exponential','poisson','distribution','probability','histogram','PDF','CDF','mean','variance','standard deviation','bell curve','skew'], content:'Explore different probability distributions: adjust parameters and see how the shape, mean, and variance change in real-time.' },
+  { id:'hypothesis-testing', num:'02', title:'Hypothesis Testing', category:'Stats Lab', keywords:['hypothesis','p-value','significance','null','alternative','type I','type II','alpha','beta','power','t-test','z-test','rejection region'], content:'Simulate hypothesis tests: see how sample size, effect size, and significance level affect p-values and error rates.' },
   { id:'correlation-playground', num:'03', title:'Correlation Playground', category:'Stats Lab', keywords:['correlation','scatter plot','r-value','Pearson','regression','linear','relationship','positive','negative','outlier'], content:'Place points on a scatter plot and watch the correlation coefficient update live. Discover how outliers and patterns affect r.' },
   { id:'central-limit-theorem', num:'04', title:'Central Limit Theorem', category:'Stats Lab', keywords:['CLT','central limit','sampling','sample mean','normal approximation','population','sample size','distribution of means'], content:'Draw samples from any population shape and watch the distribution of sample means converge to a normal distribution.' },
-  { id:'bayesian-updater', num:'05', title:'Bayesian Updater', category:'Stats Lab', keywords:['Bayes','posterior','prior','beta','binomial','coin flip','Bernoulli','updating','belief'], content:'Start with a Beta prior, flip coins, and watch the posterior distribution update in real time — see Bayesian inference in action.' },
-  { id:'regression-diagnostics', num:'06', title:'Regression Diagnostics', category:'Stats Lab', keywords:['regression','residuals','OLS','R-squared','Q-Q plot','diagnostics','heteroscedasticity','fitted','RMSE','Durbin-Watson'], content:'Generate data, fit a regression, and inspect 4-panel diagnostic plots — residuals, Q-Q, and more.' },
-  { id:'probability-calculator', num:'07', title:'Probability Calculator', category:'Stats Lab', keywords:['Bayes theorem','probability tree','conditional','prior','posterior','likelihood','base rate','P(A|B)'], content:'Visualize Bayes\' theorem with an interactive probability tree — adjust priors and likelihoods to see how evidence updates beliefs.' },
-  { id:'anova-visualizer', num:'08', title:'ANOVA Visualizer', category:'Stats Lab', keywords:['ANOVA','F-test','group comparison','between-group','within-group','variance','one-way','mean comparison','effect size','sum of squares'], content:'Compare means across multiple groups with one-way ANOVA — see jittered data, group means, and the F-statistic update live.' },
-  { id:'confidence-intervals', num:'09', title:'Confidence Intervals', category:'Stats Lab', keywords:['confidence interval','CI','coverage','sampling','margin of error','95%','99%','capture rate','standard error'], content:'Generate confidence intervals one by one and watch coverage converge — see how sample size and confidence level affect interval width.' },
-  { id:'chi-square-test', num:'10', title:'Chi-Square Test', category:'Stats Lab', keywords:['chi-square','goodness of fit','observed','expected','residuals','categorical','contingency','degrees of freedom'], content:'Test whether observed frequencies differ from expected — side-by-side bars with standardized residuals and the χ² statistic.' },
-  { id:'survival-curves', num:'11', title:'Survival Curves', category:'Stats Lab', keywords:['Kaplan-Meier','survival analysis','hazard rate','censoring','median survival','time-to-event','step function'], content:'Generate Kaplan-Meier survival curves for two groups — see how hazard rates shape the step function, with censoring marks.' },
-  { id:'bootstrap-resampler', num:'12', title:'Bootstrap Resampler', category:'Stats Lab', keywords:['bootstrap','resampling','confidence interval','percentile','sample mean','non-parametric','distribution-free','standard error'], content:'Build a bootstrap distribution of sample means — resample with replacement and watch the histogram and percentile CI grow.' },
+  { id:'bayesian-updater', num:'05', title:'Bayesian Updater', category:'Stats Lab', keywords:['Bayes','posterior','prior','beta','binomial','coin flip','Bernoulli','updating','belief'], content:'Start with a Beta prior, flip coins, and watch the posterior distribution update in real time: see Bayesian inference in action.' },
+  { id:'regression-diagnostics', num:'06', title:'Regression Diagnostics', category:'Stats Lab', keywords:['regression','residuals','OLS','R-squared','Q-Q plot','diagnostics','heteroscedasticity','fitted','RMSE','Durbin-Watson'], content:'Generate data, fit a regression, and inspect 4-panel diagnostic plots: residuals, Q-Q, and more.' },
+  { id:'probability-calculator', num:'07', title:'Probability Calculator', category:'Stats Lab', keywords:['Bayes theorem','probability tree','conditional','prior','posterior','likelihood','base rate','P(A|B)'], content:'Visualize Bayes\' theorem with an interactive probability tree: adjust priors and likelihoods to see how evidence updates beliefs.' },
+  { id:'anova-visualizer', num:'08', title:'ANOVA Visualizer', category:'Stats Lab', keywords:['ANOVA','F-test','group comparison','between-group','within-group','variance','one-way','mean comparison','effect size','sum of squares'], content:'Compare means across multiple groups with one-way ANOVA: see jittered data, group means, and the F-statistic update live.' },
+  { id:'confidence-intervals', num:'09', title:'Confidence Intervals', category:'Stats Lab', keywords:['confidence interval','CI','coverage','sampling','margin of error','95%','99%','capture rate','standard error'], content:'Generate confidence intervals one by one and watch coverage converge: see how sample size and confidence level affect interval width.' },
+  { id:'chi-square-test', num:'10', title:'Chi-Square Test', category:'Stats Lab', keywords:['chi-square','goodness of fit','observed','expected','residuals','categorical','contingency','degrees of freedom'], content:'Test whether observed frequencies differ from expected: side-by-side bars with standardized residuals and the χ² statistic.' },
+  { id:'survival-curves', num:'11', title:'Survival Curves', category:'Stats Lab', keywords:['Kaplan-Meier','survival analysis','hazard rate','censoring','median survival','time-to-event','step function'], content:'Generate Kaplan-Meier survival curves for two groups: see how hazard rates shape the step function, with censoring marks.' },
+  { id:'bootstrap-resampler', num:'12', title:'Bootstrap Resampler', category:'Stats Lab', keywords:['bootstrap','resampling','confidence interval','percentile','sample mean','non-parametric','distribution-free','standard error'], content:'Build a bootstrap distribution of sample means: resample with replacement and watch the histogram and percentile CI grow.' },
 ];
 
 /* ── Hints system ── */
@@ -162,86 +162,86 @@ const HINTS = {
   'distribution-explorer': [
     { id:'de-normal',       trigger:'distNormal',       message:'The normal distribution (bell curve) is defined by its mean μ and standard deviation σ.' },
     { id:'de-uniform',      trigger:'distUniform',      message:'The uniform distribution gives equal probability to all values in the range.' },
-    { id:'de-exp',          trigger:'distExponential',   message:'The exponential distribution models wait times — it has a long right tail.' },
-    { id:'de-high-sd',      trigger:'sdHigh',           message:'A larger standard deviation spreads the distribution wider — more uncertainty.' },
+    { id:'de-exp',          trigger:'distExponential',   message:'The exponential distribution models wait times: it has a long right tail.' },
+    { id:'de-high-sd',      trigger:'sdHigh',           message:'A larger standard deviation spreads the distribution wider: more uncertainty.' },
     { id:'de-cdf',          trigger:'showCDF',          message:'The CDF shows the probability of getting a value ≤ x. It always goes from 0 to 1.' },
   ],
   'hypothesis-testing': [
-    { id:'ht-low-p',        trigger:'pLow',             message:'A low p-value (< α) means the data is unlikely under H₀ — we reject the null hypothesis.' },
+    { id:'ht-low-p',        trigger:'pLow',             message:'A low p-value (< α) means the data is unlikely under H₀: we reject the null hypothesis.' },
     { id:'ht-high-p',       trigger:'pHigh',            message:'A high p-value means we don\'t have enough evidence to reject H₀. This is NOT proof that H₀ is true.' },
-    { id:'ht-small-n',      trigger:'nSmall',           message:'With a small sample size, random variation is large — harder to detect a real effect.' },
+    { id:'ht-small-n',      trigger:'nSmall',           message:'With a small sample size, random variation is large: harder to detect a real effect.' },
     { id:'ht-type1',        trigger:'type1Risk',        message:'Type I error: rejecting H₀ when it\'s actually true. The rate equals α (significance level).' },
     { id:'ht-power',        trigger:'highPower',        message:'High power means you\'re unlikely to miss a real effect. Increase n or effect size to boost power.' },
   ],
   'correlation-playground': [
     { id:'cp-first',        trigger:'pointCount>=3',    message:'Add more points to get a reliable correlation estimate. With few points, r is unstable.' },
-    { id:'cp-strong',       trigger:'rStrong',          message:'|r| close to 1 means a strong linear relationship — but not necessarily causation!' },
-    { id:'cp-weak',         trigger:'rWeak',            message:'|r| close to 0 means no linear relationship — but there could be a nonlinear one.' },
+    { id:'cp-strong',       trigger:'rStrong',          message:'|r| close to 1 means a strong linear relationship, but not necessarily causation!' },
+    { id:'cp-weak',         trigger:'rWeak',            message:'|r| close to 0 means no linear relationship, but there could be a nonlinear one.' },
     { id:'cp-outlier',      trigger:'hasOutlier',       message:'A single outlier can dramatically change the correlation. Try removing it to see the effect.' },
     { id:'cp-negative',     trigger:'rNegative',        message:'Negative r means as one variable increases, the other tends to decrease.' },
   ],
   'central-limit-theorem': [
     { id:'clt-first',       trigger:'sampleCount>=5',   message:'Keep drawing samples! The magic of CLT appears as sample count grows.' },
     { id:'clt-small-n',     trigger:'sampleSizeSmall',  message:'With a small sample size (n), the sampling distribution may still look like the population.' },
-    { id:'clt-big-n',       trigger:'sampleSizeBig',    message:'With n ≥ 30, the sampling distribution is nearly normal — regardless of the population shape!' },
-    { id:'clt-converged',   trigger:'looksNormal',      message:'The sampling distribution is becoming bell-shaped — that\'s the Central Limit Theorem in action!' },
+    { id:'clt-big-n',       trigger:'sampleSizeBig',    message:'With n ≥ 30, the sampling distribution is nearly normal: regardless of the population shape!' },
+    { id:'clt-converged',   trigger:'looksNormal',      message:'The sampling distribution is becoming bell-shaped: that\'s the Central Limit Theorem in action!' },
     { id:'clt-sem',         trigger:'showSEM',          message:'Standard Error = σ/√n. Larger samples → smaller standard error → tighter distribution of means.' },
   ],
   'bayesian-updater': [
-    { id:'bay-update',      trigger:'flips>=1',         message:'Each coin flip is a new piece of evidence — the posterior moves toward the data.' },
-    { id:'bay-flat',        trigger:'flatPrior',        message:'A flat prior (α=β=1) means you start with no strong belief — the data speaks for itself.' },
-    { id:'bay-strong',      trigger:'strongPrior',      message:'A strong prior (α or β > 5) resists early data — you need more evidence to shift it.' },
-    { id:'bay-converge',    trigger:'converging',       message:'The posterior is converging — with enough data, the prior becomes irrelevant!' },
-    { id:'bay-mean',        trigger:'meanClose',        message:'The posterior mean is approaching the true coin probability — Bayes at work!' },
+    { id:'bay-update',      trigger:'flips>=1',         message:'Each coin flip is a new piece of evidence: the posterior moves toward the data.' },
+    { id:'bay-flat',        trigger:'flatPrior',        message:'A flat prior (α=β=1) means you start with no strong belief: the data speaks for itself.' },
+    { id:'bay-strong',      trigger:'strongPrior',      message:'A strong prior (α or β > 5) resists early data: you need more evidence to shift it.' },
+    { id:'bay-converge',    trigger:'converging',       message:'The posterior is converging: with enough data, the prior becomes irrelevant!' },
+    { id:'bay-mean',        trigger:'meanClose',        message:'The posterior mean is approaching the true coin probability: Bayes at work!' },
   ],
   'regression-diagnostics': [
-    { id:'rd-residual',     trigger:'hasResidualPattern', message:'A pattern in the residuals suggests the model is missing something — maybe a nonlinear term.' },
+    { id:'rd-residual',     trigger:'hasResidualPattern', message:'A pattern in the residuals suggests the model is missing something: maybe a nonlinear term.' },
     { id:'rd-qq',           trigger:'qqDeviation',       message:'Deviations from the Q-Q line suggest residuals aren\'t normally distributed.' },
-    { id:'rd-hetero',       trigger:'heteroscedastic',   message:'Residuals fanning out? That\'s heteroscedasticity — variance isn\'t constant across fitted values.' },
-    { id:'rd-highr2',       trigger:'r2High',            message:'High R² — the model explains most of the variance. But always check residuals too!' },
+    { id:'rd-hetero',       trigger:'heteroscedastic',   message:'Residuals fanning out? That\'s heteroscedasticity: variance isn\'t constant across fitted values.' },
+    { id:'rd-highr2',       trigger:'r2High',            message:'High R²: the model explains most of the variance. But always check residuals too!' },
     { id:'rd-autocorr',     trigger:'autocorrelated',    message:'Durbin-Watson far from 2 suggests autocorrelation in residuals.' },
   ],
   'probability-calculator': [
     { id:'pc-baserate',     trigger:'baseRateTrap',      message:'The base rate fallacy: even with a good test, rare events keep P(A|B) low!' },
     { id:'pc-lr',           trigger:'highLR',            message:'A high likelihood ratio means the evidence strongly favors A over ¬A.' },
-    { id:'pc-prior',        trigger:'priorMatters',      message:'The prior P(A) is crucial — it\'s your starting belief before seeing evidence.' },
-    { id:'pc-complement',   trigger:'complementShown',   message:'P(A|B) + P(¬A|B) = 1 — the evidence either supports A or ¬A, nothing else.' },
+    { id:'pc-prior',        trigger:'priorMatters',      message:'The prior P(A) is crucial: it\'s your starting belief before seeing evidence.' },
+    { id:'pc-complement',   trigger:'complementShown',   message:'P(A|B) + P(¬A|B) = 1: the evidence either supports A or ¬A, nothing else.' },
     { id:'pc-rare',         trigger:'rareEvent',         message:'When P(A) is very small, even strong evidence may not make P(A|B) large.' },
   ],
   'anova-visualizer': [
-    { id:'av-fhigh',       trigger:'fHigh',              message:'A large F-statistic means between-group variance dominates within-group variance — groups likely differ.' },
-    { id:'av-plow',        trigger:'pLow',               message:'p < 0.05 — we reject H₀ that all group means are equal. At least one group is different.' },
-    { id:'av-groups',      trigger:'manyGroups',         message:'More groups increases degrees of freedom — you need a larger F to reach significance.' },
-    { id:'av-spread',      trigger:'lowSpread',          message:'Low within-group spread makes group differences easier to detect — F goes up.' },
-    { id:'av-effect',      trigger:'highEffect',         message:'A large effect size separates group means — making the F-test more powerful.' },
+    { id:'av-fhigh',       trigger:'fHigh',              message:'A large F-statistic means between-group variance dominates within-group variance: groups likely differ.' },
+    { id:'av-plow',        trigger:'pLow',               message:'p < 0.05: we reject H₀ that all group means are equal. At least one group is different.' },
+    { id:'av-groups',      trigger:'manyGroups',         message:'More groups increases degrees of freedom: you need a larger F to reach significance.' },
+    { id:'av-spread',      trigger:'lowSpread',          message:'Low within-group spread makes group differences easier to detect: F goes up.' },
+    { id:'av-effect',      trigger:'highEffect',         message:'A large effect size separates group means: making the F-test more powerful.' },
   ],
   'confidence-intervals': [
-    { id:'ci-first',       trigger:'firstSample',        message:'Each interval either captures μ or misses it — the confidence level is a long-run property.' },
+    { id:'ci-first',       trigger:'firstSample',        message:'Each interval either captures μ or misses it: the confidence level is a long-run property.' },
     { id:'ci-many',        trigger:'manySamples',        message:'With many intervals, coverage should converge to the confidence level (e.g. 95%).' },
     { id:'ci-coverage',    trigger:'highCoverage',       message:'Coverage matching the confidence level? That\'s the frequentist guarantee in action!' },
-    { id:'ci-miss',        trigger:'missedOne',          message:'A red interval missed μ. This is expected — 5% of 95% CIs will miss by design.' },
+    { id:'ci-miss',        trigger:'missedOne',          message:'A red interval missed μ. This is expected: 5% of 95% CIs will miss by design.' },
     { id:'ci-narrow',      trigger:'narrowCI',           message:'Narrow CI means high precision. Increase n to make intervals even tighter.' },
   ],
   'chi-square-test': [
-    { id:'chi-sig',        trigger:'significant',        message:'χ² is significant — observed counts deviate meaningfully from expected.' },
-    { id:'chi-nosig',      trigger:'notSignificant',     message:'Not significant — the data is consistent with the expected distribution.' },
+    { id:'chi-sig',        trigger:'significant',        message:'χ² is significant: observed counts deviate meaningfully from expected.' },
+    { id:'chi-nosig',      trigger:'notSignificant',     message:'Not significant: the data is consistent with the expected distribution.' },
     { id:'chi-resid',      trigger:'highResidual',       message:'A large standardized residual (|r| > 2) pinpoints which category deviates most.' },
-    { id:'chi-cats',       trigger:'manyCategories',     message:'More categories means more degrees of freedom — the test becomes more nuanced.' },
-    { id:'chi-skew',       trigger:'lowSkew',            message:'Low skew generates near-uniform counts — harder to reject H₀.' },
+    { id:'chi-cats',       trigger:'manyCategories',     message:'More categories means more degrees of freedom: the test becomes more nuanced.' },
+    { id:'chi-skew',       trigger:'lowSkew',            message:'Low skew generates near-uniform counts: harder to reject H₀.' },
   ],
   'survival-curves': [
-    { id:'surv-sep',       trigger:'separation',         message:'The curves are well separated — groups have meaningfully different survival trajectories.' },
+    { id:'surv-sep',       trigger:'separation',         message:'The curves are well separated: groups have meaningfully different survival trajectories.' },
     { id:'surv-censor',    trigger:'censorHeavy',        message:'Heavy censoring (+ marks) means many subjects were still alive at observation end.' },
-    { id:'surv-lowh',      trigger:'lowHazard',          message:'A low hazard rate means events are rare — the survival curve drops slowly.' },
-    { id:'surv-highh',     trigger:'highHazard',         message:'A high hazard rate causes rapid decline — median survival falls sharply.' },
+    { id:'surv-lowh',      trigger:'lowHazard',          message:'A low hazard rate means events are rare: the survival curve drops slowly.' },
+    { id:'surv-highh',     trigger:'highHazard',         message:'A high hazard rate causes rapid decline: median survival falls sharply.' },
     { id:'surv-many',      trigger:'manyPatients',       message:'More patients smooth the step function and give tighter estimates.' },
   ],
   'bootstrap-resampler': [
-    { id:'boot-first',     trigger:'firstBoot',          message:'Each resample draws n values with replacement from your original data — some points repeat, some are skipped.' },
-    { id:'boot-many',      trigger:'manyBoot',           message:'500+ resamples gives a smooth bootstrap distribution — the shape reveals sampling variability.' },
-    { id:'boot-bell',      trigger:'bellShaped',         message:'The bootstrap distribution is bell-shaped — the CLT in action, even for non-normal data!' },
+    { id:'boot-first',     trigger:'firstBoot',          message:'Each resample draws n values with replacement from your original data: some points repeat, some are skipped.' },
+    { id:'boot-many',      trigger:'manyBoot',           message:'500+ resamples gives a smooth bootstrap distribution: the shape reveals sampling variability.' },
+    { id:'boot-bell',      trigger:'bellShaped',         message:'The bootstrap distribution is bell-shaped: the CLT in action, even for non-normal data!' },
     { id:'boot-narrow',    trigger:'narrowCI',           message:'A narrow CI means the sample mean is estimated precisely. Larger n → narrower CI.' },
-    { id:'boot-skew',      trigger:'skewedPop',          message:'Bootstrapping a skewed population — the distribution of means still tends toward normal!' },
+    { id:'boot-skew',      trigger:'skewedPop',          message:'Bootstrapping a skewed population: the distribution of means still tends toward normal!' },
   ],
 };
 
@@ -305,7 +305,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Probability Distributions</h3>
       <p>A probability distribution describes how likely each outcome is. The <strong>PDF</strong> (probability density function) shows the shape; the <strong>CDF</strong> shows the cumulative probability up to a value. Different distributions model different real-world processes.</p>
-      <div class="exp-formula">Normal ${T('PDF','Probability Density Function — shows the shape of the distribution. The height tells you how likely values near that point are.')}: ${T('f(x)','The density at value x — proportional to the probability of being near x.')} = (1 / ${T('σ','Sigma — the standard deviation: how spread out the distribution is.')}√2π) ${T('e','Euler\'s number (≈2.718) — the base of natural exponentials.')}^(−(${T('x','A value on the x-axis.')}−${T('μ','Mu — the mean: the centre of the bell curve.')})² / 2σ²)</div>
+      <div class="exp-formula">Normal ${T('PDF','Probability Density Function: shows the shape of the distribution. The height tells you how likely values near that point are.')}: ${T('f(x)','The density at value x — proportional to the probability of being near x.')} = (1 / ${T('σ','Sigma — the standard deviation: how spread out the distribution is.')}√2π) ${T('e','Euler\'s number (≈2.718) — the base of natural exponentials.')}^(−(${T('x','A value on the x-axis.')}−${T('μ','Mu — the mean: the centre of the bell curve.')})² / 2σ²)</div>
       <p>Parameters control everything: &mu; shifts the centre, &sigma; controls the spread. Uniform gives equal probability; Exponential models wait times; Poisson counts rare events.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -401,7 +401,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Bayes\u2019 Theorem</h3>
       <p>Bayes\u2019 theorem calculates the probability of an event given evidence. The classic example: even with a 99%-accurate test, a rare disease (low base rate) means most positive results are <strong>false positives</strong>.</p>
-      <div class="exp-formula">${T('P(A|B)','The probability of A given that B has occurred — this is what we want to know. Example: given a positive test, what is the chance of having the disease?')} = ${T('P(B|A)','Likelihood — how probable is the evidence B if A is true? Example: how often does the test fire when the disease is present?')} · ${T('P(A)','Prior — the base rate. How common is A in the general population before seeing any evidence?')} / ${T('P(B)','The total probability of observing B, across all possible causes.')}</div>
+      <div class="exp-formula">${T('P(A|B)','The probability of A given that B has occurred: this is what we want to know. Example: given a positive test, what is the chance of having the disease?')} = ${T('P(B|A)','Likelihood — how probable is the evidence B if A is true? Example: how often does the test fire when the disease is present?')} · ${T('P(A)','Prior — the base rate. How common is A in the general population before seeing any evidence?')} / ${T('P(B)','The total probability of observing B, across all possible causes.')}</div>
       <p>The prior P(A) is your starting belief. The likelihood P(B|A) is how likely the evidence is if A is true. P(B) normalises everything. The likelihood ratio P(B|A) / P(B|&not;A) captures the diagnostic strength of the evidence.</p>
       <h3>What to Observe</h3>
       <ul>
@@ -449,7 +449,7 @@ const EXPLAINERS = {
       <summary>How it Works</summary>
       <h3>Chi-Square Goodness of Fit</h3>
       <p>The chi-square test checks if observed frequencies differ significantly from expected frequencies. It is used for categorical data \u2014 how well do observed counts match a theoretical distribution?</p>
-      <div class="exp-formula">${T('χ²','Chi-squared — the total deviation between observed and expected counts. Larger = bigger discrepancy.')} = ${T('Σ','Sum over all categories.')} (${T('Oᵢ','Observed count for category i — what we actually measured.')} − ${T('Eᵢ','Expected count for category i — what we\'d predict under the null hypothesis.')})² / ${T('Eᵢ','Dividing by the expected count normalises the squared gap — categories with more data contribute proportionally.')}</div>
+      <div class="exp-formula">${T('χ²','Chi-squared: the total deviation between observed and expected counts. Larger = bigger discrepancy.')} = ${T('Σ','Sum over all categories.')} (${T('Oᵢ','Observed count for category i, what we actually measured.')} − ${T('Eᵢ','Expected count for category i, what we\'d predict under the null hypothesis.')})² / ${T('Eᵢ','Dividing by the expected count normalises the squared gap: categories with more data contribute proportionally.')}</div>
       <p>Large &chi;&sup2; means a big discrepancy between observed and expected. Standardised residuals pinpoint which categories deviate most. The degrees of freedom = number of categories &minus; 1.</p>
       <h3>What to Observe</h3>
       <ul>

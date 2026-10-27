@@ -431,7 +431,7 @@
     const el = document.createElement('div');
     el.className = 'learning-path-complete-toast';
     el.setAttribute('role', 'status');
-    el.innerHTML = `<strong>&#127881; Path complete!</strong> ${html(title)} &mdash; nicely done.`;
+    el.innerHTML = `<strong>&#127881; Path complete!</strong> ${html(title)}: nicely done.`;
     document.body.appendChild(el);
     requestAnimationFrame(() => el.classList.add('is-visible'));
     setTimeout(() => {

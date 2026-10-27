@@ -214,7 +214,7 @@ function indexPage() {
   const body = `<div class="trail-hero">
   <div class="trail-kicker">Pattern trails</div>
   <h2>Follow one pattern <em>across fields</em></h2>
-  <p class="trail-intro">Each trail takes one idea — the bell curve, regression to the mean, feedback — through statistics, machine learning and markets, a few stops at a time, with a note at each on why it belongs.</p>
+  <p class="trail-intro">Each trail takes one idea (the bell curve, regression to the mean, feedback) through statistics, machine learning and markets, a few stops at a time, with a note at each on why it belongs.</p>
 </div>
 
 <div class="trail-grid trail-grid-index">

@@ -264,8 +264,8 @@ def build_case(name):
     parts.append('<div class="case-box"><h4>The patterns behind it</h4><ul>%s</ul></div>' % ''.join(links))
     nb = mod.NOTEBOOK
     parts.append('<div class="case-box"><h4>Run it yourself</h4><ul>%s'
-                 '<li><a href="/notebooks/%s" download>Download the notebook</a> — the same steps, for Jupyter on your own machine%s</li>'
-                 '<li><a href="/lite/lab/?path=%s" target="_blank" rel="noopener">Open it in JupyterLite</a> — Jupyter in the browser, nothing to install</li></ul></div>'
+                 '<li><a href="/notebooks/%s" download>Download the notebook</a>: the same steps, for Jupyter on your own machine%s</li>'
+                 '<li><a href="/lite/lab/?path=%s" target="_blank" rel="noopener">Open it in JupyterLite</a>: Jupyter in the browser, nothing to install</li></ul></div>'
                  % ('<li>Each step above has a <b>Run</b> button: Python runs in this page, on the data file above.</li>' if runnable else '',
                     nb, '; it downloads the data itself' if not runnable else '', nb))
     parts.append('<div class="case-box src"><h4>Sources</h4><ul>%s</ul></div>'

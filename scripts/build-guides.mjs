@@ -201,7 +201,7 @@ ${g.kind === 'tree' ? node(g.root) : checklist(g)}
 files['guides/index.html'] = page({
   title: 'Guides', desc: 'Start from the problem: decision guides and checklists that lead to the right method and the topics behind it.',
   path: '/guides/', heroTitle: 'Guides',
-  crumb: `<section class="guide-hero"><div class="crumb">Guides</div><h2>Start from the <em style="color:var(--accent)">problem</em></h2><p>The topics are organised by subject. These guides start from what you are trying to do — choose a test, pick a metric, check a backtest — and lead to the method and the topics that explain it.</p></section>`,
+  crumb: `<section class="guide-hero"><div class="crumb">Guides</div><h2>Start from the <em style="color:var(--accent)">problem</em></h2><p>The topics are organised by subject. These guides start from what you are trying to do (choose a test, pick a metric, check a backtest), and lead to the method and the topics that explain it.</p></section>`,
   body: `<div class="g-cards">
 ${GUIDES.map(g => `<a class="g-card" href="/guides/${g.id}/"><div class="g-kicker">${g.kind === 'tree' ? 'Decision guide' : 'Checklist'} · ${g.minutes} min</div><h3>${esc(g.title)}</h3><p>${esc(g.blurb)}</p></a>`).join('\n')}
 </div>`,

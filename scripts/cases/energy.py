@@ -46,7 +46,7 @@ print('lowest complete day:', round(floor, 1), 'kWh, on', complete.kwh.idxmin().
 below = d[(d.minutes > 0) & (d.kwh < floor)]
 print('part-days below that:', below.kwh.round(1).tolist(),
       '| minutes recorded:', below.minutes.tolist())""",
-        'after': 'No complete day used less than <strong>{floor_kwh} kWh</strong> — the lowest was in August 2008, '
+        'after': 'No complete day used less than <strong>{floor_kwh} kWh</strong>: the lowest was in August 2008, '
                  'when the house was evidently empty: about {floor_w} W around the clock, the appliances that never switch off. Yet {n_below} '
                  'part-days fall below that, down to {min_below} kWh, and the {n_empty} days without a single '
                  'reading sum to exactly 0. They look like the household switching everything off; in fact the '
@@ -56,7 +56,7 @@ print('part-days below that:', below.kwh.round(1).tolist(),
     {
         'title': 'Repair the days, and keep track of which ones',
         'before': 'Days with at least 90% of their minutes are scaled up to a full day. The rest are treated as '
-                  'missing and filled by linear interpolation between the days around them — but marked, so that '
+                  'missing and filled by linear interpolation between the days around them, but marked, so that '
                   'no forecast is scored against an invented value.',
         'code': """mostly_there = d.minutes >= 0.9 * 1440
 kwh = (d.kwh * 1440 / d.minutes).where(mostly_there)  # scale near-complete days to 24 h
@@ -66,7 +66,7 @@ print('scaled days:', (mostly_there & partial).sum(), '| filled days:', (~observ
 print('mean kWh per day:', round(kwh[observed].mean(), 1),
       '| std:', round(kwh[observed].std(), 1))""",
         'after': '{scaled_days} days are scaled up and {filled_days} filled. A typical day uses about '
-                 '{mean_kwh} kWh, give or take {std_kwh} — a lot of day-to-day noise for one household.',
+                 '{mean_kwh} kWh, give or take {std_kwh}: a lot of day-to-day noise for one household.',
     },
     {
         'title': 'Season and weekday',
@@ -87,7 +87,7 @@ print('by weekday (Mon-Sun):', by_weekday.tolist())""",
     {
         'title': 'Six naive forecasts, tested on the last year',
         'before': 'Forecast each day of the final twelve months (December 2009 – November 2010) using only the '
-                  'days before it — a walk-forward test — and score each forecast with the mean absolute error on '
+                  'days before it, a walk-forward test, and score each forecast with the mean absolute error on '
                   'the days that were actually observed.',
         'code': """forecasts = pd.DataFrame({
     'yesterday': kwh.shift(1),
@@ -133,7 +133,7 @@ for month in pd.date_range('2009-12-01', '2010-11-01', freq='MS'):
 ridge_mae = (pred[test] - kwh[test]).abs().mean()
 print('ridge MAE:', round(ridge_mae, 2), '| mean of last 7 days:', mae['mean of last 7 days'])""",
         'after': '{n_features} features, refitted every month: <strong>{ridge} kWh</strong> against {mae7} for the '
-                 '7-day mean, a {ridge_gain} improvement. That is the honest result for this household: most of '
+                 '7-day mean, a {ridge_gain} improvement. That is the real result for this household: most of '
                  'tomorrow is unpredictable from the meter alone, and the little that is predictable a moving '
                  'average already captures. The obvious next input is the weather, which drives heating, '
                  'rather than a more complex model of the same meter readings.',
@@ -164,7 +164,7 @@ TAKEAWAYS = [
     'Before forecasting, find out what a low value means. Missing readings that are summed as zeros look '
     'exactly like low demand.',
     'Fill gaps for model input if you must, but never score a forecast against a filled value.',
-    'Test forecasts walk-forward — each prediction made only from the past — and always against several naive '
+    'Test forecasts walk-forward, each prediction made only from the past, and always against several naive '
     'baselines. The best naive forecast is the bar a model has to clear.',
     'When a model barely beats a moving average, the limit is usually information, not the model. New inputs '
     '(here: weather) move the error more than new algorithms.',
@@ -177,7 +177,7 @@ PATTERNS = [
     ('timeseries/resampling', 'from minutes to days'),
 ]
 SOURCES = [
-    'G. Hébrail &amp; A. Bérard, “Individual Household Electric Power Consumption”, UCI Machine Learning Repository, 2012 — the data set',
+    'G. Hébrail &amp; A. Bérard, “Individual Household Electric Power Consumption”, UCI Machine Learning Repository, 2012: the data set',
     'R. J. Hyndman &amp; G. Athanasopoulos, <em>Forecasting: Principles and Practice</em>, 3rd ed., OTexts, 2021 — simple benchmark methods and time series cross-validation',
     'S. Makridakis, E. Spiliotis &amp; V. Assimakopoulos, “Statistical and Machine Learning forecasting methods: Concerns and ways forward”, <em>PLOS ONE</em> 13(3), 2018',
 ]

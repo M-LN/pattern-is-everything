@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Which metric should I evaluate my model with? — Pattern is Everything</title>
-  <meta name="description" content="From what your model predicts and what its mistakes cost to the metric that measures it honestly.">
+  <meta name="description" content="From what your model predicts and what its mistakes cost to the metric that measures it fairly.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="canonical" href="https://patterniseverything.com/guides/which-metric/">
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Article", "headline": "Which metric should I evaluate my model with?", "description": "From what your model predicts and what its mistakes cost to the metric that measures it honestly.",
+  { "@context": "https://schema.org", "@type": "Article", "headline": "Which metric should I evaluate my model with?", "description": "From what your model predicts and what its mistakes cost to the metric that measures it fairly.",
     "url": "https://patterniseverything.com/guides/which-metric/", "dateModified": "2026-10-02", "inLanguage": "en",
     "author": { "@type": "Organization", "name": "Pattern is Everything", "url": "https://patterniseverything.com/" } }
   </script>
   <meta property="og:url" content="https://patterniseverything.com/guides/which-metric/">
   <meta property="og:title" content="Which metric should I evaluate my model with?">
-  <meta property="og:description" content="From what your model predicts and what its mistakes cost to the metric that measures it honestly.">
+  <meta property="og:description" content="From what your model predicts and what its mistakes cost to the metric that measures it fairly.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-metric.jpg?v=9e7a687a">
+  <meta property="og:image" content="https://patterniseverything.com/assets/og/pages/guides-which-metric.jpg?v=2f789f18">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
@@ -101,7 +101,7 @@
   </div>
 </header>
 <main class="guide" id="mainContent">
-<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which metric should I evaluate my model with?</h2><p>From what your model predicts and what its mistakes cost to the metric that measures it honestly.</p></section>
+<section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which metric should I evaluate my model with?</h2><p>From what your model predicts and what its mistakes cost to the metric that measures it fairly.</p></section>
 <div class="g-before">Pick the metric before you run experiments, compare every model against a simple baseline, and measure on held-out data with a validation scheme that matches how the model will be used.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/stats/cross-validation/">Cross-Validation Done Right</a> · <a href="/stats/sklearn-eval/">scikit-learn Evaluation Suite</a> · <a href="/essays/essay-forking/">The Garden of Forking Paths</a></div></div>
 <section class="g-body" data-guide="which-metric" data-kind="tree">
 <div class="g-node">
@@ -129,14 +129,14 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">Accuracy with the confusion matrix (F1 if errors cost about the same)</div>
   
-  <p>With balanced classes accuracy is meaningful — but always read the matrix behind it.</p>
+  <p>With balanced classes accuracy is meaningful, but always read the matrix behind it.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/confusion-matrix/">Confusion Matrix &amp; Classification Metrics</a> · <a href="/ml-math/metrics/">Eval Metrics</a></div>
 </div></div>
 </details>
 </div>
 </div></div>
 </details>
-<details class="g-opt"><summary>Rare (below 10%) — fraud, failures, disease</summary>
+<details class="g-opt"><summary>Rare (below 10%): fraud, failures, disease</summary>
 <div class="g-next"><div class="g-node">
 <div class="g-q">Which mistake costs more?</div>
 <div class="g-opts">
@@ -182,7 +182,7 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">ROC-AUC</div>
   
-  <p>The probability that a random positive ranks above a random negative — threshold-free.</p>
+  <p>The probability that a random positive ranks above a random negative: threshold-free.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/roc-auc/">ROC &amp; AUC Curves</a></div>
 </div></div>
 </details>
@@ -244,7 +244,7 @@
 <details class="g-opt"><summary>Future values of a time series</summary>
 <div class="g-next"><div class="g-result" data-result="mase-against-seasonal-naive-on-a-rolling-origin-backtest-plu">
   <div class="g-kicker">Use</div>
-  <div class="g-name">MASE against seasonal naive, on a rolling-origin backtest — plus interval coverage</div>
+  <div class="g-name">MASE against seasonal naive, on a rolling-origin backtest, plus interval coverage</div>
   
   <p>Forecasts must beat the obvious baseline across many forecast origins, and their intervals should contain the outcome as often as promised.</p>
   <div class="g-read"><span>Read</span> <a href="/timeseries/backtesting-forecasts/">Backtesting Forecasts</a> · <a href="/timeseries/cross-validation-ts/">Cross-Validation for TS</a> · <a href="/timeseries/sarima/">SARIMA</a></div>

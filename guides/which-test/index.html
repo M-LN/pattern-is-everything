@@ -102,7 +102,7 @@
 </header>
 <main class="guide" id="mainContent">
 <section class="guide-hero"><div class="crumb"><a href="/guides/">Guides</a> · Decision guide · 3 min</div><h2>Which statistical test should I use?</h2><p>Answer a few questions about your data and get the test, the SciPy call, and what to report with it.</p></section>
-<div class="g-before">Decide the test before you look at the results — choosing it afterwards is a forking path. Whatever the test says, report the effect size and a confidence interval alongside the p-value.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/stats/hypothesis-testing/">Hypothesis Testing &amp; p-values</a> · <a href="/stats/effect-size/">Effect Size &amp; Practical Significance</a> · <a href="/essays/essay-forking/">The Garden of Forking Paths</a></div></div>
+<div class="g-before">Decide the test before you look at the results: choosing it afterwards is a forking path. Whatever the test says, report the effect size and a confidence interval alongside the p-value.<div class="g-read" style="margin-top:6px"><span>Background</span> <a href="/stats/hypothesis-testing/">Hypothesis Testing &amp; p-values</a> · <a href="/stats/effect-size/">Effect Size &amp; Practical Significance</a> · <a href="/essays/essay-forking/">The Garden of Forking Paths</a></div></div>
 <section class="g-body" data-guide="which-test" data-kind="tree">
 <div class="g-node">
 <div class="g-q">What are you comparing?</div>
@@ -134,7 +134,7 @@
 </details>
 <details class="g-opt"><summary>Two groups</summary>
 <div class="g-next"><div class="g-node">
-<div class="g-q">Are the measurements paired — the same units measured twice?</div>
+<div class="g-q">Are the measurements paired: the same units measured twice?</div>
 <div class="g-opts">
 <details class="g-opt"><summary>Paired (before/after, same users, same folds)</summary>
 <div class="g-next"><div class="g-node">
@@ -183,7 +183,7 @@
   <div class="g-read"><span>Read</span> <a href="/stats/stat-tests/">Choosing the Right Statistical Test</a> · <a href="/stats/distribution-shape/">Distribution Shape</a></div>
 </div></div>
 </details>
-<details class="g-opt"><summary>Yes/no — a proportion (conversion, defect rate)</summary>
+<details class="g-opt"><summary>Yes/no: a proportion (conversion, defect rate)</summary>
 <div class="g-next"><div class="g-node">
 <div class="g-q">Do you expect at least 5 cases in every cell of the 2×2 table?</div>
 <div class="g-opts">
@@ -257,7 +257,7 @@
   <div class="g-kicker">Use</div>
   <div class="g-name">Pearson correlation</div>
   <code class="g-code">scipy.stats.pearsonr(x, y)</code>
-  <p>Measures straight-line association. Plot it first — r = 0 can hide a strong curved relationship.</p>
+  <p>Measures straight-line association. Plot it first: r = 0 can hide a strong curved relationship.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/feature-correlation/">Feature Correlation &amp; Multicollinearity</a> · <a href="/stats/correlation-causation/">Correlation, Causation &amp; Simpson's Paradox</a></div>
 </div></div>
 </details>
@@ -285,7 +285,7 @@
 <details class="g-opt"><summary>Whether data follow a distribution, or two samples share one</summary>
 <div class="g-next"><div class="g-result" data-result="kolmogorov-smirnov-test-plus-a-qq-plot">
   <div class="g-kicker">Use</div>
-  <div class="g-name">Kolmogorov–Smirnov test — plus a QQ plot</div>
+  <div class="g-name">Kolmogorov–Smirnov test, plus a QQ plot</div>
   <code class="g-code">scipy.stats.ks_2samp(a, b)</code>
   <p>With large samples the test flags differences too small to matter; judge the size of the difference on the plot.</p>
   <div class="g-read"><span>Read</span> <a href="/stats/distribution-shape/">Distribution Shape</a> · <a href="/stats/data-drift/">Data Drift &amp; Distribution Shift</a></div>

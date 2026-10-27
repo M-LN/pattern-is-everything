@@ -57,10 +57,6 @@
     .labels { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
     .labels td { padding: 10px 8px; border-top: 1px solid var(--border); vertical-align: top; }
     .labels td:first-child { white-space: nowrap; width: 1%; }
-    .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
-    .stat div { border: 1px solid var(--border); border-radius: 10px; padding: 12px; background: var(--surface); }
-    .stat strong { display: block; font-family: var(--serif); font-size: 30px; color: var(--accent); }
-    .stat span { font-size: 13px; color: var(--muted); }
     .about-cta { display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--accent); color: #fff !important; text-decoration: none !important; font-weight: 600; }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .about-cta { background: #3550c8; } }
     [data-theme="dark"] .about-cta { background: #3550c8; }
@@ -92,50 +88,44 @@
   <section class="method-hero">
     <div class="eyebrow">About</div>
     <h2>About this <em>site</em></h2>
-    <p>Pattern is Everything explains the same few patterns as they turn up in statistics, machine learning, time series, markets and everyday life — 257 interactive topics, 17 essays, decision guides and case studies on real data. It is free, with no ads and no paywalls, and open source: static pages, no tracking cookies. This page says how each topic is built, what the labels mean and how the content is checked.</p>
+    <p>Pattern is Everything explains the same few patterns as they turn up in statistics, machine learning, time series, markets and everyday life: 257 interactive topics, 17 essays, decision guides and case studies on real data. It is free, with no ads and no paywalls, and open source: static pages, no tracking cookies. This page says how each topic is built, what the labels mean and how the content is checked.</p>
   </section>
 
   <h3>Every number comes from code you can see</h3>
   <p>Each topic in the ten collections has the same parts:</p>
   <div class="anatomy">
-    <div><b>The pattern</b>One line on the idea, phrased so it could stand in another collection — the thread that connects topics across the site.</div>
+    <div><b>The pattern</b>One line on the idea, phrased so it could stand in another collection: the thread that connects topics across the site.</div>
     <div><b>Explanation and visualization</b>What happens and why, with an interactive chart you can push around.</div>
-    <div><b>Worked example</b>The idea applied to concrete numbers. Every figure in it is the output of the code shown underneath, run on the data shown with it. Where the data are made up or simulated, the code’s comments say so; where a real model or study is named, its published numbers are used. <em>Run</em> under the code executes it in your browser, with the imports and data it needs shown above it, so you can check the figures — or change the code and see what moves.</div>
+    <div><b>Worked example</b>The idea applied to concrete numbers. Every figure in it is the output of the code shown underneath, run on the data shown with it. Where the data are made up or simulated, the code’s comments say so; where a real model or study is named, its published numbers are used. <em>Run</em> under the code executes it in your browser, with the imports and data it needs shown above it, so you can check the figures, or change the code and see what moves.</div>
     <div><b>Where it misleads</b>When the idea fails, what that looks like, and what people get wrong about it.</div>
-    <div><b>Sources</b>Papers, books and official documentation for the claims made — at least two for every topic.</div>
+    <div><b>Sources</b>Papers, books and official documentation for the claims made: at least two for every topic.</div>
   </div>
-  <p>The essays are shorter and have no code; each has its own references. The <a href="../guides/">guides</a> work the other way round: they start from a task — choosing a test, a metric or a forecasting model — and lead to the topics.</p>
+  <p>The essays are shorter and have no code; each has its own references. The <a href="../guides/">guides</a> work the other way round: they start from a task (choosing a test, a metric or a forecasting model), and lead to the topics.</p>
 
   <h3>Evidence labels</h3>
   <p>Every topic carries a label saying how firm the ground under it is.</p>
   <table class="labels">
     <tr><td><span class="evidence-badge proven">Mathematical</span></td><td>A definition or a theorem. The formula is exact; whether it is useful still depends on your data and assumptions.</td></tr>
     <tr><td><span class="evidence-badge statistical">Statistical</span></td><td>Grounded in estimation, validation or empirical evaluation. Comes with uncertainty and assumptions.</td></tr>
-    <tr><td><span class="evidence-badge practice">Practice</span></td><td>An established tool, workflow or engineering pattern — RAG, feature stores, CI/CD. It encodes experience and trade-offs, not a proof or a measured effect.</td></tr>
+    <tr><td><span class="evidence-badge practice">Practice</span></td><td>An established tool, workflow or engineering pattern: RAG, feature stores, CI/CD. It encodes experience and trade-offs, not a proof or a measured effect.</td></tr>
     <tr><td><span class="evidence-badge heuristic">Heuristic</span></td><td>A rule of thumb or a pattern people look for. Useful for thinking and exploring; not proof of a predictive edge.</td></tr>
     <tr><td><span class="evidence-badge debated">Debated</span></td><td>The evidence is mixed or contested. Test it on your own data before relying on it.</td></tr>
   </table>
-  <p>The label belongs to the topic, not to its collection: in LLM Engineering, attention is Mathematical, scaling laws are Statistical, RAG is Practice and prompt engineering is Heuristic. Chart patterns are Heuristic. In Market Psychology, biases measured in experiments and in investors’ own trades — anchoring, loss aversion, the disposition effect — are Statistical, while market narratives such as the sentiment cycle and Wyckoff’s phases are Heuristic. Technical indicators used as trading signals, stop-losses, herding and transformer forecasters are Debated. The site presents them as hypotheses, together with the research on whether they work.</p>
+  <p>The label belongs to the topic, not to its collection: in LLM Engineering, attention is Mathematical, scaling laws are Statistical, RAG is Practice and prompt engineering is Heuristic. Chart patterns are Heuristic. In Market Psychology, biases measured in experiments and in investors’ own trades (anchoring, loss aversion, the disposition effect) are Statistical, while market narratives such as the sentiment cycle and Wyckoff’s phases are Heuristic. Technical indicators used as trading signals, stop-losses, herding and transformer forecasters are Debated. The site presents them as hypotheses, together with the research on whether they work.</p>
 
   <h3 id="checked">How the content is checked</h3>
-  <p>In October 2026 the whole site went through a fact-check: every figure and empirical claim in the original text was traced to a source, recomputed, or removed.</p>
-  <div class="stat">
-    <div><strong>87</strong><span>corrections across all ten collections</span></div>
-    <div><strong>23</strong><span>factual errors fixed</span></div>
-    <div><strong>29</strong><span>unsourced figures removed or replaced with measured findings</span></div>
-    <div><strong>274</strong><span>topics with sources and a review date</span></div>
-  </div>
-  <p>Examples of what was fixed: a capital rule attributed to Basel III that was in fact the 1996 amendment; a comparison between two language models stated backwards; the square-root law of random walks inverted; trading-indicator “win rates” with no source behind them. Superlatives such as “the most reliable pattern” were toned down, and assumptions — usually normality — were made explicit where a number depends on them.</p>
-  <p>Each topic shows when it was last reviewed, and the date is the topic’s own: reviewing one topic does not re-date the rest. A topic falls due for another review six months after its last one in LLM Engineering and MLOps, and eighteen months after it everywhere else — sooner if something it relies on changes. A weekly job lists the topics that are due.</p>
+  <p>In October 2026 the whole site went through a fact-check: every figure and empirical claim in the original text was traced to a source, recomputed, or removed. That made 87 corrections across the ten collections. 23 of them fixed factual errors, and 29 replaced or removed figures that had no source. All 274 topics now list their sources and a review date.</p>
+  <p>Examples of what was fixed: a capital rule attributed to Basel III that was in fact the 1996 amendment; a comparison between two language models stated backwards; the square-root law of random walks inverted; trading-indicator “win rates” with no source behind them. Phrases like “the most reliable pattern” are gone, and where a number depends on an assumption (usually normality), the text now says so.</p>
+  <p>Each topic shows when it was last reviewed, and the date is the topic’s own: reviewing one topic does not re-date the rest. A topic falls due for another review six months after its last one in LLM Engineering and MLOps, and eighteen months after it everywhere else: sooner if something it relies on changes. A weekly job lists the topics that are due.</p>
 
   <h3>What changes fast</h3>
   <p>LLM Engineering and MLOps mention specific models, tools and hardware. Those details age within months, so the text dates them (“by 2024…”) rather than calling anything the latest, and these two collections are reviewed more often than the rest. The mathematics underneath changes slowly.</p>
 
   <h3>Not financial advice</h3>
-  <p>The market collections teach how traders and researchers think about prices, risk and behaviour. Nothing here is a recommendation to buy or sell anything. Patterns that look convincing in hindsight are exactly what the site warns about — test any rule out of sample, after costs, before trusting it.</p>
+  <p>The market collections teach how traders and researchers think about prices, risk and behaviour. Nothing here is a recommendation to buy or sell anything. Patterns that look convincing in hindsight are exactly what the site warns about: test any rule out of sample, after costs, before trusting it.</p>
 
   <h3>Found a mistake?</h3>
-  <p>Please say so. Every topic, essay, guide and case ends with a <strong>Report a mistake</strong> link: it opens a short form on <a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml" target="_blank" rel="noopener">GitHub</a> with the page already filled in. Say what is wrong and, ideally, give a source. Corrections are made in the open — <a href="https://github.com/M-LN/pattern-is-everything/issues?q=is%3Aissue+in%3Atitle+Correction" target="_blank" rel="noopener">past reports and what came of them</a> are public, and the change history is in the repository.</p>
+  <p>Please say so. Every topic, essay, guide and case ends with a <strong>Report a mistake</strong> link: it opens a short form on <a href="https://github.com/M-LN/pattern-is-everything/issues/new?template=correction.yml" target="_blank" rel="noopener">GitHub</a> with the page already filled in. Say what is wrong and, ideally, give a source. Corrections are made in the open: <a href="https://github.com/M-LN/pattern-is-everything/issues?q=is%3Aissue+in%3Atitle+Correction" target="_blank" rel="noopener">past reports and what came of them</a> are public, and the change history is in the repository.</p>
   <p>Links to sources are checked every month, so a paper that has moved is found before a reader finds it.</p>
 
   <h3>Privacy</h3>

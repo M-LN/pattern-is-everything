@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Machine Learning — Pattern is Everything</title>
-  <meta name="description" content="118 interactive topics — ML Math, LLM Engineering, MLOps, and Timeseries Engineering. From linear algebra to production deployment.">
+  <meta name="description" content="118 interactive topics: ML Math, LLM Engineering, MLOps, and Timeseries Engineering. From linear algebra to production deployment.">
   <meta property="og:title" content="Machine Learning — Pattern is Everything">
-  <meta property="og:description" content="118 interactive topics — ML Math, LLM Engineering, MLOps, and Timeseries Engineering.">
+  <meta property="og:description" content="118 interactive topics: ML Math, LLM Engineering, MLOps, and Timeseries Engineering.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#2a44b8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">  <meta name="color-scheme" content="light dark">
@@ -48,7 +48,7 @@
       position: absolute;
       top: 30px; left: 50%; transform: translateX(-50%);
       width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(42,68,184,.06) 0%, transparent 70%);
+      background: none;
       pointer-events: none;
       border-radius: 50%;
     }
@@ -120,34 +120,6 @@
       backdrop-filter: blur(12px);
     }
     body { padding-top: var(--hdr-h); }
-    .portal-stats {
-      display: flex; gap: 48px; justify-content: center;
-      margin: 28px 0 48px;
-      flex-wrap: wrap;
-    }
-    .portal-stat { text-align: center; position: relative; }
-    .portal-stat + .portal-stat::before {
-      content: '';
-      position: absolute;
-      left: -24px; top: 8px;
-      width: 1px; height: 36px;
-      background: var(--border);
-    }
-    .portal-stat-num {
-      font-family: var(--serif);
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
-    }
-    .portal-stat-label {
-      font-family: var(--sans);
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
     .back-link {
       font-family: var(--sans);
       font-size: 11px;
@@ -166,7 +138,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:title" content="Machine Learning — Pattern is Everything">
-  <meta name="twitter:description" content="118 interactive topics — ML Math, LLM Engineering, MLOps, and Timeseries Engineering.">
+  <meta name="twitter:description" content="118 interactive topics: ML Math, LLM Engineering, MLOps, and Timeseries Engineering.">
   <meta name="twitter:image" content="https://patterniseverything.com/assets/og/og-ml.png">
 
   </head>
@@ -196,23 +168,9 @@
 <div role="main" id="mainContent">
 <div class="portal-hero">
   <h2>Machine<br><em>Learning</em></h2>
-  <p>The mathematics, statistics, and engineering behind modern AI — from gradient descent to RLHF, with interactive visualizations and code for every concept.</p>
+  <p>The mathematics, statistics, and engineering behind modern AI: from gradient descent to RLHF, with interactive visualizations and code for every concept.</p>
 </div>
 
-<div class="portal-stats band">
-  <div class="portal-stat">
-    <div class="portal-stat-num">118</div>
-    <div class="portal-stat-label">Topics</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">118</div>
-    <div class="portal-stat-label">Visualizations</div>
-  </div>
-  <div class="portal-stat">
-    <div class="portal-stat-num">4</div>
-    <div class="portal-stat-label">Collections</div>
-  </div>
-</div>
 
 <div class="portal-content">
   <div class="section-head">
@@ -222,51 +180,27 @@
 
   <div class="portal-grid">
     <a class="collection-card" href="../ml-math/index.html">
-      <div class="cc-icon">∑</div>
       <div class="cc-title">ML <em>Math</em></div>
-      <div class="cc-desc">Complete interactive reference covering 38 topics — from linear algebra fundamentals to diffusion models. Every topic has core math, visual intuition, and PyTorch code.</div>
-      <div class="cc-tags">
-        <span class="tag t1">38 Topics</span>
-        <span class="tag t2">Interactive</span>
-        <span class="tag t3">PyTorch</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Foundations · Training · Deep Learning · Generative</div>
+      <div class="cc-desc">Complete interactive reference covering 38 topics: from linear algebra fundamentals to diffusion models. Every topic has core math, visual intuition, and PyTorch code.</div>
+      <div class="cc-meta">Foundations · Training · Deep Learning · Generative</div>
     </a>
 
     <a class="collection-card" href="../llm/index.html">
-      <div class="cc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2.5 4.5 14 11 14 10 21.5 19.5 10 13 10"/></svg></div>
       <div class="cc-title">LLM <em>Engineering</em></div>
-      <div class="cc-desc">30 topics from tokenization to agents — transformer internals, training paradigms (RLHF, DPO, LoRA), inference optimization, RAG, and evaluation benchmarks.</div>
-      <div class="cc-tags">
-        <span class="tag t1">30 Topics</span>
-        <span class="tag t2">Interactive</span>
-        <span class="tag t3">Transformers</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Foundations · Architecture · Training · Inference · Applications</div>
+      <div class="cc-desc">30 topics from tokenization to agents: transformer internals, training paradigms (RLHF, DPO, LoRA), inference optimization, RAG, and evaluation benchmarks.</div>
+      <div class="cc-meta">Foundations · Architecture · Training · Inference · Applications</div>
     </a>
 
     <a class="collection-card" href="../mlops/index.html">
-      <div class="cc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 4v2.5M12 17.5V20M4 12h2.5M17.5 12H20M6.4 6.4l1.8 1.8M15.8 15.8l1.8 1.8M17.6 6.4l-1.8 1.8M8.2 15.8l-1.8 1.8"/></svg></div>
       <div class="cc-title">MLOps & <em>Production ML</em></div>
-      <div class="cc-desc">25 topics on deploying and operating ML systems at scale — model serving, monitoring, pipelines, feature stores, and governance. From experiment tracking to incident response.</div>
-      <div class="cc-tags">
-        <span class="tag t1">25 Topics</span>
-        <span class="tag t2">Interactive</span>
-        <span class="tag t4">Production</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Deploy · Monitor · Pipeline · Scale · Governance</div>
+      <div class="cc-desc">25 topics on deploying and operating ML systems at scale: model serving, monitoring, pipelines, feature stores, and governance. From experiment tracking to incident response.</div>
+      <div class="cc-meta">Deploy · Monitor · Pipeline · Scale · Governance</div>
     </a>
 
     <a class="collection-card" href="../timeseries/index.html">
-      <div class="cc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c2.5 0 2.5-5 5-5s2.5 8 5 8 2.5-6 5-6 3 3 3 3" /></svg></div>
       <div class="cc-title">Timeseries <em>Engineering</em></div>
-      <div class="cc-desc">25 topics on forecasting and temporal data — from stationarity and ARIMA to LSTMs, Transformers, and production backtesting. Interactive visualizations for every model.</div>
-      <div class="cc-tags">
-        <span class="tag t1">25 Topics</span>
-        <span class="tag t2">Interactive</span>
-        <span class="tag t3">Forecasting</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Foundations · Classical · Advanced · Deep Learning · Practice</div>
+      <div class="cc-desc">25 topics on forecasting and temporal data: from stationarity and ARIMA to LSTMs, Transformers, and production backtesting. Interactive visualizations for every model.</div>
+      <div class="cc-meta">Foundations · Classical · Advanced · Deep Learning · Practice</div>
     </a>
   </div>
   <p style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:22px;line-height:1.7;">Looking for The Toolkit? Statistics &amp; data analytics now lives in its <a href="../stats/index.html" style="color:var(--accent);">own universe →</a></p>
@@ -279,16 +213,9 @@
   </div>
   <div class="portal-grid">
     <a class="collection-card" href="../cases/index.html">
-      <div class="cc-icon">↗</div>
       <div class="cc-title">Real-Data <em>Cases</em></div>
       <div class="cc-desc">4 practical mini-cases that turn the topic library into workflows: load a dataset, build a baseline, choose metrics, avoid common leakage, and copy a notebook-ready starter.</div>
-      <div class="cc-tags">
-        <span class="tag t1">4 Cases</span>
-        <span class="tag t2">Datasets</span>
-        <span class="tag t3">Metrics</span>
-        <span class="tag t4">Notebook Ready</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Fraud · Regression · Forecasting · Backtesting</div>
+      <div class="cc-meta">Fraud · Regression · Forecasting · Backtesting</div>
     </a>
   </div>
 </div>
@@ -300,15 +227,9 @@
   </div>
   <div class="portal-grid">
     <a class="collection-card" href="../sandbox/ml/index.html">
-      <div class="cc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3h5M11 3v5.5L5.8 18a2 2 0 0 0 1.8 3h8.8a2 2 0 0 0 1.8-3L13 8.5V3"/><line x1="8.5" y1="14" x2="15.5" y2="14"/></svg></div>
       <div class="cc-title">ML <em>Lab</em></div>
-      <div class="cc-desc">9 hands-on activities — linear regression, K-Means, classification boundaries, neural networks, feature scaling, timeseries forecasting, and more. Build intuition by experimenting.</div>
-      <div class="cc-tags">
-        <span class="tag t1">9 Activities</span>
-        <span class="tag t2">Interactive</span>
-        <span class="tag t4">Hands-on</span>
-      </div>
-      <div class="cc-meta" style="margin-top:14px;">Regression · Clustering · Classification · Networks · Scaling · Forecasting</div>
+      <div class="cc-desc">9 hands-on activities: linear regression, K-Means, classification boundaries, neural networks, feature scaling, timeseries forecasting, and more. Build intuition by experimenting.</div>
+      <div class="cc-meta">Regression · Clustering · Classification · Networks · Scaling · Forecasting</div>
     </a>
   </div>
 </div>
@@ -316,7 +237,6 @@
 </div>
 <div class="portal-footer" role="contentinfo">
   Pattern is Everything · 2026
-  <p>Vanilla HTML · CSS · JavaScript — no frameworks, no dependencies</p>
   <nav class="footer-links" aria-label="Footer">
     <a href="https://github.com/M-LN/pattern-is-everything" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
     <a href="../lite/lab/" target="_blank" rel="noopener">JupyterLite Lab</a>
@@ -335,23 +255,6 @@ if (saved) document.documentElement.setAttribute('data-theme', saved);
 else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.setAttribute('data-theme', 'dark');
 
-function animateCounters() {
-  // Render the final value immediately — consistent with the Stats/Essays hubs
-  // (static numbers) and avoids a flash of a lower count on load.
-  document.querySelectorAll('.portal-stat-num').forEach(el => {
-    const target = parseInt(el.textContent, 10);
-    if (!isNaN(target)) el.textContent = target;
-  });
-}
-const statsEl = document.querySelector('.portal-stats');
-if (statsEl && 'IntersectionObserver' in window) {
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
-  }, { threshold: 0.3 });
-  obs.observe(statsEl);
-} else {
-  animateCounters();
-}
 </script>
 <script defer src="../js/ui-enhance.js?v=36"></script>
 </body>

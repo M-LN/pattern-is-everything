@@ -393,7 +393,7 @@ main{padding:20px 16px 60px}
 <div class="home active" id="home">
   <div class="home-hero">
     <h2>The <em>Mathematics</em><br>of Machine Learning</h2>
-    <p style="margin-top:14px">A complete interactive reference covering 27 topics — from linear regression to diffusion models. Every topic has the core math, visual intuition, and PyTorch code.</p>
+    <p style="margin-top:14px">A complete interactive reference covering 27 topics: from linear regression to diffusion models. Every topic has the core math, visual intuition, and PyTorch code.</p>
   </div>
   <div class="cat-grid">
     <div class="cat-card" onclick="showSection('sec-foundations','linear')">
@@ -438,12 +438,12 @@ main{padding:20px 16px 60px}
     </div>
     <span class="topic-badge">Supervised</span>
   </div>
-  <p class="sub">// Fitting a line through data — the simplest predictive model</p>
+  <p class="sub">// Fitting a line through data: the simplest predictive model</p>
   <p class="prose">Linear regression finds the best-fit line through data. Given input <strong>x</strong>, we predict <strong>ŷ</strong> by learning weight <strong>w</strong> (slope) and bias <strong>b</strong> (intercept) that minimise prediction error.</p>
   <div class="fb"><div class="fm">ŷ = w · x + b</div><div class="fd"><span>ŷ</span> = prediction &nbsp;|&nbsp; <span>w</span> = weight &nbsp;|&nbsp; <span>x</span> = input &nbsp;|&nbsp; <span>b</span> = bias</div></div>
   <div class="fb c2"><div class="fm">MSE = (1/n) · Σ (yᵢ − ŷᵢ)²</div><div class="fd"><span>MSE</span> = Mean Squared Error loss &nbsp;|&nbsp; minimised by gradient descent</div></div>
   <div class="va">
-    <div class="vl">// Interactive — drag sliders to fit the line</div>
+    <div class="vl">// Interactive: drag sliders to fit the line</div>
     <canvas id="linCanvas" role="img" aria-label="Interactive — drag sliders to fit the line" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Weight w</span><input type="range" id="linW" min="-3" max="3" step="0.05" value="0.5"><span class="vd" id="linWv">0.50</span></div>
@@ -466,7 +466,7 @@ main{padding:20px 16px 60px}
     <span class="topic-badge">Optimization</span>
   </div>
   <p class="sub">// Rolling downhill on the loss landscape to find optimal weights</p>
-  <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong> — opposite the gradient — to reach minimum loss.</p>
+  <p class="prose">Gradient Descent is how models learn. We start at random weights and take small steps in the direction of <strong>steepest descent</strong>, opposite the gradient, to reach minimum loss.</p>
   <div class="fb"><div class="fm">w := w − α · ∂L/∂w</div><div class="fd"><span>α</span> = learning rate &nbsp;|&nbsp; <span>∂L/∂w</span> = gradient (slope of loss w.r.t. weight)</div></div>
   <p class="prose">Three variants differ in <strong>how many samples</strong> are used per update:</p>
   <table class="mt">
@@ -478,7 +478,7 @@ main{padding:20px 16px 60px}
     </tbody>
   </table>
   <div class="va">
-    <div class="vl">// Animated loss landscape — adjust learning rate and run</div>
+    <div class="vl">// Animated loss landscape: adjust learning rate and run</div>
     <canvas id="gdCanvas" role="img" aria-label="Animated loss landscape — adjust learning rate and run" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Learning Rate α</span><input type="range" id="gdLR" min="0.01" max="0.48" step="0.01" value="0.1" oninput="document.getElementById('gdLRv').textContent=parseFloat(this.value).toFixed(2)"><span class="vd" id="gdLRv">0.10</span></div>
@@ -500,7 +500,7 @@ main{padding:20px 16px 60px}
   <p class="sub">// What makes deep networks more than stacked linear transforms</p>
   <p class="prose">Without activations, any stack of linear layers collapses to a single linear transform. Activation functions introduce <strong>non-linearity</strong>, giving networks the power to approximate any function.</p>
   <div class="va">
-    <div class="vl">// Select function — solid = f(x), dashed = derivative f′(x)</div>
+    <div class="vl">// Select function: solid = f(x), dashed = derivative f′(x)</div>
     <div class="ctrl" style="margin:0 0 12px">
       <button class="btn" onclick="showAct('sigmoid')">SIGMOID</button>
       <button class="btn b2" onclick="showAct('relu')">RELU</button>
@@ -508,7 +508,7 @@ main{padding:20px 16px 60px}
       <button class="btn b4" onclick="showAct('gelu')">GELU</button>
       <button class="btn" onclick="showAct('silu')">SILU</button>
     </div>
-    <canvas id="actCanvas" role="img" aria-label="Select function — solid = f(x), dashed = derivative f′(x)
+    <canvas id="actCanvas" role="img" aria-label="Select function: solid = f(x), dashed = derivative f′(x)
     
       SIGMOID
       RELU
@@ -537,10 +537,10 @@ main{padding:20px 16px 60px}
     <span class="topic-badge">Theory</span>
   </div>
   <p class="sub">// The fundamental tension between underfitting and overfitting</p>
-  <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong> — sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
+  <p class="prose">Every model makes two types of errors: <strong>Bias</strong> — systematic error from wrong assumptions (underfitting). <strong>Variance</strong>: sensitivity to noise in training data (overfitting). You can't minimize both simultaneously.</p>
   <div class="fb"><div class="fm">E[(y−ŷ)²] = Bias² + Variance + Irreducible Noise</div><div class="fd">Total expected error decomposes into these three independent terms</div></div>
   <div class="va">
-    <div class="vl">// Model complexity vs. error — the classic U-curve</div>
+    <div class="vl">// Model complexity vs. error: the classic U-curve</div>
     <canvas id="bvCanvas" role="img" aria-label="Model complexity vs. error — the classic U-curve" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Model Complexity</span><input type="range" id="bvSlider" min="1" max="10" step="0.1" value="3" oninput="drawBV(this.value)"><span class="vd" id="bvVal">3.0</span></div>
@@ -549,8 +549,8 @@ main{padding:20px 16px 60px}
     </div>
   </div>
   <div class="steps">
-    <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple — misses real patterns. Both train and test error are high.</p></div></div>
-    <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex — memorises noise. Low train error, high test error.</p></div></div>
+    <div class="step"><div class="sn">⬇</div><div><h4>High Bias (Underfitting)</h4><p>Model too simple: misses real patterns. Both train and test error are high.</p></div></div>
+    <div class="step"><div class="sn">⬆</div><div><h4>High Variance (Overfitting)</h4><p>Model too complex: memorises noise. Low train error, high test error.</p></div></div>
     <div class="step"><div class="sn">✓</div><div><h4>Sweet Spot</h4><p>Regularization, dropout, cross-validation help find the optimal complexity.</p></div></div>
   </div>
   <div class="topic-nav" id="nav-bias-variance"></div>
@@ -562,14 +562,14 @@ main{padding:20px 16px 60px}
     <div class="topic-meta"><div class="topic-num">05 — Training</div><h2>Loss <em>Functions</em></h2></div>
     <span class="topic-badge">Optimization</span>
   </div>
-  <p class="sub">// Measuring how wrong the model is — the objective being minimised</p>
+  <p class="sub">// Measuring how wrong the model is: the objective being minimised</p>
   <p class="prose">The loss function defines what the model is optimising. Different tasks need different loss functions. Getting this wrong is one of the most common ML mistakes.</p>
-  <div class="fb"><div class="fm">MSE = (1/n)·Σ(y−ŷ)²</div><div class="fd"><span>Regression</span> — squared penalty, sensitive to outliers</div></div>
-  <div class="fb c2"><div class="fm">MAE = (1/n)·Σ|y−ŷ|</div><div class="fd"><span>Robust regression</span> — linear penalty, outlier-resistant</div></div>
-  <div class="fb c3"><div class="fm">CE = −Σ yᵢ·log(ŷᵢ)</div><div class="fd"><span>Classification</span> — penalises confident wrong predictions exponentially</div></div>
-  <div class="fb c4"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary classification</span> — cross-entropy for single output</div></div>
+  <div class="fb"><div class="fm">MSE = (1/n)·Σ(y−ŷ)²</div><div class="fd"><span>Regression</span>: squared penalty, sensitive to outliers</div></div>
+  <div class="fb c2"><div class="fm">MAE = (1/n)·Σ|y−ŷ|</div><div class="fd"><span>Robust regression</span>: linear penalty, outlier-resistant</div></div>
+  <div class="fb c3"><div class="fm">CE = −Σ yᵢ·log(ŷᵢ)</div><div class="fd"><span>Classification</span>: penalises confident wrong predictions exponentially</div></div>
+  <div class="fb c4"><div class="fm">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)]</div><div class="fd"><span>Binary classification</span>: cross-entropy for single output</div></div>
   <div class="va">
-    <div class="vl">// MSE vs MAE — drag to see how penalty scales with error</div>
+    <div class="vl">// MSE vs MAE: drag to see how penalty scales with error</div>
     <canvas id="lossCanvas" role="img" aria-label="MSE vs MAE — drag to see how penalty scales with error" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Error magnitude</span><input type="range" id="errSlider" min="0.05" max="3" step="0.05" value="1" oninput="onErrSlider(this.value)"><span class="vd" id="errVal">1.00</span></div>
@@ -586,7 +586,7 @@ main{padding:20px 16px 60px}
     <div class="topic-meta"><div class="topic-num">06 — Training</div><h2><em>Back</em>propagation</h2></div>
     <span class="topic-badge">Algorithm</span>
   </div>
-  <p class="sub">// Chain rule applied through a network — how every weight gets its gradient</p>
+  <p class="sub">// Chain rule applied through a network: how every weight gets its gradient</p>
   <p class="prose">Backprop answers: <strong>"how much did each weight contribute to the error?"</strong> It uses the chain rule to propagate gradients backward from the loss to every parameter.</p>
   <div class="fb"><div class="fm">∂L/∂w₁ = ∂L/∂ŷ · ∂ŷ/∂h · ∂h/∂w₁</div><div class="fd"><span>Chain Rule:</span> multiply local gradients along the path from loss back to each weight</div></div>
   <div class="va">
@@ -608,10 +608,10 @@ main{padding:20px 16px 60px}
     <div class="topic-meta"><div class="topic-num">07 — Training</div><h2><em>Optimizers</em></h2></div>
     <span class="topic-badge">Optimization</span>
   </div>
-  <p class="sub">// Beyond vanilla SGD — momentum, adaptive learning rates, Adam</p>
+  <p class="sub">// Beyond vanilla SGD: momentum, adaptive learning rates, Adam</p>
   <p class="prose">Modern optimizers improve on vanilla gradient descent by adding <strong>momentum</strong> (using past gradients) and <strong>adaptive rates</strong> (different step size per parameter).</p>
-  <div class="fb"><div class="fm">SGD+Momentum: v := βv − α·∇L &nbsp;&nbsp; w := w + v</div><div class="fd"><span>β</span> = momentum (typically 0.9) — accumulates velocity across steps</div></div>
-  <div class="fb c2"><div class="fm">RMSProp: s := ρs + (1−ρ)·(∇L)² &nbsp;&nbsp; w := w − α·∇L/√(s+ε)</div><div class="fd">Divides by RMS of recent gradients — large gradients get smaller steps</div></div>
+  <div class="fb"><div class="fm">SGD+Momentum: v := βv − α·∇L &nbsp;&nbsp; w := w + v</div><div class="fd"><span>β</span> = momentum (typically 0.9): accumulates velocity across steps</div></div>
+  <div class="fb c2"><div class="fm">RMSProp: s := ρs + (1−ρ)·(∇L)² &nbsp;&nbsp; w := w − α·∇L/√(s+ε)</div><div class="fd">Divides by RMS of recent gradients: large gradients get smaller steps</div></div>
   <div class="fb c3"><div class="fm">Adam: m̂ = m/(1−β₁ᵗ) &nbsp;&nbsp; v̂ = v/(1−β₂ᵗ) &nbsp;&nbsp; w := w − α·m̂/√(v̂+ε)</div><div class="fd"><span>Adam</span> = momentum + RMSProp + bias correction. Default: β₁=0.9, β₂=0.999, ε=1e-8</div></div>
   <div class="va">
     <div class="vl">// Optimizer comparison on a saddle point surface</div>
@@ -641,10 +641,10 @@ optim = torch.optim.AdamW(model.parameters(), lr=<span class="st">1e-3</span>, w
   <p class="sub">// Preventing overfitting by constraining model complexity</p>
   <p class="prose">Regularization adds a <strong>penalty for complexity</strong> to the loss, discouraging the model from memorising noise and improving generalisation to unseen data.</p>
   <div class="fb"><div class="fm">L_total = L_data + λ·||w||²₂ &nbsp;&nbsp; (L2 / Ridge)</div><div class="fd"><span>λ</span> = regularization strength &nbsp;|&nbsp; drives weights toward zero but not exactly zero</div></div>
-  <div class="fb c2"><div class="fm">L_total = L_data + λ·||w||₁ &nbsp;&nbsp; (L1 / Lasso)</div><div class="fd">L1 produces <span>sparse</span> weights — many exactly zero (implicit feature selection)</div></div>
+  <div class="fb c2"><div class="fm">L_total = L_data + λ·||w||₁ &nbsp;&nbsp; (L1 / Lasso)</div><div class="fd">L1 produces <span>sparse</span> weights: many exactly zero (implicit feature selection)</div></div>
   <div class="fb c3"><div class="fm">Dropout: h̃ = h ⊙ mask/p &nbsp;&nbsp; mask ~ Bernoulli(p)</div><div class="fd">Each neuron zeroed with prob (1−p) during training; scaled by 1/p to preserve expected value</div></div>
   <div class="va">
-    <div class="vl">// L1 vs L2 penalty contours — see how they constrain weights differently</div>
+    <div class="vl">// L1 vs L2 penalty contours: see how they constrain weights differently</div>
     <canvas id="regCanvas" role="img" aria-label="L1 vs L2 penalty contours — see how they constrain weights differently" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawReg('l2')">L2 (RIDGE)</button>
@@ -675,7 +675,7 @@ model.train()  <span class="cm"># re-enables dropout</span></pre></div>
   <p class="prose">Batch Normalization normalises each layer's activations to have <strong>zero mean and unit variance</strong> across the mini-batch, then scales/shifts with learned parameters γ and β.</p>
   <div class="fb"><div class="fm">μ_B = (1/m)·Σxᵢ &nbsp;&nbsp; σ²_B = (1/m)·Σ(xᵢ−μ_B)²</div><div class="fd">Compute batch mean and variance</div></div>
   <div class="fb c2"><div class="fm">x̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)</div><div class="fd">Normalise: <span>ε</span> = small constant for numerical stability (1e-5)</div></div>
-  <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift — restores representational power</div></div>
+  <div class="fb c3"><div class="fm">yᵢ = γ · x̂ᵢ + β</div><div class="fd"><span>γ</span> = learned scale &nbsp;|&nbsp; <span>β</span> = learned shift: restores representational power</div></div>
   <div class="va">
     <div class="vl">// Effect of batch norm on activation distributions across layers</div>
     <canvas id="bnCanvas" role="img" aria-label="Effect of batch norm on activation distributions across layers" height="240"></canvas>
@@ -701,7 +701,7 @@ self.ln = nn.LayerNorm(normalized_shape=<span class="st">512</span>) <span class
   <div class="fb"><div class="fm">Cosine Decay: αₜ = αₘᵢₙ + ½(αₘₐₓ−αₘᵢₙ)(1 + cos(πt/T))</div><div class="fd"><span>T</span> = total steps &nbsp;|&nbsp; smoothly decays from αₘₐₓ to αₘᵢₙ</div></div>
   <div class="fb c2"><div class="fm">Warmup: α = αₘₐₓ · (t/t_warmup) &nbsp; for t &lt; t_warmup</div><div class="fd">Linear ramp-up prevents large gradient updates from poorly-initialised weights</div></div>
   <div class="va">
-    <div class="vl">// Learning rate schedules — click to compare</div>
+    <div class="vl">// Learning rate schedules: click to compare</div>
     <canvas id="lrCanvas" role="img" aria-label="Learning rate schedules — click to compare" height="230"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="drawLR('step')">STEP DECAY</button>
@@ -729,7 +729,7 @@ scheduler.step()</pre></div>
   <p class="prose">Softmax maps a vector of real-valued logits to probabilities that <strong>sum to 1</strong>. It amplifies the largest logit, making the winner more decisive.</p>
   <div class="fb"><div class="fm">σ(zᵢ) = e^zᵢ / Σⱼ e^zⱼ</div><div class="fd"><span>zᵢ</span> = logit for class i &nbsp;|&nbsp; numerator = exponentiated score &nbsp;|&nbsp; denominator = normalisation</div></div>
   <div class="va">
-    <div class="vl">// Adjust logits — watch probabilities redistribute</div>
+    <div class="vl">// Adjust logits: watch probabilities redistribute</div>
     <canvas id="smCanvas" role="img" aria-label="Adjust logits — watch probabilities redistribute" height="200"></canvas>
     <div class="ctrl" id="smCtrl"></div>
   </div>
@@ -743,12 +743,12 @@ scheduler.step()</pre></div>
     <div class="topic-meta"><div class="topic-num">12 — Core Math</div><h2>MLE & <em>Gaussian</em> Distributions</h2></div>
     <span class="topic-badge">Probability</span>
   </div>
-  <p class="sub">// Maximum Likelihood Estimation — why MSE and Cross-Entropy exist</p>
+  <p class="sub">// Maximum Likelihood Estimation: why MSE and Cross-Entropy exist</p>
   <p class="prose">MLE asks: <strong>what parameters make the observed data most probable?</strong> Most ML training objectives are secretly MLE under a particular assumed distribution.</p>
   <div class="fb"><div class="fm">θ* = argmax_θ Σ log p(xᵢ | θ)</div><div class="fd">Maximise log-likelihood (summing logs avoids numerical underflow with tiny probabilities)</div></div>
   <div class="fb c2"><div class="fm">Gaussian: p(x|μ,σ) = (1/√2πσ²) · exp(−(x−μ)²/2σ²)</div><div class="fd">MLE on Gaussian noise assumption → MSE loss. MLE on Bernoulli → Cross-Entropy loss.</div></div>
   <div class="va">
-    <div class="vl">// Gaussian distribution — adjust mean and variance</div>
+    <div class="vl">// Gaussian distribution: adjust mean and variance</div>
     <canvas id="gaussCanvas" role="img" aria-label="Gaussian distribution — adjust mean and variance" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Mean μ</span><input type="range" id="gaussMu" min="-3" max="3" step="0.1" value="0" oninput="drawGauss()"><span class="vd" id="gaussMuV">0.0</span></div>
@@ -766,7 +766,7 @@ scheduler.step()</pre></div>
     <span class="topic-badge">Information Theory</span>
   </div>
   <p class="sub">// Measuring how different two probability distributions are</p>
-  <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric — KL(P||Q) ≠ KL(Q||P).</p>
+  <p class="prose">KL Divergence measures how much information is <strong>lost when using distribution Q to approximate P</strong>. It is not symmetric: KL(P||Q) ≠ KL(Q||P).</p>
   <div class="fb"><div class="fm">KL(P||Q) = Σ P(x) · log(P(x)/Q(x))</div><div class="fd">Discrete case &nbsp;|&nbsp; Always ≥ 0 &nbsp;|&nbsp; = 0 only when P = Q exactly</div></div>
   <div class="fb c2"><div class="fm">KL(P||Q) = ∫ p(x) · log(p(x)/q(x)) dx</div><div class="fd">Continuous case &nbsp;|&nbsp; used in VAE loss, RLHF, variational inference</div></div>
   <div class="fb c3"><div class="fm">Cross-Entropy H(P,Q) = H(P) + KL(P||Q)</div><div class="fd">CE = entropy of P + extra bits needed because we use Q. Minimising CE ≡ minimising KL.</div></div>
@@ -787,11 +787,11 @@ scheduler.step()</pre></div>
     <div class="topic-meta"><div class="topic-num">14 — Core Math</div><h2>Bayes' <em>Theorem</em></h2></div>
     <span class="topic-badge">Probability</span>
   </div>
-  <p class="sub">// Updating beliefs with evidence — the foundation of probabilistic ML</p>
+  <p class="sub">// Updating beliefs with evidence: the foundation of probabilistic ML</p>
   <p class="prose">Bayes' Theorem is the mathematical foundation of reasoning under uncertainty. It tells us how to <strong>update a prior belief</strong> when we observe new evidence.</p>
   <div class="fb"><div class="fm">P(A|B) = P(B|A) · P(A) / P(B)</div><div class="fd"><span>P(A|B)</span> = posterior &nbsp;|&nbsp; <span>P(B|A)</span> = likelihood &nbsp;|&nbsp; <span>P(A)</span> = prior &nbsp;|&nbsp; <span>P(B)</span> = evidence</div></div>
   <div class="va">
-    <div class="vl">// Medical test — posterior probability after positive result</div>
+    <div class="vl">// Medical test: posterior probability after positive result</div>
     <canvas id="bayesCanvas" role="img" aria-label="Medical test — posterior probability after positive result" height="220"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Prior P(disease) %</span><input type="range" id="priorS" min="0.1" max="50" step="0.1" value="1" oninput="onBayes()"><span class="vd" id="priorV">1.0%</span></div>
@@ -811,9 +811,9 @@ scheduler.step()</pre></div>
   </div>
   <p class="sub">// Reliable model evaluation by rotating which data is used for testing</p>
   <p class="prose">A single train/test split gives a noisy estimate of generalisation. <strong>k-fold cross-validation</strong> averages performance over k splits for a more reliable estimate.</p>
-  <div class="fb"><div class="fm">CV Score = (1/k) · Σᵢ score(model_i, fold_i)</div><div class="fd">Train k models, each evaluated on a different held-out fold — no data is wasted</div></div>
+  <div class="fb"><div class="fm">CV Score = (1/k) · Σᵢ score(model_i, fold_i)</div><div class="fd">Train k models, each evaluated on a different held-out fold: no data is wasted</div></div>
   <div class="va">
-    <div class="vl">// k-fold cross-validation — click to cycle through folds</div>
+    <div class="vl">// k-fold cross-validation: click to cycle through folds</div>
     <canvas id="cvCanvas" role="img" aria-label="k-fold cross-validation — click to cycle through folds" height="200"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">k folds</span><input type="range" id="cvK" min="2" max="10" step="1" value="5" oninput="drawCV()"><span class="vd" id="cvKV">5</span></div>
@@ -838,7 +838,7 @@ scheduler.step()</pre></div>
   <p class="sub">// How to actually measure if your model is good</p>
   <p class="prose">Accuracy alone is misleading for imbalanced classes. <strong>Precision, Recall, F1 and ROC-AUC</strong> give a complete picture of classification performance.</p>
   <div class="fb"><div class="fm">Precision = TP/(TP+FP) &nbsp;&nbsp; Recall = TP/(TP+FN)</div><div class="fd"><span>Precision</span> = of predicted positives, how many are real? &nbsp;|&nbsp; <span>Recall</span> = of real positives, how many found?</div></div>
-  <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean — punishes models that sacrifice one for the other</div></div>
+  <div class="fb c2"><div class="fm">F1 = 2·(Precision·Recall)/(Precision+Recall)</div><div class="fd">Harmonic mean: punishes models that sacrifice one for the other</div></div>
   <div class="va">
     <div class="vl">// Interactive confusion matrix</div>
     <canvas id="metricsCanvas" role="img" aria-label="Interactive confusion matrix" height="260"></canvas>
@@ -858,11 +858,11 @@ scheduler.step()</pre></div>
     <span class="topic-badge">Architecture</span>
   </div>
   <p class="sub">// Exploiting spatial structure with shared local filters</p>
-  <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input. The same filter detects the same feature regardless of where it appears — <strong>translational equivariance</strong>.</p>
+  <p class="prose">Convolutional layers apply a <strong>small learnable filter</strong> across the entire input. The same filter detects the same feature regardless of where it appears: <strong>translational equivariance</strong>.</p>
   <div class="fb"><div class="fm">(f * g)[i,j] = Σₘ Σₙ f[m,n] · g[i−m, j−n]</div><div class="fd"><span>f</span> = filter/kernel &nbsp;|&nbsp; <span>g</span> = input &nbsp;|&nbsp; slide filter over input, compute dot product at each position</div></div>
   <div class="fb c2"><div class="fm">Output size = ⌊(W − K + 2P)/S⌋ + 1</div><div class="fd"><span>W</span> = input width &nbsp;|&nbsp; <span>K</span> = kernel size &nbsp;|&nbsp; <span>P</span> = padding &nbsp;|&nbsp; <span>S</span> = stride</div></div>
   <div class="va">
-    <div class="vl">// Convolution operation — kernel sliding over input</div>
+    <div class="vl">// Convolution operation: kernel sliding over input</div>
     <canvas id="cnnCanvas" role="img" aria-label="Convolution operation — kernel sliding over input" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Kernel Size</span><input type="range" id="cnnK" min="1" max="5" step="2" value="3" oninput="drawCNN()"><span class="vd" id="cnnKV">3×3</span></div>
@@ -884,16 +884,16 @@ self.conv2 = nn.Conv2d(<span class="st">64</span>, <span class="st">128</span>, 
   </div>
   <p class="sub">// Mapping discrete tokens to continuous vector spaces</p>
   <p class="prose">An embedding maps each discrete token to a dense vector where <strong>semantic similarity = geometric proximity</strong>. Word2Vec learns these by predicting context words.</p>
-  <div class="fb"><div class="fm">Skip-gram: max Σ Σ log P(wₒ | wᵢ)</div><div class="fd">Predict surrounding words from centre word — forces similar words to nearby vectors</div></div>
+  <div class="fb"><div class="fm">Skip-gram: max Σ Σ log P(wₒ | wᵢ)</div><div class="fd">Predict surrounding words from centre word: forces similar words to nearby vectors</div></div>
   <div class="fb c2"><div class="fm">king − man + woman ≈ queen</div><div class="fd">Learned embeddings encode <span>analogical relationships</span> as linear vector arithmetic</div></div>
   <div class="va">
-    <div class="vl">// 2D embedding space — semantic clusters</div>
+    <div class="vl">// 2D embedding space: semantic clusters</div>
     <canvas id="embCanvas" role="img" aria-label="2D embedding space — semantic clusters" height="240"></canvas>
   </div>
   <div class="code-block"><pre><span class="cm"># PyTorch embedding layer</span>
 self.embed = nn.Embedding(vocab_size=<span class="st">50000</span>, embedding_dim=<span class="st">256</span>)
 x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)</span></pre></div>
-  <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the conceptual ancestor. Today BERT/GPT produce <em>contextual</em> embeddings — the same word gets different vectors depending on context.</div>
+  <div class="callout"><strong>Modern embeddings:</strong> Word2Vec is the conceptual ancestor. Today BERT/GPT produce <em>contextual</em> embeddings: the same word gets different vectors depending on context.</div>
   <div class="topic-nav" id="nav-embeddings"></div>
 </div>
 
@@ -907,7 +907,7 @@ x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)
   <p class="prose">Each token asks: <strong>"which other tokens are most relevant to me?"</strong> The answer is a weighted sum of values, with weights from dot-product similarity between queries and keys.</p>
   <div class="fb"><div class="fm">Attention(Q,K,V) = softmax(QKᵀ / √d) · V</div><div class="fd"><span>Q</span> = Query &nbsp;|&nbsp; <span>K</span> = Key &nbsp;|&nbsp; <span>V</span> = Value &nbsp;|&nbsp; <span>√d</span> = scaling to prevent saturation</div></div>
   <div class="va">
-    <div class="vl">// Attention heatmap — click cells to boost connections</div>
+    <div class="vl">// Attention heatmap: click cells to boost connections</div>
     <canvas id="attCanvas" role="img" aria-label="Attention heatmap — click cells to boost connections" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="rndAtt()">↺ RANDOMIZE</button>
@@ -926,9 +926,9 @@ x = self.embed(token_ids)  <span class="cm"># (batch, seq) → (batch, seq, 256)
   </div>
   <p class="sub">// The architecture behind BERT, GPT, and all modern LLMs</p>
   <p class="prose">The Transformer combines <strong>multi-head self-attention</strong> with position-wise feed-forward networks, residual connections, and layer normalisation. Attention replaces recurrence, enabling full parallelism.</p>
-  <div class="fb"><div class="fm">PE(pos, 2i) = sin(pos/10000^(2i/d))</div><div class="fd"><span>Positional Encoding</span> — sine/cosine waves of different frequencies encode token position</div></div>
+  <div class="fb"><div class="fm">PE(pos, 2i) = sin(pos/10000^(2i/d))</div><div class="fd"><span>Positional Encoding</span>: sine/cosine waves of different frequencies encode token position</div></div>
   <div class="fb c2"><div class="fm">FFN(x) = max(0, xW₁+b₁)W₂+b₂</div><div class="fd">Position-wise feed-forward: two linear layers with ReLU. Applied identically at each position.</div></div>
-  <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span> — applied around every sublayer. Enables training very deep networks.</div></div>
+  <div class="fb c3"><div class="fm">x = LayerNorm(x + Sublayer(x))</div><div class="fd"><span>Residual + LayerNorm</span>: applied around every sublayer. Enables training very deep networks.</div></div>
   <div class="va">
     <div class="vl">// Transformer block diagram</div>
     <canvas id="transCanvas" role="img" aria-label="Transformer block diagram" height="280"></canvas>
@@ -973,7 +973,7 @@ out, hn = self.rnn(x, h0)</pre></div>
     <span class="topic-badge">Sequential</span>
   </div>
   <p class="sub">// Gated memory cells that solve the vanishing gradient problem</p>
-  <p class="prose">LSTMs add a <strong>cell state c</strong> — a "memory highway" — alongside the hidden state. Three gates control what information flows through.</p>
+  <p class="prose">LSTMs add a <strong>cell state c</strong>, a "memory highway", alongside the hidden state. Three gates control what information flows through.</p>
   <div class="fb"><div class="fm">fₜ=σ(Wf·[hₜ₋₁,xₜ]) &nbsp; iₜ=σ(Wi·[hₜ₋₁,xₜ]) &nbsp; oₜ=σ(Wo·[hₜ₋₁,xₜ])</div><div class="fd"><span>f</span> = forget &nbsp;|&nbsp; <span>i</span> = input &nbsp;|&nbsp; <span>o</span> = output gates</div></div>
   <div class="fb c2"><div class="fm">cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ tanh(Wc·[hₜ₋₁,xₜ])</div><div class="fd">Cell state update: forget old + write new candidate</div></div>
   <div class="fb c3"><div class="fm">hₜ = oₜ ⊙ tanh(cₜ)</div><div class="fd">Hidden state = filtered cell state</div></div>
@@ -999,18 +999,18 @@ out, (hn, cn) = self.lstm(x)</pre></div>
     <div class="topic-meta"><div class="topic-num">23 — Sequence Models</div><h2>GRU — <em>Gated Recurrent</em> Unit</h2></div>
     <span class="topic-badge">Sequential</span>
   </div>
-  <p class="sub">// LSTM's streamlined sibling — two gates, one state vector</p>
+  <p class="sub">// LSTM's streamlined sibling: two gates, one state vector</p>
   <p class="prose">The GRU simplifies LSTM by merging the cell state and hidden state and using only <strong>two gates</strong>: update and reset. Fewer parameters, comparable performance.</p>
   <div class="fb"><div class="fm">zₜ = σ(Wz·[hₜ₋₁,xₜ]) &nbsp;&nbsp; rₜ = σ(Wr·[hₜ₋₁,xₜ])</div><div class="fd"><span>z</span> = update gate &nbsp;|&nbsp; <span>r</span> = reset gate</div></div>
-  <div class="fb c2"><div class="fm">h̃ₜ = tanh(W·[rₜ⊙hₜ₋₁, xₜ])</div><div class="fd">Candidate hidden state — gated by reset</div></div>
+  <div class="fb c2"><div class="fm">h̃ₜ = tanh(W·[rₜ⊙hₜ₋₁, xₜ])</div><div class="fd">Candidate hidden state: gated by reset</div></div>
   <div class="fb c3"><div class="fm">hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ</div><div class="fd">Interpolate between old and new state via update gate</div></div>
   <div class="va">
-    <div class="vl">// RNN vs GRU vs LSTM — parameter count comparison</div>
+    <div class="vl">// RNN vs GRU vs LSTM: parameter count comparison</div>
     <canvas id="gruCanvas" role="img" aria-label="RNN vs GRU vs LSTM — parameter count comparison" height="230"></canvas>
   </div>
   <div class="code-block"><pre>self.gru = nn.GRU(input_size=<span class="st">10</span>, hidden_size=<span class="st">64</span>, batch_first=<span class="st">True</span>)
 out, hn = self.gru(x)</pre></div>
-  <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline, very short sequences. <strong style="color:var(--accent2)">GRU</strong> — best default for most seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range dependencies. <strong style="color:var(--accent4)">Transformer</strong> — when you have lots of data and GPU.</div>
+  <div class="callout"><strong>When to use which:</strong> <strong style="color:var(--accent)">RNN</strong> — quick baseline, very short sequences. <strong style="color:var(--accent2)">GRU</strong>: best default for most seq tasks. <strong style="color:var(--accent3)">LSTM</strong> — complex long-range dependencies. <strong style="color:var(--accent4)">Transformer</strong>, when you have lots of data and GPU.</div>
   <div class="topic-nav" id="nav-gru"></div>
 </div>
 
@@ -1024,7 +1024,7 @@ out, hn = self.gru(x)</pre></div>
   <p class="prose">PCA finds the axes along which data <strong>varies the most</strong>. These are the eigenvectors of the covariance matrix. Projecting onto the top-k eigenvectors reduces dimensions while preserving most information.</p>
   <div class="fb"><div class="fm">C = (1/n)·XᵀX &nbsp;&nbsp;&nbsp; Cv = λv</div><div class="fd"><span>C</span> = covariance matrix &nbsp;|&nbsp; <span>v</span> = eigenvector &nbsp;|&nbsp; <span>λ</span> = eigenvalue (variance explained)</div></div>
   <div class="va">
-    <div class="vl">// 2D data with principal components — adjust correlation</div>
+    <div class="vl">// 2D data with principal components: adjust correlation</div>
     <canvas id="pcaCanvas" role="img" aria-label="2D data with principal components — adjust correlation" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Correlation</span><input type="range" id="pcaCorr" min="0" max="0.98" step="0.01" value="0.7" oninput="onPCA(this.value)"><span class="vd" id="pcaCorrV">0.70</span></div>
@@ -1046,7 +1046,7 @@ out, hn = self.gru(x)</pre></div>
   <div class="fb"><div class="fm">ELBO = E[log p(x|z)] − KL(q(z|x) || p(z))</div><div class="fd"><span>ELBO</span> = VAE objective: reconstruction + KL regularization</div></div>
   <div class="fb c2"><div class="fm">z = μ + σ·ε &nbsp;&nbsp; ε ~ N(0,1)</div><div class="fd"><span>Reparameterization trick:</span> makes sampling differentiable</div></div>
   <div class="va">
-    <div class="vl">// VAE architecture — encoder → latent distribution → decoder</div>
+    <div class="vl">// VAE architecture: encoder → latent distribution → decoder</div>
     <canvas id="vaeCanvas" role="img" aria-label="VAE architecture — encoder → latent distribution → decoder" height="240"></canvas>
   </div>
   <div class="code-block"><pre><span class="kw">class</span> <span class="cl2">VAE</span>(nn.Module):
@@ -1069,19 +1069,19 @@ out, hn = self.gru(x)</pre></div>
     <span class="topic-badge">Generative</span>
   </div>
   <p class="sub">// Generating by learning to reverse a noise process (DDPM, Stable Diffusion)</p>
-  <p class="prose">Diffusion models learn to <strong>denoise data</strong>. The forward process gradually adds Gaussian noise over T steps until pure noise. A neural network learns to reverse this — generating data from noise.</p>
+  <p class="prose">Diffusion models learn to <strong>denoise data</strong>. The forward process gradually adds Gaussian noise over T steps until pure noise. A neural network learns to reverse this: generating data from noise.</p>
   <div class="fb"><div class="fm">Forward: q(xₜ|xₜ₋₁) = N(xₜ; √(1−β)·xₜ₋₁, β·I)</div><div class="fd">Adds small amount of noise β at each step. After T steps, data ≈ pure Gaussian noise.</div></div>
   <div class="fb c2"><div class="fm">xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε &nbsp;&nbsp; ε~N(0,I)</div><div class="fd">Closed form for any timestep t. <span>ᾱₜ</span> = product of (1−βᵢ)</div></div>
   <div class="fb c3"><div class="fm">L = E[||ε − εθ(xₜ,t)||²]</div><div class="fd">Training: predict the noise ε that was added.</div></div>
   <div class="va">
-    <div class="vl">// Forward diffusion — noise being added over timesteps</div>
+    <div class="vl">// Forward diffusion: noise being added over timesteps</div>
     <canvas id="diffCanvas" role="img" aria-label="Forward diffusion — noise being added over timesteps" height="240"></canvas>
     <div class="ctrl">
       <div class="cg"><span class="cl">Timestep t</span><input type="range" id="diffT" min="0" max="100" step="1" value="0" oninput="drawDiffusion(this.value)"><span class="vd" id="diffTV">0</span></div>
       <button class="btn" onclick="animDiff()">▶ FORWARD PROCESS</button>
     </div>
   </div>
-  <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM was the original (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in a compressed latent space — enabling image generation on consumer GPUs.</div>
+  <div class="callout info"><strong>DDPM → DDIM → Latent Diffusion:</strong> DDPM was the original (2020). DDIM made sampling 10–50× faster. Latent Diffusion (Stable Diffusion) runs in a compressed latent space: enabling image generation on consumer GPUs.</div>
   <div class="topic-nav" id="nav-diffusion"></div>
 </div>
 
@@ -1096,7 +1096,7 @@ out, hn = self.gru(x)</pre></div>
   <div class="fb"><div class="fm">min_G max_D V(D,G) = E[log D(x)] + E[log(1−D(G(z)))]</div><div class="fd">Minimax objective: D maximises, G minimises. At equilibrium: D(x) = 0.5 everywhere.</div></div>
   <div class="fb c2"><div class="fm">G: z → x̃ &nbsp;&nbsp; z ~ N(0,I) &nbsp;&nbsp; D: x → [0,1]</div><div class="fd"><span>G</span> maps noise to data space &nbsp;|&nbsp; <span>D</span> outputs probability of being real</div></div>
   <div class="va">
-    <div class="vl">// GAN training dynamics — Generator vs Discriminator loss</div>
+    <div class="vl">// GAN training dynamics: Generator vs Discriminator loss</div>
     <canvas id="ganCanvas" role="img" aria-label="GAN training dynamics — Generator vs Discriminator loss" height="240"></canvas>
     <div class="ctrl">
       <button class="btn" onclick="animGAN()">▶ SIMULATE TRAINING</button>

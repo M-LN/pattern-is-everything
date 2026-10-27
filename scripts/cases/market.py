@@ -9,7 +9,7 @@ DESCRIPTION = ('The 200-day moving-average rule tested on a hundred years of dai
                'whole-sample edge comes from one era, it has trailed buy-and-hold since 1976, and a one-day '
                'look-ahead bug almost doubles its return.')
 QUESTION = ('Stay in the stock market while it is above its 200-day average, move to Treasury bills when it falls '
-            'below: one of the oldest trend-following rules. Does it beat simply holding the market — and when?')
+            'below: one of the oldest trend-following rules. Does it beat simply holding the market, and when?')
 URL = 'https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip'
 URL_SUBS = {"('https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/'\n"
             "       'F-F_Research_Data_Factors_daily_CSV.zip')": 'ff_daily.zip'}
@@ -21,7 +21,7 @@ DATA = {
             'from CRSP) in excess of the one-month Treasury bill, and the T-bill return itself, since July 1926.',
     'source': '<a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Kenneth R. French '
               'Data Library</a>, Tuck School of Business',
-    'license': 'Free to download for research and teaching; not redistributed here — the code below fetches it '
+    'license': 'Free to download for research and teaching; not redistributed here: the code below fetches it '
                'from the library, and this page shows only results computed from it',
     'get': 'The code in step 1 downloads the file (≈0.2 MB) directly. The page has no Run buttons, because a '
            'browser page cannot fetch from that site; use the notebook below.',
@@ -29,7 +29,7 @@ DATA = {
 
 LEVEL, BADGE, EVIDENCE = 'Advanced', 'Markets', ('heuristic', 'Heuristic')
 LAB = ('Markets Paper Trading Lab', '/sandbox/markets/#paper-trading')
-FINDING = ('{rule_cagr} a year against {hold_cagr} for buy-and-hold since 1927 — but the edge comes from '
+FINDING = ('{rule_cagr} a year against {hold_cagr} for buy-and-hold since 1927, but the edge comes from '
            '1927–1975. Since 2001: {e3_rule} against {e3_hold}. With a one-day look-ahead bug: {cheat_cagr}.')
 
 STEPS = [
@@ -50,13 +50,13 @@ r = ff['Mkt-RF'] + ff['RF']          # the market's daily total return
 rf = ff['RF']                        # the T-bill's
 print(len(r), 'days,', r.index[0].date(), 'to', r.index[-1].date())
 print('five worst days:', {d.date().isoformat(): round(v, 3) for d, v in r.nsmallest(5).items()})""",
-        'after': 'The worst day, {worst_day}, lost <strong>{worst_pct}</strong> — {worst_sd} times the standard '
+        'after': 'The worst day, {worst_day}, lost <strong>{worst_pct}</strong>: {worst_sd} times the standard '
                  'deviation of a day’s return. Three of the five worst came in the crash of autumn 1929, one in March 2020.',
     },
     {
         'title': 'The rule, without peeking',
         'before': 'Build the market’s value from its returns and its 200-day average. The decision for each day is '
-                  'taken from the previous day’s close — the <code>shift(1)</code> — because that is all an '
+                  'taken from the previous day’s close, the <code>shift(1)</code>, because that is all an '
                   'investor would have known. Out of the market, the money earns the T-bill rate. Each switch '
                   'costs 0.1%.',
         'code': """price = (1 + r).cumprod()
@@ -95,7 +95,7 @@ for era, (a, b) in eras.items():
     by_era[era] = (summary(r[a:b], '  buy and hold'), summary(rule[a:b], '  200-day rule'))""",
         'after': 'The whole-sample edge comes from <strong>1927–1975</strong>, when the rule sidestepped most of '
                  'the 1929–32 crash: {e1_rule} a year against {e1_hold}. Since 1976 it has earned less than simply '
-                 'holding the market — {e2_rule} against {e2_hold}, then {e3_rule} against {e3_hold} — while still '
+                 'holding the market ({e2_rule} against {e2_hold}, then {e3_rule} against {e3_hold}), while still '
                  'cutting the worst drawdown, from {e2_hold_dd} to {e2_rule_dd} and from {e3_hold_dd} to {e3_rule_dd}. In the recent eras it behaved like insurance, not like '
                  'an engine of return. Sullivan, Timmermann and White found the same pattern '
                  'on the Dow Jones index: the best rules over 1897–1986 survived a correction for data snooping, '
@@ -107,13 +107,13 @@ for era, (a, b) in eras.items():
     },
     {
         'title': 'The bug that nearly doubles the result',
-        'before': 'Remove the <code>shift(1)</code>: decide each day using that same day’s close — which is only '
+        'before': 'Remove the <code>shift(1)</code>: decide each day using that same day’s close, which is only '
                   'known once the day’s return has already happened.',
         'code': """peek = (price > price.rolling(200).mean())[start:]
 cheat = pd.Series(np.where(peek, r, rf), index=r.index)
 cheat -= 0.001 * (peek != peek.shift(1, fill_value=True))
 cheat_all = summary(cheat, 'with look-ahead')""",
-        'after': 'One missing <code>shift</code>, and the rule earns <strong>{cheat_cagr}</strong> a year — {cheat_ratio} times '
+        'after': 'One missing <code>shift</code>, and the rule earns <strong>{cheat_cagr}</strong> a year: {cheat_ratio} times '
                  'the honest {rule_cagr}. A day’s own return is what pushes the price across its average, so the '
                  'bugged rule is in the market for the rise that crosses it upward and out of it for the fall that '
                  'crosses it downward. Bugs in backtests are '
@@ -165,7 +165,7 @@ TAKEAWAYS = [
     'A full-sample backtest is an average over regimes. Split it by era before believing it: here one era '
     'supplies the whole century’s edge.',
     'Lag every signal to the information available at the time. A one-day look-ahead added eight points a year.',
-    'Judge a rule on what it is for. Since 1976 the 200-day rule has cost return and reduced drawdowns — a '
+    'Judge a rule on what it is for. Since 1976 the 200-day rule has cost return and reduced drawdowns: a '
     'trade some investors want, but not the free lunch the full sample suggests.',
     'Include trading costs and count the trades: five or so switches a year is cheap; a faster rule may not be.',
 ]

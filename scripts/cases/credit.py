@@ -8,13 +8,13 @@ KICKER = 'Classification · 30,000 clients · Taiwan, 2005'
 DESCRIPTION = ('A default model on 30,000 real credit card clients is 82% accurate and still misses most defaults. '
                'Undocumented codes, a 4-point gain over guessing, and a threshold set by cost instead of 0.5.')
 QUESTION = ('Which credit card clients will miss next month’s payment? A model that is right four times in five '
-            'sounds useful — this case asks what it actually catches, and what the data dictionary did not say.')
+            'sounds useful: this case asks what it actually catches, and what the data dictionary did not say.')
 FILES = ['credit.csv']
 NOTEBOOK = 'case-credit-default.ipynb'
 DATA = {
     'name': 'Default of Credit Card Clients',
     'what': 'One row per client of a Taiwanese bank, April–September 2005: credit limit, sex, education, marital '
-            'status, age, six months of repayment status, bill amounts and payments — and whether the client '
+            'status, age, six months of repayment status, bill amounts and payments, and whether the client '
             'defaulted the following month.',
     'source': '<a href="https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients">UCI Machine '
               'Learning Repository</a>, donated by I-Cheng Yeh',
@@ -58,7 +58,7 @@ print('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', 
 print('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())""",
         'after': 'The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; '
                  '{undoc_pct} of clients have one of them in some month. (Discussions of the data commonly read 0 '
-                 'as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1 — one month late — '
+                 'as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1: one month late — '
                  'appears {pay0_ones:,} times in the latest month and only {pay2_ones} times in the month before, '
                  'which suggests the months were not coded the same way. A model will use these columns either way; '
                  'the question is whether you can explain what it learned.',
@@ -85,8 +85,8 @@ for name, m in [('logistic', logit), ('boosted trees', boost)]:
     print(f'{name:14} accuracy {accuracy_score(y_te, flag):.3f}  AUC {roc_auc_score(y_te, p):.3f}  '
           f'recall {recall_score(y_te, flag):.3f}  precision {precision_score(y_te, flag):.3f}')
 p = boost.predict_proba(X_te)[:, 1]""",
-        'after': 'The boosted model is <strong>{boost_acc}</strong> accurate — {acc_gain} points better than never '
-                 'predicting a default — and at a threshold of 0.5 it catches <strong>{boost_recall}</strong> of the '
+        'after': 'The boosted model is <strong>{boost_acc}</strong> accurate: {acc_gain} points better than never '
+                 'predicting a default, and at a threshold of 0.5 it catches <strong>{boost_recall}</strong> of the '
                  'clients who default. Most defaults go unflagged. The AUC of {boost_auc} says the ranking is '
                  'reasonable; the threshold is what throws the catches away.',
     },
@@ -98,7 +98,7 @@ print('rule PAY_0 >= 1: flags', round(late.mean(), 3), 'of clients',
       '| recall', round(recall_score(y_te, late), 3),
       '| precision', round(precision_score(y_te, late), 3))
 print('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))""",
-        'after': 'The one-line rule catches <strong>{rule_recall}</strong> of the defaults — more than the model at '
+        'after': 'The one-line rule catches <strong>{rule_recall}</strong> of the defaults: more than the model at '
                  '0.5 — with precision {rule_prec}. Last month’s repayment status carries most of the signal; '
                  'the other 22 columns lift the AUC from {pay0_auc} (that column alone) to {boost_auc}. A '
                  'baseline like this belongs in every model report, because it tells you what the model adds.',
@@ -123,7 +123,7 @@ for th in (0.5, 0.3, 0.2, 1 / 6, 0.1):
         'after': 'Predicted and actual default rates agree within a few points in every decile, so the '
                  'probabilities can be taken at face value. At the cost-based threshold the model flags '
                  '{flag_16} of clients and catches <strong>{recall_16}</strong> of the defaults, and the total '
-                 'cost falls by <strong>{cost_cut}</strong> against 0.5. Nothing about the model changed — only '
+                 'cost falls by <strong>{cost_cut}</strong> against 0.5. Nothing about the model changed: only '
                  'the decision drawn from it. The cost curve is flat near its minimum: 0.2 does about as well as 1/6, '
                  'while 0.5 and 0.1 are clearly worse.',
         'chart': lambda ns: bars(
@@ -165,7 +165,7 @@ TAKEAWAYS = [
     '0.5 is a convention, not a decision. With calibrated probabilities, the threshold that minimises cost is '
     'cost of a false alarm ÷ (cost of a false alarm + cost of a miss).',
     'Compare the model with the simplest rule a domain expert would write. If one column does most of the work, '
-    'say so — and check what that column really encodes.',
+    'say so, and check what that column really encodes.',
     'Read the data, not only the documentation: count the values that occur and look for codes no one explained.',
 ]
 PATTERNS = [
@@ -177,7 +177,7 @@ PATTERNS = [
 ]
 SOURCES = [
     'I-C. Yeh &amp; C-H. Lien, “The comparisons of data mining techniques for the predictive accuracy of probability '
-    'of default of credit card clients”, <em>Expert Systems with Applications</em> 36(2), 2009 — the data set',
-    'C. Elkan, “The Foundations of Cost-Sensitive Learning”, <em>Proceedings of IJCAI</em>, 2001 — the cost-based threshold',
-    'A. Niculescu-Mizil &amp; R. Caruana, “Predicting Good Probabilities with Supervised Learning”, <em>ICML</em>, 2005 — calibration',
+    'of default of credit card clients”, <em>Expert Systems with Applications</em> 36(2), 2009: the data set',
+    'C. Elkan, “The Foundations of Cost-Sensitive Learning”, <em>Proceedings of IJCAI</em>, 2001: the cost-based threshold',
+    'A. Niculescu-Mizil &amp; R. Caruana, “Predicting Good Probabilities with Supervised Learning”, <em>ICML</em>, 2005: calibration',
 ]

@@ -46,7 +46,7 @@
       '<div class="depth-block"><div class="depth-title">In code</div>' +
         '<div class="code-block" tabindex="0"' + (d.run ? ' data-run="' + d.run + '"' : '') + '><pre>' + d.code + '</pre></div>' +
         (d.run ? '<div class="run-bar"><button type="button" class="run-btn">▶ Run</button>' +
-          '<span class="run-hint">Python, in your browser — edit the code and run it again</span></div>' : '') +
+          '<span class="run-hint">Python, in your browser: edit the code and run it again</span></div>' : '') +
         (d.codeNote ? '<p class="depth-note">' + d.codeNote + '</p>' : '') + '</div>' +
       '<div class="depth-block depth-sources"><div class="depth-title">Sources</div>' + list(d.sources) +
         (reviewedOn(d.id) ? '<p class="depth-note depth-reviewed">Last reviewed ' + reviewedOn(d.id) +

@@ -12,25 +12,25 @@ function T(symbol, def) {
 /* ── Narrator ────────────────────────────────────────────────── */
 const NARRATIONS = {
   'indicator-playground': [
-    'Technical indicators are mathematical summaries of price history. They don\'t predict the future — they describe the past in a way that can reveal momentum and extremes.',
-    'SMA (Simple Moving Average) smooths noise by averaging the last N closing prices. A rising SMA means recent prices are above historical average — a basic trend filter.',
+    'Technical indicators are mathematical summaries of price history. They don\'t predict the future: they describe the past in a way that can reveal momentum and extremes.',
+    'SMA (Simple Moving Average) smooths noise by averaging the last N closing prices. A rising SMA means recent prices are above historical average: a basic trend filter.',
     'RSI (Relative Strength Index) measures how fast prices are moving. Above 70 suggests the market may be overextended (overbought); below 30 suggests it may be oversold.',
-    'Bollinger Bands draw a channel ±2 standard deviations around a moving average. Bands narrow in calm periods and widen in volatile ones — a squeeze often precedes a breakout.',
+    'Bollinger Bands draw a channel ±2 standard deviations around a moving average. Bands narrow in calm periods and widen in volatile ones: a squeeze often precedes a breakout.',
   ],
   'candlestick-spotter': [
     'Every candlestick encodes four prices: Open, High, Low, Close. The body shows the open-to-close range; wicks show how far the price reached beyond that.',
-    'A Doji has nearly equal open and close — a tiny body, often with long wicks. It signals indecision. Buyers and sellers fought to a standstill.',
+    'A Doji has nearly equal open and close: a tiny body, often with long wicks. It signals indecision. Buyers and sellers fought to a standstill.',
     'A Hammer has a tiny body at the top and a long lower wick. Sellers drove the price down, but buyers recovered it. In a downtrend, that\'s a potential reversal signal.',
     'An Engulfing pattern spans two candles: the second candle\'s body completely swallows the first. Bullish engulfing at a low = buyers taking control.',
   ],
   'paper-trading': [
-    'Paper trading means practicing with virtual money. The goal isn\'t to win every trade — it\'s to build discipline, pattern recognition, and a feel for risk.',
+    'Paper trading means practicing with virtual money. The goal isn\'t to win every trade: it\'s to build discipline, pattern recognition, and a feel for risk.',
     'The chart advances bar by bar. Your only information: what you\'ve already seen. Buy when you spot an opportunity; sell to close. There\'s no undo.',
-    'Notice the emotional pull to hold losing trades hoping they\'ll recover — that\'s loss aversion. And the urge to sell winners too early — that\'s fear of giving back gains.',
+    'Notice the emotional pull to hold losing trades hoping they\'ll recover: that\'s loss aversion. And the urge to sell winners too early: that\'s fear of giving back gains.',
     'Over many trades, your win rate and average winner vs average loser determine whether your approach has positive expectancy. Track both, not just wins.',
   ],
   'risk-calculator': [
-    'Risk management is about surviving losing streaks, not about picking winners. The question isn\'t "will this trade work?" — it\'s "how much can I afford to lose if it doesn\'t?"',
+    'Risk management is about surviving losing streaks, not about picking winners. The question isn\'t "will this trade work?": it\'s "how much can I afford to lose if it doesn\'t?"',
     'Position sizing: risk a fixed percentage of your account per trade — typically 1–2%. This means even 10 consecutive losses only cost 10% of your account.',
     'The Risk:Reward ratio compares your potential loss (entry to stop) against potential gain (entry to target). A 1:2 R:R means you only need to win 34% of trades to break even.',
     'The Kelly Criterion gives the theoretically optimal bet size based on your win rate and profit/loss ratio. In practice, most traders use half-Kelly to reduce variance.',
@@ -39,19 +39,19 @@ const NARRATIONS = {
     'A moving average crossover generates buy and sell signals when a fast-moving average crosses a slow one. The logic: when recent prices consistently exceed the long-term trend, momentum is up.',
     'Golden Cross: the fast MA crosses above the slow MA — historically considered a bullish signal. Death Cross: the fast MA crosses below the slow — bearish.',
     'The lag problem: by the time the MAs cross, much of the move may have already happened. Shorter windows react faster but generate many false signals.',
-    'Crossovers work best in trending markets and fail badly in sideways conditions — the fast and slow MAs constantly cross back and forth (whipsaw). No parameter set works everywhere.',
+    'Crossovers work best in trending markets and fail badly in sideways conditions: the fast and slow MAs constantly cross back and forth (whipsaw). No parameter set works everywhere.',
   ],
   'support-resistance': [
-    'Support and resistance are price levels where the market paused, bounced, or reversed — repeatedly. They\'re visible because many traders remember and react to the same price history.',
-    'Support is a floor: a level where buyers historically stepped in. When price falls back to support, those memories create demand again — at least for a while.',
+    'Support and resistance are price levels where the market paused, bounced, or reversed: repeatedly. They\'re visible because many traders remember and react to the same price history.',
+    'Support is a floor: a level where buyers historically stepped in. When price falls back to support, those memories create demand again: at least for a while.',
     'Resistance is a ceiling: a level where sellers appeared and capped advances. Once broken convincingly, old resistance often flips to become new support.',
-    'The more times a level holds without breaking, the stronger it becomes — but also the larger the move when it finally breaks, because all the stops on both sides get triggered at once.',
+    'The more times a level holds without breaking, the stronger it becomes, but also the larger the move when it finally breaks, because all the stops on both sides get triggered at once.',
   ],
   'volume-profile': [
-    'Volume profile shows not just how prices moved, but where the most trading actually happened. It\'s a horizontal histogram of volume across price levels — a map of participation.',
-    'The Point of Control (POC) is the price level with the most traded volume. It represents where the most consensus existed — buyers and sellers agreed on value here most often.',
-    'The Value Area High and Low define the range containing ~70% of total volume. Prices outside this zone are considered "off-value" — either cheap or expensive relative to consensus.',
-    'Low-volume nodes are thin zones where little trading occurred. Price tends to move through them quickly — there\'s little resistance because few participants have positions there.',
+    'Volume profile shows not just how prices moved, but where the most trading actually happened. It\'s a horizontal histogram of volume across price levels: a map of participation.',
+    'The Point of Control (POC) is the price level with the most traded volume. It represents where the most consensus existed: buyers and sellers agreed on value here most often.',
+    'The Value Area High and Low define the range containing ~70% of total volume. Prices outside this zone are considered "off-value", either cheap or expensive relative to consensus.',
+    'Low-volume nodes are thin zones where little trading occurred. Price tends to move through them quickly: there\'s little resistance because few participants have positions there.',
   ],
 };
 
@@ -109,7 +109,7 @@ const TOPIC_NAMES = {
 /* ── Full activity data for search ── */
 const TOPIC_DATA = [
   { id:'indicator-playground', num:'01', title:'Indicator Playground', category:'Markets Lab', keywords:['SMA','EMA','RSI','bollinger','MACD','moving average','indicator','technical analysis','candlestick','OHLC'], content:'Overlay technical indicators on a live candlestick chart. Toggle SMA, EMA, RSI, Bollinger Bands and MACD to see how they react to price action.' },
-  { id:'candlestick-spotter', num:'02', title:'Candlestick Pattern Spotter', category:'Markets Lab', keywords:['doji','hammer','engulfing','morning star','evening star','pattern','candle','quiz','recognition'], content:'Test your pattern-recognition skills — identify candlestick formations in randomly generated charts and build your score.' },
+  { id:'candlestick-spotter', num:'02', title:'Candlestick Pattern Spotter', category:'Markets Lab', keywords:['doji','hammer','engulfing','morning star','evening star','pattern','candle','quiz','recognition'], content:'Test your pattern-recognition skills: identify candlestick formations in randomly generated charts and build your score.' },
   { id:'paper-trading', num:'03', title:'Paper Trading Sim', category:'Markets Lab', keywords:['paper trade','buy','sell','P&L','position','portfolio','simulation','chart','trading'], content:'Step through a price chart bar-by-bar, buy and sell with virtual cash, and track your profit & loss in real time.' },
   { id:'risk-calculator', num:'04', title:'Risk Calculator', category:'Markets Lab', keywords:['position size','risk','reward','stop loss','kelly','risk management','R:R','percentage risk'], content:'Calculate optimal position sizes, stop-loss placement, and risk/reward ratios. Visualise the Kelly criterion for bankroll growth.' },
   { id:'ma-crossover', num:'05', title:'Moving Average Crossover', category:'Markets Lab', keywords:['SMA','moving average','crossover','golden cross','death cross','signal','trend','fast','slow'], content:'Generate price charts with two SMA overlays. Spot golden and death cross signals and track their accuracy over time.' },
@@ -120,28 +120,28 @@ const TOPIC_DATA = [
 /* ── Hints system ── */
 const HINTS = {
   'indicator-playground': [
-    { id:'ip-sma-on',     trigger:'smaOn',       message:'The SMA smooths price data — notice how it lags behind sudden moves.' },
+    { id:'ip-sma-on',     trigger:'smaOn',       message:'The SMA smooths price data: notice how it lags behind sudden moves.' },
     { id:'ip-rsi-on',     trigger:'rsiOn',        message:'RSI above 70 often signals overbought; below 30 signals oversold.' },
     { id:'ip-boll-on',    trigger:'bollingerOn',  message:'Bollinger Bands widen during volatile periods and narrow in calm markets.' },
     { id:'ip-macd-on',    trigger:'macdOn',       message:'When MACD crosses above its signal line, it\'s often read as bullish.' },
-    { id:'ip-multi',      trigger:'indicatorCount>=3', message:'Using too many overlapping indicators can create analysis paralysis — focus on 1–2 that complement each other.' },
+    { id:'ip-multi',      trigger:'indicatorCount>=3', message:'Using too many overlapping indicators can create analysis paralysis: focus on 1–2 that complement each other.' },
   ],
   'candlestick-spotter': [
-    { id:'cs-first',      trigger:'attempts>=1',  message:'Look for long wicks relative to the body — they signal rejection of a price level.' },
+    { id:'cs-first',      trigger:'attempts>=1',  message:'Look for long wicks relative to the body: they signal rejection of a price level.' },
     { id:'cs-streak',     trigger:'streak>=3',     message:'Great streak! Pattern recognition improves with practice.' },
-    { id:'cs-wrong',      trigger:'wrongCount>=2', message:'Don\'t worry — many patterns look similar. Focus on body-to-wick ratio and context.' },
-    { id:'cs-score10',    trigger:'score>=10',     message:'Excellent visual intuition — you\'re spotting patterns like a pro.' },
+    { id:'cs-wrong',      trigger:'wrongCount>=2', message:'Don\'t worry: many patterns look similar. Focus on body-to-wick ratio and context.' },
+    { id:'cs-score10',    trigger:'score>=10',     message:'Excellent visual intuition: you\'re spotting patterns like a pro.' },
   ],
   'paper-trading': [
-    { id:'pt-first-buy',  trigger:'hasBought',     message:'You entered a position — watch the chart advance and decide when to sell.' },
-    { id:'pt-first-sell', trigger:'hasSold',        message:'Closed the trade! Check your P&L — was the timing right?' },
-    { id:'pt-losing',     trigger:'unrealPnlNeg',   message:'Price moved against you — consider cutting losses early to preserve capital.' },
+    { id:'pt-first-buy',  trigger:'hasBought',     message:'You entered a position: watch the chart advance and decide when to sell.' },
+    { id:'pt-first-sell', trigger:'hasSold',        message:'Closed the trade! Check your P&L: was the timing right?' },
+    { id:'pt-losing',     trigger:'unrealPnlNeg',   message:'Price moved against you: consider cutting losses early to preserve capital.' },
     { id:'pt-profit',     trigger:'totalPnlPos',    message:'Nice realised profit! Consistency matters more than big wins.' },
   ],
   'risk-calculator': [
     { id:'rc-first',      trigger:'calculated',     message:'Position size = (Account × Risk%) ÷ |Entry − Stop|.' },
     { id:'rc-rr-low',     trigger:'rrLow',           message:'A risk/reward below 1:2 means you need a high win-rate to stay profitable.' },
-    { id:'rc-kelly',      trigger:'kellyShown',      message:'Kelly sizing can be aggressive — many traders use half-Kelly for safety.' },
+    { id:'rc-kelly',      trigger:'kellyShown',      message:'Kelly sizing can be aggressive: many traders use half-Kelly for safety.' },
     { id:'rc-large-risk', trigger:'riskHigh',        message:'Risking more than 2% per trade can lead to large drawdowns.' },
   ],
   'ma-crossover': [
@@ -149,7 +149,7 @@ const HINTS = {
     { id:'mac-death',     trigger:'hasDeathCross',   message:'A death cross (fast crosses below slow) often precedes further downside.' },
     { id:'mac-fast',      trigger:'fastChanged',     message:'Shorter fast periods react quicker but produce more false signals.' },
     { id:'mac-slow',      trigger:'slowChanged',     message:'Longer slow periods filter noise but lag behind real trend changes.' },
-    { id:'mac-win',       trigger:'winRate>=60',      message:'Above 60% win rate — this parameter combo is working well on this data.' },
+    { id:'mac-win',       trigger:'winRate>=60',      message:'Above 60% win rate: this parameter combo is working well on this data.' },
   ],
   'support-resistance': [
     { id:'sr-detected',   trigger:'levelsDetected',  message:'Levels are auto-detected using 5-bar pivot highs and lows.' },
@@ -160,8 +160,8 @@ const HINTS = {
   ],
   'volume-profile': [
     { id:'vp-built',      trigger:'profileBuilt',    message:'The Point of Control is the price level with the highest traded volume.' },
-    { id:'vp-va',         trigger:'vaShown',         message:'The Value Area contains ~70% of total volume — prices tend to revert here.' },
-    { id:'vp-poc',        trigger:'pocShown',        message:'Price often gravitates toward the POC — it acts as a magnet.' },
+    { id:'vp-va',         trigger:'vaShown',         message:'The Value Area contains ~70% of total volume: prices tend to revert here.' },
+    { id:'vp-poc',        trigger:'pocShown',        message:'Price often gravitates toward the POC: it acts as a magnet.' },
     { id:'vp-skew',       trigger:'skewed',          message:'A skewed volume profile suggests directional conviction in the market.' },
   ],
 };
@@ -249,7 +249,7 @@ function buildIndicatorPlayground() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Indicator <em style="font-style:italic;color:var(--lab-ink);">Playground</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Toggle technical indicators on a generated candlestick chart. Watch how each indicator reacts to price movement — combine them to understand convergence and divergence.
+      Toggle technical indicators on a generated candlestick chart. Watch how each indicator reacts to price movement: combine them to understand convergence and divergence.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -286,14 +286,14 @@ function buildIndicatorPlayground() {
       <summary>How it Works</summary>
       <h3>Technical Indicators</h3>
       <p>Technical indicators are mathematical calculations applied to price and volume data. <strong>SMA</strong> (Simple Moving Average) smooths out noise by averaging the last N closing prices. <strong>EMA</strong> (Exponential Moving Average) gives more weight to recent prices, reacting faster to changes.</p>
-      <div class="exp-formula">${T('SMA','Simple Moving Average — the plain average of the last n closing prices. A basic trend smoother.')} = (1/${T('n','The look-back window — how many candles to average.')}) ${T('Σ','Sum all values below.')} ${T('Closeᵢ','The closing price for each of the last n candles.')} &emsp;|&emsp; ${T('RSI','Relative Strength Index — measures momentum. 0–100 scale. Above 70 = possibly overbought. Below 30 = possibly oversold.')} = 100 − 100/(1 + ${T('avgGain/avgLoss','Ratio of average up-moves to average down-moves over the last 14 periods.')})</div>
+      <div class="exp-formula">${T('SMA','Simple Moving Average: the plain average of the last n closing prices. A basic trend smoother.')} = (1/${T('n','The look-back window, how many candles to average.')}) ${T('Σ','Sum all values below.')} ${T('Closeᵢ','The closing price for each of the last n candles.')} &emsp;|&emsp; ${T('RSI','Relative Strength Index: measures momentum. 0–100 scale. Above 70 = possibly overbought. Below 30 = possibly oversold.')} = 100 − 100/(1 + ${T('avgGain/avgLoss','Ratio of average up-moves to average down-moves over the last 14 periods.')})</div>
       <p><strong>RSI</strong> measures momentum on a 0–100 scale. <strong>Bollinger Bands</strong> draw &plusmn;2&sigma; around a moving average, showing volatility. <strong>MACD</strong> tracks the difference between a fast and slow EMA, with a signal line for crossover trades.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>SMA lags behind price — the longer the period, the smoother but slower the line.</li>
+        <li>SMA lags behind price: the longer the period, the smoother but slower the line.</li>
         <li>RSI above 70 often flags overbought conditions; below 30 flags oversold.</li>
         <li>Bollinger Bands squeeze during low volatility and expand during breakouts.</li>
-        <li>MACD crossing its signal line is a classic momentum signal — watch for divergence from price.</li>
+        <li>MACD crossing its signal line is a classic momentum signal: watch for divergence from price.</li>
       </ul>
     </details>
   `;
@@ -303,7 +303,7 @@ function buildCandlestickSpotter() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Candlestick <em style="font-style:italic;color:var(--lab-ink);">Pattern Spotter</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      A pattern is highlighted on the chart — pick the correct name from the choices. Build your recognition speed and accuracy over time.
+      A pattern is highlighted on the chart: pick the correct name from the choices. Build your recognition speed and accuracy over time.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -337,14 +337,14 @@ function buildCandlestickSpotter() {
       <summary>How it Works</summary>
       <h3>Candlestick Patterns</h3>
       <p>Each candlestick encodes four prices: <strong>Open, High, Low, Close</strong> (${T('OHLC','Open-High-Low-Close — the four key prices that define a trading period. Every candle tells the story of one time period.')}). The body shows the open-to-close range; wicks show the high and low extremes. Patterns formed by one or more candles signal potential reversals or continuations.</p>
-      <div class="exp-formula">${T('Body','The filled rectangle — shows the range between open and close. A large body means decisive movement.')} = |${T('Close','The last traded price at the end of the period.')} − ${T('Open','The first traded price at the start of the period.')}| &emsp;|&emsp; ${T('Upper Wick','The thin line above the body — shows how high the price reached before sellers pushed it back down.')} = ${T('High','The highest traded price in this period.')} − max(Open, Close)</div>
-      <p>A <strong>Doji</strong> has nearly equal open and close — signalling indecision. A <strong>Hammer</strong> has a long lower wick showing buyers stepped in. <strong>Engulfing</strong> patterns occur when one candle’s body completely covers the previous one.</p>
+      <div class="exp-formula">${T('Body','The filled rectangle: shows the range between open and close. A large body means decisive movement.')} = |${T('Close','The last traded price at the end of the period.')} − ${T('Open','The first traded price at the start of the period.')}| &emsp;|&emsp; ${T('Upper Wick','The thin line above the body: shows how high the price reached before sellers pushed it back down.')} = ${T('High','The highest traded price in this period.')} − max(Open, Close)</div>
+      <p>A <strong>Doji</strong> has nearly equal open and close: signalling indecision. A <strong>Hammer</strong> has a long lower wick showing buyers stepped in. <strong>Engulfing</strong> patterns occur when one candle’s body completely covers the previous one.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>Long wicks relative to the body signal rejection of a price level.</li>
         <li>Bullish patterns at support levels carry more weight than in isolation.</li>
-        <li>Patterns are probabilistic — they increase odds but do not guarantee direction.</li>
-        <li>Practice builds visual intuition — speed and accuracy both improve with repetition.</li>
+        <li>Patterns are probabilistic: they increase odds but do not guarantee direction.</li>
+        <li>Practice builds visual intuition: speed and accuracy both improve with repetition.</li>
       </ul>
     </details>
   `;
@@ -354,7 +354,7 @@ function buildPaperTrading() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Paper <em style="font-style:italic;color:var(--lab-ink);">Trading Sim</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Step through a price chart bar-by-bar. Buy and sell with virtual cash — learn to manage entries, exits, and emotions without real risk.
+      Step through a price chart bar-by-bar. Buy and sell with virtual cash: learn to manage entries, exits, and emotions without real risk.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -390,12 +390,12 @@ function buildPaperTrading() {
       <summary>How it Works</summary>
       <h3>Paper Trading &amp; Position Management</h3>
       <p>Paper trading simulates real trading with virtual money. You step through a price chart bar-by-bar, deciding when to buy and sell. The goal is to practise <strong>entries, exits, and emotional discipline</strong> without financial risk.</p>
-      <div class="exp-formula">${T('P&L','Profit and Loss — how much money you made or lost on a trade.')} = (${T('Sell Price','The price at which you closed the position.')} − ${T('Buy Price','The price at which you entered the position.')}) × ${T('Position Size','The number of shares or units you bought.')}</div>
-      <p>Good trading is not about being right every time — it is about managing risk and letting winners run while cutting losers early. Track your win rate and average gain vs average loss.</p>
+      <div class="exp-formula">${T('P&L','Profit and Loss: how much money you made or lost on a trade.')} = (${T('Sell Price','The price at which you closed the position.')} − ${T('Buy Price','The price at which you entered the position.')}) × ${T('Position Size','The number of shares or units you bought.')}</div>
+      <p>Good trading is not about being right every time: it is about managing risk and letting winners run while cutting losers early. Track your win rate and average gain vs average loss.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>Notice the urge to hold losing positions too long or sell winners too early.</li>
-        <li>Stepping bar-by-bar forces patience — real markets unfold one candle at a time.</li>
+        <li>Stepping bar-by-bar forces patience: real markets unfold one candle at a time.</li>
         <li>Your balance trajectory reveals whether your strategy has positive expectancy.</li>
         <li>Consistency matters more than any single big win.</li>
       </ul>
@@ -407,7 +407,7 @@ function buildMaCrossover() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Moving Average <em style="font-style:italic;color:var(--lab-ink);">Crossover</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      Overlay fast & slow SMAs on generated price data. Golden crosses (fast above slow) and death crosses (fast below slow) are marked automatically — track their accuracy.
+      Overlay fast & slow SMAs on generated price data. Golden crosses (fast above slow) and death crosses (fast below slow) are marked automatically: track their accuracy.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -452,9 +452,9 @@ function buildMaCrossover() {
       <p>Shorter fast periods react quickly but generate more false signals. Longer slow periods filter noise but lag behind real reversals. The win rate tracks how many signals correctly predicted the next move.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>In trending markets, crossovers capture big moves — in sideways markets they whipsaw.</li>
+        <li>In trending markets, crossovers capture big moves: in sideways markets they whipsaw.</li>
         <li>Widening the gap between fast and slow periods reduces signal frequency but improves reliability.</li>
-        <li>The win rate varies with each new chart — no parameter set works everywhere.</li>
+        <li>The win rate varies with each new chart: no parameter set works everywhere.</li>
         <li>Golden and death cross counts reveal how noisy or trendy the generated data is.</li>
       </ul>
     </details>
@@ -500,13 +500,13 @@ function buildSupportResistance() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Support &amp; Resistance Levels</h3>
-      <p>Support is a price level where buying pressure tends to halt a decline; resistance is where selling pressure caps an advance. These levels form at <strong>pivot highs and lows</strong> — swing points where price reversed.</p>
-      <div class="exp-formula">${T('Pivot High','A local peak — a candle whose high is higher than all its neighbours. Marks a point where sellers took control.')}: bar whose ${T('high','The highest price reached during this candle.')} &gt; high of ${T('N bars','N neighbouring candles on each side — a higher N means only more significant peaks are detected.')} on each side</div>
-      <p>When price approaches a level multiple times without breaking through, that level strengthens. When it finally breaks, old support often becomes new resistance and vice versa — a concept called <strong>polarity</strong>.</p>
+      <p>Support is a price level where buying pressure tends to halt a decline; resistance is where selling pressure caps an advance. These levels form at <strong>pivot highs and lows</strong>: swing points where price reversed.</p>
+      <div class="exp-formula">${T('Pivot High','A local peak: a candle whose high is higher than all its neighbours. Marks a point where sellers took control.')}: bar whose ${T('high','The highest price reached during this candle.')} &gt; high of ${T('N bars','N neighbouring candles on each side — a higher N means only more significant peaks are detected.')} on each side</div>
+      <p>When price approaches a level multiple times without breaking through, that level strengthens. When it finally breaks, old support often becomes new resistance and vice versa: a concept called <strong>polarity</strong>.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>Auto-detected levels cluster around price zones where reversals occurred.</li>
-        <li>Multiple bounces at the same level strengthen it — track the bounce count.</li>
+        <li>Multiple bounces at the same level strengthen it: track the bounce count.</li>
         <li>A break through a strong level often leads to an accelerated move.</li>
         <li>Adjusting sensitivity changes how nearby pivots are clustered into a single level.</li>
       </ul>
@@ -518,7 +518,7 @@ function buildVolumeProfile() {
   return `
     <h2 style="font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:400;margin-bottom:8px;">Volume <em style="font-style:italic;color:var(--lab-ink);">Profile</em></h2>
     <p class="sub" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.6;">
-      View a horizontal volume histogram at each price level. Identify the Point of Control (highest volume), Value Area High and Low — key zones where the market traded most.
+      View a horizontal volume histogram at each price level. Identify the Point of Control (highest volume), Value Area High and Low: key zones where the market traded most.
     </p>
 
     <div class="sandbox-canvas-wrap">
@@ -548,12 +548,12 @@ function buildVolumeProfile() {
     <details class="sandbox-explainer">
       <summary>How it Works</summary>
       <h3>Volume Profile &amp; Market Auction Theory</h3>
-      <p>Volume profile displays a horizontal histogram showing how much volume traded at each price level. The <strong>Point of Control (POC)</strong> is the price with the highest volume — it acts as a "fair value" magnet.</p>
-      <div class="exp-formula">${T('Value Area','The price range where approximately 70% of all trading happened — the zone of greatest agreement between buyers and sellers.')} = price range containing ~70% of ${T('total volume','The total number of shares or contracts traded across all price levels in this session.')}</div>
+      <p>Volume profile displays a horizontal histogram showing how much volume traded at each price level. The <strong>Point of Control (POC)</strong> is the price with the highest volume: it acts as a "fair value" magnet.</p>
+      <div class="exp-formula">${T('Value Area','The price range where approximately 70% of all trading happened: the zone of greatest agreement between buyers and sellers.')} = price range containing ~70% of ${T('total volume','The total number of shares or contracts traded across all price levels in this session.')}</div>
       <p>The <strong>Value Area High (VAH)</strong> and <strong>Value Area Low (VAL)</strong> define the zone where most trading occurred. Price tends to revert to this zone; moves outside it signal directional conviction.</p>
       <h3>What to Observe</h3>
       <ul>
-        <li>Price often gravitates toward the POC — it represents the consensus fair value.</li>
+        <li>Price often gravitates toward the POC: it represents the consensus fair value.</li>
         <li>A narrow value area implies tight consensus; a wide one suggests disagreement.</li>
         <li>Volume skewed to one side of the range signals directional bias.</li>
         <li>Low-volume zones (gaps in the profile) act as price acceleration areas.</li>
@@ -624,13 +624,13 @@ function buildRiskCalculator() {
       <summary>How it Works</summary>
       <h3>Position Sizing &amp; Risk Management</h3>
       <p>Proper position sizing is the cornerstone of risk management. You decide the maximum dollar amount to risk per trade (typically 1–2% of your account), then calculate how many shares or units to buy based on the distance to your stop-loss.</p>
-      <div class="exp-formula">${T('Position Size','The number of shares or units to buy — calculated so a loss never exceeds your risk budget.')} = (${T('Account','Your total trading balance — the pool of money you\'re working with.')} &times; ${T('Risk%','The percentage of your account you\'re willing to lose on this trade. Typically 1–2%.')}) / |${T('Entry','The price where you plan to open the trade.')} &minus; ${T('Stop','The price where you\'ll exit if wrong — your worst-case exit.')}|</div>
-      <p>The <strong>Risk/Reward ratio</strong> (R:R) compares potential loss to potential gain. The <strong>Kelly Criterion</strong> determines optimal bet sizing based on win rate and payoff ratio — but many traders use half-Kelly for safety.</p>
+      <div class="exp-formula">${T('Position Size','The number of shares or units to buy, calculated so a loss never exceeds your risk budget.')} = (${T('Account','Your total trading balance, the pool of money you\'re working with.')} &times; ${T('Risk%','The percentage of your account you\'re willing to lose on this trade. Typically 1–2%.')}) / |${T('Entry','The price where you plan to open the trade.')} &minus; ${T('Stop','The price where you\'ll exit if wrong: your worst-case exit.')}|</div>
+      <p>The <strong>Risk/Reward ratio</strong> (R:R) compares potential loss to potential gain. The <strong>Kelly Criterion</strong> determines optimal bet sizing based on win rate and payoff ratio, but many traders use half-Kelly for safety.</p>
       <h3>What to Observe</h3>
       <ul>
         <li>A tighter stop-loss increases position size (and risk if the stop is hit).</li>
         <li>R:R below 1:2 requires a high win rate to be profitable long-term.</li>
-        <li>Kelly sizing can be aggressive — observe how it changes with win rate.</li>
+        <li>Kelly sizing can be aggressive: observe how it changes with win rate.</li>
         <li>Risking more than 2% per trade can lead to devastating drawdowns.</li>
       </ul>
     </details>
