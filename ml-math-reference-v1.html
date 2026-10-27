@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ML Math — Complete Visual Reference</title>
 <style>
-@import url('/css/fonts.css?v=2');
+@import url('/css/fonts.css?v=3');
 
 :root {
---bg:      #faf8f4;
+--bg:      #f7f8fa;
 --surface: #ffffff;
---surface2:#f2ede4;
---border:  #e2d9cc;
+--surface2:#eef0f3;
+--border:  #dde1e7;
 --border2: #c9bead;
---accent:  #c84b2f;
+--accent:  #2a44b8;
 --accent2: #2a7d5f;
---accent3: #2955a0;
+--accent3: #8a5a00;
 --accent4: #8b4fa8;
---text:    #1a1714;
+--text:    #15181d;
 --muted:   #7a6e62;
---hi:      rgba(200,75,47,0.06);
+--hi:      rgba(42,68,184,0.06);
 --nav-w:   260px;
 --hdr-h:   64px;
 }
@@ -30,7 +30,7 @@ html{scroll-behavior:smooth}
 body{
 background:var(--bg);
 color:var(--text);
-font-family:'Playfair Display',Georgia,serif;
+font-family:'IBM Plex Sans', sans-serif;
 min-height:100vh;
 overflow-x:hidden;
 }
@@ -70,7 +70,7 @@ animation:pulse 2s ease-in-out infinite;
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
 
 header h1{
-font-family:'Playfair Display',serif;
+font-family:'IBM Plex Sans', sans-serif;
 font-size:20px;font-weight:700;
 letter-spacing:-.01em;
 color:var(--text);
@@ -152,7 +152,7 @@ cursor:pointer;
 transition:all .12s;
 font-size:13px;
 color:var(--muted);
-font-family:'Playfair Display',serif;
+font-family:'IBM Plex Sans', sans-serif;
 font-weight:400;
 border-left:2px solid transparent;
 line-height:1.3;
@@ -199,7 +199,7 @@ margin-bottom:12px;
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:36px;}
 
 .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;cursor:pointer;transition:all .15s;}
-.cat-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(200,75,47,.1);}
+.cat-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(42,68,184,.1);}
 .cat-card-icon{font-size:22px;margin-bottom:10px;}
 .cat-card-name{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--text);}
 .cat-card-count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
@@ -258,7 +258,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 .steps{display:grid;gap:8px;margin:16px 0}
 .step{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 15px;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;}
 .step:hover{border-color:var(--accent);background:var(--hi)}
-.sn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);background:var(--hi);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid rgba(200,75,47,.2);flex-shrink:0;}
+.sn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);background:var(--hi);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid rgba(42,68,184,.2);flex-shrink:0;}
 .step h4{font-size:14px;font-weight:700;margin-bottom:2px}
 .step p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.5}
 
@@ -268,13 +268,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 .mt td:first-child{color:var(--text)}.mt tr:hover td{background:var(--surface2)}
 
 .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px}
-.t1{background:rgba(200,75,47,.1);color:var(--accent)}.t2{background:rgba(42,125,95,.1);color:var(--accent2)}
-.t3{background:rgba(41,85,160,.1);color:var(--accent3)}.t4{background:rgba(139,79,168,.1);color:var(--accent4)}
+.t1{background:rgba(42,68,184,.1);color:var(--accent)}.t2{background:rgba(42,125,95,.1);color:var(--accent2)}
+.t3{background:rgba(138,90,0,.1);color:var(--accent3)}.t4{background:rgba(139,79,168,.1);color:var(--accent4)}
 
 .callout{background:rgba(42,125,95,.05);border:1px solid rgba(42,125,95,.2);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px;color:#2a5a47;line-height:1.7;font-family:'IBM Plex Mono',monospace;}
 .callout strong{color:var(--accent2)}
-.callout.warn{background:rgba(200,75,47,.05);border-color:rgba(200,75,47,.2);color:#7a3020}.callout.warn strong{color:var(--accent)}
-.callout.info{background:rgba(41,85,160,.05);border-color:rgba(41,85,160,.2);color:#1e3a6e}.callout.info strong{color:var(--accent3)}
+.callout.warn{background:rgba(42,68,184,.05);border-color:rgba(42,68,184,.2);color:#7a3020}.callout.warn strong{color:var(--accent)}
+.callout.info{background:rgba(138,90,0,.05);border-color:rgba(138,90,0,.2);color:#1e3a6e}.callout.info strong{color:var(--accent3)}
 
 .topic-nav{display:flex;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border);}
 .tnav-btn{flex:1;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .12s;text-align:left;}
@@ -1160,7 +1160,7 @@ function cv(id,H){
   return{ctx,W,H};
 }
 function rgba(hex,a){const n=parseInt(hex.replace('#',''),16);return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`;}
-const K={r:'#c84b2f',g:'#2a7d5f',b:'#2955a0',v:'#8b4fa8',t:'#1a1714',m:'#7a6e62',bg:'#faf8f4',sur:'#ffffff',brd:'#e2d9cc'};
+const K={r:'#2a44b8',g:'#2a7d5f',b:'#8a5a00',v:'#8b4fa8',t:'#15181d',m:'#7a6e62',bg:'#f7f8fa',sur:'#ffffff',brd:'#dde1e7'};
 function arrowHead(ctx,x1,y1,x2,y2,col,sz=7){const a=Math.atan2(y2-y1,x2-x1);ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-sz*Math.cos(a-.42),y2-sz*Math.sin(a-.42));ctx.lineTo(x2-sz*Math.cos(a+.42),y2-sz*Math.sin(a+.42));ctx.closePath();ctx.fill();}
 
 // LINEAR
@@ -1373,7 +1373,7 @@ function drawCNN(){
   document.getElementById('cnnKV').textContent=K_sz+'×'+K_sz;document.getElementById('cnnSV').textContent=stride;
   const r=cv('cnnCanvas',240);if(!r)return;const{ctx,W,H}=r;ctx.clearRect(0,0,W,H);
   const inSz=7,cSz=28,ox=30,oy=H/2-inSz*cSz/2;
-  for(let i=0;i<inSz;i++)for(let j=0;j<inSz;j++){const val=Math.random()*.7+.15;ctx.fillStyle=`rgba(41,85,160,${val})`;ctx.fillRect(ox+j*cSz,oy+i*cSz,cSz-1,cSz-1);}
+  for(let i=0;i<inSz;i++)for(let j=0;j<inSz;j++){const val=Math.random()*.7+.15;ctx.fillStyle=`rgba(138,90,0,${val})`;ctx.fillRect(ox+j*cSz,oy+i*cSz,cSz-1,cSz-1);}
   const kx=Math.floor(cnnAnimPos%((inSz-K_sz)/stride+1))*stride,ky=Math.floor(cnnAnimPos/((inSz-K_sz)/stride+1))*stride;
   ctx.strokeStyle=K.r;ctx.lineWidth=2.5;ctx.strokeRect(ox+kx*cSz,oy+ky*cSz,K_sz*cSz,K_sz*cSz);
   ctx.fillStyle=rgba(K.r,.15);ctx.fillRect(ox+kx*cSz,oy+ky*cSz,K_sz*cSz,K_sz*cSz);

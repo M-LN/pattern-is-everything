@@ -44,12 +44,12 @@ const COLLECTIONS = {
   // `depth` is how many directories the collection sits below the site root,
   // which sets the generated page's relative asset paths. `nav` is the primary
   // nav entry to mark current; leaf collections mark their parent world.
-  'stats':              { depth: 1, label: 'The Toolkit',            theme: '#c84b2f', og: 'og-stats.png',        nav: '/stats/' },
+  'stats':              { depth: 1, label: 'The Toolkit',            theme: '#2a44b8', og: 'og-stats.png',        nav: '/stats/' },
   'essays':             { depth: 1, label: 'Pattern Essays',         theme: '#8b4fa8', og: 'og-essays.png',       nav: '/essays/' },
-  'ml-math':            { depth: 1, label: 'ML Math',                theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
-  'llm':                { depth: 1, label: 'LLM Engineering',        theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
-  'mlops':              { depth: 1, label: 'MLOps & Production ML',  theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
-  'timeseries':         { depth: 1, label: 'Timeseries Engineering', theme: '#c84b2f', og: 'social-preview.png',  nav: '/ml/' },
+  'ml-math':            { depth: 1, label: 'ML Math',                theme: '#2a44b8', og: 'social-preview.png',  nav: '/ml/' },
+  'llm':                { depth: 1, label: 'LLM Engineering',        theme: '#2a44b8', og: 'social-preview.png',  nav: '/ml/' },
+  'mlops':              { depth: 1, label: 'MLOps & Production ML',  theme: '#2a44b8', og: 'social-preview.png',  nav: '/ml/' },
+  'timeseries':         { depth: 1, label: 'Timeseries Engineering', theme: '#2a44b8', og: 'social-preview.png',  nav: '/ml/' },
   'markets/charts':     { depth: 2, label: 'Chart Patterns',         theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
   'markets/indicators': { depth: 2, label: 'Technical Indicators',   theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
   'markets/psychology': { depth: 2, label: 'Market Psychology',      theme: '#2a7d5f', og: 'social-preview.png',  nav: '/markets/' },
@@ -170,7 +170,7 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
        topics.js edit without needing a browser. -->
   <meta name="prerender-source" content="${fingerprint}">
   <meta name="theme-color" content="${col.theme}" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
   <link rel="apple-touch-icon" sizes="180x180" href="${up}assets/apple-touch-icon.png">
   <meta property="og:type" content="article">
@@ -216,16 +216,16 @@ function page({ topic, html, prev, next, col, key, fingerprint, vizSrc, connecti
   </script>
   <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <link rel="stylesheet" href="${up}css/fonts.css?v=2">
-  <link rel="stylesheet" href="${up}css/main.css?v=42">
+  <link rel="stylesheet" href="${up}css/fonts.css?v=3">
+  <link rel="stylesheet" href="${up}css/main.css?v=43">
   <style>
-    .crumbs { font-family: var(--mono); font-size: 11px; color: var(--muted);
+    .crumbs { font-family: var(--sans); font-size: 11px; color: var(--muted);
       letter-spacing: .06em; margin-bottom: 22px; }
     .crumbs a { color: var(--muted); text-decoration: none; }
     .crumbs a:hover { color: var(--accent); }
     .topic-page { max-width: 860px; margin: 0 auto; padding: 32px 24px 72px; }
     .topic-page .topic { display: block; }
-    .reader-link { display: inline-block; margin-top: 8px; font-family: var(--mono);
+    .reader-link { display: inline-block; margin-top: 8px; font-family: var(--sans);
       font-size: 12px; color: var(--accent); text-decoration: none; }
     .reader-link:hover { text-decoration: underline; }
     .tnav-btn { text-decoration: none; color: inherit; }

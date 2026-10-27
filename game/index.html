@@ -10,8 +10,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patterniseverything.com/game/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#050508" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c84b2f'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
+<meta name="theme-color" content="#050508" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232a44b8'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
   <link rel="canonical" href="https://patterniseverything.com/game/">
@@ -27,7 +27,7 @@
 </script>
 <link rel="preconnect" href="https://patterniseverything.goatcounter.com">
 <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<link rel="stylesheet" href="/css/fonts.css?v=2">
+<link rel="stylesheet" href="/css/fonts.css?v=3">
 <script src="game-data.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -38,7 +38,7 @@ canvas{display:block;position:fixed;inset:0;z-index:0;}
 #nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;padding:10px 20px;background:rgba(5,5,8,.7);backdrop-filter:blur(8px);border-bottom:1px solid rgba(200,169,110,.08);}
 #nav a{font-size:11px;letter-spacing:.12em;color:var(--gold-dim);text-decoration:none;transition:color .2s;}
 #nav a:hover{color:var(--gold);}
-#nav-title{font-family:'Playfair Display',Georgia,serif;font-size:16px;color:var(--gold);margin-left:auto;letter-spacing:-.01em;}
+#nav-title{font-family:'IBM Plex Sans', sans-serif;font-size:16px;color:var(--gold);margin-left:auto;letter-spacing:-.01em;}
 
 /* Game UI overlay */
 #game-ui{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
@@ -46,8 +46,8 @@ canvas{display:block;position:fixed;inset:0;z-index:0;}
 
 /* Title screen */
 #title-screen{text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;}
-#title-screen h1{font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,56px);font-weight:700;color:var(--gold);letter-spacing:.02em;text-shadow:0 0 40px rgba(200,169,110,.2);}
-#title-screen .subtitle{font-size:14px;font-style:italic;color:rgba(200,169,110,.5);font-family:'Playfair Display',serif;max-width:400px;}
+#title-screen h1{font-family:'IBM Plex Sans', sans-serif;font-size:clamp(32px,7vw,56px);font-weight:700;color:var(--gold);letter-spacing:.02em;text-shadow:0 0 40px rgba(200,169,110,.2);}
+#title-screen .subtitle{font-size:14px;font-style:italic;color:rgba(200,169,110,.5);font-family:'IBM Plex Sans', sans-serif;max-width:400px;}
 #title-screen .start-btn{margin-top:20px;padding:12px 36px;background:none;border:1px solid var(--gold-dim);color:var(--gold);font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.15em;cursor:pointer;transition:all .3s;border-radius:3px;}
 #title-screen .start-btn:hover{border-color:var(--gold);background:rgba(200,169,110,.08);box-shadow:0 0 20px rgba(200,169,110,.12);}
 #title-screen .stats{font-size:10px;color:rgba(200,169,110,.25);letter-spacing:.15em;margin-top:8px;}
@@ -57,7 +57,7 @@ canvas{display:block;position:fixed;inset:0;z-index:0;}
 #play-screen{display:none;width:100%;max-width:680px;padding:0 24px;text-align:center;}
 #hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:0 4px;}
 #score-area{text-align:left;}
-#score-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);}
+#score-val{font-family:'IBM Plex Sans', sans-serif;font-size:28px;font-weight:700;color:var(--gold);}
 #chain-val{font-size:10px;color:var(--gold-dim);letter-spacing:.12em;height:16px;}
 #lives-area{display:flex;gap:6px;}
 .heart{font-size:18px;transition:opacity .3s;}
@@ -72,7 +72,7 @@ canvas{display:block;position:fixed;inset:0;z-index:0;}
 #question-area{display:flex;gap:20px;justify-content:center;align-items:stretch;margin-bottom:28px;flex-wrap:wrap;}
 .topic-card{flex:1;min-width:200px;max-width:280px;padding:24px 20px;background:var(--surface);border:1px solid rgba(200,169,110,.1);border-radius:8px;backdrop-filter:blur(12px);text-align:center;transition:border-color .3s,box-shadow .3s;}
 .topic-card .domain-badge{font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;padding:3px 10px;border-radius:3px;display:inline-block;}
-.topic-card .topic-name{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,22px);font-weight:400;margin-bottom:8px;line-height:1.2;}
+.topic-card .topic-name{font-family:'IBM Plex Sans', sans-serif;font-size:clamp(16px,3vw,22px);font-weight:400;margin-bottom:8px;line-height:1.2;}
 .topic-card .topic-cat{font-size:10px;color:rgba(232,228,220,.4);letter-spacing:.08em;font-style:italic;}
 .topic-card .topic-col{font-size:9px;color:rgba(232,228,220,.3);letter-spacing:.12em;margin-top:4px;}
 #bridge-icon{font-size:28px;color:rgba(200,169,110,.25);align-self:center;flex-shrink:0;}
@@ -88,9 +88,9 @@ canvas{display:block;position:fixed;inset:0;z-index:0;}
 
 /* Game over */
 #over-screen{display:none;text-align:center;}
-#over-screen h2{font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,42px);color:var(--gold);margin-bottom:8px;}
+#over-screen h2{font-family:'IBM Plex Sans', sans-serif;font-size:clamp(28px,6vw,42px);color:var(--gold);margin-bottom:8px;}
 #over-label{font-size:10px;color:rgba(200,169,110,.4);letter-spacing:.25em;margin-bottom:24px;}
-#final-score{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--gold);text-shadow:0 0 30px rgba(200,169,110,.2);}
+#final-score{font-family:'IBM Plex Sans', sans-serif;font-size:48px;font-weight:700;color:var(--gold);text-shadow:0 0 30px rgba(200,169,110,.2);}
 #final-stats{font-size:11px;color:rgba(232,228,220,.45);line-height:2.2;margin:20px 0;}
 #over-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px;}
 #over-btns button,#over-btns a{padding:10px 28px;background:none;border:1px solid var(--gold-dim);color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;cursor:pointer;text-decoration:none;transition:all .3s;border-radius:3px;}

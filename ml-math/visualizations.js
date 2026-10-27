@@ -133,7 +133,7 @@ DRAWS['linear'] = function() {
       const pred = cw * d.x + cb;
       const pp = toScreen(d.x, pred);
       // error line
-      ctx.strokeStyle = 'rgba(200,75,47,0.25)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(42,68,184,0.25)'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(pp.sx, pp.sy); ctx.stroke();
       // point
       ctx.fillStyle = getCSS('--accent3');
@@ -605,7 +605,7 @@ window.drawReg = function(type) {
   }
   ctx.globalAlpha = 1;
   // constraint region
-  ctx.fillStyle = type === 'l2' ? 'rgba(41,85,160,0.12)' : 'rgba(42,125,95,0.12)';
+  ctx.fillStyle = type === 'l2' ? 'rgba(138,90,0,0.12)' : 'rgba(42,125,95,0.12)';
   ctx.strokeStyle = type === 'l2' ? getCSS('--accent3') : getCSS('--accent2');
   ctx.lineWidth = 2;
   if (type === 'l2') {
@@ -873,7 +873,7 @@ window.drawGauss = function() {
   ctx.strokeStyle = getCSS('--border'); ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(0, h - 30); ctx.lineTo(w, h - 30); ctx.stroke();
   // fill
-  ctx.fillStyle = 'rgba(200,75,47,0.12)';
+  ctx.fillStyle = 'rgba(42,68,184,0.12)';
   ctx.beginPath(); ctx.moveTo(0, h - 30);
   for (let px = 0; px <= w; px++) {
     const x = (px / w) * 10 - 5;
@@ -961,7 +961,7 @@ window.drawKL = function() {
   ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(w, baseY); ctx.stroke();
   // draw both — filled so they read as grounded densities, not floating outlines
   [{ mu: muP, color: getCSS('--accent3'), fill: 'rgba(104,208,247,0.13)', label: 'P' },
-   { mu: muQ, color: getCSS('--accent'), fill: 'rgba(200,75,47,0.12)', label: 'Q' }].forEach(d => {
+   { mu: muQ, color: getCSS('--accent'), fill: 'rgba(42,68,184,0.12)', label: 'Q' }].forEach(d => {
     ctx.fillStyle = d.fill;
     ctx.beginPath(); ctx.moveTo(0, baseY);
     for (let px = 0; px <= w; px++) ctx.lineTo(px, yOf((px / w) * 10 - 3, d.mu));
@@ -1167,7 +1167,7 @@ window.drawCNN = function() {
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       const val = Math.random();
-      ctx.fillStyle = `rgba(200,75,47,${val * 0.5 + 0.1})`;
+      ctx.fillStyle = `rgba(42,68,184,${val * 0.5 + 0.1})`;
       ctx.fillRect(ox + c * cellSize, oy + r * cellSize, cellSize - 1, cellSize - 1);
     }
   }
@@ -1179,7 +1179,7 @@ window.drawCNN = function() {
   const ox2 = w / 2 + 40;
   for (let r = 0; r < outSize; r++) {
     for (let c = 0; c < outSize; c++) {
-      ctx.fillStyle = `rgba(41,85,160,${Math.random() * 0.5 + 0.2})`;
+      ctx.fillStyle = `rgba(138,90,0,${Math.random() * 0.5 + 0.2})`;
       ctx.fillRect(ox2 + c * cellSize, oy + r * cellSize, cellSize - 1, cellSize - 1);
     }
   }
@@ -1275,7 +1275,7 @@ function drawAtt() {
   attWeights.forEach((row, r) => {
     row.forEach((v, c) => {
       const alpha = Math.min(v * 2.5, 1);
-      ctx.fillStyle = `rgba(200,75,47,${alpha})`;
+      ctx.fillStyle = `rgba(42,68,184,${alpha})`;
       ctx.fillRect(ox + c * cellSize, oy + r * cellSize, cellSize - 1, cellSize - 1);
       ctx.font = '9px ' + getCSS('--mono'); ctx.fillStyle = alpha > 0.5 ? '#fff' : getCSS('--text');
       ctx.textAlign = 'center';
@@ -1652,7 +1652,7 @@ window.drawDiffusion = function(t) {
       const signal = ((r + c) % 3 === 0) ? 0.8 : 0.2;
       const noisy = signal * (1 - noiseFrac) + Math.random() * noiseFrac;
       const v = Math.max(0, Math.min(1, noisy));
-      ctx.fillStyle = `rgba(200,75,47,${v})`;
+      ctx.fillStyle = `rgba(42,68,184,${v})`;
       ctx.fillRect(ox + c * cellSize, oy + r * cellSize, cellSize - 1, cellSize - 1);
     }
   }

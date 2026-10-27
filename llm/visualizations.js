@@ -67,7 +67,7 @@ const DRAWS = {
   // Draw tokens
   ctx.font = '15px "IBM Plex Mono"';
   let x = 20, y = 50;
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Tokens (' + tokens.length + '):', 20, 24);
   ctx.font = '15px "IBM Plex Mono"';
   tokens.forEach((t, i) => {
@@ -92,7 +92,7 @@ const DRAWS = {
 
   // Show bytes vs tokens ratio
   const ratio = (new TextEncoder().encode(input).length / tokens.length).toFixed(1);
-  ctx.fillStyle = C.muted; ctx.font = '11px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`Compression: ${new TextEncoder().encode(input).length} bytes → ${tokens.length} tokens (${ratio} bytes/token)`, 20, h - 16);
 },
 
@@ -135,7 +135,7 @@ const DRAWS = {
       ctx.fillText(word, px, py - 8);
     });
     // Cluster label
-    ctx.fillStyle = cl.color + '44'; ctx.font = '12px Inter';
+    ctx.fillStyle = cl.color + '44'; ctx.font = '12px \"IBM Plex Sans\", sans-serif';
     ctx.fillText(cl.label, pad + cl.cx*(w-2*pad), pad + cl.cy*(h-2*pad) - 50);
   });
   ctx.textAlign = 'left';
@@ -145,7 +145,7 @@ const DRAWS = {
   ctx.beginPath(); ctx.moveTo(pad,h/2); ctx.lineTo(w-pad,h/2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(w/2,pad); ctx.lineTo(w/2,h-pad); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('dim 1 →', w-80, h/2-6);
   ctx.fillText('dim 2 →', w/2+6, pad+12);
 },
@@ -184,12 +184,12 @@ const DRAWS = {
     }
   }
   // Labels
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Position →', w/2, h-8);
   ctx.save(); ctx.translate(14, h/2); ctx.rotate(-Math.PI/2);
   ctx.fillText('Dimension →', 0, 0); ctx.restore();
   const titles = { sin:'Sinusoidal', rope:'RoPE', alibi:'ALiBi' };
-  ctx.font = '13px Inter'; ctx.fillStyle = C.fg;
+  ctx.font = '13px \"IBM Plex Sans\", sans-serif'; ctx.fillStyle = C.fg;
   ctx.fillText(titles[m] + ' Positional Encoding', w/2, pad-10);
   ctx.textAlign = 'left';
 },
@@ -251,7 +251,7 @@ const DRAWS = {
     ctx.save(); ctx.translate(ox-6, oy+i*sz+sz/2);
     ctx.rotate(-Math.PI/2); ctx.fillText(t, 0, 0); ctx.restore();
   });
-  ctx.textAlign = 'left'; ctx.fillStyle = C.accent; ctx.font = '11px Inter';
+  ctx.textAlign = 'left'; ctx.fillStyle = C.accent; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Q (rows) attending to K (cols) — softmax(QKᵀ/√d)', ox, h-12);
   ctx.fillStyle = C.muted;
   ctx.fillText(`temperature: ${temp.toFixed(1)}`, w-140, h-12);
@@ -277,7 +277,7 @@ const DRAWS = {
   const qY = 50, kvY = 140;
 
   // Title
-  ctx.fillStyle = C.fg; ctx.font = '13px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '13px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(cfg.label, w/2, 28);
 
   // Draw Q heads
@@ -289,7 +289,7 @@ const DRAWS = {
     ctx.fillStyle = C.accent; ctx.textAlign = 'center';
     ctx.fillText('Q'+i, x+boxW/2, qY+boxH/2+4);
   }
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Query heads', 10, qY+boxH/2+4);
 
   // Draw KV heads
@@ -302,7 +302,7 @@ const DRAWS = {
     ctx.fillStyle = C.accent2; ctx.font = '10px "IBM Plex Mono"'; ctx.textAlign = 'center';
     ctx.fillText('K'+i+'/V'+i, x+kvW/2, kvY+boxH/2+4);
   }
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('KV heads', 10, kvY+boxH/2+4);
 
   // Draw connections
@@ -318,7 +318,7 @@ const DRAWS = {
 
   // Memory label
   const kvMem = cfg.kvh;
-  ctx.fillStyle = C.muted; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.muted; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`KV-cache: ${kvMem}/${cfg.qh} of MHA memory (${(kvMem/cfg.qh*100).toFixed(0)}%)`, w/2, h-20);
   ctx.textAlign = 'left';
 },
@@ -368,7 +368,7 @@ const DRAWS = {
 
   // Label
   const titles = { relu:'ReLU(x) = max(0, x)', gelu:'GELU(x) ≈ 0.5x(1+tanh(...))', swish:'Swish(x) = x·σ(x)', swiglu:'SwiGLU gate visualization' };
-  ctx.fillStyle = C.fg; ctx.font = '13px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '13px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(titles[m], w/2, pad-8);
   ctx.textAlign = 'left';
 },
@@ -397,7 +397,7 @@ const DRAWS = {
     // Box
     ctx.fillStyle = st.color + '22'; ctx.strokeStyle = st.color; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.roundRect(x, st.y, boxW, boxH, 6); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = st.color; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = st.color; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(st.label, cx, st.y + boxH/2 + 4);
     // Arrow down
     if(i < stages.length-1){
@@ -424,7 +424,7 @@ const DRAWS = {
   ctx.setLineDash([]);
 
   // Labels for skip connections
-  ctx.fillStyle = C.accent2; ctx.font = '9px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.accent2; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('residual', cx+boxW/2+44, stages[1].y+boxH);
   ctx.fillText('residual', cx+boxW/2+44, stages[4].y+boxH);
   ctx.textAlign = 'left';
@@ -443,7 +443,7 @@ const DRAWS = {
   const ox = (w - n*sz)/2, oy = 40;
 
   // Draw causal mask
-  ctx.font = '11px Inter'; ctx.textAlign = 'center'; ctx.fillStyle = C.fg;
+  ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = C.fg;
   ctx.fillText('Causal Attention Mask', w/2, 24);
 
   for(let i=0;i<n;i++){
@@ -465,7 +465,7 @@ const DRAWS = {
   });
 
   // Autoregressive arrow at bottom
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('← can attend to    |    × masked (future tokens)', ox, oy+n*sz+20);
   ctx.textAlign = 'left';
 },
@@ -483,7 +483,7 @@ const DRAWS = {
   const barH = Math.min(16, (h-padT-padB)/layers - 2);
   const maxTokens = 20;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`KV-Cache — ${layers} layers, ${step} tokens generated`, w/2, 22);
 
   for(let l=0; l<layers; l++){
@@ -504,7 +504,7 @@ const DRAWS = {
     ctx.fillRect(padL, y+barH/2, fillW, barH/2);
   }
   // Legend
-  ctx.textAlign = 'left'; ctx.font = '10px Inter';
+  ctx.textAlign = 'left'; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillStyle = C.accent3; ctx.fillText('■ K cache', padL, h-8);
   ctx.fillStyle = C.accent4; ctx.fillText('■ V cache', padL+80, h-8);
   const mem = (2 * layers * step * 128 * 2 / 1024).toFixed(1);
@@ -523,7 +523,7 @@ const DRAWS = {
   const pad = 50, sz = Math.min((w-2*pad)/n, (h-80)/n, 8);
   const ox = (w-n*sz)/2, oy = 40;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   const titles = {full:'Full Attention (O(n²))', sliding:'Sliding Window (w=8)', sparse:'Sparse Attention'};
   ctx.fillText(titles[m]+` — n=${n}`, w/2, 24);
 
@@ -538,7 +538,7 @@ const DRAWS = {
     }
   }
   const active = m==='full' ? n*(n+1)/2 : m==='sliding' ? Math.min(8,n)*n : 'fewer';
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Active cells: ${active}${typeof active==='number'?'/'+n*n:''}`, w/2, h-10);
   ctx.textAlign = 'left';
 },
@@ -552,13 +552,13 @@ const DRAWS = {
   const nExperts = parseInt(document.getElementById('moeExperts')?.value||8);
 
   // Token at top
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Token x', w/2, 30);
 
   // Router
   ctx.fillStyle = C.accent4+'22'; ctx.strokeStyle = C.accent4; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect(w/2-50, 40, 100, 28, 6); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = C.accent4; ctx.font = '11px Inter';
+  ctx.fillStyle = C.accent4; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Router', w/2, 58);
 
   // Experts
@@ -593,9 +593,9 @@ const DRAWS = {
   }
 
   // Output
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('→ Weighted sum of top-2 expert outputs →', w/2, eY+60);
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`${nExperts} experts, top-2 active → ${(2/nExperts*100).toFixed(0)}% compute used`, w/2, h-14);
   ctx.textAlign = 'left';
 },
@@ -619,7 +619,7 @@ const DRAWS = {
   // Axes
   ctx.strokeStyle = C.muted; ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(cfg.xlabel, w/2, h-12);
   ctx.fillText(cfg.title, w/2, pad-10);
   ctx.save(); ctx.translate(16,h/2); ctx.rotate(-Math.PI/2);
@@ -663,7 +663,7 @@ const DRAWS = {
   // Axes
   ctx.strokeStyle = C.muted; ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Training Steps', w/2, h-10);
   ctx.fillText('Training Loss Curve', w/2, pad-10);
   ctx.save(); ctx.translate(16,h/2); ctx.rotate(-Math.PI/2);
@@ -695,7 +695,7 @@ const DRAWS = {
       if(t===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
     }
     ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle = C.accent3; ctx.font = '9px Inter';
+    ctx.fillStyle = C.accent3; ctx.font = '9px \"IBM Plex Sans\", sans-serif';
     ctx.textAlign = 'right'; ctx.fillText('LR schedule', w-pad, pad+12);
   }
   ctx.textAlign = 'left';
@@ -715,7 +715,7 @@ const DRAWS = {
   const barH = 18, gap = 6;
   const startY = 50;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   const titles = {base:'Base Model Distribution', sft:'After SFT', overfit:'Overfitted (catastrophic forgetting)'};
   ctx.fillText(titles[m], w/2, 30);
 
@@ -763,13 +763,13 @@ const DRAWS = {
   ctx.fillStyle = C.muted + '22'; ctx.strokeStyle = C.muted; ctx.lineWidth = 1;
   ctx.fillRect(w0x, w0y, Math.min(w0w,160), Math.min(w0h,160));
   ctx.strokeRect(w0x, w0y, Math.min(w0w,160), Math.min(w0h,160));
-  ctx.fillStyle = C.muted; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.muted; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('W₀ (frozen)', w0x+80, w0y-6);
   ctx.font = '9px "IBM Plex Mono"';
   ctx.fillText(`${d}×${d}`, w0x+80, w0y+85);
 
   // Plus sign
-  ctx.fillStyle = C.fg; ctx.font = '20px Inter';
+  ctx.fillStyle = C.fg; ctx.font = '20px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('+', w0x+190, w0y+80);
 
   // Draw B matrix
@@ -778,13 +778,13 @@ const DRAWS = {
   ctx.fillStyle = C.accent+'33'; ctx.strokeStyle = C.accent; ctx.lineWidth = 1.5;
   ctx.fillRect(bx, by, Math.max(bw,20), bh);
   ctx.strokeRect(bx, by, Math.max(bw,20), bh);
-  ctx.fillStyle = C.accent; ctx.font = '11px Inter';
+  ctx.fillStyle = C.accent; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('B', bx+Math.max(bw,20)/2, by-6);
   ctx.font = '9px "IBM Plex Mono"';
   ctx.fillText(`${d}×${rank}`, bx+Math.max(bw,20)/2, by+bh+14);
 
   // × sign
-  ctx.fillStyle = C.fg; ctx.font = '16px Inter';
+  ctx.fillStyle = C.fg; ctx.font = '16px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('×', bx+Math.max(bw,20)+14, by+80);
 
   // Draw A matrix
@@ -793,7 +793,7 @@ const DRAWS = {
   ctx.fillStyle = C.accent3+'33'; ctx.strokeStyle = C.accent3; ctx.lineWidth = 1.5;
   ctx.fillRect(ax, ay, aw, Math.max(ah,16));
   ctx.strokeRect(ax, ay, aw, Math.max(ah,16));
-  ctx.fillStyle = C.accent3; ctx.font = '11px Inter';
+  ctx.fillStyle = C.accent3; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('A', ax+aw/2, ay-6);
   ctx.font = '9px "IBM Plex Mono"';
   ctx.fillText(`${rank}×${d}`, ax+aw/2, ay+Math.max(ah,16)+14);
@@ -802,7 +802,7 @@ const DRAWS = {
   const fullParams = d*d;
   const loraParams = 2*d*rank;
   const pct = (loraParams/fullParams*100).toFixed(1);
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText(`Rank r=${rank}, α=${alpha}, scale=α/r=${(alpha/rank).toFixed(1)}`, 20, h-30);
   ctx.fillText(`Trainable: ${loraParams} / ${fullParams} = ${pct}% of full matrix`, 20, h-12);
   ctx.textAlign = 'left';
@@ -841,14 +841,14 @@ const DRAWS = {
   boxes.forEach((stage_boxes, si) => {
     const isActive = si < st;
     const opacity = isActive ? 'ff' : '44';
-    ctx.fillStyle = (isActive ? C.fg : C.muted); ctx.font = '10px Inter'; ctx.textAlign = 'left';
+    ctx.fillStyle = (isActive ? C.fg : C.muted); ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
     ctx.fillText(titles[si], 10, stage_boxes[0].y - 4);
 
     stage_boxes.forEach((b, bi) => {
       ctx.fillStyle = b.color + (isActive ? '33' : '11');
       ctx.strokeStyle = b.color + opacity; ctx.lineWidth = isActive ? 1.5 : 0.5;
       ctx.beginPath(); ctx.roundRect(b.x, b.y, b.w, b.h, 4); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = b.color + opacity; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+      ctx.fillStyle = b.color + opacity; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(b.label, b.x+b.w/2, b.y+b.h/2+4);
       // Arrow to next
       if(bi < stage_boxes.length-1){
@@ -879,7 +879,7 @@ const DRAWS = {
   const rejectedNow = rejectedBase - step*0.1;
   const margin = chosenNow - rejectedNow;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`DPO Optimization — β=${beta.toFixed(2)}, step ${step}`, w/2, 26);
 
   // Chosen bar
@@ -889,23 +889,23 @@ const DRAWS = {
   ctx.fillStyle = C.accent2+'33'; ctx.strokeStyle = C.accent2; ctx.lineWidth = 1.5;
   ctx.fillRect(pad, barY1, mapX(chosenNow)-pad, barH);
   ctx.strokeRect(pad, barY1, mapX(chosenNow)-pad, barH);
-  ctx.fillStyle = C.accent2; ctx.font = '11px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.accent2; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText(`Chosen: log π(y_w) = ${chosenNow.toFixed(2)}`, pad+6, barY1+barH/2+4);
 
   ctx.fillStyle = C.accent+'33'; ctx.strokeStyle = C.accent; ctx.lineWidth = 1.5;
   ctx.fillRect(pad, barY2, mapX(rejectedNow)-pad, barH);
   ctx.strokeRect(pad, barY2, mapX(rejectedNow)-pad, barH);
-  ctx.fillStyle = C.accent; ctx.font = '11px Inter';
+  ctx.fillStyle = C.accent; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`Rejected: log π(y_l) = ${rejectedNow.toFixed(2)}`, pad+6, barY2+barH/2+4);
 
   // Margin
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Margin: ${margin.toFixed(2)} (higher = better separation)`, w/2, barY2+barH+24);
 
   // Sigmoid of margin
   const sigVal = 1/(1+Math.exp(-beta*margin));
   const lossVal = -Math.log(sigVal);
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`σ(β·margin) = ${sigVal.toFixed(3)}    Loss = ${lossVal.toFixed(3)}`, w/2, h-14);
   ctx.textAlign = 'left';
 },
@@ -930,7 +930,7 @@ const DRAWS = {
   const barH = 28, gap = 10;
   const startY = 30;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Data Curation Pipeline — Funnel', w/2, 18);
 
   stages.forEach((st, i) => {
@@ -941,7 +941,7 @@ const DRAWS = {
     ctx.fillStyle = st.color + '33'; ctx.strokeStyle = st.color; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.roundRect(x, y, barW, barH, 4); ctx.fill(); ctx.stroke();
     // Label
-    ctx.fillStyle = st.color; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = st.color; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(st.label, pad+maxW/2, y+barH/2+4);
     // Count
     ctx.fillStyle = C.muted; ctx.font = '10px "IBM Plex Mono"'; ctx.textAlign = 'left';
@@ -959,7 +959,7 @@ const DRAWS = {
   const beamW = parseInt(document.getElementById('beamWidth')?.value||3);
   const step = window._decodingStep || 0;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Beam Search — width=${beamW}`, w/2, 20);
 
   // Draw beam search tree
@@ -1091,7 +1091,7 @@ const DRAWS = {
     }
   });
 
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`T=${temp.toFixed(1)}  top-K=${topK}  top-P=${topP.toFixed(2)}`, w/2, 20);
   ctx.textAlign = 'left';
 },
@@ -1104,13 +1104,13 @@ const DRAWS = {
   ctx.fillStyle = C.bg; ctx.fillRect(0,0,w,h);
   const K = parseInt(document.getElementById('specK')?.value||4);
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Speculative Decoding — K=${K} draft tokens`, w/2, 22);
 
   const pad = 40, rowH = 40;
   // Standard autoregressive
   const stdY = 55;
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Standard:', pad, stdY+14);
   for(let i=0; i<6; i++){
     const x = pad+80 + i*85;
@@ -1118,13 +1118,13 @@ const DRAWS = {
     ctx.beginPath(); ctx.roundRect(x, stdY, 75, 24, 3); ctx.fill(); ctx.stroke();
     ctx.fillStyle = C.accent; ctx.font = '9px "IBM Plex Mono"'; ctx.textAlign = 'center';
     ctx.fillText(`token ${i+1}`, x+37, stdY+15);
-    ctx.fillStyle = C.muted; ctx.font = '7px Inter';
+    ctx.fillStyle = C.muted; ctx.font = '7px \"IBM Plex Sans\", sans-serif';
     ctx.fillText('full model', x+37, stdY+36);
   }
 
   // Speculative
   const specY = 130;
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Speculative:', pad, specY+14);
 
   // Draft phase
@@ -1148,9 +1148,9 @@ const DRAWS = {
   ctx.fillText('verify all', vx+40, specY+15);
 
   // Summary
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Result: ${accepted}/${K} accepted → ${accepted+1} tokens in ~1 forward pass`, w/2, specY+60);
-  ctx.fillStyle = C.accent2; ctx.font = '10px Inter';
+  ctx.fillStyle = C.accent2; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`Speedup: ~${((accepted+1)/1).toFixed(1)}× vs standard`, w/2, specY+78);
   ctx.textAlign = 'left';
 },
@@ -1218,14 +1218,14 @@ const DRAWS = {
   });
   const avgErr = errors.reduce((a,b)=>a+b)/errors.length;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(cfg.label, w/2, 22);
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`${cfg.bits}-bit → ${cfg.levels} distinct levels → ${cfg.bytes}B per weight → avg error: ${avgErr.toFixed(4)}`, w/2, h-16);
   ctx.fillText(`70B model: ${(70*cfg.bytes).toFixed(0)} GB`, w/2, h-34);
 
   // Legend
-  ctx.font = '9px Inter'; ctx.textAlign = 'left';
+  ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillStyle = C.muted; ctx.fillText('— original (continuous)', pad, h-50);
   ctx.fillStyle = cfg.color; ctx.fillText('— quantized', pad+150, h-50);
   ctx.textAlign = 'left';
@@ -1239,7 +1239,7 @@ const DRAWS = {
   ctx.fillStyle = C.bg; ctx.fillRect(0,0,w,h);
   const m = mode || 'paged';
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   const titles = { contiguous:'Contiguous Allocation (naive)', paged:'PagedAttention' };
   ctx.fillText(titles[m] || 'PagedAttention', w/2, 22);
 
@@ -1267,11 +1267,11 @@ const DRAWS = {
         ctx.fillRect(x, y, blockW, blockH);
         ctx.strokeRect(x, y, blockW, blockH);
       }
-      ctx.fillStyle = C.muted; ctx.font = '9px Inter'; ctx.textAlign = 'left';
+      ctx.fillStyle = C.muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
       ctx.fillText(`Req ${ri+1}: ${req.len}/${req.max} used → ${((1-req.len/req.max)*100).toFixed(0)}% wasted`, pad, startY+row*(blockH+gap+20)+blockH+14);
       row++;
     });
-    ctx.fillStyle = C.accent; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.accent; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('⚠ Pre-allocates max_len per request → memory fragmentation', w/2, h-14);
   } else {
     // Paged: blocks allocated on-demand, interleaved
@@ -1306,7 +1306,7 @@ const DRAWS = {
         ctx.strokeRect(x, y, blockW, blockH);
       }
     }
-    ctx.fillStyle = C.accent2; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.accent2; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('✓ Blocks allocated on-demand, no fragmentation, ~0% waste', w/2, h-14);
   }
   ctx.textAlign = 'left';
@@ -1320,7 +1320,7 @@ const DRAWS = {
   ctx.fillStyle = C.bg; ctx.fillRect(0,0,w,h);
   const m = mode || 'continuous';
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(m==='static' ? 'Static Batching' : 'Continuous Batching', w/2, 22);
 
   const pad = 70, pw = w-pad-20;
@@ -1340,7 +1340,7 @@ const DRAWS = {
     for(let i=0;i<3;i++){
       const y = 45 + i*(rowH+gap);
       const r = reqs[i];
-      ctx.fillStyle = C.muted; ctx.font = '9px Inter'; ctx.textAlign = 'right';
+      ctx.fillStyle = C.muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
       ctx.fillText(`Req ${i+1}`, pad-6, y+rowH/2+3);
       // Prefill
       const scale = pw/maxEnd;
@@ -1355,7 +1355,7 @@ const DRAWS = {
       ctx.strokeStyle = C.border; ctx.lineWidth = 0.5;
       ctx.strokeRect(pad, y, maxEnd*scale, rowH);
     }
-    ctx.fillStyle = C.accent; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.accent; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('⚠ Batch 2 waits for Batch 1 to finish. GPU idle on padding.', w/2, h-14);
   } else {
     // Continuous: requests arrive and leave dynamically
@@ -1363,7 +1363,7 @@ const DRAWS = {
     for(let i=0;i<5;i++){
       const y = 40 + i*(rowH+gap);
       const r = reqs[i];
-      ctx.fillStyle = C.muted; ctx.font = '9px Inter'; ctx.textAlign = 'right';
+      ctx.fillStyle = C.muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
       ctx.fillText(`Req ${i+1}`, pad-6, y+rowH/2+3);
       // Prefill
       ctx.fillStyle = reqColors[i]+'88';
@@ -1377,9 +1377,9 @@ const DRAWS = {
     // Time axis
     ctx.strokeStyle = C.muted; ctx.lineWidth = 0.5;
     ctx.beginPath(); ctx.moveTo(pad, h-30); ctx.lineTo(w-20, h-30); ctx.stroke();
-    ctx.fillStyle = C.muted; ctx.font = '9px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     for(let t=0;t<=16;t+=2) ctx.fillText(t, pad+t*scale, h-18);
-    ctx.fillStyle = C.accent2; ctx.font = '10px Inter';
+    ctx.fillStyle = C.accent2; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
     ctx.fillText('✓ New requests join mid-batch. GPU always busy.', w/2, h-4);
   }
   ctx.textAlign = 'left';
@@ -1417,7 +1417,7 @@ const DRAWS = {
   };
   const items = blocks[m] || blocks.zero;
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   const titles = { zero:'Zero-Shot Prompting', few:'Few-Shot Prompting', cot:'Chain-of-Thought' };
   ctx.fillText(titles[m], w/2, 22);
 
@@ -1426,7 +1426,7 @@ const DRAWS = {
     ctx.fillStyle = item.color+'22'; ctx.strokeStyle = item.color; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.roundRect(pad, y, w-2*pad, item.h, 6); ctx.fill(); ctx.stroke();
     if(item.label){
-      ctx.fillStyle = item.color; ctx.font = 'bold 10px Inter'; ctx.textAlign = 'left';
+      ctx.fillStyle = item.color; ctx.font = 'bold 10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
       ctx.fillText(item.label, pad+10, y+16);
     }
     ctx.fillStyle = C.fg; ctx.font = '11px "IBM Plex Mono"'; ctx.textAlign = 'left';
@@ -1466,9 +1466,9 @@ const DRAWS = {
     ctx.lineWidth = active ? 2.5 : 1.5;
     ctx.beginPath(); ctx.roundRect(st.x, y, boxW, boxH, 6); ctx.fill(); ctx.stroke();
     ctx.fillStyle = reached ? st.color : C.muted+'66';
-    ctx.font = active ? 'bold 20px Inter' : '18px Inter'; ctx.textAlign = 'center';
+    ctx.font = active ? 'bold 20px \"IBM Plex Sans\", sans-serif' : '18px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(st.icon, st.x+boxW/2, y+24);
-    ctx.font = active ? 'bold 11px Inter' : '11px Inter';
+    ctx.font = active ? 'bold 11px \"IBM Plex Sans\", sans-serif' : '11px \"IBM Plex Sans\", sans-serif';
     ctx.fillText(st.label, st.x+boxW/2, y+43);
     // Arrow
     if(i < stages.length-1){
@@ -1483,7 +1483,7 @@ const DRAWS = {
   // Document chunks below — appear at Search stage (step >= 2)
   if(step >= 2){
     const chY = 120;
-    ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'left';
+    ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
     ctx.fillText('Retrieved chunks:', pad, chY);
     const chunks = ['doc1 §3: "The refund policy allows returns within 30 days of purchase..."','doc2 §1: "Returns are accepted for unopened items in original packaging..."','doc4 §7: "No refunds on digital purchases, subscriptions, or gift cards..."'];
     const showReranked = step >= 3;
@@ -1496,7 +1496,7 @@ const DRAWS = {
       ctx.font = '10px "IBM Plex Mono"';
       ctx.fillText(ch, pad+18, cy+16);
       if(showReranked){
-        ctx.fillStyle = C.muted; ctx.font = '9px Inter'; ctx.textAlign = 'right';
+        ctx.fillStyle = C.muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
         const scores = [0.94, 0.87, 0.62];
         ctx.fillText('score: '+scores[i].toFixed(2), w-pad-18, cy+16);
         ctx.textAlign = 'left';
@@ -1520,7 +1520,7 @@ const DRAWS = {
     ctx.fillText('Answer: "Returns are accepted within 30 days. Digital purchases are non-refundable."', pad+12, 300);
   }
 
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Stage ${step+1}/${stages.length}`, w/2, h-10);
   ctx.textAlign = 'left';
 },
@@ -1564,7 +1564,7 @@ const DRAWS = {
   // Query point
   ctx.fillStyle = C.accent; ctx.strokeStyle = C.accent; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.arc(pad+qx*pw, pad+qy*ph, 8, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Q', pad+qx*pw, pad+qy*ph+4);
 
   // Radius circle
@@ -1573,7 +1573,7 @@ const DRAWS = {
   ctx.strokeStyle = C.accent+'44'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.arc(pad+qx*pw, pad+qy*ph, radiusR, 0, Math.PI*2); ctx.stroke();
 
-  ctx.fillStyle = C.fg; ctx.font = '11px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`K=${K} nearest neighbors (cosine similarity in embedding space)`, w/2, h-8);
   ctx.textAlign = 'left';
 },
@@ -1612,12 +1612,12 @@ const DRAWS = {
     }
     // Side note
     if(active && st.note){
-      ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+      ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
       ctx.fillText('← '+st.note, st.x+st.w+16, st.y+21);
     }
   }
 
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText(`Step ${step+1}/${flow.length}`, w/2, h-8);
   ctx.textAlign = 'left';
 },
@@ -1660,7 +1660,7 @@ const DRAWS = {
     ctx.strokeStyle = item.color + (isActive?'ff':'66');
     ctx.lineWidth = isActive ? 2 : 1;
     ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = item.color; ctx.font = '8px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = item.color; ctx.font = '8px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(item.label, x, y+3);
 
     // Subtitle outside
@@ -1672,9 +1672,9 @@ const DRAWS = {
     }
   }
 
-  ctx.fillStyle = C.fg; ctx.font = '12px Inter'; ctx.textAlign = 'center';
+  ctx.fillStyle = C.fg; ctx.font = '12px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('ReAct Loop', cx, 18);
-  ctx.fillStyle = C.muted; ctx.font = '10px Inter';
+  ctx.fillStyle = C.muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText(`Step ${step+1}/${loop.length}`, cx, h-10);
   ctx.textAlign = 'left';
 },
@@ -1725,7 +1725,7 @@ const DRAWS = {
     // Label
     const lx = cx + Math.cos(angle)*(radius+18);
     const ly = cy + Math.sin(angle)*(radius+18);
-    ctx.fillStyle = C.fg; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.fg; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(b, lx, ly+4);
   });
 
@@ -1755,7 +1755,7 @@ const DRAWS = {
   ctx.textAlign = 'left'; let lx = 10, ly = h-16;
   show.forEach(key => {
     const mod = models[key];
-    ctx.fillStyle = mod.color; ctx.font = '10px Inter';
+    ctx.fillStyle = mod.color; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
     ctx.fillText('■ '+mod.label, lx, ly);
     lx += ctx.measureText('■ '+mod.label).width + 16;
   });

@@ -32,7 +32,7 @@ const DRAWS = {
   const s = setupCanvas('headAndShouldersCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
@@ -48,7 +48,7 @@ const DRAWS = {
   ctx.strokeStyle = red; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.setLineDash([]);
   // Labels
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Left Shoulder', w*0.15, h*0.33);
   ctx.fillText('Head', w*0.38, h*0.08);
   ctx.fillText('Right Shoulder', w*0.62, h*0.28);
@@ -74,7 +74,7 @@ const DRAWS = {
   ctx.beginPath(); ctx.moveTo(w*0.25,h*0.4); ctx.lineTo(w*0.72,h*0.4);
   ctx.strokeStyle = green; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('L Shoulder', w*0.15, h*0.68);
   ctx.fillText('Head', w*0.38, h*0.93);
   ctx.fillText('R Shoulder', w*0.62, h*0.73);
@@ -86,7 +86,7 @@ const DRAWS = {
 'double-top'(canvas) {
   const s = setupCanvas('doubleTopCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const pts = [
@@ -100,7 +100,7 @@ const DRAWS = {
   // Neckline
   ctx.beginPath(); ctx.moveTo(w*0.35,h*0.55); ctx.lineTo(w*0.8,h*0.55);
   ctx.strokeStyle = red+'90'; ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Peak 1', w*0.2, h*0.08);
   ctx.fillText('Peak 2', w*0.6, h*0.08);
   ctx.fillStyle = red; ctx.fillText('"M" formation', w*0.5, h*0.92);
@@ -123,7 +123,7 @@ const DRAWS = {
   ctx.strokeStyle = green; ctx.lineWidth = 1; ctx.stroke();
   ctx.beginPath(); ctx.moveTo(w*0.35,h*0.45); ctx.lineTo(w*0.8,h*0.45);
   ctx.strokeStyle = green+'90'; ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Trough 1', w*0.2, h*0.93);
   ctx.fillText('Trough 2', w*0.6, h*0.93);
   ctx.fillStyle = green; ctx.fillText('"W" formation', w*0.5, h*0.08);
@@ -145,7 +145,7 @@ const DRAWS = {
   // Neckline
   ctx.setLineDash([4,4]); ctx.beginPath(); ctx.moveTo(w*0.05,h*0.2); ctx.lineTo(w*0.95,h*0.2);
   ctx.strokeStyle = green; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Selling pressure fades', w*0.3, h*0.55);
   ctx.fillText('Buying builds', w*0.72, h*0.55);
   ctx.fillStyle = green; ctx.fillText('Neckline / Breakout', w*0.5, h*0.15);
@@ -173,7 +173,7 @@ const DRAWS = {
   // Breakout
   ctx.beginPath(); ctx.moveTo(w*0.55,h*0.35); ctx.lineTo(w*0.85,h*0.05);
   ctx.strokeStyle = green; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Pole', w*0.12, h*0.55);
   ctx.fillText('Flag', w*0.4, h*0.58);
   ctx.fillStyle = green; ctx.fillText('Breakout ↑', w*0.72, h*0.08);
@@ -183,7 +183,7 @@ const DRAWS = {
 'bear-flag'(canvas) {
   const s = setupCanvas('bearFlagCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Pole down
@@ -197,7 +197,7 @@ const DRAWS = {
   // Breakdown
   ctx.beginPath(); ctx.moveTo(w*0.55,h*0.65); ctx.lineTo(w*0.85,h*0.95);
   ctx.strokeStyle = red; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Pole', w*0.12, h*0.45);
   ctx.fillText('Flag', w*0.4, h*0.42);
   ctx.fillStyle = red; ctx.fillText('Breakdown ↓', w*0.72, h*0.92);
@@ -221,7 +221,7 @@ pennant(canvas) {
   // Breakout
   ctx.beginPath(); ctx.moveTo(w*0.52,h*0.38); ctx.lineTo(w*0.85,h*0.05);
   ctx.strokeStyle = green; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Pole', w*0.1, h*0.55);
   ctx.fillText('Pennant', w*0.37, h*0.52);
   ctx.fillStyle = green; ctx.fillText('Breakout', w*0.72, h*0.08);
@@ -248,7 +248,7 @@ pennant(canvas) {
   // Breakout arrow
   ctx.beginPath(); ctx.moveTo(w*0.75,h*0.2); ctx.lineTo(w*0.9,h*0.05);
   ctx.strokeStyle = green; ctx.lineWidth = 2; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Flat resistance', w*0.45, h*0.14);
   ctx.fillText('Rising lows', w*0.3, h*0.85);
 },
@@ -257,7 +257,7 @@ pennant(canvas) {
 'descending-triangle'(canvas) {
   const s = setupCanvas('descendingTriangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Flat support
@@ -269,7 +269,7 @@ pennant(canvas) {
   // Breakdown
   ctx.beginPath(); ctx.moveTo(w*0.75,h*0.8); ctx.lineTo(w*0.9,h*0.95);
   ctx.strokeStyle = red; ctx.lineWidth = 2; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Falling highs', w*0.3, h*0.15);
   ctx.fillText('Flat support', w*0.45, h*0.88);
 },
@@ -278,7 +278,7 @@ pennant(canvas) {
 'symmetric-triangle'(canvas) {
   const s = setupCanvas('symmetricTriangleCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Upper line (falling)
@@ -290,7 +290,7 @@ pennant(canvas) {
   // Apex label
   ctx.beginPath(); ctx.arc(w*0.7,h*0.48,3,0,Math.PI*2);
   ctx.fillStyle = accent; ctx.fill();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Apex', w*0.7, h*0.42);
   ctx.fillText('Lower highs', w*0.3, h*0.12);
   ctx.fillText('Higher lows', w*0.3, h*0.92);
@@ -299,9 +299,9 @@ pennant(canvas) {
   ctx.beginPath(); ctx.moveTo(w*0.58,h*0.38); ctx.lineTo(w*0.9,h*0.1);
   ctx.strokeStyle = getColor('--accent2')||'#2a7d5f'; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.beginPath(); ctx.moveTo(w*0.58,h*0.58); ctx.lineTo(w*0.9,h*0.88);
-  ctx.strokeStyle = getColor('--accent')||'#c84b2f'; ctx.stroke();
+  ctx.strokeStyle = getColor('--accent')||'#2a44b8'; ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Can break either way', w*0.5, h*0.52);
 },
 
@@ -309,7 +309,7 @@ pennant(canvas) {
 'rising-wedge'(canvas) {
   const s = setupCanvas('risingWedgeCanvas'); if (!s) return;
   const { ctx, w, h } = s;
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Both lines slope up, converging
@@ -320,7 +320,7 @@ pennant(canvas) {
   // Breakdown
   ctx.beginPath(); ctx.moveTo(w*0.6,h*0.35); ctx.lineTo(w*0.9,h*0.85);
   ctx.strokeStyle = red; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Bearish breakdown', w*0.82, h*0.78);
   ctx.fillStyle = muted;
   ctx.fillText('Both lines slope up', w*0.35, h*0.92);
@@ -341,7 +341,7 @@ pennant(canvas) {
   // Breakout
   ctx.beginPath(); ctx.moveTo(w*0.6,h*0.68); ctx.lineTo(w*0.9,h*0.15);
   ctx.strokeStyle = green; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = green; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = green; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Bullish breakout', w*0.82, h*0.18);
   ctx.fillStyle = muted;
   ctx.fillText('Both lines slope down', w*0.35, h*0.08);
@@ -353,7 +353,7 @@ pennant(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   // Diverging lines
   ctx.beginPath(); ctx.moveTo(w*0.3,h*0.45); ctx.lineTo(w*0.92,h*0.05);
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
@@ -363,7 +363,7 @@ pennant(canvas) {
   const zz = [[w*0.3,h*0.5],[w*0.42,h*0.3],[w*0.5,h*0.62],[w*0.6,h*0.2],[w*0.72,h*0.75],[w*0.82,h*0.1],[w*0.9,h*0.88]];
   ctx.beginPath(); zz.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
   ctx.strokeStyle = accent; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Higher highs', w*0.6, h*0.08);
   ctx.fillText('Lower lows', w*0.6, h*0.95);
   ctx.fillText('Megaphone — expanding volatility', w*0.5, h*0.5);
@@ -391,7 +391,7 @@ rectangle(canvas) {
   // Breakout
   ctx.beginPath(); ctx.moveTo(w*0.72,h*0.25); ctx.lineTo(w*0.92,h*0.05);
   ctx.strokeStyle = green; ctx.lineWidth = 2; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Resistance', w*0.4, h*0.2);
   ctx.fillText('Support', w*0.4, h*0.83);
 },
@@ -402,7 +402,7 @@ doji(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const types = [
     { name:'Standard', x:w*0.15, wh:0, upperW:30, lowerW:30 },
     { name:'Long-legged', x:w*0.38, wh:0, upperW:45, lowerW:45 },
@@ -421,10 +421,10 @@ doji(canvas) {
     ctx.beginPath(); ctx.moveTo(x-8, cy); ctx.lineTo(x+8, cy);
     ctx.strokeStyle = accent; ctx.lineWidth = 2; ctx.stroke();
     // Label
-    ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(name, x, h-10);
   });
-  ctx.fillStyle = fg; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = fg; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Open ≈ Close — indecision', w*0.5, 16);
 },
 
@@ -433,7 +433,7 @@ hammer(canvas) {
   const s = setupCanvas('hammerCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Hammer (bullish at bottom)
@@ -441,18 +441,18 @@ hammer(canvas) {
   ctx.fillStyle = green; ctx.fillRect(hx-10, hy, 20, 15);
   ctx.beginPath(); ctx.moveTo(hx, hy+15); ctx.lineTo(hx, h*0.85);
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = fg; ctx.font = '11px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Hammer', hx, h*0.22);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('(at bottom = bullish)', hx, h*0.95);
   // Hanging Man (bearish at top)
   const mx = w*0.7;
   ctx.fillStyle = red; ctx.fillRect(mx-10, hy, 20, 15);
   ctx.beginPath(); ctx.moveTo(mx, hy+15); ctx.lineTo(mx, h*0.85);
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = fg; ctx.font = '11px Inter,sans-serif';
+  ctx.fillStyle = fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Hanging Man', mx, h*0.22);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('(at top = bearish)', mx, h*0.95);
   // Annotation
   ctx.fillStyle = muted; ctx.fillText('Same shape, different context', w*0.5, 12);
@@ -463,7 +463,7 @@ engulfing(canvas) {
   const s = setupCanvas('engulfingCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Bullish engulfing (left)
@@ -477,7 +477,7 @@ engulfing(canvas) {
   ctx.strokeStyle = green; ctx.lineWidth = 1.5; ctx.strokeRect(bx+16, h*0.3, 18, 40);
   ctx.beginPath(); ctx.moveTo(bx+25, h*0.22); ctx.lineTo(bx+25, h*0.3); ctx.moveTo(bx+25, h*0.7); ctx.lineTo(bx+25, h*0.78);
   ctx.strokeStyle = green; ctx.stroke();
-  ctx.fillStyle = fg; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = fg; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Bullish Engulfing', bx+12, h*0.15);
   // Bearish engulfing (right)
   const sx = w*0.7;
@@ -485,7 +485,7 @@ engulfing(canvas) {
   ctx.fillStyle = red+'80'; ctx.fillRect(sx+16, h*0.3, 18, 40);
   ctx.strokeStyle = red; ctx.lineWidth = 1.5; ctx.strokeRect(sx+16, h*0.3, 18, 40);
   ctx.fillStyle = fg; ctx.fillText('Bearish Engulfing', sx+12, h*0.15);
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Second body completely covers the first', w*0.5, h-8);
 },
 
@@ -494,7 +494,7 @@ engulfing(canvas) {
   const s = setupCanvas('morningStarCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const cx = w*0.5;
@@ -514,7 +514,7 @@ engulfing(canvas) {
   ctx.beginPath(); ctx.moveTo(c3x, h*0.15); ctx.lineTo(c3x, h*0.22); ctx.moveTo(c3x, h*0.7); ctx.lineTo(c3x, h*0.76);
   ctx.strokeStyle = green; ctx.lineWidth = 1; ctx.stroke();
   // Labels
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Long Red', c1x, h*0.1);
   ctx.fillText('Star', c2x, h*0.55);
   ctx.fillText('Long Green', c3x, h*0.1);
@@ -526,7 +526,7 @@ engulfing(canvas) {
   const s = setupCanvas('eveningStarCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   const cx = w*0.5;
@@ -545,7 +545,7 @@ engulfing(canvas) {
   ctx.fillStyle = red; ctx.fillRect(c3x-8, h*0.3, 16, 48);
   ctx.beginPath(); ctx.moveTo(c3x, h*0.22); ctx.lineTo(c3x, h*0.3); ctx.moveTo(c3x, h*0.78); ctx.lineTo(c3x, h*0.85);
   ctx.strokeStyle = red; ctx.lineWidth = 1; ctx.stroke();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Long Green', c1x, h*0.92);
   ctx.fillText('Star', c2x, h*0.42);
   ctx.fillText('Long Red', c3x, h*0.92);
@@ -557,7 +557,7 @@ engulfing(canvas) {
   const s = setupCanvas('supportResistanceCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
   // Resistance zone
@@ -572,7 +572,7 @@ engulfing(canvas) {
   const pts = [[w*0.05,h*0.5],[w*0.12,h*0.22],[w*0.22,h*0.72],[w*0.32,h*0.22],[w*0.42,h*0.72],[w*0.52,h*0.23],[w*0.62,h*0.72],[w*0.72,h*0.23],[w*0.82,h*0.72],[w*0.92,h*0.4]];
   ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Resistance (ceiling)', 5, h*0.12);
   ctx.fillStyle = green; ctx.fillText('Support (floor)', 5, h*0.85);
 },
@@ -599,7 +599,7 @@ trendlines(canvas) {
     ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
     ctx.fillStyle = green; ctx.fill();
   });
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Trendline connects 3+ swing lows', w*0.5, h-8);
   ctx.fillStyle = green; ctx.fillText('Touch points', w*0.85, h*0.25);
 },
@@ -627,7 +627,7 @@ channels(canvas) {
   const pts = [[w*0.1,h*0.8],[w*0.22,h*0.56],[w*0.32,h*0.72],[w*0.45,h*0.42],[w*0.55,h*0.58],[w*0.68,h*0.32],[w*0.78,h*0.48],[w*0.88,h*0.22]];
   ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
   ctx.strokeStyle = fg; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Ascending channel — parallel trendlines', w*0.5, h-6);
 },
 
@@ -638,12 +638,12 @@ gaps(canvas) {
   const green = getColor('--accent2') || '#2a7d5f';
   const fg = getColor('--text') || '#c9c9c9';
   const muted = getColor('--muted') || '#666';
-  const accent3 = getColor('--accent3') || '#2955a0';
+  const accent3 = getColor('--accent3') || '#8a5a00';
   const types = [
     { name:'Common', x:w*0.12, color:muted },
     { name:'Breakaway', x:w*0.35, color:green },
     { name:'Runaway', x:w*0.58, color:accent3 },
-    { name:'Exhaustion', x:w*0.82, color:getColor('--accent')||'#c84b2f' },
+    { name:'Exhaustion', x:w*0.82, color:getColor('--accent')||'#2a44b8' },
   ];
   types.forEach(({name, x, color}) => {
     // Two candle bodies with gap between
@@ -658,10 +658,10 @@ gaps(canvas) {
     ctx.strokeRect(x-15, h*0.4, 30, 15);
     ctx.setLineDash([]);
     // Label
-    ctx.fillStyle = fg; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = fg; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(name, x, h-10);
   });
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Four gap types — context determines meaning', w*0.5, h*0.08);
 },
 
@@ -692,11 +692,11 @@ gaps(canvas) {
   // Cup depth arrow
   ctx.beginPath(); ctx.moveTo(w*0.4,h*0.2); ctx.lineTo(w*0.4,h*0.82);
   ctx.strokeStyle = green+'60'; ctx.lineWidth = 1; ctx.stroke();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Cup', w*0.35, h*0.55);
   ctx.fillText('Handle', w*0.78, h*0.45);
   ctx.fillStyle = green; ctx.fillText('Breakout ↑', w*0.92, h*0.1);
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Target = breakout + cup depth', w*0.5, h-6);
 },
 };

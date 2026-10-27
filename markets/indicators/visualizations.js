@@ -40,7 +40,7 @@ sma(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // Noisy price
   const price = [];
@@ -52,7 +52,7 @@ sma(canvas) {
   // SMA‑12 (slow)
   const sma12 = []; for (let i = 11; i < 30; i++) { let sum = 0; for (let j = i - 11; j <= i; j++) sum += price[j][1]; sma12.push([price[i][0], sum / 12]); }
   drawPrice(ctx, sma12, accent, 2);
-  ctx.fillStyle = green; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = green; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('SMA-5 (fast)', w*0.72, h*0.1);
   ctx.fillStyle = accent; ctx.fillText('SMA-12 (slow)', w*0.72, h*0.2);
   ctx.fillStyle = muted; ctx.fillText('Price', w*0.72, h*0.3);
@@ -64,7 +64,7 @@ ema(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const price = [];
   for (let i = 0; i < 30; i++) price.push([w*0.05+i*(w*0.9/29), h*0.5+Math.sin(i*0.35)*h*0.25+(Math.random()-0.5)*h*0.08]);
@@ -78,7 +78,7 @@ ema(canvas) {
   // SMA for comparison
   const sma10 = []; for (let i = 9; i < 30; i++) { let s2 = 0; for (let j = i - 9; j <= i; j++) s2 += price[j][1]; sma10.push([price[i][0], s2 / 10]); }
   drawPrice(ctx, sma10, accent, 2);
-  ctx.fillStyle = green; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = green; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('EMA-10 (more responsive)', w*0.05, h*0.08);
   ctx.fillStyle = accent; ctx.fillText('SMA-10 (laggier)', w*0.05, h*0.18);
 },
@@ -99,10 +99,10 @@ wma(canvas) {
     const x = w * 0.15 + i * barW;
     ctx.fillStyle = green + Math.round(30 + 70 * wt / n).toString(16).padStart(2, '0');
     ctx.fillRect(x, h * 0.8 - bh, barW - 4, bh);
-    ctx.fillStyle = fg; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = fg; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(wt.toString(), x + barW / 2 - 2, h * 0.88);
   }
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Weight assigned to each period (most recent → heaviest)', w * 0.5, 14);
   ctx.fillText('Denominator = N(N+1)/2 = ' + (n * (n + 1) / 2), w * 0.5, h - 4);
 },
@@ -113,8 +113,8 @@ dema(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const accent = getColor('--accent3') || '#2955a0';
-  const red = getColor('--accent') || '#c84b2f';
+  const accent = getColor('--accent3') || '#8a5a00';
+  const red = getColor('--accent') || '#2a44b8';
   const muted = getColor('--muted') || '#666';
   // Conceptual diagram: EMA → EMA(EMA) → 2·EMA − EMA(EMA)
   const bw = 90, bh = 36, gap = 30;
@@ -122,7 +122,7 @@ dema(canvas) {
   // EMA box
   ctx.fillStyle = accent + '30'; ctx.fillRect(w*0.1, y1, bw, bh);
   ctx.strokeStyle = accent; ctx.lineWidth = 1; ctx.strokeRect(w*0.1, y1, bw, bh);
-  ctx.fillStyle = fg; ctx.font = '11px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('EMA(N)', w*0.1 + bw/2, y1 + bh/2 + 4);
   // EMA(EMA) box
   const x2 = w * 0.1 + bw + gap;
@@ -142,7 +142,7 @@ dema(canvas) {
   ctx.strokeStyle = muted; ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x2+bw/2, y1+bh); ctx.lineTo(x3+bw*1.2, y2);
   ctx.stroke();
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Lag removed by subtracting double-smoothed signal', w*0.5, h - 8);
 },
 
@@ -152,8 +152,8 @@ vwap(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // VWAP line (horizontal-ish)
   const vy = h * 0.48;
@@ -172,9 +172,9 @@ vwap(canvas) {
     ctx.fillStyle = mid < vy ? green+'15' : red+'15';
     ctx.fillRect(x0, Math.min(mid,vy), x1-x0, Math.abs(mid-vy));
   }
-  ctx.fillStyle = accent; ctx.font = '11px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = accent; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('VWAP', w*0.97, vy - 5);
-  ctx.fillStyle = green; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = green; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Above VWAP → buyer control', w*0.3, h*0.1);
   ctx.fillStyle = red; ctx.fillText('Below VWAP → seller control', w*0.7, h*0.92);
 },
@@ -185,8 +185,8 @@ rsi(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // Overbought zone
   const ob = h * 0.2, os = h * 0.8;
@@ -205,7 +205,7 @@ rsi(canvas) {
   let v = 50;
   for (let i = 0; i < 30; i++) { v += (Math.random()-0.48)*12; v = Math.max(10,Math.min(90,v)); rsi.push([w*0.05+i*(w*0.9/29), h*0.05 + (1-v/100)*h*0.9]); }
   drawPrice(ctx, rsi, accent, 2);
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('70 — Overbought', w - 5, ob - 4);
   ctx.fillStyle = green; ctx.fillText('30 — Oversold', w - 5, os + 14);
   ctx.fillStyle = muted; ctx.fillText('50', w - 5, h*0.5 - 4);
@@ -217,8 +217,8 @@ stochastic(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const ob = h*0.15, os = h*0.85;
   ctx.fillStyle = red+'12'; ctx.fillRect(0,0,w,ob);
@@ -235,7 +235,7 @@ stochastic(canvas) {
   const dLine = [];
   for (let i = 2; i < kLine.length; i++) { const avg = (kLine[i-2][1]+kLine[i-1][1]+kLine[i][1])/3; dLine.push([kLine[i][0], avg]); }
   drawPrice(ctx, dLine, red, 1.5);
-  ctx.fillStyle = accent; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = accent; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('%K (fast)', 8, h*0.08);
   ctx.fillStyle = red; ctx.fillText('%D (signal)', 8, h*0.18);
   ctx.fillStyle = muted; ctx.textAlign = 'right';
@@ -247,8 +247,8 @@ cci(canvas) {
   const s = setupCanvas('cciCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
-  const red = getColor('--accent') || '#c84b2f';
+  const accent = getColor('--accent3') || '#8a5a00';
+  const red = getColor('--accent') || '#2a44b8';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
   const zero = h*0.5, p100 = h*0.25, n100 = h*0.75;
@@ -260,7 +260,7 @@ cci(canvas) {
   const line = []; let cv = 0;
   for (let i = 0; i < 30; i++) { cv += (Math.random()-0.48)*40; cv = Math.max(-200,Math.min(200,cv)); line.push([w*0.05+i*(w*0.9/29), zero - (cv/200)*h*0.45]); }
   drawPrice(ctx, line, accent, 2);
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('+100', w-5, p100-4);
   ctx.fillStyle = green; ctx.fillText('-100', w-5, n100+12);
   ctx.fillStyle = muted; ctx.fillText('0', w-5, zero-4);
@@ -271,8 +271,8 @@ cci(canvas) {
   const s = setupCanvas('williamsRCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
-  const red = getColor('--accent') || '#c84b2f';
+  const accent = getColor('--accent3') || '#8a5a00';
+  const red = getColor('--accent') || '#2a44b8';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
   // Scale: 0 at top, -100 at bottom
@@ -286,7 +286,7 @@ cci(canvas) {
   const line = []; let rv = -50;
   for (let i = 0; i < 30; i++) { rv += (Math.random()-0.48)*14; rv = Math.max(-98,Math.min(-2,rv)); line.push([w*0.05+i*(w*0.9/29), h*0.05+(-rv/100)*h*0.9]); }
   drawPrice(ctx, line, accent, 2);
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('-20 (overbought)', w-5, ob-4);
   ctx.fillStyle = green; ctx.fillText('-80 (oversold)', w-5, os+12);
   ctx.fillStyle = muted; ctx.textAlign = 'center';
@@ -299,8 +299,8 @@ roc(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const zero = h*0.5;
   ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(0,zero); ctx.lineTo(w,zero);
@@ -316,7 +316,7 @@ roc(canvas) {
     ctx.fillStyle = rv >= 0 ? green+'80' : red+'80';
     ctx.fillRect(x, zero, bw-2, -bh);
   }
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Zero line — positive above, negative below', w*0.5, h-6);
   ctx.fillStyle = green; ctx.textAlign = 'left'; ctx.fillText('Upward momentum', 5, 14);
   ctx.fillStyle = red; ctx.fillText('Downward momentum', 5, h-18);
@@ -328,8 +328,8 @@ macd(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const zero = h*0.55;
   ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(0,zero); ctx.lineTo(w,zero);
@@ -355,7 +355,7 @@ macd(canvas) {
   }
   drawPrice(ctx, macdLine, accent, 2);
   drawPrice(ctx, sigLine, red, 1.5);
-  ctx.fillStyle = accent; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = accent; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('MACD Line', 5, 12);
   ctx.fillStyle = red; ctx.fillText('Signal Line', 5, 24);
   ctx.fillStyle = muted; ctx.fillText('Histogram', 5, 36);
@@ -367,14 +367,14 @@ adx(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // 25 threshold
   const t25 = h * 0.6;
   ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(0,t25); ctx.lineTo(w,t25);
   ctx.strokeStyle = muted; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('25 (trend threshold)', w-5, t25-3);
   // ADX line
   const adxLine = []; let av = 20;
@@ -388,7 +388,7 @@ adx(canvas) {
   const diMinus = []; let dm = 25;
   for (let i = 0; i < 30; i++) { dm += (Math.random()-0.52)*6; dm = Math.max(5,Math.min(60,dm)); diMinus.push([w*0.05+i*(w*0.9/29), h*0.9-(dm/80)*h*0.8]); }
   drawPrice(ctx, diMinus, red, 1.5);
-  ctx.fillStyle = fg; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = fg; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('ADX (strength)', 5, 12);
   ctx.fillStyle = green; ctx.fillText('+DI (bullish)', 5, 24);
   ctx.fillStyle = red; ctx.fillText('−DI (bearish)', 5, 36);
@@ -400,7 +400,7 @@ adx(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const muted = getColor('--muted') || '#666';
   // Price line going up then down
   const pts = [];
@@ -416,7 +416,7 @@ adx(canvas) {
     ctx.beginPath(); ctx.arc(pts[i][0], dotY, 3, 0, Math.PI*2);
     ctx.fillStyle = isUp ? green : red; ctx.fill();
   }
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Dots below = uptrend', w*0.25, h*0.12);
   ctx.fillText('Dots above = downtrend', w*0.75, h*0.12);
   ctx.fillText('Flip when price touches dot', w*0.5, h-6);
@@ -428,8 +428,8 @@ ichimoku(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // Simplified cloud
   const n = 30;
@@ -459,7 +459,7 @@ ichimoku(canvas) {
     price.push([x, h*0.2 + i*(h*0.55/n) + Math.sin(i*0.5)*h*0.08]);
   }
   drawPrice(ctx, price, fg, 2);
-  ctx.fillStyle = green; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = green; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Senkou A', 5, h*0.25);
   ctx.fillStyle = red; ctx.fillText('Senkou B', 5, h*0.68);
   ctx.fillStyle = muted; ctx.textAlign = 'center';
@@ -471,7 +471,7 @@ aroon(canvas) {
   const s = setupCanvas('aroonCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const muted = getColor('--muted') || '#666';
   // 70/30 thresholds
   const t70 = h*0.25, t30 = h*0.75;
@@ -487,7 +487,7 @@ aroon(canvas) {
   const dn = []; let dv = 40;
   for (let i = 0; i < 30; i++) { dv += (Math.random()-0.55)*12; dv = Math.max(0,Math.min(100,dv)); dn.push([w*0.05+i*(w*0.9/29), h*0.05+(1-dv/100)*h*0.9]); }
   drawPrice(ctx, dn, red, 2);
-  ctx.fillStyle = green; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = green; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Aroon Up', 5, 12);
   ctx.fillStyle = red; ctx.fillText('Aroon Down', 5, 24);
   ctx.fillStyle = muted; ctx.textAlign = 'right';
@@ -499,7 +499,7 @@ aroon(canvas) {
   const s = setupCanvas('bollingerBandsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const n = 30;
   // SMA center
@@ -525,7 +525,7 @@ aroon(canvas) {
   for (let i = 0; i < n; i++) price.push([sma[i][0], sma[i][1]+(Math.random()-0.5)*(upper[i][1]-sma[i][1])*1.5]);
   drawPrice(ctx, price, fg, 1.5);
   // Squeeze label
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('← Squeeze →', w*0.5, h*0.5);
   ctx.fillText('Narrow bands = low volatility = big move coming', w*0.5, h-6);
 },
@@ -535,7 +535,7 @@ atr(canvas) {
   const s = setupCanvas('atrCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const green = getColor('--accent2') || '#2a7d5f';
   const muted = getColor('--muted') || '#666';
   // ATR bars showing volatility changes
@@ -558,7 +558,7 @@ atr(canvas) {
   // ATR line on top of bars
   const line = vals.map((v,i) => [w*0.08+i*bw+bw/2-1, h*0.85-(v/maxV)*h*0.65]);
   drawPrice(ctx, line, fg, 1.5);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('ATR — measures volatility magnitude, not direction', w*0.5, 14);
   ctx.fillText('Higher bars = more volatile periods', w*0.5, h-4);
 },
@@ -569,7 +569,7 @@ atr(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const n = 30;
   const ema = [];
@@ -588,7 +588,7 @@ atr(canvas) {
   const price = [];
   for (let i = 0; i < n; i++) price.push([ema[i][0], ema[i][1]+(Math.random()-0.5)*h*0.2]);
   drawPrice(ctx, price, fg, 1.5);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('EMA(20) ± 2×ATR(10) — smoother than Bollinger', w*0.5, h-6);
 },
 
@@ -598,7 +598,7 @@ atr(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // Step-like upper and lower bounds
   const n = 30;
@@ -620,7 +620,7 @@ atr(canvas) {
   const price = [];
   for (let i = 0; i < n; i++) price.push([upper[i][0], (upper[i][1]+lower[i][1])/2+(Math.random()-0.5)*(lower[i][1]-upper[i][1])*0.8]);
   drawPrice(ctx, price, fg, 1.5);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Highest high / Lowest low — Turtle Traders\' breakout system', w*0.5, h-6);
 },
 
@@ -629,7 +629,7 @@ atr(canvas) {
   const s = setupCanvas('standardDeviationCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   // Bell curve
   const cx = w*0.5, cy = h*0.85;
@@ -656,11 +656,11 @@ atr(canvas) {
     ctx.closePath(); ctx.fillStyle = color; ctx.fill();
   });
   // Labels
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('−2σ', cx-w*0.27, cy+12); ctx.fillText('−1σ', cx-w*0.13, cy+12);
   ctx.fillText('μ', cx, cy+12);
   ctx.fillText('+1σ', cx+w*0.13, cy+12); ctx.fillText('+2σ', cx+w*0.27, cy+12);
-  ctx.fillStyle = accent; ctx.font = '10px Inter,sans-serif';
+  ctx.fillStyle = accent; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('68%', cx, cy-h*0.15);
   ctx.fillText('95%', cx, cy-h*0.35);
 },
@@ -671,7 +671,7 @@ obv(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const muted = getColor('--muted') || '#666';
   // Price (top half)
   const ph = h*0.4;
@@ -688,7 +688,7 @@ obv(canvas) {
     obvLine.push([w*0.05+i*(w*0.9/29), y]);
   }
   drawPrice(ctx, obvLine, green, 2);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('Price', 5, 12);
   ctx.fillStyle = green; ctx.fillText('OBV rising = accumulation', 5, ph+16);
   ctx.fillStyle = muted; ctx.textAlign = 'center';
@@ -701,14 +701,14 @@ obv(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
+  const red = getColor('--accent') || '#2a44b8';
   const muted = getColor('--muted') || '#666';
   // CLV diagram for a candle
   const cx = w*0.25, cw = 30, cy = h*0.2, ch = h*0.6;
   // Candle bar
   ctx.strokeStyle = fg; ctx.lineWidth = 1;
   ctx.strokeRect(cx-cw/2, cy, cw, ch);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('High', cx+cw/2+5, cy+8);
   ctx.fillText('Low', cx+cw/2+5, cy+ch-2);
   // Close marker at 75%
@@ -719,11 +719,11 @@ obv(canvas) {
   // CLV shading
   ctx.fillStyle = green+'20'; ctx.fillRect(cx-cw/2, closeY, cw, cy+ch-closeY);
   // Formula
-  ctx.fillStyle = fg; ctx.font = '11px Inter,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = fg; ctx.font = '11px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'left';
   const fx = w*0.55;
   ctx.fillText('CLV = ((C−L) − (H−C)) / (H−L)', fx, h*0.3);
   ctx.fillText('A/D = Σ(CLV × Volume)', fx, h*0.45);
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif';
   ctx.fillText('Close near High → CLV ≈ +1', fx, h*0.62);
   ctx.fillText('Close near Low → CLV ≈ −1', fx, h*0.74);
   ctx.fillText('Weights volume by close position', fx, h*0.9);
@@ -735,8 +735,8 @@ mfi(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const ob = h*0.15, os = h*0.85;
   ctx.fillStyle = red+'12'; ctx.fillRect(0,0,w,ob);
@@ -748,7 +748,7 @@ mfi(canvas) {
   const line = []; let mv = 50;
   for (let i = 0; i < 30; i++) { mv += (Math.random()-0.48)*10; mv = Math.max(5,Math.min(95,mv)); line.push([w*0.05+i*(w*0.9/29), h*0.05+(1-mv/100)*h*0.9]); }
   drawPrice(ctx, line, accent, 2);
-  ctx.fillStyle = red; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = red; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   ctx.fillText('80 — Overbought', w-5, ob-4);
   ctx.fillStyle = green; ctx.fillText('20 — Oversold', w-5, os+14);
   ctx.fillStyle = muted; ctx.textAlign = 'center';
@@ -761,8 +761,8 @@ mfi(canvas) {
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
   const green = getColor('--accent2') || '#2a7d5f';
-  const red = getColor('--accent') || '#c84b2f';
-  const accent = getColor('--accent3') || '#2955a0';
+  const red = getColor('--accent') || '#2a44b8';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const zero = h*0.5;
   ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(0,zero); ctx.lineTo(w,zero);
@@ -783,7 +783,7 @@ mfi(canvas) {
       ctx.fillStyle = (line[i][1] < zero) ? green : red; ctx.fill();
     }
   }
-  ctx.fillStyle = muted; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = muted; ctx.font = '10px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('EMA(3) of A/D − EMA(10) of A/D — zero crossovers = signals', w*0.5, h-5);
 },
 
@@ -792,7 +792,7 @@ mfi(canvas) {
   const s = setupCanvas('vwapBandsCanvas'); if (!s) return;
   const { ctx, w, h } = s;
   const fg = getColor('--text') || '#c9c9c9';
-  const accent = getColor('--accent3') || '#2955a0';
+  const accent = getColor('--accent3') || '#8a5a00';
   const muted = getColor('--muted') || '#666';
   const n = 30;
   const vwap = [];
@@ -815,7 +815,7 @@ mfi(canvas) {
   const price = [];
   for (let i = 0; i < n; i++) price.push([vwap[i][0], vwap[i][1]+(Math.random()-0.5)*h*0.25]);
   drawPrice(ctx, price, fg, 1.5);
-  ctx.fillStyle = muted; ctx.font = '9px Inter,sans-serif'; ctx.textAlign = 'right';
+  ctx.fillStyle = muted; ctx.font = '9px \"IBM Plex Sans\", sans-serif'; ctx.textAlign = 'right';
   labels.forEach((l, i) => ctx.fillText(l, w-5, 14+i*13));
   ctx.textAlign = 'center';
   ctx.fillText('VWAP ± σ bands — dynamic intraday S/R', w*0.5, h-4);
