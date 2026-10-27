@@ -20,10 +20,11 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232a44b8'/><text x='16' y='23' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='700' fill='white'>P</text></svg>">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=47">
+  <link rel="stylesheet" href="/css/main.css?v=48">
   <style>
     /* Page-specific layout */
     .nf-wrap {
+      max-width: none;
       min-height: 100vh;
       display: grid;
       place-items: center;
@@ -37,10 +38,7 @@
       font-weight: 600;
       line-height: 1;
       letter-spacing: -.02em;
-      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: var(--muted);
       margin: 0 0 16px;
     }
     .nf-title {
@@ -154,7 +152,7 @@
   <main id="nfMain" class="nf-wrap">
     <div class="nf-inner">
       <p class="nf-code" aria-hidden="true">404</p>
-      <h1 class="nf-title">This pattern doesn't exist (yet)</h1>
+      <h1 class="nf-title">Page not found</h1>
       <p class="nf-msg" id="nfMsg">
         The page you were looking for couldn't be found. It may have moved,
         or you may be offline and viewing this from your local cache.

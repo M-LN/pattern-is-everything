@@ -7,7 +7,7 @@ TITLE = 'One household’s electricity: <em>the average that is hard to beat</em
 KICKER = 'Forecasting · 4 years of minute readings · one house near Paris'
 DESCRIPTION = ('Forecasting tomorrow’s electricity use for one real household: missing minutes that look like low '
                'demand, seasonal patterns, six naive baselines, and a regression that beats a 7-day average by 1%.')
-QUESTION = ('How much electricity will this household use tomorrow? Four years of minute-by-minute readings — '
+QUESTION = ('How much electricity will this household use tomorrow? Four years of minute-by-minute readings, '
             'and the question of how much any model adds to simply averaging the last week.')
 FILES = ['power-daily.csv']
 NOTEBOOK = 'case-energy-forecast.ipynb'
@@ -75,7 +75,7 @@ print('mean kWh per day:', round(kwh[observed].mean(), 1),
 by_weekday = kwh[observed].groupby(kwh[observed].index.dayofweek).mean().round(1)
 print('by month (Jan-Dec):', by_month.tolist())
 print('by weekday (Mon-Sun):', by_weekday.tolist())""",
-        'after': 'Winter days use more than twice as much as August days ({winter} against {august} kWh) — '
+        'after': 'Winter days use more than twice as much as August days ({winter} against {august} kWh), '
                  'probably heating and lighting in winter, and most likely the long French summer holiday in August. '
                  'Weekends are about {weekend_up} higher than weekdays, presumably because people are at home.',
         'chart': lambda ns: bars(

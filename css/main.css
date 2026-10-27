@@ -2336,7 +2336,7 @@ body:has(.portal-header) .layout { margin-top: 0; }
   gap: 5px;
   font-family: var(--sans);
   font-size: 12px;
-  color: var(--accent3);
+  color: var(--accent);
   text-decoration: none;
   transition: color .2s var(--ease);
 }

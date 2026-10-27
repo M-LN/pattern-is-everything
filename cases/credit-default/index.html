@@ -23,7 +23,7 @@
   <meta property="og:site_name" content="Pattern is Everything">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/css/fonts.css?v=3">
-  <link rel="stylesheet" href="/css/main.css?v=47">
+  <link rel="stylesheet" href="/css/main.css?v=48">
   <script>(function(){var s=null;try{s=localStorage.getItem('theme')}catch(e){}if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');})()</script>
   <script data-goatcounter="https://patterniseverything.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -124,7 +124,7 @@ print('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1)
 clients with a -2 or 0 status in some month: 0.865
 education codes outside 1-4: 345 | marriage outside 1-3: 54
 a status of 1 in PAY_0 vs PAY_2: 3688 28</pre>
-<p>The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; 86% of clients have one of them in some month. (Discussions of the data commonly read 0 as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1: one month late — appears 3,688 times in the latest month and only 28 times in the month before, which suggests the months were not coded the same way. A model will use these columns either way; the question is whether you can explain what it learned.</p>
+<p>The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; 86% of clients have one of them in some month. (Discussions of the data commonly read 0 as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1 (one month late) appears 3,688 times in the latest month and only 28 times in the month before, which suggests the months were not coded the same way. A model will use these columns either way; the question is whether you can explain what it learned.</p>
 <h3 id="step-3"><span class="n">03</span>Two models, and what 0.5 hides</h3>
 <p>Hold out 30% of the clients (stratified, so both parts have the same default rate). Fit a logistic regression and gradient-boosted trees, and score them at the default threshold of 0.5.</p>
 <div class="code-block" tabindex="0" data-run="cases-credit-default/step-3"><pre>from sklearn.model_selection import train_test_split
@@ -159,7 +159,7 @@ print('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 
 <div class="run-bar"><button type="button" class="run-btn">▶ Run</button><span class="run-hint">Python, in your browser (runs steps 1–3 first). Edit the code and run it again.</span></div>
 <pre class="run-static">rule PAY_0 &gt;= 1: flags 0.222 of clients | recall 0.51 | precision 0.507
 AUC of PAY_0 alone, as a score: 0.688</pre>
-<p>The one-line rule catches <strong>51%</strong> of the defaults: more than the model at 0.5 — with precision 0.51. Last month’s repayment status carries most of the signal; the other 22 columns lift the AUC from 0.69 (that column alone) to 0.77. A baseline like this belongs in every model report, because it tells you what the model adds.</p>
+<p>The one-line rule catches <strong>51%</strong> of the defaults: more than the model at 0.5, with precision 0.51. Last month’s repayment status carries most of the signal; the other 22 columns lift the AUC from 0.69 (that column alone) to 0.77. A baseline like this belongs in every model report, because it tells you what the model adds.</p>
 <h3 id="step-5"><span class="n">05</span>Choose the threshold from the costs</h3>
 <p>Suppose a missed default costs five times as much as flagging a client who would have paid. If the probabilities are calibrated, the cost-minimising rule is to flag when the probability exceeds 1 / (1 + 5) ≈ 0.17. Check the calibration, then compare thresholds.</p>
 <div class="code-block" tabindex="0" data-run="cases-credit-default/step-5"><pre>bins = pd.qcut(p, 10, labels=False)                # ten groups by predicted probability
