@@ -255,9 +255,9 @@
       }
       .learning-path-meta { min-width: 0; }
       .learning-path-kicker {
-        font: 700 9px var(--sans);
-        letter-spacing: .16em;
-        text-transform: uppercase;
+        font: 700 12px var(--sans);
+        letter-spacing: 0;
+        text-transform: none;
         color: var(--accent2);
         margin-bottom: 3px;
       }
@@ -322,9 +322,9 @@
       }
       .learning-path-overview-count {
         color: var(--accent2);
-        font: 700 10px var(--sans);
-        letter-spacing: .14em;
-        text-transform: uppercase;
+        font: 700 12px var(--sans);
+        letter-spacing: 0;
+        text-transform: none;
         white-space: nowrap;
       }
       .learning-path-overview-steps {
@@ -341,15 +341,15 @@
         display: inline-flex;
         margin-top: 14px;
         color: var(--accent2);
-        font: 700 10px var(--sans);
-        letter-spacing: .12em;
-        text-transform: uppercase;
+        font: 700 12px var(--sans);
+        letter-spacing: 0;
+        text-transform: none;
       }
       .learning-path-inline-check {
         color: var(--accent2);
-        font: 700 10px var(--sans);
-        letter-spacing: .08em;
-        text-transform: uppercase;
+        font: 700 12px var(--sans);
+        letter-spacing: 0;
+        text-transform: none;
         white-space: nowrap;
       }
       .learning-path-overview.is-complete .learning-path-overview-status {
