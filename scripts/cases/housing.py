@@ -7,7 +7,7 @@ TITLE = 'California housing: <em>where the score comes from</em>'
 KICKER = 'Regression · 20,640 districts · 1990 census'
 DESCRIPTION = ('A house-price model on the California Housing data scores R² 0.84 with random cross-validation '
                'and 0.68 on regions it has not seen. What the test measures, and the price cap hidden in the target.')
-QUESTION = ('How well can a model predict the median house value of a California district from census data — '
+QUESTION = ('How well can a model predict the median house value of a California district from census data, '
             'and how much of the score belongs to the model, and how much to the way it is tested?')
 FILES = ['housing.csv']
 NOTEBOOK = 'case-housing-regression.ipynb'

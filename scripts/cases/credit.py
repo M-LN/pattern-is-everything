@@ -58,7 +58,7 @@ print('education codes outside 1-4:', odd_education, '| marriage outside 1-3:', 
 print('a status of 1 in PAY_0 vs PAY_2:', (df.PAY_0 == 1).sum(), (df.PAY_2 == 1).sum())""",
         'after': 'The most common repayment status, <strong>0</strong>, is not in the documentation, nor is −2; '
                  '{undoc_pct} of clients have one of them in some month. (Discussions of the data commonly read 0 '
-                 'as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1: one month late — '
+                 'as “revolving credit” and −2 as “no consumption”, but the source does not say.) Status 1 (one month late) '
                  'appears {pay0_ones:,} times in the latest month and only {pay2_ones} times in the month before, '
                  'which suggests the months were not coded the same way. A model will use these columns either way; '
                  'the question is whether you can explain what it learned.',
@@ -99,7 +99,7 @@ print('rule PAY_0 >= 1: flags', round(late.mean(), 3), 'of clients',
       '| precision', round(precision_score(y_te, late), 3))
 print('AUC of PAY_0 alone, as a score:', round(roc_auc_score(y_te, X_te.PAY_0), 3))""",
         'after': 'The one-line rule catches <strong>{rule_recall}</strong> of the defaults: more than the model at '
-                 '0.5 — with precision {rule_prec}. Last month’s repayment status carries most of the signal; '
+                 '0.5, with precision {rule_prec}. Last month’s repayment status carries most of the signal; '
                  'the other 22 columns lift the AUC from {pay0_auc} (that column alone) to {boost_auc}. A '
                  'baseline like this belongs in every model report, because it tells you what the model adds.',
     },
